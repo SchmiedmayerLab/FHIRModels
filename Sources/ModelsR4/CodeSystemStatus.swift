@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,17 +31,17 @@ public enum Status: String, FHIRPrimitiveType {
 	case attested
 	
 	/// ***TODO***
-	case validated
-	
-	/// ***TODO***
 	case inProcess = "in-process"
 	
 	/// ***TODO***
 	case reqRevalid = "req-revalid"
 	
 	/// ***TODO***
+	case revalFail = "reval-fail"
+	
+	/// ***TODO***
 	case valFail = "val-fail"
 	
 	/// ***TODO***
-	case revalFail = "reval-fail"
+	case validated
 }

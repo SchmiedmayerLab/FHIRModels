@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,14 +27,17 @@ import FMCore
  */
 public enum EncounterStatus: String, FHIRPrimitiveType {
 	
-	/// The Encounter has not yet started.
-	case planned
-	
 	/// The Patient is present for the encounter, however is not currently meeting with a practitioner.
 	case arrived
 	
-	/// The patient has been assessed for the priority of their treatment based on the severity of their condition.
-	case triaged
+	/// The Encounter has ended before it has begun.
+	case cancelled
+	
+	/// This instance should not have been part of this patient's medical record.
+	case enteredInError = "entered-in-error"
+	
+	/// The Encounter has ended.
+	case finished
 	
 	/// The Encounter has begun and the patient is present / the practitioner and the patient are meeting.
 	case inProgress = "in-progress"
@@ -42,14 +45,11 @@ public enum EncounterStatus: String, FHIRPrimitiveType {
 	/// The Encounter has begun, but the patient is temporarily on leave.
 	case onleave
 	
-	/// The Encounter has ended.
-	case finished
+	/// The Encounter has not yet started.
+	case planned
 	
-	/// The Encounter has ended before it has begun.
-	case cancelled
-	
-	/// This instance should not have been part of this patient's medical record.
-	case enteredInError = "entered-in-error"
+	/// The patient has been assessed for the priority of their treatment based on the severity of their condition.
+	case triaged
 	
 	/// The encounter status is unknown. Note that "unknown" is a value of last resort and every attempt should be made
 	/// to provide a meaningful value other than "unknown".

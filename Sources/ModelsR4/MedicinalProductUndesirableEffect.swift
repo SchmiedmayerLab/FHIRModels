@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MedicinalProductUndesirableEffect)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,9 +24,39 @@ import FMCore
  
  Describe the undesirable effects of the medicinal product.
  */
-open class MedicinalProductUndesirableEffect: DomainResource {
+public struct MedicinalProductUndesirableEffect: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .medicinalProductUndesirableEffect }
+	public static let resourceType: ResourceType = .medicinalProductUndesirableEffect
+	
+	/// Classification of the effect
+	public var classification: CodeableConcept?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The frequency of occurrence of the effect
+	public var frequencyOfOccurrence: CodeableConcept?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The population group to which this applies
+	public var population: [Population]?
 	
 	/// The medication for which this is an indication
 	public var subject: [Reference]?
@@ -34,22 +64,15 @@ open class MedicinalProductUndesirableEffect: DomainResource {
 	/// The symptom, condition or undesirable effect
 	public var symptomConditionEffect: CodeableConcept?
 	
-	/// Classification of the effect
-	public var classification: CodeableConcept?
-	
-	/// The frequency of occurrence of the effect
-	public var frequencyOfOccurrence: CodeableConcept?
-	
-	/// The population group to which this applies
-	public var population: [Population]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		classification: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -83,61 +106,60 @@ open class MedicinalProductUndesirableEffect: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case classification
+		case contained
+		case `extension` = "extension"
 		case frequencyOfOccurrence
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case population
 		case subject
 		case symptomConditionEffect
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.classification = try CodeableConcept(from: _container, forKeyIfPresent: .classification)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.frequencyOfOccurrence = try CodeableConcept(from: _container, forKeyIfPresent: .frequencyOfOccurrence)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.population = try [Population](from: _container, forKeyIfPresent: .population)
 		self.subject = try [Reference](from: _container, forKeyIfPresent: .subject)
 		self.symptomConditionEffect = try CodeableConcept(from: _container, forKeyIfPresent: .symptomConditionEffect)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try classification?.encode(on: &_container, forKey: .classification)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try frequencyOfOccurrence?.encode(on: &_container, forKey: .frequencyOfOccurrence)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try population?.encode(on: &_container, forKey: .population)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try symptomConditionEffect?.encode(on: &_container, forKey: .symptomConditionEffect)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductUndesirableEffect else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return classification == _other.classification
-		    && frequencyOfOccurrence == _other.frequencyOfOccurrence
-		    && population == _other.population
-		    && subject == _other.subject
-		    && symptomConditionEffect == _other.symptomConditionEffect
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(classification)
-		hasher.combine(frequencyOfOccurrence)
-		hasher.combine(population)
-		hasher.combine(subject)
-		hasher.combine(symptomConditionEffect)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

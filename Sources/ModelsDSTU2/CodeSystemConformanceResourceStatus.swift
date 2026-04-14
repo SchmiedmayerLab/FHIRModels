@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ConformanceResourceStatus: String, FHIRPrimitiveType {
 	
-	/// This resource is still under development.
-	case draft = "draft"
-	
 	/// This resource is ready for normal use.
-	case active = "active"
+	case active
+	
+	/// This resource is still under development.
+	case draft
 	
 	/// This resource has been withdrawn or superseded and should no longer be used.
-	case retired = "retired"
+	case retired
 }

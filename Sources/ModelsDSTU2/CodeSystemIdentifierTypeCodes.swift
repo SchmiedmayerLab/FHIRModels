@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,22 +27,22 @@ import FMCore
  */
 public enum IdentifierTypeCodes: String, FHIRPrimitiveType {
 	
-	/// A identifier assigned to a device using the Universal Device Identifier framework as defined by FDA
-	/// (http://www.fda.gov/MedicalDevices/DeviceRegulationandGuidance/UniqueDeviceIdentification/).
-	case UDI = "UDI"
+	/// The Identifier associated with the person, or service, who produces the observations or fulfills the order
+	/// requested by the requestor.
+	case FILL
 	
-	/// An identifier affixed to an item by the manufacturer when it is first made, where each item has a different
-	/// identifier.
-	case SNO = "SNO"
+	/// The identifier associated with the person or service that requests or places an order.
+	case PLAC
 	
 	/// An identifier issued by a governmental organization to an individual for the purpose of the receipt of social
 	/// services and benefits.
-	case SB = "SB"
+	case SB
 	
-	/// The identifier associated with the person or service that requests or places an order.
-	case PLAC = "PLAC"
+	/// An identifier affixed to an item by the manufacturer when it is first made, where each item has a different
+	/// identifier.
+	case SNO
 	
-	/// The Identifier associated with the person, or service, who produces the observations or fulfills the order
-	/// requested by the requestor.
-	case FILL = "FILL"
+	/// A identifier assigned to a device using the Universal Device Identifier framework as defined by FDA
+	/// (http://www.fda.gov/MedicalDevices/DeviceRegulationandGuidance/UniqueDeviceIdentification/).
+	case UDI
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum CarePlanRelationship: String, FHIRPrimitiveType {
 	
+	/// This plan provides details about how to perform activities defined at a higher level by the referenced plan.
+	case fulfills
+	
 	/// The referenced plan is considered to be part of this plan.
-	case includes = "includes"
+	case includes
 	
 	/// This plan takes the places of the referenced plan.
-	case replaces = "replaces"
-	
-	/// This plan provides details about how to perform activities defined at a higher level by the referenced plan.
-	case fulfills = "fulfills"
+	case replaces
 }

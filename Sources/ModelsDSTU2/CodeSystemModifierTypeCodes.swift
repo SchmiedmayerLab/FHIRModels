@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,17 +28,17 @@ import FMCore
 public enum ModifierTypeCodes: String, FHIRPrimitiveType {
 	
 	/// Repair of prior service or installation.
-	case A = "A"
+	case A
 	
 	/// Temporary service or installation.
-	case B = "B"
+	case B
 	
 	/// Treatment associated with TMJ.
-	case C = "C"
+	case C
 	
 	/// Implant or associated with an implant.
-	case E = "E"
+	case E
 	
 	/// None.
-	case X = "X"
+	case X
 }

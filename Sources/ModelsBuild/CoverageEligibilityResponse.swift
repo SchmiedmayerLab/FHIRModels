@@ -2,8 +2,8 @@
 //  CoverageEligibilityResponse.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/CoverageEligibilityResponse)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/CoverageEligibilityResponse)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,18 +24,84 @@ import FMCore
  
  This resource provides eligibility and plan details from the processing of an CoverageEligibilityRequest resource.
  */
-open class CoverageEligibilityResponse: DomainResource {
+public struct CoverageEligibilityResponse: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .coverageEligibilityResponse }
+	public static let resourceType: ResourceType = .coverageEligibilityResponse
 	
 	/// All possible types for "serviced[x]"
-	public enum ServicedX: Hashable {
+	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
 		case period(Period)
 	}
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Response creation date
+	public var created: FHIRPrimitive<DateTime>
+	
+	/// Disposition Message
+	public var disposition: FHIRPrimitive<FHIRString>?
+	
+	/// Processing errors
+	public var error: [CoverageEligibilityResponseError]?
+	
+	/// Event information
+	public var event: [CoverageEligibilityResponseEvent]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Printed form identifier
+	public var form: CodeableConcept?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Business Identifier for coverage eligiblity request
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Patient insurance information
+	public var insurance: [CoverageEligibilityResponseInsurance]?
+	
+	/// Coverage issuer
+	public var insurer: Reference
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The outcome of the request processing.
+	public var outcome: FHIRPrimitive<EligibilityOutcome>
+	
+	/// Intended recipient of products and services
+	public var patient: Reference
+	
+	/// Preauthorization reference
+	public var preAuthRef: FHIRPrimitive<FHIRString>?
+	
+	/// Code to specify whether requesting: prior authorization requirements for some service categories or billing
+	/// codes; benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or
+	/// validation that the specified coverage is in-force at the date/period specified or 'now' if not specified.
+	public var purpose: [FHIRPrimitive<EligibilityResponsePurpose>]
+	
+	/// Eligibility request reference
+	public var request: Reference?
+	
+	/// Party responsible for the request
+	public var requestor: Reference?
+	
+	/// Estimated date or dates of service
+	/// One of `serviced[x]`
+	public var serviced: ServicedX?
 	
 	/// The status of the resource instance.
 	public var status: FHIRPrimitive<FinancialResourceStatusCodes>
@@ -43,50 +109,8 @@ open class CoverageEligibilityResponse: DomainResource {
 	/// Reason for status change
 	public var statusReason: FHIRPrimitive<FHIRString>?
 	
-	/// Code to specify whether requesting: prior authorization requirements for some service categories or billing
-	/// codes; benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or
-	/// validation that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-	public var purpose: [FHIRPrimitive<EligibilityResponsePurpose>]
-	
-	/// Intended recipient of products and services
-	public var patient: Reference
-	
-	/// Event information
-	public var event: [CoverageEligibilityResponseEvent]?
-	
-	/// Estimated date or dates of service
-	/// One of `serviced[x]`
-	public var serviced: ServicedX?
-	
-	/// Response creation date
-	public var created: FHIRPrimitive<DateTime>
-	
-	/// Party responsible for the request
-	public var requestor: Reference?
-	
-	/// Eligibility request reference
-	public var request: Reference?
-	
-	/// The outcome of the request processing.
-	public var outcome: FHIRPrimitive<EligibilityOutcome>
-	
-	/// Disposition Message
-	public var disposition: FHIRPrimitive<FHIRString>?
-	
-	/// Coverage issuer
-	public var insurer: Reference
-	
-	/// Patient insurance information
-	public var insurance: [CoverageEligibilityResponseInsurance]?
-	
-	/// Preauthorization reference
-	public var preAuthRef: FHIRPrimitive<FHIRString>?
-	
-	/// Printed form identifier
-	public var form: CodeableConcept?
-	
-	/// Processing errors
-	public var error: [CoverageEligibilityResponseError]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(created: FHIRPrimitive<DateTime>, insurer: Reference, outcome: FHIRPrimitive<EligibilityOutcome>, patient: Reference, purpose: [FHIRPrimitive<EligibilityResponsePurpose>], status: FHIRPrimitive<FinancialResourceStatusCodes>) {
@@ -96,11 +120,10 @@ open class CoverageEligibilityResponse: DomainResource {
 		self.patient = patient
 		self.purpose = purpose
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		created: FHIRPrimitive<DateTime>,
 		disposition: FHIRPrimitive<FHIRString>? = nil,
@@ -152,14 +175,22 @@ open class CoverageEligibilityResponse: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case created; case _created
 		case disposition; case _disposition
 		case error
 		case event
+		case `extension` = "extension"
 		case form
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case insurance
 		case insurer
+		case language; case _language
+		case meta
+		case modifierExtension
 		case outcome; case _outcome
 		case patient
 		case preAuthRef; case _preAuthRef
@@ -170,21 +201,29 @@ open class CoverageEligibilityResponse: DomainResource {
 		case servicedPeriod
 		case status; case _status
 		case statusReason; case _statusReason
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKey: .created, auxiliaryKey: ._created)
 		self.disposition = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .disposition, auxiliaryKey: ._disposition)
 		self.error = try [CoverageEligibilityResponseError](from: _container, forKeyIfPresent: .error)
 		self.event = try [CoverageEligibilityResponseEvent](from: _container, forKeyIfPresent: .event)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.form = try CodeableConcept(from: _container, forKeyIfPresent: .form)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.insurance = try [CoverageEligibilityResponseInsurance](from: _container, forKeyIfPresent: .insurance)
 		self.insurer = try Reference(from: _container, forKey: .insurer)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outcome = try FHIRPrimitive<EligibilityOutcome>(from: _container, forKey: .outcome, auxiliaryKey: ._outcome)
 		self.patient = try Reference(from: _container, forKey: .patient)
 		self.preAuthRef = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .preAuthRef, auxiliaryKey: ._preAuthRef)
@@ -207,22 +246,30 @@ open class CoverageEligibilityResponse: DomainResource {
 		self.serviced = _t_serviced
 		self.status = try FHIRPrimitive<FinancialResourceStatusCodes>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusReason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .statusReason, auxiliaryKey: ._statusReason)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try created.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
 		try disposition?.encode(on: &_container, forKey: .disposition, auxiliaryKey: ._disposition)
 		try error?.encode(on: &_container, forKey: .error)
 		try event?.encode(on: &_container, forKey: .event)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try form?.encode(on: &_container, forKey: .form)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try insurance?.encode(on: &_container, forKey: .insurance)
 		try insurer.encode(on: &_container, forKey: .insurer)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try outcome.encode(on: &_container, forKey: .outcome, auxiliaryKey: ._outcome)
 		try patient.encode(on: &_container, forKey: .patient)
 		try preAuthRef?.encode(on: &_container, forKey: .preAuthRef, auxiliaryKey: ._preAuthRef)
@@ -239,56 +286,7 @@ open class CoverageEligibilityResponse: DomainResource {
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason, auxiliaryKey: ._statusReason)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CoverageEligibilityResponse else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return created == _other.created
-		    && disposition == _other.disposition
-		    && error == _other.error
-		    && event == _other.event
-		    && form == _other.form
-		    && identifier == _other.identifier
-		    && insurance == _other.insurance
-		    && insurer == _other.insurer
-		    && outcome == _other.outcome
-		    && patient == _other.patient
-		    && preAuthRef == _other.preAuthRef
-		    && purpose == _other.purpose
-		    && request == _other.request
-		    && requestor == _other.requestor
-		    && serviced == _other.serviced
-		    && status == _other.status
-		    && statusReason == _other.statusReason
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(created)
-		hasher.combine(disposition)
-		hasher.combine(error)
-		hasher.combine(event)
-		hasher.combine(form)
-		hasher.combine(identifier)
-		hasher.combine(insurance)
-		hasher.combine(insurer)
-		hasher.combine(outcome)
-		hasher.combine(patient)
-		hasher.combine(preAuthRef)
-		hasher.combine(purpose)
-		hasher.combine(request)
-		hasher.combine(requestor)
-		hasher.combine(serviced)
-		hasher.combine(status)
-		hasher.combine(statusReason)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -297,7 +295,7 @@ open class CoverageEligibilityResponse: DomainResource {
  
  Errors encountered during the processing of the request.
  */
-open class CoverageEligibilityResponseError: BackboneElement {
+public struct CoverageEligibilityResponseError: BackboneElement {
 	
 	/// Error code detailing processing issues
 	public var code: CodeableConcept
@@ -305,14 +303,22 @@ open class CoverageEligibilityResponseError: BackboneElement {
 	/// FHIRPath of element(s) related to issue
 	public var expression: [FHIRPrimitive<FHIRString>]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept) {
 		self.code = code
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		expression: [FHIRPrimitive<FHIRString>]? = nil,
 		`extension`: [Extension]? = nil,
@@ -331,45 +337,32 @@ open class CoverageEligibilityResponseError: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case expression; case _expression
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
 		self.expression = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .expression, auxiliaryKey: ._expression)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CoverageEligibilityResponseError else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && expression == _other.expression
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -378,13 +371,22 @@ open class CoverageEligibilityResponseError: BackboneElement {
  
  Information code for an event with a corresponding date or period.
  */
-open class CoverageEligibilityResponseEvent: BackboneElement {
+public struct CoverageEligibilityResponseEvent: BackboneElement {
 	
 	/// All possible types for "when[x]"
-	public enum WhenX: Hashable {
+	public enum WhenX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Specific event
 	public var type: CodeableConcept
@@ -397,11 +399,10 @@ open class CoverageEligibilityResponseEvent: BackboneElement {
 	public init(type: CodeableConcept, when: WhenX) {
 		self.type = type
 		self.when = when
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -417,13 +418,16 @@ open class CoverageEligibilityResponseEvent: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case whenDateTime; case _whenDateTime
 		case whenPeriod
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -431,7 +435,10 @@ open class CoverageEligibilityResponseEvent: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whenDateTime, CodingKeys.whenPeriod], debugDescription: "Must have at least one value for \"when\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
 		var _t_when: WhenX? = nil
 		if let whenDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .whenDateTime, auxiliaryKey: ._whenDateTime) {
@@ -447,14 +454,15 @@ open class CoverageEligibilityResponseEvent: BackboneElement {
 			_t_when = .period(whenPeriod)
 		}
 		self.when = _t_when!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
 		
 			switch when {
@@ -464,26 +472,6 @@ open class CoverageEligibilityResponseEvent: BackboneElement {
 				try _value.encode(on: &_container, forKey: .whenPeriod)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CoverageEligibilityResponseEvent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && when == _other.when
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(when)
 	}
 }
 
@@ -492,28 +480,36 @@ open class CoverageEligibilityResponseEvent: BackboneElement {
  
  Financial instruments for reimbursement for the health care products and services.
  */
-open class CoverageEligibilityResponseInsurance: BackboneElement {
-	
-	/// Insurance information
-	public var coverage: Reference
-	
-	/// Coverage inforce indicator
-	public var inforce: FHIRPrimitive<FHIRBool>?
+public struct CoverageEligibilityResponseInsurance: BackboneElement {
 	
 	/// When the benefits are applicable
 	public var benefitPeriod: Period?
 	
+	/// Insurance information
+	public var coverage: Reference
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Coverage inforce indicator
+	public var inforce: FHIRPrimitive<FHIRBool>?
+	
 	/// Benefits and authorization details
 	public var item: [CoverageEligibilityResponseInsuranceItem]?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Designated initializer taking all required properties
 	public init(coverage: Reference) {
 		self.coverage = coverage
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		benefitPeriod: Period? = nil,
 		coverage: Reference,
 		`extension`: [Extension]? = nil,
@@ -536,55 +532,38 @@ open class CoverageEligibilityResponseInsurance: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case benefitPeriod
 		case coverage
+		case `extension` = "extension"
+		case id; case _id
 		case inforce; case _inforce
 		case item
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.benefitPeriod = try Period(from: _container, forKeyIfPresent: .benefitPeriod)
 		self.coverage = try Reference(from: _container, forKey: .coverage)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.inforce = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .inforce, auxiliaryKey: ._inforce)
 		self.item = try [CoverageEligibilityResponseInsuranceItem](from: _container, forKeyIfPresent: .item)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try benefitPeriod?.encode(on: &_container, forKey: .benefitPeriod)
 		try coverage.encode(on: &_container, forKey: .coverage)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try inforce?.encode(on: &_container, forKey: .inforce, auxiliaryKey: ._inforce)
 		try item?.encode(on: &_container, forKey: .item)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CoverageEligibilityResponseInsurance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return benefitPeriod == _other.benefitPeriod
-		    && coverage == _other.coverage
-		    && inforce == _other.inforce
-		    && item == _other.item
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(benefitPeriod)
-		hasher.combine(coverage)
-		hasher.combine(inforce)
-		hasher.combine(item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -593,40 +572,7 @@ open class CoverageEligibilityResponseInsurance: BackboneElement {
  
  Benefits and optionally current balances, and authorization details by category or service.
  */
-open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
-	
-	/// Benefit classification
-	public var category: CodeableConcept?
-	
-	/// Billing, service, product, or drug code
-	public var productOrService: CodeableConcept?
-	
-	/// Product or service billing modifiers
-	public var modifier: [CodeableConcept]?
-	
-	/// Performing practitioner
-	public var provider: Reference?
-	
-	/// Excluded from the plan
-	public var excluded: FHIRPrimitive<FHIRBool>?
-	
-	/// Short name for the benefit
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Description of the benefit or services covered
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// In or out of network
-	public var network: CodeableConcept?
-	
-	/// Individual or family
-	public var unit: CodeableConcept?
-	
-	/// Annual or lifetime
-	public var term: CodeableConcept?
-	
-	/// Benefit Summary
-	public var benefit: [CoverageEligibilityResponseInsuranceItemBenefit]?
+public struct CoverageEligibilityResponseInsuranceItem: BackboneElement {
 	
 	/// Authorization required flag
 	public var authorizationRequired: FHIRPrimitive<FHIRBool>?
@@ -637,13 +583,54 @@ open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
 	/// Preauthorization requirements endpoint
 	public var authorizationUrl: FHIRPrimitive<FHIRURI>?
 	
+	/// Benefit Summary
+	public var benefit: [CoverageEligibilityResponseInsuranceItemBenefit]?
+	
+	/// Benefit classification
+	public var category: CodeableConcept?
+	
+	/// Description of the benefit or services covered
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Excluded from the plan
+	public var excluded: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Product or service billing modifiers
+	public var modifier: [CodeableConcept]?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Short name for the benefit
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// In or out of network
+	public var network: CodeableConcept?
+	
+	/// Billing, service, product, or drug code
+	public var productOrService: CodeableConcept?
+	
+	/// Performing practitioner
+	public var provider: Reference?
+	
+	/// Annual or lifetime
+	public var term: CodeableConcept?
+	
+	/// Individual or family
+	public var unit: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		authorizationRequired: FHIRPrimitive<FHIRBool>? = nil,
 		authorizationSupporting: [CodeableConcept]? = nil,
 		authorizationUrl: FHIRPrimitive<FHIRURI>? = nil,
@@ -692,7 +679,10 @@ open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
 		case category
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case excluded; case _excluded
+		case `extension` = "extension"
+		case id; case _id
 		case modifier
+		case modifierExtension
 		case name; case _name
 		case network
 		case productOrService
@@ -700,12 +690,12 @@ open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
 		case term
 		case unit
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.authorizationRequired = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .authorizationRequired, auxiliaryKey: ._authorizationRequired)
 		self.authorizationSupporting = try [CodeableConcept](from: _container, forKeyIfPresent: .authorizationSupporting)
 		self.authorizationUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .authorizationUrl, auxiliaryKey: ._authorizationUrl)
@@ -713,21 +703,22 @@ open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
 		self.category = try CodeableConcept(from: _container, forKeyIfPresent: .category)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.excluded = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .excluded, auxiliaryKey: ._excluded)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifier = try [CodeableConcept](from: _container, forKeyIfPresent: .modifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.network = try CodeableConcept(from: _container, forKeyIfPresent: .network)
 		self.productOrService = try CodeableConcept(from: _container, forKeyIfPresent: .productOrService)
 		self.provider = try Reference(from: _container, forKeyIfPresent: .provider)
 		self.term = try CodeableConcept(from: _container, forKeyIfPresent: .term)
 		self.unit = try CodeableConcept(from: _container, forKeyIfPresent: .unit)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try authorizationRequired?.encode(on: &_container, forKey: .authorizationRequired, auxiliaryKey: ._authorizationRequired)
 		try authorizationSupporting?.encode(on: &_container, forKey: .authorizationSupporting)
 		try authorizationUrl?.encode(on: &_container, forKey: .authorizationUrl, auxiliaryKey: ._authorizationUrl)
@@ -735,57 +726,16 @@ open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
 		try category?.encode(on: &_container, forKey: .category)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try excluded?.encode(on: &_container, forKey: .excluded, auxiliaryKey: ._excluded)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifier?.encode(on: &_container, forKey: .modifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try network?.encode(on: &_container, forKey: .network)
 		try productOrService?.encode(on: &_container, forKey: .productOrService)
 		try provider?.encode(on: &_container, forKey: .provider)
 		try term?.encode(on: &_container, forKey: .term)
 		try unit?.encode(on: &_container, forKey: .unit)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CoverageEligibilityResponseInsuranceItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return authorizationRequired == _other.authorizationRequired
-		    && authorizationSupporting == _other.authorizationSupporting
-		    && authorizationUrl == _other.authorizationUrl
-		    && benefit == _other.benefit
-		    && category == _other.category
-		    && description_fhir == _other.description_fhir
-		    && excluded == _other.excluded
-		    && modifier == _other.modifier
-		    && name == _other.name
-		    && network == _other.network
-		    && productOrService == _other.productOrService
-		    && provider == _other.provider
-		    && term == _other.term
-		    && unit == _other.unit
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(authorizationRequired)
-		hasher.combine(authorizationSupporting)
-		hasher.combine(authorizationUrl)
-		hasher.combine(benefit)
-		hasher.combine(category)
-		hasher.combine(description_fhir)
-		hasher.combine(excluded)
-		hasher.combine(modifier)
-		hasher.combine(name)
-		hasher.combine(network)
-		hasher.combine(productOrService)
-		hasher.combine(provider)
-		hasher.combine(term)
-		hasher.combine(unit)
 	}
 }
 
@@ -794,28 +744,37 @@ open class CoverageEligibilityResponseInsuranceItem: BackboneElement {
  
  Benefits used to date.
  */
-open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
+public struct CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 	
 	/// All possible types for "allowed[x]"
-	public enum AllowedX: Hashable {
+	public enum AllowedX: Equatable, Hashable, Sendable {
 		case money(Money)
 		case string(FHIRPrimitive<FHIRString>)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
 	/// All possible types for "used[x]"
-	public enum UsedX: Hashable {
+	public enum UsedX: Equatable, Hashable, Sendable {
 		case money(Money)
 		case string(FHIRPrimitive<FHIRString>)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
-	/// Benefit classification
-	public var type: CodeableConcept
-	
 	/// Benefits allowed
 	/// One of `allowed[x]`
 	public var allowed: AllowedX?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Benefit classification
+	public var type: CodeableConcept
 	
 	/// Benefits used
 	/// One of `used[x]`
@@ -824,11 +783,10 @@ open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(type: CodeableConcept) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		allowed: AllowedX? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -850,17 +808,20 @@ open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 		case allowedMoney
 		case allowedString; case _allowedString
 		case allowedUnsignedInt; case _allowedUnsignedInt
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case usedMoney
 		case usedString; case _usedString
 		case usedUnsignedInt; case _usedUnsignedInt
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_allowed: AllowedX? = nil
 		if let allowedUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .allowedUnsignedInt, auxiliaryKey: ._allowedUnsignedInt) {
 			if _t_allowed != nil {
@@ -881,6 +842,9 @@ open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 			_t_allowed = .money(allowedMoney)
 		}
 		self.allowed = _t_allowed
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
 		var _t_used: UsedX? = nil
 		if let usedUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .usedUnsignedInt, auxiliaryKey: ._usedUnsignedInt) {
@@ -902,14 +866,12 @@ open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 			_t_used = .money(usedMoney)
 		}
 		self.used = _t_used
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = allowed {
 			switch _enum {
 			case .unsignedInt(let _value):
@@ -920,6 +882,9 @@ open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 				try _value.encode(on: &_container, forKey: .allowedMoney)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
 		if let _enum = used {
 			switch _enum {
@@ -931,27 +896,5 @@ open class CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 				try _value.encode(on: &_container, forKey: .usedMoney)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CoverageEligibilityResponseInsuranceItemBenefit else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return allowed == _other.allowed
-		    && type == _other.type
-		    && used == _other.used
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(allowed)
-		hasher.combine(type)
-		hasher.combine(used)
 	}
 }

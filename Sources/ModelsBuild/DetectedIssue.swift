@@ -2,8 +2,8 @@
 //  DetectedIssue.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/DetectedIssue)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/DetectedIssue)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,22 +25,19 @@ import FMCore
  Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a
  patient; e.g. Drug-drug interaction, Ineffective treatment frequency, Procedure-condition conflict, gaps in care, etc.
  */
-open class DetectedIssue: DomainResource {
+public struct DetectedIssue: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .detectedIssue }
+	public static let resourceType: ResourceType = .detectedIssue
 	
 	/// All possible types for "identified[x]"
-	public enum IdentifiedX: Hashable {
+	public enum IdentifiedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
 	}
 	
-	/// Business identifier for detected issue
-	public var identifier: [Identifier]?
-	
-	/// preliminary | final | entered-in-error | unknown | mitigated | processing-error
-	public var status: FHIRPrimitive<FHIRString>
+	/// The provider or device that identified the issue
+	public var author: Reference?
 	
 	/// High level categorization of detected issue
 	public var category: [CodeableConcept]?
@@ -48,57 +45,83 @@ open class DetectedIssue: DomainResource {
 	/// Specific type of detected issue, e.g. drug-drug, duplicate therapy, etc
 	public var code: CodeableConcept?
 	
-	/// high | moderate | low
-	public var severity: CodeableConcept?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
-	/// Associated subject
-	public var subject: Reference?
+	/// Description and context
+	public var detail: FHIRPrimitive<FHIRString>?
 	
 	/// Encounter the detected issue is part of
 	public var encounter: Reference?
+	
+	/// Supporting evidence
+	public var evidence: [DetectedIssueEvidence]?
+	
+	/// Time frame of clinical effect
+	public var expectedOnsetType: CodeableConcept?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// When detected issue occurred/is occurring
 	/// One of `identified[x]`
 	public var identified: IdentifiedX?
 	
-	/// The provider or device that identified the issue
-	public var author: Reference?
+	/// Business identifier for detected issue
+	public var identifier: [Identifier]?
 	
 	/// Problem resource
 	public var implicated: [Reference]?
 	
-	/// Supporting evidence
-	public var evidence: [DetectedIssueEvidence]?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
-	/// Description and context
-	public var detail: FHIRPrimitive<FHIRString>?
-	
-	/// Authority for issue
-	public var reference: FHIRPrimitive<FHIRURI>?
-	
-	/// The quality of the evidence supporting the detected issue
-	public var qualityOfEvidence: CodeableConcept?
-	
-	/// Time frame of clinical effect
-	public var expectedOnsetType: CodeableConcept?
-	
-	/// What medication class
-	public var medicationClass: [CodeableConcept]?
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
 	
 	/// Importance of taking action on the issue
 	public var managementCode: CodeableConcept?
 	
+	/// What medication class
+	public var medicationClass: [CodeableConcept]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
 	/// Step taken to address
 	public var mitigation: [DetectedIssueMitigation]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The quality of the evidence supporting the detected issue
+	public var qualityOfEvidence: CodeableConcept?
+	
+	/// Authority for issue
+	public var reference: FHIRPrimitive<FHIRURI>?
+	
+	/// high | moderate | low
+	public var severity: CodeableConcept?
+	
+	/// preliminary | final | entered-in-error | unknown | mitigated | processing-error
+	public var status: FHIRPrimitive<FHIRString>
+	
+	/// Associated subject
+	public var subject: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<FHIRString>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		author: Reference? = nil,
 		category: [CodeableConcept]? = nil,
 		code: CodeableConcept? = nil,
@@ -157,40 +180,52 @@ open class DetectedIssue: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case author
 		case category
 		case code
+		case contained
 		case detail; case _detail
 		case encounter
 		case evidence
 		case expectedOnsetType
+		case `extension` = "extension"
+		case id; case _id
 		case identifiedDateTime; case _identifiedDateTime
 		case identifiedPeriod
 		case identifiedTiming
 		case identifier
 		case implicated
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case managementCode
 		case medicationClass
+		case meta
 		case mitigation
+		case modifierExtension
 		case qualityOfEvidence
 		case reference; case _reference
 		case severity
 		case status; case _status
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.author = try Reference(from: _container, forKeyIfPresent: .author)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.detail = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .detail, auxiliaryKey: ._detail)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.evidence = try [DetectedIssueEvidence](from: _container, forKeyIfPresent: .evidence)
 		self.expectedOnsetType = try CodeableConcept(from: _container, forKeyIfPresent: .expectedOnsetType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_identified: IdentifiedX? = nil
 		if let identifiedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .identifiedDateTime, auxiliaryKey: ._identifiedDateTime) {
 			if _t_identified != nil {
@@ -213,29 +248,37 @@ open class DetectedIssue: DomainResource {
 		self.identified = _t_identified
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.implicated = try [Reference](from: _container, forKeyIfPresent: .implicated)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.managementCode = try CodeableConcept(from: _container, forKeyIfPresent: .managementCode)
 		self.medicationClass = try [CodeableConcept](from: _container, forKeyIfPresent: .medicationClass)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.mitigation = try [DetectedIssueMitigation](from: _container, forKeyIfPresent: .mitigation)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.qualityOfEvidence = try CodeableConcept(from: _container, forKeyIfPresent: .qualityOfEvidence)
 		self.reference = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .reference, auxiliaryKey: ._reference)
 		self.severity = try CodeableConcept(from: _container, forKeyIfPresent: .severity)
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try category?.encode(on: &_container, forKey: .category)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try detail?.encode(on: &_container, forKey: .detail, auxiliaryKey: ._detail)
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try evidence?.encode(on: &_container, forKey: .evidence)
 		try expectedOnsetType?.encode(on: &_container, forKey: .expectedOnsetType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		if let _enum = identified {
 			switch _enum {
 			case .dateTime(let _value):
@@ -248,66 +291,19 @@ open class DetectedIssue: DomainResource {
 		}
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try implicated?.encode(on: &_container, forKey: .implicated)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try managementCode?.encode(on: &_container, forKey: .managementCode)
 		try medicationClass?.encode(on: &_container, forKey: .medicationClass)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try mitigation?.encode(on: &_container, forKey: .mitigation)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try qualityOfEvidence?.encode(on: &_container, forKey: .qualityOfEvidence)
 		try reference?.encode(on: &_container, forKey: .reference, auxiliaryKey: ._reference)
 		try severity?.encode(on: &_container, forKey: .severity)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DetectedIssue else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return author == _other.author
-		    && category == _other.category
-		    && code == _other.code
-		    && detail == _other.detail
-		    && encounter == _other.encounter
-		    && evidence == _other.evidence
-		    && expectedOnsetType == _other.expectedOnsetType
-		    && identified == _other.identified
-		    && identifier == _other.identifier
-		    && implicated == _other.implicated
-		    && managementCode == _other.managementCode
-		    && medicationClass == _other.medicationClass
-		    && mitigation == _other.mitigation
-		    && qualityOfEvidence == _other.qualityOfEvidence
-		    && reference == _other.reference
-		    && severity == _other.severity
-		    && status == _other.status
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(author)
-		hasher.combine(category)
-		hasher.combine(code)
-		hasher.combine(detail)
-		hasher.combine(encounter)
-		hasher.combine(evidence)
-		hasher.combine(expectedOnsetType)
-		hasher.combine(identified)
-		hasher.combine(identifier)
-		hasher.combine(implicated)
-		hasher.combine(managementCode)
-		hasher.combine(medicationClass)
-		hasher.combine(mitigation)
-		hasher.combine(qualityOfEvidence)
-		hasher.combine(reference)
-		hasher.combine(severity)
-		hasher.combine(status)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -317,7 +313,7 @@ open class DetectedIssue: DomainResource {
  Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a
  GuidanceResponse or MeasureReport.
  */
-open class DetectedIssueEvidence: BackboneElement {
+public struct DetectedIssueEvidence: BackboneElement {
 	
 	/// Manifestation
 	public var code: [CodeableConcept]?
@@ -325,13 +321,21 @@ open class DetectedIssueEvidence: BackboneElement {
 	/// Supporting information
 	public var detail: [Reference]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: [CodeableConcept]? = nil,
 		detail: [Reference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -351,45 +355,32 @@ open class DetectedIssueEvidence: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case detail
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
 		self.detail = try [Reference](from: _container, forKeyIfPresent: .detail)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try detail?.encode(on: &_container, forKey: .detail)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DetectedIssueEvidence else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && detail == _other.detail
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -400,16 +391,25 @@ open class DetectedIssueEvidence: BackboneElement {
  the detected issue from manifesting.  Can also reflect an observation of known mitigating factors that may
  reduce/eliminate the need for any action.
  */
-open class DetectedIssueMitigation: BackboneElement {
+public struct DetectedIssueMitigation: BackboneElement {
 	
 	/// What mitigation?
 	public var action: CodeableConcept
 	
+	/// Who is committing?
+	public var author: Reference?
+	
 	/// Date committed
 	public var date: FHIRPrimitive<DateTime>?
 	
-	/// Who is committing?
-	public var author: Reference?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Additional notes about the mitigation
 	public var note: [Annotation]?
@@ -417,11 +417,10 @@ open class DetectedIssueMitigation: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(action: CodeableConcept) {
 		self.action = action
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		action: CodeableConcept,
 		author: Reference? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -445,53 +444,36 @@ open class DetectedIssueMitigation: BackboneElement {
 		case action
 		case author
 		case date; case _date
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case note
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try CodeableConcept(from: _container, forKey: .action)
 		self.author = try Reference(from: _container, forKeyIfPresent: .author)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try action.encode(on: &_container, forKey: .action)
 		try author?.encode(on: &_container, forKey: .author)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DetectedIssueMitigation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && author == _other.author
-		    && date == _other.date
-		    && note == _other.note
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(author)
-		hasher.combine(date)
-		hasher.combine(note)
 	}
 }

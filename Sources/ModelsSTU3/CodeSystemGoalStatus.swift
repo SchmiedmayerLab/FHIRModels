@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,11 @@ import FMCore
  */
 public enum GoalStatus: String, FHIRPrimitiveType {
 	
-	/// A goal is proposed for this patient
-	case proposed = "proposed"
-	
 	/// A proposed goal was accepted or acknowledged
-	case accepted = "accepted"
+	case accepted
 	
-	/// A goal is planned for this patient
-	case planned = "planned"
-	
-	/// The goal is being sought but has not yet been reached.  (Also applies if goal was reached in the past but there
-	/// has been regression and goal is being sought again)
-	case inProgress = "in-progress"
-	
-	/// The goal is on schedule for the planned timelines
-	case onTarget = "on-target"
+	/// The goal has been met and no further action is needed
+	case achieved
 	
 	/// The goal is ahead of the planned timelines
 	case aheadOfTarget = "ahead-of-target"
@@ -49,21 +39,31 @@ public enum GoalStatus: String, FHIRPrimitiveType {
 	/// The goal is behind the planned timelines
 	case behindTarget = "behind-target"
 	
-	/// The goal has been met, but ongoing activity is needed to sustain the goal objective
-	case sustaining = "sustaining"
-	
-	/// The goal has been met and no further action is needed
-	case achieved = "achieved"
-	
-	/// The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
-	case onHold = "on-hold"
-	
 	/// The previously accepted goal is no longer being sought
-	case cancelled = "cancelled"
+	case cancelled
 	
 	/// The goal was entered in error and voided.
 	case enteredInError = "entered-in-error"
 	
+	/// The goal is being sought but has not yet been reached.  (Also applies if goal was reached in the past but there
+	/// has been regression and goal is being sought again)
+	case inProgress = "in-progress"
+	
+	/// The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
+	case onHold = "on-hold"
+	
+	/// The goal is on schedule for the planned timelines
+	case onTarget = "on-target"
+	
+	/// A goal is planned for this patient
+	case planned
+	
+	/// A goal is proposed for this patient
+	case proposed
+	
 	/// A proposed goal was rejected
-	case rejected = "rejected"
+	case rejected
+	
+	/// The goal has been met, but ongoing activity is needed to sustain the goal objective
+	case sustaining
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,22 +27,19 @@ import FMCore
  */
 public enum AdmitSource: String, FHIRPrimitiveType {
 	
-	/// The Patient has been transferred from another hospital for this encounter.
-	case hospTrans = "hosp-trans"
+	/// The patient is a newborn and the encounter will track the baby related activities (as opposed to the Mothers
+	/// encounter - that may be associated using the newborn encounters partof property)
+	case born
 	
 	/// The patient has been transferred from the emergency department within the hospital. This is typically used in
 	/// the transition to an inpatient encounter
 	case emd
 	
-	/// The patient has been transferred from an outpatient department within the hospital.
-	case outp
-	
-	/// The patient is a newborn and the encounter will track the baby related activities (as opposed to the Mothers
-	/// encounter - that may be associated using the newborn encounters partof property)
-	case born
-	
 	/// The patient has been admitted due to a referred from a General Practitioner.
 	case gp
+	
+	/// The Patient has been transferred from another hospital for this encounter.
+	case hospTrans = "hosp-trans"
 	
 	/// The patient has been admitted due to a referred from a Specialist (as opposed to a General Practitioner).
 	case mp
@@ -50,12 +47,15 @@ public enum AdmitSource: String, FHIRPrimitiveType {
 	/// The patient has been transferred from a nursing home.
 	case nursing
 	
+	/// The patient has been admitted from a source otherwise not specified here.
+	case other
+	
+	/// The patient has been transferred from an outpatient department within the hospital.
+	case outp
+	
 	/// The patient has been transferred from a psychiatric facility.
 	case psych
 	
 	/// The patient has been transferred from a rehabilitation facility or clinic.
 	case rehab
-	
-	/// The patient has been admitted from a source otherwise not specified here.
-	case other
 }

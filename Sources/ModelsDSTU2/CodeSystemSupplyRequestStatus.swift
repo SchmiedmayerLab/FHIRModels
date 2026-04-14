@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum SupplyRequestStatus: String, FHIRPrimitiveType {
 	
-	/// Supply has been requested, but not dispensed.
-	case requested = "requested"
+	/// The orderer of the supply cancelled the request.
+	case cancelled
 	
 	/// Supply has been received by the requestor.
-	case completed = "completed"
+	case completed
 	
 	/// The supply will not be completed because the supplier was unable or unwilling to supply the item.
-	case failed = "failed"
+	case failed
 	
-	/// The orderer of the supply cancelled the request.
-	case cancelled = "cancelled"
+	/// Supply has been requested, but not dispensed.
+	case requested
 }

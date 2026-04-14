@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Citation)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,105 +26,128 @@ import FMCore
  Citation Resource supports existing reference structures and developing publication practices such as versioning,
  expressing complex contributorship roles, and referencing computable resources.
  */
-open class Citation: DomainResource {
+public struct Citation: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .citation }
-	
-	/// Canonical identifier for this citation, represented as a globally unique URI
-	public var url: FHIRPrimitive<FHIRURI>?
-	
-	/// Identifier for the Citation resource itself
-	public var identifier: [Identifier]?
-	
-	/// Business version of the citation
-	public var version: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this citation (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this citation (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this summary. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// The publisher of the Citation, not the publisher of the article or artifact being cited
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher of the Citation Resource
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the citation
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the Citation Resource content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for citation (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this citation is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Use and/or publishing restrictions for the Citation, not for the cited artifact
-	public var copyright: FHIRPrimitive<FHIRString>?
+	public static let resourceType: ResourceType = .citation
 	
 	/// When the citation was approved by publisher
 	public var approvalDate: FHIRPrimitive<FHIRDate>?
 	
-	/// When the citation was last reviewed
-	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
-	
-	/// When the citation is expected to be used
-	public var effectivePeriod: Period?
-	
 	/// Who authored the Citation
 	public var author: [ContactDetail]?
-	
-	/// Who edited the Citation
-	public var editor: [ContactDetail]?
-	
-	/// Who reviewed the Citation
-	public var reviewer: [ContactDetail]?
-	
-	/// Who endorsed the Citation
-	public var endorser: [ContactDetail]?
-	
-	/// A human-readable display of the citation
-	public var summary: [CitationSummary]?
-	
-	/// The assignment to an organizing scheme
-	public var classification: [CitationClassification]?
-	
-	/// Used for general notes and annotations not coded elsewhere
-	public var note: [Annotation]?
-	
-	/// The status of the citation
-	public var currentState: [CodeableConcept]?
-	
-	/// An effective date or period for a status of the citation
-	public var statusDate: [CitationStatusDate]?
-	
-	/// Artifact related to the Citation Resource
-	public var relatesTo: [CitationRelatesTo]?
 	
 	/// The article or artifact being described
 	public var citedArtifact: CitationCitedArtifact?
 	
+	/// The assignment to an organizing scheme
+	public var classification: [CitationClassification]?
+	
+	/// Contact details for the publisher of the Citation Resource
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Use and/or publishing restrictions for the Citation, not for the cited artifact
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// The status of the citation
+	public var currentState: [CodeableConcept]?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Natural language description of the citation
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Who edited the Citation
+	public var editor: [ContactDetail]?
+	
+	/// When the citation is expected to be used
+	public var effectivePeriod: Period?
+	
+	/// Who endorsed the Citation
+	public var endorser: [ContactDetail]?
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifier for the Citation resource itself
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Intended jurisdiction for citation (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// When the citation was last reviewed
+	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this citation (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Used for general notes and annotations not coded elsewhere
+	public var note: [Annotation]?
+	
+	/// The publisher of the Citation, not the publisher of the article or artifact being cited
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this citation is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// Artifact related to the Citation Resource
+	public var relatesTo: [CitationRelatesTo]?
+	
+	/// Who reviewed the Citation
+	public var reviewer: [ContactDetail]?
+	
+	/// The status of this summary. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// An effective date or period for a status of the citation
+	public var statusDate: [CitationStatusDate]?
+	
+	/// A human-readable display of the citation
+	public var summary: [CitationSummary]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this citation (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Canonical identifier for this citation, represented as a globally unique URI
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the Citation Resource content is intended to support
+	public var useContext: [UsageContext]?
+	
+	/// Business version of the citation
+	public var version: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
 		citedArtifact: CitationCitedArtifact? = nil,
@@ -205,11 +228,13 @@ open class Citation: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case approvalDate; case _approvalDate
 		case author
 		case citedArtifact
 		case classification
 		case contact
+		case contained
 		case copyright; case _copyright
 		case currentState
 		case date; case _date
@@ -218,9 +243,15 @@ open class Citation: DomainResource {
 		case effectivePeriod
 		case endorser
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
 		case lastReviewDate; case _lastReviewDate
+		case meta
+		case modifierExtension
 		case name; case _name
 		case note
 		case publisher; case _publisher
@@ -230,22 +261,24 @@ open class Citation: DomainResource {
 		case status; case _status
 		case statusDate
 		case summary
+		case text
 		case title; case _title
 		case url; case _url
 		case useContext
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.approvalDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .approvalDate, auxiliaryKey: ._approvalDate)
 		self.author = try [ContactDetail](from: _container, forKeyIfPresent: .author)
 		self.citedArtifact = try CitationCitedArtifact(from: _container, forKeyIfPresent: .citedArtifact)
 		self.classification = try [CitationClassification](from: _container, forKeyIfPresent: .classification)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.currentState = try [CodeableConcept](from: _container, forKeyIfPresent: .currentState)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
@@ -254,9 +287,15 @@ open class Citation: DomainResource {
 		self.effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod)
 		self.endorser = try [ContactDetail](from: _container, forKeyIfPresent: .endorser)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastReviewDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
@@ -266,23 +305,25 @@ open class Citation: DomainResource {
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusDate = try [CitationStatusDate](from: _container, forKeyIfPresent: .statusDate)
 		self.summary = try [CitationSummary](from: _container, forKeyIfPresent: .summary)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
 		try citedArtifact?.encode(on: &_container, forKey: .citedArtifact)
 		try classification?.encode(on: &_container, forKey: .classification)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try currentState?.encode(on: &_container, forKey: .currentState)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -291,9 +332,15 @@ open class Citation: DomainResource {
 		try effectivePeriod?.encode(on: &_container, forKey: .effectivePeriod)
 		try endorser?.encode(on: &_container, forKey: .endorser)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastReviewDate?.encode(on: &_container, forKey: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try note?.encode(on: &_container, forKey: .note)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
@@ -303,127 +350,21 @@ open class Citation: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusDate?.encode(on: &_container, forKey: .statusDate)
 		try summary?.encode(on: &_container, forKey: .summary)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Citation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return approvalDate == _other.approvalDate
-		    && author == _other.author
-		    && citedArtifact == _other.citedArtifact
-		    && classification == _other.classification
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && currentState == _other.currentState
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && editor == _other.editor
-		    && effectivePeriod == _other.effectivePeriod
-		    && endorser == _other.endorser
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && lastReviewDate == _other.lastReviewDate
-		    && name == _other.name
-		    && note == _other.note
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && relatesTo == _other.relatesTo
-		    && reviewer == _other.reviewer
-		    && status == _other.status
-		    && statusDate == _other.statusDate
-		    && summary == _other.summary
-		    && title == _other.title
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(approvalDate)
-		hasher.combine(author)
-		hasher.combine(citedArtifact)
-		hasher.combine(classification)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(currentState)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(editor)
-		hasher.combine(effectivePeriod)
-		hasher.combine(endorser)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(lastReviewDate)
-		hasher.combine(name)
-		hasher.combine(note)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(relatesTo)
-		hasher.combine(reviewer)
-		hasher.combine(status)
-		hasher.combine(statusDate)
-		hasher.combine(summary)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
 	}
 }
 
 /**
  The article or artifact being described.
  */
-open class CitationCitedArtifact: BackboneElement {
-	
-	/// May include DOI, PMID, PMCID, etc.
-	public var identifier: [Identifier]?
-	
-	/// May include trial registry identifiers
-	public var relatedIdentifier: [Identifier]?
-	
-	/// When the cited artifact was accessed
-	public var dateAccessed: FHIRPrimitive<DateTime>?
-	
-	/// The defined version of the cited artifact
-	public var version: CitationCitedArtifactVersion?
-	
-	/// The status of the cited artifact
-	public var currentState: [CodeableConcept]?
-	
-	/// An effective date or period for a status of the cited artifact
-	public var statusDate: [CitationCitedArtifactStatusDate]?
-	
-	/// The title details of the article or artifact
-	public var title: [CitationCitedArtifactTitle]?
+public struct CitationCitedArtifact: BackboneElement {
 	
 	/// Summary of the article or artifact
 	public var abstract: [CitationCitedArtifactAbstract]?
-	
-	/// The component of the article or artifact
-	public var part: CitationCitedArtifactPart?
-	
-	/// The artifact related to the cited artifact
-	public var relatesTo: [CitationCitedArtifactRelatesTo]?
-	
-	/// If multiple, used to represent alternative forms of the article that are not separate citations
-	public var publicationForm: [CitationCitedArtifactPublicationForm]?
-	
-	/// Used for any URL for the article or artifact cited
-	public var webLocation: [CitationCitedArtifactWebLocation]?
 	
 	/// The assignment to an organizing scheme
 	public var classification: [CitationCitedArtifactClassification]?
@@ -431,16 +372,57 @@ open class CitationCitedArtifact: BackboneElement {
 	/// Attribution of authors and other contributors
 	public var contributorship: CitationCitedArtifactContributorship?
 	
+	/// The status of the cited artifact
+	public var currentState: [CodeableConcept]?
+	
+	/// When the cited artifact was accessed
+	public var dateAccessed: FHIRPrimitive<DateTime>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// May include DOI, PMID, PMCID, etc.
+	public var identifier: [Identifier]?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Any additional information or content for the article or artifact
 	public var note: [Annotation]?
 	
+	/// The component of the article or artifact
+	public var part: CitationCitedArtifactPart?
+	
+	/// If multiple, used to represent alternative forms of the article that are not separate citations
+	public var publicationForm: [CitationCitedArtifactPublicationForm]?
+	
+	/// May include trial registry identifiers
+	public var relatedIdentifier: [Identifier]?
+	
+	/// The artifact related to the cited artifact
+	public var relatesTo: [CitationCitedArtifactRelatesTo]?
+	
+	/// An effective date or period for a status of the cited artifact
+	public var statusDate: [CitationCitedArtifactStatusDate]?
+	
+	/// The title details of the article or artifact
+	public var title: [CitationCitedArtifactTitle]?
+	
+	/// The defined version of the cited artifact
+	public var version: CitationCitedArtifactVersion?
+	
+	/// Used for any URL for the article or artifact cited
+	public var webLocation: [CitationCitedArtifactWebLocation]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		abstract: [CitationCitedArtifactAbstract]? = nil,
 		classification: [CitationCitedArtifactClassification]? = nil,
 		contributorship: CitationCitedArtifactContributorship? = nil,
@@ -489,7 +471,10 @@ open class CitationCitedArtifact: BackboneElement {
 		case contributorship
 		case currentState
 		case dateAccessed; case _dateAccessed
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case note
 		case part
 		case publicationForm
@@ -500,18 +485,21 @@ open class CitationCitedArtifact: BackboneElement {
 		case version
 		case webLocation
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.abstract = try [CitationCitedArtifactAbstract](from: _container, forKeyIfPresent: .abstract)
 		self.classification = try [CitationCitedArtifactClassification](from: _container, forKeyIfPresent: .classification)
 		self.contributorship = try CitationCitedArtifactContributorship(from: _container, forKeyIfPresent: .contributorship)
 		self.currentState = try [CodeableConcept](from: _container, forKeyIfPresent: .currentState)
 		self.dateAccessed = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .dateAccessed, auxiliaryKey: ._dateAccessed)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.part = try CitationCitedArtifactPart(from: _container, forKeyIfPresent: .part)
 		self.publicationForm = try [CitationCitedArtifactPublicationForm](from: _container, forKeyIfPresent: .publicationForm)
@@ -521,20 +509,21 @@ open class CitationCitedArtifact: BackboneElement {
 		self.title = try [CitationCitedArtifactTitle](from: _container, forKeyIfPresent: .title)
 		self.version = try CitationCitedArtifactVersion(from: _container, forKeyIfPresent: .version)
 		self.webLocation = try [CitationCitedArtifactWebLocation](from: _container, forKeyIfPresent: .webLocation)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try abstract?.encode(on: &_container, forKey: .abstract)
 		try classification?.encode(on: &_container, forKey: .classification)
 		try contributorship?.encode(on: &_container, forKey: .contributorship)
 		try currentState?.encode(on: &_container, forKey: .currentState)
 		try dateAccessed?.encode(on: &_container, forKey: .dateAccessed, auxiliaryKey: ._dateAccessed)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try part?.encode(on: &_container, forKey: .part)
 		try publicationForm?.encode(on: &_container, forKey: .publicationForm)
@@ -544,80 +533,42 @@ open class CitationCitedArtifact: BackboneElement {
 		try title?.encode(on: &_container, forKey: .title)
 		try version?.encode(on: &_container, forKey: .version)
 		try webLocation?.encode(on: &_container, forKey: .webLocation)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifact else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return abstract == _other.abstract
-		    && classification == _other.classification
-		    && contributorship == _other.contributorship
-		    && currentState == _other.currentState
-		    && dateAccessed == _other.dateAccessed
-		    && identifier == _other.identifier
-		    && note == _other.note
-		    && part == _other.part
-		    && publicationForm == _other.publicationForm
-		    && relatedIdentifier == _other.relatedIdentifier
-		    && relatesTo == _other.relatesTo
-		    && statusDate == _other.statusDate
-		    && title == _other.title
-		    && version == _other.version
-		    && webLocation == _other.webLocation
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(abstract)
-		hasher.combine(classification)
-		hasher.combine(contributorship)
-		hasher.combine(currentState)
-		hasher.combine(dateAccessed)
-		hasher.combine(identifier)
-		hasher.combine(note)
-		hasher.combine(part)
-		hasher.combine(publicationForm)
-		hasher.combine(relatedIdentifier)
-		hasher.combine(relatesTo)
-		hasher.combine(statusDate)
-		hasher.combine(title)
-		hasher.combine(version)
-		hasher.combine(webLocation)
 	}
 }
 
 /**
  Summary of the article or artifact.
  */
-open class CitationCitedArtifactAbstract: BackboneElement {
-	
-	/// The kind of abstract
-	public var type: CodeableConcept?
-	
-	/// Used to express the specific language
-	public var language: CodeableConcept?
-	
-	/// Abstract content
-	public var text: FHIRPrimitive<FHIRString>
+public struct CitationCitedArtifactAbstract: BackboneElement {
 	
 	/// Copyright notice for the abstract
 	public var copyright: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Used to express the specific language
+	public var language: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Abstract content
+	public var text: FHIRPrimitive<FHIRString>
+	
+	/// The kind of abstract
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
 	public init(text: FHIRPrimitive<FHIRString>) {
 		self.text = text
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		copyright: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -639,80 +590,71 @@ open class CitationCitedArtifactAbstract: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case copyright; case _copyright
+		case `extension` = "extension"
+		case id; case _id
 		case language
+		case modifierExtension
 		case text; case _text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try CodeableConcept(from: _container, forKeyIfPresent: .language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKey: .text, auxiliaryKey: ._text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language?.encode(on: &_container, forKey: .language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try text.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactAbstract else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return copyright == _other.copyright
-		    && language == _other.language
-		    && text == _other.text
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(copyright)
-		hasher.combine(language)
-		hasher.combine(text)
-		hasher.combine(type)
 	}
 }
 
 /**
  The assignment to an organizing scheme.
  */
-open class CitationCitedArtifactClassification: BackboneElement {
-	
-	/// The kind of classifier (e.g. publication type, keyword)
-	public var type: CodeableConcept?
+public struct CitationCitedArtifactClassification: BackboneElement {
 	
 	/// The specific classification value
 	public var classifier: [CodeableConcept]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The kind of classifier (e.g. publication type, keyword)
+	public var type: CodeableConcept?
 	
 	/// Provenance and copyright of classification
 	public var whoClassified: CitationCitedArtifactClassificationWhoClassified?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		classifier: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -733,81 +675,74 @@ open class CitationCitedArtifactClassification: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case classifier
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case whoClassified
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.classifier = try [CodeableConcept](from: _container, forKeyIfPresent: .classifier)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.whoClassified = try CitationCitedArtifactClassificationWhoClassified(from: _container, forKeyIfPresent: .whoClassified)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try classifier?.encode(on: &_container, forKey: .classifier)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
 		try whoClassified?.encode(on: &_container, forKey: .whoClassified)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactClassification else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return classifier == _other.classifier
-		    && type == _other.type
-		    && whoClassified == _other.whoClassified
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(classifier)
-		hasher.combine(type)
-		hasher.combine(whoClassified)
 	}
 }
 
 /**
  Provenance and copyright of classification.
  */
-open class CitationCitedArtifactClassificationWhoClassified: BackboneElement {
-	
-	/// Person who created the classification
-	public var person: Reference?
-	
-	/// Organization who created the classification
-	public var organization: Reference?
-	
-	/// The publisher of the classification, not the publisher of the article or artifact being cited
-	public var publisher: Reference?
+public struct CitationCitedArtifactClassificationWhoClassified: BackboneElement {
 	
 	/// Rights management statement for the classification
 	public var classifierCopyright: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
 	/// Acceptable to re-use the classification
 	public var freeToShare: FHIRPrimitive<FHIRBool>?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Organization who created the classification
+	public var organization: Reference?
+	
+	/// Person who created the classification
+	public var person: Reference?
+	
+	/// The publisher of the classification, not the publisher of the article or artifact being cited
+	public var publisher: Reference?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		classifierCopyright: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		freeToShare: FHIRPrimitive<FHIRBool>? = nil,
@@ -832,61 +767,42 @@ open class CitationCitedArtifactClassificationWhoClassified: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case classifierCopyright; case _classifierCopyright
+		case `extension` = "extension"
 		case freeToShare; case _freeToShare
+		case id; case _id
+		case modifierExtension
 		case organization
 		case person
 		case publisher
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.classifierCopyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .classifierCopyright, auxiliaryKey: ._classifierCopyright)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.freeToShare = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .freeToShare, auxiliaryKey: ._freeToShare)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.person = try Reference(from: _container, forKeyIfPresent: .person)
 		self.publisher = try Reference(from: _container, forKeyIfPresent: .publisher)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try classifierCopyright?.encode(on: &_container, forKey: .classifierCopyright, auxiliaryKey: ._classifierCopyright)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try freeToShare?.encode(on: &_container, forKey: .freeToShare, auxiliaryKey: ._freeToShare)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try person?.encode(on: &_container, forKey: .person)
 		try publisher?.encode(on: &_container, forKey: .publisher)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactClassificationWhoClassified else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return classifierCopyright == _other.classifierCopyright
-		    && freeToShare == _other.freeToShare
-		    && organization == _other.organization
-		    && person == _other.person
-		    && publisher == _other.publisher
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(classifierCopyright)
-		hasher.combine(freeToShare)
-		hasher.combine(organization)
-		hasher.combine(person)
-		hasher.combine(publisher)
 	}
 }
 
@@ -896,7 +812,7 @@ open class CitationCitedArtifactClassificationWhoClassified: BackboneElement {
  This element is used to list authors and other contributors, their contact information, specific contributions, and
  summary statements.
  */
-open class CitationCitedArtifactContributorship: BackboneElement {
+public struct CitationCitedArtifactContributorship: BackboneElement {
 	
 	/// Indicates if the list includes all authors and/or contributors
 	public var complete: FHIRPrimitive<FHIRBool>?
@@ -904,16 +820,24 @@ open class CitationCitedArtifactContributorship: BackboneElement {
 	/// An individual entity named in the list
 	public var entry: [CitationCitedArtifactContributorshipEntry]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Used to record a display of the author/contributor list without separate coding for each list member
 	public var summary: [CitationCitedArtifactContributorshipSummary]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		complete: FHIRPrimitive<FHIRBool>? = nil,
 		entry: [CitationCitedArtifactContributorshipEntry]? = nil,
 		`extension`: [Extension]? = nil,
@@ -935,50 +859,35 @@ open class CitationCitedArtifactContributorship: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case complete; case _complete
 		case entry
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case summary
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.complete = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .complete, auxiliaryKey: ._complete)
 		self.entry = try [CitationCitedArtifactContributorshipEntry](from: _container, forKeyIfPresent: .entry)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.summary = try [CitationCitedArtifactContributorshipSummary](from: _container, forKeyIfPresent: .summary)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try complete?.encode(on: &_container, forKey: .complete, auxiliaryKey: ._complete)
 		try entry?.encode(on: &_container, forKey: .entry)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try summary?.encode(on: &_container, forKey: .summary)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactContributorship else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return complete == _other.complete
-		    && entry == _other.entry
-		    && summary == _other.summary
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(complete)
-		hasher.combine(entry)
-		hasher.combine(summary)
 	}
 }
 
@@ -987,51 +896,59 @@ open class CitationCitedArtifactContributorship: BackboneElement {
  
  An individual entity named in the author list or contributor list.
  */
-open class CitationCitedArtifactContributorshipEntry: BackboneElement {
-	
-	/// A name associated with the person
-	public var name: HumanName?
-	
-	/// Initials for forename
-	public var initials: FHIRPrimitive<FHIRString>?
-	
-	/// Used for collective or corporate name as an author
-	public var collectiveName: FHIRPrimitive<FHIRString>?
-	
-	/// Author identifier, eg ORCID
-	public var identifier: [Identifier]?
-	
-	/// Organizational affiliation
-	public var affiliationInfo: [CitationCitedArtifactContributorshipEntryAffiliationInfo]?
+public struct CitationCitedArtifactContributorshipEntry: BackboneElement {
 	
 	/// Physical mailing address
 	public var address: [Address]?
 	
-	/// Email or telephone contact methods for the author or contributor
-	public var telecom: [ContactPoint]?
+	/// Organizational affiliation
+	public var affiliationInfo: [CitationCitedArtifactContributorshipEntryAffiliationInfo]?
 	
-	/// The specific contribution
-	public var contributionType: [CodeableConcept]?
-	
-	/// The role of the contributor (e.g. author, editor, reviewer)
-	public var role: CodeableConcept?
+	/// Used for collective or corporate name as an author
+	public var collectiveName: FHIRPrimitive<FHIRString>?
 	
 	/// Contributions with accounting for time or number
 	public var contributionInstance: [CitationCitedArtifactContributorshipEntryContributionInstance]?
 	
+	/// The specific contribution
+	public var contributionType: [CodeableConcept]?
+	
 	/// Indication of which contributor is the corresponding contributor for the role
 	public var correspondingContact: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Author identifier, eg ORCID
+	public var identifier: [Identifier]?
+	
+	/// Initials for forename
+	public var initials: FHIRPrimitive<FHIRString>?
 	
 	/// Used to code order of authors
 	public var listOrder: FHIRPrimitive<FHIRPositiveInteger>?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// A name associated with the person
+	public var name: HumanName?
+	
+	/// The role of the contributor (e.g. author, editor, reviewer)
+	public var role: CodeableConcept?
+	
+	/// Email or telephone contact methods for the author or contributor
+	public var telecom: [ContactPoint]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		address: [Address]? = nil,
 		affiliationInfo: [CitationCitedArtifactContributorshipEntryAffiliationInfo]? = nil,
 		collectiveName: FHIRPrimitive<FHIRString>? = nil,
@@ -1075,91 +992,58 @@ open class CitationCitedArtifactContributorshipEntry: BackboneElement {
 		case contributionInstance
 		case contributionType
 		case correspondingContact; case _correspondingContact
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case initials; case _initials
 		case listOrder; case _listOrder
+		case modifierExtension
 		case name
 		case role
 		case telecom
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.address = try [Address](from: _container, forKeyIfPresent: .address)
 		self.affiliationInfo = try [CitationCitedArtifactContributorshipEntryAffiliationInfo](from: _container, forKeyIfPresent: .affiliationInfo)
 		self.collectiveName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .collectiveName, auxiliaryKey: ._collectiveName)
 		self.contributionInstance = try [CitationCitedArtifactContributorshipEntryContributionInstance](from: _container, forKeyIfPresent: .contributionInstance)
 		self.contributionType = try [CodeableConcept](from: _container, forKeyIfPresent: .contributionType)
 		self.correspondingContact = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .correspondingContact, auxiliaryKey: ._correspondingContact)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.initials = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .initials, auxiliaryKey: ._initials)
 		self.listOrder = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .listOrder, auxiliaryKey: ._listOrder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try HumanName(from: _container, forKeyIfPresent: .name)
 		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try affiliationInfo?.encode(on: &_container, forKey: .affiliationInfo)
 		try collectiveName?.encode(on: &_container, forKey: .collectiveName, auxiliaryKey: ._collectiveName)
 		try contributionInstance?.encode(on: &_container, forKey: .contributionInstance)
 		try contributionType?.encode(on: &_container, forKey: .contributionType)
 		try correspondingContact?.encode(on: &_container, forKey: .correspondingContact, auxiliaryKey: ._correspondingContact)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try initials?.encode(on: &_container, forKey: .initials, auxiliaryKey: ._initials)
 		try listOrder?.encode(on: &_container, forKey: .listOrder, auxiliaryKey: ._listOrder)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name)
 		try role?.encode(on: &_container, forKey: .role)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactContributorshipEntry else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return address == _other.address
-		    && affiliationInfo == _other.affiliationInfo
-		    && collectiveName == _other.collectiveName
-		    && contributionInstance == _other.contributionInstance
-		    && contributionType == _other.contributionType
-		    && correspondingContact == _other.correspondingContact
-		    && identifier == _other.identifier
-		    && initials == _other.initials
-		    && listOrder == _other.listOrder
-		    && name == _other.name
-		    && role == _other.role
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(address)
-		hasher.combine(affiliationInfo)
-		hasher.combine(collectiveName)
-		hasher.combine(contributionInstance)
-		hasher.combine(contributionType)
-		hasher.combine(correspondingContact)
-		hasher.combine(identifier)
-		hasher.combine(initials)
-		hasher.combine(listOrder)
-		hasher.combine(name)
-		hasher.combine(role)
-		hasher.combine(telecom)
 	}
 }
 
@@ -1168,24 +1052,32 @@ open class CitationCitedArtifactContributorshipEntry: BackboneElement {
  
  Organization affiliated with the entity.
  */
-open class CitationCitedArtifactContributorshipEntryAffiliationInfo: BackboneElement {
+public struct CitationCitedArtifactContributorshipEntryAffiliationInfo: BackboneElement {
 	
 	/// Display for the organization
 	public var affiliation: FHIRPrimitive<FHIRString>?
 	
-	/// Role within the organization, such as professional title
-	public var role: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Identifier for the organization
 	public var identifier: [Identifier]?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Role within the organization, such as professional title
+	public var role: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		affiliation: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1206,73 +1098,66 @@ open class CitationCitedArtifactContributorshipEntryAffiliationInfo: BackboneEle
 	
 	private enum CodingKeys: String, CodingKey {
 		case affiliation; case _affiliation
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case role; case _role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.affiliation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .affiliation, auxiliaryKey: ._affiliation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .role, auxiliaryKey: ._role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try affiliation?.encode(on: &_container, forKey: .affiliation, auxiliaryKey: ._affiliation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role?.encode(on: &_container, forKey: .role, auxiliaryKey: ._role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactContributorshipEntryAffiliationInfo else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return affiliation == _other.affiliation
-		    && identifier == _other.identifier
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(affiliation)
-		hasher.combine(identifier)
-		hasher.combine(role)
 	}
 }
 
 /**
  Contributions with accounting for time or number.
  */
-open class CitationCitedArtifactContributorshipEntryContributionInstance: BackboneElement {
+public struct CitationCitedArtifactContributorshipEntryContributionInstance: BackboneElement {
 	
-	/// The specific contribution
-	public var type: CodeableConcept
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The time that the contribution was made
 	public var time: FHIRPrimitive<DateTime>?
 	
+	/// The specific contribution
+	public var type: CodeableConcept
+	
 	/// Designated initializer taking all required properties
 	public init(type: CodeableConcept) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1289,63 +1174,59 @@ open class CitationCitedArtifactContributorshipEntryContributionInstance: Backbo
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case time; case _time
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.time = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .time, auxiliaryKey: ._time)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try time?.encode(on: &_container, forKey: .time, auxiliaryKey: ._time)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactContributorshipEntryContributionInstance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return time == _other.time
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(time)
-		hasher.combine(type)
 	}
 }
 
 /**
  Used to record a display of the author/contributor list without separate coding for each list member.
  */
-open class CitationCitedArtifactContributorshipSummary: BackboneElement {
+public struct CitationCitedArtifactContributorshipSummary: BackboneElement {
 	
-	/// Either authorList or contributorshipStatement
-	public var type: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Used to code the producer or rule for creating the display string
+	public var source: CodeableConcept?
 	
 	/// The format for the display string
 	public var style: CodeableConcept?
 	
-	/// Used to code the producer or rule for creating the display string
-	public var source: CodeableConcept?
+	/// Either authorList or contributorshipStatement
+	public var type: CodeableConcept?
 	
 	/// The display string for the author list, contributor list, or contributorship statement
 	public var value: FHIRPrimitive<FHIRString>
@@ -1353,11 +1234,10 @@ open class CitationCitedArtifactContributorshipSummary: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(value: FHIRPrimitive<FHIRString>) {
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1378,64 +1258,59 @@ open class CitationCitedArtifactContributorshipSummary: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case source
 		case style
 		case type
 		case value; case _value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.source = try CodeableConcept(from: _container, forKeyIfPresent: .source)
 		self.style = try CodeableConcept(from: _container, forKeyIfPresent: .style)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.value = try FHIRPrimitive<FHIRString>(from: _container, forKey: .value, auxiliaryKey: ._value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try source?.encode(on: &_container, forKey: .source)
 		try style?.encode(on: &_container, forKey: .style)
 		try type?.encode(on: &_container, forKey: .type)
 		try value.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactContributorshipSummary else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return source == _other.source
-		    && style == _other.style
-		    && type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(source)
-		hasher.combine(style)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
 /**
  The component of the article or artifact.
  */
-open class CitationCitedArtifactPart: BackboneElement {
+public struct CitationCitedArtifactPart: BackboneElement {
+	
+	/// The citation for the full article or artifact
+	public var baseCitation: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The kind of component
 	public var type: CodeableConcept?
@@ -1443,16 +1318,12 @@ open class CitationCitedArtifactPart: BackboneElement {
 	/// The specification of the component
 	public var value: FHIRPrimitive<FHIRString>?
 	
-	/// The citation for the full article or artifact
-	public var baseCitation: Reference?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		baseCitation: Reference? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1473,99 +1344,92 @@ open class CitationCitedArtifactPart: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case baseCitation
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case value; case _value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.baseCitation = try Reference(from: _container, forKeyIfPresent: .baseCitation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.value = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .value, auxiliaryKey: ._value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try baseCitation?.encode(on: &_container, forKey: .baseCitation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
 		try value?.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactPart else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return baseCitation == _other.baseCitation
-		    && type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(baseCitation)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
 /**
  If multiple, used to represent alternative forms of the article that are not separate citations.
  */
-open class CitationCitedArtifactPublicationForm: BackboneElement {
-	
-	/// The collection the cited article or artifact is published in
-	public var publishedIn: CitationCitedArtifactPublicationFormPublishedIn?
-	
-	/// The specific issue in which the cited article resides
-	public var periodicRelease: CitationCitedArtifactPublicationFormPeriodicRelease?
-	
-	/// The date the article was added to the database, or the date the article was released
-	public var articleDate: FHIRPrimitive<DateTime>?
-	
-	/// The date the article was last revised or updated in the database
-	public var lastRevisionDate: FHIRPrimitive<DateTime>?
-	
-	/// Language in which this form of the article is published
-	public var language: [CodeableConcept]?
+public struct CitationCitedArtifactPublicationForm: BackboneElement {
 	
 	/// Entry number or identifier for inclusion in a database
 	public var accessionNumber: FHIRPrimitive<FHIRString>?
 	
-	/// Used for full display of pagination
-	public var pageString: FHIRPrimitive<FHIRString>?
-	
-	/// Used for isolated representation of first page
-	public var firstPage: FHIRPrimitive<FHIRString>?
-	
-	/// Used for isolated representation of last page
-	public var lastPage: FHIRPrimitive<FHIRString>?
-	
-	/// Number of pages or screens
-	public var pageCount: FHIRPrimitive<FHIRString>?
+	/// The date the article was added to the database, or the date the article was released
+	public var articleDate: FHIRPrimitive<DateTime>?
 	
 	/// Copyright notice for the full article or artifact
 	public var copyright: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Used for isolated representation of first page
+	public var firstPage: FHIRPrimitive<FHIRString>?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Language in which this form of the article is published
+	public var language: [CodeableConcept]?
+	
+	/// Used for isolated representation of last page
+	public var lastPage: FHIRPrimitive<FHIRString>?
+	
+	/// The date the article was last revised or updated in the database
+	public var lastRevisionDate: FHIRPrimitive<DateTime>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Number of pages or screens
+	public var pageCount: FHIRPrimitive<FHIRString>?
+	
+	/// Used for full display of pagination
+	public var pageString: FHIRPrimitive<FHIRString>?
+	
+	/// The specific issue in which the cited article resides
+	public var periodicRelease: CitationCitedArtifactPublicationFormPeriodicRelease?
+	
+	/// The collection the cited article or artifact is published in
+	public var publishedIn: CitationCitedArtifactPublicationFormPublishedIn?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		accessionNumber: FHIRPrimitive<FHIRString>? = nil,
 		articleDate: FHIRPrimitive<DateTime>? = nil,
 		copyright: FHIRPrimitive<FHIRString>? = nil,
@@ -1604,116 +1468,93 @@ open class CitationCitedArtifactPublicationForm: BackboneElement {
 		case accessionNumber; case _accessionNumber
 		case articleDate; case _articleDate
 		case copyright; case _copyright
+		case `extension` = "extension"
 		case firstPage; case _firstPage
+		case id; case _id
 		case language
 		case lastPage; case _lastPage
 		case lastRevisionDate; case _lastRevisionDate
+		case modifierExtension
 		case pageCount; case _pageCount
 		case pageString; case _pageString
 		case periodicRelease
 		case publishedIn
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.accessionNumber = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .accessionNumber, auxiliaryKey: ._accessionNumber)
 		self.articleDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .articleDate, auxiliaryKey: ._articleDate)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.firstPage = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .firstPage, auxiliaryKey: ._firstPage)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try [CodeableConcept](from: _container, forKeyIfPresent: .language)
 		self.lastPage = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .lastPage, auxiliaryKey: ._lastPage)
 		self.lastRevisionDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .lastRevisionDate, auxiliaryKey: ._lastRevisionDate)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.pageCount = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .pageCount, auxiliaryKey: ._pageCount)
 		self.pageString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .pageString, auxiliaryKey: ._pageString)
 		self.periodicRelease = try CitationCitedArtifactPublicationFormPeriodicRelease(from: _container, forKeyIfPresent: .periodicRelease)
 		self.publishedIn = try CitationCitedArtifactPublicationFormPublishedIn(from: _container, forKeyIfPresent: .publishedIn)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try accessionNumber?.encode(on: &_container, forKey: .accessionNumber, auxiliaryKey: ._accessionNumber)
 		try articleDate?.encode(on: &_container, forKey: .articleDate, auxiliaryKey: ._articleDate)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try firstPage?.encode(on: &_container, forKey: .firstPage, auxiliaryKey: ._firstPage)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language?.encode(on: &_container, forKey: .language)
 		try lastPage?.encode(on: &_container, forKey: .lastPage, auxiliaryKey: ._lastPage)
 		try lastRevisionDate?.encode(on: &_container, forKey: .lastRevisionDate, auxiliaryKey: ._lastRevisionDate)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try pageCount?.encode(on: &_container, forKey: .pageCount, auxiliaryKey: ._pageCount)
 		try pageString?.encode(on: &_container, forKey: .pageString, auxiliaryKey: ._pageString)
 		try periodicRelease?.encode(on: &_container, forKey: .periodicRelease)
 		try publishedIn?.encode(on: &_container, forKey: .publishedIn)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactPublicationForm else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return accessionNumber == _other.accessionNumber
-		    && articleDate == _other.articleDate
-		    && copyright == _other.copyright
-		    && firstPage == _other.firstPage
-		    && language == _other.language
-		    && lastPage == _other.lastPage
-		    && lastRevisionDate == _other.lastRevisionDate
-		    && pageCount == _other.pageCount
-		    && pageString == _other.pageString
-		    && periodicRelease == _other.periodicRelease
-		    && publishedIn == _other.publishedIn
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(accessionNumber)
-		hasher.combine(articleDate)
-		hasher.combine(copyright)
-		hasher.combine(firstPage)
-		hasher.combine(language)
-		hasher.combine(lastPage)
-		hasher.combine(lastRevisionDate)
-		hasher.combine(pageCount)
-		hasher.combine(pageString)
-		hasher.combine(periodicRelease)
-		hasher.combine(publishedIn)
 	}
 }
 
 /**
  The specific issue in which the cited article resides.
  */
-open class CitationCitedArtifactPublicationFormPeriodicRelease: BackboneElement {
+public struct CitationCitedArtifactPublicationFormPeriodicRelease: BackboneElement {
 	
 	/// Internet or Print
 	public var citedMedium: CodeableConcept?
 	
-	/// Volume number of journal in which the article is published
-	public var volume: FHIRPrimitive<FHIRString>?
+	/// Defining the date on which the issue of the journal was published
+	public var dateOfPublication: CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Issue, part or supplement of journal in which the article is published
 	public var issue: FHIRPrimitive<FHIRString>?
 	
-	/// Defining the date on which the issue of the journal was published
-	public var dateOfPublication: CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Volume number of journal in which the article is published
+	public var volume: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		citedMedium: CodeableConcept? = nil,
 		dateOfPublication: CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication? = nil,
 		`extension`: [Extension]? = nil,
@@ -1737,74 +1578,63 @@ open class CitationCitedArtifactPublicationFormPeriodicRelease: BackboneElement 
 	private enum CodingKeys: String, CodingKey {
 		case citedMedium
 		case dateOfPublication
+		case `extension` = "extension"
+		case id; case _id
 		case issue; case _issue
+		case modifierExtension
 		case volume; case _volume
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.citedMedium = try CodeableConcept(from: _container, forKeyIfPresent: .citedMedium)
 		self.dateOfPublication = try CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication(from: _container, forKeyIfPresent: .dateOfPublication)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.issue = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .issue, auxiliaryKey: ._issue)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.volume = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .volume, auxiliaryKey: ._volume)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try citedMedium?.encode(on: &_container, forKey: .citedMedium)
 		try dateOfPublication?.encode(on: &_container, forKey: .dateOfPublication)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try issue?.encode(on: &_container, forKey: .issue, auxiliaryKey: ._issue)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try volume?.encode(on: &_container, forKey: .volume, auxiliaryKey: ._volume)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactPublicationFormPeriodicRelease else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return citedMedium == _other.citedMedium
-		    && dateOfPublication == _other.dateOfPublication
-		    && issue == _other.issue
-		    && volume == _other.volume
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(citedMedium)
-		hasher.combine(dateOfPublication)
-		hasher.combine(issue)
-		hasher.combine(volume)
 	}
 }
 
 /**
  Defining the date on which the issue of the journal was published.
  */
-open class CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication: BackboneElement {
+public struct CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication: BackboneElement {
 	
 	/// Date on which the issue of the journal was published
 	public var date: FHIRPrimitive<FHIRDate>?
 	
-	/// Year on which the issue of the journal was published
-	public var year: FHIRPrimitive<FHIRString>?
+	/// Day on which the issue of the journal was published
+	public var day: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Month on which the issue of the journal was published
 	public var month: FHIRPrimitive<FHIRString>?
-	
-	/// Day on which the issue of the journal was published
-	public var day: FHIRPrimitive<FHIRString>?
 	
 	/// Season on which the issue of the journal was published
 	public var season: FHIRPrimitive<FHIRString>?
@@ -1812,13 +1642,15 @@ open class CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication:
 	/// Text representation of the date of which the issue of the journal was published
 	public var text: FHIRPrimitive<FHIRString>?
 	
+	/// Year on which the issue of the journal was published
+	public var year: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		date: FHIRPrimitive<FHIRDate>? = nil,
 		day: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -1846,81 +1678,63 @@ open class CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication:
 	private enum CodingKeys: String, CodingKey {
 		case date; case _date
 		case day; case _day
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case month; case _month
 		case season; case _season
 		case text; case _text
 		case year; case _year
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.date = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.day = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .day, auxiliaryKey: ._day)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.month = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .month, auxiliaryKey: ._month)
 		self.season = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .season, auxiliaryKey: ._season)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		self.year = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .year, auxiliaryKey: ._year)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try day?.encode(on: &_container, forKey: .day, auxiliaryKey: ._day)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try month?.encode(on: &_container, forKey: .month, auxiliaryKey: ._month)
 		try season?.encode(on: &_container, forKey: .season, auxiliaryKey: ._season)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try year?.encode(on: &_container, forKey: .year, auxiliaryKey: ._year)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return date == _other.date
-		    && day == _other.day
-		    && month == _other.month
-		    && season == _other.season
-		    && text == _other.text
-		    && year == _other.year
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(date)
-		hasher.combine(day)
-		hasher.combine(month)
-		hasher.combine(season)
-		hasher.combine(text)
-		hasher.combine(year)
 	}
 }
 
 /**
  The collection the cited article or artifact is published in.
  */
-open class CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
+public struct CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 	
-	/// Kind of container (e.g. Periodical, database, or book)
-	public var type: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Journal identifiers include ISSN, ISO Abbreviation and NLMuniqueID; Book identifiers include ISBN
 	public var identifier: [Identifier]?
 	
-	/// Name of the database or title of the book or journal
-	public var title: FHIRPrimitive<FHIRString>?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Name of the publisher
 	public var publisher: Reference?
@@ -1928,13 +1742,18 @@ open class CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 	/// Geographic location of the publisher
 	public var publisherLocation: FHIRPrimitive<FHIRString>?
 	
+	/// Name of the database or title of the book or journal
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Kind of container (e.g. Periodical, database, or book)
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		identifier: [Identifier]? = nil,
@@ -1958,77 +1777,67 @@ open class CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case publisher
 		case publisherLocation; case _publisherLocation
 		case title; case _title
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.publisher = try Reference(from: _container, forKeyIfPresent: .publisher)
 		self.publisherLocation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisherLocation, auxiliaryKey: ._publisherLocation)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try publisher?.encode(on: &_container, forKey: .publisher)
 		try publisherLocation?.encode(on: &_container, forKey: .publisherLocation, auxiliaryKey: ._publisherLocation)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactPublicationFormPublishedIn else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return identifier == _other.identifier
-		    && publisher == _other.publisher
-		    && publisherLocation == _other.publisherLocation
-		    && title == _other.title
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(identifier)
-		hasher.combine(publisher)
-		hasher.combine(publisherLocation)
-		hasher.combine(title)
-		hasher.combine(type)
 	}
 }
 
 /**
  The artifact related to the cited artifact.
  */
-open class CitationCitedArtifactRelatesTo: BackboneElement {
+public struct CitationCitedArtifactRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
-	public enum TargetX: Hashable {
+	public enum TargetX: Equatable, Hashable, Sendable {
 		case attachment(Attachment)
 		case identifier(Identifier)
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// How the cited artifact relates to the target artifact
 	public var relationshipType: CodeableConcept
@@ -2044,11 +1853,10 @@ open class CitationCitedArtifactRelatesTo: BackboneElement {
 	public init(relationshipType: CodeableConcept, target: TargetX) {
 		self.relationshipType = relationshipType
 		self.target = target
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -2066,6 +1874,9 @@ open class CitationCitedArtifactRelatesTo: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case relationshipType
 		case targetAttachment
 		case targetClassifier
@@ -2073,9 +1884,9 @@ open class CitationCitedArtifactRelatesTo: BackboneElement {
 		case targetReference
 		case targetUri; case _targetUri
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -2083,7 +1894,10 @@ open class CitationCitedArtifactRelatesTo: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.targetAttachment, CodingKeys.targetIdentifier, CodingKeys.targetReference, CodingKeys.targetUri], debugDescription: "Must have at least one value for \"target\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.relationshipType = try CodeableConcept(from: _container, forKey: .relationshipType)
 		self.targetClassifier = try [CodeableConcept](from: _container, forKeyIfPresent: .targetClassifier)
 		var _t_target: TargetX? = nil
@@ -2112,14 +1926,15 @@ open class CitationCitedArtifactRelatesTo: BackboneElement {
 			_t_target = .attachment(targetAttachment)
 		}
 		self.target = _t_target!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try relationshipType.encode(on: &_container, forKey: .relationshipType)
 		try targetClassifier?.encode(on: &_container, forKey: .targetClassifier)
 		
@@ -2134,41 +1949,28 @@ open class CitationCitedArtifactRelatesTo: BackboneElement {
 				try _value.encode(on: &_container, forKey: .targetAttachment)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactRelatesTo else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return relationshipType == _other.relationshipType
-		    && targetClassifier == _other.targetClassifier
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(relationshipType)
-		hasher.combine(targetClassifier)
-		hasher.combine(target)
 	}
 }
 
 /**
  An effective date or period for a status of the cited artifact.
  */
-open class CitationCitedArtifactStatusDate: BackboneElement {
+public struct CitationCitedArtifactStatusDate: BackboneElement {
 	
 	/// Classification of the status
 	public var activity: CodeableConcept
 	
 	/// Either occurred or expected
 	public var actual: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// When the status started and/or ended
 	public var period: Period
@@ -2177,11 +1979,10 @@ open class CitationCitedArtifactStatusDate: BackboneElement {
 	public init(activity: CodeableConcept, period: Period) {
 		self.activity = activity
 		self.period = period
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		activity: CodeableConcept,
 		actual: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -2201,75 +2002,68 @@ open class CitationCitedArtifactStatusDate: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case activity
 		case actual; case _actual
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case period
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.activity = try CodeableConcept(from: _container, forKey: .activity)
 		self.actual = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .actual, auxiliaryKey: ._actual)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKey: .period)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try activity.encode(on: &_container, forKey: .activity)
 		try actual?.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period.encode(on: &_container, forKey: .period)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactStatusDate else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return activity == _other.activity
-		    && actual == _other.actual
-		    && period == _other.period
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(activity)
-		hasher.combine(actual)
-		hasher.combine(period)
 	}
 }
 
 /**
  The title details of the article or artifact.
  */
-open class CitationCitedArtifactTitle: BackboneElement {
+public struct CitationCitedArtifactTitle: BackboneElement {
 	
-	/// The kind of title
-	public var type: [CodeableConcept]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Used to express the specific language
 	public var language: CodeableConcept?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// The title of the article or artifact
 	public var text: FHIRPrimitive<FHIRString>
+	
+	/// The kind of title
+	public var type: [CodeableConcept]?
 	
 	/// Designated initializer taking all required properties
 	public init(text: FHIRPrimitive<FHIRString>) {
 		self.text = text
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		language: CodeableConcept? = nil,
@@ -2288,74 +2082,67 @@ open class CitationCitedArtifactTitle: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case language
+		case modifierExtension
 		case text; case _text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try CodeableConcept(from: _container, forKeyIfPresent: .language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKey: .text, auxiliaryKey: ._text)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language?.encode(on: &_container, forKey: .language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try text.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactTitle else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return language == _other.language
-		    && text == _other.text
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(language)
-		hasher.combine(text)
-		hasher.combine(type)
 	}
 }
 
 /**
  The defined version of the cited artifact.
  */
-open class CitationCitedArtifactVersion: BackboneElement {
-	
-	/// The version number or other version identifier
-	public var value: FHIRPrimitive<FHIRString>
+public struct CitationCitedArtifactVersion: BackboneElement {
 	
 	/// Citation for the main version of the cited artifact
 	public var baseCitation: Reference?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The version number or other version identifier
+	public var value: FHIRPrimitive<FHIRString>
+	
 	/// Designated initializer taking all required properties
 	public init(value: FHIRPrimitive<FHIRString>) {
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		baseCitation: Reference? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -2373,53 +2160,49 @@ open class CitationCitedArtifactVersion: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case baseCitation
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case value; case _value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.baseCitation = try Reference(from: _container, forKeyIfPresent: .baseCitation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.value = try FHIRPrimitive<FHIRString>(from: _container, forKey: .value, auxiliaryKey: ._value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try baseCitation?.encode(on: &_container, forKey: .baseCitation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try value.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactVersion else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return baseCitation == _other.baseCitation
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(baseCitation)
-		hasher.combine(value)
 	}
 }
 
 /**
  Used for any URL for the article or artifact cited.
  */
-open class CitationCitedArtifactWebLocation: BackboneElement {
+public struct CitationCitedArtifactWebLocation: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Code the reason for different URLs, e.g. abstract and full-text
 	public var type: CodeableConcept?
@@ -2428,12 +2211,11 @@ open class CitationCitedArtifactWebLocation: BackboneElement {
 	public var url: FHIRPrimitive<FHIRURI>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -2451,68 +2233,63 @@ open class CitationCitedArtifactWebLocation: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case url; case _url
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationCitedArtifactWebLocation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && url == _other.url
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(url)
 	}
 }
 
 /**
  The assignment to an organizing scheme.
  */
-open class CitationClassification: BackboneElement {
-	
-	/// The kind of classifier (e.g. publication type, keyword)
-	public var type: CodeableConcept?
+public struct CitationClassification: BackboneElement {
 	
 	/// The specific classification value
 	public var classifier: [CodeableConcept]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The kind of classifier (e.g. publication type, keyword)
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		classifier: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -2531,61 +2308,57 @@ open class CitationClassification: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case classifier
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.classifier = try [CodeableConcept](from: _container, forKeyIfPresent: .classifier)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try classifier?.encode(on: &_container, forKey: .classifier)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationClassification else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return classifier == _other.classifier
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(classifier)
-		hasher.combine(type)
 	}
 }
 
 /**
  Artifact related to the Citation Resource.
  */
-open class CitationRelatesTo: BackboneElement {
+public struct CitationRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
-	public enum TargetX: Hashable {
+	public enum TargetX: Equatable, Hashable, Sendable {
 		case attachment(Attachment)
 		case identifier(Identifier)
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// How the Citation resource relates to the target artifact
 	public var relationshipType: CodeableConcept
@@ -2601,11 +2374,10 @@ open class CitationRelatesTo: BackboneElement {
 	public init(relationshipType: CodeableConcept, target: TargetX) {
 		self.relationshipType = relationshipType
 		self.target = target
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -2623,6 +2395,9 @@ open class CitationRelatesTo: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case relationshipType
 		case targetAttachment
 		case targetClassifier
@@ -2630,9 +2405,9 @@ open class CitationRelatesTo: BackboneElement {
 		case targetReference
 		case targetUri; case _targetUri
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -2640,7 +2415,10 @@ open class CitationRelatesTo: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.targetAttachment, CodingKeys.targetIdentifier, CodingKeys.targetReference, CodingKeys.targetUri], debugDescription: "Must have at least one value for \"target\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.relationshipType = try CodeableConcept(from: _container, forKey: .relationshipType)
 		self.targetClassifier = try [CodeableConcept](from: _container, forKeyIfPresent: .targetClassifier)
 		var _t_target: TargetX? = nil
@@ -2669,14 +2447,15 @@ open class CitationRelatesTo: BackboneElement {
 			_t_target = .attachment(targetAttachment)
 		}
 		self.target = _t_target!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try relationshipType.encode(on: &_container, forKey: .relationshipType)
 		try targetClassifier?.encode(on: &_container, forKey: .targetClassifier)
 		
@@ -2691,41 +2470,28 @@ open class CitationRelatesTo: BackboneElement {
 				try _value.encode(on: &_container, forKey: .targetAttachment)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationRelatesTo else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return relationshipType == _other.relationshipType
-		    && targetClassifier == _other.targetClassifier
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(relationshipType)
-		hasher.combine(targetClassifier)
-		hasher.combine(target)
 	}
 }
 
 /**
  An effective date or period for a status of the citation.
  */
-open class CitationStatusDate: BackboneElement {
+public struct CitationStatusDate: BackboneElement {
 	
 	/// Classification of the status
 	public var activity: CodeableConcept
 	
 	/// Either occurred or expected
 	public var actual: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// When the status started and/or ended
 	public var period: Period
@@ -2734,11 +2500,10 @@ open class CitationStatusDate: BackboneElement {
 	public init(activity: CodeableConcept, period: Period) {
 		self.activity = activity
 		self.period = period
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		activity: CodeableConcept,
 		actual: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -2758,57 +2523,51 @@ open class CitationStatusDate: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case activity
 		case actual; case _actual
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case period
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.activity = try CodeableConcept(from: _container, forKey: .activity)
 		self.actual = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .actual, auxiliaryKey: ._actual)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKey: .period)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try activity.encode(on: &_container, forKey: .activity)
 		try actual?.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period.encode(on: &_container, forKey: .period)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationStatusDate else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return activity == _other.activity
-		    && actual == _other.actual
-		    && period == _other.period
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(activity)
-		hasher.combine(actual)
-		hasher.combine(period)
 	}
 }
 
 /**
  A human-readable display of the citation.
  */
-open class CitationSummary: BackboneElement {
+public struct CitationSummary: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Format for display of the citation
 	public var style: CodeableConcept?
@@ -2819,11 +2578,10 @@ open class CitationSummary: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(text: FHIRPrimitive<FHIRString>) {
 		self.text = text
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -2840,46 +2598,33 @@ open class CitationSummary: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case style
 		case text; case _text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.style = try CodeableConcept(from: _container, forKeyIfPresent: .style)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKey: .text, auxiliaryKey: ._text)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try style?.encode(on: &_container, forKey: .style)
 		try text.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CitationSummary else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return style == _other.style
-		    && text == _other.text
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(style)
-		hasher.combine(text)
 	}
 }

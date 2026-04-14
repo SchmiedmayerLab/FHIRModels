@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,19 @@ import FMCore
  */
 public enum MessageEvent: String, FHIRPrimitiveType {
 	
+	/// Notification of a change to an administrative resource (either create or update). Note that there is no delete,
+	/// though some administrative resources have status or period elements for this use.
+	case adminNotify = "admin-notify"
+	
 	/// The definition of a code system is used to create a simple collection of codes suitable for use for data entry
 	/// or validation. An expanded code system will be returned, or an error message.
 	case codeSystemExpand = "CodeSystem-expand"
+	
+	/// Notification to convey information.
+	case communicationRequest = "communication-request"
+	
+	/// Provide a diagnostic report, or update a previously provided diagnostic report.
+	case diagnosticreportProvide = "diagnosticreport-provide"
 	
 	/// Change the status of a Medication Administration to show that it is complete.
 	case medicationAdministrationComplete = "MedicationAdministration-Complete"
@@ -42,16 +52,6 @@ public enum MessageEvent: String, FHIRPrimitiveType {
 	
 	/// Update a Medication Administration record.
 	case medicationAdministrationUpdate = "MedicationAdministration-Update"
-	
-	/// Notification of a change to an administrative resource (either create or update). Note that there is no delete,
-	/// though some administrative resources have status or period elements for this use.
-	case adminNotify = "admin-notify"
-	
-	/// Notification to convey information.
-	case communicationRequest = "communication-request"
-	
-	/// Provide a diagnostic report, or update a previously provided diagnostic report.
-	case diagnosticreportProvide = "diagnosticreport-provide"
 	
 	/// Provide a simple observation or update a previously provided simple observation.
 	case observationProvide = "observation-provide"

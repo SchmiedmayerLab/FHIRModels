@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,18 @@ import FMCore
  */
 public enum FHIRDeviceStatusReason: String, FHIRPrimitiveType {
 	
+	/// The device hardware is disconnected.
+	case hwDiscon = "hw-discon"
+	
+	/// The device is not ready.
+	case notReady = "not-ready"
+	
+	/// The device is off.
+	case off
+	
+	/// The device is offline.
+	case offline
+	
 	/// The device is off.
 	case online
 	
@@ -36,18 +48,6 @@ public enum FHIRDeviceStatusReason: String, FHIRPrimitiveType {
 	/// The device is ready but not actively operating.
 	case standby
 	
-	/// The device is offline.
-	case offline
-	
-	/// The device is not ready.
-	case notReady = "not-ready"
-	
 	/// The device transducer is disconnected.
 	case transducDiscon = "transduc-discon"
-	
-	/// The device hardware is disconnected.
-	case hwDiscon = "hw-discon"
-	
-	/// The device is off.
-	case off
 }

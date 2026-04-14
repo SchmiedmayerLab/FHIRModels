@@ -2,8 +2,8 @@
 //  PaymentReconciliation.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/PaymentReconciliation)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/PaymentReconciliation)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,69 +24,93 @@ import FMCore
  
  This resource provides the details including amount of a payment and allocates the payment items being paid.
  */
-open class PaymentReconciliation: DomainResource {
+public struct PaymentReconciliation: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .paymentReconciliation }
-	
-	/// Business Identifier for a payment reconciliation
-	public var identifier: [Identifier]?
-	
-	/// Category of payment
-	public var type: CodeableConcept
-	
-	/// The status of the resource instance.
-	public var status: FHIRPrimitive<FinancialResourceStatusCodes>
-	
-	/// Reason for status change
-	public var statusReason: FHIRPrimitive<FHIRString>?
-	
-	/// Workflow originating payment
-	public var kind: CodeableConcept?
-	
-	/// Period covered
-	public var period: Period?
-	
-	/// Creation date
-	public var created: FHIRPrimitive<DateTime>
-	
-	/// Who entered the payment
-	public var enterer: Reference?
-	
-	/// Nature of the source
-	public var issuerType: CodeableConcept?
-	
-	/// Party generating payment
-	public var paymentIssuer: Reference?
-	
-	/// Reference to requesting resource
-	public var request: Reference?
-	
-	/// Responsible practitioner
-	public var requestor: Reference?
-	
-	/// The outcome of a request for a reconciliation.
-	public var outcome: FHIRPrimitive<ClaimProcessingCodes>?
-	
-	/// Disposition message
-	public var disposition: FHIRPrimitive<FHIRString>?
-	
-	/// When payment issued
-	public var date: FHIRPrimitive<FHIRDate>
-	
-	/// Where payment collected
-	public var location: Reference?
-	
-	/// Payment instrument
-	public var method: CodeableConcept?
-	
-	/// Type of card
-	public var cardBrand: FHIRPrimitive<FHIRString>?
+	public static let resourceType: ResourceType = .paymentReconciliation
 	
 	/// Digits for verification
 	public var accountNumber: FHIRPrimitive<FHIRString>?
 	
+	/// Settlement particulars
+	public var allocation: [PaymentReconciliationAllocation]?
+	
+	/// Total amount of Payment
+	public var amount: Money?
+	
+	/// Authorization number
+	public var authorization: FHIRPrimitive<FHIRString>?
+	
+	/// Type of card
+	public var cardBrand: FHIRPrimitive<FHIRString>?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Creation date
+	public var created: FHIRPrimitive<DateTime>
+	
+	/// When payment issued
+	public var date: FHIRPrimitive<FHIRDate>
+	
+	/// Disposition message
+	public var disposition: FHIRPrimitive<FHIRString>?
+	
+	/// Who entered the payment
+	public var enterer: Reference?
+	
 	/// Expiration year-month
 	public var expirationDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Printed form identifier
+	public var formCode: CodeableConcept?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier for a payment reconciliation
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Nature of the source
+	public var issuerType: CodeableConcept?
+	
+	/// Workflow originating payment
+	public var kind: CodeableConcept?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Where payment collected
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Payment instrument
+	public var method: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The outcome of a request for a reconciliation.
+	public var outcome: FHIRPrimitive<ClaimProcessingCodes>?
+	
+	/// Business identifier for the payment
+	public var paymentIdentifier: Identifier?
+	
+	/// Party generating payment
+	public var paymentIssuer: Reference?
+	
+	/// Period covered
+	public var period: Period?
+	
+	/// Note concerning processing
+	public var processNote: [PaymentReconciliationProcessNote]?
 	
 	/// Processor name
 	public var processor: FHIRPrimitive<FHIRString>?
@@ -94,29 +118,29 @@ open class PaymentReconciliation: DomainResource {
 	/// Check number or payment reference
 	public var referenceNumber: FHIRPrimitive<FHIRString>?
 	
-	/// Authorization number
-	public var authorization: FHIRPrimitive<FHIRString>?
+	/// Reference to requesting resource
+	public var request: Reference?
 	
-	/// Amount offered by the issuer
-	public var tenderedAmount: Money?
+	/// Responsible practitioner
+	public var requestor: Reference?
 	
 	/// Amount returned by the receiver
 	public var returnedAmount: Money?
 	
-	/// Total amount of Payment
-	public var amount: Money?
+	/// The status of the resource instance.
+	public var status: FHIRPrimitive<FinancialResourceStatusCodes>
 	
-	/// Business identifier for the payment
-	public var paymentIdentifier: Identifier?
+	/// Reason for status change
+	public var statusReason: FHIRPrimitive<FHIRString>?
 	
-	/// Settlement particulars
-	public var allocation: [PaymentReconciliationAllocation]?
+	/// Amount offered by the issuer
+	public var tenderedAmount: Money?
 	
-	/// Printed form identifier
-	public var formCode: CodeableConcept?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
-	/// Note concerning processing
-	public var processNote: [PaymentReconciliationProcessNote]?
+	/// Category of payment
+	public var type: CodeableConcept
 	
 	/// Designated initializer taking all required properties
 	public init(created: FHIRPrimitive<DateTime>, date: FHIRPrimitive<FHIRDate>, status: FHIRPrimitive<FinancialResourceStatusCodes>, type: CodeableConcept) {
@@ -124,11 +148,10 @@ open class PaymentReconciliation: DomainResource {
 		self.date = date
 		self.status = status
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		accountNumber: FHIRPrimitive<FHIRString>? = nil,
 		allocation: [PaymentReconciliationAllocation]? = nil,
 		amount: Money? = nil,
@@ -208,22 +231,30 @@ open class PaymentReconciliation: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case accountNumber; case _accountNumber
 		case allocation
 		case amount
 		case authorization; case _authorization
 		case cardBrand; case _cardBrand
+		case contained
 		case created; case _created
 		case date; case _date
 		case disposition; case _disposition
 		case enterer
 		case expirationDate; case _expirationDate
+		case `extension` = "extension"
 		case formCode
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case issuerType
 		case kind
+		case language; case _language
 		case location
+		case meta
 		case method
+		case modifierExtension
 		case outcome; case _outcome
 		case paymentIdentifier
 		case paymentIssuer
@@ -237,30 +268,38 @@ open class PaymentReconciliation: DomainResource {
 		case status; case _status
 		case statusReason; case _statusReason
 		case tenderedAmount
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.accountNumber = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .accountNumber, auxiliaryKey: ._accountNumber)
 		self.allocation = try [PaymentReconciliationAllocation](from: _container, forKeyIfPresent: .allocation)
 		self.amount = try Money(from: _container, forKeyIfPresent: .amount)
 		self.authorization = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .authorization, auxiliaryKey: ._authorization)
 		self.cardBrand = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .cardBrand, auxiliaryKey: ._cardBrand)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKey: .created, auxiliaryKey: ._created)
 		self.date = try FHIRPrimitive<FHIRDate>(from: _container, forKey: .date, auxiliaryKey: ._date)
 		self.disposition = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .disposition, auxiliaryKey: ._disposition)
 		self.enterer = try Reference(from: _container, forKeyIfPresent: .enterer)
 		self.expirationDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .expirationDate, auxiliaryKey: ._expirationDate)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.formCode = try CodeableConcept(from: _container, forKeyIfPresent: .formCode)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.issuerType = try CodeableConcept(from: _container, forKeyIfPresent: .issuerType)
 		self.kind = try CodeableConcept(from: _container, forKeyIfPresent: .kind)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outcome = try FHIRPrimitive<ClaimProcessingCodes>(from: _container, forKeyIfPresent: .outcome, auxiliaryKey: ._outcome)
 		self.paymentIdentifier = try Identifier(from: _container, forKeyIfPresent: .paymentIdentifier)
 		self.paymentIssuer = try Reference(from: _container, forKeyIfPresent: .paymentIssuer)
@@ -274,31 +313,39 @@ open class PaymentReconciliation: DomainResource {
 		self.status = try FHIRPrimitive<FinancialResourceStatusCodes>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusReason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .statusReason, auxiliaryKey: ._statusReason)
 		self.tenderedAmount = try Money(from: _container, forKeyIfPresent: .tenderedAmount)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try accountNumber?.encode(on: &_container, forKey: .accountNumber, auxiliaryKey: ._accountNumber)
 		try allocation?.encode(on: &_container, forKey: .allocation)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try authorization?.encode(on: &_container, forKey: .authorization, auxiliaryKey: ._authorization)
 		try cardBrand?.encode(on: &_container, forKey: .cardBrand, auxiliaryKey: ._cardBrand)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try created.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
 		try date.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try disposition?.encode(on: &_container, forKey: .disposition, auxiliaryKey: ._disposition)
 		try enterer?.encode(on: &_container, forKey: .enterer)
 		try expirationDate?.encode(on: &_container, forKey: .expirationDate, auxiliaryKey: ._expirationDate)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try formCode?.encode(on: &_container, forKey: .formCode)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try issuerType?.encode(on: &_container, forKey: .issuerType)
 		try kind?.encode(on: &_container, forKey: .kind)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try outcome?.encode(on: &_container, forKey: .outcome, auxiliaryKey: ._outcome)
 		try paymentIdentifier?.encode(on: &_container, forKey: .paymentIdentifier)
 		try paymentIssuer?.encode(on: &_container, forKey: .paymentIssuer)
@@ -312,83 +359,8 @@ open class PaymentReconciliation: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason, auxiliaryKey: ._statusReason)
 		try tenderedAmount?.encode(on: &_container, forKey: .tenderedAmount)
+		try text?.encode(on: &_container, forKey: .text)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PaymentReconciliation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return accountNumber == _other.accountNumber
-		    && allocation == _other.allocation
-		    && amount == _other.amount
-		    && authorization == _other.authorization
-		    && cardBrand == _other.cardBrand
-		    && created == _other.created
-		    && date == _other.date
-		    && disposition == _other.disposition
-		    && enterer == _other.enterer
-		    && expirationDate == _other.expirationDate
-		    && formCode == _other.formCode
-		    && identifier == _other.identifier
-		    && issuerType == _other.issuerType
-		    && kind == _other.kind
-		    && location == _other.location
-		    && method == _other.method
-		    && outcome == _other.outcome
-		    && paymentIdentifier == _other.paymentIdentifier
-		    && paymentIssuer == _other.paymentIssuer
-		    && period == _other.period
-		    && processNote == _other.processNote
-		    && processor == _other.processor
-		    && referenceNumber == _other.referenceNumber
-		    && request == _other.request
-		    && requestor == _other.requestor
-		    && returnedAmount == _other.returnedAmount
-		    && status == _other.status
-		    && statusReason == _other.statusReason
-		    && tenderedAmount == _other.tenderedAmount
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(accountNumber)
-		hasher.combine(allocation)
-		hasher.combine(amount)
-		hasher.combine(authorization)
-		hasher.combine(cardBrand)
-		hasher.combine(created)
-		hasher.combine(date)
-		hasher.combine(disposition)
-		hasher.combine(enterer)
-		hasher.combine(expirationDate)
-		hasher.combine(formCode)
-		hasher.combine(identifier)
-		hasher.combine(issuerType)
-		hasher.combine(kind)
-		hasher.combine(location)
-		hasher.combine(method)
-		hasher.combine(outcome)
-		hasher.combine(paymentIdentifier)
-		hasher.combine(paymentIssuer)
-		hasher.combine(period)
-		hasher.combine(processNote)
-		hasher.combine(processor)
-		hasher.combine(referenceNumber)
-		hasher.combine(request)
-		hasher.combine(requestor)
-		hasher.combine(returnedAmount)
-		hasher.combine(status)
-		hasher.combine(statusReason)
-		hasher.combine(tenderedAmount)
-		hasher.combine(type)
 	}
 }
 
@@ -397,20 +369,56 @@ open class PaymentReconciliation: DomainResource {
  
  Distribution of the payment amount for a previously acknowledged payable.
  */
-open class PaymentReconciliationAllocation: BackboneElement {
+public struct PaymentReconciliationAllocation: BackboneElement {
 	
 	/// All possible types for "targetItem[x]"
-	public enum TargetItemX: Hashable {
+	public enum TargetItemX: Equatable, Hashable, Sendable {
 		case identifier(Identifier)
 		case positiveInt(FHIRPrimitive<FHIRPositiveInteger>)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
+	/// Applied-to account
+	public var account: Reference?
+	
+	/// Amount allocated to this payable
+	public var amount: Money?
+	
+	/// Date of commitment to pay
+	public var date: FHIRPrimitive<FHIRDate>?
+	
+	/// Applied-to encounter
+	public var encounter: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Business identifier of the payment detail
 	public var identifier: Identifier?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Applicable note numbers
+	public var noteNumber: [FHIRPrimitive<FHIRPositiveInteger>]?
+	
+	/// Recipient of the payment
+	public var payee: Reference?
+	
 	/// Business identifier of the prior payment detail
 	public var predecessor: Identifier?
+	
+	/// Response committing to a payment
+	public var response: Reference?
+	
+	/// Contact for the response
+	public var responsible: Reference?
+	
+	/// Submitter of the request
+	public var submitter: Reference?
 	
 	/// Subject of the payment
 	public var target: Reference?
@@ -419,43 +427,15 @@ open class PaymentReconciliationAllocation: BackboneElement {
 	/// One of `targetItem[x]`
 	public var targetItem: TargetItemX?
 	
-	/// Applied-to encounter
-	public var encounter: Reference?
-	
-	/// Applied-to account
-	public var account: Reference?
-	
 	/// Category of payment
 	public var type: CodeableConcept?
 	
-	/// Submitter of the request
-	public var submitter: Reference?
-	
-	/// Response committing to a payment
-	public var response: Reference?
-	
-	/// Date of commitment to pay
-	public var date: FHIRPrimitive<FHIRDate>?
-	
-	/// Contact for the response
-	public var responsible: Reference?
-	
-	/// Recipient of the payment
-	public var payee: Reference?
-	
-	/// Amount allocated to this payable
-	public var amount: Money?
-	
-	/// Applicable note numbers
-	public var noteNumber: [FHIRPrimitive<FHIRPositiveInteger>]?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		account: Reference? = nil,
 		amount: Money? = nil,
 		date: FHIRPrimitive<FHIRDate>? = nil,
@@ -501,7 +481,10 @@ open class PaymentReconciliationAllocation: BackboneElement {
 		case amount
 		case date; case _date
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case noteNumber; case _noteNumber
 		case payee
 		case predecessor
@@ -514,17 +497,20 @@ open class PaymentReconciliationAllocation: BackboneElement {
 		case targetItemString; case _targetItemString
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.account = try Reference(from: _container, forKeyIfPresent: .account)
 		self.amount = try Money(from: _container, forKeyIfPresent: .amount)
 		self.date = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.noteNumber = try [FHIRPrimitive<FHIRPositiveInteger>](from: _container, forKeyIfPresent: .noteNumber, auxiliaryKey: ._noteNumber)
 		self.payee = try Reference(from: _container, forKeyIfPresent: .payee)
 		self.predecessor = try Identifier(from: _container, forKeyIfPresent: .predecessor)
@@ -553,19 +539,20 @@ open class PaymentReconciliationAllocation: BackboneElement {
 		}
 		self.targetItem = _t_targetItem
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try noteNumber?.encode(on: &_container, forKey: .noteNumber, auxiliaryKey: ._noteNumber)
 		try payee?.encode(on: &_container, forKey: .payee)
 		try predecessor?.encode(on: &_container, forKey: .predecessor)
@@ -584,50 +571,6 @@ open class PaymentReconciliationAllocation: BackboneElement {
 			}
 		}
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PaymentReconciliationAllocation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return account == _other.account
-		    && amount == _other.amount
-		    && date == _other.date
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && noteNumber == _other.noteNumber
-		    && payee == _other.payee
-		    && predecessor == _other.predecessor
-		    && response == _other.response
-		    && responsible == _other.responsible
-		    && submitter == _other.submitter
-		    && target == _other.target
-		    && targetItem == _other.targetItem
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(account)
-		hasher.combine(amount)
-		hasher.combine(date)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(noteNumber)
-		hasher.combine(payee)
-		hasher.combine(predecessor)
-		hasher.combine(response)
-		hasher.combine(responsible)
-		hasher.combine(submitter)
-		hasher.combine(target)
-		hasher.combine(targetItem)
-		hasher.combine(type)
 	}
 }
 
@@ -636,27 +579,35 @@ open class PaymentReconciliationAllocation: BackboneElement {
  
  A note that describes or explains the processing in a human readable form.
  */
-open class PaymentReconciliationProcessNote: BackboneElement {
+public struct PaymentReconciliationProcessNote: BackboneElement {
 	
 	/// Business kind of note
 	public var `class`: CodeableConcept?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Note instance identifier
 	public var number: FHIRPrimitive<FHIRPositiveInteger>?
-	
-	/// The business purpose of the note text.
-	public var type: FHIRPrimitive<NoteType>?
 	
 	/// Note explanatory text
 	public var text: FHIRPrimitive<FHIRString>?
 	
+	/// The business purpose of the note text.
+	public var type: FHIRPrimitive<NoteType>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`class`: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -679,55 +630,38 @@ open class PaymentReconciliationProcessNote: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case `class` = "class"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case number; case _number
 		case text; case _text
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.`class` = try CodeableConcept(from: _container, forKeyIfPresent: .`class`)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.number = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .number, auxiliaryKey: ._number)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		self.type = try FHIRPrimitive<NoteType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try `class`?.encode(on: &_container, forKey: .`class`)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try number?.encode(on: &_container, forKey: .number, auxiliaryKey: ._number)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PaymentReconciliationProcessNote else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return `class` == _other.`class`
-		    && number == _other.number
-		    && text == _other.text
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(`class`)
-		hasher.combine(number)
-		hasher.combine(text)
-		hasher.combine(type)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,18 +28,18 @@ import FMCore
  */
 public enum SpecialArrangements: String, FHIRPrimitiveType {
 	
-	/// wheel
-	case wheel = "wheel"
-	
-	/// stret
-	case stret = "stret"
-	
-	/// int
-	case int = "int"
-	
 	/// att
-	case att = "att"
+	case att
 	
 	/// dog
-	case dog = "dog"
+	case dog
+	
+	/// int
+	case int
+	
+	/// stret
+	case stret
+	
+	/// wheel
+	case wheel
 }

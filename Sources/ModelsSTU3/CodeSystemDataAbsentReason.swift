@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,33 +27,33 @@ import FMCore
  */
 public enum DataAbsentReason: String, FHIRPrimitiveType {
 	
-	/// The value is not known.
-	case unknown = "unknown"
-	
 	/// The source human does not know the value.
-	case asked = "asked"
-	
-	/// There is reason to expect (from the workflow) that the value may become known.
-	case temp = "temp"
-	
-	/// The workflow didn't lead to this value being known.
-	case notAsked = "not-asked"
-	
-	/// The information is not available due to security, privacy or related reasons.
-	case masked = "masked"
-	
-	/// The source system wasn't capable of supporting this element.
-	case unsupported = "unsupported"
+	case asked
 	
 	/// The content of the data is represented in the resource narrative.
-	case astext = "astext"
+	case astext
 	
 	/// Some system or workflow process error means that the information is not available.
-	case error = "error"
+	case error
+	
+	/// The information is not available due to security, privacy or related reasons.
+	case masked
 	
 	/// NaN, standing for not a number, is a numeric data type value representing an undefined or unrepresentable value.
 	case naN = "NaN"
 	
+	/// The workflow didn't lead to this value being known.
+	case notAsked = "not-asked"
+	
 	/// The value is not available because the observation procedure (test, etc.) was not performed.
 	case notPerformed = "not-performed"
+	
+	/// There is reason to expect (from the workflow) that the value may become known.
+	case temp
+	
+	/// The value is not known.
+	case unknown
+	
+	/// The source system wasn't capable of supporting this element.
+	case unsupported
 }

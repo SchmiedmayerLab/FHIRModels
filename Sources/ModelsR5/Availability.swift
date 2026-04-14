@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/Availability)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,21 +22,26 @@ import FMCore
 /**
  Availability data for an {item}.
  */
-open class Availability: DataType {
+public struct Availability: DataType {
 	
 	/// Times the {item} is available
 	public var availableTime: [AvailabilityAvailableTime]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Not available during this time due to provided reason
 	public var notAvailableTime: [AvailabilityNotAvailableTime]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		availableTime: [AvailabilityAvailableTime]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -53,73 +58,62 @@ open class Availability: DataType {
 	
 	private enum CodingKeys: String, CodingKey {
 		case availableTime
+		case `extension` = "extension"
+		case id; case _id
 		case notAvailableTime
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.availableTime = try [AvailabilityAvailableTime](from: _container, forKeyIfPresent: .availableTime)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.notAvailableTime = try [AvailabilityNotAvailableTime](from: _container, forKeyIfPresent: .notAvailableTime)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try availableTime?.encode(on: &_container, forKey: .availableTime)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try notAvailableTime?.encode(on: &_container, forKey: .notAvailableTime)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Availability else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return availableTime == _other.availableTime
-		    && notAvailableTime == _other.notAvailableTime
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(availableTime)
-		hasher.combine(notAvailableTime)
 	}
 }
 
 /**
  Times the {item} is available.
  */
-open class AvailabilityAvailableTime: Element {
-	
-	/// None
-	public var daysOfWeek: [FHIRPrimitive<DaysOfWeek>]?
+public struct AvailabilityAvailableTime: Element {
 	
 	/// Always available? i.e. 24 hour service
 	public var allDay: FHIRPrimitive<FHIRBool>?
 	
-	/// Opening time of day (ignored if allDay = true)
-	public var availableStartTime: FHIRPrimitive<FHIRTime>?
-	
 	/// Closing time of day (ignored if allDay = true)
 	public var availableEndTime: FHIRPrimitive<FHIRTime>?
 	
+	/// Opening time of day (ignored if allDay = true)
+	public var availableStartTime: FHIRPrimitive<FHIRTime>?
+	
+	/// None
+	public var daysOfWeek: [FHIRPrimitive<DaysOfWeek>]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		allDay: FHIRPrimitive<FHIRBool>? = nil,
 		availableEndTime: FHIRPrimitive<FHIRTime>? = nil,
 		availableStartTime: FHIRPrimitive<FHIRTime>? = nil,
@@ -143,60 +137,40 @@ open class AvailabilityAvailableTime: Element {
 		case availableEndTime; case _availableEndTime
 		case availableStartTime; case _availableStartTime
 		case daysOfWeek; case _daysOfWeek
+		case `extension` = "extension"
+		case id; case _id
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.allDay = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .allDay, auxiliaryKey: ._allDay)
 		self.availableEndTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .availableEndTime, auxiliaryKey: ._availableEndTime)
 		self.availableStartTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .availableStartTime, auxiliaryKey: ._availableStartTime)
 		self.daysOfWeek = try [FHIRPrimitive<DaysOfWeek>](from: _container, forKeyIfPresent: .daysOfWeek, auxiliaryKey: ._daysOfWeek)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try allDay?.encode(on: &_container, forKey: .allDay, auxiliaryKey: ._allDay)
 		try availableEndTime?.encode(on: &_container, forKey: .availableEndTime, auxiliaryKey: ._availableEndTime)
 		try availableStartTime?.encode(on: &_container, forKey: .availableStartTime, auxiliaryKey: ._availableStartTime)
 		try daysOfWeek?.encode(on: &_container, forKey: .daysOfWeek, auxiliaryKey: ._daysOfWeek)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AvailabilityAvailableTime else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return allDay == _other.allDay
-		    && availableEndTime == _other.availableEndTime
-		    && availableStartTime == _other.availableStartTime
-		    && daysOfWeek == _other.daysOfWeek
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(allDay)
-		hasher.combine(availableEndTime)
-		hasher.combine(availableStartTime)
-		hasher.combine(daysOfWeek)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 	}
 }
 
 /**
  Not available during this time due to provided reason.
  */
-open class AvailabilityNotAvailableTime: Element {
+public struct AvailabilityNotAvailableTime: Element {
 	
 	/// Reason presented to the user explaining why time not available
 	public var description_fhir: FHIRPrimitive<FHIRString>?
@@ -204,13 +178,18 @@ open class AvailabilityNotAvailableTime: Element {
 	/// Service not available during this period
 	public var during: Period?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		during: Period? = nil,
 		`extension`: [Extension]? = nil,
@@ -228,44 +207,28 @@ open class AvailabilityNotAvailableTime: Element {
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case during
+		case `extension` = "extension"
+		case id; case _id
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.during = try Period(from: _container, forKeyIfPresent: .during)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try during?.encode(on: &_container, forKey: .during)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AvailabilityNotAvailableTime else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && during == _other.during
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(during)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 	}
 }

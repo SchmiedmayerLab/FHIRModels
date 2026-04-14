@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum MissingToothReasonCodes: String, FHIRPrimitiveType {
 	
-	/// Extraction
-	case E = "e"
-	
 	/// Congenital
 	case C = "c"
 	
-	/// Unknown
-	case U = "u"
+	/// Extraction
+	case E = "e"
 	
 	/// Other
 	case O = "o"
+	
+	/// Unknown
+	case U = "u"
 }

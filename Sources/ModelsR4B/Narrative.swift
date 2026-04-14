@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Narrative)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,24 +24,29 @@ import FMCore
  
  A human-readable summary of the resource conveying the essential clinical and business information for the resource.
  */
-open class Narrative: Element {
+public struct Narrative: Element {
+	
+	/// Limited xhtml content
+	public var div: FHIRPrimitive<FHIRString>
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The status of the narrative - whether it's entirely generated (from just the defined data or the extensions
 	/// too), or whether a human authored it and it may contain additional data.
 	public var status: FHIRPrimitive<NarrativeStatus>
 	
-	/// Limited xhtml content
-	public var div: FHIRPrimitive<FHIRString>
-	
 	/// Designated initializer taking all required properties
 	public init(div: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<NarrativeStatus>) {
 		self.div = div
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		div: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -56,45 +61,29 @@ open class Narrative: Element {
 	
 	private enum CodingKeys: String, CodingKey {
 		case div; case _div
+		case `extension` = "extension"
+		case id; case _id
 		case status; case _status
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.div = try FHIRPrimitive<FHIRString>(from: _container, forKey: .div, auxiliaryKey: ._div)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.status = try FHIRPrimitive<NarrativeStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try div.encode(on: &_container, forKey: .div, auxiliaryKey: ._div)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Narrative else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return div == _other.div
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(div)
-		hasher.combine(status)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -40,17 +40,17 @@ public enum MedicationStatementStatusCodes: String, FHIRPrimitiveType {
 	/// The medication may be taken at some time in the future.
 	case intended
 	
-	/// Actions implied by the statement have been permanently halted, before all of them occurred. This should not be
-	/// used if the statement was entered in error.
-	case stopped
+	/// The medication was not consumed by the patient
+	case notTaken = "not-taken"
 	
 	/// Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be
 	/// called 'suspended'.
 	case onHold = "on-hold"
 	
+	/// Actions implied by the statement have been permanently halted, before all of them occurred. This should not be
+	/// used if the statement was entered in error.
+	case stopped
+	
 	/// The state of the medication use is not currently known.
 	case unknown
-	
-	/// The medication was not consumed by the patient
-	case notTaken = "not-taken"
 }

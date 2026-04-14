@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/FormularyItem)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,26 +26,49 @@ import FMCore
  constraints of availability.  All of the information in this resource is specific to the inclusion of the item in the
  formulary and is not inherent to the item itself.
  */
-open class FormularyItem: DomainResource {
+public struct FormularyItem: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .formularyItem }
-	
-	/// Business identifier for this formulary item
-	public var identifier: [Identifier]?
+	public static let resourceType: ResourceType = .formularyItem
 	
 	/// Codes that identify this formulary item
 	public var code: CodeableConcept?
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier for this formulary item
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// The validity about the information of the formulary item and not of the underlying product or service itself.
 	public var status: FHIRPrimitive<FormularyItemStatusCodes>?
 	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -75,51 +98,54 @@ open class FormularyItem: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case code
+		case contained
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case status; case _status
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.status = try FHIRPrimitive<FormularyItemStatusCodes>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? FormularyItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && identifier == _other.identifier
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(identifier)
-		hasher.combine(status)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

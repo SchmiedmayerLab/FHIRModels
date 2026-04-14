@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,31 +27,31 @@ import FMCore
  */
 public enum GoalStatus: String, FHIRPrimitiveType {
 	
-	/// A goal is proposed for this patient
-	case proposed = "proposed"
-	
-	/// A goal is planned for this patient
-	case planned = "planned"
-	
 	/// A proposed goal was accepted
-	case accepted = "accepted"
+	case accepted
 	
-	/// A proposed goal was rejected
-	case rejected = "rejected"
+	/// The goal has been met and no further action is needed
+	case achieved
+	
+	/// The goal is no longer being sought
+	case cancelled
 	
 	/// The goal is being sought but has not yet been reached.  (Also applies if goal was reached in the past but there
 	/// has been regression and goal is being sought again)
 	case inProgress = "in-progress"
 	
-	/// The goal has been met and no further action is needed
-	case achieved = "achieved"
-	
-	/// The goal has been met, but ongoing activity is needed to sustain the goal objective
-	case sustaining = "sustaining"
-	
 	/// The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
 	case onHold = "on-hold"
 	
-	/// The goal is no longer being sought
-	case cancelled = "cancelled"
+	/// A goal is planned for this patient
+	case planned
+	
+	/// A goal is proposed for this patient
+	case proposed
+	
+	/// A proposed goal was rejected
+	case rejected
+	
+	/// The goal has been met, but ongoing activity is needed to sustain the goal objective
+	case sustaining
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,17 @@ import FMCore
  */
 public enum MedicationDispenseStatusReasonCodes: String, FHIRPrimitiveType {
 	
+	/// This therapy has been ordered as a backup to a preferred therapy. This order will be released when and if the
+	/// preferred therapy is unsuccessful.
+	case altchoice
+	
+	/// Clarification is required before the order can be acted upon.
+	case clarif
+	
+	/// The current level of the medication in the patient's system is too high. The medication is suspended to allow
+	/// the level to subside to a safer level.
+	case drughigh
+	
 	/// The order has been stopped by the prescriber but this fact has not necessarily captured electronically. Example:
 	/// A verbal stop, a fax, etc.
 	case frr01
@@ -49,17 +60,6 @@ public enum MedicationDispenseStatusReasonCodes: String, FHIRPrimitiveType {
 	/// necessary time, etc.
 	case frr06
 	
-	/// This therapy has been ordered as a backup to a preferred therapy. This order will be released when and if the
-	/// preferred therapy is unsuccessful.
-	case altchoice
-	
-	/// Clarification is required before the order can be acted upon.
-	case clarif
-	
-	/// The current level of the medication in the patient's system is too high. The medication is suspended to allow
-	/// the level to subside to a safer level.
-	case drughigh
-	
 	/// The patient has been admitted to a care facility and their community medications are suspended until hospital
 	/// discharge.
 	case hospadm
@@ -70,6 +70,12 @@ public enum MedicationDispenseStatusReasonCodes: String, FHIRPrimitiveType {
 	
 	/// Patient not available for a period of time due to a scheduled therapy, leave of absence or other reason.
 	case nonAvail = "non-avail"
+	
+	/// Drug no longer marketed Cannot supply.
+	case offmarket
+	
+	/// Drug out of stock. Cannot supply.
+	case outofstock
 	
 	/// The patient is pregnant or breast feeding. The therapy will be resumed when the pregnancy is complete and the
 	/// patient is no longer breastfeeding.
@@ -99,10 +105,4 @@ public enum MedicationDispenseStatusReasonCodes: String, FHIRPrimitiveType {
 	/// The patient was previously receiving a medication contraindicated with the current medication. The current
 	/// medication will remain on hold until the prior medication has been cleansed from their system.
 	case washout
-	
-	/// Drug out of stock. Cannot supply.
-	case outofstock
-	
-	/// Drug no longer marketed Cannot supply.
-	case offmarket
 }

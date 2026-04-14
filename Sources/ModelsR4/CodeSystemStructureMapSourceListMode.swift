@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ public enum StructureMapSourceListMode: String, FHIRPrimitiveType {
 	/// Only process this rule for the first in the list.
 	case first
 	
-	/// Process this rule for all but the first.
-	case not_first
-	
 	/// Only process this rule for the last in the list.
 	case last
+	
+	/// Process this rule for all but the first.
+	case not_first
 	
 	/// Process this rule for all but the last.
 	case not_last

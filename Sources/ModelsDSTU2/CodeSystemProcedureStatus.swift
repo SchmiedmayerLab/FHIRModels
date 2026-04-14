@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum ProcedureStatus: String, FHIRPrimitiveType {
 	
-	/// The procedure is still occurring.
-	case inProgress = "in-progress"
-	
 	/// The procedure was terminated without completing successfully.
-	case aborted = "aborted"
+	case aborted
 	
 	/// All actions involved in the procedure have taken place.
-	case completed = "completed"
+	case completed
 	
 	/// The statement was entered in error and Is not valid.
 	case enteredInError = "entered-in-error"
+	
+	/// The procedure is still occurring.
+	case inProgress = "in-progress"
 }

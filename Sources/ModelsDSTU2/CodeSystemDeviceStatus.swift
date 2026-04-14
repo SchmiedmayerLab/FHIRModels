@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
 public enum DeviceStatus: String, FHIRPrimitiveType {
 	
 	/// The Device is available for use.
-	case available = "available"
-	
-	/// The Device is no longer available for use (e.g. lost, expired, damaged).
-	case notAvailable = "not-available"
+	case available
 	
 	/// The Device was entered in error and voided.
 	case enteredInError = "entered-in-error"
+	
+	/// The Device is no longer available for use (e.g. lost, expired, damaged).
+	case notAvailable = "not-available"
 }

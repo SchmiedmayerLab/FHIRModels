@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,9 +26,9 @@ import FMCore
  */
 public enum ParticipantType: String, FHIRPrimitiveType {
 	
-	/// A translator who is facilitating communication with the patient during the encounter.
-	case translator
-	
 	/// A person to be contacted in case of an emergency during the encounter.
 	case emergency
+	
+	/// A translator who is facilitating communication with the patient during the encounter.
+	case translator
 }

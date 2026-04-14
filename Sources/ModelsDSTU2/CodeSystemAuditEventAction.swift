@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,18 +28,18 @@ import FMCore
 public enum AuditEventAction: String, FHIRPrimitiveType {
 	
 	/// Create a new database object, such as placing an order.
-	case C = "C"
-	
-	/// Display or print data, such as a doctor census.
-	case R = "R"
-	
-	/// Update data, such as revise patient information.
-	case U = "U"
+	case C
 	
 	/// Delete items, such as a doctor master file record.
-	case D = "D"
+	case D
 	
 	/// Perform a system or application function such as log-on, program execution or use of an object's method, or
 	/// perform a query/search operation.
-	case E = "E"
+	case E
+	
+	/// Display or print data, such as a doctor census.
+	case R
+	
+	/// Update data, such as revise patient information.
+	case U
 }

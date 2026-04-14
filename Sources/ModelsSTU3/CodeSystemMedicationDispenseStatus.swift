@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,11 @@ import FMCore
  */
 public enum MedicationDispenseStatus: String, FHIRPrimitiveType {
 	
-	/// The core event has not started yet, but some staging activities have begun (e.g. initial compounding or
-	/// packaging of medication). Preparation stages may be tracked for billing purposes.
-	case preparation = "preparation"
+	/// All actions that are implied by the dispense have occurred.
+	case completed
+	
+	/// The dispense was entered in error and therefore nullified.
+	case enteredInError = "entered-in-error"
 	
 	/// The dispense has started but has not yet completed.
 	case inProgress = "in-progress"
@@ -38,12 +40,10 @@ public enum MedicationDispenseStatus: String, FHIRPrimitiveType {
 	/// be called "suspended"
 	case onHold = "on-hold"
 	
-	/// All actions that are implied by the dispense have occurred.
-	case completed = "completed"
-	
-	/// The dispense was entered in error and therefore nullified.
-	case enteredInError = "entered-in-error"
+	/// The core event has not started yet, but some staging activities have begun (e.g. initial compounding or
+	/// packaging of medication). Preparation stages may be tracked for billing purposes.
+	case preparation
 	
 	/// Actions implied by the dispense have been permanently halted, before all of them occurred.
-	case stopped = "stopped"
+	case stopped
 }

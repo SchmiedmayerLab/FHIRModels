@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Meta)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,16 +25,16 @@ import FMCore
  The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to the
  content might not always be associated with version changes to the resource.
  */
-open class Meta: Element {
+public struct Meta: Element {
 	
-	/// Version specific identifier
-	public var versionId: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// When the resource version last changed
 	public var lastUpdated: FHIRPrimitive<Instant>?
-	
-	/// Identifies where the resource comes from
-	public var source: FHIRPrimitive<FHIRURI>?
 	
 	/// Profiles this resource claims to conform to
 	public var profile: [FHIRPrimitive<Canonical>]?
@@ -42,16 +42,21 @@ open class Meta: Element {
 	/// Security Labels applied to this resource
 	public var security: [Coding]?
 	
+	/// Identifies where the resource comes from
+	public var source: FHIRPrimitive<FHIRURI>?
+	
 	/// Tags applied to this resource
 	public var tag: [Coding]?
 	
+	/// Version specific identifier
+	public var versionId: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		lastUpdated: FHIRPrimitive<Instant>? = nil,
@@ -75,6 +80,8 @@ open class Meta: Element {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case lastUpdated; case _lastUpdated
 		case profile; case _profile
 		case security
@@ -82,59 +89,33 @@ open class Meta: Element {
 		case tag
 		case versionId; case _versionId
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.lastUpdated = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .lastUpdated, auxiliaryKey: ._lastUpdated)
 		self.profile = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .profile, auxiliaryKey: ._profile)
 		self.security = try [Coding](from: _container, forKeyIfPresent: .security)
 		self.source = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .source, auxiliaryKey: ._source)
 		self.tag = try [Coding](from: _container, forKeyIfPresent: .tag)
 		self.versionId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionId, auxiliaryKey: ._versionId)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try lastUpdated?.encode(on: &_container, forKey: .lastUpdated, auxiliaryKey: ._lastUpdated)
 		try profile?.encode(on: &_container, forKey: .profile, auxiliaryKey: ._profile)
 		try security?.encode(on: &_container, forKey: .security)
 		try source?.encode(on: &_container, forKey: .source, auxiliaryKey: ._source)
 		try tag?.encode(on: &_container, forKey: .tag)
 		try versionId?.encode(on: &_container, forKey: .versionId, auxiliaryKey: ._versionId)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Meta else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return lastUpdated == _other.lastUpdated
-		    && profile == _other.profile
-		    && security == _other.security
-		    && source == _other.source
-		    && tag == _other.tag
-		    && versionId == _other.versionId
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(lastUpdated)
-		hasher.combine(profile)
-		hasher.combine(security)
-		hasher.combine(source)
-		hasher.combine(tag)
-		hasher.combine(versionId)
 	}
 }

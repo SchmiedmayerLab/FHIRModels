@@ -2,8 +2,8 @@
 //  RiskAssessment.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/RiskAssessment)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/RiskAssessment)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,105 +24,128 @@ import FMCore
  
  An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
  */
-open class RiskAssessment: DomainResource {
+public struct RiskAssessment: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .riskAssessment }
+	public static let resourceType: ResourceType = .riskAssessment
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
 	
 	/// All possible types for "reason[x]"
-	public enum ReasonX: Hashable {
+	public enum ReasonX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// Unique identifier for the assessment
-	public var identifier: Identifier?
-	
 	/// Request fulfilled by this assessment
 	public var basedOn: Reference?
 	
-	/// Part of this occurrence
-	public var parent: Reference?
-	
-	/// The status of the RiskAssessment, using the same statuses as an Observation.
-	public var status: FHIRPrimitive<ObservationStatus>
-	
-	/// Evaluation mechanism
-	public var method: CodeableConcept?
+	/// Information used in assessment
+	public var basis: [Reference]?
 	
 	/// Type of assessment
 	public var code: CodeableConcept?
 	
-	/// Who/what does assessment apply to?
-	public var subject: Reference?
+	/// Comments on the risk assessment
+	public var comment: FHIRPrimitive<FHIRString>?
+	
+	/// Condition assessed
+	public var condition: Reference?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Where was assessment performed?
 	public var context: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique identifier for the assessment
+	public var identifier: Identifier?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Evaluation mechanism
+	public var method: CodeableConcept?
+	
+	/// How to reduce risk
+	public var mitigation: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// When was assessment made?
 	/// One of `occurrence[x]`
 	public var occurrence: OccurrenceX?
 	
-	/// Condition assessed
-	public var condition: Reference?
+	/// Part of this occurrence
+	public var parent: Reference?
 	
 	/// Who did assessment?
 	public var performer: Reference?
+	
+	/// Outcome predicted
+	public var prediction: [RiskAssessmentPrediction]?
 	
 	/// Why the assessment was necessary?
 	/// One of `reason[x]`
 	public var reason: ReasonX?
 	
-	/// Information used in assessment
-	public var basis: [Reference]?
+	/// The status of the RiskAssessment, using the same statuses as an Observation.
+	public var status: FHIRPrimitive<ObservationStatus>
 	
-	/// Outcome predicted
-	public var prediction: [RiskAssessmentPrediction]?
+	/// Who/what does assessment apply to?
+	public var subject: Reference?
 	
-	/// How to reduce risk
-	public var mitigation: FHIRPrimitive<FHIRString>?
-	
-	/// Comments on the risk assessment
-	public var comment: FHIRPrimitive<FHIRString>?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<ObservationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							basedOn: Reference? = nil,
-							basis: [Reference]? = nil,
-							code: CodeableConcept? = nil,
-							comment: FHIRPrimitive<FHIRString>? = nil,
-							condition: Reference? = nil,
-							contained: [ResourceProxy]? = nil,
-							context: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: Identifier? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							method: CodeableConcept? = nil,
-							mitigation: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							occurrence: OccurrenceX? = nil,
-							parent: Reference? = nil,
-							performer: Reference? = nil,
-							prediction: [RiskAssessmentPrediction]? = nil,
-							reason: ReasonX? = nil,
-							status: FHIRPrimitive<ObservationStatus>,
-							subject: Reference? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		basedOn: Reference? = nil,
+		basis: [Reference]? = nil,
+		code: CodeableConcept? = nil,
+		comment: FHIRPrimitive<FHIRString>? = nil,
+		condition: Reference? = nil,
+		contained: [ResourceProxy]? = nil,
+		context: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		method: CodeableConcept? = nil,
+		mitigation: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		occurrence: OccurrenceX? = nil,
+		parent: Reference? = nil,
+		performer: Reference? = nil,
+		prediction: [RiskAssessmentPrediction]? = nil,
+		reason: ReasonX? = nil,
+		status: FHIRPrimitive<ObservationStatus>,
+		subject: Reference? = nil,
+		text: Narrative? = nil
+	) {
 		self.init(status: status)
 		self.basedOn = basedOn
 		self.basis = basis
@@ -152,15 +175,23 @@ open class RiskAssessment: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
 		case basis
 		case code
 		case comment; case _comment
 		case condition
+		case contained
 		case context
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
 		case method
 		case mitigation; case _mitigation
+		case modifierExtension
 		case occurrenceDateTime; case _occurrenceDateTime
 		case occurrencePeriod
 		case parent
@@ -170,22 +201,30 @@ open class RiskAssessment: DomainResource {
 		case reasonReference
 		case status; case _status
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try Reference(from: _container, forKeyIfPresent: .basedOn)
 		self.basis = try [Reference](from: _container, forKeyIfPresent: .basis)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.comment = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
 		self.condition = try Reference(from: _container, forKeyIfPresent: .condition)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.context = try Reference(from: _container, forKeyIfPresent: .context)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
 		self.mitigation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .mitigation, auxiliaryKey: ._mitigation)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
 			if _t_occurrence != nil {
@@ -219,23 +258,31 @@ open class RiskAssessment: DomainResource {
 		self.reason = _t_reason
 		self.status = try FHIRPrimitive<ObservationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try basis?.encode(on: &_container, forKey: .basis)
 		try code?.encode(on: &_container, forKey: .code)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try condition?.encode(on: &_container, forKey: .condition)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try context?.encode(on: &_container, forKey: .context)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try method?.encode(on: &_container, forKey: .method)
 		try mitigation?.encode(on: &_container, forKey: .mitigation, auxiliaryKey: ._mitigation)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = occurrence {
 			switch _enum {
 			case .dateTime(let _value):
@@ -257,54 +304,7 @@ open class RiskAssessment: DomainResource {
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RiskAssessment else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && basis == _other.basis
-		    && code == _other.code
-		    && comment == _other.comment
-		    && condition == _other.condition
-		    && context == _other.context
-		    && identifier == _other.identifier
-		    && method == _other.method
-		    && mitigation == _other.mitigation
-		    && occurrence == _other.occurrence
-		    && parent == _other.parent
-		    && performer == _other.performer
-		    && prediction == _other.prediction
-		    && reason == _other.reason
-		    && status == _other.status
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(basis)
-		hasher.combine(code)
-		hasher.combine(comment)
-		hasher.combine(condition)
-		hasher.combine(context)
-		hasher.combine(identifier)
-		hasher.combine(method)
-		hasher.combine(mitigation)
-		hasher.combine(occurrence)
-		hasher.combine(parent)
-		hasher.combine(performer)
-		hasher.combine(prediction)
-		hasher.combine(reason)
-		hasher.combine(status)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -313,19 +313,28 @@ open class RiskAssessment: DomainResource {
  
  Describes the expected outcome for the subject.
  */
-open class RiskAssessmentPrediction: BackboneElement {
+public struct RiskAssessmentPrediction: BackboneElement {
 	
 	/// All possible types for "probability[x]"
-	public enum ProbabilityX: Hashable {
+	public enum ProbabilityX: Equatable, Hashable, Sendable {
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case range(Range)
 	}
 	
 	/// All possible types for "when[x]"
-	public enum WhenX: Hashable {
+	public enum WhenX: Equatable, Hashable, Sendable {
 		case period(Period)
 		case range(Range)
 	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Possible outcome for the subject
 	public var outcome: CodeableConcept
@@ -337,6 +346,9 @@ open class RiskAssessmentPrediction: BackboneElement {
 	/// Likelihood of specified outcome as a qualitative value
 	public var qualitativeRisk: CodeableConcept?
 	
+	/// Explanation of prediction
+	public var rationale: FHIRPrimitive<FHIRString>?
+	
 	/// Relative likelihood
 	public var relativeRisk: FHIRPrimitive<FHIRDecimal>?
 	
@@ -344,27 +356,23 @@ open class RiskAssessmentPrediction: BackboneElement {
 	/// One of `when[x]`
 	public var when: WhenX?
 	
-	/// Explanation of prediction
-	public var rationale: FHIRPrimitive<FHIRString>?
-	
 	/// Designated initializer taking all required properties
 	public init(outcome: CodeableConcept) {
 		self.outcome = outcome
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							outcome: CodeableConcept,
-							probability: ProbabilityX? = nil,
-							qualitativeRisk: CodeableConcept? = nil,
-							rationale: FHIRPrimitive<FHIRString>? = nil,
-							relativeRisk: FHIRPrimitive<FHIRDecimal>? = nil,
-							when: WhenX? = nil)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		outcome: CodeableConcept,
+		probability: ProbabilityX? = nil,
+		qualitativeRisk: CodeableConcept? = nil,
+		rationale: FHIRPrimitive<FHIRString>? = nil,
+		relativeRisk: FHIRPrimitive<FHIRDecimal>? = nil,
+		when: WhenX? = nil
+	) {
 		self.init(outcome: outcome)
 		self.`extension` = `extension`
 		self.id = id
@@ -379,6 +387,9 @@ open class RiskAssessmentPrediction: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case outcome
 		case probabilityDecimal; case _probabilityDecimal
 		case probabilityRange
@@ -388,12 +399,15 @@ open class RiskAssessmentPrediction: BackboneElement {
 		case whenPeriod
 		case whenRange
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outcome = try CodeableConcept(from: _container, forKey: .outcome)
 		var _t_probability: ProbabilityX? = nil
 		if let probabilityDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .probabilityDecimal, auxiliaryKey: ._probabilityDecimal) {
@@ -426,14 +440,15 @@ open class RiskAssessmentPrediction: BackboneElement {
 			_t_when = .range(whenRange)
 		}
 		self.when = _t_when
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try outcome.encode(on: &_container, forKey: .outcome)
 		if let _enum = probability {
 			switch _enum {
@@ -454,33 +469,5 @@ open class RiskAssessmentPrediction: BackboneElement {
 				try _value.encode(on: &_container, forKey: .whenRange)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RiskAssessmentPrediction else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return outcome == _other.outcome
-		    && probability == _other.probability
-		    && qualitativeRisk == _other.qualitativeRisk
-		    && rationale == _other.rationale
-		    && relativeRisk == _other.relativeRisk
-		    && when == _other.when
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(outcome)
-		hasher.combine(probability)
-		hasher.combine(qualitativeRisk)
-		hasher.combine(rationale)
-		hasher.combine(relativeRisk)
-		hasher.combine(when)
 	}
 }

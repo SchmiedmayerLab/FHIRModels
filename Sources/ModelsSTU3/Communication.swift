@@ -2,8 +2,8 @@
 //  Communication.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Communication)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Communication)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,24 +25,48 @@ import FMCore
  An occurrence of information being transmitted; e.g. an alert that was sent to a responsible provider, a public health
  agency was notified about a reportable condition.
  */
-open class Communication: DomainResource {
+public struct Communication: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .communication }
-	
-	/// Unique identifier
-	public var identifier: [Identifier]?
-	
-	/// Instantiates protocol or definition
-	public var definition: [Reference]?
+	public static let resourceType: ResourceType = .communication
 	
 	/// Request fulfilled by this communication
 	public var basedOn: [Reference]?
 	
-	/// Part of this action
-	public var partOf: [Reference]?
+	/// Message category
+	public var category: [CodeableConcept]?
 	
-	/// The status of the transmission.
-	public var status: FHIRPrimitive<EventStatus>
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Encounter or episode leading to message
+	public var context: Reference?
+	
+	/// Instantiates protocol or definition
+	public var definition: [Reference]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// A channel of communication
+	public var medium: [CodeableConcept]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Communication did not occur
 	public var notDone: FHIRPrimitive<FHIRBool>?
@@ -50,32 +74,14 @@ open class Communication: DomainResource {
 	/// Why communication did not occur
 	public var notDoneReason: CodeableConcept?
 	
-	/// Message category
-	public var category: [CodeableConcept]?
+	/// Comments made about the communication
+	public var note: [Annotation]?
 	
-	/// A channel of communication
-	public var medium: [CodeableConcept]?
+	/// Part of this action
+	public var partOf: [Reference]?
 	
-	/// Focus of message
-	public var subject: Reference?
-	
-	/// Message recipient
-	public var recipient: [Reference]?
-	
-	/// Focal resources
-	public var topic: [Reference]?
-	
-	/// Encounter or episode leading to message
-	public var context: Reference?
-	
-	/// When sent
-	public var sent: FHIRPrimitive<DateTime>?
-	
-	/// When received
-	public var received: FHIRPrimitive<DateTime>?
-	
-	/// Message sender
-	public var sender: Reference?
+	/// Message payload
+	public var payload: [CommunicationPayload]?
 	
 	/// Indication for message
 	public var reasonCode: [CodeableConcept]?
@@ -83,49 +89,66 @@ open class Communication: DomainResource {
 	/// Why was communication done?
 	public var reasonReference: [Reference]?
 	
-	/// Message payload
-	public var payload: [CommunicationPayload]?
+	/// When received
+	public var received: FHIRPrimitive<DateTime>?
 	
-	/// Comments made about the communication
-	public var note: [Annotation]?
+	/// Message recipient
+	public var recipient: [Reference]?
+	
+	/// Message sender
+	public var sender: Reference?
+	
+	/// When sent
+	public var sent: FHIRPrimitive<DateTime>?
+	
+	/// The status of the transmission.
+	public var status: FHIRPrimitive<EventStatus>
+	
+	/// Focus of message
+	public var subject: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Focal resources
+	public var topic: [Reference]?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<EventStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							basedOn: [Reference]? = nil,
-							category: [CodeableConcept]? = nil,
-							contained: [ResourceProxy]? = nil,
-							context: Reference? = nil,
-							definition: [Reference]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							medium: [CodeableConcept]? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							notDone: FHIRPrimitive<FHIRBool>? = nil,
-							notDoneReason: CodeableConcept? = nil,
-							note: [Annotation]? = nil,
-							partOf: [Reference]? = nil,
-							payload: [CommunicationPayload]? = nil,
-							reasonCode: [CodeableConcept]? = nil,
-							reasonReference: [Reference]? = nil,
-							received: FHIRPrimitive<DateTime>? = nil,
-							recipient: [Reference]? = nil,
-							sender: Reference? = nil,
-							sent: FHIRPrimitive<DateTime>? = nil,
-							status: FHIRPrimitive<EventStatus>,
-							subject: Reference? = nil,
-							text: Narrative? = nil,
-							topic: [Reference]? = nil)
-	{
+	public init(
+		basedOn: [Reference]? = nil,
+		category: [CodeableConcept]? = nil,
+		contained: [ResourceProxy]? = nil,
+		context: Reference? = nil,
+		definition: [Reference]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		medium: [CodeableConcept]? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		notDone: FHIRPrimitive<FHIRBool>? = nil,
+		notDoneReason: CodeableConcept? = nil,
+		note: [Annotation]? = nil,
+		partOf: [Reference]? = nil,
+		payload: [CommunicationPayload]? = nil,
+		reasonCode: [CodeableConcept]? = nil,
+		reasonReference: [Reference]? = nil,
+		received: FHIRPrimitive<DateTime>? = nil,
+		recipient: [Reference]? = nil,
+		sender: Reference? = nil,
+		sent: FHIRPrimitive<DateTime>? = nil,
+		status: FHIRPrimitive<EventStatus>,
+		subject: Reference? = nil,
+		text: Narrative? = nil,
+		topic: [Reference]? = nil
+	) {
 		self.init(status: status)
 		self.basedOn = basedOn
 		self.category = category
@@ -159,12 +182,20 @@ open class Communication: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
 		case category
+		case contained
 		case context
 		case definition
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case medium
+		case meta
+		case modifierExtension
 		case notDone; case _notDone
 		case notDoneReason
 		case note
@@ -178,20 +209,28 @@ open class Communication: DomainResource {
 		case sent; case _sent
 		case status; case _status
 		case subject
+		case text
 		case topic
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.context = try Reference(from: _container, forKeyIfPresent: .context)
 		self.definition = try [Reference](from: _container, forKeyIfPresent: .definition)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.medium = try [CodeableConcept](from: _container, forKeyIfPresent: .medium)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notDone = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .notDone, auxiliaryKey: ._notDone)
 		self.notDoneReason = try CodeableConcept(from: _container, forKeyIfPresent: .notDoneReason)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
@@ -205,21 +244,29 @@ open class Communication: DomainResource {
 		self.sent = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .sent, auxiliaryKey: ._sent)
 		self.status = try FHIRPrimitive<EventStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.topic = try [Reference](from: _container, forKeyIfPresent: .topic)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try category?.encode(on: &_container, forKey: .category)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try context?.encode(on: &_container, forKey: .context)
 		try definition?.encode(on: &_container, forKey: .definition)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try medium?.encode(on: &_container, forKey: .medium)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notDone?.encode(on: &_container, forKey: .notDone, auxiliaryKey: ._notDone)
 		try notDoneReason?.encode(on: &_container, forKey: .notDoneReason)
 		try note?.encode(on: &_container, forKey: .note)
@@ -233,63 +280,8 @@ open class Communication: DomainResource {
 		try sent?.encode(on: &_container, forKey: .sent, auxiliaryKey: ._sent)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try topic?.encode(on: &_container, forKey: .topic)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Communication else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && category == _other.category
-		    && context == _other.context
-		    && definition == _other.definition
-		    && identifier == _other.identifier
-		    && medium == _other.medium
-		    && notDone == _other.notDone
-		    && notDoneReason == _other.notDoneReason
-		    && note == _other.note
-		    && partOf == _other.partOf
-		    && payload == _other.payload
-		    && reasonCode == _other.reasonCode
-		    && reasonReference == _other.reasonReference
-		    && received == _other.received
-		    && recipient == _other.recipient
-		    && sender == _other.sender
-		    && sent == _other.sent
-		    && status == _other.status
-		    && subject == _other.subject
-		    && topic == _other.topic
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(category)
-		hasher.combine(context)
-		hasher.combine(definition)
-		hasher.combine(identifier)
-		hasher.combine(medium)
-		hasher.combine(notDone)
-		hasher.combine(notDoneReason)
-		hasher.combine(note)
-		hasher.combine(partOf)
-		hasher.combine(payload)
-		hasher.combine(reasonCode)
-		hasher.combine(reasonReference)
-		hasher.combine(received)
-		hasher.combine(recipient)
-		hasher.combine(sender)
-		hasher.combine(sent)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(topic)
 	}
 }
 
@@ -298,10 +290,10 @@ open class Communication: DomainResource {
  
  Text, attachment(s), or resource(s) that was communicated to the recipient.
  */
-open class CommunicationPayload: BackboneElement {
+public struct CommunicationPayload: BackboneElement {
 	
 	/// All possible types for "content[x]"
-	public enum ContentX: Hashable {
+	public enum ContentX: Equatable, Hashable, Sendable {
 		case attachment(Attachment)
 		case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
@@ -311,19 +303,27 @@ open class CommunicationPayload: BackboneElement {
 	/// One of `content[x]`
 	public var content: ContentX
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(content: ContentX) {
 		self.content = content
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							content: ContentX,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil)
-	{
+	public init(
+		content: ContentX,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
 		self.init(content: content)
 		self.`extension` = `extension`
 		self.id = id
@@ -336,10 +336,13 @@ open class CommunicationPayload: BackboneElement {
 		case contentAttachment
 		case contentReference
 		case contentString; case _contentString
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -347,7 +350,7 @@ open class CommunicationPayload: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.contentAttachment, CodingKeys.contentReference, CodingKeys.contentString], debugDescription: "Must have at least one value for \"content\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_content: ContentX? = nil
 		if let contentString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .contentString, auxiliaryKey: ._contentString) {
 			if _t_content != nil {
@@ -368,14 +371,15 @@ open class CommunicationPayload: BackboneElement {
 			_t_content = .reference(contentReference)
 		}
 		self.content = _t_content!
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		
 			switch content {
 			case .string(let _value):
@@ -386,23 +390,8 @@ open class CommunicationPayload: BackboneElement {
 				try _value.encode(on: &_container, forKey: .contentReference)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CommunicationPayload else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return content == _other.content
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(content)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

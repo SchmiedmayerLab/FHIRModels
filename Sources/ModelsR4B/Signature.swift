@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Signature)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,7 +26,25 @@ import FMCore
  some other signature acceptable to the domain. This other signature may be as simple as a graphical image representing
  a hand-written signature, or a signature ceremony Different signature approaches have different utilities.
  */
-open class Signature: Element {
+public struct Signature: Element {
+	
+	/// The actual signature content (XML DigSig. JWS, picture, etc.)
+	public var data: FHIRPrimitive<Base64Binary>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The party represented
+	public var onBehalfOf: Reference?
+	
+	/// The technical format of the signature
+	public var sigFormat: FHIRPrimitive<FHIRString>?
+	
+	/// The technical format of the signed resources
+	public var targetFormat: FHIRPrimitive<FHIRString>?
 	
 	/// Indication of the reason the entity signed the object(s)
 	public var type: [Coding]
@@ -37,28 +55,15 @@ open class Signature: Element {
 	/// Who signed
 	public var who: Reference
 	
-	/// The party represented
-	public var onBehalfOf: Reference?
-	
-	/// The technical format of the signed resources
-	public var targetFormat: FHIRPrimitive<FHIRString>?
-	
-	/// The technical format of the signature
-	public var sigFormat: FHIRPrimitive<FHIRString>?
-	
-	/// The actual signature content (XML DigSig. JWS, picture, etc.)
-	public var data: FHIRPrimitive<Base64Binary>?
-	
 	/// Designated initializer taking all required properties
 	public init(type: [Coding], when: FHIRPrimitive<Instant>, who: Reference) {
 		self.type = type
 		self.when = when
 		self.who = who
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		data: FHIRPrimitive<Base64Binary>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -82,6 +87,8 @@ open class Signature: Element {
 	
 	private enum CodingKeys: String, CodingKey {
 		case data; case _data
+		case `extension` = "extension"
+		case id; case _id
 		case onBehalfOf
 		case sigFormat; case _sigFormat
 		case targetFormat; case _targetFormat
@@ -89,63 +96,35 @@ open class Signature: Element {
 		case when; case _when
 		case who
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.data = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .data, auxiliaryKey: ._data)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.onBehalfOf = try Reference(from: _container, forKeyIfPresent: .onBehalfOf)
 		self.sigFormat = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .sigFormat, auxiliaryKey: ._sigFormat)
 		self.targetFormat = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .targetFormat, auxiliaryKey: ._targetFormat)
 		self.type = try [Coding](from: _container, forKey: .type)
 		self.when = try FHIRPrimitive<Instant>(from: _container, forKey: .when, auxiliaryKey: ._when)
 		self.who = try Reference(from: _container, forKey: .who)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try data?.encode(on: &_container, forKey: .data, auxiliaryKey: ._data)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
 		try sigFormat?.encode(on: &_container, forKey: .sigFormat, auxiliaryKey: ._sigFormat)
 		try targetFormat?.encode(on: &_container, forKey: .targetFormat, auxiliaryKey: ._targetFormat)
 		try type.encode(on: &_container, forKey: .type)
 		try when.encode(on: &_container, forKey: .when, auxiliaryKey: ._when)
 		try who.encode(on: &_container, forKey: .who)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Signature else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return data == _other.data
-		    && onBehalfOf == _other.onBehalfOf
-		    && sigFormat == _other.sigFormat
-		    && targetFormat == _other.targetFormat
-		    && type == _other.type
-		    && when == _other.when
-		    && who == _other.who
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(data)
-		hasher.combine(onBehalfOf)
-		hasher.combine(sigFormat)
-		hasher.combine(targetFormat)
-		hasher.combine(type)
-		hasher.combine(when)
-		hasher.combine(who)
 	}
 }

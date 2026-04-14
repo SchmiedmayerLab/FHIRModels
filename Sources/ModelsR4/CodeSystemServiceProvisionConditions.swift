@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ServiceProvisionConditions: String, FHIRPrimitiveType {
 	
-	/// This service is available for no patient cost.
-	case free
+	/// Fees apply for this service.
+	case cost
 	
 	/// There are discounts available on this service for qualifying patients.
 	case disc
 	
-	/// Fees apply for this service.
-	case cost
+	/// This service is available for no patient cost.
+	case free
 }

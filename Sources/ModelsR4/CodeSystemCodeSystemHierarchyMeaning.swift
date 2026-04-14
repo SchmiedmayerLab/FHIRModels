@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,11 @@ import FMCore
  */
 public enum CodeSystemHierarchyMeaning: String, FHIRPrimitiveType {
 	
+	/// Child concepts in the hierarchy may have only one parent, and there is a presumption that the code system is a
+	/// "closed world" meaning all things must be in the hierarchy. This results in concepts such as "not otherwise
+	/// classified.".
+	case classifiedWith = "classified-with"
+	
 	/// No particular relationship between the concepts can be assumed, except what can be determined by inspection of
 	/// the definitions of the elements (possible reasons to use this: importing from a source where this is not
 	/// defined, or where various parts of the hierarchy have different meanings).
@@ -40,9 +45,4 @@ public enum CodeSystemHierarchyMeaning: String, FHIRPrimitiveType {
 	
 	/// Child elements list the individual parts of a composite whole (e.g. body site).
 	case partOf = "part-of"
-	
-	/// Child concepts in the hierarchy may have only one parent, and there is a presumption that the code system is a
-	/// "closed world" meaning all things must be in the hierarchy. This results in concepts such as "not otherwise
-	/// classified.".
-	case classifiedWith = "classified-with"
 }

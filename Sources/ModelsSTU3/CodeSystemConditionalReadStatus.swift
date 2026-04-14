@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ import FMCore
  */
 public enum ConditionalReadStatus: String, FHIRPrimitiveType {
 	
-	/// No support for conditional deletes.
-	case notSupported = "not-supported"
+	/// Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.
+	case fullSupport = "full-support"
 	
 	/// Conditional reads are supported, but only with the If-Modified-Since HTTP Header.
 	case modifiedSince = "modified-since"
@@ -36,6 +36,6 @@ public enum ConditionalReadStatus: String, FHIRPrimitiveType {
 	/// Conditional reads are supported, but only with the If-None-Match HTTP Header.
 	case notMatch = "not-match"
 	
-	/// Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.
-	case fullSupport = "full-support"
+	/// No support for conditional deletes.
+	case notSupported = "not-supported"
 }

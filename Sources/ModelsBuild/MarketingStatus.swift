@@ -2,8 +2,8 @@
 //  MarketingStatus.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/MarketingStatus)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/MarketingStatus)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -23,34 +23,42 @@ import FMCore
  The marketing status describes the date when an item is actually put on the market or the date as of which it is no
  longer available.
  */
-open class MarketingStatus: BackboneType {
+public struct MarketingStatus: BackboneType {
 	
 	/// The country in which the marketing status applies
 	public var country: CodeableConcept?
-	
-	/// The jurisdiction in which the marketing status applies
-	public var jurisdiction: CodeableConcept?
-	
-	/// This attribute provides information on the status of the marketing of the item
-	public var status: CodeableConcept
 	
 	/// The dates that the item is made available on the market by the owner (or where applicable, the
 	/// manufacturer/distributor) in a country and/or jurisdiction. Note that “on the market” refers to the release of
 	/// the item into the distribution chain
 	public var dateRange: Period?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The jurisdiction in which the marketing status applies
+	public var jurisdiction: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// The date when the item is due to be placed back on the market by the owner, manufacturer or distributor, after a
 	/// suspension
 	public var restoreDate: FHIRPrimitive<DateTime>?
 	
+	/// This attribute provides information on the status of the marketing of the item
+	public var status: CodeableConcept
+	
 	/// Designated initializer taking all required properties
 	public init(status: CodeableConcept) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		country: CodeableConcept? = nil,
 		dateRange: Period? = nil,
 		`extension`: [Extension]? = nil,
@@ -75,59 +83,40 @@ open class MarketingStatus: BackboneType {
 	private enum CodingKeys: String, CodingKey {
 		case country
 		case dateRange
+		case `extension` = "extension"
+		case id; case _id
 		case jurisdiction
+		case modifierExtension
 		case restoreDate; case _restoreDate
 		case status
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.country = try CodeableConcept(from: _container, forKeyIfPresent: .country)
 		self.dateRange = try Period(from: _container, forKeyIfPresent: .dateRange)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.jurisdiction = try CodeableConcept(from: _container, forKeyIfPresent: .jurisdiction)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.restoreDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .restoreDate, auxiliaryKey: ._restoreDate)
 		self.status = try CodeableConcept(from: _container, forKey: .status)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try country?.encode(on: &_container, forKey: .country)
 		try dateRange?.encode(on: &_container, forKey: .dateRange)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try restoreDate?.encode(on: &_container, forKey: .restoreDate, auxiliaryKey: ._restoreDate)
 		try status.encode(on: &_container, forKey: .status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MarketingStatus else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return country == _other.country
-		    && dateRange == _other.dateRange
-		    && jurisdiction == _other.jurisdiction
-		    && restoreDate == _other.restoreDate
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(country)
-		hasher.combine(dateRange)
-		hasher.combine(jurisdiction)
-		hasher.combine(restoreDate)
-		hasher.combine(status)
 	}
 }

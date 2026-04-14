@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import FMCore
  */
 public enum PrimarySourceType: String, FHIRPrimitiveType {
 	
-	/// licBoard
-	case licBoard = "lic-board"
-	
-	/// prim
-	case prim
+	/// authSource
+	case authSource = "auth-source"
 	
 	/// contEd
 	case contEd = "cont-ed"
 	
-	/// postServ
-	case postServ = "post-serv"
-	
-	/// relOwn
-	case relOwn = "rel-own"
-	
-	/// regAuth
-	case regAuth = "reg-auth"
+	/// issuer
+	case issuer
 	
 	/// legal
 	case legal
 	
-	/// issuer
-	case issuer
+	/// licBoard
+	case licBoard = "lic-board"
 	
-	/// authSource
-	case authSource = "auth-source"
+	/// postServ
+	case postServ = "post-serv"
+	
+	/// prim
+	case prim
+	
+	/// regAuth
+	case regAuth = "reg-auth"
+	
+	/// relOwn
+	case relOwn = "rel-own"
 }

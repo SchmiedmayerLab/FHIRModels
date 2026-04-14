@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/Extension)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import FMCore
  
  Optional Extension Element - found in all resources.
  */
-open class Extension: Element {
+public struct Extension: Element {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -80,6 +80,12 @@ open class Extension: Element {
 		case uuid(FHIRPrimitive<FHIRURI>)
 	}
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// identifies the meaning of the extension
 	public var url: FHIRPrimitive<FHIRURI>
 	
@@ -90,11 +96,10 @@ open class Extension: Element {
 	/// Designated initializer taking all required properties
 	public init(url: FHIRPrimitive<FHIRURI>) {
 		self.url = url
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		url: FHIRPrimitive<FHIRURI>,
@@ -109,6 +114,8 @@ open class Extension: Element {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case url; case _url
 		case valueAddress
 		case valueAge
@@ -161,12 +168,14 @@ open class Extension: Element {
 		case valueUsageContext
 		case valueUuid; case _valueUuid
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
 		var _t_value: ValueX? = nil
 		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
@@ -470,14 +479,14 @@ open class Extension: Element {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		if let _enum = value {
 			switch _enum {
@@ -583,25 +592,5 @@ open class Extension: Element {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Extension else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return url == _other.url
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(url)
-		hasher.combine(value)
 	}
 }

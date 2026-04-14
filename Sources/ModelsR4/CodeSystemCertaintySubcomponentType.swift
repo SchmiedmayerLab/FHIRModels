@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,8 +27,11 @@ import FMCore
  */
 public enum CertaintySubcomponentType: String, FHIRPrimitiveType {
 	
-	/// methodologic concerns reducing internal validity.
-	case riskOfBias = "RiskOfBias"
+	/// higher certainty due to dose response relationship.
+	case doseResponseGradient = "DoseResponseGradient"
+	
+	/// High quality evidence.
+	case imprecision = "Imprecision"
 	
 	/// concerns that findings are not similar enough to support certainty.
 	case inconsistency = "Inconsistency"
@@ -36,18 +39,15 @@ public enum CertaintySubcomponentType: String, FHIRPrimitiveType {
 	/// concerns reducing external validity.
 	case indirectness = "Indirectness"
 	
-	/// High quality evidence.
-	case imprecision = "Imprecision"
-	
-	/// likelihood that what is published misrepresents what is available to publish.
-	case publicationBias = "PublicationBias"
-	
-	/// higher certainty due to dose response relationship.
-	case doseResponseGradient = "DoseResponseGradient"
+	/// higher certainty due to large effect size.
+	case largeEffect = "LargeEffect"
 	
 	/// higher certainty due to risk of bias in opposite direction.
 	case plausibleConfounding = "PlausibleConfounding"
 	
-	/// higher certainty due to large effect size.
-	case largeEffect = "LargeEffect"
+	/// likelihood that what is published misrepresents what is available to publish.
+	case publicationBias = "PublicationBias"
+	
+	/// methodologic concerns reducing internal validity.
+	case riskOfBias = "RiskOfBias"
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,24 +27,24 @@ import FMCore
  */
 public enum ReferralStatus: String, FHIRPrimitiveType {
 	
-	/// A draft referral that has yet to be send.
-	case draft = "draft"
-	
-	/// The referral has been transmitted, but not yet acknowledged by the recipient.
-	case requested = "requested"
+	/// The recipient has agreed to deliver the care requested by the referral.
+	case accepted
 	
 	/// The referral has been acknowledged by the recipient, and is in the process of being actioned.
-	case active = "active"
+	case active
 	
 	/// The referral has been cancelled without being completed. For example it is no longer needed.
-	case cancelled = "cancelled"
-	
-	/// The recipient has agreed to deliver the care requested by the referral.
-	case accepted = "accepted"
-	
-	/// The recipient has declined to accept the referral.
-	case rejected = "rejected"
+	case cancelled
 	
 	/// The referral has been completely actioned.
-	case completed = "completed"
+	case completed
+	
+	/// A draft referral that has yet to be send.
+	case draft
+	
+	/// The recipient has declined to accept the referral.
+	case rejected
+	
+	/// The referral has been transmitted, but not yet acknowledged by the recipient.
+	case requested
 }

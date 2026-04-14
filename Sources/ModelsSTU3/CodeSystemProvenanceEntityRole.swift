@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,19 +29,19 @@ public enum ProvenanceEntityRole: String, FHIRPrimitiveType {
 	
 	/// A transformation of an entity into another, an update of an entity resulting in a new one, or the construction
 	/// of a new entity based on a preexisting entity.
-	case derivation = "derivation"
-	
-	/// A derivation for which the resulting entity is a revised version of some original.
-	case revision = "revision"
+	case derivation
 	
 	/// The repeat of (some or all of) an entity, such as text or image, by someone who may or may not be its original
 	/// author.
-	case quotation = "quotation"
+	case quotation
+	
+	/// A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
+	case removal
+	
+	/// A derivation for which the resulting entity is a revised version of some original.
+	case revision
 	
 	/// A primary source for a topic refers to something produced by some agent with direct experience and knowledge
 	/// about the topic, at the time of the topic's study, without benefit from hindsight.
-	case source = "source"
-	
-	/// A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
-	case removal = "removal"
+	case source
 }

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,24 +27,6 @@ import FMCore
  */
 public enum RequestIntent: String, FHIRPrimitiveType {
 	
-	/// The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and
-	/// without providing an authorization to act
-	case proposal = "proposal"
-	
-	/// The request represents an intension to ensure something occurs without providing an authorization for others to
-	/// act
-	case plan = "plan"
-	
-	/// The request represents a request/demand and authorization for action
-	case order = "order"
-	
-	/// The request represents an original authorization for action
-	case originalOrder = "original-order"
-	
-	/// The request represents an automatically generated supplemental authorization for action based on a parent
-	/// authorization together with initial results of the action taken against that parent authorization
-	case reflexOrder = "reflex-order"
-	
 	/// The request represents the view of an authorization instantiated by a fulfilling system representing the details
 	/// of the fulfiller's intention to act upon a submitted order
 	case fillerOrder = "filler-order"
@@ -57,5 +39,23 @@ public enum RequestIntent: String, FHIRPrimitiveType {
 	/// other constraints among a set of requests.
 	/// 
 	/// Refer to [[[RequestGroup]]] for additional information on how this status is used
-	case option = "option"
+	case option
+	
+	/// The request represents a request/demand and authorization for action
+	case order
+	
+	/// The request represents an original authorization for action
+	case originalOrder = "original-order"
+	
+	/// The request represents an intension to ensure something occurs without providing an authorization for others to
+	/// act
+	case plan
+	
+	/// The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and
+	/// without providing an authorization to act
+	case proposal
+	
+	/// The request represents an automatically generated supplemental authorization for action based on a parent
+	/// authorization together with initial results of the action taken against that parent authorization
+	case reflexOrder = "reflex-order"
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,30 +28,30 @@ import FMCore
  */
 public enum GoalStatusReason: String, FHIRPrimitiveType {
 	
-	/// Goal suspended or ended because of a surgical procedure.
-	case surgery
-	
-	/// Goal suspended or ended because of a significant life event (marital change, bereavement, etc.).
-	case lifeEvent = "life-event"
-	
-	/// Goal has been superseded by a new goal.
-	case replaced
-	
-	/// Patient wishes the goal to be set aside, at least temporarily.
-	case patientRequest = "patient-request"
-	
-	/// Goal cannot be reached temporarily.
-	case tempNotAttainable = "temp-not-attainable"
-	
-	/// Goal cannot be reached permanently.
-	case permanentNotAttainable = "permanent-not-attainable"
-	
 	/// Goal cannot be reached due to financial barrier or reason.
 	case financialBarrier = "financial-barrier"
+	
+	/// Goal cannot be reached due to a lack of social support.
+	case lackOfSocialSupport = "lack-of-social-support"
 	
 	/// Goal cannot be reached due to a lack of transportation.
 	case lackOfTransportation = "lack-of-transportation"
 	
-	/// Goal cannot be reached due to a lack of social support.
-	case lackOfSocialSupport = "lack-of-social-support"
+	/// Goal suspended or ended because of a significant life event (marital change, bereavement, etc.).
+	case lifeEvent = "life-event"
+	
+	/// Patient wishes the goal to be set aside, at least temporarily.
+	case patientRequest = "patient-request"
+	
+	/// Goal cannot be reached permanently.
+	case permanentNotAttainable = "permanent-not-attainable"
+	
+	/// Goal has been superseded by a new goal.
+	case replaced
+	
+	/// Goal suspended or ended because of a surgical procedure.
+	case surgery
+	
+	/// Goal cannot be reached temporarily.
+	case tempNotAttainable = "temp-not-attainable"
 }

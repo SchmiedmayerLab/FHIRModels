@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,14 +29,14 @@ public enum ResourceValidationMode: String, FHIRPrimitiveType {
 	
 	/// The server checks the content, and then checks that the content would be acceptable as a create (e.g. that the
 	/// content would not violate any uniqueness constraints).
-	case create = "create"
+	case create
+	
+	/// The server ignores the content, and checks that the nominated resource is allowed to be deleted (e.g. checking
+	/// referential integrity rules).
+	case delete
 	
 	/// The server checks the content, and then checks that it would accept it as an update against the nominated
 	/// specific resource (e.g. that there are no changes to immutable fields the server does not allow to change, and
 	/// checking version integrity if appropriate).
-	case update = "update"
-	
-	/// The server ignores the content, and checks that the nominated resource is allowed to be deleted (e.g. checking
-	/// referential integrity rules).
-	case delete = "delete"
+	case update
 }

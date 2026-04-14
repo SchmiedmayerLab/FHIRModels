@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,32 +28,32 @@ import FMCore
 public enum QICoreAdverseEventCategoryCodes: String, FHIRPrimitiveType {
 	
 	/// Blood or Blood Product
-	case blood = "blood"
+	case blood
 	
 	/// Device or Medical/Surgical Supply, including Health Information Technology (HIT)
-	case device = "device"
-	
-	/// Fall by patient
-	case fall = "fall"
-	
-	/// Healthcare-related infection
-	case infection = "infection"
-	
-	/// Medication or Other Substance
-	case substance = "substance"
-	
-	/// Perinatal
-	case perinatal = "perinatal"
-	
-	/// Pressure Ulcer
-	case ulcer = "ulcer"
-	
-	/// Surgery or Anesthesia (includes invasive procedures)
-	case surgery = "surgery"
+	case device
 	
 	/// Venous Thromboembolism
-	case embolism = "embolism"
+	case embolism
+	
+	/// Fall by patient
+	case fall
+	
+	/// Healthcare-related infection
+	case infection
 	
 	/// Other (please specify)
-	case other = "other"
+	case other
+	
+	/// Perinatal
+	case perinatal
+	
+	/// Medication or Other Substance
+	case substance
+	
+	/// Surgery or Anesthesia (includes invasive procedures)
+	case surgery
+	
+	/// Pressure Ulcer
+	case ulcer
 }

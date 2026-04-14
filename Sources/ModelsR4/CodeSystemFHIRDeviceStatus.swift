@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,12 +31,12 @@ public enum FHIRDeviceStatus: String, FHIRPrimitiveType {
 	/// patient.
 	case active
 	
+	/// The device was entered in error and voided.
+	case enteredInError = "entered-in-error"
+	
 	/// The device is no longer available for use (e.g. lost, expired, damaged).  Note: For *implanted devices*  this
 	/// means that the device has been removed from the patient.
 	case inactive
-	
-	/// The device was entered in error and voided.
-	case enteredInError = "entered-in-error"
 	
 	/// The status of the device has not been determined.
 	case unknown

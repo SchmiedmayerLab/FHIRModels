@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,20 +27,23 @@ import FMCore
  */
 public enum ObservationDataType: String, FHIRPrimitiveType {
 	
-	/// A measured amount.
-	case quantity = "Quantity"
+	/// true or false.
+	case boolean
 	
 	/// A coded concept from a reference terminology and/or text.
 	case codeableConcept = "CodeableConcept"
 	
-	/// A sequence of Unicode characters.
-	case string
-	
-	/// true or false.
-	case boolean
+	/// A date, date-time or partial date (e.g. just year or year + month) as used in human communication.
+	case dateTime
 	
 	/// A signed integer.
 	case integer
+	
+	/// A time range defined by start and end date/time.
+	case period = "Period"
+	
+	/// A measured amount.
+	case quantity = "Quantity"
 	
 	/// A set of values bounded by low and high.
 	case range = "Range"
@@ -51,12 +54,9 @@ public enum ObservationDataType: String, FHIRPrimitiveType {
 	/// A series of measurements taken by a device.
 	case sampledData = "SampledData"
 	
+	/// A sequence of Unicode characters.
+	case string
+	
 	/// A time during the day, in the format hh:mm:ss.
 	case time
-	
-	/// A date, date-time or partial date (e.g. just year or year + month) as used in human communication.
-	case dateTime
-	
-	/// A time range defined by start and end date/time.
-	case period = "Period"
 }

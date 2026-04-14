@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum AddressType: String, FHIRPrimitiveType {
 	
-	/// Mailing addresses - PO Boxes and care-of addresses.
-	case postal
+	/// An address that is both physical and postal.
+	case both
 	
 	/// A physical address that can be visited.
 	case physical
 	
-	/// An address that is both physical and postal.
-	case both
+	/// Mailing addresses - PO Boxes and care-of addresses.
+	case postal
 }

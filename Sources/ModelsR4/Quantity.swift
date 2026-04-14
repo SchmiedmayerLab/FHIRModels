@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MoneyQuantity)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,31 +25,36 @@ import FMCore
  A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are
  not precisely quantified, including amounts involving arbitrary units and floating currencies.
  */
-open class Quantity: Element {
+public struct Quantity: Element {
 	
-	/// Numerical value (with implicit precision)
-	public var value: FHIRPrimitive<FHIRDecimal>?
+	/// Coded form of the unit
+	public var code: FHIRPrimitive<FHIRString>?
 	
 	/// How the value should be understood and represented - whether the actual value is greater or less than the stated
 	/// value due to measurement issues; e.g. if the comparator is "<" , then the real value is < stated value.
 	public var comparator: FHIRPrimitive<QuantityComparator>?
 	
-	/// Unit representation
-	public var unit: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// System that defines coded unit form
 	public var system: FHIRPrimitive<FHIRURI>?
 	
-	/// Coded form of the unit
-	public var code: FHIRPrimitive<FHIRString>?
+	/// Unit representation
+	public var unit: FHIRPrimitive<FHIRString>?
+	
+	/// Numerical value (with implicit precision)
+	public var value: FHIRPrimitive<FHIRDecimal>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<FHIRString>? = nil,
 		comparator: FHIRPrimitive<QuantityComparator>? = nil,
 		`extension`: [Extension]? = nil,
@@ -73,59 +78,37 @@ open class Quantity: Element {
 	private enum CodingKeys: String, CodingKey {
 		case code; case _code
 		case comparator; case _comparator
+		case `extension` = "extension"
+		case id; case _id
 		case system; case _system
 		case unit; case _unit
 		case value; case _value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .code, auxiliaryKey: ._code)
 		self.comparator = try FHIRPrimitive<QuantityComparator>(from: _container, forKeyIfPresent: .comparator, auxiliaryKey: ._comparator)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.system = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .system, auxiliaryKey: ._system)
 		self.unit = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .unit, auxiliaryKey: ._unit)
 		self.value = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .value, auxiliaryKey: ._value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try comparator?.encode(on: &_container, forKey: .comparator, auxiliaryKey: ._comparator)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try system?.encode(on: &_container, forKey: .system, auxiliaryKey: ._system)
 		try unit?.encode(on: &_container, forKey: .unit, auxiliaryKey: ._unit)
 		try value?.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Quantity else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && comparator == _other.comparator
-		    && system == _other.system
-		    && unit == _other.unit
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(comparator)
-		hasher.combine(system)
-		hasher.combine(unit)
-		hasher.combine(value)
 	}
 }

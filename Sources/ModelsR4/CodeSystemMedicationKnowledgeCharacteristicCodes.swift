@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,24 +27,24 @@ import FMCore
  */
 public enum MedicationKnowledgeCharacteristicCodes: String, FHIRPrimitiveType {
 	
-	/// Identyifying marks on product
-	case imprintcd
-	
-	/// Description of size of the product
-	case size
-	
-	/// Description of the shape of the product
-	case shape
+	/// Description of the coating of the product
+	case coating
 	
 	/// Description of the color of the product
 	case color
 	
-	/// Description of the coating of the product
-	case coating
+	/// Identyifying marks on product
+	case imprintcd
+	
+	/// Description of the Logo of the product
+	case logo
 	
 	/// Description of the scoring of the product
 	case scoring
 	
-	/// Description of the Logo of the product
-	case logo
+	/// Description of the shape of the product
+	case shape
+	
+	/// Description of size of the product
+	case size
 }

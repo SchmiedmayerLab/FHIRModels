@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,16 +29,16 @@ import FMCore
 public enum SystemVersionProcessingMode: String, FHIRPrimitiveType {
 	
 	/// Use this version of the code system if a value set doesn't specify a version
-	case `default` = "default"
+	case `default`
 	
 	/// Use this version of the code system. If a value set specifies a different version, the expansion operation
 	/// should fail
-	case check = "check"
+	case check
 	
 	/// Use this version of the code system irrespective of which version is specified by a value set. Note that this
 	/// has obvious safety issues, in that it may result in a value set expansion giving a different list of codes that
 	/// is both wrong and unsafe, and implementers should only use this capability reluctantly. It primarily exists to
 	/// deal with situations where specifications have fallen into decay as time passes. If a  version is override, the
 	/// version used SHALL explicitly be represented in the expansion parameters
-	case override = "override"
+	case override
 }

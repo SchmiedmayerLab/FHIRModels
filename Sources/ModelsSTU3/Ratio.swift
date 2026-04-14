@@ -2,8 +2,8 @@
 //  Ratio.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Ratio)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Ratio)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,26 +24,31 @@ import FMCore
  
  A relationship of two Quantity values - expressed as a numerator and a denominator.
  */
-open class Ratio: Element {
-	
-	/// Numerator value
-	public var numerator: Quantity?
+public struct Ratio: Element {
 	
 	/// Denominator value
 	public var denominator: Quantity?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Numerator value
+	public var numerator: Quantity?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							denominator: Quantity? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							numerator: Quantity? = nil)
-	{
+	public init(
+		denominator: Quantity? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		numerator: Quantity? = nil
+	) {
 		self.init()
 		self.denominator = denominator
 		self.`extension` = `extension`
@@ -55,45 +60,29 @@ open class Ratio: Element {
 	
 	private enum CodingKeys: String, CodingKey {
 		case denominator
+		case `extension` = "extension"
+		case id; case _id
 		case numerator
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.denominator = try Quantity(from: _container, forKeyIfPresent: .denominator)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.numerator = try Quantity(from: _container, forKeyIfPresent: .numerator)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try denominator?.encode(on: &_container, forKey: .denominator)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try numerator?.encode(on: &_container, forKey: .numerator)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Ratio else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return denominator == _other.denominator
-		    && numerator == _other.numerator
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(denominator)
-		hasher.combine(numerator)
 	}
 }

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,18 +27,18 @@ import FMCore
  */
 public enum PropertyRepresentation: String, FHIRPrimitiveType {
 	
-	/// In XML, this property is represented as an attribute not an element.
-	case xmlAttr = "xmlAttr"
-	
-	/// This element is represented using the XML text attribute (primitives only)
-	case xmlText = "xmlText"
+	/// Use CDA narrative instead of XHTML
+	case cdaText
 	
 	/// The type of this element is indicated using xsi:type
-	case typeAttr = "typeAttr"
-	
-	/// Use CDA narrative instead of XHTML
-	case cdaText = "cdaText"
+	case typeAttr
 	
 	/// The property is represented using XHTML
-	case xhtml = "xhtml"
+	case xhtml
+	
+	/// In XML, this property is represented as an attribute not an element.
+	case xmlAttr
+	
+	/// This element is represented using the XML text attribute (primitives only)
+	case xmlText
 }

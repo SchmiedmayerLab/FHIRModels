@@ -2,8 +2,8 @@
 //  DeviceAlert.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/DeviceAlert)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/DeviceAlert)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,52 +24,15 @@ import FMCore
  
  Describes a noteworthy condition or occurrence determined to exist by a device.
  */
-open class DeviceAlert: DomainResource {
+public struct DeviceAlert: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .deviceAlert }
+	public static let resourceType: ResourceType = .deviceAlert
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
-	
-	/// Business identifier for this device alert
-	public var identifier: [Identifier]?
-	
-	/// Procedure during which the alert occurred
-	public var procedure: [Reference]?
-	
-	/// The current state of the device alert.
-	public var status: FHIRPrimitive<DeviceAlertStatus>
-	
-	/// High level categorization of device alert
-	public var category: [CodeableConcept]?
-	
-	/// physiological | technical
-	public var type: CodeableConcept?
-	
-	/// high | medium | low | info
-	public var priority: CodeableConcept?
-	
-	/// The meaning of the alert
-	public var code: CodeableConcept
-	
-	/// Who or what the alert is about
-	public var subject: Reference
-	
-	/// Encounter during which the alert condition occurred
-	public var encounter: Reference?
-	
-	/// Whether the alert condition is currently active
-	public var presence: FHIRPrimitive<FHIRBool>
-	
-	/// When the alert condition occurred/is occurring
-	/// One of `occurrence[x]`
-	public var occurrence: OccurrenceX?
-	
-	/// The Device (or DeviceMetric) that detected the alert condition
-	public var device: Reference?
 	
 	/// Whether the alert condition has been acknowledged
 	public var acknowledged: FHIRPrimitive<FHIRBool>?
@@ -77,17 +40,78 @@ open class DeviceAlert: DomainResource {
 	/// Who acknowledged the alert condition
 	public var acknowledgedBy: Reference?
 	
-	/// Location of the subject when the alert was raised
-	public var location: Reference?
+	/// High level categorization of device alert
+	public var category: [CodeableConcept]?
+	
+	/// The meaning of the alert
+	public var code: CodeableConcept
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The value causing the alert condition
 	public var derivedFrom: [DeviceAlertDerivedFrom]?
 	
+	/// The Device (or DeviceMetric) that detected the alert condition
+	public var device: Reference?
+	
+	/// Encounter during which the alert condition occurred
+	public var encounter: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier for this device alert
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
 	/// Text to be displayed for the alert condition
 	public var label: FHIRPrimitive<FHIRString>?
 	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Location of the subject when the alert was raised
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// When the alert condition occurred/is occurring
+	/// One of `occurrence[x]`
+	public var occurrence: OccurrenceX?
+	
+	/// Whether the alert condition is currently active
+	public var presence: FHIRPrimitive<FHIRBool>
+	
+	/// high | medium | low | info
+	public var priority: CodeableConcept?
+	
+	/// Procedure during which the alert occurred
+	public var procedure: [Reference]?
+	
 	/// Annunciation or notification of the alert condition
 	public var signal: [DeviceAlertSignal]?
+	
+	/// The current state of the device alert.
+	public var status: FHIRPrimitive<DeviceAlertStatus>
+	
+	/// Who or what the alert is about
+	public var subject: Reference
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// physiological | technical
+	public var type: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept, presence: FHIRPrimitive<FHIRBool>, status: FHIRPrimitive<DeviceAlertStatus>, subject: Reference) {
@@ -95,11 +119,10 @@ open class DeviceAlert: DomainResource {
 		self.presence = presence
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		acknowledged: FHIRPrimitive<FHIRBool>? = nil,
 		acknowledgedBy: Reference? = nil,
 		category: [CodeableConcept]? = nil,
@@ -155,16 +178,24 @@ open class DeviceAlert: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case acknowledged; case _acknowledged
 		case acknowledgedBy
 		case category
 		case code
+		case contained
 		case derivedFrom
 		case device
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case label; case _label
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case occurrenceDateTime; case _occurrenceDateTime
 		case occurrencePeriod
 		case presence; case _presence
@@ -173,24 +204,32 @@ open class DeviceAlert: DomainResource {
 		case signal
 		case status; case _status
 		case subject
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.acknowledged = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .acknowledged, auxiliaryKey: ._acknowledged)
 		self.acknowledgedBy = try Reference(from: _container, forKeyIfPresent: .acknowledgedBy)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.derivedFrom = try [DeviceAlertDerivedFrom](from: _container, forKeyIfPresent: .derivedFrom)
 		self.device = try Reference(from: _container, forKeyIfPresent: .device)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.label = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .label, auxiliaryKey: ._label)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
 			if _t_occurrence != nil {
@@ -211,25 +250,33 @@ open class DeviceAlert: DomainResource {
 		self.signal = try [DeviceAlertSignal](from: _container, forKeyIfPresent: .signal)
 		self.status = try FHIRPrimitive<DeviceAlertStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try acknowledged?.encode(on: &_container, forKey: .acknowledged, auxiliaryKey: ._acknowledged)
 		try acknowledgedBy?.encode(on: &_container, forKey: .acknowledgedBy)
 		try category?.encode(on: &_container, forKey: .category)
 		try code.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try derivedFrom?.encode(on: &_container, forKey: .derivedFrom)
 		try device?.encode(on: &_container, forKey: .device)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try label?.encode(on: &_container, forKey: .label, auxiliaryKey: ._label)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = occurrence {
 			switch _enum {
 			case .dateTime(let _value):
@@ -244,84 +291,41 @@ open class DeviceAlert: DomainResource {
 		try signal?.encode(on: &_container, forKey: .signal)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceAlert else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return acknowledged == _other.acknowledged
-		    && acknowledgedBy == _other.acknowledgedBy
-		    && category == _other.category
-		    && code == _other.code
-		    && derivedFrom == _other.derivedFrom
-		    && device == _other.device
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && label == _other.label
-		    && location == _other.location
-		    && occurrence == _other.occurrence
-		    && presence == _other.presence
-		    && priority == _other.priority
-		    && procedure == _other.procedure
-		    && signal == _other.signal
-		    && status == _other.status
-		    && subject == _other.subject
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(acknowledged)
-		hasher.combine(acknowledgedBy)
-		hasher.combine(category)
-		hasher.combine(code)
-		hasher.combine(derivedFrom)
-		hasher.combine(device)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(label)
-		hasher.combine(location)
-		hasher.combine(occurrence)
-		hasher.combine(presence)
-		hasher.combine(priority)
-		hasher.combine(procedure)
-		hasher.combine(signal)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(type)
 	}
 }
 
 /**
  The value causing the alert condition.
  */
-open class DeviceAlertDerivedFrom: BackboneElement {
-	
-	/// The Observation having a value causing the alert condition
-	public var observation: Reference
+public struct DeviceAlertDerivedFrom: BackboneElement {
 	
 	/// The Observation.component having a value causing the alert condition
 	public var component: Coding?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// The boundaries beyond which a value was detected to cause the alert condition
 	public var limit: Range?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The Observation having a value causing the alert condition
+	public var observation: Reference
 	
 	/// Designated initializer taking all required properties
 	public init(observation: Reference) {
 		self.observation = observation
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		component: Coding? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -341,85 +345,78 @@ open class DeviceAlertDerivedFrom: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case component
+		case `extension` = "extension"
+		case id; case _id
 		case limit
+		case modifierExtension
 		case observation
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.component = try Coding(from: _container, forKeyIfPresent: .component)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.limit = try Range(from: _container, forKeyIfPresent: .limit)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.observation = try Reference(from: _container, forKey: .observation)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try component?.encode(on: &_container, forKey: .component)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try limit?.encode(on: &_container, forKey: .limit)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try observation.encode(on: &_container, forKey: .observation)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceAlertDerivedFrom else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return component == _other.component
-		    && limit == _other.limit
-		    && observation == _other.observation
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(component)
-		hasher.combine(limit)
-		hasher.combine(observation)
 	}
 }
 
 /**
  Annunciation or notification of the alert condition.
  */
-open class DeviceAlertSignal: BackboneElement {
+public struct DeviceAlertSignal: BackboneElement {
 	
 	/// on | off | paused
 	public var activationState: CodeableConcept
 	
-	/// on | latched | off | ack
-	public var presence: CodeableConcept?
-	
 	/// Where the signal is being annunciated
 	public var annunciator: CodeableReference?
 	
-	/// How the signal is being annunciated
-	public var manifestation: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Characteristics of the signal manifestation
-	public var type: [CodeableConcept]?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// When the signal was being annunciated
 	public var indication: Period?
 	
+	/// How the signal is being annunciated
+	public var manifestation: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// on | latched | off | ack
+	public var presence: CodeableConcept?
+	
+	/// Characteristics of the signal manifestation
+	public var type: [CodeableConcept]?
+	
 	/// Designated initializer taking all required properties
 	public init(activationState: CodeableConcept) {
 		self.activationState = activationState
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		activationState: CodeableConcept,
 		annunciator: CodeableReference? = nil,
 		`extension`: [Extension]? = nil,
@@ -446,64 +443,43 @@ open class DeviceAlertSignal: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case activationState
 		case annunciator
+		case `extension` = "extension"
+		case id; case _id
 		case indication
 		case manifestation
+		case modifierExtension
 		case presence
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.activationState = try CodeableConcept(from: _container, forKey: .activationState)
 		self.annunciator = try CodeableReference(from: _container, forKeyIfPresent: .annunciator)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.indication = try Period(from: _container, forKeyIfPresent: .indication)
 		self.manifestation = try CodeableConcept(from: _container, forKeyIfPresent: .manifestation)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.presence = try CodeableConcept(from: _container, forKeyIfPresent: .presence)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try activationState.encode(on: &_container, forKey: .activationState)
 		try annunciator?.encode(on: &_container, forKey: .annunciator)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try indication?.encode(on: &_container, forKey: .indication)
 		try manifestation?.encode(on: &_container, forKey: .manifestation)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try presence?.encode(on: &_container, forKey: .presence)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceAlertSignal else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return activationState == _other.activationState
-		    && annunciator == _other.annunciator
-		    && indication == _other.indication
-		    && manifestation == _other.manifestation
-		    && presence == _other.presence
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(activationState)
-		hasher.combine(annunciator)
-		hasher.combine(indication)
-		hasher.combine(manifestation)
-		hasher.combine(presence)
-		hasher.combine(type)
 	}
 }

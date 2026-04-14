@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,27 +27,27 @@ import FMCore
  */
 public enum ObservationRelationshipType: String, FHIRPrimitiveType {
 	
-	/// This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements)
-	/// that includes the target as a member of the group.
-	case hasMember = "has-member"
-	
 	/// The target resource (Observation or QuestionnaireResponse) is part of the information from which this
 	/// observation value is derived. (e.g. calculated anion gap, Apgar score)  NOTE:  "derived-from" is only logical
 	/// choice when referencing QuestionnaireResponse.
 	case derivedFrom = "derived-from"
 	
-	/// This observation follows the target observation (e.g. timed tests such as Glucose Tolerance Test).
-	case sequelTo = "sequel-to"
-	
-	/// This observation replaces a previous observation (i.e. a revised value). The target observation is now obsolete.
-	case replaces = "replaces"
-	
-	/// The value of the target observation qualifies (refines) the semantics of the source observation (e.g. a lipemia
-	/// measure target from a plasma measure).
-	case qualifiedBy = "qualified-by"
+	/// This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements)
+	/// that includes the target as a member of the group.
+	case hasMember = "has-member"
 	
 	/// The value of the target observation interferes (degrades quality, or prevents valid observation) with the
 	/// semantics of the source observation (e.g. a hemolysis measure target from a plasma potassium measure which has
 	/// no value).
 	case interferedBy = "interfered-by"
+	
+	/// The value of the target observation qualifies (refines) the semantics of the source observation (e.g. a lipemia
+	/// measure target from a plasma measure).
+	case qualifiedBy = "qualified-by"
+	
+	/// This observation replaces a previous observation (i.e. a revised value). The target observation is now obsolete.
+	case replaces
+	
+	/// This observation follows the target observation (e.g. timed tests such as Glucose Tolerance Test).
+	case sequelTo = "sequel-to"
 }

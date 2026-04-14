@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,33 +27,33 @@ import FMCore
  */
 public enum CommunicationRequestStatus: String, FHIRPrimitiveType {
 	
-	/// The request has been proposed.
-	case proposed = "proposed"
-	
-	/// The request has been planned.
-	case planned = "planned"
-	
-	/// The request has been placed.
-	case requested = "requested"
-	
-	/// The receiving system has received the request but not yet decided whether it will be performed.
-	case received = "received"
-	
 	/// The receiving system has accepted the order, but work has not yet commenced.
-	case accepted = "accepted"
+	case accepted
+	
+	/// The work has been complete, the report(s) released, and no further work is planned.
+	case completed
+	
+	/// The communication was attempted, but due to some procedural error, it could not be completed.
+	case failed
 	
 	/// The work to fulfill the order is happening.
 	case inProgress = "in-progress"
 	
-	/// The work has been complete, the report(s) released, and no further work is planned.
-	case completed = "completed"
+	/// The request has been planned.
+	case planned
 	
-	/// The request has been held by originating system/user request.
-	case suspended = "suspended"
+	/// The request has been proposed.
+	case proposed
+	
+	/// The receiving system has received the request but not yet decided whether it will be performed.
+	case received
 	
 	/// The receiving system has declined to fulfill the request
-	case rejected = "rejected"
+	case rejected
 	
-	/// The communication was attempted, but due to some procedural error, it could not be completed.
-	case failed = "failed"
+	/// The request has been placed.
+	case requested
+	
+	/// The request has been held by originating system/user request.
+	case suspended
 }

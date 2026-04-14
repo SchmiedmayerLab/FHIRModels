@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,14 +27,6 @@ import FMCore
  */
 public enum CompositionStatus: String, FHIRPrimitiveType {
 	
-	/// This is a preliminary composition or document (also known as initial or interim). The content may be incomplete
-	/// or unverified.
-	case preliminary
-	
-	/// This version of the composition is complete and verified by an appropriate person and no further work is
-	/// planned. Any subsequent updates would be on a new version of the composition.
-	case final
-	
 	/// The composition content or the referenced resources have been modified (edited or added to) subsequent to being
 	/// released as "final" and the composition is complete and verified by an authorized person.
 	case amended
@@ -42,4 +34,12 @@ public enum CompositionStatus: String, FHIRPrimitiveType {
 	/// The composition or document was originally created/issued in error, and this is an amendment that marks that the
 	/// entire series should not be considered as valid.
 	case enteredInError = "entered-in-error"
+	
+	/// This version of the composition is complete and verified by an appropriate person and no further work is
+	/// planned. Any subsequent updates would be on a new version of the composition.
+	case final
+	
+	/// This is a preliminary composition or document (also known as initial or interim). The content may be incomplete
+	/// or unverified.
+	case preliminary
 }

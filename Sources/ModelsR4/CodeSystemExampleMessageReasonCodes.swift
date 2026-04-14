@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum ExampleMessageReasonCodes: String, FHIRPrimitiveType {
 	
+	/// The patient has returned from a temporary absence.
+	case `return`
+	
+	/// The patient has temporarily left the institution.
+	case absent
+	
 	/// The patient has been admitted.
 	case admit
 	
 	/// The patient has been discharged.
 	case discharge
 	
-	/// The patient has temporarily left the institution.
-	case absent
-	
-	/// The patient has returned from a temporary absence.
-	case `return`
+	/// Encounter details have been updated (e.g. to correct a coding error).
+	case edit
 	
 	/// The patient has been moved to a new location.
 	case moved
-	
-	/// Encounter details have been updated (e.g. to correct a coding error).
-	case edit
 }

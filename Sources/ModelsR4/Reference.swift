@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/Reference)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,27 +22,28 @@ import FMCore
 /**
  A reference from one resource to another.
  */
-open class Reference: Element {
-	
-	/// Literal reference, Relative, internal or absolute URL
-	public var reference: FHIRPrimitive<FHIRString>?
-	
-	/// Type the reference refers to (e.g. "Patient")
-	public var type: FHIRPrimitive<FHIRURI>?
-	
-	/// Logical reference, when literal reference is not known
-	public var identifier: Identifier?
+public final class Reference: ElementReadOnly, Sendable {
 	
 	/// Text alternative for the resource
-	public var display: FHIRPrimitive<FHIRString>?
+	public let display: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
+	/// Additional content defined by implementations
+	public let `extension`: [Extension]?
 	
-	/// Convenience initializer
-	public convenience init(
+	/// Unique id for inter-element referencing
+	public let id: FHIRPrimitive<FHIRString>?
+	
+	/// Logical reference, when literal reference is not known
+	public let identifier: Identifier?
+	
+	/// Literal reference, Relative, internal or absolute URL
+	public let reference: FHIRPrimitive<FHIRString>?
+	
+	/// Type the reference refers to (e.g. "Patient")
+	public let type: FHIRPrimitive<FHIRURI>?
+	
+	/// Designated initializer
+	public init(
 		display: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -50,7 +51,6 @@ open class Reference: Element {
 		reference: FHIRPrimitive<FHIRString>? = nil,
 		type: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init()
 		self.display = display
 		self.`extension` = `extension`
 		self.id = id
@@ -63,6 +63,8 @@ open class Reference: Element {
 	
 	private enum CodingKeys: String, CodingKey {
 		case display; case _display
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case reference; case _reference
 		case type; case _type
@@ -72,44 +74,43 @@ open class Reference: Element {
 	public required init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.display = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .display, auxiliaryKey: ._display)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
 		self.reference = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .reference, auxiliaryKey: ._reference)
 		self.type = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try reference?.encode(on: &_container, forKey: .reference, auxiliaryKey: ._reference)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
 	}
 	
 	// MARK: - Equatable & Hashable
 	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Reference else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return display == _other.display
-		    && identifier == _other.identifier
-		    && reference == _other.reference
-		    && type == _other.type
+	public static func == (lhs: Reference, rhs: Reference) -> Bool {
+		return lhs.display == rhs.display
+			&& lhs.`extension` == rhs.`extension`
+			&& lhs.id == rhs.id
+			&& lhs.identifier == rhs.identifier
+			&& lhs.reference == rhs.reference
+			&& lhs.type == rhs.type
+
 	}
 	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
+	public func hash(into hasher: inout Hasher) {
 		hasher.combine(display)
+		hasher.combine(`extension`)
+		hasher.combine(id)
 		hasher.combine(identifier)
 		hasher.combine(reference)
 		hasher.combine(type)

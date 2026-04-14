@@ -2,8 +2,8 @@
 //  TriggerDefinition.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/TriggerDefinition)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/TriggerDefinition)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,18 +24,18 @@ import FMCore
  
  A description of a triggering event.
  */
-open class TriggerDefinition: Element {
+public struct TriggerDefinition: Element {
 	
 	/// All possible types for "eventTiming[x]"
-	public enum EventTimingX: Hashable {
+	public enum EventTimingX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case reference(Reference)
 		case timing(Timing)
 	}
 	
-	/// The type of triggering event.
-	public var type: FHIRPrimitive<TriggerType>
+	/// Triggering data of the event
+	public var eventData: DataRequirement?
 	
 	/// Triggering event name
 	public var eventName: FHIRPrimitive<FHIRString>?
@@ -44,24 +44,29 @@ open class TriggerDefinition: Element {
 	/// One of `eventTiming[x]`
 	public var eventTiming: EventTimingX?
 	
-	/// Triggering data of the event
-	public var eventData: DataRequirement?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The type of triggering event.
+	public var type: FHIRPrimitive<TriggerType>
 	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<TriggerType>) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							eventData: DataRequirement? = nil,
-							eventName: FHIRPrimitive<FHIRString>? = nil,
-							eventTiming: EventTimingX? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							type: FHIRPrimitive<TriggerType>)
-	{
+	public init(
+		eventData: DataRequirement? = nil,
+		eventName: FHIRPrimitive<FHIRString>? = nil,
+		eventTiming: EventTimingX? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		type: FHIRPrimitive<TriggerType>
+	) {
 		self.init(type: type)
 		self.eventData = eventData
 		self.eventName = eventName
@@ -79,14 +84,16 @@ open class TriggerDefinition: Element {
 		case eventTimingDateTime; case _eventTimingDateTime
 		case eventTimingReference
 		case eventTimingTiming
+		case `extension` = "extension"
+		case id; case _id
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.eventData = try DataRequirement(from: _container, forKeyIfPresent: .eventData)
 		self.eventName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .eventName, auxiliaryKey: ._eventName)
 		var _t_eventTiming: EventTimingX? = nil
@@ -115,15 +122,15 @@ open class TriggerDefinition: Element {
 			_t_eventTiming = .dateTime(eventTimingDateTime)
 		}
 		self.eventTiming = _t_eventTiming
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.type = try FHIRPrimitive<TriggerType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try eventData?.encode(on: &_container, forKey: .eventData)
 		try eventName?.encode(on: &_container, forKey: .eventName, auxiliaryKey: ._eventName)
 		if let _enum = eventTiming {
@@ -138,30 +145,8 @@ open class TriggerDefinition: Element {
 				try _value.encode(on: &_container, forKey: .eventTimingDateTime, auxiliaryKey: ._eventTimingDateTime)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TriggerDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return eventData == _other.eventData
-		    && eventName == _other.eventName
-		    && eventTiming == _other.eventTiming
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(eventData)
-		hasher.combine(eventName)
-		hasher.combine(eventTiming)
-		hasher.combine(type)
 	}
 }

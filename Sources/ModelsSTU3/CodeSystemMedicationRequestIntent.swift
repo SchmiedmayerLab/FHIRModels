@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,17 +27,17 @@ import FMCore
  */
 public enum MedicationRequestIntent: String, FHIRPrimitiveType {
 	
-	/// The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and
-	/// without providing an authorization to act
-	case proposal = "proposal"
+	/// The request represents an instance for the particular order, for example a medication administration record.
+	case instanceOrder = "instance-order"
+	
+	/// The request represents a request/demand and authorization for action
+	case order
 	
 	/// The request represents an intension to ensure something occurs without providing an authorization for others to
 	/// act
-	case plan = "plan"
+	case plan
 	
-	/// The request represents a request/demand and authorization for action
-	case order = "order"
-	
-	/// The request represents an instance for the particular order, for example a medication administration record.
-	case instanceOrder = "instance-order"
+	/// The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and
+	/// without providing an authorization to act
+	case proposal
 }

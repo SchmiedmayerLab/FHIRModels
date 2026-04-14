@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,19 +20,16 @@
 import FMCore
 
 /**
- This value set includes sample Contract Term SubType codes.
+ This value set includes sample Contract Term Type codes.
  
- URL: http://hl7.org/fhir/contracttermsubtypecodes
- ValueSet: http://hl7.org/fhir/ValueSet/contract-term-subtype
+ URL: http://hl7.org/fhir/contracttermtypecodes
+ ValueSet: http://hl7.org/fhir/ValueSet/contract-term-type
  */
 public enum ContractTermTypeCodes: String, FHIRPrimitiveType {
 	
-	/// oralHealthBasic
-	case oralHealthBasic = "OralHealth-Basic"
+	/// oralHealth
+	case oralHealth = "OralHealth"
 	
-	/// oralHealthMajor
-	case oralHealthMajor = "OralHealth-Major"
-	
-	/// oralHealthOrthodontic
-	case oralHealthOrthodontic = "OralHealth-Orthodontic"
+	/// vision
+	case vision = "Vision"
 }

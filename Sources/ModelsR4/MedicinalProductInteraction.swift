@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MedicinalProductInteraction)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,38 +24,61 @@ import FMCore
  
  The interactions of the medicinal product with other medicinal products, or other forms of interactions.
  */
-open class MedicinalProductInteraction: DomainResource {
+public struct MedicinalProductInteraction: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .medicinalProductInteraction }
+	public static let resourceType: ResourceType = .medicinalProductInteraction
 	
-	/// The medication for which this is a described interaction
-	public var subject: [Reference]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The interaction described
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// The specific medication, food or laboratory test that interacts
-	public var interactant: [MedicinalProductInteractionInteractant]?
-	
-	/// The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction
-	public var type: CodeableConcept?
-	
 	/// The effect of the interaction, for example "reduced gastric absorption of primary medication"
 	public var effect: CodeableConcept?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// The incidence of the interaction, e.g. theoretical, observed
 	public var incidence: CodeableConcept?
 	
+	/// The specific medication, food or laboratory test that interacts
+	public var interactant: [MedicinalProductInteractionInteractant]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
 	/// Actions for managing the interaction
 	public var management: CodeableConcept?
 	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The medication for which this is a described interaction
+	public var subject: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		effect: CodeableConcept? = nil,
@@ -93,98 +116,101 @@ open class MedicinalProductInteraction: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case effect
+		case `extension` = "extension"
+		case id; case _id
+		case implicitRules; case _implicitRules
 		case incidence
 		case interactant
+		case language; case _language
 		case management
+		case meta
+		case modifierExtension
 		case subject
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.effect = try CodeableConcept(from: _container, forKeyIfPresent: .effect)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.incidence = try CodeableConcept(from: _container, forKeyIfPresent: .incidence)
 		self.interactant = try [MedicinalProductInteractionInteractant](from: _container, forKeyIfPresent: .interactant)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.management = try CodeableConcept(from: _container, forKeyIfPresent: .management)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.subject = try [Reference](from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try effect?.encode(on: &_container, forKey: .effect)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try incidence?.encode(on: &_container, forKey: .incidence)
 		try interactant?.encode(on: &_container, forKey: .interactant)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try management?.encode(on: &_container, forKey: .management)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductInteraction else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && effect == _other.effect
-		    && incidence == _other.incidence
-		    && interactant == _other.interactant
-		    && management == _other.management
-		    && subject == _other.subject
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(effect)
-		hasher.combine(incidence)
-		hasher.combine(interactant)
-		hasher.combine(management)
-		hasher.combine(subject)
-		hasher.combine(type)
 	}
 }
 
 /**
  The specific medication, food or laboratory test that interacts.
  */
-open class MedicinalProductInteractionInteractant: BackboneElement {
+public struct MedicinalProductInteractionInteractant: BackboneElement {
 	
 	/// All possible types for "item[x]"
-	public enum ItemX: Hashable {
+	public enum ItemX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The specific medication, food or laboratory test that interacts
 	/// One of `item[x]`
 	public var item: ItemX
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(item: ItemX) {
 		self.item = item
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		item: ItemX,
@@ -199,12 +225,15 @@ open class MedicinalProductInteractionInteractant: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case itemCodeableConcept
 		case itemReference
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -212,7 +241,9 @@ open class MedicinalProductInteractionInteractant: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.itemCodeableConcept, CodingKeys.itemReference], debugDescription: "Must have at least one value for \"item\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_item: ItemX? = nil
 		if let itemReference = try Reference(from: _container, forKeyIfPresent: .itemReference) {
 			if _t_item != nil {
@@ -227,14 +258,15 @@ open class MedicinalProductInteractionInteractant: BackboneElement {
 			_t_item = .codeableConcept(itemCodeableConcept)
 		}
 		self.item = _t_item!
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		
 			switch item {
 			case .reference(let _value):
@@ -243,23 +275,6 @@ open class MedicinalProductInteractionInteractant: BackboneElement {
 				try _value.encode(on: &_container, forKey: .itemCodeableConcept)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductInteractionInteractant else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return item == _other.item
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

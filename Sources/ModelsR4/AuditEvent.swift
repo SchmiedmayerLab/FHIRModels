@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/AuditEvent)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,24 +25,39 @@ import FMCore
  A record of an event made for purposes of maintaining a security log. Typical uses include detection of intrusion
  attempts and monitoring for inappropriate usage.
  */
-open class AuditEvent: DomainResource {
+public struct AuditEvent: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .auditEvent }
-	
-	/// Type/identifier of event
-	public var type: Coding
-	
-	/// More specific type/id for the event
-	public var subtype: [Coding]?
+	public static let resourceType: ResourceType = .auditEvent
 	
 	/// Indicator for type of action performed during the event that generated the audit.
 	public var action: FHIRPrimitive<AuditEventAction>?
 	
-	/// When the activity occurred
-	public var period: Period?
+	/// Actor involved in the event
+	public var agent: [AuditEventAgent]
 	
-	/// Time when the event was recorded
-	public var recorded: FHIRPrimitive<Instant>
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Data or objects used
+	public var entity: [AuditEventEntity]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Whether the event succeeded or failed
 	public var outcome: FHIRPrimitive<FHIRString>?
@@ -50,17 +65,26 @@ open class AuditEvent: DomainResource {
 	/// Description of the event outcome
 	public var outcomeDesc: FHIRPrimitive<FHIRString>?
 	
+	/// When the activity occurred
+	public var period: Period?
+	
 	/// The purposeOfUse of the event
 	public var purposeOfEvent: [CodeableConcept]?
 	
-	/// Actor involved in the event
-	public var agent: [AuditEventAgent]
+	/// Time when the event was recorded
+	public var recorded: FHIRPrimitive<Instant>
 	
 	/// Audit Event Reporter
 	public var source: AuditEventSource
 	
-	/// Data or objects used
-	public var entity: [AuditEventEntity]?
+	/// More specific type/id for the event
+	public var subtype: [Coding]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Type/identifier of event
+	public var type: Coding
 	
 	/// Designated initializer taking all required properties
 	public init(agent: [AuditEventAgent], recorded: FHIRPrimitive<Instant>, source: AuditEventSource, type: Coding) {
@@ -68,11 +92,10 @@ open class AuditEvent: DomainResource {
 		self.recorded = recorded
 		self.source = source
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		action: FHIRPrimitive<AuditEventAction>? = nil,
 		agent: [AuditEventAgent],
 		contained: [ResourceProxy]? = nil,
@@ -114,9 +137,17 @@ open class AuditEvent: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case action; case _action
 		case agent
+		case contained
 		case entity
+		case `extension` = "extension"
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case outcome; case _outcome
 		case outcomeDesc; case _outcomeDesc
 		case period
@@ -124,17 +155,25 @@ open class AuditEvent: DomainResource {
 		case recorded; case _recorded
 		case source
 		case subtype
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try FHIRPrimitive<AuditEventAction>(from: _container, forKeyIfPresent: .action, auxiliaryKey: ._action)
 		self.agent = try [AuditEventAgent](from: _container, forKey: .agent)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.entity = try [AuditEventEntity](from: _container, forKeyIfPresent: .entity)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outcome = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .outcome, auxiliaryKey: ._outcome)
 		self.outcomeDesc = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .outcomeDesc, auxiliaryKey: ._outcomeDesc)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
@@ -142,18 +181,26 @@ open class AuditEvent: DomainResource {
 		self.recorded = try FHIRPrimitive<Instant>(from: _container, forKey: .recorded, auxiliaryKey: ._recorded)
 		self.source = try AuditEventSource(from: _container, forKey: .source)
 		self.subtype = try [Coding](from: _container, forKeyIfPresent: .subtype)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try Coding(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action, auxiliaryKey: ._action)
 		try agent.encode(on: &_container, forKey: .agent)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try entity?.encode(on: &_container, forKey: .entity)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try outcome?.encode(on: &_container, forKey: .outcome, auxiliaryKey: ._outcome)
 		try outcomeDesc?.encode(on: &_container, forKey: .outcomeDesc, auxiliaryKey: ._outcomeDesc)
 		try period?.encode(on: &_container, forKey: .period)
@@ -161,45 +208,8 @@ open class AuditEvent: DomainResource {
 		try recorded.encode(on: &_container, forKey: .recorded, auxiliaryKey: ._recorded)
 		try source.encode(on: &_container, forKey: .source)
 		try subtype?.encode(on: &_container, forKey: .subtype)
+		try text?.encode(on: &_container, forKey: .text)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AuditEvent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && agent == _other.agent
-		    && entity == _other.entity
-		    && outcome == _other.outcome
-		    && outcomeDesc == _other.outcomeDesc
-		    && period == _other.period
-		    && purposeOfEvent == _other.purposeOfEvent
-		    && recorded == _other.recorded
-		    && source == _other.source
-		    && subtype == _other.subtype
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(agent)
-		hasher.combine(entity)
-		hasher.combine(outcome)
-		hasher.combine(outcomeDesc)
-		hasher.combine(period)
-		hasher.combine(purposeOfEvent)
-		hasher.combine(recorded)
-		hasher.combine(source)
-		hasher.combine(subtype)
-		hasher.combine(type)
 	}
 }
 
@@ -208,49 +218,57 @@ open class AuditEvent: DomainResource {
  
  An actor taking an active role in the event or activity that is logged.
  */
-open class AuditEventAgent: BackboneElement {
-	
-	/// How agent participated
-	public var type: CodeableConcept?
-	
-	/// Agent role in the event
-	public var role: [CodeableConcept]?
-	
-	/// Identifier of who
-	public var who: Reference?
+public struct AuditEventAgent: BackboneElement {
 	
 	/// Alternative User identity
 	public var altId: FHIRPrimitive<FHIRString>?
 	
-	/// Human friendly name for the agent
-	public var name: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Whether user is initiator
-	public var requestor: FHIRPrimitive<FHIRBool>
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Where
 	public var location: Reference?
 	
-	/// Policy that authorized event
-	public var policy: [FHIRPrimitive<FHIRURI>]?
-	
 	/// Type of media
 	public var media: Coding?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Human friendly name for the agent
+	public var name: FHIRPrimitive<FHIRString>?
 	
 	/// Logical network location for application activity
 	public var network: AuditEventAgentNetwork?
 	
+	/// Policy that authorized event
+	public var policy: [FHIRPrimitive<FHIRURI>]?
+	
 	/// Reason given for this user
 	public var purposeOfUse: [CodeableConcept]?
+	
+	/// Whether user is initiator
+	public var requestor: FHIRPrimitive<FHIRBool>
+	
+	/// Agent role in the event
+	public var role: [CodeableConcept]?
+	
+	/// How agent participated
+	public var type: CodeableConcept?
+	
+	/// Identifier of who
+	public var who: Reference?
 	
 	/// Designated initializer taking all required properties
 	public init(requestor: FHIRPrimitive<FHIRBool>) {
 		self.requestor = requestor
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		altId: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -286,8 +304,11 @@ open class AuditEventAgent: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case altId; case _altId
+		case `extension` = "extension"
+		case id; case _id
 		case location
 		case media
+		case modifierExtension
 		case name; case _name
 		case network
 		case policy; case _policy
@@ -297,15 +318,18 @@ open class AuditEventAgent: BackboneElement {
 		case type
 		case who
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.altId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .altId, auxiliaryKey: ._altId)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.media = try Coding(from: _container, forKeyIfPresent: .media)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.network = try AuditEventAgentNetwork(from: _container, forKeyIfPresent: .network)
 		self.policy = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .policy, auxiliaryKey: ._policy)
@@ -314,17 +338,18 @@ open class AuditEventAgent: BackboneElement {
 		self.role = try [CodeableConcept](from: _container, forKeyIfPresent: .role)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.who = try Reference(from: _container, forKeyIfPresent: .who)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try altId?.encode(on: &_container, forKey: .altId, auxiliaryKey: ._altId)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try location?.encode(on: &_container, forKey: .location)
 		try media?.encode(on: &_container, forKey: .media)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try network?.encode(on: &_container, forKey: .network)
 		try policy?.encode(on: &_container, forKey: .policy, auxiliaryKey: ._policy)
@@ -333,44 +358,6 @@ open class AuditEventAgent: BackboneElement {
 		try role?.encode(on: &_container, forKey: .role)
 		try type?.encode(on: &_container, forKey: .type)
 		try who?.encode(on: &_container, forKey: .who)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AuditEventAgent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return altId == _other.altId
-		    && location == _other.location
-		    && media == _other.media
-		    && name == _other.name
-		    && network == _other.network
-		    && policy == _other.policy
-		    && purposeOfUse == _other.purposeOfUse
-		    && requestor == _other.requestor
-		    && role == _other.role
-		    && type == _other.type
-		    && who == _other.who
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(altId)
-		hasher.combine(location)
-		hasher.combine(media)
-		hasher.combine(name)
-		hasher.combine(network)
-		hasher.combine(policy)
-		hasher.combine(purposeOfUse)
-		hasher.combine(requestor)
-		hasher.combine(role)
-		hasher.combine(type)
-		hasher.combine(who)
 	}
 }
 
@@ -379,21 +366,29 @@ open class AuditEventAgent: BackboneElement {
  
  Logical network location for application activity, if the activity has a network location.
  */
-open class AuditEventAgentNetwork: BackboneElement {
+public struct AuditEventAgentNetwork: BackboneElement {
 	
 	/// Identifier for the network access point of the user device
 	public var address: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The type of network access point
 	public var type: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		address: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -412,46 +407,33 @@ open class AuditEventAgentNetwork: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case address; case _address
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.address = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .address, auxiliaryKey: ._address)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address, auxiliaryKey: ._address)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AuditEventAgentNetwork else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return address == _other.address
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(address)
-		hasher.combine(type)
 	}
 }
 
@@ -460,42 +442,50 @@ open class AuditEventAgentNetwork: BackboneElement {
  
  Specific instances of data or objects that have been accessed.
  */
-open class AuditEventEntity: BackboneElement {
-	
-	/// Specific instance of resource
-	public var what: Reference?
-	
-	/// Type of entity involved
-	public var type: Coding?
-	
-	/// What role the entity played
-	public var role: Coding?
-	
-	/// Life-cycle stage for the entity
-	public var lifecycle: Coding?
-	
-	/// Security labels on the entity
-	public var securityLabel: [Coding]?
-	
-	/// Descriptor for entity
-	public var name: FHIRPrimitive<FHIRString>?
+public struct AuditEventEntity: BackboneElement {
 	
 	/// Descriptive text
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Query parameters
-	public var query: FHIRPrimitive<Base64Binary>?
-	
 	/// Additional Information about the entity
 	public var detail: [AuditEventEntityDetail]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Life-cycle stage for the entity
+	public var lifecycle: Coding?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Descriptor for entity
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Query parameters
+	public var query: FHIRPrimitive<Base64Binary>?
+	
+	/// What role the entity played
+	public var role: Coding?
+	
+	/// Security labels on the entity
+	public var securityLabel: [Coding]?
+	
+	/// Type of entity involved
+	public var type: Coding?
+	
+	/// Specific instance of resource
+	public var what: Reference?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		detail: [AuditEventEntityDetail]? = nil,
 		`extension`: [Extension]? = nil,
@@ -529,7 +519,10 @@ open class AuditEventEntity: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case detail
+		case `extension` = "extension"
+		case id; case _id
 		case lifecycle
+		case modifierExtension
 		case name; case _name
 		case query; case _query
 		case role
@@ -537,72 +530,42 @@ open class AuditEventEntity: BackboneElement {
 		case type
 		case what
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.detail = try [AuditEventEntityDetail](from: _container, forKeyIfPresent: .detail)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.lifecycle = try Coding(from: _container, forKeyIfPresent: .lifecycle)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.query = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .query, auxiliaryKey: ._query)
 		self.role = try Coding(from: _container, forKeyIfPresent: .role)
 		self.securityLabel = try [Coding](from: _container, forKeyIfPresent: .securityLabel)
 		self.type = try Coding(from: _container, forKeyIfPresent: .type)
 		self.what = try Reference(from: _container, forKeyIfPresent: .what)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try detail?.encode(on: &_container, forKey: .detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try lifecycle?.encode(on: &_container, forKey: .lifecycle)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try query?.encode(on: &_container, forKey: .query, auxiliaryKey: ._query)
 		try role?.encode(on: &_container, forKey: .role)
 		try securityLabel?.encode(on: &_container, forKey: .securityLabel)
 		try type?.encode(on: &_container, forKey: .type)
 		try what?.encode(on: &_container, forKey: .what)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AuditEventEntity else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && detail == _other.detail
-		    && lifecycle == _other.lifecycle
-		    && name == _other.name
-		    && query == _other.query
-		    && role == _other.role
-		    && securityLabel == _other.securityLabel
-		    && type == _other.type
-		    && what == _other.what
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(detail)
-		hasher.combine(lifecycle)
-		hasher.combine(name)
-		hasher.combine(query)
-		hasher.combine(role)
-		hasher.combine(securityLabel)
-		hasher.combine(type)
-		hasher.combine(what)
 	}
 }
 
@@ -611,13 +574,22 @@ open class AuditEventEntity: BackboneElement {
  
  Tagged value pairs for conveying additional information about the entity.
  */
-open class AuditEventEntityDetail: BackboneElement {
+public struct AuditEventEntityDetail: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case base64Binary(FHIRPrimitive<Base64Binary>)
 		case string(FHIRPrimitive<FHIRString>)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Name of the property
 	public var type: FHIRPrimitive<FHIRString>
@@ -630,11 +602,10 @@ open class AuditEventEntityDetail: BackboneElement {
 	public init(type: FHIRPrimitive<FHIRString>, value: ValueX) {
 		self.type = type
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -650,13 +621,16 @@ open class AuditEventEntityDetail: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type; case _type
 		case valueBase64Binary; case _valueBase64Binary
 		case valueString; case _valueString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -664,7 +638,10 @@ open class AuditEventEntityDetail: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueBase64Binary, CodingKeys.valueString], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKey: .type, auxiliaryKey: ._type)
 		var _t_value: ValueX? = nil
 		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
@@ -680,14 +657,15 @@ open class AuditEventEntityDetail: BackboneElement {
 			_t_value = .base64Binary(valueBase64Binary)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		
 			switch value {
@@ -697,26 +675,6 @@ open class AuditEventEntityDetail: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AuditEventEntityDetail else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
@@ -725,13 +683,22 @@ open class AuditEventEntityDetail: BackboneElement {
  
  The system that is reporting the event.
  */
-open class AuditEventSource: BackboneElement {
+public struct AuditEventSource: BackboneElement {
 	
-	/// Logical source location within the enterprise
-	public var site: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The identity of source detecting the event
 	public var observer: Reference
+	
+	/// Logical source location within the enterprise
+	public var site: FHIRPrimitive<FHIRString>?
 	
 	/// The type of source where event originated
 	public var type: [Coding]?
@@ -739,11 +706,10 @@ open class AuditEventSource: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(observer: Reference) {
 		self.observer = observer
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -762,51 +728,36 @@ open class AuditEventSource: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case observer
 		case site; case _site
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.observer = try Reference(from: _container, forKey: .observer)
 		self.site = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .site, auxiliaryKey: ._site)
 		self.type = try [Coding](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try observer.encode(on: &_container, forKey: .observer)
 		try site?.encode(on: &_container, forKey: .site, auxiliaryKey: ._site)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AuditEventSource else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return observer == _other.observer
-		    && site == _other.site
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(observer)
-		hasher.combine(site)
-		hasher.combine(type)
 	}
 }

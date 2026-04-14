@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,11 +27,11 @@ import FMCore
  */
 public enum ClinicalImpressionStatus: String, FHIRPrimitiveType {
 	
-	/// The assessment is still on-going and results are not yet final.
-	case draft = "draft"
-	
 	/// The assessment is done and the results are final.
-	case completed = "completed"
+	case completed
+	
+	/// The assessment is still on-going and results are not yet final.
+	case draft
 	
 	/// This assessment was never actually done and the record is erroneous (e.g. Wrong patient).
 	case enteredInError = "entered-in-error"

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,9 @@ import FMCore
  */
 public enum MeasureReportType: String, FHIRPrimitiveType {
 	
+	/// A data collection report that contains data-of-interest for the measure.
+	case dataCollection = "data-collection"
+	
 	/// An individual report that provides information on the performance for a given measure with respect to a single
 	/// subject.
 	case individual
@@ -37,7 +40,4 @@ public enum MeasureReportType: String, FHIRPrimitiveType {
 	
 	/// A summary report that returns the number of members in each population criteria for the measure.
 	case summary
-	
-	/// A data collection report that contains data-of-interest for the measure.
-	case dataCollection = "data-collection"
 }

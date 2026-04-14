@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,23 +27,23 @@ import FMCore
  */
 public enum ResearchSubjectStatus: String, FHIRPrimitiveType {
 	
-	/// The subject has been identified as a potential participant in the study but has not yet agreed to participate
-	case candidate = "candidate"
-	
-	/// The subject has agreed to participate in the study but has not yet begun performing any action within the study
-	case enrolled = "enrolled"
-	
 	/// The subject is currently being monitored and/or subject to treatment as part of the study
-	case active = "active"
+	case active
 	
-	/// The subject has temporarily discontinued monitoring/treatment as part of the study
-	case suspended = "suspended"
-	
-	/// The subject has permanently ended participation in the study prior to completion of the intended
-	/// monitoring/treatment
-	case withdrawn = "withdrawn"
+	/// The subject has been identified as a potential participant in the study but has not yet agreed to participate
+	case candidate
 	
 	/// All intended monitoring/treatment of the subject has been completed and their engagement with the study is now
 	/// ended
-	case completed = "completed"
+	case completed
+	
+	/// The subject has agreed to participate in the study but has not yet begun performing any action within the study
+	case enrolled
+	
+	/// The subject has temporarily discontinued monitoring/treatment as part of the study
+	case suspended
+	
+	/// The subject has permanently ended participation in the study prior to completion of the intended
+	/// monitoring/treatment
+	case withdrawn
 }

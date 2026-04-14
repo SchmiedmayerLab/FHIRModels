@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,20 +28,20 @@ import FMCore
 public enum PractitionerRole: String, FHIRPrimitiveType {
 	
 	/// doctor
-	case doctor = "doctor"
-	
-	/// nurse
-	case nurse = "nurse"
-	
-	/// pharmacist
-	case pharmacist = "pharmacist"
-	
-	/// researcher
-	case researcher = "researcher"
-	
-	/// teacher
-	case teacher = "teacher"
+	case doctor
 	
 	/// ict
-	case ict = "ict"
+	case ict
+	
+	/// nurse
+	case nurse
+	
+	/// pharmacist
+	case pharmacist
+	
+	/// researcher
+	case researcher
+	
+	/// teacher
+	case teacher
 }

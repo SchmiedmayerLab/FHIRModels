@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum ConformanceStatementKind: String, FHIRPrimitiveType {
 	
-	/// The Conformance instance represents the present capabilities of a specific system instance.  This is the kind
-	/// returned by OPTIONS for a FHIR server end-point.
-	case instance = "instance"
-	
 	/// The Conformance instance represents the capabilities of a system or piece of software, independent of a
 	/// particular installation.
-	case capability = "capability"
+	case capability
+	
+	/// The Conformance instance represents the present capabilities of a specific system instance.  This is the kind
+	/// returned by OPTIONS for a FHIR server end-point.
+	case instance
 	
 	/// The Conformance instance represents a set of requirements for other systems to meet; e.g. as part of an
 	/// implementation guide or 'request for proposal'.
-	case requirements = "requirements"
+	case requirements
 }

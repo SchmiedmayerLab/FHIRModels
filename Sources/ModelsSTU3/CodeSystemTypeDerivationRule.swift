@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum TypeDerivationRule: String, FHIRPrimitiveType {
 	
-	/// This definition defines a new type that adds additional elements to the base type
-	case specialization = "specialization"
-	
 	/// This definition adds additional rules to an existing concrete type
-	case constraint = "constraint"
+	case constraint
+	
+	/// This definition defines a new type that adds additional elements to the base type
+	case specialization
 }

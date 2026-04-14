@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,19 +27,19 @@ import FMCore
  */
 public enum BiologicallyDerivedProductCategory: String, FHIRPrimitiveType {
 	
+	/// Biological agent of unspecified type.
+	case biologicalAgent
+	
+	/// Collection of cells.
+	case cells
+	
+	/// Body fluid.
+	case fluid
+	
 	/// A collection of tissues joined in a structural unit to serve a common function.
 	case organ
 	
 	/// An ensemble of similar cells and their extracellular matrix from the same origin that together carry out a
 	/// specific function.
 	case tissue
-	
-	/// Body fluid.
-	case fluid
-	
-	/// Collection of cells.
-	case cells
-	
-	/// Biological agent of unspecified type.
-	case biologicalAgent
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import FMCore
  */
 public enum DischargeDisposition: String, FHIRPrimitiveType {
 	
+	/// aadvice
+	case aadvice
+	
+	/// exp
+	case exp
+	
 	/// home
-	case home = "home"
+	case home
+	
+	/// hosp
+	case hosp
+	
+	/// long
+	case long
+	
+	/// oth
+	case oth
 	
 	/// otherHcf
 	case otherHcf = "other-hcf"
 	
-	/// hosp
-	case hosp = "hosp"
-	
-	/// long
-	case long = "long"
-	
-	/// aadvice
-	case aadvice = "aadvice"
-	
-	/// exp
-	case exp = "exp"
-	
 	/// psy
-	case psy = "psy"
+	case psy
 	
 	/// rehab
-	case rehab = "rehab"
-	
-	/// oth
-	case oth = "oth"
+	case rehab
 }

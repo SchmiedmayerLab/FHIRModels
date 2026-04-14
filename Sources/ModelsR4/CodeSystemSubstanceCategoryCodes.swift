@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -41,12 +41,12 @@ public enum SubstanceCategoryCodes: String, FHIRPrimitiveType {
 	/// element or uncombined radical (http://www.epa.gov/opptintr/import-export/pubs/importguide.pdf).
 	case chemical
 	
-	/// A food, dietary ingredient, or dietary supplement for human or animal.
-	case food
-	
 	/// A substance intended for use in the diagnosis, cure, mitigation, treatment, or prevention of disease in man or
 	/// other animals (Federal Food Drug and Cosmetic Act).
 	case drug
+	
+	/// A food, dietary ingredient, or dietary supplement for human or animal.
+	case food
 	
 	/// A finished product which is not normally ingested, absorbed or injected (e.g. steel, iron, wood, plastic and
 	/// paper).

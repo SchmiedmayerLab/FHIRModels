@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum TransactionMode: String, FHIRPrimitiveType {
 	
-	/// Neither batch or transaction is supported.
-	case notSupported = "not-supported"
-	
 	/// Batches are  supported.
 	case batch
 	
-	/// Transactions are supported.
-	case transaction
-	
 	/// Both batches and transactions are supported.
 	case both
+	
+	/// Neither batch or transaction is supported.
+	case notSupported = "not-supported"
+	
+	/// Transactions are supported.
+	case transaction
 }

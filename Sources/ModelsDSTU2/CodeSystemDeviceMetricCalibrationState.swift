@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum DeviceMetricCalibrationState: String, FHIRPrimitiveType {
 	
-	/// The metric has not been calibrated.
-	case notCalibrated = "not-calibrated"
+	/// The metric has been calibrated.
+	case calibrated
 	
 	/// The metric needs to be calibrated.
 	case calibrationRequired = "calibration-required"
 	
-	/// The metric has been calibrated.
-	case calibrated = "calibrated"
+	/// The metric has not been calibrated.
+	case notCalibrated = "not-calibrated"
 	
 	/// The state of calibration of this metric is unspecified.
-	case unspecified = "unspecified"
+	case unspecified
 }

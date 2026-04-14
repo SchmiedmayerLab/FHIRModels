@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/MolecularSequence)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,47 +22,70 @@ import FMCore
 /**
  Representation of a molecular sequence.
  */
-open class MolecularSequence: DomainResource {
+public struct MolecularSequence: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .molecularSequence }
+	public static let resourceType: ResourceType = .molecularSequence
 	
-	/// Unique ID for this particular sequence
-	public var identifier: [Identifier]?
-	
-	/// Amino Acid Sequence/ DNA Sequence / RNA Sequence.
-	public var type: FHIRPrimitive<SequenceType>?
-	
-	/// Subject this sequence is associated too
-	public var subject: Reference?
-	
-	/// What the molecular sequence is about, when it is not about the subject of record
-	public var focus: [Reference]?
-	
-	/// Specimen used for sequencing
-	public var specimen: Reference?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The method for sequencing
 	public var device: Reference?
 	
-	/// Who should be responsible for test result
-	public var performer: Reference?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Sequence that was observed
-	public var literal: FHIRPrimitive<FHIRString>?
+	/// What the molecular sequence is about, when it is not about the subject of record
+	public var focus: [Reference]?
 	
 	/// Embedded file or a link (URL) which contains content to represent the sequence
 	public var formatted: [Attachment]?
 	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique ID for this particular sequence
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Sequence that was observed
+	public var literal: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Who should be responsible for test result
+	public var performer: Reference?
+	
 	/// A sequence defined relative to another sequence
 	public var relative: [MolecularSequenceRelative]?
 	
+	/// Specimen used for sequencing
+	public var specimen: Reference?
+	
+	/// Subject this sequence is associated too
+	public var subject: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Amino Acid Sequence/ DNA Sequence / RNA Sequence.
+	public var type: FHIRPrimitive<SequenceType>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		device: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -106,97 +129,98 @@ open class MolecularSequence: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case device
+		case `extension` = "extension"
 		case focus
 		case formatted
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case literal; case _literal
+		case meta
+		case modifierExtension
 		case performer
 		case relative
 		case specimen
 		case subject
+		case text
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.device = try Reference(from: _container, forKeyIfPresent: .device)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [Reference](from: _container, forKeyIfPresent: .focus)
 		self.formatted = try [Attachment](from: _container, forKeyIfPresent: .formatted)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.literal = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .literal, auxiliaryKey: ._literal)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
 		self.relative = try [MolecularSequenceRelative](from: _container, forKeyIfPresent: .relative)
 		self.specimen = try Reference(from: _container, forKeyIfPresent: .specimen)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try FHIRPrimitive<SequenceType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try device?.encode(on: &_container, forKey: .device)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try formatted?.encode(on: &_container, forKey: .formatted)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try literal?.encode(on: &_container, forKey: .literal, auxiliaryKey: ._literal)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try performer?.encode(on: &_container, forKey: .performer)
 		try relative?.encode(on: &_container, forKey: .relative)
 		try specimen?.encode(on: &_container, forKey: .specimen)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MolecularSequence else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return device == _other.device
-		    && focus == _other.focus
-		    && formatted == _other.formatted
-		    && identifier == _other.identifier
-		    && literal == _other.literal
-		    && performer == _other.performer
-		    && relative == _other.relative
-		    && specimen == _other.specimen
-		    && subject == _other.subject
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(device)
-		hasher.combine(focus)
-		hasher.combine(formatted)
-		hasher.combine(identifier)
-		hasher.combine(literal)
-		hasher.combine(performer)
-		hasher.combine(relative)
-		hasher.combine(specimen)
-		hasher.combine(subject)
-		hasher.combine(type)
 	}
 }
 
 /**
  A sequence defined relative to another sequence.
  */
-open class MolecularSequenceRelative: BackboneElement {
+public struct MolecularSequenceRelative: BackboneElement {
 	
 	/// Ways of identifying nucleotides or amino acids within a sequence
 	public var coordinateSystem: CodeableConcept
+	
+	/// Changes in sequence from the starting sequence
+	public var edit: [MolecularSequenceRelativeEdit]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Indicates the order in which the sequence should be considered when putting multiple 'relative' elements
 	/// together
@@ -208,17 +232,13 @@ open class MolecularSequenceRelative: BackboneElement {
 	/// A sequence used as starting sequence
 	public var startingSequence: MolecularSequenceRelativeStartingSequence?
 	
-	/// Changes in sequence from the starting sequence
-	public var edit: [MolecularSequenceRelativeEdit]?
-	
 	/// Designated initializer taking all required properties
 	public init(coordinateSystem: CodeableConcept) {
 		self.coordinateSystem = coordinateSystem
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		coordinateSystem: CodeableConcept,
 		edit: [MolecularSequenceRelativeEdit]? = nil,
 		`extension`: [Extension]? = nil,
@@ -243,87 +263,76 @@ open class MolecularSequenceRelative: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case coordinateSystem
 		case edit
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case ordinalPosition; case _ordinalPosition
 		case sequenceRange
 		case startingSequence
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.coordinateSystem = try CodeableConcept(from: _container, forKey: .coordinateSystem)
 		self.edit = try [MolecularSequenceRelativeEdit](from: _container, forKeyIfPresent: .edit)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.ordinalPosition = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .ordinalPosition, auxiliaryKey: ._ordinalPosition)
 		self.sequenceRange = try Range(from: _container, forKeyIfPresent: .sequenceRange)
 		self.startingSequence = try MolecularSequenceRelativeStartingSequence(from: _container, forKeyIfPresent: .startingSequence)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try coordinateSystem.encode(on: &_container, forKey: .coordinateSystem)
 		try edit?.encode(on: &_container, forKey: .edit)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try ordinalPosition?.encode(on: &_container, forKey: .ordinalPosition, auxiliaryKey: ._ordinalPosition)
 		try sequenceRange?.encode(on: &_container, forKey: .sequenceRange)
 		try startingSequence?.encode(on: &_container, forKey: .startingSequence)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MolecularSequenceRelative else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return coordinateSystem == _other.coordinateSystem
-		    && edit == _other.edit
-		    && ordinalPosition == _other.ordinalPosition
-		    && sequenceRange == _other.sequenceRange
-		    && startingSequence == _other.startingSequence
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(coordinateSystem)
-		hasher.combine(edit)
-		hasher.combine(ordinalPosition)
-		hasher.combine(sequenceRange)
-		hasher.combine(startingSequence)
 	}
 }
 
 /**
  Changes in sequence from the starting sequence.
  */
-open class MolecularSequenceRelativeEdit: BackboneElement {
-	
-	/// Start position of the edit on the starting sequence
-	public var start: FHIRPrimitive<FHIRInteger>?
+public struct MolecularSequenceRelativeEdit: BackboneElement {
 	
 	/// End position of the edit on the starting sequence
 	public var end: FHIRPrimitive<FHIRInteger>?
 	
-	/// Allele that was observed
-	public var replacementSequence: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Allele in the starting sequence
 	public var replacedSequence: FHIRPrimitive<FHIRString>?
 	
+	/// Allele that was observed
+	public var replacementSequence: FHIRPrimitive<FHIRString>?
+	
+	/// Start position of the edit on the starting sequence
+	public var start: FHIRPrimitive<FHIRInteger>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		end: FHIRPrimitive<FHIRInteger>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -346,56 +355,39 @@ open class MolecularSequenceRelativeEdit: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case end; case _end
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case replacedSequence; case _replacedSequence
 		case replacementSequence; case _replacementSequence
 		case start; case _start
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.end = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .end, auxiliaryKey: ._end)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.replacedSequence = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .replacedSequence, auxiliaryKey: ._replacedSequence)
 		self.replacementSequence = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .replacementSequence, auxiliaryKey: ._replacementSequence)
 		self.start = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .start, auxiliaryKey: ._start)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try end?.encode(on: &_container, forKey: .end, auxiliaryKey: ._end)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try replacedSequence?.encode(on: &_container, forKey: .replacedSequence, auxiliaryKey: ._replacedSequence)
 		try replacementSequence?.encode(on: &_container, forKey: .replacementSequence, auxiliaryKey: ._replacementSequence)
 		try start?.encode(on: &_container, forKey: .start, auxiliaryKey: ._start)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MolecularSequenceRelativeEdit else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return end == _other.end
-		    && replacedSequence == _other.replacedSequence
-		    && replacementSequence == _other.replacementSequence
-		    && start == _other.start
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(end)
-		hasher.combine(replacedSequence)
-		hasher.combine(replacementSequence)
-		hasher.combine(start)
 	}
 }
 
@@ -404,46 +396,54 @@ open class MolecularSequenceRelativeEdit: BackboneElement {
  
  A sequence that is used as a starting sequence to describe variants that are present in a sequence analyzed.
  */
-open class MolecularSequenceRelativeStartingSequence: BackboneElement {
+public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 	
 	/// All possible types for "sequence[x]"
-	public enum SequenceX: Hashable {
+	public enum SequenceX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// The genome assembly used for starting sequence, e.g. GRCh38
-	public var genomeAssembly: CodeableConcept?
-	
 	/// Chromosome Identifier
 	public var chromosome: CodeableConcept?
 	
-	/// The reference sequence that represents the starting sequence
-	/// One of `sequence[x]`
-	public var sequence: SequenceX?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Start position of the window on the starting sequence
-	public var windowStart: FHIRPrimitive<FHIRInteger>?
+	/// The genome assembly used for starting sequence, e.g. GRCh38
+	public var genomeAssembly: CodeableConcept?
 	
-	/// End position of the window on the starting sequence
-	public var windowEnd: FHIRPrimitive<FHIRInteger>?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// A relative reference to a DNA strand based on gene orientation. The strand that contains the open reading frame
 	/// of the gene is the "sense" strand, and the opposite complementary strand is the "antisense" strand.
 	public var orientation: FHIRPrimitive<OrientationType>?
 	
+	/// The reference sequence that represents the starting sequence
+	/// One of `sequence[x]`
+	public var sequence: SequenceX?
+	
 	/// An absolute reference to a strand. The Watson strand is the strand whose 5'-end is on the short arm of the
 	/// chromosome, and the Crick strand as the one whose 5'-end is on the long arm.
 	public var strand: FHIRPrimitive<StrandType>?
 	
+	/// End position of the window on the starting sequence
+	public var windowEnd: FHIRPrimitive<FHIRInteger>?
+	
+	/// Start position of the window on the starting sequence
+	public var windowStart: FHIRPrimitive<FHIRInteger>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		chromosome: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
 		genomeAssembly: CodeableConcept? = nil,
@@ -472,7 +472,10 @@ open class MolecularSequenceRelativeStartingSequence: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case chromosome
+		case `extension` = "extension"
 		case genomeAssembly
+		case id; case _id
+		case modifierExtension
 		case orientation; case _orientation
 		case sequenceCodeableConcept
 		case sequenceReference
@@ -481,14 +484,17 @@ open class MolecularSequenceRelativeStartingSequence: BackboneElement {
 		case windowEnd; case _windowEnd
 		case windowStart; case _windowStart
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.chromosome = try CodeableConcept(from: _container, forKeyIfPresent: .chromosome)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.genomeAssembly = try CodeableConcept(from: _container, forKeyIfPresent: .genomeAssembly)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.orientation = try FHIRPrimitive<OrientationType>(from: _container, forKeyIfPresent: .orientation, auxiliaryKey: ._orientation)
 		var _t_sequence: SequenceX? = nil
 		if let sequenceCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .sequenceCodeableConcept) {
@@ -513,16 +519,17 @@ open class MolecularSequenceRelativeStartingSequence: BackboneElement {
 		self.strand = try FHIRPrimitive<StrandType>(from: _container, forKeyIfPresent: .strand, auxiliaryKey: ._strand)
 		self.windowEnd = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .windowEnd, auxiliaryKey: ._windowEnd)
 		self.windowStart = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .windowStart, auxiliaryKey: ._windowStart)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try chromosome?.encode(on: &_container, forKey: .chromosome)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try genomeAssembly?.encode(on: &_container, forKey: .genomeAssembly)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try orientation?.encode(on: &_container, forKey: .orientation, auxiliaryKey: ._orientation)
 		if let _enum = sequence {
 			switch _enum {
@@ -537,35 +544,5 @@ open class MolecularSequenceRelativeStartingSequence: BackboneElement {
 		try strand?.encode(on: &_container, forKey: .strand, auxiliaryKey: ._strand)
 		try windowEnd?.encode(on: &_container, forKey: .windowEnd, auxiliaryKey: ._windowEnd)
 		try windowStart?.encode(on: &_container, forKey: .windowStart, auxiliaryKey: ._windowStart)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MolecularSequenceRelativeStartingSequence else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return chromosome == _other.chromosome
-		    && genomeAssembly == _other.genomeAssembly
-		    && orientation == _other.orientation
-		    && sequence == _other.sequence
-		    && strand == _other.strand
-		    && windowEnd == _other.windowEnd
-		    && windowStart == _other.windowStart
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(chromosome)
-		hasher.combine(genomeAssembly)
-		hasher.combine(orientation)
-		hasher.combine(sequence)
-		hasher.combine(strand)
-		hasher.combine(windowEnd)
-		hasher.combine(windowStart)
 	}
 }

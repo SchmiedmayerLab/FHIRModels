@@ -2,8 +2,8 @@
 //  ExampleScenario.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/ExampleScenario)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/ExampleScenario)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,93 @@ import FMCore
  interoperability expectations of a specification.  This resource is used to illustrate a specific time-based exchange,
  not to define in general terms how exchanges can/should occur.
  */
-open class ExampleScenario: DomainResource {
+public struct ExampleScenario: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .exampleScenario }
+	public static let resourceType: ResourceType = .exampleScenario
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// Canonical identifier for this example scenario, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// Individual involved in exchange
+	public var actor: [ExampleScenarioActor]?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Notice about intellectual property ownership, can include restrictions on use
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Copyright holder and year(s)
+	public var copyrightLabel: FHIRPrimitive<FHIRString>?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Natural language description of the ExampleScenario
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// For testing only - never for real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Additional identifier for the example scenario
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Data used in the scenario
+	public var instance: [ExampleScenarioInstance]?
+	
+	/// Jurisdiction of the authority that maintains the example scenario (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this example scenario (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Major process within scenario
+	public var process: [ExampleScenarioProcess]?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// The purpose of the example, e.g. to illustrate a scenario
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// The status of this example scenario. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this example scenario (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Canonical identifier for this example scenario, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
 	
 	/// Business version of the example scenario
 	public var version: FHIRPrimitive<FHIRString>?
@@ -50,62 +122,13 @@ open class ExampleScenario: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Name for this example scenario (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this example scenario (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this example scenario. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing only - never for real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the ExampleScenario
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Jurisdiction of the authority that maintains the example scenario (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// The purpose of the example, e.g. to illustrate a scenario
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Notice about intellectual property ownership, can include restrictions on use
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
-	/// Copyright holder and year(s)
-	public var copyrightLabel: FHIRPrimitive<FHIRString>?
-	
-	/// Individual involved in exchange
-	public var actor: [ExampleScenarioActor]?
-	
-	/// Data used in the scenario
-	public var instance: [ExampleScenarioInstance]?
-	
-	/// Major process within scenario
-	public var process: [ExampleScenarioProcess]?
-	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: [ExampleScenarioActor]? = nil,
 		contact: [ContactDetail]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -168,21 +191,30 @@ open class ExampleScenario: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case actor
 		case contact
+		case contained
 		case copyright; case _copyright
 		case copyrightLabel; case _copyrightLabel
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case instance
 		case jurisdiction
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name; case _name
 		case process
 		case publisher; case _publisher
 		case purpose; case _purpose
 		case status; case _status
+		case text
 		case title; case _title
 		case url; case _url
 		case useContext
@@ -190,27 +222,35 @@ open class ExampleScenario: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try [ExampleScenarioActor](from: _container, forKeyIfPresent: .actor)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.copyrightLabel = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.instance = try [ExampleScenarioInstance](from: _container, forKeyIfPresent: .instance)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.process = try [ExampleScenarioProcess](from: _container, forKeyIfPresent: .process)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
@@ -229,29 +269,37 @@ open class ExampleScenario: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try copyrightLabel?.encode(on: &_container, forKey: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try instance?.encode(on: &_container, forKey: .instance)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try process?.encode(on: &_container, forKey: .process)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
@@ -264,62 +312,6 @@ open class ExampleScenario: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenario else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && copyrightLabel == _other.copyrightLabel
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && instance == _other.instance
-		    && jurisdiction == _other.jurisdiction
-		    && name == _other.name
-		    && process == _other.process
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && status == _other.status
-		    && title == _other.title
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(copyrightLabel)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(instance)
-		hasher.combine(jurisdiction)
-		hasher.combine(name)
-		hasher.combine(process)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(status)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
@@ -328,32 +320,40 @@ open class ExampleScenario: DomainResource {
  
  A system or person who shares or receives an instance within the scenario.
  */
-open class ExampleScenarioActor: BackboneElement {
+public struct ExampleScenarioActor: BackboneElement {
 	
-	/// ID or acronym of the actor
-	public var key: FHIRPrimitive<FHIRString>
-	
-	/// The category of actor - person or system.
-	public var type: FHIRPrimitive<ActorDefinitionActorType>?
-	
-	/// Label for actor when rendering
-	public var title: FHIRPrimitive<FHIRString>
+	/// Formal definition of actor
+	public var definition: FHIRPrimitive<Canonical>?
 	
 	/// Details about actor
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Formal definition of actor
-	public var definition: FHIRPrimitive<Canonical>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// ID or acronym of the actor
+	public var key: FHIRPrimitive<FHIRString>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Label for actor when rendering
+	public var title: FHIRPrimitive<FHIRString>
+	
+	/// The category of actor - person or system.
+	public var type: FHIRPrimitive<ActorDefinitionActorType>?
 	
 	/// Designated initializer taking all required properties
 	public init(key: FHIRPrimitive<FHIRString>, title: FHIRPrimitive<FHIRString>) {
 		self.key = key
 		self.title = title
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		definition: FHIRPrimitive<Canonical>? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -377,60 +377,41 @@ open class ExampleScenarioActor: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case definition; case _definition
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case key; case _key
+		case modifierExtension
 		case title; case _title
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.definition = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.key = try FHIRPrimitive<FHIRString>(from: _container, forKey: .key, auxiliaryKey: ._key)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
 		self.type = try FHIRPrimitive<ActorDefinitionActorType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try key.encode(on: &_container, forKey: .key, auxiliaryKey: ._key)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioActor else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return definition == _other.definition
-		    && description_fhir == _other.description_fhir
-		    && key == _other.key
-		    && title == _other.title
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(definition)
-		hasher.combine(description_fhir)
-		hasher.combine(key)
-		hasher.combine(title)
-		hasher.combine(type)
 	}
 }
 
@@ -439,16 +420,38 @@ open class ExampleScenarioActor: BackboneElement {
  
  A single data collection that is shared as part of the scenario.
  */
-open class ExampleScenarioInstance: BackboneElement {
+public struct ExampleScenarioInstance: BackboneElement {
 	
 	/// All possible types for "structureProfile[x]"
-	public enum StructureProfileX: Hashable {
+	public enum StructureProfileX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
+	/// Resources contained in the instance
+	public var containedInstance: [ExampleScenarioInstanceContainedInstance]?
+	
+	/// Example instance data
+	public var content: Reference?
+	
+	/// Human-friendly description of the instance
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// ID or acronym of the instance
 	public var key: FHIRPrimitive<FHIRString>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Rules instance adheres to
+	/// One of `structureProfile[x]`
+	public var structureProfile: StructureProfileX?
 	
 	/// Data structure for example
 	public var structureType: Coding
@@ -456,35 +459,21 @@ open class ExampleScenarioInstance: BackboneElement {
 	/// E.g. 4.0.1
 	public var structureVersion: FHIRPrimitive<FHIRString>?
 	
-	/// Rules instance adheres to
-	/// One of `structureProfile[x]`
-	public var structureProfile: StructureProfileX?
-	
 	/// Label for instance
 	public var title: FHIRPrimitive<FHIRString>
 	
-	/// Human-friendly description of the instance
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Example instance data
-	public var content: Reference?
-	
 	/// Snapshot of instance that changes
 	public var version: [ExampleScenarioInstanceVersion]?
-	
-	/// Resources contained in the instance
-	public var containedInstance: [ExampleScenarioInstanceContainedInstance]?
 	
 	/// Designated initializer taking all required properties
 	public init(key: FHIRPrimitive<FHIRString>, structureType: Coding, title: FHIRPrimitive<FHIRString>) {
 		self.key = key
 		self.structureType = structureType
 		self.title = title
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		containedInstance: [ExampleScenarioInstanceContainedInstance]? = nil,
 		content: Reference? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -516,7 +505,10 @@ open class ExampleScenarioInstance: BackboneElement {
 		case containedInstance
 		case content
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case key; case _key
+		case modifierExtension
 		case structureProfileCanonical; case _structureProfileCanonical
 		case structureProfileUri; case _structureProfileUri
 		case structureType
@@ -524,16 +516,19 @@ open class ExampleScenarioInstance: BackboneElement {
 		case title; case _title
 		case version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.containedInstance = try [ExampleScenarioInstanceContainedInstance](from: _container, forKeyIfPresent: .containedInstance)
 		self.content = try Reference(from: _container, forKeyIfPresent: .content)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.key = try FHIRPrimitive<FHIRString>(from: _container, forKey: .key, auxiliaryKey: ._key)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_structureProfile: StructureProfileX? = nil
 		if let structureProfileCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .structureProfileCanonical, auxiliaryKey: ._structureProfileCanonical) {
 			if _t_structureProfile != nil {
@@ -552,18 +547,19 @@ open class ExampleScenarioInstance: BackboneElement {
 		self.structureVersion = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .structureVersion, auxiliaryKey: ._structureVersion)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
 		self.version = try [ExampleScenarioInstanceVersion](from: _container, forKeyIfPresent: .version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try containedInstance?.encode(on: &_container, forKey: .containedInstance)
 		try content?.encode(on: &_container, forKey: .content)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try key.encode(on: &_container, forKey: .key, auxiliaryKey: ._key)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = structureProfile {
 			switch _enum {
 			case .canonical(let _value):
@@ -576,40 +572,6 @@ open class ExampleScenarioInstance: BackboneElement {
 		try structureVersion?.encode(on: &_container, forKey: .structureVersion, auxiliaryKey: ._structureVersion)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try version?.encode(on: &_container, forKey: .version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioInstance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return containedInstance == _other.containedInstance
-		    && content == _other.content
-		    && description_fhir == _other.description_fhir
-		    && key == _other.key
-		    && structureProfile == _other.structureProfile
-		    && structureType == _other.structureType
-		    && structureVersion == _other.structureVersion
-		    && title == _other.title
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(containedInstance)
-		hasher.combine(content)
-		hasher.combine(description_fhir)
-		hasher.combine(key)
-		hasher.combine(structureProfile)
-		hasher.combine(structureType)
-		hasher.combine(structureVersion)
-		hasher.combine(title)
-		hasher.combine(version)
 	}
 }
 
@@ -618,10 +580,19 @@ open class ExampleScenarioInstance: BackboneElement {
  
  References to other instances that can be found within this instance (e.g. the observations contained in a bundle).
  */
-open class ExampleScenarioInstanceContainedInstance: BackboneElement {
+public struct ExampleScenarioInstanceContainedInstance: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Key of contained instance
 	public var instanceReference: FHIRPrimitive<FHIRString>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Key of contained instance version
 	public var versionReference: FHIRPrimitive<FHIRString>?
@@ -629,11 +600,10 @@ open class ExampleScenarioInstanceContainedInstance: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(instanceReference: FHIRPrimitive<FHIRString>) {
 		self.instanceReference = instanceReference
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		instanceReference: FHIRPrimitive<FHIRString>,
@@ -650,47 +620,34 @@ open class ExampleScenarioInstanceContainedInstance: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case instanceReference; case _instanceReference
+		case modifierExtension
 		case versionReference; case _versionReference
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.instanceReference = try FHIRPrimitive<FHIRString>(from: _container, forKey: .instanceReference, auxiliaryKey: ._instanceReference)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.versionReference = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionReference, auxiliaryKey: ._versionReference)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try instanceReference.encode(on: &_container, forKey: .instanceReference, auxiliaryKey: ._instanceReference)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try versionReference?.encode(on: &_container, forKey: .versionReference, auxiliaryKey: ._versionReference)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioInstanceContainedInstance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return instanceReference == _other.instanceReference
-		    && versionReference == _other.versionReference
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(instanceReference)
-		hasher.combine(versionReference)
 	}
 }
 
@@ -699,29 +656,37 @@ open class ExampleScenarioInstanceContainedInstance: BackboneElement {
  
  Represents the instance as it was at a specific time-point.
  */
-open class ExampleScenarioInstanceVersion: BackboneElement {
+public struct ExampleScenarioInstanceVersion: BackboneElement {
 	
-	/// ID or acronym of the version
-	public var key: FHIRPrimitive<FHIRString>
-	
-	/// Label for instance version
-	public var title: FHIRPrimitive<FHIRString>
+	/// Example instance version data
+	public var content: Reference?
 	
 	/// Details about version
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Example instance version data
-	public var content: Reference?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// ID or acronym of the version
+	public var key: FHIRPrimitive<FHIRString>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Label for instance version
+	public var title: FHIRPrimitive<FHIRString>
 	
 	/// Designated initializer taking all required properties
 	public init(key: FHIRPrimitive<FHIRString>, title: FHIRPrimitive<FHIRString>) {
 		self.key = key
 		self.title = title
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		content: Reference? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -743,55 +708,38 @@ open class ExampleScenarioInstanceVersion: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case content
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case key; case _key
+		case modifierExtension
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.content = try Reference(from: _container, forKeyIfPresent: .content)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.key = try FHIRPrimitive<FHIRString>(from: _container, forKey: .key, auxiliaryKey: ._key)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try content?.encode(on: &_container, forKey: .content)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try key.encode(on: &_container, forKey: .key, auxiliaryKey: ._key)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioInstanceVersion else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return content == _other.content
-		    && description_fhir == _other.description_fhir
-		    && key == _other.key
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(content)
-		hasher.combine(description_fhir)
-		hasher.combine(key)
-		hasher.combine(title)
 	}
 }
 
@@ -800,31 +748,39 @@ open class ExampleScenarioInstanceVersion: BackboneElement {
  
  A group of operations that represents a significant step within a scenario.
  */
-open class ExampleScenarioProcess: BackboneElement {
-	
-	/// Label for procss
-	public var title: FHIRPrimitive<FHIRString>
+public struct ExampleScenarioProcess: BackboneElement {
 	
 	/// Human-friendly description of the process
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Status before process starts
-	public var preConditions: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Status after successful completion
 	public var postConditions: FHIRPrimitive<FHIRString>?
 	
+	/// Status before process starts
+	public var preConditions: FHIRPrimitive<FHIRString>?
+	
 	/// Event within of the process
 	public var step: [ExampleScenarioProcessStep]?
+	
+	/// Label for procss
+	public var title: FHIRPrimitive<FHIRString>
 	
 	/// Designated initializer taking all required properties
 	public init(title: FHIRPrimitive<FHIRString>) {
 		self.title = title
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -848,61 +804,42 @@ open class ExampleScenarioProcess: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case postConditions; case _postConditions
 		case preConditions; case _preConditions
 		case step
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.postConditions = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .postConditions, auxiliaryKey: ._postConditions)
 		self.preConditions = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .preConditions, auxiliaryKey: ._preConditions)
 		self.step = try [ExampleScenarioProcessStep](from: _container, forKeyIfPresent: .step)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try postConditions?.encode(on: &_container, forKey: .postConditions, auxiliaryKey: ._postConditions)
 		try preConditions?.encode(on: &_container, forKey: .preConditions, auxiliaryKey: ._preConditions)
 		try step?.encode(on: &_container, forKey: .step)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioProcess else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && postConditions == _other.postConditions
-		    && preConditions == _other.preConditions
-		    && step == _other.step
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(postConditions)
-		hasher.combine(preConditions)
-		hasher.combine(step)
-		hasher.combine(title)
 	}
 }
 
@@ -911,10 +848,28 @@ open class ExampleScenarioProcess: BackboneElement {
  
  A significant action that occurs as part of the process.
  */
-open class ExampleScenarioProcessStep: BackboneElement {
+public struct ExampleScenarioProcessStep: BackboneElement {
+	
+	/// Alternate non-typical step action
+	public var alternative: [ExampleScenarioProcessStepAlternative]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Sequential number of the step
 	public var number: FHIRPrimitive<FHIRString>?
+	
+	/// Step is simple action
+	public var operation: ExampleScenarioProcessStepOperation?
+	
+	/// Pause in the flow?
+	public var pause: FHIRPrimitive<FHIRBool>?
 	
 	/// Step is nested process
 	public var process: ExampleScenarioProcess?
@@ -922,22 +877,12 @@ open class ExampleScenarioProcessStep: BackboneElement {
 	/// Step is nested workflow
 	public var workflow: FHIRPrimitive<Canonical>?
 	
-	/// Step is simple action
-	public var operation: ExampleScenarioProcessStepOperation?
-	
-	/// Alternate non-typical step action
-	public var alternative: [ExampleScenarioProcessStepAlternative]?
-	
-	/// Pause in the flow?
-	public var pause: FHIRPrimitive<FHIRBool>?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		alternative: [ExampleScenarioProcessStepAlternative]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -964,66 +909,45 @@ open class ExampleScenarioProcessStep: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case alternative
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case number; case _number
 		case operation
 		case pause; case _pause
 		case process
 		case workflow; case _workflow
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.alternative = try [ExampleScenarioProcessStepAlternative](from: _container, forKeyIfPresent: .alternative)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.number = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .number, auxiliaryKey: ._number)
 		self.operation = try ExampleScenarioProcessStepOperation(from: _container, forKeyIfPresent: .operation)
 		self.pause = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .pause, auxiliaryKey: ._pause)
 		self.process = try ExampleScenarioProcess(from: _container, forKeyIfPresent: .process)
 		self.workflow = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .workflow, auxiliaryKey: ._workflow)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try alternative?.encode(on: &_container, forKey: .alternative)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try number?.encode(on: &_container, forKey: .number, auxiliaryKey: ._number)
 		try operation?.encode(on: &_container, forKey: .operation)
 		try pause?.encode(on: &_container, forKey: .pause, auxiliaryKey: ._pause)
 		try process?.encode(on: &_container, forKey: .process)
 		try workflow?.encode(on: &_container, forKey: .workflow, auxiliaryKey: ._workflow)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioProcessStep else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return alternative == _other.alternative
-		    && number == _other.number
-		    && operation == _other.operation
-		    && pause == _other.pause
-		    && process == _other.process
-		    && workflow == _other.workflow
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(alternative)
-		hasher.combine(number)
-		hasher.combine(operation)
-		hasher.combine(pause)
-		hasher.combine(process)
-		hasher.combine(workflow)
 	}
 }
 
@@ -1033,25 +957,33 @@ open class ExampleScenarioProcessStep: BackboneElement {
  Indicates an alternative step that can be taken instead of the sub-process, scenario or operation.  E.g. to represent
  non-happy-path/exceptional/atypical circumstances.
  */
-open class ExampleScenarioProcessStepAlternative: BackboneElement {
-	
-	/// Label for alternative
-	public var title: FHIRPrimitive<FHIRString>
+public struct ExampleScenarioProcessStepAlternative: BackboneElement {
 	
 	/// Human-readable description of option
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Alternative action(s)
 	public var step: [ExampleScenarioProcessStep]?
+	
+	/// Label for alternative
+	public var title: FHIRPrimitive<FHIRString>
 	
 	/// Designated initializer taking all required properties
 	public init(title: FHIRPrimitive<FHIRString>) {
 		self.title = title
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1071,51 +1003,36 @@ open class ExampleScenarioProcessStepAlternative: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case step
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.step = try [ExampleScenarioProcessStep](from: _container, forKeyIfPresent: .step)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try step?.encode(on: &_container, forKey: .step)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioProcessStepAlternative else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && step == _other.step
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(step)
-		hasher.combine(title)
 	}
 }
 
@@ -1124,25 +1041,28 @@ open class ExampleScenarioProcessStepAlternative: BackboneElement {
  
  The step represents a single operation invoked on receiver by sender.
  */
-open class ExampleScenarioProcessStepOperation: BackboneElement {
-	
-	/// Kind of action
-	public var type: Coding?
-	
-	/// Label for step
-	public var title: FHIRPrimitive<FHIRString>
-	
-	/// Who starts the operation
-	public var initiator: FHIRPrimitive<FHIRString>?
-	
-	/// Who receives the operation
-	public var receiver: FHIRPrimitive<FHIRString>?
+public struct ExampleScenarioProcessStepOperation: BackboneElement {
 	
 	/// Human-friendly description of the operation
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Who starts the operation
+	public var initiator: FHIRPrimitive<FHIRString>?
+	
 	/// Initiator stays active?
 	public var initiatorActive: FHIRPrimitive<FHIRBool>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Who receives the operation
+	public var receiver: FHIRPrimitive<FHIRString>?
 	
 	/// Receiver stays active?
 	public var receiverActive: FHIRPrimitive<FHIRBool>?
@@ -1153,14 +1073,19 @@ open class ExampleScenarioProcessStepOperation: BackboneElement {
 	/// Instance transmitted on invocation response
 	public var response: ExampleScenarioInstanceContainedInstance?
 	
+	/// Label for step
+	public var title: FHIRPrimitive<FHIRString>
+	
+	/// Kind of action
+	public var type: Coding?
+	
 	/// Designated initializer taking all required properties
 	public init(title: FHIRPrimitive<FHIRString>) {
 		self.title = title
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1192,8 +1117,11 @@ open class ExampleScenarioProcessStepOperation: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case initiator; case _initiator
 		case initiatorActive; case _initiatorActive
+		case modifierExtension
 		case receiver; case _receiver
 		case receiverActive; case _receiverActive
 		case request
@@ -1201,71 +1129,41 @@ open class ExampleScenarioProcessStepOperation: BackboneElement {
 		case title; case _title
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.initiator = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .initiator, auxiliaryKey: ._initiator)
 		self.initiatorActive = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .initiatorActive, auxiliaryKey: ._initiatorActive)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.receiver = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .receiver, auxiliaryKey: ._receiver)
 		self.receiverActive = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .receiverActive, auxiliaryKey: ._receiverActive)
 		self.request = try ExampleScenarioInstanceContainedInstance(from: _container, forKeyIfPresent: .request)
 		self.response = try ExampleScenarioInstanceContainedInstance(from: _container, forKeyIfPresent: .response)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
 		self.type = try Coding(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try initiator?.encode(on: &_container, forKey: .initiator, auxiliaryKey: ._initiator)
 		try initiatorActive?.encode(on: &_container, forKey: .initiatorActive, auxiliaryKey: ._initiatorActive)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try receiver?.encode(on: &_container, forKey: .receiver, auxiliaryKey: ._receiver)
 		try receiverActive?.encode(on: &_container, forKey: .receiverActive, auxiliaryKey: ._receiverActive)
 		try request?.encode(on: &_container, forKey: .request)
 		try response?.encode(on: &_container, forKey: .response)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExampleScenarioProcessStepOperation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && initiator == _other.initiator
-		    && initiatorActive == _other.initiatorActive
-		    && receiver == _other.receiver
-		    && receiverActive == _other.receiverActive
-		    && request == _other.request
-		    && response == _other.response
-		    && title == _other.title
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(initiator)
-		hasher.combine(initiatorActive)
-		hasher.combine(receiver)
-		hasher.combine(receiverActive)
-		hasher.combine(request)
-		hasher.combine(response)
-		hasher.combine(title)
-		hasher.combine(type)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MedicinalProductAuthorization)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,35 +22,15 @@ import FMCore
 /**
  The regulatory authorization of a medicinal product.
  */
-open class MedicinalProductAuthorization: DomainResource {
+public struct MedicinalProductAuthorization: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .medicinalProductAuthorization }
+	public static let resourceType: ResourceType = .medicinalProductAuthorization
 	
-	/// Business identifier for the marketing authorization, as assigned by a regulator
-	public var identifier: [Identifier]?
-	
-	/// The medicinal product that is being authorized
-	public var subject: Reference?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The country in which the marketing authorization has been granted
 	public var country: [CodeableConcept]?
-	
-	/// Jurisdiction within a country
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// The status of the marketing authorization
-	public var status: CodeableConcept?
-	
-	/// The date at which the given status has become applicable
-	public var statusDate: FHIRPrimitive<DateTime>?
-	
-	/// The date when a suspended the marketing or the marketing authorization of the product is anticipated to be
-	/// restored
-	public var restoreDate: FHIRPrimitive<DateTime>?
-	
-	/// The beginning of the time period in which the marketing authorization is in the specific status shall be
-	/// specified A complete date consisting of day, month and year shall be specified using the ISO 8601 date format
-	public var validityPeriod: Period?
 	
 	/// A period of time after authorization before generic product applicatiosn can be submitted
 	public var dataExclusivityPeriod: Period?
@@ -58,31 +38,74 @@ open class MedicinalProductAuthorization: DomainResource {
 	/// The date when the first authorization was granted by a Medicines Regulatory Agency
 	public var dateOfFirstAuthorization: FHIRPrimitive<DateTime>?
 	
-	/// Date of first marketing authorization for a company's new medicinal product in any country in the World
-	public var internationalBirthDate: FHIRPrimitive<DateTime>?
-	
-	/// The legal framework against which this authorization is granted
-	public var legalBasis: CodeableConcept?
-	
-	/// Authorization in areas within a country
-	public var jurisdictionalAuthorization: [MedicinalProductAuthorizationJurisdictionalAuthorization]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Marketing Authorization Holder
 	public var holder: Reference?
 	
-	/// Medicines Regulatory Agency
-	public var regulator: Reference?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier for the marketing authorization, as assigned by a regulator
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Date of first marketing authorization for a company's new medicinal product in any country in the World
+	public var internationalBirthDate: FHIRPrimitive<DateTime>?
+	
+	/// Jurisdiction within a country
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Authorization in areas within a country
+	public var jurisdictionalAuthorization: [MedicinalProductAuthorizationJurisdictionalAuthorization]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// The legal framework against which this authorization is granted
+	public var legalBasis: CodeableConcept?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// The regulatory procedure for granting or amending a marketing authorization
 	public var procedure: MedicinalProductAuthorizationProcedure?
 	
+	/// Medicines Regulatory Agency
+	public var regulator: Reference?
+	
+	/// The date when a suspended the marketing or the marketing authorization of the product is anticipated to be
+	/// restored
+	public var restoreDate: FHIRPrimitive<DateTime>?
+	
+	/// The status of the marketing authorization
+	public var status: CodeableConcept?
+	
+	/// The date at which the given status has become applicable
+	public var statusDate: FHIRPrimitive<DateTime>?
+	
+	/// The medicinal product that is being authorized
+	public var subject: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// The beginning of the time period in which the marketing authorization is in the specific status shall be
+	/// specified A complete date consisting of day, month and year shall be specified using the ISO 8601 date format
+	public var validityPeriod: Period?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		country: [CodeableConcept]? = nil,
 		dataExclusivityPeriod: Period? = nil,
@@ -138,130 +161,113 @@ open class MedicinalProductAuthorization: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case country
 		case dataExclusivityPeriod
 		case dateOfFirstAuthorization; case _dateOfFirstAuthorization
+		case `extension` = "extension"
 		case holder
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case internationalBirthDate; case _internationalBirthDate
 		case jurisdiction
 		case jurisdictionalAuthorization
+		case language; case _language
 		case legalBasis
+		case meta
+		case modifierExtension
 		case procedure
 		case regulator
 		case restoreDate; case _restoreDate
 		case status
 		case statusDate; case _statusDate
 		case subject
+		case text
 		case validityPeriod
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.country = try [CodeableConcept](from: _container, forKeyIfPresent: .country)
 		self.dataExclusivityPeriod = try Period(from: _container, forKeyIfPresent: .dataExclusivityPeriod)
 		self.dateOfFirstAuthorization = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .dateOfFirstAuthorization, auxiliaryKey: ._dateOfFirstAuthorization)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.holder = try Reference(from: _container, forKeyIfPresent: .holder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.internationalBirthDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .internationalBirthDate, auxiliaryKey: ._internationalBirthDate)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
 		self.jurisdictionalAuthorization = try [MedicinalProductAuthorizationJurisdictionalAuthorization](from: _container, forKeyIfPresent: .jurisdictionalAuthorization)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.legalBasis = try CodeableConcept(from: _container, forKeyIfPresent: .legalBasis)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.procedure = try MedicinalProductAuthorizationProcedure(from: _container, forKeyIfPresent: .procedure)
 		self.regulator = try Reference(from: _container, forKeyIfPresent: .regulator)
 		self.restoreDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .restoreDate, auxiliaryKey: ._restoreDate)
 		self.status = try CodeableConcept(from: _container, forKeyIfPresent: .status)
 		self.statusDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .statusDate, auxiliaryKey: ._statusDate)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.validityPeriod = try Period(from: _container, forKeyIfPresent: .validityPeriod)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try country?.encode(on: &_container, forKey: .country)
 		try dataExclusivityPeriod?.encode(on: &_container, forKey: .dataExclusivityPeriod)
 		try dateOfFirstAuthorization?.encode(on: &_container, forKey: .dateOfFirstAuthorization, auxiliaryKey: ._dateOfFirstAuthorization)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try holder?.encode(on: &_container, forKey: .holder)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try internationalBirthDate?.encode(on: &_container, forKey: .internationalBirthDate, auxiliaryKey: ._internationalBirthDate)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
 		try jurisdictionalAuthorization?.encode(on: &_container, forKey: .jurisdictionalAuthorization)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try legalBasis?.encode(on: &_container, forKey: .legalBasis)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try procedure?.encode(on: &_container, forKey: .procedure)
 		try regulator?.encode(on: &_container, forKey: .regulator)
 		try restoreDate?.encode(on: &_container, forKey: .restoreDate, auxiliaryKey: ._restoreDate)
 		try status?.encode(on: &_container, forKey: .status)
 		try statusDate?.encode(on: &_container, forKey: .statusDate, auxiliaryKey: ._statusDate)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try validityPeriod?.encode(on: &_container, forKey: .validityPeriod)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductAuthorization else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return country == _other.country
-		    && dataExclusivityPeriod == _other.dataExclusivityPeriod
-		    && dateOfFirstAuthorization == _other.dateOfFirstAuthorization
-		    && holder == _other.holder
-		    && identifier == _other.identifier
-		    && internationalBirthDate == _other.internationalBirthDate
-		    && jurisdiction == _other.jurisdiction
-		    && jurisdictionalAuthorization == _other.jurisdictionalAuthorization
-		    && legalBasis == _other.legalBasis
-		    && procedure == _other.procedure
-		    && regulator == _other.regulator
-		    && restoreDate == _other.restoreDate
-		    && status == _other.status
-		    && statusDate == _other.statusDate
-		    && subject == _other.subject
-		    && validityPeriod == _other.validityPeriod
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(country)
-		hasher.combine(dataExclusivityPeriod)
-		hasher.combine(dateOfFirstAuthorization)
-		hasher.combine(holder)
-		hasher.combine(identifier)
-		hasher.combine(internationalBirthDate)
-		hasher.combine(jurisdiction)
-		hasher.combine(jurisdictionalAuthorization)
-		hasher.combine(legalBasis)
-		hasher.combine(procedure)
-		hasher.combine(regulator)
-		hasher.combine(restoreDate)
-		hasher.combine(status)
-		hasher.combine(statusDate)
-		hasher.combine(subject)
-		hasher.combine(validityPeriod)
 	}
 }
 
 /**
  Authorization in areas within a country.
  */
-open class MedicinalProductAuthorizationJurisdictionalAuthorization: BackboneElement {
-	
-	/// The assigned number for the marketing authorization
-	public var identifier: [Identifier]?
+public struct MedicinalProductAuthorizationJurisdictionalAuthorization: BackboneElement {
 	
 	/// Country of authorization
 	public var country: CodeableConcept?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The assigned number for the marketing authorization
+	public var identifier: [Identifier]?
 	
 	/// Jurisdiction within a country
 	public var jurisdiction: [CodeableConcept]?
@@ -269,16 +275,18 @@ open class MedicinalProductAuthorizationJurisdictionalAuthorization: BackboneEle
 	/// The legal status of supply in a jurisdiction or region
 	public var legalStatusOfSupply: CodeableConcept?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// The start and expected end date of the authorization
 	public var validityPeriod: Period?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		country: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -303,96 +311,85 @@ open class MedicinalProductAuthorizationJurisdictionalAuthorization: BackboneEle
 	
 	private enum CodingKeys: String, CodingKey {
 		case country
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case jurisdiction
 		case legalStatusOfSupply
+		case modifierExtension
 		case validityPeriod
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.country = try CodeableConcept(from: _container, forKeyIfPresent: .country)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
 		self.legalStatusOfSupply = try CodeableConcept(from: _container, forKeyIfPresent: .legalStatusOfSupply)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.validityPeriod = try Period(from: _container, forKeyIfPresent: .validityPeriod)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try country?.encode(on: &_container, forKey: .country)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
 		try legalStatusOfSupply?.encode(on: &_container, forKey: .legalStatusOfSupply)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try validityPeriod?.encode(on: &_container, forKey: .validityPeriod)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductAuthorizationJurisdictionalAuthorization else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return country == _other.country
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && legalStatusOfSupply == _other.legalStatusOfSupply
-		    && validityPeriod == _other.validityPeriod
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(country)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(legalStatusOfSupply)
-		hasher.combine(validityPeriod)
 	}
 }
 
 /**
  The regulatory procedure for granting or amending a marketing authorization.
  */
-open class MedicinalProductAuthorizationProcedure: BackboneElement {
+public struct MedicinalProductAuthorizationProcedure: BackboneElement {
 	
 	/// All possible types for "date[x]"
-	public enum DateX: Hashable {
+	public enum DateX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
 	
-	/// Identifier for this procedure
-	public var identifier: Identifier?
-	
-	/// Type of procedure
-	public var type: CodeableConcept
+	/// Applcations submitted to obtain a marketing authorization
+	public var application: [MedicinalProductAuthorizationProcedure]?
 	
 	/// Date of procedure
 	/// One of `date[x]`
 	public var date: DateX?
 	
-	/// Applcations submitted to obtain a marketing authorization
-	public var application: [MedicinalProductAuthorizationProcedure]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifier for this procedure
+	public var identifier: Identifier?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Type of procedure
+	public var type: CodeableConcept
 	
 	/// Designated initializer taking all required properties
 	public init(type: CodeableConcept) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		application: [MedicinalProductAuthorizationProcedure]? = nil,
 		date: DateX? = nil,
 		`extension`: [Extension]? = nil,
@@ -416,15 +413,18 @@ open class MedicinalProductAuthorizationProcedure: BackboneElement {
 		case application
 		case dateDateTime; case _dateDateTime
 		case datePeriod
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.application = try [MedicinalProductAuthorizationProcedure](from: _container, forKeyIfPresent: .application)
 		var _t_date: DateX? = nil
 		if let datePeriod = try Period(from: _container, forKeyIfPresent: .datePeriod) {
@@ -440,16 +440,17 @@ open class MedicinalProductAuthorizationProcedure: BackboneElement {
 			_t_date = .dateTime(dateDateTime)
 		}
 		self.date = _t_date
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try application?.encode(on: &_container, forKey: .application)
 		if let _enum = date {
 			switch _enum {
@@ -459,31 +460,10 @@ open class MedicinalProductAuthorizationProcedure: BackboneElement {
 				try _value.encode(on: &_container, forKey: .dateDateTime, auxiliaryKey: ._dateDateTime)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductAuthorizationProcedure else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return application == _other.application
-		    && date == _other.date
-		    && identifier == _other.identifier
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(application)
-		hasher.combine(date)
-		hasher.combine(identifier)
-		hasher.combine(type)
 	}
 }

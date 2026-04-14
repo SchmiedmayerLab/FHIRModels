@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum PaymentStatusCodes: String, FHIRPrimitiveType {
 	
-	/// The payment has been sent physically or electronically.
-	case paid
-	
 	/// The payment has been received by the payee.
 	case cleared
+	
+	/// The payment has been sent physically or electronically.
+	case paid
 }

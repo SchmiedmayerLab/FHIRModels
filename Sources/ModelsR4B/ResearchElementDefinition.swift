@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,126 +25,149 @@ import FMCore
  The ResearchElementDefinition resource describes a "PICO" element that knowledge (evidence, assertion, recommendation)
  is about.
  */
-open class ResearchElementDefinition: DomainResource {
+public struct ResearchElementDefinition: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .researchElementDefinition }
+	public static let resourceType: ResourceType = .researchElementDefinition
 	
 	/// All possible types for "subject[x]"
-	public enum SubjectX: Hashable {
+	public enum SubjectX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// Canonical identifier for this research element definition, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// When the research element definition was approved by publisher
+	public var approvalDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Who authored the content
+	public var author: [ContactDetail]?
+	
+	/// What defines the members of the research element
+	public var characteristic: [ResearchElementDefinitionCharacteristic]
+	
+	/// Used for footnotes or explanatory notes
+	public var comment: [FHIRPrimitive<FHIRString>]?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Use and/or publishing restrictions
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Natural language description of the research element definition
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Who edited the content
+	public var editor: [ContactDetail]?
+	
+	/// When the research element definition is expected to be used
+	public var effectivePeriod: Period?
+	
+	/// Who endorsed the content
+	public var endorser: [ContactDetail]?
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Additional identifier for the research element definition
 	public var identifier: [Identifier]?
 	
-	/// Business version of the research element definition
-	public var version: FHIRPrimitive<FHIRString>?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Intended jurisdiction for research element definition (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// When the research element definition was last reviewed
+	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Logic used by the ResearchElementDefinition
+	public var library: [FHIRPrimitive<Canonical>]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Name for this research element definition (computer friendly)
 	public var name: FHIRPrimitive<FHIRString>?
 	
-	/// Name for this research element definition (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
+	/// Name of the publisher (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this research element definition is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// Additional documentation, citations, etc.
+	public var relatedArtifact: [RelatedArtifact]?
+	
+	/// Who reviewed the content
+	public var reviewer: [ContactDetail]?
 	
 	/// Title for use in informal contexts
 	public var shortTitle: FHIRPrimitive<FHIRString>?
 	
-	/// Subordinate title of the ResearchElementDefinition
-	public var subtitle: FHIRPrimitive<FHIRString>?
-	
 	/// The status of this research element definition. Enables tracking the life-cycle of the content.
 	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
 	
 	/// E.g. Patient, Practitioner, RelatedPerson, Organization, Location, Device
 	/// One of `subject[x]`
 	public var subject: SubjectX?
 	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
+	/// Subordinate title of the ResearchElementDefinition
+	public var subtitle: FHIRPrimitive<FHIRString>?
 	
-	/// Name of the publisher (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the research element definition
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Used for footnotes or explanatory notes
-	public var comment: [FHIRPrimitive<FHIRString>]?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for research element definition (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this research element definition is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Describes the clinical usage of the ResearchElementDefinition
-	public var usage: FHIRPrimitive<FHIRString>?
-	
-	/// Use and/or publishing restrictions
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
-	/// When the research element definition was approved by publisher
-	public var approvalDate: FHIRPrimitive<FHIRDate>?
-	
-	/// When the research element definition was last reviewed
-	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
-	
-	/// When the research element definition is expected to be used
-	public var effectivePeriod: Period?
+	/// Name for this research element definition (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
 	
 	/// The category of the ResearchElementDefinition, such as Education, Treatment, Assessment, etc.
 	public var topic: [CodeableConcept]?
 	
-	/// Who authored the content
-	public var author: [ContactDetail]?
-	
-	/// Who edited the content
-	public var editor: [ContactDetail]?
-	
-	/// Who reviewed the content
-	public var reviewer: [ContactDetail]?
-	
-	/// Who endorsed the content
-	public var endorser: [ContactDetail]?
-	
-	/// Additional documentation, citations, etc.
-	public var relatedArtifact: [RelatedArtifact]?
-	
-	/// Logic used by the ResearchElementDefinition
-	public var library: [FHIRPrimitive<Canonical>]?
-	
 	/// The type of research element, a population, an exposure, or an outcome.
 	public var type: FHIRPrimitive<ResearchElementType>
+	
+	/// Canonical identifier for this research element definition, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Describes the clinical usage of the ResearchElementDefinition
+	public var usage: FHIRPrimitive<FHIRString>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
 	
 	/// The type of the outcome (e.g. Dichotomous, Continuous, or Descriptive).
 	public var variableType: FHIRPrimitive<EvidenceVariableType>?
 	
-	/// What defines the members of the research element
-	public var characteristic: [ResearchElementDefinitionCharacteristic]
+	/// Business version of the research element definition
+	public var version: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(characteristic: [ResearchElementDefinitionCharacteristic], status: FHIRPrimitive<PublicationStatus>, type: FHIRPrimitive<ResearchElementType>) {
 		self.characteristic = characteristic
 		self.status = status
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
 		characteristic: [ResearchElementDefinitionCharacteristic],
@@ -231,11 +254,13 @@ open class ResearchElementDefinition: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case approvalDate; case _approvalDate
 		case author
 		case characteristic
 		case comment; case _comment
 		case contact
+		case contained
 		case copyright; case _copyright
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
@@ -243,10 +268,16 @@ open class ResearchElementDefinition: DomainResource {
 		case effectivePeriod
 		case endorser
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
 		case lastReviewDate; case _lastReviewDate
 		case library; case _library
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case purpose; case _purpose
@@ -257,6 +288,7 @@ open class ResearchElementDefinition: DomainResource {
 		case subjectCodeableConcept
 		case subjectReference
 		case subtitle; case _subtitle
+		case text
 		case title; case _title
 		case topic
 		case type; case _type
@@ -266,17 +298,18 @@ open class ResearchElementDefinition: DomainResource {
 		case variableType; case _variableType
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.approvalDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .approvalDate, auxiliaryKey: ._approvalDate)
 		self.author = try [ContactDetail](from: _container, forKeyIfPresent: .author)
 		self.characteristic = try [ResearchElementDefinitionCharacteristic](from: _container, forKey: .characteristic)
 		self.comment = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -284,10 +317,16 @@ open class ResearchElementDefinition: DomainResource {
 		self.effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod)
 		self.endorser = try [ContactDetail](from: _container, forKeyIfPresent: .endorser)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastReviewDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
 		self.library = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .library, auxiliaryKey: ._library)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
@@ -310,6 +349,7 @@ open class ResearchElementDefinition: DomainResource {
 		}
 		self.subject = _t_subject
 		self.subtitle = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .subtitle, auxiliaryKey: ._subtitle)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.topic = try [CodeableConcept](from: _container, forKeyIfPresent: .topic)
 		self.type = try FHIRPrimitive<ResearchElementType>(from: _container, forKey: .type, auxiliaryKey: ._type)
@@ -318,19 +358,20 @@ open class ResearchElementDefinition: DomainResource {
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.variableType = try FHIRPrimitive<EvidenceVariableType>(from: _container, forKeyIfPresent: .variableType, auxiliaryKey: ._variableType)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
 		try characteristic.encode(on: &_container, forKey: .characteristic)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -338,10 +379,16 @@ open class ResearchElementDefinition: DomainResource {
 		try effectivePeriod?.encode(on: &_container, forKey: .effectivePeriod)
 		try endorser?.encode(on: &_container, forKey: .endorser)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastReviewDate?.encode(on: &_container, forKey: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
 		try library?.encode(on: &_container, forKey: .library, auxiliaryKey: ._library)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
@@ -358,6 +405,7 @@ open class ResearchElementDefinition: DomainResource {
 			}
 		}
 		try subtitle?.encode(on: &_container, forKey: .subtitle, auxiliaryKey: ._subtitle)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try topic?.encode(on: &_container, forKey: .topic)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
@@ -366,88 +414,6 @@ open class ResearchElementDefinition: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try variableType?.encode(on: &_container, forKey: .variableType, auxiliaryKey: ._variableType)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchElementDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return approvalDate == _other.approvalDate
-		    && author == _other.author
-		    && characteristic == _other.characteristic
-		    && comment == _other.comment
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && editor == _other.editor
-		    && effectivePeriod == _other.effectivePeriod
-		    && endorser == _other.endorser
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && lastReviewDate == _other.lastReviewDate
-		    && library == _other.library
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && relatedArtifact == _other.relatedArtifact
-		    && reviewer == _other.reviewer
-		    && shortTitle == _other.shortTitle
-		    && status == _other.status
-		    && subject == _other.subject
-		    && subtitle == _other.subtitle
-		    && title == _other.title
-		    && topic == _other.topic
-		    && type == _other.type
-		    && url == _other.url
-		    && usage == _other.usage
-		    && useContext == _other.useContext
-		    && variableType == _other.variableType
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(approvalDate)
-		hasher.combine(author)
-		hasher.combine(characteristic)
-		hasher.combine(comment)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(editor)
-		hasher.combine(effectivePeriod)
-		hasher.combine(endorser)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(lastReviewDate)
-		hasher.combine(library)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(relatedArtifact)
-		hasher.combine(reviewer)
-		hasher.combine(shortTitle)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(subtitle)
-		hasher.combine(title)
-		hasher.combine(topic)
-		hasher.combine(type)
-		hasher.combine(url)
-		hasher.combine(usage)
-		hasher.combine(useContext)
-		hasher.combine(variableType)
-		hasher.combine(version)
 	}
 }
 
@@ -457,10 +423,10 @@ open class ResearchElementDefinition: DomainResource {
  A characteristic that defines the members of the research element. Multiple characteristics are applied with "and"
  semantics.
  */
-open class ResearchElementDefinitionCharacteristic: BackboneElement {
+public struct ResearchElementDefinitionCharacteristic: BackboneElement {
 	
 	/// All possible types for "definition[x]"
-	public enum DefinitionX: Hashable {
+	public enum DefinitionX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case codeableConcept(CodeableConcept)
 		case dataRequirement(DataRequirement)
@@ -468,7 +434,7 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 	}
 	
 	/// All possible types for "participantEffective[x]"
-	public enum ParticipantEffectiveX: Hashable {
+	public enum ParticipantEffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case duration(Duration)
 		case period(Period)
@@ -476,7 +442,7 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 	}
 	
 	/// All possible types for "studyEffective[x]"
-	public enum StudyEffectiveX: Hashable {
+	public enum StudyEffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case duration(Duration)
 		case period(Period)
@@ -487,49 +453,57 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 	/// One of `definition[x]`
 	public var definition: DefinitionX
 	
-	/// What code/value pairs define members?
-	public var usageContext: [UsageContext]?
-	
 	/// Whether the characteristic includes or excludes members
 	public var exclude: FHIRPrimitive<FHIRBool>?
 	
-	/// What unit is the outcome described in?
-	public var unitOfMeasure: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// What time period does the study cover
-	public var studyEffectiveDescription: FHIRPrimitive<FHIRString>?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// What time period does the study cover
-	/// One of `studyEffective[x]`
-	public var studyEffective: StudyEffectiveX?
-	
-	/// Observation time from study start
-	public var studyEffectiveTimeFromStart: Duration?
-	
-	/// Indicates how elements are aggregated within the study effective period.
-	public var studyEffectiveGroupMeasure: FHIRPrimitive<GroupMeasure>?
-	
-	/// What time period do participants cover
-	public var participantEffectiveDescription: FHIRPrimitive<FHIRString>?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// What time period do participants cover
 	/// One of `participantEffective[x]`
 	public var participantEffective: ParticipantEffectiveX?
 	
-	/// Observation time from study start
-	public var participantEffectiveTimeFromStart: Duration?
+	/// What time period do participants cover
+	public var participantEffectiveDescription: FHIRPrimitive<FHIRString>?
 	
 	/// Indicates how elements are aggregated within the study effective period.
 	public var participantEffectiveGroupMeasure: FHIRPrimitive<GroupMeasure>?
 	
+	/// Observation time from study start
+	public var participantEffectiveTimeFromStart: Duration?
+	
+	/// What time period does the study cover
+	/// One of `studyEffective[x]`
+	public var studyEffective: StudyEffectiveX?
+	
+	/// What time period does the study cover
+	public var studyEffectiveDescription: FHIRPrimitive<FHIRString>?
+	
+	/// Indicates how elements are aggregated within the study effective period.
+	public var studyEffectiveGroupMeasure: FHIRPrimitive<GroupMeasure>?
+	
+	/// Observation time from study start
+	public var studyEffectiveTimeFromStart: Duration?
+	
+	/// What unit is the outcome described in?
+	public var unitOfMeasure: CodeableConcept?
+	
+	/// What code/value pairs define members?
+	public var usageContext: [UsageContext]?
+	
 	/// Designated initializer taking all required properties
 	public init(definition: DefinitionX) {
 		self.definition = definition
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		definition: DefinitionX,
 		exclude: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -571,6 +545,9 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 		case definitionDataRequirement
 		case definitionExpression
 		case exclude; case _exclude
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case participantEffectiveDateTime; case _participantEffectiveDateTime
 		case participantEffectiveDescription; case _participantEffectiveDescription
 		case participantEffectiveDuration
@@ -588,9 +565,9 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 		case unitOfMeasure
 		case usageContext
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -598,7 +575,7 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.definitionCanonical, CodingKeys.definitionCodeableConcept, CodingKeys.definitionDataRequirement, CodingKeys.definitionExpression], debugDescription: "Must have at least one value for \"definition\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_definition: DefinitionX? = nil
 		if let definitionCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .definitionCodeableConcept) {
 			if _t_definition != nil {
@@ -626,6 +603,9 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 		}
 		self.definition = _t_definition!
 		self.exclude = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .exclude, auxiliaryKey: ._exclude)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_participantEffective: ParticipantEffectiveX? = nil
 		if let participantEffectiveDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .participantEffectiveDateTime, auxiliaryKey: ._participantEffectiveDateTime) {
 			if _t_participantEffective != nil {
@@ -686,14 +666,12 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 		self.studyEffectiveTimeFromStart = try Duration(from: _container, forKeyIfPresent: .studyEffectiveTimeFromStart)
 		self.unitOfMeasure = try CodeableConcept(from: _container, forKeyIfPresent: .unitOfMeasure)
 		self.usageContext = try [UsageContext](from: _container, forKeyIfPresent: .usageContext)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		
 			switch definition {
 			case .codeableConcept(let _value):
@@ -707,6 +685,9 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 			}
 		
 		try exclude?.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = participantEffective {
 			switch _enum {
 			case .dateTime(let _value):
@@ -739,45 +720,5 @@ open class ResearchElementDefinitionCharacteristic: BackboneElement {
 		try studyEffectiveTimeFromStart?.encode(on: &_container, forKey: .studyEffectiveTimeFromStart)
 		try unitOfMeasure?.encode(on: &_container, forKey: .unitOfMeasure)
 		try usageContext?.encode(on: &_container, forKey: .usageContext)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchElementDefinitionCharacteristic else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return definition == _other.definition
-		    && exclude == _other.exclude
-		    && participantEffective == _other.participantEffective
-		    && participantEffectiveDescription == _other.participantEffectiveDescription
-		    && participantEffectiveGroupMeasure == _other.participantEffectiveGroupMeasure
-		    && participantEffectiveTimeFromStart == _other.participantEffectiveTimeFromStart
-		    && studyEffective == _other.studyEffective
-		    && studyEffectiveDescription == _other.studyEffectiveDescription
-		    && studyEffectiveGroupMeasure == _other.studyEffectiveGroupMeasure
-		    && studyEffectiveTimeFromStart == _other.studyEffectiveTimeFromStart
-		    && unitOfMeasure == _other.unitOfMeasure
-		    && usageContext == _other.usageContext
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(definition)
-		hasher.combine(exclude)
-		hasher.combine(participantEffective)
-		hasher.combine(participantEffectiveDescription)
-		hasher.combine(participantEffectiveGroupMeasure)
-		hasher.combine(participantEffectiveTimeFromStart)
-		hasher.combine(studyEffective)
-		hasher.combine(studyEffectiveDescription)
-		hasher.combine(studyEffectiveGroupMeasure)
-		hasher.combine(studyEffectiveTimeFromStart)
-		hasher.combine(unitOfMeasure)
-		hasher.combine(usageContext)
 	}
 }

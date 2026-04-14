@@ -2,8 +2,8 @@
 //  PaymentNotice.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/PaymentNotice)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/PaymentNotice)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,33 +25,36 @@ import FMCore
  This resource provides the status of the payment for goods and services rendered, and the request and response resource
  references.
  */
-open class PaymentNotice: DomainResource {
+public struct PaymentNotice: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .paymentNotice }
+	public static let resourceType: ResourceType = .paymentNotice
 	
-	/// Business Identifier
-	public var identifier: [Identifier]?
-	
-	/// active | cancelled | draft | entered-in-error
-	public var status: FHIRPrimitive<FHIRString>?
-	
-	/// Request reference
-	public var request: Reference?
-	
-	/// Response reference
-	public var response: Reference?
-	
-	/// Payment or clearing date
-	public var statusDate: FHIRPrimitive<FHIRDate>?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Creation date
 	public var created: FHIRPrimitive<DateTime>?
 	
-	/// Insurer or Regulatory body
-	public var target: Reference?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Responsible practitioner
-	public var provider: Reference?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Responsible organization
 	public var organization: Reference?
@@ -59,32 +62,52 @@ open class PaymentNotice: DomainResource {
 	/// Whether payment has been sent or cleared
 	public var paymentStatus: CodeableConcept?
 	
+	/// Responsible practitioner
+	public var provider: Reference?
+	
+	/// Request reference
+	public var request: Reference?
+	
+	/// Response reference
+	public var response: Reference?
+	
+	/// active | cancelled | draft | entered-in-error
+	public var status: FHIRPrimitive<FHIRString>?
+	
+	/// Payment or clearing date
+	public var statusDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Insurer or Regulatory body
+	public var target: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							contained: [ResourceProxy]? = nil,
-							created: FHIRPrimitive<DateTime>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							organization: Reference? = nil,
-							paymentStatus: CodeableConcept? = nil,
-							provider: Reference? = nil,
-							request: Reference? = nil,
-							response: Reference? = nil,
-							status: FHIRPrimitive<FHIRString>? = nil,
-							statusDate: FHIRPrimitive<FHIRDate>? = nil,
-							target: Reference? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		contained: [ResourceProxy]? = nil,
+		created: FHIRPrimitive<DateTime>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		organization: Reference? = nil,
+		paymentStatus: CodeableConcept? = nil,
+		provider: Reference? = nil,
+		request: Reference? = nil,
+		response: Reference? = nil,
+		status: FHIRPrimitive<FHIRString>? = nil,
+		statusDate: FHIRPrimitive<FHIRDate>? = nil,
+		target: Reference? = nil,
+		text: Narrative? = nil
+	) {
 		self.init()
 		self.contained = contained
 		self.created = created
@@ -109,8 +132,16 @@ open class PaymentNotice: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case created; case _created
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case organization
 		case paymentStatus
 		case provider
@@ -119,15 +150,23 @@ open class PaymentNotice: DomainResource {
 		case status; case _status
 		case statusDate; case _statusDate
 		case target
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .created, auxiliaryKey: ._created)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.paymentStatus = try CodeableConcept(from: _container, forKeyIfPresent: .paymentStatus)
 		self.provider = try Reference(from: _container, forKeyIfPresent: .provider)
@@ -136,16 +175,24 @@ open class PaymentNotice: DomainResource {
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.statusDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .statusDate, auxiliaryKey: ._statusDate)
 		self.target = try Reference(from: _container, forKeyIfPresent: .target)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try created?.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try paymentStatus?.encode(on: &_container, forKey: .paymentStatus)
 		try provider?.encode(on: &_container, forKey: .provider)
@@ -154,41 +201,6 @@ open class PaymentNotice: DomainResource {
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusDate?.encode(on: &_container, forKey: .statusDate, auxiliaryKey: ._statusDate)
 		try target?.encode(on: &_container, forKey: .target)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PaymentNotice else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return created == _other.created
-		    && identifier == _other.identifier
-		    && organization == _other.organization
-		    && paymentStatus == _other.paymentStatus
-		    && provider == _other.provider
-		    && request == _other.request
-		    && response == _other.response
-		    && status == _other.status
-		    && statusDate == _other.statusDate
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(created)
-		hasher.combine(identifier)
-		hasher.combine(organization)
-		hasher.combine(paymentStatus)
-		hasher.combine(provider)
-		hasher.combine(request)
-		hasher.combine(response)
-		hasher.combine(status)
-		hasher.combine(statusDate)
-		hasher.combine(target)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

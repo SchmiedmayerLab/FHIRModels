@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,11 +27,11 @@ import FMCore
  */
 public enum PublicationStatus: String, FHIRPrimitiveType {
 	
-	/// This resource is still under development and is not yet considered to be ready for normal use.
-	case draft
-	
 	/// This resource is ready for normal use.
 	case active
+	
+	/// This resource is still under development and is not yet considered to be ready for normal use.
+	case draft
 	
 	/// This resource has been withdrawn or superseded and should no longer be used.
 	case retired

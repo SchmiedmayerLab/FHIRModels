@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,18 +27,18 @@ import FMCore
  */
 public enum GoalCategory: String, FHIRPrimitiveType {
 	
-	/// Goals related to the consumption of food and/or beverages.
-	case dietary = "dietary"
-	
-	/// Goals related to the personal protection of the subject.
-	case safety = "safety"
-	
 	/// Goals related to the manner in which the subject acts.
-	case behavioral = "behavioral"
+	case behavioral
+	
+	/// Goals related to the consumption of food and/or beverages.
+	case dietary
 	
 	/// Goals related to the practice of nursing or established by nurses.
-	case nursing = "nursing"
+	case nursing
 	
 	/// Goals related to the mobility and motor capability of the subject.
-	case physiotherapy = "physiotherapy"
+	case physiotherapy
+	
+	/// Goals related to the personal protection of the subject.
+	case safety
 }

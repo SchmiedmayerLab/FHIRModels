@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum MedicationRequestPriority: String, FHIRPrimitiveType {
 	
-	/// The order has a normal priority .
-	case routine = "routine"
+	/// The order should be acted on as soon as possible.
+	case asap
 	
-	/// The order should be urgently.
-	case urgent = "urgent"
+	/// The order has a normal priority .
+	case routine
 	
 	/// The order is time-critical.
-	case stat = "stat"
+	case stat
 	
-	/// The order should be acted on as soon as possible.
-	case asap = "asap"
+	/// The order should be urgently.
+	case urgent
 }

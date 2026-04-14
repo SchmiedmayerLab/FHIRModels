@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,21 +28,21 @@ import FMCore
 public enum MedicationStatementStatus: String, FHIRPrimitiveType {
 	
 	/// The medication is still being taken.
-	case active = "active"
+	case active
 	
 	/// The medication is no longer being taken.
-	case completed = "completed"
+	case completed
 	
 	/// The statement was recorded incorrectly.
 	case enteredInError = "entered-in-error"
 	
 	/// The medication may be taken at some time in the future.
-	case intended = "intended"
-	
-	/// Actions implied by the statement have been permanently halted, before all of them occurred.
-	case stopped = "stopped"
+	case intended
 	
 	/// Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be
 	/// called "suspended".
 	case onHold = "on-hold"
+	
+	/// Actions implied by the statement have been permanently halted, before all of them occurred.
+	case stopped
 }

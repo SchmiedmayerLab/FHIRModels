@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum HTTPVerb: String, FHIRPrimitiveType {
 	
+	/// HTTP DELETE
+	case DELETE
+	
 	/// HTTP GET
-	case GET = "GET"
+	case GET
 	
 	/// HTTP POST
-	case POST = "POST"
+	case POST
 	
 	/// HTTP PUT
-	case PUT = "PUT"
-	
-	/// HTTP DELETE
-	case DELETE = "DELETE"
+	case PUT
 }

@@ -2,8 +2,8 @@
 //  ProcessRequest.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/ProcessRequest)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/ProcessRequest)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,31 +25,64 @@ import FMCore
  This resource provides the target, request and response, and action details for an action to be performed by the target
  on or about existing resources.
  */
-open class ProcessRequest: DomainResource {
+public struct ProcessRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .processRequest }
-	
-	/// Business Identifier
-	public var identifier: [Identifier]?
-	
-	/// active | cancelled | draft | entered-in-error
-	public var status: FHIRPrimitive<FHIRString>?
+	public static let resourceType: ResourceType = .processRequest
 	
 	/// The type of processing action being requested, for example Reversal, Readjudication,
 	/// StatusRequest,PendedRequest.
 	public var action: FHIRPrimitive<ActionList>?
 	
-	/// Party which is the target of the request
-	public var target: Reference?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Creation date
 	public var created: FHIRPrimitive<DateTime>?
 	
-	/// Responsible practitioner
-	public var provider: Reference?
+	/// Resource type(s) to exclude
+	public var exclude: [FHIRPrimitive<FHIRString>]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Resource type(s) to include
+	public var include: [FHIRPrimitive<FHIRString>]?
+	
+	/// Items to re-adjudicate
+	public var item: [ProcessRequestItem]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Remove history
+	public var nullify: FHIRPrimitive<FHIRBool>?
 	
 	/// Responsible organization
 	public var organization: Reference?
+	
+	/// Selection period
+	public var period: Period?
+	
+	/// Responsible practitioner
+	public var provider: Reference?
+	
+	/// Reference number/string
+	public var reference: FHIRPrimitive<FHIRString>?
 	
 	/// Reference to the Request resource
 	public var request: Reference?
@@ -57,55 +90,45 @@ open class ProcessRequest: DomainResource {
 	/// Reference to the Response resource
 	public var response: Reference?
 	
-	/// Remove history
-	public var nullify: FHIRPrimitive<FHIRBool>?
+	/// active | cancelled | draft | entered-in-error
+	public var status: FHIRPrimitive<FHIRString>?
 	
-	/// Reference number/string
-	public var reference: FHIRPrimitive<FHIRString>?
+	/// Party which is the target of the request
+	public var target: Reference?
 	
-	/// Items to re-adjudicate
-	public var item: [ProcessRequestItem]?
-	
-	/// Resource type(s) to include
-	public var include: [FHIRPrimitive<FHIRString>]?
-	
-	/// Resource type(s) to exclude
-	public var exclude: [FHIRPrimitive<FHIRString>]?
-	
-	/// Selection period
-	public var period: Period?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							action: FHIRPrimitive<ActionList>? = nil,
-							contained: [ResourceProxy]? = nil,
-							created: FHIRPrimitive<DateTime>? = nil,
-							exclude: [FHIRPrimitive<FHIRString>]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							include: [FHIRPrimitive<FHIRString>]? = nil,
-							item: [ProcessRequestItem]? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							nullify: FHIRPrimitive<FHIRBool>? = nil,
-							organization: Reference? = nil,
-							period: Period? = nil,
-							provider: Reference? = nil,
-							reference: FHIRPrimitive<FHIRString>? = nil,
-							request: Reference? = nil,
-							response: Reference? = nil,
-							status: FHIRPrimitive<FHIRString>? = nil,
-							target: Reference? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		action: FHIRPrimitive<ActionList>? = nil,
+		contained: [ResourceProxy]? = nil,
+		created: FHIRPrimitive<DateTime>? = nil,
+		exclude: [FHIRPrimitive<FHIRString>]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		include: [FHIRPrimitive<FHIRString>]? = nil,
+		item: [ProcessRequestItem]? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		nullify: FHIRPrimitive<FHIRBool>? = nil,
+		organization: Reference? = nil,
+		period: Period? = nil,
+		provider: Reference? = nil,
+		reference: FHIRPrimitive<FHIRString>? = nil,
+		request: Reference? = nil,
+		response: Reference? = nil,
+		status: FHIRPrimitive<FHIRString>? = nil,
+		target: Reference? = nil,
+		text: Narrative? = nil
+	) {
 		self.init()
 		self.action = action
 		self.contained = contained
@@ -135,12 +158,20 @@ open class ProcessRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case action; case _action
+		case contained
 		case created; case _created
 		case exclude; case _exclude
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case include; case _include
 		case item
+		case language; case _language
+		case meta
+		case modifierExtension
 		case nullify; case _nullify
 		case organization
 		case period
@@ -150,19 +181,27 @@ open class ProcessRequest: DomainResource {
 		case response
 		case status; case _status
 		case target
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try FHIRPrimitive<ActionList>(from: _container, forKeyIfPresent: .action, auxiliaryKey: ._action)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .created, auxiliaryKey: ._created)
 		self.exclude = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .exclude, auxiliaryKey: ._exclude)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.include = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .include, auxiliaryKey: ._include)
 		self.item = try [ProcessRequestItem](from: _container, forKeyIfPresent: .item)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.nullify = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .nullify, auxiliaryKey: ._nullify)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
@@ -172,20 +211,28 @@ open class ProcessRequest: DomainResource {
 		self.response = try Reference(from: _container, forKeyIfPresent: .response)
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.target = try Reference(from: _container, forKeyIfPresent: .target)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action, auxiliaryKey: ._action)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try created?.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
 		try exclude?.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try include?.encode(on: &_container, forKey: .include, auxiliaryKey: ._include)
 		try item?.encode(on: &_container, forKey: .item)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try nullify?.encode(on: &_container, forKey: .nullify, auxiliaryKey: ._nullify)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try period?.encode(on: &_container, forKey: .period)
@@ -195,52 +242,7 @@ open class ProcessRequest: DomainResource {
 		try response?.encode(on: &_container, forKey: .response)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try target?.encode(on: &_container, forKey: .target)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProcessRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && created == _other.created
-		    && exclude == _other.exclude
-		    && identifier == _other.identifier
-		    && include == _other.include
-		    && item == _other.item
-		    && nullify == _other.nullify
-		    && organization == _other.organization
-		    && period == _other.period
-		    && provider == _other.provider
-		    && reference == _other.reference
-		    && request == _other.request
-		    && response == _other.response
-		    && status == _other.status
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(created)
-		hasher.combine(exclude)
-		hasher.combine(identifier)
-		hasher.combine(include)
-		hasher.combine(item)
-		hasher.combine(nullify)
-		hasher.combine(organization)
-		hasher.combine(period)
-		hasher.combine(provider)
-		hasher.combine(reference)
-		hasher.combine(request)
-		hasher.combine(response)
-		hasher.combine(status)
-		hasher.combine(target)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -249,7 +251,16 @@ open class ProcessRequest: DomainResource {
  
  List of top level items to be re-adjudicated, if none specified then the entire submission is re-adjudicated.
  */
-open class ProcessRequestItem: BackboneElement {
+public struct ProcessRequestItem: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Service instance
 	public var sequenceLinkId: FHIRPrimitive<FHIRInteger>
@@ -257,16 +268,15 @@ open class ProcessRequestItem: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(sequenceLinkId: FHIRPrimitive<FHIRInteger>) {
 		self.sequenceLinkId = sequenceLinkId
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							sequenceLinkId: FHIRPrimitive<FHIRInteger>)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		sequenceLinkId: FHIRPrimitive<FHIRInteger>
+	) {
 		self.init(sequenceLinkId: sequenceLinkId)
 		self.`extension` = `extension`
 		self.id = id
@@ -276,41 +286,30 @@ open class ProcessRequestItem: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case sequenceLinkId; case _sequenceLinkId
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.sequenceLinkId = try FHIRPrimitive<FHIRInteger>(from: _container, forKey: .sequenceLinkId, auxiliaryKey: ._sequenceLinkId)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try sequenceLinkId.encode(on: &_container, forKey: .sequenceLinkId, auxiliaryKey: ._sequenceLinkId)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProcessRequestItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return sequenceLinkId == _other.sequenceLinkId
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(sequenceLinkId)
 	}
 }

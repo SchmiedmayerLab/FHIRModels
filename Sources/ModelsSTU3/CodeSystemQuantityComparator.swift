@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum QuantityComparator: String, FHIRPrimitiveType {
 	
+	/// The actual value is greater than the given value.
+	case gt = ">"
+	
+	/// The actual value is greater than or equal to the given value.
+	case gte = ">="
+	
 	/// The actual value is less than the given value.
 	case lt = "<"
 	
 	/// The actual value is less than or equal to the given value.
 	case lte = "<="
-	
-	/// The actual value is greater than or equal to the given value.
-	case gte = ">="
-	
-	/// The actual value is greater than the given value.
-	case gt = ">"
 }

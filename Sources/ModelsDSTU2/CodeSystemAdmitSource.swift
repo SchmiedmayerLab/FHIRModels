@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,33 +27,33 @@ import FMCore
  */
 public enum AdmitSource: String, FHIRPrimitiveType {
 	
+	/// born
+	case born
+	
+	/// emd
+	case emd
+	
+	/// gp
+	case gp
+	
 	/// hospTrans
 	case hospTrans = "hosp-trans"
 	
-	/// emd
-	case emd = "emd"
-	
-	/// outp
-	case outp = "outp"
-	
-	/// born
-	case born = "born"
-	
-	/// gp
-	case gp = "gp"
-	
 	/// mp
-	case mp = "mp"
+	case mp
 	
 	/// nursing
-	case nursing = "nursing"
-	
-	/// psych
-	case psych = "psych"
-	
-	/// rehab
-	case rehab = "rehab"
+	case nursing
 	
 	/// other
-	case other = "other"
+	case other
+	
+	/// outp
+	case outp
+	
+	/// psych
+	case psych
+	
+	/// rehab
+	case rehab
 }

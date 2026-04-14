@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,15 +29,15 @@ public enum FHIRDeviceStatus: String, FHIRPrimitiveType {
 	
 	/// The Device is available for use.  Note: This means for *implanted devices*  the device is implanted in the
 	/// patient.
-	case active = "active"
-	
-	/// The Device is no longer available for use (e.g. lost, expired, damaged).  Note: This means for *implanted
-	/// devices*  the device has been removed from the patient.
-	case inactive = "inactive"
+	case active
 	
 	/// The Device was entered in error and voided.
 	case enteredInError = "entered-in-error"
 	
+	/// The Device is no longer available for use (e.g. lost, expired, damaged).  Note: This means for *implanted
+	/// devices*  the device has been removed from the patient.
+	case inactive
+	
 	/// The status of the device has not been determined.
-	case unknown = "unknown"
+	case unknown
 }

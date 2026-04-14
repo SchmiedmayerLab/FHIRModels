@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,29 +27,29 @@ import FMCore
  */
 public enum AppointmentStatus: String, FHIRPrimitiveType {
 	
-	/// None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time
-	/// may not be set yet.
-	case proposed = "proposed"
-	
-	/// Some or all of the participant(s) have not finalized their acceptance of the appointment request.
-	case pending = "pending"
+	/// Some of the patients have arrived.
+	case arrived
 	
 	/// All participant(s) have been considered and the appointment is confirmed to go ahead at the date/times
 	/// specified.
-	case booked = "booked"
-	
-	/// Some of the patients have arrived.
-	case arrived = "arrived"
-	
-	/// This appointment has completed and may have resulted in an encounter.
-	case fulfilled = "fulfilled"
+	case booked
 	
 	/// The appointment has been cancelled.
-	case cancelled = "cancelled"
-	
-	/// Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
-	case noshow = "noshow"
+	case cancelled
 	
 	/// This instance should not have been part of this patient's medical record.
 	case enteredInError = "entered-in-error"
+	
+	/// This appointment has completed and may have resulted in an encounter.
+	case fulfilled
+	
+	/// Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
+	case noshow
+	
+	/// Some or all of the participant(s) have not finalized their acceptance of the appointment request.
+	case pending
+	
+	/// None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time
+	/// may not be set yet.
+	case proposed
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -32,12 +32,12 @@ public enum ConceptSubsumptionOutcome: String, FHIRPrimitiveType {
 	/// The two concepts are equivalent (have the same properties).
 	case equivalent
 	
-	/// Coding/code "A" subsumes Coding/code "B" (e.g. B has all the properties A has, and some of it's own).
-	case subsumes
+	/// Coding/code "A" and Coding/code "B" are disjoint (e.g. each has propeties that the other doesn't have).
+	case notSubsumed = "not-subsumed"
 	
 	/// Coding/code "A" is subsumed by Coding/code "B" (e.g. A has all the properties B has, and some of it's own).
 	case subsumedBy = "subsumed-by"
 	
-	/// Coding/code "A" and Coding/code "B" are disjoint (e.g. each has propeties that the other doesn't have).
-	case notSubsumed = "not-subsumed"
+	/// Coding/code "A" subsumes Coding/code "B" (e.g. B has all the properties A has, and some of it's own).
+	case subsumes
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,18 +28,18 @@ import FMCore
  */
 public enum EncounterPriority: String, FHIRPrimitiveType {
 	
-	/// Within seconds.
-	case imm = "imm"
-	
 	/// Within 10 minutes.
-	case emg = "emg"
+	case emg
 	
-	/// Within 30 minutes.
-	case urg = "urg"
+	/// Within seconds.
+	case imm
+	
+	/// Within 120 minutes.
+	case noUrg = "no-urg"
 	
 	/// Within 60 minutes.
 	case sUrg = "s-urg"
 	
-	/// Within 120 minutes.
-	case noUrg = "no-urg"
+	/// Within 30 minutes.
+	case urg
 }

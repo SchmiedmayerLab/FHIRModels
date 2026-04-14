@@ -2,8 +2,8 @@
 //  Parameters.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/Parameters)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/Parameters)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,20 +25,31 @@ import FMCore
  This resource is used to pass information into and back from an operation (whether invoked directly from REST or within
  a messaging environment).  It is not persisted or allowed to be referenced by other resources.
  */
-open class Parameters: Resource {
+public struct Parameters: Resource {
 	
-	override open class var resourceType: ResourceType { return .parameters }
+	public static let resourceType: ResourceType = .parameters
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
 	
 	/// Operation Parameter
 	public var parameter: [ParametersParameter]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		id: FHIRPrimitive<FHIRString>? = nil,
 		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
 		language: FHIRPrimitive<FHIRString>? = nil,
@@ -56,42 +67,37 @@ open class Parameters: Resource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
 		case parameter
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.parameter = try [ParametersParameter](from: _container, forKeyIfPresent: .parameter)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try parameter?.encode(on: &_container, forKey: .parameter)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Parameters else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return parameter == _other.parameter
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(parameter)
 	}
 }
 
@@ -100,10 +106,10 @@ open class Parameters: Resource {
  
  A parameter passed to or received from the operation.
  */
-open class ParametersParameter: BackboneElement {
+public struct ParametersParameter: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -161,27 +167,35 @@ open class ParametersParameter: BackboneElement {
 		case virtualServiceDetail(VirtualServiceDetail)
 	}
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Name from the definition
 	public var name: FHIRPrimitive<FHIRString>
+	
+	/// Named part of a multi-part parameter
+	public var part: [ParametersParameter]?
+	
+	/// If parameter is a whole resource
+	public var resource: ResourceProxy?
 	
 	/// If parameter is a data type
 	/// One of `value[x]`
 	public var value: ValueX?
 	
-	/// If parameter is a whole resource
-	public var resource: ResourceProxy?
-	
-	/// Named part of a multi-part parameter
-	public var part: [ParametersParameter]?
-	
 	/// Designated initializer taking all required properties
 	public init(name: FHIRPrimitive<FHIRString>) {
 		self.name = name
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -202,6 +216,9 @@ open class ParametersParameter: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case part
 		case resource
@@ -261,12 +278,15 @@ open class ParametersParameter: BackboneElement {
 		case valueUuid; case _valueUuid
 		case valueVirtualServiceDetail
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.part = try [ParametersParameter](from: _container, forKeyIfPresent: .part)
 		self.resource = try ResourceProxy(from: _container, forKeyIfPresent: .resource)
@@ -602,14 +622,15 @@ open class ParametersParameter: BackboneElement {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try part?.encode(on: &_container, forKey: .part)
 		try resource?.encode(on: &_container, forKey: .resource)
@@ -727,29 +748,5 @@ open class ParametersParameter: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ParametersParameter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return name == _other.name
-		    && part == _other.part
-		    && resource == _other.resource
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(name)
-		hasher.combine(part)
-		hasher.combine(resource)
-		hasher.combine(value)
 	}
 }

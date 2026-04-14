@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,11 +29,11 @@ public enum StructureDefinitionKind: String, FHIRPrimitiveType {
 	
 	/// A data type - either a primitive or complex structure that defines a set of data elements. These can be used
 	/// throughout Resource and extension definitions.
-	case datatype = "datatype"
-	
-	/// A resource defined by the FHIR specification.
-	case resource = "resource"
+	case datatype
 	
 	/// A logical model - a conceptual package of data that will be mapped to resources for implementation.
-	case logical = "logical"
+	case logical
+	
+	/// A resource defined by the FHIR specification.
+	case resource
 }

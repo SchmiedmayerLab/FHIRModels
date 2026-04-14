@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@ public enum MedicationStatusCodes: String, FHIRPrimitiveType {
 	/// The medication is available for use.
 	case active
 	
-	/// The medication is not available for use.
-	case inactive
-	
 	/// The medication was entered in error.
 	case enteredInError = "entered-in-error"
+	
+	/// The medication is not available for use.
+	case inactive
 }

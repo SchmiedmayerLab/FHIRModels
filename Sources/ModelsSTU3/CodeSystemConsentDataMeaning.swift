@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum ConsentDataMeaning: String, FHIRPrimitiveType {
 	
-	/// The consent applies directly to the instance of the resource
-	case instance = "instance"
-	
-	/// The consent applies directly to the instance of the resource and instances it refers to
-	case related = "related"
+	/// The consent applies to instances of resources that are authored by
+	case authoredby
 	
 	/// The consent applies directly to the instance of the resource and instances that refer to it
-	case dependents = "dependents"
+	case dependents
 	
-	/// The consent applies to instances of resources that are authored by
-	case authoredby = "authoredby"
+	/// The consent applies directly to the instance of the resource
+	case instance
+	
+	/// The consent applies directly to the instance of the resource and instances it refers to
+	case related
 }

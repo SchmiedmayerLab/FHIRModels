@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,12 +30,12 @@ public enum ActionType: String, FHIRPrimitiveType {
 	/// The action is to create a new resource.
 	case create
 	
-	/// The action is to update an existing resource.
-	case update
+	/// The action is to fire a specific event.
+	case fireEvent = "fire-event"
 	
 	/// The action is to remove an existing resource.
 	case remove
 	
-	/// The action is to fire a specific event.
-	case fireEvent = "fire-event"
+	/// The action is to update an existing resource.
+	case update
 }

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,29 +27,29 @@ import FMCore
  */
 public enum GuidePageKind: String, FHIRPrimitiveType {
 	
-	/// This is a page of content that is included in the implementation guide. It has no particular function.
-	case page = "page"
-	
-	/// This is a page that represents a human readable rendering of an example.
-	case example = "example"
-	
-	/// This is a page that represents a list of resources of one or more types.
-	case list = "list"
-	
-	/// This is a page showing where an included guide is injected.
-	case include = "include"
+	/// This is a page that creates the listed resources as a dictionary.
+	case dictionary
 	
 	/// This is a page that lists the resources of a given type, and also creates pages for all the listed types as
 	/// other pages in the section.
-	case directory = "directory"
+	case directory
 	
-	/// This is a page that creates the listed resources as a dictionary.
-	case dictionary = "dictionary"
+	/// This is a page that represents a human readable rendering of an example.
+	case example
 	
-	/// This is a generated page that contains the table of contents.
-	case toc = "toc"
+	/// This is a page showing where an included guide is injected.
+	case include
+	
+	/// This is a page that represents a list of resources of one or more types.
+	case list
+	
+	/// This is a page of content that is included in the implementation guide. It has no particular function.
+	case page
 	
 	/// This is a page that represents a presented resource. This is typically used for generated conformance resource
 	/// presentations.
-	case resource = "resource"
+	case resource
+	
+	/// This is a generated page that contains the table of contents.
+	case toc
 }

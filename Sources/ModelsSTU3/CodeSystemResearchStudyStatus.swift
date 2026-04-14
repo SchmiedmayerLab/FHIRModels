@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,22 +27,22 @@ import FMCore
  */
 public enum ResearchStudyStatus: String, FHIRPrimitiveType {
 	
-	/// The study is undergoing design but the process of selecting study subjects and capturing data has not yet begun.
-	case draft = "draft"
-	
-	/// The study is currently being executed
-	case inProgress = "in-progress"
-	
-	/// Execution of the study has been temporarily paused
-	case suspended = "suspended"
-	
-	/// The study was terminated prior to the final determination of results
-	case stopped = "stopped"
-	
 	/// The information sought by the study has been gathered and compiled and no further work is being performed
-	case completed = "completed"
+	case completed
+	
+	/// The study is undergoing design but the process of selecting study subjects and capturing data has not yet begun.
+	case draft
 	
 	/// This study never actually existed.  The record is retained for tracking purposes in the event decisions may have
 	/// been made based on this erroneous information.
 	case enteredInError = "entered-in-error"
+	
+	/// The study is currently being executed
+	case inProgress = "in-progress"
+	
+	/// The study was terminated prior to the final determination of results
+	case stopped
+	
+	/// Execution of the study has been temporarily paused
+	case suspended
 }

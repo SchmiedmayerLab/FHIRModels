@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,13 @@ import FMCore
  */
 public enum MessageEvent: String, FHIRPrimitiveType {
 	
+	/// Notification of a change to an administrative resource (either create or update). Note that there is no delete,
+	/// though some administrative resources have status or period elements for this use.
+	case adminNotify = "admin-notify"
+	
+	/// Provide a diagnostic report, or update a previously provided diagnostic report.
+	case diagnosticreportProvide = "diagnosticreport-provide"
+	
 	/// Change the status of a Medication Administration to show that it is complete.
 	case medicationAdministrationComplete = "MedicationAdministration-Complete"
 	
@@ -38,13 +45,6 @@ public enum MessageEvent: String, FHIRPrimitiveType {
 	
 	/// Update a Medication Administration record.
 	case medicationAdministrationUpdate = "MedicationAdministration-Update"
-	
-	/// Notification of a change to an administrative resource (either create or update). Note that there is no delete,
-	/// though some administrative resources have status or period elements for this use.
-	case adminNotify = "admin-notify"
-	
-	/// Provide a diagnostic report, or update a previously provided diagnostic report.
-	case diagnosticreportProvide = "diagnosticreport-provide"
 	
 	/// Provide a simple observation or update a previously provided simple observation.
 	case observationProvide = "observation-provide"

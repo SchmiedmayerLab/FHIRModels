@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
 public enum ListStatus: String, FHIRPrimitiveType {
 	
 	/// The list is considered to be an active part of the patient's record.
-	case current = "current"
-	
-	/// The list is "old" and should no longer be considered accurate or relevant.
-	case retired = "retired"
+	case current
 	
 	/// The list was never accurate.  It is retained for medico-legal purposes only.
 	case enteredInError = "entered-in-error"
+	
+	/// The list is "old" and should no longer be considered accurate or relevant.
+	case retired
 }

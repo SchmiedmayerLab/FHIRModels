@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MedicinalProductPackaged)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,45 +22,68 @@ import FMCore
 /**
  A medicinal product in a container or package.
  */
-open class MedicinalProductPackaged: DomainResource {
+public struct MedicinalProductPackaged: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .medicinalProductPackaged }
-	
-	/// Unique identifier
-	public var identifier: [Identifier]?
-	
-	/// The product with this is a pack for
-	public var subject: [Reference]?
-	
-	/// Textual description
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The legal status of supply of the medicinal product as classified by the regulator
-	public var legalStatusOfSupply: CodeableConcept?
-	
-	/// Marketing information
-	public var marketingStatus: [MarketingStatus]?
-	
-	/// Manufacturer of this Package Item
-	public var marketingAuthorization: Reference?
-	
-	/// Manufacturer of this Package Item
-	public var manufacturer: [Reference]?
+	public static let resourceType: ResourceType = .medicinalProductPackaged
 	
 	/// Batch numbering
 	public var batchIdentifier: [MedicinalProductPackagedBatchIdentifier]?
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Textual description
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// The legal status of supply of the medicinal product as classified by the regulator
+	public var legalStatusOfSupply: CodeableConcept?
+	
+	/// Manufacturer of this Package Item
+	public var manufacturer: [Reference]?
+	
+	/// Manufacturer of this Package Item
+	public var marketingAuthorization: Reference?
+	
+	/// Marketing information
+	public var marketingStatus: [MarketingStatus]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// A packaging item, as a contained for medicine, possibly with other packaging items within
 	public var packageItem: [MedicinalProductPackagedPackageItem]
+	
+	/// The product with this is a pack for
+	public var subject: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(packageItem: [MedicinalProductPackagedPackageItem]) {
 		self.packageItem = packageItem
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		batchIdentifier: [MedicinalProductPackagedBatchIdentifier]? = nil,
 		contained: [ResourceProxy]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -101,104 +124,103 @@ open class MedicinalProductPackaged: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case batchIdentifier
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case legalStatusOfSupply
 		case manufacturer
 		case marketingAuthorization
 		case marketingStatus
+		case meta
+		case modifierExtension
 		case packageItem
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.batchIdentifier = try [MedicinalProductPackagedBatchIdentifier](from: _container, forKeyIfPresent: .batchIdentifier)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.legalStatusOfSupply = try CodeableConcept(from: _container, forKeyIfPresent: .legalStatusOfSupply)
 		self.manufacturer = try [Reference](from: _container, forKeyIfPresent: .manufacturer)
 		self.marketingAuthorization = try Reference(from: _container, forKeyIfPresent: .marketingAuthorization)
 		self.marketingStatus = try [MarketingStatus](from: _container, forKeyIfPresent: .marketingStatus)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.packageItem = try [MedicinalProductPackagedPackageItem](from: _container, forKey: .packageItem)
 		self.subject = try [Reference](from: _container, forKeyIfPresent: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try batchIdentifier?.encode(on: &_container, forKey: .batchIdentifier)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try legalStatusOfSupply?.encode(on: &_container, forKey: .legalStatusOfSupply)
 		try manufacturer?.encode(on: &_container, forKey: .manufacturer)
 		try marketingAuthorization?.encode(on: &_container, forKey: .marketingAuthorization)
 		try marketingStatus?.encode(on: &_container, forKey: .marketingStatus)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try packageItem.encode(on: &_container, forKey: .packageItem)
 		try subject?.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductPackaged else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return batchIdentifier == _other.batchIdentifier
-		    && description_fhir == _other.description_fhir
-		    && identifier == _other.identifier
-		    && legalStatusOfSupply == _other.legalStatusOfSupply
-		    && manufacturer == _other.manufacturer
-		    && marketingAuthorization == _other.marketingAuthorization
-		    && marketingStatus == _other.marketingStatus
-		    && packageItem == _other.packageItem
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(batchIdentifier)
-		hasher.combine(description_fhir)
-		hasher.combine(identifier)
-		hasher.combine(legalStatusOfSupply)
-		hasher.combine(manufacturer)
-		hasher.combine(marketingAuthorization)
-		hasher.combine(marketingStatus)
-		hasher.combine(packageItem)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
 /**
  Batch numbering.
  */
-open class MedicinalProductPackagedBatchIdentifier: BackboneElement {
+public struct MedicinalProductPackagedBatchIdentifier: BackboneElement {
 	
-	/// A number appearing on the outer packaging of a specific batch
-	public var outerPackaging: Identifier
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// A number appearing on the immediate packaging (and not the outer packaging)
 	public var immediatePackaging: Identifier?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// A number appearing on the outer packaging of a specific batch
+	public var outerPackaging: Identifier
+	
 	/// Designated initializer taking all required properties
 	public init(outerPackaging: Identifier) {
 		self.outerPackaging = outerPackaging
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		immediatePackaging: Identifier? = nil,
@@ -215,67 +237,41 @@ open class MedicinalProductPackagedBatchIdentifier: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case immediatePackaging
+		case modifierExtension
 		case outerPackaging
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.immediatePackaging = try Identifier(from: _container, forKeyIfPresent: .immediatePackaging)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outerPackaging = try Identifier(from: _container, forKey: .outerPackaging)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try immediatePackaging?.encode(on: &_container, forKey: .immediatePackaging)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try outerPackaging.encode(on: &_container, forKey: .outerPackaging)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductPackagedBatchIdentifier else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return immediatePackaging == _other.immediatePackaging
-		    && outerPackaging == _other.outerPackaging
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(immediatePackaging)
-		hasher.combine(outerPackaging)
 	}
 }
 
 /**
  A packaging item, as a contained for medicine, possibly with other packaging items within.
  */
-open class MedicinalProductPackagedPackageItem: BackboneElement {
-	
-	/// Including possibly Data Carrier Identifier
-	public var identifier: [Identifier]?
-	
-	/// The physical type of the container of the medicine
-	public var type: CodeableConcept
-	
-	/// The quantity of this package in the medicinal product, at the current level of packaging. The outermost is
-	/// always 1
-	public var quantity: Quantity
-	
-	/// Material type of the package item
-	public var material: [CodeableConcept]?
+public struct MedicinalProductPackagedPackageItem: BackboneElement {
 	
 	/// A possible alternate material for the packaging
 	public var alternateMaterial: [CodeableConcept]?
@@ -283,8 +279,29 @@ open class MedicinalProductPackagedPackageItem: BackboneElement {
 	/// A device accompanying a medicinal product
 	public var device: [Reference]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Including possibly Data Carrier Identifier
+	public var identifier: [Identifier]?
+	
 	/// The manufactured item as contained in the packaged medicinal product
 	public var manufacturedItem: [Reference]?
+	
+	/// Manufacturer of this Package Item
+	public var manufacturer: [Reference]?
+	
+	/// Material type of the package item
+	public var material: [CodeableConcept]?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Other codeable characteristics
+	public var otherCharacteristics: [CodeableConcept]?
 	
 	/// Allows containers within containers
 	public var packageItem: [MedicinalProductPackagedPackageItem]?
@@ -292,24 +309,24 @@ open class MedicinalProductPackagedPackageItem: BackboneElement {
 	/// Dimensions, color etc.
 	public var physicalCharacteristics: ProdCharacteristic?
 	
-	/// Other codeable characteristics
-	public var otherCharacteristics: [CodeableConcept]?
+	/// The quantity of this package in the medicinal product, at the current level of packaging. The outermost is
+	/// always 1
+	public var quantity: Quantity
 	
 	/// Shelf Life and storage information
 	public var shelfLifeStorage: [ProductShelfLife]?
 	
-	/// Manufacturer of this Package Item
-	public var manufacturer: [Reference]?
+	/// The physical type of the container of the medicine
+	public var type: CodeableConcept
 	
 	/// Designated initializer taking all required properties
 	public init(quantity: Quantity, type: CodeableConcept) {
 		self.quantity = quantity
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		alternateMaterial: [CodeableConcept]? = nil,
 		device: [Reference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -347,10 +364,13 @@ open class MedicinalProductPackagedPackageItem: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case alternateMaterial
 		case device
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case manufacturedItem
 		case manufacturer
 		case material
+		case modifierExtension
 		case otherCharacteristics
 		case packageItem
 		case physicalCharacteristics
@@ -358,83 +378,47 @@ open class MedicinalProductPackagedPackageItem: BackboneElement {
 		case shelfLifeStorage
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.alternateMaterial = try [CodeableConcept](from: _container, forKeyIfPresent: .alternateMaterial)
 		self.device = try [Reference](from: _container, forKeyIfPresent: .device)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.manufacturedItem = try [Reference](from: _container, forKeyIfPresent: .manufacturedItem)
 		self.manufacturer = try [Reference](from: _container, forKeyIfPresent: .manufacturer)
 		self.material = try [CodeableConcept](from: _container, forKeyIfPresent: .material)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.otherCharacteristics = try [CodeableConcept](from: _container, forKeyIfPresent: .otherCharacteristics)
 		self.packageItem = try [MedicinalProductPackagedPackageItem](from: _container, forKeyIfPresent: .packageItem)
 		self.physicalCharacteristics = try ProdCharacteristic(from: _container, forKeyIfPresent: .physicalCharacteristics)
 		self.quantity = try Quantity(from: _container, forKey: .quantity)
 		self.shelfLifeStorage = try [ProductShelfLife](from: _container, forKeyIfPresent: .shelfLifeStorage)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try alternateMaterial?.encode(on: &_container, forKey: .alternateMaterial)
 		try device?.encode(on: &_container, forKey: .device)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try manufacturedItem?.encode(on: &_container, forKey: .manufacturedItem)
 		try manufacturer?.encode(on: &_container, forKey: .manufacturer)
 		try material?.encode(on: &_container, forKey: .material)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try otherCharacteristics?.encode(on: &_container, forKey: .otherCharacteristics)
 		try packageItem?.encode(on: &_container, forKey: .packageItem)
 		try physicalCharacteristics?.encode(on: &_container, forKey: .physicalCharacteristics)
 		try quantity.encode(on: &_container, forKey: .quantity)
 		try shelfLifeStorage?.encode(on: &_container, forKey: .shelfLifeStorage)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductPackagedPackageItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return alternateMaterial == _other.alternateMaterial
-		    && device == _other.device
-		    && identifier == _other.identifier
-		    && manufacturedItem == _other.manufacturedItem
-		    && manufacturer == _other.manufacturer
-		    && material == _other.material
-		    && otherCharacteristics == _other.otherCharacteristics
-		    && packageItem == _other.packageItem
-		    && physicalCharacteristics == _other.physicalCharacteristics
-		    && quantity == _other.quantity
-		    && shelfLifeStorage == _other.shelfLifeStorage
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(alternateMaterial)
-		hasher.combine(device)
-		hasher.combine(identifier)
-		hasher.combine(manufacturedItem)
-		hasher.combine(manufacturer)
-		hasher.combine(material)
-		hasher.combine(otherCharacteristics)
-		hasher.combine(packageItem)
-		hasher.combine(physicalCharacteristics)
-		hasher.combine(quantity)
-		hasher.combine(shelfLifeStorage)
-		hasher.combine(type)
 	}
 }

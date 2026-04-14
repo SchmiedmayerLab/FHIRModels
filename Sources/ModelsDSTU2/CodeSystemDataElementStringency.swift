@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,25 +30,25 @@ public enum DataElementStringency: String, FHIRPrimitiveType {
 	/// The data element is sufficiently well-constrained that multiple pieces of data captured according to the
 	/// constraints of the data element will be comparable (though in some cases, a degree of automated
 	/// conversion/normalization may be required).
-	case comparable = "comparable"
+	case comparable
+	
+	/// The data element allows multiple units of measure that are convertable between each other (e.g. inches and
+	/// centimeters) and/or allows data to be captured in multiple value sets for which a known mapping exists allowing
+	/// conversion of meaning.
+	case convertable
+	
+	/// The data element allows multiple units of measure having equivalent meaning; e.g. "cc" (cubic centimeter) and
+	/// "mL" (milliliter).
+	case equivalent
+	
+	/// The data element is unconstrained in units, choice of data types and/or choice of vocabulary such that automated
+	/// comparison of data captured using the data element is not possible.
+	case flexible
 	
 	/// The data element is fully specified down to a single value set, single unit of measure, single data type, etc.
 	/// Multiple pieces of data associated with this data element are fully comparable.
 	case fullySpecified = "fully-specified"
 	
-	/// The data element allows multiple units of measure having equivalent meaning; e.g. "cc" (cubic centimeter) and
-	/// "mL" (milliliter).
-	case equivalent = "equivalent"
-	
-	/// The data element allows multiple units of measure that are convertable between each other (e.g. inches and
-	/// centimeters) and/or allows data to be captured in multiple value sets for which a known mapping exists allowing
-	/// conversion of meaning.
-	case convertable = "convertable"
-	
 	/// A convertable data element where unit conversions are different only by a power of 10; e.g. g, mg, kg.
-	case scaleable = "scaleable"
-	
-	/// The data element is unconstrained in units, choice of data types and/or choice of vocabulary such that automated
-	/// comparison of data captured using the data element is not possible.
-	case flexible = "flexible"
+	case scaleable
 }

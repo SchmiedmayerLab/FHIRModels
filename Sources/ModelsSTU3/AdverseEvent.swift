@@ -2,8 +2,8 @@
 //  AdverseEvent.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/AdverseEvent)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/AdverseEvent)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,91 +26,114 @@ import FMCore
  a research study or other healthcare setting factors that requires additional monitoring, treatment, or
  hospitalization, or that results in death.
  */
-open class AdverseEvent: DomainResource {
+public struct AdverseEvent: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .adverseEvent }
-	
-	/// Business identifier for the event
-	public var identifier: Identifier?
+	public static let resourceType: ResourceType = .adverseEvent
 	
 	/// The type of event which is important to characterize what occurred and caused harm to the subject, or had the
 	/// potential to cause harm to the subject.
 	public var category: FHIRPrimitive<AdverseEventCategory>?
 	
-	/// actual | potential
-	public var type: CodeableConcept?
-	
-	/// Subject or group impacted by event
-	public var subject: Reference?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// When the event occurred
 	public var date: FHIRPrimitive<DateTime>?
 	
-	/// Adverse Reaction Events linked to exposure to substance
-	public var reaction: [Reference]?
-	
-	/// Location where adverse event occurred
-	public var location: Reference?
-	
-	/// Mild | Moderate | Severe
-	public var seriousness: CodeableConcept?
-	
-	/// resolved | recovering | ongoing | resolvedWithSequelae | fatal | unknown
-	public var outcome: CodeableConcept?
-	
-	/// Who recorded the adverse event
-	public var recorder: Reference?
+	/// Description of the adverse event
+	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
 	/// Who  was involved in the adverse event or the potential adverse event
 	public var eventParticipant: Reference?
 	
-	/// Description of the adverse event
-	public var description_fhir: FHIRPrimitive<FHIRString>?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// The suspected agent causing the adverse event
-	public var suspectEntity: [AdverseEventSuspectEntity]?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// AdverseEvent.subjectMedicalHistory
-	public var subjectMedicalHistory: [Reference]?
+	/// Business identifier for the event
+	public var identifier: Identifier?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Location where adverse event occurred
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// resolved | recovering | ongoing | resolvedWithSequelae | fatal | unknown
+	public var outcome: CodeableConcept?
+	
+	/// Adverse Reaction Events linked to exposure to substance
+	public var reaction: [Reference]?
+	
+	/// Who recorded the adverse event
+	public var recorder: Reference?
 	
 	/// AdverseEvent.referenceDocument
 	public var referenceDocument: [Reference]?
 	
+	/// Mild | Moderate | Severe
+	public var seriousness: CodeableConcept?
+	
 	/// AdverseEvent.study
 	public var study: [Reference]?
 	
+	/// Subject or group impacted by event
+	public var subject: Reference?
+	
+	/// AdverseEvent.subjectMedicalHistory
+	public var subjectMedicalHistory: [Reference]?
+	
+	/// The suspected agent causing the adverse event
+	public var suspectEntity: [AdverseEventSuspectEntity]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// actual | potential
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							category: FHIRPrimitive<AdverseEventCategory>? = nil,
-							contained: [ResourceProxy]? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							eventParticipant: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: Identifier? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							location: Reference? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							outcome: CodeableConcept? = nil,
-							reaction: [Reference]? = nil,
-							recorder: Reference? = nil,
-							referenceDocument: [Reference]? = nil,
-							seriousness: CodeableConcept? = nil,
-							study: [Reference]? = nil,
-							subject: Reference? = nil,
-							subjectMedicalHistory: [Reference]? = nil,
-							suspectEntity: [AdverseEventSuspectEntity]? = nil,
-							text: Narrative? = nil,
-							type: CodeableConcept? = nil)
-	{
+	public init(
+		category: FHIRPrimitive<AdverseEventCategory>? = nil,
+		contained: [ResourceProxy]? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		eventParticipant: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		location: Reference? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		outcome: CodeableConcept? = nil,
+		reaction: [Reference]? = nil,
+		recorder: Reference? = nil,
+		referenceDocument: [Reference]? = nil,
+		seriousness: CodeableConcept? = nil,
+		study: [Reference]? = nil,
+		subject: Reference? = nil,
+		subjectMedicalHistory: [Reference]? = nil,
+		suspectEntity: [AdverseEventSuspectEntity]? = nil,
+		text: Narrative? = nil,
+		type: CodeableConcept? = nil
+	) {
 		self.init()
 		self.category = category
 		self.contained = contained
@@ -141,12 +164,20 @@ open class AdverseEvent: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case category; case _category
+		case contained
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case eventParticipant
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case outcome
 		case reaction
 		case recorder
@@ -156,20 +187,28 @@ open class AdverseEvent: DomainResource {
 		case subject
 		case subjectMedicalHistory
 		case suspectEntity
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.category = try FHIRPrimitive<AdverseEventCategory>(from: _container, forKeyIfPresent: .category, auxiliaryKey: ._category)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.eventParticipant = try Reference(from: _container, forKeyIfPresent: .eventParticipant)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outcome = try CodeableConcept(from: _container, forKeyIfPresent: .outcome)
 		self.reaction = try [Reference](from: _container, forKeyIfPresent: .reaction)
 		self.recorder = try Reference(from: _container, forKeyIfPresent: .recorder)
@@ -179,21 +218,29 @@ open class AdverseEvent: DomainResource {
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
 		self.subjectMedicalHistory = try [Reference](from: _container, forKeyIfPresent: .subjectMedicalHistory)
 		self.suspectEntity = try [AdverseEventSuspectEntity](from: _container, forKeyIfPresent: .suspectEntity)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category, auxiliaryKey: ._category)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try eventParticipant?.encode(on: &_container, forKey: .eventParticipant)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try outcome?.encode(on: &_container, forKey: .outcome)
 		try reaction?.encode(on: &_container, forKey: .reaction)
 		try recorder?.encode(on: &_container, forKey: .recorder)
@@ -203,55 +250,8 @@ open class AdverseEvent: DomainResource {
 		try subject?.encode(on: &_container, forKey: .subject)
 		try subjectMedicalHistory?.encode(on: &_container, forKey: .subjectMedicalHistory)
 		try suspectEntity?.encode(on: &_container, forKey: .suspectEntity)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AdverseEvent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return category == _other.category
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && eventParticipant == _other.eventParticipant
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && outcome == _other.outcome
-		    && reaction == _other.reaction
-		    && recorder == _other.recorder
-		    && referenceDocument == _other.referenceDocument
-		    && seriousness == _other.seriousness
-		    && study == _other.study
-		    && subject == _other.subject
-		    && subjectMedicalHistory == _other.subjectMedicalHistory
-		    && suspectEntity == _other.suspectEntity
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(category)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(eventParticipant)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(outcome)
-		hasher.combine(reaction)
-		hasher.combine(recorder)
-		hasher.combine(referenceDocument)
-		hasher.combine(seriousness)
-		hasher.combine(study)
-		hasher.combine(subject)
-		hasher.combine(subjectMedicalHistory)
-		hasher.combine(suspectEntity)
-		hasher.combine(type)
 	}
 }
 
@@ -260,10 +260,7 @@ open class AdverseEvent: DomainResource {
  
  Describes the entity that is suspected to have caused the adverse event.
  */
-open class AdverseEventSuspectEntity: BackboneElement {
-	
-	/// Refers to the specific entity that caused the adverse event
-	public var instance: Reference
+public struct AdverseEventSuspectEntity: BackboneElement {
 	
 	/// None
 	public var causality: FHIRPrimitive<AdverseEventCausality>?
@@ -271,37 +268,48 @@ open class AdverseEventSuspectEntity: BackboneElement {
 	/// assess1 | assess2
 	public var causalityAssessment: CodeableConcept?
 	
-	/// AdverseEvent.suspectEntity.causalityProductRelatedness
-	public var causalityProductRelatedness: FHIRPrimitive<FHIRString>?
+	/// AdverseEvent.suspectEntity.causalityAuthor
+	public var causalityAuthor: Reference?
 	
 	/// method1 | method2
 	public var causalityMethod: CodeableConcept?
 	
-	/// AdverseEvent.suspectEntity.causalityAuthor
-	public var causalityAuthor: Reference?
+	/// AdverseEvent.suspectEntity.causalityProductRelatedness
+	public var causalityProductRelatedness: FHIRPrimitive<FHIRString>?
 	
 	/// result1 | result2
 	public var causalityResult: CodeableConcept?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Refers to the specific entity that caused the adverse event
+	public var instance: Reference
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(instance: Reference) {
 		self.instance = instance
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							causality: FHIRPrimitive<AdverseEventCausality>? = nil,
-							causalityAssessment: CodeableConcept? = nil,
-							causalityAuthor: Reference? = nil,
-							causalityMethod: CodeableConcept? = nil,
-							causalityProductRelatedness: FHIRPrimitive<FHIRString>? = nil,
-							causalityResult: CodeableConcept? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							instance: Reference,
-							modifierExtension: [Extension]? = nil)
-	{
+	public init(
+		causality: FHIRPrimitive<AdverseEventCausality>? = nil,
+		causalityAssessment: CodeableConcept? = nil,
+		causalityAuthor: Reference? = nil,
+		causalityMethod: CodeableConcept? = nil,
+		causalityProductRelatedness: FHIRPrimitive<FHIRString>? = nil,
+		causalityResult: CodeableConcept? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		instance: Reference,
+		modifierExtension: [Extension]? = nil
+	) {
 		self.init(instance: instance)
 		self.causality = causality
 		self.causalityAssessment = causalityAssessment
@@ -323,65 +331,42 @@ open class AdverseEventSuspectEntity: BackboneElement {
 		case causalityMethod
 		case causalityProductRelatedness; case _causalityProductRelatedness
 		case causalityResult
+		case `extension` = "extension"
+		case id; case _id
 		case instance
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.causality = try FHIRPrimitive<AdverseEventCausality>(from: _container, forKeyIfPresent: .causality, auxiliaryKey: ._causality)
 		self.causalityAssessment = try CodeableConcept(from: _container, forKeyIfPresent: .causalityAssessment)
 		self.causalityAuthor = try Reference(from: _container, forKeyIfPresent: .causalityAuthor)
 		self.causalityMethod = try CodeableConcept(from: _container, forKeyIfPresent: .causalityMethod)
 		self.causalityProductRelatedness = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .causalityProductRelatedness, auxiliaryKey: ._causalityProductRelatedness)
 		self.causalityResult = try CodeableConcept(from: _container, forKeyIfPresent: .causalityResult)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.instance = try Reference(from: _container, forKey: .instance)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try causality?.encode(on: &_container, forKey: .causality, auxiliaryKey: ._causality)
 		try causalityAssessment?.encode(on: &_container, forKey: .causalityAssessment)
 		try causalityAuthor?.encode(on: &_container, forKey: .causalityAuthor)
 		try causalityMethod?.encode(on: &_container, forKey: .causalityMethod)
 		try causalityProductRelatedness?.encode(on: &_container, forKey: .causalityProductRelatedness, auxiliaryKey: ._causalityProductRelatedness)
 		try causalityResult?.encode(on: &_container, forKey: .causalityResult)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try instance.encode(on: &_container, forKey: .instance)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AdverseEventSuspectEntity else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return causality == _other.causality
-		    && causalityAssessment == _other.causalityAssessment
-		    && causalityAuthor == _other.causalityAuthor
-		    && causalityMethod == _other.causalityMethod
-		    && causalityProductRelatedness == _other.causalityProductRelatedness
-		    && causalityResult == _other.causalityResult
-		    && instance == _other.instance
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(causality)
-		hasher.combine(causalityAssessment)
-		hasher.combine(causalityAuthor)
-		hasher.combine(causalityMethod)
-		hasher.combine(causalityProductRelatedness)
-		hasher.combine(causalityResult)
-		hasher.combine(instance)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

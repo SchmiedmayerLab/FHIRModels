@@ -2,8 +2,8 @@
 //  Person.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Person)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Person)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,66 +24,89 @@ import FMCore
  
  Demographics and administrative information about a person independent of a specific health-related context.
  */
-open class Person: DomainResource {
+public struct Person: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .person }
-	
-	/// A human identifier for this person
-	public var identifier: [Identifier]?
-	
-	/// A name associated with the person
-	public var name: [HumanName]?
-	
-	/// A contact detail for the person
-	public var telecom: [ContactPoint]?
-	
-	/// Administrative Gender.
-	public var gender: FHIRPrimitive<AdministrativeGender>?
-	
-	/// The date on which the person was born
-	public var birthDate: FHIRPrimitive<FHIRDate>?
-	
-	/// One or more addresses for the person
-	public var address: [Address]?
-	
-	/// Image of the person
-	public var photo: Attachment?
-	
-	/// The organization that is the custodian of the person record
-	public var managingOrganization: Reference?
+	public static let resourceType: ResourceType = .person
 	
 	/// This person's record is in active use
 	public var active: FHIRPrimitive<FHIRBool>?
 	
+	/// One or more addresses for the person
+	public var address: [Address]?
+	
+	/// The date on which the person was born
+	public var birthDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Administrative Gender.
+	public var gender: FHIRPrimitive<AdministrativeGender>?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A human identifier for this person
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
 	/// Link to a resource that concerns the same actual person
 	public var link: [PersonLink]?
 	
+	/// The organization that is the custodian of the person record
+	public var managingOrganization: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// A name associated with the person
+	public var name: [HumanName]?
+	
+	/// Image of the person
+	public var photo: Attachment?
+	
+	/// A contact detail for the person
+	public var telecom: [ContactPoint]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							active: FHIRPrimitive<FHIRBool>? = nil,
-							address: [Address]? = nil,
-							birthDate: FHIRPrimitive<FHIRDate>? = nil,
-							contained: [ResourceProxy]? = nil,
-							`extension`: [Extension]? = nil,
-							gender: FHIRPrimitive<AdministrativeGender>? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							link: [PersonLink]? = nil,
-							managingOrganization: Reference? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: [HumanName]? = nil,
-							photo: Attachment? = nil,
-							telecom: [ContactPoint]? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		active: FHIRPrimitive<FHIRBool>? = nil,
+		address: [Address]? = nil,
+		birthDate: FHIRPrimitive<FHIRDate>? = nil,
+		contained: [ResourceProxy]? = nil,
+		`extension`: [Extension]? = nil,
+		gender: FHIRPrimitive<AdministrativeGender>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		link: [PersonLink]? = nil,
+		managingOrganization: Reference? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: [HumanName]? = nil,
+		photo: Attachment? = nil,
+		telecom: [ContactPoint]? = nil,
+		text: Narrative? = nil
+	) {
 		self.init()
 		self.active = active
 		self.address = address
@@ -108,115 +131,112 @@ open class Person: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
 		case address
 		case birthDate; case _birthDate
+		case contained
+		case `extension` = "extension"
 		case gender; case _gender
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case link
 		case managingOrganization
+		case meta
+		case modifierExtension
 		case name
 		case photo
 		case telecom
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
 		self.address = try [Address](from: _container, forKeyIfPresent: .address)
 		self.birthDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .birthDate, auxiliaryKey: ._birthDate)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.link = try [PersonLink](from: _container, forKeyIfPresent: .link)
 		self.managingOrganization = try Reference(from: _container, forKeyIfPresent: .managingOrganization)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try [HumanName](from: _container, forKeyIfPresent: .name)
 		self.photo = try Attachment(from: _container, forKeyIfPresent: .photo)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
 		try birthDate?.encode(on: &_container, forKey: .birthDate, auxiliaryKey: ._birthDate)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try link?.encode(on: &_container, forKey: .link)
 		try managingOrganization?.encode(on: &_container, forKey: .managingOrganization)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name)
 		try photo?.encode(on: &_container, forKey: .photo)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Person else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && address == _other.address
-		    && birthDate == _other.birthDate
-		    && gender == _other.gender
-		    && identifier == _other.identifier
-		    && link == _other.link
-		    && managingOrganization == _other.managingOrganization
-		    && name == _other.name
-		    && photo == _other.photo
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(address)
-		hasher.combine(birthDate)
-		hasher.combine(gender)
-		hasher.combine(identifier)
-		hasher.combine(link)
-		hasher.combine(managingOrganization)
-		hasher.combine(name)
-		hasher.combine(photo)
-		hasher.combine(telecom)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
 /**
  Link to a resource that concerns the same actual person.
  */
-open class PersonLink: BackboneElement {
-	
-	/// The resource to which this actual person is associated
-	public var target: Reference
+public struct PersonLink: BackboneElement {
 	
 	/// Level of assurance that this link is actually associated with the target resource.
 	public var assurance: FHIRPrimitive<IdentityAssuranceLevel>?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The resource to which this actual person is associated
+	public var target: Reference
+	
 	/// Designated initializer taking all required properties
 	public init(target: Reference) {
 		self.target = target
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							assurance: FHIRPrimitive<IdentityAssuranceLevel>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							target: Reference)
-	{
+	public init(
+		assurance: FHIRPrimitive<IdentityAssuranceLevel>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		target: Reference
+	) {
 		self.init(target: target)
 		self.assurance = assurance
 		self.`extension` = `extension`
@@ -228,45 +248,32 @@ open class PersonLink: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case assurance; case _assurance
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case target
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.assurance = try FHIRPrimitive<IdentityAssuranceLevel>(from: _container, forKeyIfPresent: .assurance, auxiliaryKey: ._assurance)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.target = try Reference(from: _container, forKey: .target)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try assurance?.encode(on: &_container, forKey: .assurance, auxiliaryKey: ._assurance)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try target.encode(on: &_container, forKey: .target)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PersonLink else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return assurance == _other.assurance
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(assurance)
-		hasher.combine(target)
 	}
 }

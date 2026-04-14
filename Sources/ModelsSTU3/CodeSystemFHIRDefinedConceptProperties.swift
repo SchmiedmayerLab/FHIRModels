@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,25 +27,25 @@ import FMCore
  */
 public enum FHIRDefinedConceptProperties: String, FHIRPrimitiveType {
 	
-	/// True if the concept is not considered active - e.g. not a valid concept any more. Property type is boolean,
-	/// default value is false
-	case inactive = "inactive"
+	/// The concept identified in this property is a child of the concept on which it is a property. The property type
+	/// will be 'code'. The meaning of 'child' is defined by the hierarchyMeaning attribute
+	case child
 	
 	/// The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but
 	/// their use is discouraged, and they should be expected to be made inactive in a future release. Property type is
 	/// dateTime
-	case deprecated = "deprecated"
+	case deprecated
+	
+	/// True if the concept is not considered active - e.g. not a valid concept any more. Property type is boolean,
+	/// default value is false
+	case inactive
 	
 	/// The concept is not intended to be chosen by the user - only intended to be used as a selector for other
 	/// concepts. Note, though, that the interpretation of this is highly contextual; all concepts are selectable in
 	/// some context. Property type is boolean, default value is false
-	case notSelectable = "notSelectable"
+	case notSelectable
 	
 	/// The concept identified in this property is a parent of the concept on which it is a property. The property type
 	/// will be 'code'. The meaning of 'parent' is defined by the hierarchyMeaning attribute
-	case parent = "parent"
-	
-	/// The concept identified in this property is a child of the concept on which it is a property. The property type
-	/// will be 'code'. The meaning of 'child' is defined by the hierarchyMeaning attribute
-	case child = "child"
+	case parent
 }

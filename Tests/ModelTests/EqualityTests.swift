@@ -71,7 +71,6 @@ class EqualityTests: XCTestCase {
 	}
 	
 	func testElementEquality() {
-		let name0 = Element(id: FHIRString("123").asPrimitive())
 		let name1a = HumanName(family: FHIRString("Vitra").asPrimitive(),
 							   given: [FHIRString("John").asPrimitive(), FHIRString("Jeff").asPrimitive()],
 							   id: FHIRString("123").asPrimitive())
@@ -81,19 +80,14 @@ class EqualityTests: XCTestCase {
 		let name2 = HumanName(family: FHIRString("Vitra").asPrimitive(),
 							   given: [FHIRString("John").asPrimitive(), FHIRString("Jeffrey").asPrimitive()],
 							   id: FHIRString("123").asPrimitive())
-		XCTAssertNotEqual(name0, name1a)
-		XCTAssertNotEqual(name1a, name0)
 		XCTAssertEqual(name1a, name1a)
 		XCTAssertEqual(name1a, name1b)
 		XCTAssertNotEqual(name1a, name2)
 	}
 	
 	func testResourceEquality() {
-		let res0 = Resource(id: FHIRString("123").asPrimitive())
 		let res1a = Patient(id: FHIRString("123").asPrimitive())
-		XCTAssertEqual(res0, res0)
-		XCTAssertNotEqual(res0, res1a)
-		XCTAssertNotEqual(res1a, res0)
+		XCTAssertEqual(res1a, res1a)
 		
 		let adr1 = Address(city: FHIRString("Boston").asPrimitive(),
 						   id: FHIRString("123").asPrimitive(),

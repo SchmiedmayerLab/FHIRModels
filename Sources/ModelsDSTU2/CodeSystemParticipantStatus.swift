@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,21 +29,21 @@ public enum ParticipantStatus: String, FHIRPrimitiveType {
 	
 	/// The appointment participant has accepted that they can attend the appointment at the time specified in the
 	/// AppointmentResponse.
-	case accepted = "accepted"
+	case accepted
+	
+	/// The participant has completed the appointment.
+	case completed
 	
 	/// The appointment participant has declined the appointment.
-	case declined = "declined"
-	
-	/// The appointment participant has tentatively accepted the appointment.
-	case tentative = "tentative"
+	case declined
 	
 	/// The participant has in-process the appointment.
 	case inProcess = "in-process"
 	
-	/// The participant has completed the appointment.
-	case completed = "completed"
-	
 	/// This is the intitial status of an appointment participant until a participant has replied. It implies that there
 	/// is no commitment for the appointment.
 	case needsAction = "needs-action"
+	
+	/// The appointment participant has tentatively accepted the appointment.
+	case tentative
 }

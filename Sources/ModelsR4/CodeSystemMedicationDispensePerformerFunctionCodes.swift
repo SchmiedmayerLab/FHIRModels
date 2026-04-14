@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,16 +27,16 @@ import FMCore
  */
 public enum MedicationDispensePerformerFunctionCodes: String, FHIRPrimitiveType {
 	
-	/// Recorded the details of the request
-	case dataenterer
-	
-	/// Prepared the medication.
-	case packager
-	
 	/// Performed initial quality assurance on the prepared medication
 	case checker
+	
+	/// Recorded the details of the request
+	case dataenterer
 	
 	/// Performed the final quality assurance on the prepared medication against the request. Typically, this is a
 	/// pharmacist function.
 	case finalchecker
+	
+	/// Prepared the medication.
+	case packager
 }

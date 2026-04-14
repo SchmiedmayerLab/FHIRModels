@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum UnknownContentCode: String, FHIRPrimitiveType {
 	
-	/// The application does not accept either unknown elements or extensions.
-	case no = "no"
-	
-	/// The application accepts unknown extensions, but not unknown elements.
-	case extensions = "extensions"
+	/// The application accepts unknown elements and extensions.
+	case both
 	
 	/// The application accepts unknown elements, but not unknown extensions.
-	case elements = "elements"
+	case elements
 	
-	/// The application accepts unknown elements and extensions.
-	case both = "both"
+	/// The application accepts unknown extensions, but not unknown elements.
+	case extensions
+	
+	/// The application does not accept either unknown elements or extensions.
+	case no
 }

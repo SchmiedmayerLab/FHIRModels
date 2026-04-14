@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum QuestionnaireResponseStatus: String, FHIRPrimitiveType {
 	
-	/// This QuestionnaireResponse has been partially filled out with answers, but changes or additions are still
-	/// expected to be made to it.
-	case inProgress = "in-progress"
-	
-	/// This QuestionnaireResponse has been filled out with answers, and the current content is regarded as definitive.
-	case completed = "completed"
-	
 	/// This QuestionnaireResponse has been filled out with answers, then marked as complete, yet changes or additions
 	/// have been made to it afterwards.
-	case amended = "amended"
+	case amended
+	
+	/// This QuestionnaireResponse has been filled out with answers, and the current content is regarded as definitive.
+	case completed
 	
 	/// This QuestionnaireResponse was entered in error and voided.
 	case enteredInError = "entered-in-error"
 	
+	/// This QuestionnaireResponse has been partially filled out with answers, but changes or additions are still
+	/// expected to be made to it.
+	case inProgress = "in-progress"
+	
 	/// This QuestionnaireResponse has been partially filled out with answers, but has been abandoned. It is unknown
 	/// whether changes or additions are expected to be made to it.
-	case stopped = "stopped"
+	case stopped
 }

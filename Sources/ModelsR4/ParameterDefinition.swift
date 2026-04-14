@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/ParameterDefinition)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,38 +25,43 @@ import FMCore
  The parameters to the module. This collection specifies both the input and output parameters. Input parameters are
  provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse.
  */
-open class ParameterDefinition: Element {
-	
-	/// Name used to access the parameter value
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Whether the parameter is input or output for the module.
-	public var use: FHIRPrimitive<OperationParameterUse>
-	
-	/// Minimum cardinality
-	public var min: FHIRPrimitive<FHIRInteger>?
-	
-	/// Maximum cardinality (a number of *)
-	public var max: FHIRPrimitive<FHIRString>?
+public struct ParameterDefinition: Element {
 	
 	/// A brief description of the parameter
 	public var documentation: FHIRPrimitive<FHIRString>?
 	
-	/// What type of value
-	public var type: FHIRPrimitive<FHIRString>
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Maximum cardinality (a number of *)
+	public var max: FHIRPrimitive<FHIRString>?
+	
+	/// Minimum cardinality
+	public var min: FHIRPrimitive<FHIRInteger>?
+	
+	/// Name used to access the parameter value
+	public var name: FHIRPrimitive<FHIRString>?
 	
 	/// What profile the value is expected to be
 	public var profile: FHIRPrimitive<Canonical>?
+	
+	/// What type of value
+	public var type: FHIRPrimitive<FHIRString>
+	
+	/// Whether the parameter is input or output for the module.
+	public var use: FHIRPrimitive<OperationParameterUse>
 	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<FHIRString>, use: FHIRPrimitive<OperationParameterUse>) {
 		self.type = type
 		self.use = use
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		documentation: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -81,6 +86,8 @@ open class ParameterDefinition: Element {
 	
 	private enum CodingKeys: String, CodingKey {
 		case documentation; case _documentation
+		case `extension` = "extension"
+		case id; case _id
 		case max; case _max
 		case min; case _min
 		case name; case _name
@@ -88,63 +95,35 @@ open class ParameterDefinition: Element {
 		case type; case _type
 		case use; case _use
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.documentation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .documentation, auxiliaryKey: ._documentation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.max = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .max, auxiliaryKey: ._max)
 		self.min = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .min, auxiliaryKey: ._min)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.profile = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .profile, auxiliaryKey: ._profile)
 		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKey: .type, auxiliaryKey: ._type)
 		self.use = try FHIRPrimitive<OperationParameterUse>(from: _container, forKey: .use, auxiliaryKey: ._use)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try max?.encode(on: &_container, forKey: .max, auxiliaryKey: ._max)
 		try min?.encode(on: &_container, forKey: .min, auxiliaryKey: ._min)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try profile?.encode(on: &_container, forKey: .profile, auxiliaryKey: ._profile)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		try use.encode(on: &_container, forKey: .use, auxiliaryKey: ._use)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ParameterDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return documentation == _other.documentation
-		    && max == _other.max
-		    && min == _other.min
-		    && name == _other.name
-		    && profile == _other.profile
-		    && type == _other.type
-		    && use == _other.use
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(documentation)
-		hasher.combine(max)
-		hasher.combine(min)
-		hasher.combine(name)
-		hasher.combine(profile)
-		hasher.combine(type)
-		hasher.combine(use)
 	}
 }

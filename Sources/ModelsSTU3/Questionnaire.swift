@@ -2,8 +2,8 @@
 //  Questionnaire.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Questionnaire)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Questionnaire)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,111 +25,134 @@ import FMCore
  A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide
  detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.
  */
-open class Questionnaire: DomainResource {
+public struct Questionnaire: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .questionnaire }
-	
-	/// Logical URI to reference this questionnaire (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
-	
-	/// Additional identifier for the questionnaire
-	public var identifier: [Identifier]?
-	
-	/// Business version of the questionnaire
-	public var version: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this questionnaire (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this questionnaire (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this questionnaire. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date this was last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Natural language description of the questionnaire
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Why this questionnaire is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
+	public static let resourceType: ResourceType = .questionnaire
 	
 	/// When the questionnaire was approved by publisher
 	public var approvalDate: FHIRPrimitive<FHIRDate>?
 	
-	/// When the questionnaire was last reviewed
-	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
-	
-	/// When the questionnaire is expected to be used
-	public var effectivePeriod: Period?
-	
-	/// Context the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for questionnaire (if applicable)
-	public var jurisdiction: [CodeableConcept]?
+	/// Concept that represents the overall questionnaire
+	public var code: [Coding]?
 	
 	/// Contact details for the publisher
 	public var contact: [ContactDetail]?
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
 	/// Use and/or publishing restrictions
 	public var copyright: FHIRPrimitive<FHIRString>?
 	
-	/// Concept that represents the overall questionnaire
-	public var code: [Coding]?
+	/// Date this was last changed
+	public var date: FHIRPrimitive<DateTime>?
 	
-	/// The types of subjects that can be the subject of responses created for the questionnaire.
-	public var subjectType: [FHIRPrimitive<ResourceType>]?
+	/// Natural language description of the questionnaire
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// When the questionnaire is expected to be used
+	public var effectivePeriod: Period?
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Additional identifier for the questionnaire
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Questions and sections within the Questionnaire
 	public var item: [QuestionnaireItem]?
 	
+	/// Intended jurisdiction for questionnaire (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// When the questionnaire was last reviewed
+	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this questionnaire (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Name of the publisher (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this questionnaire is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// The status of this questionnaire. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// The types of subjects that can be the subject of responses created for the questionnaire.
+	public var subjectType: [FHIRPrimitive<ResourceType>]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this questionnaire (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Logical URI to reference this questionnaire (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Context the content is intended to support
+	public var useContext: [UsageContext]?
+	
+	/// Business version of the questionnaire
+	public var version: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							approvalDate: FHIRPrimitive<FHIRDate>? = nil,
-							code: [Coding]? = nil,
-							contact: [ContactDetail]? = nil,
-							contained: [ResourceProxy]? = nil,
-							copyright: FHIRPrimitive<FHIRString>? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							effectivePeriod: Period? = nil,
-							experimental: FHIRPrimitive<FHIRBool>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							item: [QuestionnaireItem]? = nil,
-							jurisdiction: [CodeableConcept]? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							lastReviewDate: FHIRPrimitive<FHIRDate>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>? = nil,
-							publisher: FHIRPrimitive<FHIRString>? = nil,
-							purpose: FHIRPrimitive<FHIRString>? = nil,
-							status: FHIRPrimitive<PublicationStatus>,
-							subjectType: [FHIRPrimitive<ResourceType>]? = nil,
-							text: Narrative? = nil,
-							title: FHIRPrimitive<FHIRString>? = nil,
-							url: FHIRPrimitive<FHIRURI>? = nil,
-							useContext: [UsageContext]? = nil,
-							version: FHIRPrimitive<FHIRString>? = nil)
-	{
+	public init(
+		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
+		code: [Coding]? = nil,
+		contact: [ContactDetail]? = nil,
+		contained: [ResourceProxy]? = nil,
+		copyright: FHIRPrimitive<FHIRString>? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		effectivePeriod: Period? = nil,
+		experimental: FHIRPrimitive<FHIRBool>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		item: [QuestionnaireItem]? = nil,
+		jurisdiction: [CodeableConcept]? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		lastReviewDate: FHIRPrimitive<FHIRDate>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		publisher: FHIRPrimitive<FHIRString>? = nil,
+		purpose: FHIRPrimitive<FHIRString>? = nil,
+		status: FHIRPrimitive<PublicationStatus>,
+		subjectType: [FHIRPrimitive<ResourceType>]? = nil,
+		text: Narrative? = nil,
+		title: FHIRPrimitive<FHIRString>? = nil,
+		url: FHIRPrimitive<FHIRURI>? = nil,
+		useContext: [UsageContext]? = nil,
+		version: FHIRPrimitive<FHIRString>? = nil
+	) {
 		self.init(status: status)
 		self.approvalDate = approvalDate
 		self.code = code
@@ -164,142 +187,109 @@ open class Questionnaire: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case approvalDate; case _approvalDate
 		case code
 		case contact
+		case contained
 		case copyright; case _copyright
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case effectivePeriod
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case item
 		case jurisdiction
+		case language; case _language
 		case lastReviewDate; case _lastReviewDate
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case purpose; case _purpose
 		case status; case _status
 		case subjectType; case _subjectType
+		case text
 		case title; case _title
 		case url; case _url
 		case useContext
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.approvalDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .approvalDate, auxiliaryKey: ._approvalDate)
 		self.code = try [Coding](from: _container, forKeyIfPresent: .code)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.item = try [QuestionnaireItem](from: _container, forKeyIfPresent: .item)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastReviewDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subjectType = try [FHIRPrimitive<ResourceType>](from: _container, forKeyIfPresent: .subjectType, auxiliaryKey: ._subjectType)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try code?.encode(on: &_container, forKey: .code)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try effectivePeriod?.encode(on: &_container, forKey: .effectivePeriod)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try item?.encode(on: &_container, forKey: .item)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastReviewDate?.encode(on: &_container, forKey: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subjectType?.encode(on: &_container, forKey: .subjectType, auxiliaryKey: ._subjectType)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Questionnaire else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return approvalDate == _other.approvalDate
-		    && code == _other.code
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && effectivePeriod == _other.effectivePeriod
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && item == _other.item
-		    && jurisdiction == _other.jurisdiction
-		    && lastReviewDate == _other.lastReviewDate
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && status == _other.status
-		    && subjectType == _other.subjectType
-		    && title == _other.title
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(approvalDate)
-		hasher.combine(code)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(effectivePeriod)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(item)
-		hasher.combine(jurisdiction)
-		hasher.combine(lastReviewDate)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(status)
-		hasher.combine(subjectType)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
 	}
 }
 
@@ -308,10 +298,10 @@ open class Questionnaire: DomainResource {
  
  A particular question, question grouping or display text that is part of the questionnaire.
  */
-open class QuestionnaireItem: BackboneElement {
+public struct QuestionnaireItem: BackboneElement {
 	
 	/// All possible types for "initial[x]"
-	public enum InitialX: Hashable {
+	public enum InitialX: Equatable, Hashable, Sendable {
 		case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case coding(Coding)
@@ -326,45 +316,20 @@ open class QuestionnaireItem: BackboneElement {
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
-	/// Unique id for item in questionnaire
-	public var linkId: FHIRPrimitive<FHIRString>
+	/// Corresponding concept for this item in a terminology
+	public var code: [Coding]?
 	
 	/// ElementDefinition - details for the item
 	public var definition: FHIRPrimitive<FHIRURI>?
 	
-	/// Corresponding concept for this item in a terminology
-	public var code: [Coding]?
-	
-	/// E.g. "1(a)", "2.5.3"
-	public var prefix: FHIRPrimitive<FHIRString>?
-	
-	/// Primary text for the item
-	public var text: FHIRPrimitive<FHIRString>?
-	
-	/// The type of questionnaire item this is - whether text for display, a grouping of other items or a particular
-	/// type of data to be captured (string, integer, coded choice, etc.).
-	public var type: FHIRPrimitive<QuestionnaireItemType>
-	
 	/// Only allow data when
 	public var enableWhen: [QuestionnaireItemEnableWhen]?
 	
-	/// Whether the item must be included in data results
-	public var required: FHIRPrimitive<FHIRBool>?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Whether the item may repeat
-	public var repeats: FHIRPrimitive<FHIRBool>?
-	
-	/// Don't allow human editing
-	public var readOnly: FHIRPrimitive<FHIRBool>?
-	
-	/// No more than this many characters
-	public var maxLength: FHIRPrimitive<FHIRInteger>?
-	
-	/// Valueset containing permitted answers
-	public var options: Reference?
-	
-	/// Permitted answer
-	public var option: [QuestionnaireItemOption]?
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Default value when item is first rendered
 	/// One of `initial[x]`
@@ -373,34 +338,67 @@ open class QuestionnaireItem: BackboneElement {
 	/// Nested questionnaire items
 	public var item: [QuestionnaireItem]?
 	
+	/// Unique id for item in questionnaire
+	public var linkId: FHIRPrimitive<FHIRString>
+	
+	/// No more than this many characters
+	public var maxLength: FHIRPrimitive<FHIRInteger>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Permitted answer
+	public var option: [QuestionnaireItemOption]?
+	
+	/// Valueset containing permitted answers
+	public var options: Reference?
+	
+	/// E.g. "1(a)", "2.5.3"
+	public var prefix: FHIRPrimitive<FHIRString>?
+	
+	/// Don't allow human editing
+	public var readOnly: FHIRPrimitive<FHIRBool>?
+	
+	/// Whether the item may repeat
+	public var repeats: FHIRPrimitive<FHIRBool>?
+	
+	/// Whether the item must be included in data results
+	public var required: FHIRPrimitive<FHIRBool>?
+	
+	/// Primary text for the item
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// The type of questionnaire item this is - whether text for display, a grouping of other items or a particular
+	/// type of data to be captured (string, integer, coded choice, etc.).
+	public var type: FHIRPrimitive<QuestionnaireItemType>
+	
 	/// Designated initializer taking all required properties
 	public init(linkId: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<QuestionnaireItemType>) {
 		self.linkId = linkId
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							code: [Coding]? = nil,
-							definition: FHIRPrimitive<FHIRURI>? = nil,
-							enableWhen: [QuestionnaireItemEnableWhen]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							initial: InitialX? = nil,
-							item: [QuestionnaireItem]? = nil,
-							linkId: FHIRPrimitive<FHIRString>,
-							maxLength: FHIRPrimitive<FHIRInteger>? = nil,
-							modifierExtension: [Extension]? = nil,
-							option: [QuestionnaireItemOption]? = nil,
-							options: Reference? = nil,
-							prefix: FHIRPrimitive<FHIRString>? = nil,
-							readOnly: FHIRPrimitive<FHIRBool>? = nil,
-							repeats: FHIRPrimitive<FHIRBool>? = nil,
-							required: FHIRPrimitive<FHIRBool>? = nil,
-							text: FHIRPrimitive<FHIRString>? = nil,
-							type: FHIRPrimitive<QuestionnaireItemType>)
-	{
+	public init(
+		code: [Coding]? = nil,
+		definition: FHIRPrimitive<FHIRURI>? = nil,
+		enableWhen: [QuestionnaireItemEnableWhen]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		initial: InitialX? = nil,
+		item: [QuestionnaireItem]? = nil,
+		linkId: FHIRPrimitive<FHIRString>,
+		maxLength: FHIRPrimitive<FHIRInteger>? = nil,
+		modifierExtension: [Extension]? = nil,
+		option: [QuestionnaireItemOption]? = nil,
+		options: Reference? = nil,
+		prefix: FHIRPrimitive<FHIRString>? = nil,
+		readOnly: FHIRPrimitive<FHIRBool>? = nil,
+		repeats: FHIRPrimitive<FHIRBool>? = nil,
+		required: FHIRPrimitive<FHIRBool>? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil,
+		type: FHIRPrimitive<QuestionnaireItemType>
+	) {
 		self.init(linkId: linkId, type: type)
 		self.code = code
 		self.definition = definition
@@ -426,6 +424,8 @@ open class QuestionnaireItem: BackboneElement {
 		case code
 		case definition; case _definition
 		case enableWhen
+		case `extension` = "extension"
+		case id; case _id
 		case initialAttachment
 		case initialBoolean; case _initialBoolean
 		case initialCoding
@@ -441,6 +441,7 @@ open class QuestionnaireItem: BackboneElement {
 		case item
 		case linkId; case _linkId
 		case maxLength; case _maxLength
+		case modifierExtension
 		case option
 		case options
 		case prefix; case _prefix
@@ -450,15 +451,17 @@ open class QuestionnaireItem: BackboneElement {
 		case text; case _text
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try [Coding](from: _container, forKeyIfPresent: .code)
 		self.definition = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
 		self.enableWhen = try [QuestionnaireItemEnableWhen](from: _container, forKeyIfPresent: .enableWhen)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_initial: InitialX? = nil
 		if let initialBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .initialBoolean, auxiliaryKey: ._initialBoolean) {
 			if _t_initial != nil {
@@ -536,6 +539,7 @@ open class QuestionnaireItem: BackboneElement {
 		self.item = try [QuestionnaireItem](from: _container, forKeyIfPresent: .item)
 		self.linkId = try FHIRPrimitive<FHIRString>(from: _container, forKey: .linkId, auxiliaryKey: ._linkId)
 		self.maxLength = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .maxLength, auxiliaryKey: ._maxLength)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.option = try [QuestionnaireItemOption](from: _container, forKeyIfPresent: .option)
 		self.options = try Reference(from: _container, forKeyIfPresent: .options)
 		self.prefix = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .prefix, auxiliaryKey: ._prefix)
@@ -544,17 +548,17 @@ open class QuestionnaireItem: BackboneElement {
 		self.required = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .required, auxiliaryKey: ._required)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		self.type = try FHIRPrimitive<QuestionnaireItemType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
 		try enableWhen?.encode(on: &_container, forKey: .enableWhen)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		if let _enum = initial {
 			switch _enum {
 			case .boolean(let _value):
@@ -586,6 +590,7 @@ open class QuestionnaireItem: BackboneElement {
 		try item?.encode(on: &_container, forKey: .item)
 		try linkId.encode(on: &_container, forKey: .linkId, auxiliaryKey: ._linkId)
 		try maxLength?.encode(on: &_container, forKey: .maxLength, auxiliaryKey: ._maxLength)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try option?.encode(on: &_container, forKey: .option)
 		try options?.encode(on: &_container, forKey: .options)
 		try prefix?.encode(on: &_container, forKey: .prefix, auxiliaryKey: ._prefix)
@@ -594,52 +599,6 @@ open class QuestionnaireItem: BackboneElement {
 		try required?.encode(on: &_container, forKey: .required, auxiliaryKey: ._required)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? QuestionnaireItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && definition == _other.definition
-		    && enableWhen == _other.enableWhen
-		    && initial == _other.initial
-		    && item == _other.item
-		    && linkId == _other.linkId
-		    && maxLength == _other.maxLength
-		    && option == _other.option
-		    && options == _other.options
-		    && prefix == _other.prefix
-		    && readOnly == _other.readOnly
-		    && repeats == _other.repeats
-		    && required == _other.required
-		    && text == _other.text
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(definition)
-		hasher.combine(enableWhen)
-		hasher.combine(initial)
-		hasher.combine(item)
-		hasher.combine(linkId)
-		hasher.combine(maxLength)
-		hasher.combine(option)
-		hasher.combine(options)
-		hasher.combine(prefix)
-		hasher.combine(readOnly)
-		hasher.combine(repeats)
-		hasher.combine(required)
-		hasher.combine(text)
-		hasher.combine(type)
 	}
 }
 
@@ -649,10 +608,10 @@ open class QuestionnaireItem: BackboneElement {
  A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the
  specified condition is true.
  */
-open class QuestionnaireItemEnableWhen: BackboneElement {
+public struct QuestionnaireItemEnableWhen: BackboneElement {
 	
 	/// All possible types for "answer[x]"
-	public enum AnswerX: Hashable {
+	public enum AnswerX: Equatable, Hashable, Sendable {
 		case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case coding(Coding)
@@ -667,31 +626,39 @@ open class QuestionnaireItemEnableWhen: BackboneElement {
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
-	/// Question that determines whether item is enabled
-	public var question: FHIRPrimitive<FHIRString>
-	
-	/// Enable when answered or not
-	public var hasAnswer: FHIRPrimitive<FHIRBool>?
-	
 	/// Value question must have
 	/// One of `answer[x]`
 	public var answer: AnswerX?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Enable when answered or not
+	public var hasAnswer: FHIRPrimitive<FHIRBool>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Question that determines whether item is enabled
+	public var question: FHIRPrimitive<FHIRString>
+	
 	/// Designated initializer taking all required properties
 	public init(question: FHIRPrimitive<FHIRString>) {
 		self.question = question
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							answer: AnswerX? = nil,
-							`extension`: [Extension]? = nil,
-							hasAnswer: FHIRPrimitive<FHIRBool>? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							question: FHIRPrimitive<FHIRString>)
-	{
+	public init(
+		answer: AnswerX? = nil,
+		`extension`: [Extension]? = nil,
+		hasAnswer: FHIRPrimitive<FHIRBool>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		question: FHIRPrimitive<FHIRString>
+	) {
 		self.init(question: question)
 		self.answer = answer
 		self.`extension` = `extension`
@@ -715,15 +682,18 @@ open class QuestionnaireItemEnableWhen: BackboneElement {
 		case answerString; case _answerString
 		case answerTime; case _answerTime
 		case answerUri; case _answerUri
+		case `extension` = "extension"
 		case hasAnswer; case _hasAnswer
+		case id; case _id
+		case modifierExtension
 		case question; case _question
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_answer: AnswerX? = nil
 		if let answerBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .answerBoolean, auxiliaryKey: ._answerBoolean) {
 			if _t_answer != nil {
@@ -798,16 +768,17 @@ open class QuestionnaireItemEnableWhen: BackboneElement {
 			_t_answer = .reference(answerReference)
 		}
 		self.answer = _t_answer
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.hasAnswer = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .hasAnswer, auxiliaryKey: ._hasAnswer)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.question = try FHIRPrimitive<FHIRString>(from: _container, forKey: .question, auxiliaryKey: ._question)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = answer {
 			switch _enum {
 			case .boolean(let _value):
@@ -836,30 +807,11 @@ open class QuestionnaireItemEnableWhen: BackboneElement {
 				try _value.encode(on: &_container, forKey: .answerReference)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try hasAnswer?.encode(on: &_container, forKey: .hasAnswer, auxiliaryKey: ._hasAnswer)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try question.encode(on: &_container, forKey: .question, auxiliaryKey: ._question)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? QuestionnaireItemEnableWhen else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return answer == _other.answer
-		    && hasAnswer == _other.hasAnswer
-		    && question == _other.question
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(answer)
-		hasher.combine(hasAnswer)
-		hasher.combine(question)
 	}
 }
 
@@ -868,16 +820,25 @@ open class QuestionnaireItemEnableWhen: BackboneElement {
  
  One of the permitted answers for a "choice" or "open-choice" question.
  */
-open class QuestionnaireItemOption: BackboneElement {
+public struct QuestionnaireItemOption: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case integer(FHIRPrimitive<FHIRInteger>)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Answer value
 	/// One of `value[x]`
@@ -886,16 +847,15 @@ open class QuestionnaireItemOption: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(value: ValueX) {
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							value: ValueX)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		value: ValueX
+	) {
 		self.init(value: value)
 		self.`extension` = `extension`
 		self.id = id
@@ -905,15 +865,18 @@ open class QuestionnaireItemOption: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case valueCoding
 		case valueDate; case _valueDate
 		case valueInteger; case _valueInteger
 		case valueString; case _valueString
 		case valueTime; case _valueTime
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -921,7 +884,10 @@ open class QuestionnaireItemOption: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueCoding, CodingKeys.valueDate, CodingKeys.valueInteger, CodingKeys.valueString, CodingKeys.valueTime], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_value: ValueX? = nil
 		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
 			if _t_value != nil {
@@ -954,14 +920,15 @@ open class QuestionnaireItemOption: BackboneElement {
 			_t_value = .coding(valueCoding)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
 			switch value {
 			case .integer(let _value):
@@ -976,23 +943,5 @@ open class QuestionnaireItemOption: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueCoding)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? QuestionnaireItemOption else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(value)
 	}
 }

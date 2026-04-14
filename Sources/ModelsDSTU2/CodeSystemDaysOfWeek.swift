@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,24 +27,24 @@ import FMCore
  */
 public enum DaysOfWeek: String, FHIRPrimitiveType {
 	
-	/// Monday
-	case mon = "mon"
-	
-	/// Tuesday
-	case tue = "tue"
-	
-	/// Wednesday
-	case wed = "wed"
-	
-	/// Thursday
-	case thu = "thu"
-	
 	/// Friday
-	case fri = "fri"
+	case fri
+	
+	/// Monday
+	case mon
 	
 	/// Saturday
-	case sat = "sat"
+	case sat
 	
 	/// Sunday
-	case sun = "sun"
+	case sun
+	
+	/// Thursday
+	case thu
+	
+	/// Tuesday
+	case tue
+	
+	/// Wednesday
+	case wed
 }

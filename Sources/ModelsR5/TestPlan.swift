@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/TestPlan)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,21 +24,103 @@ import FMCore
  
  A plan for executing testing on an artifact or specifications.
  */
-open class TestPlan: DomainResource {
+public struct TestPlan: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .testPlan }
+	public static let resourceType: ResourceType = .testPlan
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// Canonical identifier for this test plan, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// The category of the Test Plan - can be acceptance, unit, performance
+	public var category: [CodeableConcept]?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Use and/or publishing restrictions
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Copyright holder and year(s)
+	public var copyrightLabel: FHIRPrimitive<FHIRString>?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// The required criteria to execute the test plan - e.g. preconditions, previous tests
+	public var dependency: [TestPlanDependency]?
+	
+	/// Natural language description of the test plan
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// The threshold or criteria for the test plan to be considered successfully executed - narrative
+	public var exitCriteria: FHIRPrimitive<FHIRString>?
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business identifier identifier for the test plan
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Intended jurisdiction where the test plan applies (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this test plan (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this test plan is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// What is being tested with this Test Plan - a conformance resource, or narrative criteria, or an external
+	/// reference
+	public var scope: [Reference]?
+	
+	/// The status of this test plan. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// The test cases that constitute this plan
+	public var testCase: [TestPlanTestCase]?
+	
+	/// A description of test tools to be used in the test plan - narrative for now
+	public var testTools: FHIRPrimitive<FHIRString>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this test plan (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Canonical identifier for this test plan, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
 	
 	/// Business version of the test plan
 	public var version: FHIRPrimitive<FHIRString>?
@@ -47,72 +129,13 @@ open class TestPlan: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Name for this test plan (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this test plan (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this test plan. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the test plan
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction where the test plan applies (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this test plan is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Use and/or publishing restrictions
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
-	/// Copyright holder and year(s)
-	public var copyrightLabel: FHIRPrimitive<FHIRString>?
-	
-	/// The category of the Test Plan - can be acceptance, unit, performance
-	public var category: [CodeableConcept]?
-	
-	/// What is being tested with this Test Plan - a conformance resource, or narrative criteria, or an external
-	/// reference
-	public var scope: [Reference]?
-	
-	/// A description of test tools to be used in the test plan - narrative for now
-	public var testTools: FHIRPrimitive<FHIRString>?
-	
-	/// The required criteria to execute the test plan - e.g. preconditions, previous tests
-	public var dependency: [TestPlanDependency]?
-	
-	/// The threshold or criteria for the test plan to be considered successfully executed - narrative
-	public var exitCriteria: FHIRPrimitive<FHIRString>?
-	
-	/// The test cases that constitute this plan
-	public var testCase: [TestPlanTestCase]?
-	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		category: [CodeableConcept]? = nil,
 		contact: [ContactDetail]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -181,8 +204,10 @@ open class TestPlan: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case category
 		case contact
+		case contained
 		case copyright; case _copyright
 		case copyrightLabel; case _copyrightLabel
 		case date; case _date
@@ -190,8 +215,14 @@ open class TestPlan: DomainResource {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case exitCriteria; case _exitCriteria
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case purpose; case _purpose
@@ -199,6 +230,7 @@ open class TestPlan: DomainResource {
 		case status; case _status
 		case testCase
 		case testTools; case _testTools
+		case text
 		case title; case _title
 		case url; case _url
 		case useContext
@@ -206,14 +238,15 @@ open class TestPlan: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.copyrightLabel = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
@@ -221,8 +254,14 @@ open class TestPlan: DomainResource {
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.exitCriteria = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exitCriteria, auxiliaryKey: ._exitCriteria)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
@@ -230,6 +269,7 @@ open class TestPlan: DomainResource {
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.testCase = try [TestPlanTestCase](from: _container, forKeyIfPresent: .testCase)
 		self.testTools = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .testTools, auxiliaryKey: ._testTools)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
@@ -248,16 +288,17 @@ open class TestPlan: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try copyrightLabel?.encode(on: &_container, forKey: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -265,8 +306,14 @@ open class TestPlan: DomainResource {
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try exitCriteria?.encode(on: &_container, forKey: .exitCriteria, auxiliaryKey: ._exitCriteria)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
@@ -274,6 +321,7 @@ open class TestPlan: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try testCase?.encode(on: &_container, forKey: .testCase)
 		try testTools?.encode(on: &_container, forKey: .testTools, auxiliaryKey: ._testTools)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
@@ -286,68 +334,6 @@ open class TestPlan: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlan else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return category == _other.category
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && copyrightLabel == _other.copyrightLabel
-		    && date == _other.date
-		    && dependency == _other.dependency
-		    && description_fhir == _other.description_fhir
-		    && exitCriteria == _other.exitCriteria
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && scope == _other.scope
-		    && status == _other.status
-		    && testCase == _other.testCase
-		    && testTools == _other.testTools
-		    && title == _other.title
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(category)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(copyrightLabel)
-		hasher.combine(date)
-		hasher.combine(dependency)
-		hasher.combine(description_fhir)
-		hasher.combine(exitCriteria)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(scope)
-		hasher.combine(status)
-		hasher.combine(testCase)
-		hasher.combine(testTools)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
@@ -356,21 +342,29 @@ open class TestPlan: DomainResource {
  
  The required criteria to execute the test plan - e.g. preconditions, previous tests...
  */
-open class TestPlanDependency: BackboneElement {
+public struct TestPlanDependency: BackboneElement {
 	
 	/// Description of the dependency criterium
 	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Link to predecessor test plans
 	public var predecessor: Reference?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -389,46 +383,33 @@ open class TestPlanDependency: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case predecessor
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.predecessor = try Reference(from: _container, forKeyIfPresent: .predecessor)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try predecessor?.encode(on: &_container, forKey: .predecessor)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanDependency else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && predecessor == _other.predecessor
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(predecessor)
 	}
 }
 
@@ -437,33 +418,41 @@ open class TestPlanDependency: BackboneElement {
  
  The individual test cases that are part of this plan, when they they are made explicit.
  */
-open class TestPlanTestCase: BackboneElement {
-	
-	/// Sequence of test case in the test plan
-	public var sequence: FHIRPrimitive<FHIRInteger>?
-	
-	/// The scope or artifact covered by the case
-	public var scope: [Reference]?
-	
-	/// Required criteria to execute the test case
-	public var dependency: [TestPlanTestCaseDependency]?
-	
-	/// The actual test to be executed
-	public var testRun: [TestPlanTestCaseTestRun]?
-	
-	/// The test data used in the test case
-	public var testData: [TestPlanTestCaseTestData]?
+public struct TestPlanTestCase: BackboneElement {
 	
 	/// Test assertions or expectations
 	public var assertion: [TestPlanTestCaseAssertion]?
 	
+	/// Required criteria to execute the test case
+	public var dependency: [TestPlanTestCaseDependency]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The scope or artifact covered by the case
+	public var scope: [Reference]?
+	
+	/// Sequence of test case in the test plan
+	public var sequence: FHIRPrimitive<FHIRInteger>?
+	
+	/// The test data used in the test case
+	public var testData: [TestPlanTestCaseTestData]?
+	
+	/// The actual test to be executed
+	public var testRun: [TestPlanTestCaseTestRun]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		assertion: [TestPlanTestCaseAssertion]? = nil,
 		dependency: [TestPlanTestCaseDependency]? = nil,
 		`extension`: [Extension]? = nil,
@@ -491,65 +480,44 @@ open class TestPlanTestCase: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case assertion
 		case dependency
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case scope
 		case sequence; case _sequence
 		case testData
 		case testRun
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.assertion = try [TestPlanTestCaseAssertion](from: _container, forKeyIfPresent: .assertion)
 		self.dependency = try [TestPlanTestCaseDependency](from: _container, forKeyIfPresent: .dependency)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.scope = try [Reference](from: _container, forKeyIfPresent: .scope)
 		self.sequence = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .sequence, auxiliaryKey: ._sequence)
 		self.testData = try [TestPlanTestCaseTestData](from: _container, forKeyIfPresent: .testData)
 		self.testRun = try [TestPlanTestCaseTestRun](from: _container, forKeyIfPresent: .testRun)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try assertion?.encode(on: &_container, forKey: .assertion)
 		try dependency?.encode(on: &_container, forKey: .dependency)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try scope?.encode(on: &_container, forKey: .scope)
 		try sequence?.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
 		try testData?.encode(on: &_container, forKey: .testData)
 		try testRun?.encode(on: &_container, forKey: .testRun)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanTestCase else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return assertion == _other.assertion
-		    && dependency == _other.dependency
-		    && scope == _other.scope
-		    && sequence == _other.sequence
-		    && testData == _other.testData
-		    && testRun == _other.testRun
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(assertion)
-		hasher.combine(dependency)
-		hasher.combine(scope)
-		hasher.combine(sequence)
-		hasher.combine(testData)
-		hasher.combine(testRun)
 	}
 }
 
@@ -558,10 +526,16 @@ open class TestPlanTestCase: BackboneElement {
  
  The test assertions - the expectations of test results from the execution of the test case.
  */
-open class TestPlanTestCaseAssertion: BackboneElement {
+public struct TestPlanTestCaseAssertion: BackboneElement {
 	
-	/// Assertion type - for example 'informative' or 'required'
-	public var type: [CodeableConcept]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The focus or object of the assertion
 	public var object: [CodeableReference]?
@@ -569,13 +543,15 @@ open class TestPlanTestCaseAssertion: BackboneElement {
 	/// The actual result assertion
 	public var result: [CodeableReference]?
 	
+	/// Assertion type - for example 'informative' or 'required'
+	public var type: [CodeableConcept]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -595,52 +571,37 @@ open class TestPlanTestCaseAssertion: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case object
 		case result
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.object = try [CodeableReference](from: _container, forKeyIfPresent: .object)
 		self.result = try [CodeableReference](from: _container, forKeyIfPresent: .result)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try object?.encode(on: &_container, forKey: .object)
 		try result?.encode(on: &_container, forKey: .result)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanTestCaseAssertion else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return object == _other.object
-		    && result == _other.result
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(object)
-		hasher.combine(result)
-		hasher.combine(type)
 	}
 }
 
@@ -649,21 +610,29 @@ open class TestPlanTestCaseAssertion: BackboneElement {
  
  The required criteria to execute the test case - e.g. preconditions, previous tests.
  */
-open class TestPlanTestCaseDependency: BackboneElement {
+public struct TestPlanTestCaseDependency: BackboneElement {
 	
 	/// Description of the criteria
 	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Link to predecessor test plans
 	public var predecessor: Reference?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -682,78 +651,73 @@ open class TestPlanTestCaseDependency: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case predecessor
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.predecessor = try Reference(from: _container, forKeyIfPresent: .predecessor)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try predecessor?.encode(on: &_container, forKey: .predecessor)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanTestCaseDependency else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && predecessor == _other.predecessor
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(predecessor)
 	}
 }
 
 /**
  The test data used in the test case.
  */
-open class TestPlanTestCaseTestData: BackboneElement {
+public struct TestPlanTestCaseTestData: BackboneElement {
 	
 	/// All possible types for "source[x]"
-	public enum SourceX: Hashable {
+	public enum SourceX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// The type of test data description, e.g. 'synthea'
-	public var type: Coding
-	
 	/// The actual test resources when they exist
 	public var content: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Pointer to a definition of test resources - narrative or structured e.g. synthetic data generation, etc
 	/// One of `source[x]`
 	public var source: SourceX?
 	
+	/// The type of test data description, e.g. 'synthea'
+	public var type: Coding
+	
 	/// Designated initializer taking all required properties
 	public init(type: Coding) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		content: Reference? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -773,17 +737,23 @@ open class TestPlanTestCaseTestData: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case content
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case sourceReference
 		case sourceString; case _sourceString
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.content = try Reference(from: _container, forKeyIfPresent: .content)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_source: SourceX? = nil
 		if let sourceString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .sourceString, auxiliaryKey: ._sourceString) {
 			if _t_source != nil {
@@ -799,15 +769,16 @@ open class TestPlanTestCaseTestData: BackboneElement {
 		}
 		self.source = _t_source
 		self.type = try Coding(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try content?.encode(on: &_container, forKey: .content)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = source {
 			switch _enum {
 			case .string(let _value):
@@ -817,35 +788,22 @@ open class TestPlanTestCaseTestData: BackboneElement {
 			}
 		}
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanTestCaseTestData else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return content == _other.content
-		    && source == _other.source
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(content)
-		hasher.combine(source)
-		hasher.combine(type)
 	}
 }
 
 /**
  The actual test to be executed.
  */
-open class TestPlanTestCaseTestRun: BackboneElement {
+public struct TestPlanTestCaseTestRun: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The narrative description of the tests
 	public var narrative: FHIRPrimitive<FHIRString>?
@@ -854,12 +812,11 @@ open class TestPlanTestCaseTestRun: BackboneElement {
 	public var script: TestPlanTestCaseTestRunScript?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -877,75 +834,70 @@ open class TestPlanTestCaseTestRun: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case narrative; case _narrative
 		case script
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.narrative = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .narrative, auxiliaryKey: ._narrative)
 		self.script = try TestPlanTestCaseTestRunScript(from: _container, forKeyIfPresent: .script)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try narrative?.encode(on: &_container, forKey: .narrative, auxiliaryKey: ._narrative)
 		try script?.encode(on: &_container, forKey: .script)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanTestCaseTestRun else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return narrative == _other.narrative
-		    && script == _other.script
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(narrative)
-		hasher.combine(script)
 	}
 }
 
 /**
  The test cases in a structured language e.g. gherkin, Postman, or FHIR TestScript.
  */
-open class TestPlanTestCaseTestRunScript: BackboneElement {
+public struct TestPlanTestCaseTestRunScript: BackboneElement {
 	
 	/// All possible types for "source[x]"
-	public enum SourceX: Hashable {
+	public enum SourceX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// The language for the test cases e.g. 'gherkin', 'testscript'
 	public var language: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The actual content of the cases - references to TestScripts or externally defined content
 	/// One of `source[x]`
 	public var source: SourceX?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		language: CodeableConcept? = nil,
@@ -963,17 +915,23 @@ open class TestPlanTestCaseTestRunScript: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case language
+		case modifierExtension
 		case sourceReference
 		case sourceString; case _sourceString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try CodeableConcept(from: _container, forKeyIfPresent: .language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_source: SourceX? = nil
 		if let sourceString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .sourceString, auxiliaryKey: ._sourceString) {
 			if _t_source != nil {
@@ -988,15 +946,16 @@ open class TestPlanTestCaseTestRunScript: BackboneElement {
 			_t_source = .reference(sourceReference)
 		}
 		self.source = _t_source
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language?.encode(on: &_container, forKey: .language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = source {
 			switch _enum {
 			case .string(let _value):
@@ -1005,25 +964,5 @@ open class TestPlanTestCaseTestRunScript: BackboneElement {
 				try _value.encode(on: &_container, forKey: .sourceReference)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TestPlanTestCaseTestRunScript else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return language == _other.language
-		    && source == _other.source
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(language)
-		hasher.combine(source)
 	}
 }

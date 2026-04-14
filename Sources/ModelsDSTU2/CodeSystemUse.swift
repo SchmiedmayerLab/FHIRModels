@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,14 +28,14 @@ import FMCore
 public enum Use: String, FHIRPrimitiveType {
 	
 	/// The treatment is complete and this represents a Claim for the services.
-	case complete = "complete"
-	
-	/// The treatment is proposed and this represents a Pre-authorization for the services.
-	case proposed = "proposed"
+	case complete
 	
 	/// The treatment is proposed and this represents a Pre-determination for the services.
-	case exploratory = "exploratory"
+	case exploratory
 	
 	/// A locally defined or otherwise resolved status.
-	case other = "other"
+	case other
+	
+	/// The treatment is proposed and this represents a Pre-authorization for the services.
+	case proposed
 }

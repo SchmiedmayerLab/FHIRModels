@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,21 +28,21 @@ import FMCore
  */
 public enum ProcedureProgressStatusCodes: String, FHIRPrimitiveType {
 	
-	/// A patient is in the Operating Room.
-	case inOperatingRoom = "in-operating-room"
-	
-	/// The patient is prepared for a procedure.
-	case prepared
-	
 	/// The patient is under anesthesia.
 	case anesthesiaInduced = "anesthesia-induced"
-	
-	/// The patient has open incision(s).
-	case openIncision = "open-incision"
 	
 	/// The patient has incision(s) closed.
 	case closedIncision = "closed-incision"
 	
+	/// A patient is in the Operating Room.
+	case inOperatingRoom = "in-operating-room"
+	
 	/// The patient is in the recovery room.
 	case inRecoveryRoom = "in-recovery-room"
+	
+	/// The patient has open incision(s).
+	case openIncision = "open-incision"
+	
+	/// The patient is prepared for a procedure.
+	case prepared
 }

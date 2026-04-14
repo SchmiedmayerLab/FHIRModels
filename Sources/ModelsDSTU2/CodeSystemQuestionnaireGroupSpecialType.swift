@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum QuestionnaireGroupSpecialType: String, FHIRPrimitiveType {
 	
-	/// The group is to be continuously visible at the top of the questionnaire
-	case header = "header"
-	
 	/// The group is to be continuously visible at the bottom of the questionnaire
-	case footer = "footer"
+	case footer
+	
+	/// The group is to be continuously visible at the top of the questionnaire
+	case header
 }

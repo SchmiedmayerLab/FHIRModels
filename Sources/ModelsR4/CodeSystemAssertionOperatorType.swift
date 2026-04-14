@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,17 +27,20 @@ import FMCore
  */
 public enum AssertionOperatorType: String, FHIRPrimitiveType {
 	
-	/// Default value. Equals comparison.
-	case equals
-	
-	/// Not equals comparison.
-	case notEquals
-	
 	/// Compare value within a known set of values.
 	case `in`
 	
-	/// Compare value not within a known set of values.
-	case notIn
+	/// Compare value string contains a known value.
+	case contains
+	
+	/// Compare value is empty.
+	case empty
+	
+	/// Default value. Equals comparison.
+	case equals
+	
+	/// Evaluate the FHIRPath expression as a boolean condition.
+	case eval
 	
 	/// Compare value to be greater than a known value.
 	case greaterThan
@@ -45,18 +48,15 @@ public enum AssertionOperatorType: String, FHIRPrimitiveType {
 	/// Compare value to be less than a known value.
 	case lessThan
 	
-	/// Compare value is empty.
-	case empty
+	/// Compare value string does not contain a known value.
+	case notContains
 	
 	/// Compare value is not empty.
 	case notEmpty
 	
-	/// Compare value string contains a known value.
-	case contains
+	/// Not equals comparison.
+	case notEquals
 	
-	/// Compare value string does not contain a known value.
-	case notContains
-	
-	/// Evaluate the FHIRPath expression as a boolean condition.
-	case eval
+	/// Compare value not within a known set of values.
+	case notIn
 }

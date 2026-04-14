@@ -2,8 +2,8 @@
 //  VirtualServiceDetail.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/VirtualServiceDetail)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/VirtualServiceDetail)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,25 +25,31 @@ import FMCore
  The set of values required to describe a virtual service's connection details, including some limitations of the
  service.
  */
-open class VirtualServiceDetail: DataType {
+public struct VirtualServiceDetail: DataType {
 	
 	/// All possible types for "address[x]"
-	public enum AddressX: Hashable {
+	public enum AddressX: Equatable, Hashable, Sendable {
 		case contactPoint(ContactPoint)
 		case extendedContactDetail(ExtendedContactDetail)
 		case string(FHIRPrimitive<FHIRString>)
 		case url(FHIRPrimitive<FHIRURI>)
 	}
 	
-	/// Channel Type
-	public var channelType: Coding?
+	/// Web address to see alternative connection details
+	public var additionalInfo: [FHIRPrimitive<FHIRURI>]?
 	
 	/// Contact address/number
 	/// One of `address[x]`
 	public var address: AddressX?
 	
-	/// Web address to see alternative connection details
-	public var additionalInfo: [FHIRPrimitive<FHIRURI>]?
+	/// Channel Type
+	public var channelType: Coding?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Maximum number of participants supported by the virtual service
 	public var maxParticipants: FHIRPrimitive<FHIRPositiveInteger>?
@@ -52,12 +58,11 @@ open class VirtualServiceDetail: DataType {
 	public var sessionKey: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		additionalInfo: [FHIRPrimitive<FHIRURI>]? = nil,
 		address: AddressX? = nil,
 		channelType: Coding? = nil,
@@ -85,15 +90,17 @@ open class VirtualServiceDetail: DataType {
 		case addressString; case _addressString
 		case addressUrl; case _addressUrl
 		case channelType
+		case `extension` = "extension"
+		case id; case _id
 		case maxParticipants; case _maxParticipants
 		case sessionKey; case _sessionKey
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.additionalInfo = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .additionalInfo, auxiliaryKey: ._additionalInfo)
 		var _t_address: AddressX? = nil
 		if let addressUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .addressUrl, auxiliaryKey: ._addressUrl) {
@@ -122,16 +129,16 @@ open class VirtualServiceDetail: DataType {
 		}
 		self.address = _t_address
 		self.channelType = try Coding(from: _container, forKeyIfPresent: .channelType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.maxParticipants = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .maxParticipants, auxiliaryKey: ._maxParticipants)
 		self.sessionKey = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .sessionKey, auxiliaryKey: ._sessionKey)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try additionalInfo?.encode(on: &_container, forKey: .additionalInfo, auxiliaryKey: ._additionalInfo)
 		if let _enum = address {
 			switch _enum {
@@ -146,33 +153,9 @@ open class VirtualServiceDetail: DataType {
 			}
 		}
 		try channelType?.encode(on: &_container, forKey: .channelType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try maxParticipants?.encode(on: &_container, forKey: .maxParticipants, auxiliaryKey: ._maxParticipants)
 		try sessionKey?.encode(on: &_container, forKey: .sessionKey, auxiliaryKey: ._sessionKey)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? VirtualServiceDetail else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return additionalInfo == _other.additionalInfo
-		    && address == _other.address
-		    && channelType == _other.channelType
-		    && maxParticipants == _other.maxParticipants
-		    && sessionKey == _other.sessionKey
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(additionalInfo)
-		hasher.combine(address)
-		hasher.combine(channelType)
-		hasher.combine(maxParticipants)
-		hasher.combine(sessionKey)
 	}
 }

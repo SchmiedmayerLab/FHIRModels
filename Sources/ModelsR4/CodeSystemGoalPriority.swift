@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ public enum GoalPriority: String, FHIRPrimitiveType {
 	/// Indicates that the goal is of considerable importance and should be a primary focus of care delivery.
 	case highPriority = "high-priority"
 	
-	/// Indicates that the goal has a reasonable degree of importance and that concrete action should be taken towards
-	/// the goal.  Attainment is not as critical as high-priority goals.
-	case mediumPriority = "medium-priority"
-	
 	/// The goal is desirable but is not sufficiently important to devote significant resources to.  Achievement of the
 	/// goal may be sought when incidental to achieving other goals.
 	case lowPriority = "low-priority"
+	
+	/// Indicates that the goal has a reasonable degree of importance and that concrete action should be taken towards
+	/// the goal.  Attainment is not as critical as high-priority goals.
+	case mediumPriority = "medium-priority"
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum EvidenceVariantState: String, FHIRPrimitiveType {
 	
+	/// high risk estimate.
+	case highRisk = "high-risk"
+	
 	/// low risk estimate.
 	case lowRisk = "low-risk"
 	
 	/// medium risk estimate.
 	case mediumRisk = "medium-risk"
-	
-	/// high risk estimate.
-	case highRisk = "high-risk"
 }

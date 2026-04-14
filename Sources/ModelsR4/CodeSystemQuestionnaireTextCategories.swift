@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,11 @@ import FMCore
  */
 public enum QuestionnaireTextCategories: String, FHIRPrimitiveType {
 	
+	/// The text provides additional guidance on populating the containing item.  Help text isn't necessarily expected
+	/// to be rendered as part of the form, but may instead be made available through fly-over, pop-up button, link to a
+	/// "help" page, etc.
+	case help
+	
 	/// The text provides guidance on how to populate or use a portion of the questionnaire (or the questionnaire as a
 	/// whole).
 	case instructions
@@ -34,9 +39,4 @@ public enum QuestionnaireTextCategories: String, FHIRPrimitiveType {
 	/// The text provides guidance on how the information should be or will be handled from a
 	/// security/confidentiality/access control perspective when completed
 	case security
-	
-	/// The text provides additional guidance on populating the containing item.  Help text isn't necessarily expected
-	/// to be rendered as part of the form, but may instead be made available through fly-over, pop-up button, link to a
-	/// "help" page, etc.
-	case help
 }

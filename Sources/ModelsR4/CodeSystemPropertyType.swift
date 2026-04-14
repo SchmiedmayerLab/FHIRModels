@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,9 @@ import FMCore
  */
 public enum PropertyType: String, FHIRPrimitiveType {
 	
+	/// The property value is a boolean true | false.
+	case boolean
+	
 	/// The property value is a code that identifies a concept defined in the code system.
 	case code
 	
@@ -34,19 +37,16 @@ public enum PropertyType: String, FHIRPrimitiveType {
 	/// the intent.
 	case coding = "Coding"
 	
-	/// The property value is a string.
-	case string
-	
-	/// The property value is a string (often used to assign ranking values to concepts for supporting score
-	/// assessments).
-	case integer
-	
-	/// The property value is a boolean true | false.
-	case boolean
-	
 	/// The property is a date or a date + time.
 	case dateTime
 	
 	/// The property value is a decimal number.
 	case decimal
+	
+	/// The property value is a string (often used to assign ranking values to concepts for supporting score
+	/// assessments).
+	case integer
+	
+	/// The property value is a string.
+	case string
 }

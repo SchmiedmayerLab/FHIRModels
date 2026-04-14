@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/PractitionerRole)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,15 +25,60 @@ import FMCore
  A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period
  of time.
  */
-open class PractitionerRole: DomainResource {
+public struct PractitionerRole: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .practitionerRole }
+	public static let resourceType: ResourceType = .practitionerRole
+	
+	/// Whether this practitioner role record is in active use
+	public var active: FHIRPrimitive<FHIRBool>?
+	
+	/// Description of availability exceptions
+	public var availabilityExceptions: FHIRPrimitive<FHIRString>?
+	
+	/// Times the Service Site is available
+	public var availableTime: [PractitionerRoleAvailableTime]?
+	
+	/// Roles which this practitioner may perform
+	public var code: [CodeableConcept]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Technical endpoints providing access to services operated for the practitioner with this role
+	public var endpoint: [Reference]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The list of healthcare services that this worker provides for this role's Organization/Location(s)
+	public var healthcareService: [Reference]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business Identifiers that are specific to a role/location
 	public var identifier: [Identifier]?
 	
-	/// Whether this practitioner role record is in active use
-	public var active: FHIRPrimitive<FHIRBool>?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// The location(s) at which this practitioner provides care
+	public var location: [Reference]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Not available during this time due to provided reason
+	public var notAvailable: [PractitionerRoleNotAvailable]?
+	
+	/// Organization where the roles are available
+	public var organization: Reference?
 	
 	/// The period during which the practitioner is authorized to perform in these role(s)
 	public var period: Period?
@@ -41,43 +86,21 @@ open class PractitionerRole: DomainResource {
 	/// Practitioner that is able to provide the defined services for the organization
 	public var practitioner: Reference?
 	
-	/// Organization where the roles are available
-	public var organization: Reference?
-	
-	/// Roles which this practitioner may perform
-	public var code: [CodeableConcept]?
-	
 	/// Specific specialty of the practitioner
 	public var specialty: [CodeableConcept]?
-	
-	/// The location(s) at which this practitioner provides care
-	public var location: [Reference]?
-	
-	/// The list of healthcare services that this worker provides for this role's Organization/Location(s)
-	public var healthcareService: [Reference]?
 	
 	/// Contact details that are specific to the role/location/service
 	public var telecom: [ContactPoint]?
 	
-	/// Times the Service Site is available
-	public var availableTime: [PractitionerRoleAvailableTime]?
-	
-	/// Not available during this time due to provided reason
-	public var notAvailable: [PractitionerRoleNotAvailable]?
-	
-	/// Description of availability exceptions
-	public var availabilityExceptions: FHIRPrimitive<FHIRString>?
-	
-	/// Technical endpoints providing access to services operated for the practitioner with this role
-	public var endpoint: [Reference]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		availabilityExceptions: FHIRPrimitive<FHIRString>? = nil,
 		availableTime: [PractitionerRoleAvailableTime]? = nil,
@@ -129,107 +152,88 @@ open class PractitionerRole: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
 		case availabilityExceptions; case _availabilityExceptions
 		case availableTime
 		case code
+		case contained
 		case endpoint
+		case `extension` = "extension"
 		case healthcareService
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case notAvailable
 		case organization
 		case period
 		case practitioner
 		case specialty
 		case telecom
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
 		self.availabilityExceptions = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .availabilityExceptions, auxiliaryKey: ._availabilityExceptions)
 		self.availableTime = try [PractitionerRoleAvailableTime](from: _container, forKeyIfPresent: .availableTime)
 		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.endpoint = try [Reference](from: _container, forKeyIfPresent: .endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.healthcareService = try [Reference](from: _container, forKeyIfPresent: .healthcareService)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try [Reference](from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notAvailable = try [PractitionerRoleNotAvailable](from: _container, forKeyIfPresent: .notAvailable)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.practitioner = try Reference(from: _container, forKeyIfPresent: .practitioner)
 		self.specialty = try [CodeableConcept](from: _container, forKeyIfPresent: .specialty)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try availabilityExceptions?.encode(on: &_container, forKey: .availabilityExceptions, auxiliaryKey: ._availabilityExceptions)
 		try availableTime?.encode(on: &_container, forKey: .availableTime)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try endpoint?.encode(on: &_container, forKey: .endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try healthcareService?.encode(on: &_container, forKey: .healthcareService)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notAvailable?.encode(on: &_container, forKey: .notAvailable)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try period?.encode(on: &_container, forKey: .period)
 		try practitioner?.encode(on: &_container, forKey: .practitioner)
 		try specialty?.encode(on: &_container, forKey: .specialty)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PractitionerRole else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && availabilityExceptions == _other.availabilityExceptions
-		    && availableTime == _other.availableTime
-		    && code == _other.code
-		    && endpoint == _other.endpoint
-		    && healthcareService == _other.healthcareService
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && notAvailable == _other.notAvailable
-		    && organization == _other.organization
-		    && period == _other.period
-		    && practitioner == _other.practitioner
-		    && specialty == _other.specialty
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(availabilityExceptions)
-		hasher.combine(availableTime)
-		hasher.combine(code)
-		hasher.combine(endpoint)
-		hasher.combine(healthcareService)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(notAvailable)
-		hasher.combine(organization)
-		hasher.combine(period)
-		hasher.combine(practitioner)
-		hasher.combine(specialty)
-		hasher.combine(telecom)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -238,27 +242,35 @@ open class PractitionerRole: DomainResource {
  
  A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
  */
-open class PractitionerRoleAvailableTime: BackboneElement {
-	
-	/// Indicates which days of the week are available between the start and end Times.
-	public var daysOfWeek: [FHIRPrimitive<DaysOfWeek>]?
+public struct PractitionerRoleAvailableTime: BackboneElement {
 	
 	/// Always available? e.g. 24 hour service
 	public var allDay: FHIRPrimitive<FHIRBool>?
 	
-	/// Opening time of day (ignored if allDay = true)
-	public var availableStartTime: FHIRPrimitive<FHIRTime>?
-	
 	/// Closing time of day (ignored if allDay = true)
 	public var availableEndTime: FHIRPrimitive<FHIRTime>?
 	
+	/// Opening time of day (ignored if allDay = true)
+	public var availableStartTime: FHIRPrimitive<FHIRTime>?
+	
+	/// Indicates which days of the week are available between the start and end Times.
+	public var daysOfWeek: [FHIRPrimitive<DaysOfWeek>]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		allDay: FHIRPrimitive<FHIRBool>? = nil,
 		availableEndTime: FHIRPrimitive<FHIRTime>? = nil,
 		availableStartTime: FHIRPrimitive<FHIRTime>? = nil,
@@ -284,53 +296,36 @@ open class PractitionerRoleAvailableTime: BackboneElement {
 		case availableEndTime; case _availableEndTime
 		case availableStartTime; case _availableStartTime
 		case daysOfWeek; case _daysOfWeek
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.allDay = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .allDay, auxiliaryKey: ._allDay)
 		self.availableEndTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .availableEndTime, auxiliaryKey: ._availableEndTime)
 		self.availableStartTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .availableStartTime, auxiliaryKey: ._availableStartTime)
 		self.daysOfWeek = try [FHIRPrimitive<DaysOfWeek>](from: _container, forKeyIfPresent: .daysOfWeek, auxiliaryKey: ._daysOfWeek)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try allDay?.encode(on: &_container, forKey: .allDay, auxiliaryKey: ._allDay)
 		try availableEndTime?.encode(on: &_container, forKey: .availableEndTime, auxiliaryKey: ._availableEndTime)
 		try availableStartTime?.encode(on: &_container, forKey: .availableStartTime, auxiliaryKey: ._availableStartTime)
 		try daysOfWeek?.encode(on: &_container, forKey: .daysOfWeek, auxiliaryKey: ._daysOfWeek)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PractitionerRoleAvailableTime else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return allDay == _other.allDay
-		    && availableEndTime == _other.availableEndTime
-		    && availableStartTime == _other.availableStartTime
-		    && daysOfWeek == _other.daysOfWeek
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(allDay)
-		hasher.combine(availableEndTime)
-		hasher.combine(availableStartTime)
-		hasher.combine(daysOfWeek)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -339,7 +334,7 @@ open class PractitionerRoleAvailableTime: BackboneElement {
  
  The practitioner is not available or performing this role during this period of time due to the provided reason.
  */
-open class PractitionerRoleNotAvailable: BackboneElement {
+public struct PractitionerRoleNotAvailable: BackboneElement {
 	
 	/// Reason presented to the user explaining why time not available
 	public var description_fhir: FHIRPrimitive<FHIRString>
@@ -347,14 +342,22 @@ open class PractitionerRoleNotAvailable: BackboneElement {
 	/// Service not available from this date
 	public var during: Period?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(description_fhir: FHIRPrimitive<FHIRString>) {
 		self.description_fhir = description_fhir
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>,
 		during: Period? = nil,
 		`extension`: [Extension]? = nil,
@@ -373,44 +376,31 @@ open class PractitionerRoleNotAvailable: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case during
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.during = try Period(from: _container, forKeyIfPresent: .during)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try during?.encode(on: &_container, forKey: .during)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PractitionerRoleNotAvailable else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && during == _other.during
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(during)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

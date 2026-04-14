@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,14 +27,8 @@ import FMCore
  */
 public enum QICoreConditionCriticalityCodes: String, FHIRPrimitiveType {
 	
-	/// The criticality of the condition is not specified
-	case unspecified = "unspecified"
-	
-	/// The condition is expected to resolve on its own
-	case selfResolving = "self-resolving"
-	
 	/// The condition is considered to be controllable
-	case controllable = "controllable"
+	case controllable
 	
 	/// The condition may result in partial or full loss of function or capacity
 	case functionalLoss = "functional-loss"
@@ -44,4 +38,10 @@ public enum QICoreConditionCriticalityCodes: String, FHIRPrimitiveType {
 	
 	/// The condition requires hospitalization
 	case requiresHospitalization = "requires-hospitalization"
+	
+	/// The condition is expected to resolve on its own
+	case selfResolving = "self-resolving"
+	
+	/// The criticality of the condition is not specified
+	case unspecified
 }

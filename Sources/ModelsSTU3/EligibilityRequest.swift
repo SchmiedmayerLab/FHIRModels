@@ -2,8 +2,8 @@
 //  EligibilityRequest.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/EligibilityRequest)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/EligibilityRequest)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,55 +26,15 @@ import FMCore
  form of an EligibilityResponse, with information regarding whether the stated coverage is valid and in-force and
  optionally to provide the insurance details of the policy.
  */
-open class EligibilityRequest: DomainResource {
+public struct EligibilityRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .eligibilityRequest }
+	public static let resourceType: ResourceType = .eligibilityRequest
 	
 	/// All possible types for "serviced[x]"
-	public enum ServicedX: Hashable {
+	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
 		case period(Period)
 	}
-	
-	/// Business Identifier
-	public var identifier: [Identifier]?
-	
-	/// active | cancelled | draft | entered-in-error
-	public var status: FHIRPrimitive<FHIRString>?
-	
-	/// Desired processing priority
-	public var priority: CodeableConcept?
-	
-	/// The subject of the Products and Services
-	public var patient: Reference?
-	
-	/// Estimated date or dates of Service
-	/// One of `serviced[x]`
-	public var serviced: ServicedX?
-	
-	/// Creation date
-	public var created: FHIRPrimitive<DateTime>?
-	
-	/// Author
-	public var enterer: Reference?
-	
-	/// Responsible practitioner
-	public var provider: Reference?
-	
-	/// Responsible organization
-	public var organization: Reference?
-	
-	/// Target
-	public var insurer: Reference?
-	
-	/// Servicing Facility
-	public var facility: Reference?
-	
-	/// Insurance or medical plan
-	public var coverage: Reference?
-	
-	/// Business agreement
-	public var businessArrangement: FHIRPrimitive<FHIRString>?
 	
 	/// Type of services covered
 	public var benefitCategory: CodeableConcept?
@@ -82,37 +42,100 @@ open class EligibilityRequest: DomainResource {
 	/// Detailed services covered within the type
 	public var benefitSubCategory: CodeableConcept?
 	
+	/// Business agreement
+	public var businessArrangement: FHIRPrimitive<FHIRString>?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Insurance or medical plan
+	public var coverage: Reference?
+	
+	/// Creation date
+	public var created: FHIRPrimitive<DateTime>?
+	
+	/// Author
+	public var enterer: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Servicing Facility
+	public var facility: Reference?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Target
+	public var insurer: Reference?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Responsible organization
+	public var organization: Reference?
+	
+	/// The subject of the Products and Services
+	public var patient: Reference?
+	
+	/// Desired processing priority
+	public var priority: CodeableConcept?
+	
+	/// Responsible practitioner
+	public var provider: Reference?
+	
+	/// Estimated date or dates of Service
+	/// One of `serviced[x]`
+	public var serviced: ServicedX?
+	
+	/// active | cancelled | draft | entered-in-error
+	public var status: FHIRPrimitive<FHIRString>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							benefitCategory: CodeableConcept? = nil,
-							benefitSubCategory: CodeableConcept? = nil,
-							businessArrangement: FHIRPrimitive<FHIRString>? = nil,
-							contained: [ResourceProxy]? = nil,
-							coverage: Reference? = nil,
-							created: FHIRPrimitive<DateTime>? = nil,
-							enterer: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							facility: Reference? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							insurer: Reference? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							organization: Reference? = nil,
-							patient: Reference? = nil,
-							priority: CodeableConcept? = nil,
-							provider: Reference? = nil,
-							serviced: ServicedX? = nil,
-							status: FHIRPrimitive<FHIRString>? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		benefitCategory: CodeableConcept? = nil,
+		benefitSubCategory: CodeableConcept? = nil,
+		businessArrangement: FHIRPrimitive<FHIRString>? = nil,
+		contained: [ResourceProxy]? = nil,
+		coverage: Reference? = nil,
+		created: FHIRPrimitive<DateTime>? = nil,
+		enterer: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		facility: Reference? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		insurer: Reference? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		organization: Reference? = nil,
+		patient: Reference? = nil,
+		priority: CodeableConcept? = nil,
+		provider: Reference? = nil,
+		serviced: ServicedX? = nil,
+		status: FHIRPrimitive<FHIRString>? = nil,
+		text: Narrative? = nil
+	) {
 		self.init()
 		self.benefitCategory = benefitCategory
 		self.benefitSubCategory = benefitSubCategory
@@ -142,15 +165,23 @@ open class EligibilityRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case benefitCategory
 		case benefitSubCategory
 		case businessArrangement; case _businessArrangement
+		case contained
 		case coverage
 		case created; case _created
 		case enterer
+		case `extension` = "extension"
 		case facility
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case insurer
+		case language; case _language
+		case meta
+		case modifierExtension
 		case organization
 		case patient
 		case priority
@@ -158,22 +189,30 @@ open class EligibilityRequest: DomainResource {
 		case servicedDate; case _servicedDate
 		case servicedPeriod
 		case status; case _status
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.benefitCategory = try CodeableConcept(from: _container, forKeyIfPresent: .benefitCategory)
 		self.benefitSubCategory = try CodeableConcept(from: _container, forKeyIfPresent: .benefitSubCategory)
 		self.businessArrangement = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .businessArrangement, auxiliaryKey: ._businessArrangement)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.coverage = try Reference(from: _container, forKeyIfPresent: .coverage)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .created, auxiliaryKey: ._created)
 		self.enterer = try Reference(from: _container, forKeyIfPresent: .enterer)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.facility = try Reference(from: _container, forKeyIfPresent: .facility)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.insurer = try Reference(from: _container, forKeyIfPresent: .insurer)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
 		self.priority = try CodeableConcept(from: _container, forKeyIfPresent: .priority)
@@ -193,23 +232,31 @@ open class EligibilityRequest: DomainResource {
 		}
 		self.serviced = _t_serviced
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try benefitCategory?.encode(on: &_container, forKey: .benefitCategory)
 		try benefitSubCategory?.encode(on: &_container, forKey: .benefitSubCategory)
 		try businessArrangement?.encode(on: &_container, forKey: .businessArrangement, auxiliaryKey: ._businessArrangement)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try coverage?.encode(on: &_container, forKey: .coverage)
 		try created?.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
 		try enterer?.encode(on: &_container, forKey: .enterer)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try facility?.encode(on: &_container, forKey: .facility)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try insurer?.encode(on: &_container, forKey: .insurer)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try patient?.encode(on: &_container, forKey: .patient)
 		try priority?.encode(on: &_container, forKey: .priority)
@@ -223,51 +270,6 @@ open class EligibilityRequest: DomainResource {
 			}
 		}
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EligibilityRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return benefitCategory == _other.benefitCategory
-		    && benefitSubCategory == _other.benefitSubCategory
-		    && businessArrangement == _other.businessArrangement
-		    && coverage == _other.coverage
-		    && created == _other.created
-		    && enterer == _other.enterer
-		    && facility == _other.facility
-		    && identifier == _other.identifier
-		    && insurer == _other.insurer
-		    && organization == _other.organization
-		    && patient == _other.patient
-		    && priority == _other.priority
-		    && provider == _other.provider
-		    && serviced == _other.serviced
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(benefitCategory)
-		hasher.combine(benefitSubCategory)
-		hasher.combine(businessArrangement)
-		hasher.combine(coverage)
-		hasher.combine(created)
-		hasher.combine(enterer)
-		hasher.combine(facility)
-		hasher.combine(identifier)
-		hasher.combine(insurer)
-		hasher.combine(organization)
-		hasher.combine(patient)
-		hasher.combine(priority)
-		hasher.combine(provider)
-		hasher.combine(serviced)
-		hasher.combine(status)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

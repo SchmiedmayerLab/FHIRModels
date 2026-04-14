@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@ import FMCore
  */
 public enum ConditionCategoryCodes: String, FHIRPrimitiveType {
 	
+	/// A point in time diagnosis (e.g. from a physician or nurse) in context of an encounter.
+	case encounterDiagnosis = "encounter-diagnosis"
+	
 	/// An item on a problem list that can be managed over time and can be expressed by a practitioner (e.g. physician,
 	/// nurse), patient, or related person.
 	case problemListItem = "problem-list-item"
-	
-	/// A point in time diagnosis (e.g. from a physician or nurse) in context of an encounter.
-	case encounterDiagnosis = "encounter-diagnosis"
 }

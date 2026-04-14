@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,16 +30,16 @@ public enum SlotStatus: String, FHIRPrimitiveType {
 	/// Indicates that the time interval is busy because one  or more events have been scheduled for that interval.
 	case busy
 	
-	/// Indicates that the time interval is free for scheduling.
-	case free
-	
-	/// Indicates that the time interval is busy and that the interval cannot be scheduled.
-	case busyUnavailable = "busy-unavailable"
-	
 	/// Indicates that the time interval is busy because one or more events have been tentatively scheduled for that
 	/// interval.
 	case busyTentative = "busy-tentative"
 	
+	/// Indicates that the time interval is busy and that the interval cannot be scheduled.
+	case busyUnavailable = "busy-unavailable"
+	
 	/// This instance should not have been part of this patient's medical record.
 	case enteredInError = "entered-in-error"
+	
+	/// Indicates that the time interval is free for scheduling.
+	case free
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,53 +27,38 @@ import FMCore
  */
 public enum TestScriptOperationCodes: String, FHIRPrimitiveType {
 	
-	/// Read the current state of the resource.
-	case read = "read"
-	
-	/// Read the state of a specific version of the resource.
-	case vread = "vread"
-	
-	/// Update an existing resource by its id (or create it if it is new).
-	case update = "update"
-	
-	/// Delete a resource.
-	case delete = "delete"
-	
-	/// Retrieve the update history for a particular resource or resource type.
-	case history = "history"
-	
-	/// Create a new resource with a server assigned id.
-	case create = "create"
-	
-	/// Search based on some filter criteria.
-	case search = "search"
-	
-	/// Update, create or delete a set of resources as a single transaction.
-	case transaction = "transaction"
+	/// Closure Table Maintenance.
+	case closure
 	
 	/// Get a conformance statement for the system.
-	case conformance = "conformance"
+	case conformance
 	
-	/// Closure Table Maintenance.
-	case closure = "closure"
+	/// Create a new resource with a server assigned id.
+	case create
+	
+	/// Delete a resource.
+	case delete
 	
 	/// Generate a Document.
-	case document = "document"
+	case document
 	
 	/// Fetch Encounter/Patient Record.
-	case everything = "everything"
+	case everything
 	
 	/// Value Set Expansion.
-	case expand = "expand"
+	case expand
 	
 	/// Find a functional list.
-	case find = "find"
+	case find
+	
+	/// Retrieve the update history for a particular resource or resource type.
+	case history
 	
 	/// Concept Look Up.
-	case lookup = "lookup"
+	case lookup
 	
 	/// Access a list of profiles, tags, and security labels.
-	case meta = "meta"
+	case meta
 	
 	/// Add profiles, tags, and security labels to a resource.
 	case metaAdd = "meta-add"
@@ -82,20 +67,35 @@ public enum TestScriptOperationCodes: String, FHIRPrimitiveType {
 	case metaDelete = "meta-delete"
 	
 	/// Populate Questionnaire.
-	case populate = "populate"
+	case populate
 	
 	/// Process Message.
 	case processMessage = "process-message"
 	
 	/// Build Questionnaire.
-	case questionnaire = "questionnaire"
+	case questionnaire
+	
+	/// Read the current state of the resource.
+	case read
+	
+	/// Search based on some filter criteria.
+	case search
+	
+	/// Update, create or delete a set of resources as a single transaction.
+	case transaction
 	
 	/// Concept Translation.
-	case translate = "translate"
+	case translate
+	
+	/// Update an existing resource by its id (or create it if it is new).
+	case update
 	
 	/// Validate a resource.
-	case validate = "validate"
+	case validate
 	
 	/// Value Set based Validation.
 	case validateCode = "validate-code"
+	
+	/// Read the state of a specific version of the resource.
+	case vread
 }

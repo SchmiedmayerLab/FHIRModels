@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
 public enum AccountStatus: String, FHIRPrimitiveType {
 	
 	/// This account is active and may be used.
-	case active = "active"
-	
-	/// This account is inactive and should not be used to track financial information.
-	case inactive = "inactive"
+	case active
 	
 	/// This instance should not have been part of this patient's medical record.
 	case enteredInError = "entered-in-error"
+	
+	/// This account is inactive and should not be used to track financial information.
+	case inactive
 }

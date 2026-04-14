@@ -2,8 +2,8 @@
 //  RelatedArtifact.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/RelatedArtifact)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/RelatedArtifact)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,30 +25,37 @@ import FMCore
  Related artifacts such as dependencies, components, additional documentation, justification, or bibliographic
  references.
  */
-open class RelatedArtifact: DataType {
+public struct RelatedArtifact: DataType {
 	
 	/// All possible types for "artifact[x]"
-	public enum ArtifactX: Hashable {
+	public enum ArtifactX: Equatable, Hashable, Sendable {
 		case attachment(Attachment)
 		case canonical(FHIRPrimitive<Canonical>)
 		case markdown(FHIRPrimitive<FHIRString>)
 		case reference(Reference)
 	}
 	
-	/// The type of relationship to the related artifact.
-	public var type: FHIRPrimitive<RelatedArtifactType>
-	
-	/// Short label
-	public var label: FHIRPrimitive<FHIRString>?
-	
-	/// Brief description of the related artifact
-	public var display: FHIRPrimitive<FHIRString>?
+	/// What document, citation, artifact, or resource is being referenced
+	/// One of `artifact[x]`
+	public var artifact: ArtifactX?
 	
 	/// Bibliographic citation for the artifact
 	public var citation: FHIRPrimitive<FHIRString>?
 	
+	/// Brief description of the related artifact
+	public var display: FHIRPrimitive<FHIRString>?
+	
 	/// What document is being referenced
 	public var document: Attachment?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Short label
+	public var label: FHIRPrimitive<FHIRString>?
 	
 	/// What artifact is being referenced
 	public var resource: FHIRPrimitive<Canonical>?
@@ -56,18 +63,16 @@ open class RelatedArtifact: DataType {
 	/// What artifact, if not a conformance resource
 	public var resourceReference: Reference?
 	
-	/// What document, citation, artifact, or resource is being referenced
-	/// One of `artifact[x]`
-	public var artifact: ArtifactX?
+	/// The type of relationship to the related artifact.
+	public var type: FHIRPrimitive<RelatedArtifactType>
 	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<RelatedArtifactType>) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		artifact: ArtifactX? = nil,
 		citation: FHIRPrimitive<FHIRString>? = nil,
 		display: FHIRPrimitive<FHIRString>? = nil,
@@ -101,17 +106,19 @@ open class RelatedArtifact: DataType {
 		case citation; case _citation
 		case display; case _display
 		case document
+		case `extension` = "extension"
+		case id; case _id
 		case label; case _label
 		case resource; case _resource
 		case resourceReference
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_artifact: ArtifactX? = nil
 		if let artifactMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .artifactMarkdown, auxiliaryKey: ._artifactMarkdown) {
 			if _t_artifact != nil {
@@ -141,18 +148,18 @@ open class RelatedArtifact: DataType {
 		self.citation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .citation, auxiliaryKey: ._citation)
 		self.display = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .display, auxiliaryKey: ._display)
 		self.document = try Attachment(from: _container, forKeyIfPresent: .document)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.label = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .label, auxiliaryKey: ._label)
 		self.resource = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .resource, auxiliaryKey: ._resource)
 		self.resourceReference = try Reference(from: _container, forKeyIfPresent: .resourceReference)
 		self.type = try FHIRPrimitive<RelatedArtifactType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = artifact {
 			switch _enum {
 			case .markdown(let _value):
@@ -168,41 +175,11 @@ open class RelatedArtifact: DataType {
 		try citation?.encode(on: &_container, forKey: .citation, auxiliaryKey: ._citation)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
 		try document?.encode(on: &_container, forKey: .document)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try label?.encode(on: &_container, forKey: .label, auxiliaryKey: ._label)
 		try resource?.encode(on: &_container, forKey: .resource, auxiliaryKey: ._resource)
 		try resourceReference?.encode(on: &_container, forKey: .resourceReference)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RelatedArtifact else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return artifact == _other.artifact
-		    && citation == _other.citation
-		    && display == _other.display
-		    && document == _other.document
-		    && label == _other.label
-		    && resource == _other.resource
-		    && resourceReference == _other.resourceReference
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(artifact)
-		hasher.combine(citation)
-		hasher.combine(display)
-		hasher.combine(document)
-		hasher.combine(label)
-		hasher.combine(resource)
-		hasher.combine(resourceReference)
-		hasher.combine(type)
 	}
 }

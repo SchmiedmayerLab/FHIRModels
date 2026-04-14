@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Media)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -23,92 +23,115 @@ import FMCore
  A photo, video, or audio recording acquired or used in healthcare. The actual content may be inline or provided by
  direct reference.
  */
-open class Media: DomainResource {
+public struct Media: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .media }
+	public static let resourceType: ResourceType = .media
 	
 	/// All possible types for "created[x]"
-	public enum CreatedX: Hashable {
+	public enum CreatedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
 	
-	/// Identifier(s) for the image
-	public var identifier: [Identifier]?
-	
 	/// Procedure that caused this media to be created
 	public var basedOn: [Reference]?
 	
-	/// Part of referenced event
-	public var partOf: [Reference]?
+	/// Observed body part
+	public var bodySite: CodeableConcept?
 	
-	/// preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown
-	public var status: FHIRPrimitive<FHIRString>
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
-	/// Classification of media as image, video, or audio
-	public var type: CodeableConcept?
-	
-	/// The type of acquisition equipment/process
-	public var modality: CodeableConcept?
-	
-	/// Imaging view, e.g. Lateral or Antero-posterior
-	public var view: CodeableConcept?
-	
-	/// Who/What this Media is a record of
-	public var subject: Reference?
-	
-	/// Encounter associated with media
-	public var encounter: Reference?
+	/// Actual Media - reference or data
+	public var content: Attachment
 	
 	/// When Media was collected
 	/// One of `created[x]`
 	public var created: CreatedX?
 	
-	/// Date/Time this version was made available
-	public var issued: FHIRPrimitive<Instant>?
-	
-	/// The person who generated the image
-	public var `operator`: Reference?
-	
-	/// Why was event performed?
-	public var reasonCode: [CodeableConcept]?
-	
-	/// Observed body part
-	public var bodySite: CodeableConcept?
+	/// Observing Device
+	public var device: Reference?
 	
 	/// Name of the device/manufacturer
 	public var deviceName: FHIRPrimitive<FHIRString>?
 	
-	/// Observing Device
-	public var device: Reference?
+	/// Length in seconds (audio / video)
+	public var duration: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Height of the image in pixels (photo/video)
-	public var height: FHIRPrimitive<FHIRPositiveInteger>?
+	/// Encounter associated with media
+	public var encounter: Reference?
 	
-	/// Width of the image in pixels (photo/video)
-	public var width: FHIRPrimitive<FHIRPositiveInteger>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Number of frames if > 1 (photo)
 	public var frames: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Length in seconds (audio / video)
-	public var duration: FHIRPrimitive<FHIRDecimal>?
+	/// Height of the image in pixels (photo/video)
+	public var height: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Actual Media - reference or data
-	public var content: Attachment
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifier(s) for the image
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Date/Time this version was made available
+	public var issued: FHIRPrimitive<Instant>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// The type of acquisition equipment/process
+	public var modality: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Comments made about the media
 	public var note: [Annotation]?
+	
+	/// The person who generated the image
+	public var `operator`: Reference?
+	
+	/// Part of referenced event
+	public var partOf: [Reference]?
+	
+	/// Why was event performed?
+	public var reasonCode: [CodeableConcept]?
+	
+	/// preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown
+	public var status: FHIRPrimitive<FHIRString>
+	
+	/// Who/What this Media is a record of
+	public var subject: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Classification of media as image, video, or audio
+	public var type: CodeableConcept?
+	
+	/// Imaging view, e.g. Lateral or Antero-posterior
+	public var view: CodeableConcept?
+	
+	/// Width of the image in pixels (photo/video)
+	public var width: FHIRPrimitive<FHIRPositiveInteger>?
 	
 	/// Designated initializer taking all required properties
 	public init(content: Attachment, status: FHIRPrimitive<FHIRString>) {
 		self.content = content
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -174,8 +197,10 @@ open class Media: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
 		case bodySite
+		case contained
 		case content
 		case createdDateTime; case _createdDateTime
 		case createdPeriod
@@ -183,29 +208,37 @@ open class Media: DomainResource {
 		case deviceName; case _deviceName
 		case duration; case _duration
 		case encounter
+		case `extension` = "extension"
 		case frames; case _frames
 		case height; case _height
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case issued; case _issued
+		case language; case _language
+		case meta
 		case modality
+		case modifierExtension
 		case note
 		case `operator` = "operator"
 		case partOf
 		case reasonCode
 		case status; case _status
 		case subject
+		case text
 		case type
 		case view
 		case width; case _width
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.content = try Attachment(from: _container, forKey: .content)
 		var _t_created: CreatedX? = nil
 		if let createdDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .createdDateTime, auxiliaryKey: ._createdDateTime) {
@@ -225,30 +258,38 @@ open class Media: DomainResource {
 		self.deviceName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .deviceName, auxiliaryKey: ._deviceName)
 		self.duration = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .duration, auxiliaryKey: ._duration)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.frames = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .frames, auxiliaryKey: ._frames)
 		self.height = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .height, auxiliaryKey: ._height)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.issued = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .issued, auxiliaryKey: ._issued)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modality = try CodeableConcept(from: _container, forKeyIfPresent: .modality)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.`operator` = try Reference(from: _container, forKeyIfPresent: .`operator`)
 		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
 		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.view = try CodeableConcept(from: _container, forKeyIfPresent: .view)
 		self.width = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .width, auxiliaryKey: ._width)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try content.encode(on: &_container, forKey: .content)
 		if let _enum = created {
 			switch _enum {
@@ -262,79 +303,26 @@ open class Media: DomainResource {
 		try deviceName?.encode(on: &_container, forKey: .deviceName, auxiliaryKey: ._deviceName)
 		try duration?.encode(on: &_container, forKey: .duration, auxiliaryKey: ._duration)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try frames?.encode(on: &_container, forKey: .frames, auxiliaryKey: ._frames)
 		try height?.encode(on: &_container, forKey: .height, auxiliaryKey: ._height)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try issued?.encode(on: &_container, forKey: .issued, auxiliaryKey: ._issued)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try modality?.encode(on: &_container, forKey: .modality)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try `operator`?.encode(on: &_container, forKey: .`operator`)
 		try partOf?.encode(on: &_container, forKey: .partOf)
 		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
 		try view?.encode(on: &_container, forKey: .view)
 		try width?.encode(on: &_container, forKey: .width, auxiliaryKey: ._width)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Media else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && bodySite == _other.bodySite
-		    && content == _other.content
-		    && created == _other.created
-		    && device == _other.device
-		    && deviceName == _other.deviceName
-		    && duration == _other.duration
-		    && encounter == _other.encounter
-		    && frames == _other.frames
-		    && height == _other.height
-		    && identifier == _other.identifier
-		    && issued == _other.issued
-		    && modality == _other.modality
-		    && note == _other.note
-		    && `operator` == _other.`operator`
-		    && partOf == _other.partOf
-		    && reasonCode == _other.reasonCode
-		    && status == _other.status
-		    && subject == _other.subject
-		    && type == _other.type
-		    && view == _other.view
-		    && width == _other.width
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(bodySite)
-		hasher.combine(content)
-		hasher.combine(created)
-		hasher.combine(device)
-		hasher.combine(deviceName)
-		hasher.combine(duration)
-		hasher.combine(encounter)
-		hasher.combine(frames)
-		hasher.combine(height)
-		hasher.combine(identifier)
-		hasher.combine(issued)
-		hasher.combine(modality)
-		hasher.combine(note)
-		hasher.combine(`operator`)
-		hasher.combine(partOf)
-		hasher.combine(reasonCode)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(type)
-		hasher.combine(view)
-		hasher.combine(width)
 	}
 }

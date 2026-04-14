@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ExpressionLanguage: String, FHIRPrimitiveType {
 	
+	/// FHIR's RESTful query syntax - typically independent of base URL.
+	case applicationXFhirQuery = "application/x-fhir-query"
+	
 	/// Clinical Quality Language.
 	case textCql = "text/cql"
 	
 	/// FHIRPath.
 	case textFhirpath = "text/fhirpath"
-	
-	/// FHIR's RESTful query syntax - typically independent of base URL.
-	case applicationXFhirQuery = "application/x-fhir-query"
 }

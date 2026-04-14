@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,16 +27,16 @@ import FMCore
  */
 public enum NarrativeStatus: String, FHIRPrimitiveType {
 	
-	/// The contents of the narrative are entirely generated from the structured data in the content.
-	case generated = "generated"
+	/// The contents of the narrative contain additional information not found in the structured data
+	case additional
+	
+	/// The contents of the narrative are some equivalent of "No human-readable text provided in this case"
+	case empty
 	
 	/// The contents of the narrative are entirely generated from the structured data in the content and some of the
 	/// content is generated from extensions
-	case extensions = "extensions"
+	case extensions
 	
-	/// The contents of the narrative contain additional information not found in the structured data
-	case additional = "additional"
-	
-	/// The contents of the narrative are some equivalent of "No human-readable text provided in this case"
-	case empty = "empty"
+	/// The contents of the narrative are entirely generated from the structured data in the content.
+	case generated
 }

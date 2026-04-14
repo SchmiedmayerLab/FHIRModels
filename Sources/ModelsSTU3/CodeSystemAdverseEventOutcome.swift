@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum AdverseEventOutcome: String, FHIRPrimitiveType {
 	
-	/// resolved
-	case resolved = "resolved"
-	
-	/// recovering
-	case recovering = "recovering"
+	/// fatal
+	case fatal
 	
 	/// ongoing
-	case ongoing = "ongoing"
+	case ongoing
+	
+	/// recovering
+	case recovering
+	
+	/// resolved
+	case resolved
 	
 	/// resolvedWithSequelae
-	case resolvedWithSequelae = "resolvedWithSequelae"
-	
-	/// fatal
-	case fatal = "fatal"
+	case resolvedWithSequelae
 	
 	/// unknown
-	case unknown = "unknown"
+	case unknown
 }

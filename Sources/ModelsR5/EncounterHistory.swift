@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/EncounterHistory)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,42 +25,36 @@ import FMCore
  A record of significant events/milestones key data throughout the history of an Encounter, often tracked for specific
  purposes such as billing.
  */
-open class EncounterHistory: DomainResource {
+public struct EncounterHistory: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .encounterHistory }
-	
-	/// The Encounter associated with this set of historic values
-	public var encounter: Reference?
-	
-	/// Identifier(s) by which this encounter is known
-	public var identifier: [Identifier]?
-	
-	/// None
-	public var status: FHIRPrimitive<EncounterStatus>
-	
-	/// Classification of patient encounter
-	public var `class`: CodeableConcept
-	
-	/// Specific type of encounter
-	public var type: [CodeableConcept]?
-	
-	/// Specific type of service
-	public var serviceType: [CodeableReference]?
-	
-	/// The patient or group related to this encounter
-	public var subject: Reference?
-	
-	/// The current status of the subject in relation to the Encounter
-	public var subjectStatus: CodeableConcept?
+	public static let resourceType: ResourceType = .encounterHistory
 	
 	/// The actual start and end time associated with this set of values associated with the encounter
 	public var actualPeriod: Period?
 	
-	/// The planned start date/time (or admission date) of the encounter
-	public var plannedStartDate: FHIRPrimitive<DateTime>?
+	/// Classification of patient encounter
+	public var `class`: CodeableConcept
 	
-	/// The planned end date/time (or discharge date) of the encounter
-	public var plannedEndDate: FHIRPrimitive<DateTime>?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// The Encounter associated with this set of historic values
+	public var encounter: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifier(s) by which this encounter is known
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
 	
 	/// Actual quantity of time the encounter lasted (less time absent)
 	public var length: Duration?
@@ -68,15 +62,44 @@ open class EncounterHistory: DomainResource {
 	/// Location of the patient at this point in the encounter
 	public var location: [EncounterHistoryLocation]?
 	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The planned end date/time (or discharge date) of the encounter
+	public var plannedEndDate: FHIRPrimitive<DateTime>?
+	
+	/// The planned start date/time (or admission date) of the encounter
+	public var plannedStartDate: FHIRPrimitive<DateTime>?
+	
+	/// Specific type of service
+	public var serviceType: [CodeableReference]?
+	
+	/// None
+	public var status: FHIRPrimitive<EncounterStatus>
+	
+	/// The patient or group related to this encounter
+	public var subject: Reference?
+	
+	/// The current status of the subject in relation to the Encounter
+	public var subjectStatus: CodeableConcept?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Specific type of encounter
+	public var type: [CodeableConcept]?
+	
 	/// Designated initializer taking all required properties
 	public init(`class`: CodeableConcept, status: FHIRPrimitive<EncounterStatus>) {
 		self.`class` = `class`
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actualPeriod: Period? = nil,
 		`class`: CodeableConcept,
 		contained: [ResourceProxy]? = nil,
@@ -124,102 +147,85 @@ open class EncounterHistory: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case actualPeriod
 		case `class` = "class"
+		case contained
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case length
 		case location
+		case meta
+		case modifierExtension
 		case plannedEndDate; case _plannedEndDate
 		case plannedStartDate; case _plannedStartDate
 		case serviceType
 		case status; case _status
 		case subject
 		case subjectStatus
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actualPeriod = try Period(from: _container, forKeyIfPresent: .actualPeriod)
 		self.`class` = try CodeableConcept(from: _container, forKey: .`class`)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.length = try Duration(from: _container, forKeyIfPresent: .length)
 		self.location = try [EncounterHistoryLocation](from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.plannedEndDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .plannedEndDate, auxiliaryKey: ._plannedEndDate)
 		self.plannedStartDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .plannedStartDate, auxiliaryKey: ._plannedStartDate)
 		self.serviceType = try [CodeableReference](from: _container, forKeyIfPresent: .serviceType)
 		self.status = try FHIRPrimitive<EncounterStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
 		self.subjectStatus = try CodeableConcept(from: _container, forKeyIfPresent: .subjectStatus)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try actualPeriod?.encode(on: &_container, forKey: .actualPeriod)
 		try `class`.encode(on: &_container, forKey: .`class`)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try length?.encode(on: &_container, forKey: .length)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try plannedEndDate?.encode(on: &_container, forKey: .plannedEndDate, auxiliaryKey: ._plannedEndDate)
 		try plannedStartDate?.encode(on: &_container, forKey: .plannedStartDate, auxiliaryKey: ._plannedStartDate)
 		try serviceType?.encode(on: &_container, forKey: .serviceType)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try subjectStatus?.encode(on: &_container, forKey: .subjectStatus)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EncounterHistory else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actualPeriod == _other.actualPeriod
-		    && `class` == _other.`class`
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && length == _other.length
-		    && location == _other.location
-		    && plannedEndDate == _other.plannedEndDate
-		    && plannedStartDate == _other.plannedStartDate
-		    && serviceType == _other.serviceType
-		    && status == _other.status
-		    && subject == _other.subject
-		    && subjectStatus == _other.subjectStatus
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actualPeriod)
-		hasher.combine(`class`)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(length)
-		hasher.combine(location)
-		hasher.combine(plannedEndDate)
-		hasher.combine(plannedStartDate)
-		hasher.combine(serviceType)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(subjectStatus)
-		hasher.combine(type)
 	}
 }
 
@@ -229,22 +235,30 @@ open class EncounterHistory: DomainResource {
  The location of the patient at this point in the encounter, the multiple cardinality permits de-normalizing the levels
  of the location hierarchy, such as site/ward/room/bed.
  */
-open class EncounterHistoryLocation: BackboneElement {
+public struct EncounterHistoryLocation: BackboneElement {
 	
-	/// Location the encounter takes place
-	public var location: Reference
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// The physical type of the location (usually the level in the location hierarchy - bed, room, ward, virtual etc.)
 	public var form: CodeableConcept?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Location the encounter takes place
+	public var location: Reference
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(location: Reference) {
 		self.location = location
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		form: CodeableConcept? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -261,46 +275,33 @@ open class EncounterHistoryLocation: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case form
+		case id; case _id
 		case location
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.form = try CodeableConcept(from: _container, forKeyIfPresent: .form)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.location = try Reference(from: _container, forKey: .location)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try form?.encode(on: &_container, forKey: .form)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try location.encode(on: &_container, forKey: .location)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EncounterHistoryLocation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return form == _other.form
-		    && location == _other.location
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(form)
-		hasher.combine(location)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

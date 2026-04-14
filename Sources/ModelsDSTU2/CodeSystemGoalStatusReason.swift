@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,15 +28,15 @@ import FMCore
  */
 public enum GoalStatusReason: String, FHIRPrimitiveType {
 	
-	/// Goal suspended or ended because of a surgical procedure.
-	case surgery = "surgery"
-	
 	/// Goal suspended or ended because of a significant life event (marital change, bereavement, etc.).
 	case lifeEvent = "life-event"
 	
-	/// Goal has been superseded by a new goal.
-	case replaced = "replaced"
-	
 	/// Patient wishes the goal to be set aside, at least temporarily.
 	case patientRequest = "patient-request"
+	
+	/// Goal has been superseded by a new goal.
+	case replaced
+	
+	/// Goal suspended or ended because of a surgical procedure.
+	case surgery
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,9 +28,6 @@ import FMCore
  */
 public enum TestScriptProfileDestinationType: String, FHIRPrimitiveType {
 	
-	/// General FHIR server used to respond to operations sent from a FHIR client.
-	case fHIRServer = "FHIR-Server"
-	
 	/// A FHIR server acting as a Structured Data Capture Form Manager.
 	case fHIRSDCFormManager = "FHIR-SDC-FormManager"
 	
@@ -39,4 +36,7 @@ public enum TestScriptProfileDestinationType: String, FHIRPrimitiveType {
 	
 	/// A FHIR server acting as a Structured Data Capture Form Receiver.
 	case fHIRSDCFormReceiver = "FHIR-SDC-FormReceiver"
+	
+	/// General FHIR server used to respond to operations sent from a FHIR client.
+	case fHIRServer = "FHIR-Server"
 }

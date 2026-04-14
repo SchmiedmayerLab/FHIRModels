@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,42 +27,42 @@ import FMCore
  */
 public enum ObservationReferenceRangeMeaningCodes: String, FHIRPrimitiveType {
 	
-	/// General types of reference range.
-	case type = "type"
+	/// Endocrine related states that change the expected value.
+	case endocrine
+	
+	/// An expected range in an individual during the follicular stage of the cycle.
+	case follicular
+	
+	/// An expected range in an individual during the luteal stage of the cycle.
+	case luteal
+	
+	/// An expected range in an individual during the follicular stage of the cycle.
+	case midcycle
 	
 	/// Based on 95th percentile for the relevant control population.
-	case normal = "normal"
-	
-	/// The range that is recommended by a relevant professional body.
-	case recommended = "recommended"
-	
-	/// The range at which treatment would/should be considered.
-	case treatment = "treatment"
-	
-	/// The optimal range for best therapeutic outcomes.
-	case therapeutic = "therapeutic"
-	
-	/// The optimal range for best therapeutic outcomes for a specimen taken immediately before administration.
-	case pre = "pre"
+	case normal
 	
 	/// The optimal range for best therapeutic outcomes for a specimen taken immediately after administration.
-	case post = "post"
+	case post
 	
-	/// Endocrine related states that change the expected value.
-	case endocrine = "endocrine"
+	/// An expected range in an individual post-menopause.
+	case postmeopausal
+	
+	/// The optimal range for best therapeutic outcomes for a specimen taken immediately before administration.
+	case pre
 	
 	/// An expected range in an individual prior to puberty.
 	case prePuberty = "pre-puberty"
 	
-	/// An expected range in an individual during the follicular stage of the cycle.
-	case follicular = "follicular"
+	/// The range that is recommended by a relevant professional body.
+	case recommended
 	
-	/// An expected range in an individual during the follicular stage of the cycle.
-	case midcycle = "midcycle"
+	/// The optimal range for best therapeutic outcomes.
+	case therapeutic
 	
-	/// An expected range in an individual during the luteal stage of the cycle.
-	case luteal = "luteal"
+	/// The range at which treatment would/should be considered.
+	case treatment
 	
-	/// An expected range in an individual post-menopause.
-	case postmeopausal = "postmeopausal"
+	/// General types of reference range.
+	case type
 }

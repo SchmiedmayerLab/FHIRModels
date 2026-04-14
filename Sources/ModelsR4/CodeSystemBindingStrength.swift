@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,8 +27,9 @@ import FMCore
  */
 public enum BindingStrength: String, FHIRPrimitiveType {
 	
-	/// To be conformant, the concept in this element SHALL be from the specified value set.
-	case required
+	/// Instances are not expected or even encouraged to draw from the specified value set.  The value set merely
+	/// provides examples of the types of concepts intended to be included.
+	case example
 	
 	/// To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within
 	/// the value set can apply to the concept being communicated.  If the value set does not cover the concept (based
@@ -39,7 +40,6 @@ public enum BindingStrength: String, FHIRPrimitiveType {
 	/// do so to be considered conformant.
 	case preferred
 	
-	/// Instances are not expected or even encouraged to draw from the specified value set.  The value set merely
-	/// provides examples of the types of concepts intended to be included.
-	case example
+	/// To be conformant, the concept in this element SHALL be from the specified value set.
+	case required
 }

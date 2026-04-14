@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,6 @@ import FMCore
  */
 public enum ExampleDiagnosisOnAdmissionCodes: String, FHIRPrimitiveType {
 	
-	/// Diagnosis was present at time of inpatient admission.
-	case Y = "y"
-	
 	/// Diagnosis was not present at time of inpatient admission.
 	case N = "n"
 	
@@ -39,4 +36,7 @@ public enum ExampleDiagnosisOnAdmissionCodes: String, FHIRPrimitiveType {
 	/// Clinically undetermined. Provider unable to clinically determine whether the condition was present at the time
 	/// of inpatient admission.
 	case W = "w"
+	
+	/// Diagnosis was present at time of inpatient admission.
+	case Y = "y"
 }

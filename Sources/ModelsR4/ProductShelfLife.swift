@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/ProductShelfLife)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,16 +22,19 @@ import FMCore
 /**
  The shelf-life and storage information for a medicinal product item or container can be described using this class.
  */
-open class ProductShelfLife: BackboneElement {
+public struct ProductShelfLife: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Unique identifier for the packaged Medicinal Product
 	public var identifier: Identifier?
 	
-	/// This describes the shelf life, taking into account various scenarios such as shelf life of the packaged
-	/// Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening
-	/// of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The
-	/// controlled term and the controlled term identifier shall be specified
-	public var type: CodeableConcept
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The shelf life time period can be specified using a numerical value for the period of time and its unit of time
 	/// measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting
@@ -42,15 +45,20 @@ open class ProductShelfLife: BackboneElement {
 	/// controlled term and the controlled term identifier shall be specified
 	public var specialPrecautionsForStorage: [CodeableConcept]?
 	
+	/// This describes the shelf life, taking into account various scenarios such as shelf life of the packaged
+	/// Medicinal Product itself, shelf life after transformation where necessary and shelf life after the first opening
+	/// of a bottle, etc. The shelf life type shall be specified using an appropriate controlled vocabulary The
+	/// controlled term and the controlled term identifier shall be specified
+	public var type: CodeableConcept
+	
 	/// Designated initializer taking all required properties
 	public init(period: Quantity, type: CodeableConcept) {
 		self.period = period
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		identifier: Identifier? = nil,
@@ -70,56 +78,39 @@ open class ProductShelfLife: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case period
 		case specialPrecautionsForStorage
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Quantity(from: _container, forKey: .period)
 		self.specialPrecautionsForStorage = try [CodeableConcept](from: _container, forKeyIfPresent: .specialPrecautionsForStorage)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period.encode(on: &_container, forKey: .period)
 		try specialPrecautionsForStorage?.encode(on: &_container, forKey: .specialPrecautionsForStorage)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProductShelfLife else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return identifier == _other.identifier
-		    && period == _other.period
-		    && specialPrecautionsForStorage == _other.specialPrecautionsForStorage
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(identifier)
-		hasher.combine(period)
-		hasher.combine(specialPrecautionsForStorage)
-		hasher.combine(type)
 	}
 }

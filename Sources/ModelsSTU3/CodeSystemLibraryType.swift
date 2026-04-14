@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@ import FMCore
  */
 public enum LibraryType: String, FHIRPrimitiveType {
 	
+	/// The resource is a collection of knowledge assets
+	case assetCollection = "asset-collection"
+	
 	/// The resource is a shareable library of formalized knowledge
 	case logicLibrary = "logic-library"
 	
 	/// The resource is a definition of an information model
 	case modelDefinition = "model-definition"
-	
-	/// The resource is a collection of knowledge assets
-	case assetCollection = "asset-collection"
 	
 	/// The resource defines the dependencies, parameters, and data requirements for a particular module or evaluation
 	/// context

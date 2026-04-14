@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/InventoryItem)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,60 +22,83 @@ import FMCore
 /**
  A functional description of an inventory item used in inventory and supply-related workflows.
  */
-open class InventoryItem: DomainResource {
+public struct InventoryItem: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .inventoryItem }
-	
-	/// Business identifier for the inventory item
-	public var identifier: [Identifier]?
-	
-	/// Status of the item entry.
-	public var status: FHIRPrimitive<InventoryItemStatus>
-	
-	/// Category or class of the item
-	public var category: [CodeableConcept]?
-	
-	/// Code designating the specific type of item
-	public var code: [CodeableConcept]?
-	
-	/// The item name(s) - the brand name, or common name, functional name, generic name or others
-	public var name: [InventoryItemName]?
-	
-	/// Organization(s) responsible for the product
-	public var responsibleOrganization: [InventoryItemResponsibleOrganization]?
-	
-	/// Descriptive characteristics of the item
-	public var description_fhir: InventoryItemDescription?
-	
-	/// The usage status like recalled, in use, discarded
-	public var inventoryStatus: [CodeableConcept]?
-	
-	/// The base unit of measure - the unit in which the product is used or counted
-	public var baseUnit: CodeableConcept?
-	
-	/// Net content or amount present in the item
-	public var netContent: Quantity?
+	public static let resourceType: ResourceType = .inventoryItem
 	
 	/// Association with other items or products
 	public var association: [InventoryItemAssociation]?
 	
+	/// The base unit of measure - the unit in which the product is used or counted
+	public var baseUnit: CodeableConcept?
+	
+	/// Category or class of the item
+	public var category: [CodeableConcept]?
+	
 	/// Characteristic of the item
 	public var characteristic: [InventoryItemCharacteristic]?
+	
+	/// Code designating the specific type of item
+	public var code: [CodeableConcept]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Descriptive characteristics of the item
+	public var description_fhir: InventoryItemDescription?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier for the inventory item
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Instances or occurrences of the product
 	public var instance: InventoryItemInstance?
 	
+	/// The usage status like recalled, in use, discarded
+	public var inventoryStatus: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The item name(s) - the brand name, or common name, functional name, generic name or others
+	public var name: [InventoryItemName]?
+	
+	/// Net content or amount present in the item
+	public var netContent: Quantity?
+	
 	/// Link to a product resource used in clinical workflows
 	public var productReference: Reference?
+	
+	/// Organization(s) responsible for the product
+	public var responsibleOrganization: [InventoryItemResponsibleOrganization]?
+	
+	/// Status of the item entry.
+	public var status: FHIRPrimitive<InventoryItemStatus>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<InventoryItemStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		association: [InventoryItemAssociation]? = nil,
 		baseUnit: CodeableConcept? = nil,
 		category: [CodeableConcept]? = nil,
@@ -126,134 +149,123 @@ open class InventoryItem: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case association
 		case baseUnit
 		case category
 		case characteristic
 		case code
+		case contained
 		case description_fhir = "description"
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case instance
 		case inventoryStatus
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name
 		case netContent
 		case productReference
 		case responsibleOrganization
 		case status; case _status
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.association = try [InventoryItemAssociation](from: _container, forKeyIfPresent: .association)
 		self.baseUnit = try CodeableConcept(from: _container, forKeyIfPresent: .baseUnit)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
 		self.characteristic = try [InventoryItemCharacteristic](from: _container, forKeyIfPresent: .characteristic)
 		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try InventoryItemDescription(from: _container, forKeyIfPresent: .description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.instance = try InventoryItemInstance(from: _container, forKeyIfPresent: .instance)
 		self.inventoryStatus = try [CodeableConcept](from: _container, forKeyIfPresent: .inventoryStatus)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try [InventoryItemName](from: _container, forKeyIfPresent: .name)
 		self.netContent = try Quantity(from: _container, forKeyIfPresent: .netContent)
 		self.productReference = try Reference(from: _container, forKeyIfPresent: .productReference)
 		self.responsibleOrganization = try [InventoryItemResponsibleOrganization](from: _container, forKeyIfPresent: .responsibleOrganization)
 		self.status = try FHIRPrimitive<InventoryItemStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try association?.encode(on: &_container, forKey: .association)
 		try baseUnit?.encode(on: &_container, forKey: .baseUnit)
 		try category?.encode(on: &_container, forKey: .category)
 		try characteristic?.encode(on: &_container, forKey: .characteristic)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try instance?.encode(on: &_container, forKey: .instance)
 		try inventoryStatus?.encode(on: &_container, forKey: .inventoryStatus)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name)
 		try netContent?.encode(on: &_container, forKey: .netContent)
 		try productReference?.encode(on: &_container, forKey: .productReference)
 		try responsibleOrganization?.encode(on: &_container, forKey: .responsibleOrganization)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return association == _other.association
-		    && baseUnit == _other.baseUnit
-		    && category == _other.category
-		    && characteristic == _other.characteristic
-		    && code == _other.code
-		    && description_fhir == _other.description_fhir
-		    && identifier == _other.identifier
-		    && instance == _other.instance
-		    && inventoryStatus == _other.inventoryStatus
-		    && name == _other.name
-		    && netContent == _other.netContent
-		    && productReference == _other.productReference
-		    && responsibleOrganization == _other.responsibleOrganization
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(association)
-		hasher.combine(baseUnit)
-		hasher.combine(category)
-		hasher.combine(characteristic)
-		hasher.combine(code)
-		hasher.combine(description_fhir)
-		hasher.combine(identifier)
-		hasher.combine(instance)
-		hasher.combine(inventoryStatus)
-		hasher.combine(name)
-		hasher.combine(netContent)
-		hasher.combine(productReference)
-		hasher.combine(responsibleOrganization)
-		hasher.combine(status)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
 /**
  Association with other items or products.
  */
-open class InventoryItemAssociation: BackboneElement {
+public struct InventoryItemAssociation: BackboneElement {
 	
 	/// The type of association between the device and the other item
 	public var associationType: CodeableConcept
 	
-	/// The related item or product
-	public var relatedItem: Reference
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The quantity of the product in this product
 	public var quantity: Ratio
+	
+	/// The related item or product
+	public var relatedItem: Reference
 	
 	/// Designated initializer taking all required properties
 	public init(associationType: CodeableConcept, quantity: Ratio, relatedItem: Reference) {
 		self.associationType = associationType
 		self.quantity = quantity
 		self.relatedItem = relatedItem
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		associationType: CodeableConcept,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -271,51 +283,36 @@ open class InventoryItemAssociation: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case associationType
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case quantity
 		case relatedItem
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.associationType = try CodeableConcept(from: _container, forKey: .associationType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.quantity = try Ratio(from: _container, forKey: .quantity)
 		self.relatedItem = try Reference(from: _container, forKey: .relatedItem)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try associationType.encode(on: &_container, forKey: .associationType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try quantity.encode(on: &_container, forKey: .quantity)
 		try relatedItem.encode(on: &_container, forKey: .relatedItem)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItemAssociation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return associationType == _other.associationType
-		    && quantity == _other.quantity
-		    && relatedItem == _other.relatedItem
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(associationType)
-		hasher.combine(quantity)
-		hasher.combine(relatedItem)
 	}
 }
 
@@ -324,10 +321,10 @@ open class InventoryItemAssociation: BackboneElement {
  
  The descriptive or identifying characteristics of the item.
  */
-open class InventoryItemCharacteristic: BackboneElement {
+public struct InventoryItemCharacteristic: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case annotation(Annotation)
 		case boolean(FHIRPrimitive<FHIRBool>)
@@ -346,6 +343,15 @@ open class InventoryItemCharacteristic: BackboneElement {
 	/// The characteristic that is being defined
 	public var characteristicType: CodeableConcept
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// The value of the attribute
 	/// One of `value[x]`
 	public var value: ValueX
@@ -354,11 +360,10 @@ open class InventoryItemCharacteristic: BackboneElement {
 	public init(characteristicType: CodeableConcept, value: ValueX) {
 		self.characteristicType = characteristicType
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		characteristicType: CodeableConcept,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -375,6 +380,9 @@ open class InventoryItemCharacteristic: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case characteristicType
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case valueAddress
 		case valueAnnotation
 		case valueBoolean; case _valueBoolean
@@ -389,9 +397,9 @@ open class InventoryItemCharacteristic: BackboneElement {
 		case valueString; case _valueString
 		case valueUrl; case _valueUrl
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -399,8 +407,11 @@ open class InventoryItemCharacteristic: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueAddress, CodingKeys.valueAnnotation, CodingKeys.valueBoolean, CodingKeys.valueCodeableConcept, CodingKeys.valueDateTime, CodingKeys.valueDecimal, CodingKeys.valueDuration, CodingKeys.valueInteger, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueRatio, CodingKeys.valueString, CodingKeys.valueUrl], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.characteristicType = try CodeableConcept(from: _container, forKey: .characteristicType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_value: ValueX? = nil
 		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
 			if _t_value != nil {
@@ -481,15 +492,16 @@ open class InventoryItemCharacteristic: BackboneElement {
 			_t_value = .codeableConcept(valueCodeableConcept)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try characteristicType.encode(on: &_container, forKey: .characteristicType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
 			switch value {
 			case .string(let _value):
@@ -520,26 +532,6 @@ open class InventoryItemCharacteristic: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItemCharacteristic else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return characteristicType == _other.characteristicType
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(characteristicType)
-		hasher.combine(value)
 	}
 }
 
@@ -548,21 +540,29 @@ open class InventoryItemCharacteristic: BackboneElement {
  
  The descriptive characteristics of the inventory item.
  */
-open class InventoryItemDescription: BackboneElement {
-	
-	/// The language that is used in the item description
-	public var language: FHIRPrimitive<FHIRString>?
+public struct InventoryItemDescription: BackboneElement {
 	
 	/// Textual description of the item
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The language that is used in the item description
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -581,76 +581,71 @@ open class InventoryItemDescription: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case language; case _language
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItemDescription else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && language == _other.language
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
 /**
  Instances or occurrences of the product.
  */
-open class InventoryItemInstance: BackboneElement {
-	
-	/// The identifier for the physical instance, typically a serial number
-	public var identifier: [Identifier]?
-	
-	/// The lot or batch number of the item
-	public var lotNumber: FHIRPrimitive<FHIRString>?
+public struct InventoryItemInstance: BackboneElement {
 	
 	/// The expiry date or date and time for the product
 	public var expiry: FHIRPrimitive<DateTime>?
 	
-	/// The subject that the item is associated with
-	public var subject: Reference?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The identifier for the physical instance, typically a serial number
+	public var identifier: [Identifier]?
 	
 	/// The location that the item is associated with
 	public var location: Reference?
 	
+	/// The lot or batch number of the item
+	public var lotNumber: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The subject that the item is associated with
+	public var subject: Reference?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		expiry: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -675,61 +670,42 @@ open class InventoryItemInstance: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case expiry; case _expiry
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case location
 		case lotNumber; case _lotNumber
+		case modifierExtension
 		case subject
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.expiry = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .expiry, auxiliaryKey: ._expiry)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.lotNumber = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .lotNumber, auxiliaryKey: ._lotNumber)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try expiry?.encode(on: &_container, forKey: .expiry, auxiliaryKey: ._expiry)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try location?.encode(on: &_container, forKey: .location)
 		try lotNumber?.encode(on: &_container, forKey: .lotNumber, auxiliaryKey: ._lotNumber)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try subject?.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItemInstance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return expiry == _other.expiry
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && lotNumber == _other.lotNumber
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(expiry)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(lotNumber)
-		hasher.combine(subject)
 	}
 }
 
@@ -738,27 +714,35 @@ open class InventoryItemInstance: BackboneElement {
  
  The item name(s) - the brand name, or common name, functional name, generic name.
  */
-open class InventoryItemName: BackboneElement {
+public struct InventoryItemName: BackboneElement {
 	
-	/// The type of name e.g. 'brand-name', 'functional-name', 'common-name'
-	public var nameType: Coding
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The language used to express the item name
 	public var language: FHIRPrimitive<FHIRString>
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// The name or designation of the item
 	public var name: FHIRPrimitive<FHIRString>
+	
+	/// The type of name e.g. 'brand-name', 'functional-name', 'common-name'
+	public var nameType: Coding
 	
 	/// Designated initializer taking all required properties
 	public init(language: FHIRPrimitive<FHIRString>, name: FHIRPrimitive<FHIRString>, nameType: Coding) {
 		self.language = language
 		self.name = name
 		self.nameType = nameType
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		language: FHIRPrimitive<FHIRString>,
@@ -775,75 +759,68 @@ open class InventoryItemName: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case language; case _language
+		case modifierExtension
 		case name; case _name
 		case nameType
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKey: .language, auxiliaryKey: ._language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.nameType = try Coding(from: _container, forKey: .nameType)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try nameType.encode(on: &_container, forKey: .nameType)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItemName else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return language == _other.language
-		    && name == _other.name
-		    && nameType == _other.nameType
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(language)
-		hasher.combine(name)
-		hasher.combine(nameType)
 	}
 }
 
 /**
  Organization(s) responsible for the product.
  */
-open class InventoryItemResponsibleOrganization: BackboneElement {
+public struct InventoryItemResponsibleOrganization: BackboneElement {
 	
-	/// The role of the organization e.g. manufacturer, distributor, or other
-	public var role: CodeableConcept
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// An organization that is associated with the item
 	public var organization: Reference
+	
+	/// The role of the organization e.g. manufacturer, distributor, or other
+	public var role: CodeableConcept
 	
 	/// Designated initializer taking all required properties
 	public init(organization: Reference, role: CodeableConcept) {
 		self.organization = organization
 		self.role = role
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -859,46 +836,33 @@ open class InventoryItemResponsibleOrganization: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case organization
 		case role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.organization = try Reference(from: _container, forKey: .organization)
 		self.role = try CodeableConcept(from: _container, forKey: .role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try organization.encode(on: &_container, forKey: .organization)
 		try role.encode(on: &_container, forKey: .role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? InventoryItemResponsibleOrganization else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return organization == _other.organization
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(organization)
-		hasher.combine(role)
 	}
 }

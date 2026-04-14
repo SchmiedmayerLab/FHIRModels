@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,12 +30,12 @@ public enum NamingSystemIdentifierType: String, FHIRPrimitiveType {
 	/// An ISO object identifier; e.g. 1.2.3.4.5.
 	case oid
 	
-	/// A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
-	case uuid
+	/// Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
+	case other
 	
 	/// A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.
 	case uri
 	
-	/// Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
-	case other
+	/// A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
+	case uuid
 }

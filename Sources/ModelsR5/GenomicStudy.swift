@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/GenomicStudy)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,40 +24,36 @@ import FMCore
  
  A GenomicStudy is a set of analyses performed to analyze and generate genomic data.
  */
-open class GenomicStudy: DomainResource {
+public struct GenomicStudy: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .genomicStudy }
+	public static let resourceType: ResourceType = .genomicStudy
 	
-	/// Identifiers for this genomic study
-	public var identifier: [Identifier]?
-	
-	/// registered | available | cancelled | entered-in-error | unknown
-	public var status: FHIRPrimitive<FHIRString>
-	
-	/// The type of the study (e.g., Familial variant segregation, Functional variation detection, or Gene expression
-	/// profiling)
-	public var type: [CodeableConcept]?
-	
-	/// The primary subject of the genomic study
-	public var subject: Reference
-	
-	/// The healthcare event with which this genomics study is associated
-	public var encounter: Reference?
-	
-	/// When the genomic study was started
-	public var startDate: FHIRPrimitive<DateTime>?
+	/// Genomic Analysis Event
+	public var analysis: [GenomicStudyAnalysis]?
 	
 	/// Event resources that the genomic study is based on
 	public var basedOn: [Reference]?
 	
-	/// Healthcare professional who requested or referred the genomic study
-	public var referrer: Reference?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
-	/// Healthcare professionals who interpreted the genomic study
-	public var interpreter: [Reference]?
+	/// Description of the genomic study
+	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Why the genomic study was performed
-	public var reason: [CodeableReference]?
+	/// The healthcare event with which this genomics study is associated
+	public var encounter: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifiers for this genomic study
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// The defined protocol that describes the study
 	public var instantiatesCanonical: FHIRPrimitive<Canonical>?
@@ -65,24 +61,51 @@ open class GenomicStudy: DomainResource {
 	/// The URL pointing to an externally maintained protocol that describes the study
 	public var instantiatesUri: FHIRPrimitive<FHIRURI>?
 	
+	/// Healthcare professionals who interpreted the genomic study
+	public var interpreter: [Reference]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// Comments related to the genomic study
 	public var note: [Annotation]?
 	
-	/// Description of the genomic study
-	public var description_fhir: FHIRPrimitive<FHIRString>?
+	/// Why the genomic study was performed
+	public var reason: [CodeableReference]?
 	
-	/// Genomic Analysis Event
-	public var analysis: [GenomicStudyAnalysis]?
+	/// Healthcare professional who requested or referred the genomic study
+	public var referrer: Reference?
+	
+	/// When the genomic study was started
+	public var startDate: FHIRPrimitive<DateTime>?
+	
+	/// registered | available | cancelled | entered-in-error | unknown
+	public var status: FHIRPrimitive<FHIRString>
+	
+	/// The primary subject of the genomic study
+	public var subject: Reference
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// The type of the study (e.g., Familial variant segregation, Functional variation detection, or Gene expression
+	/// profiling)
+	public var type: [CodeableConcept]?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<FHIRString>, subject: Reference) {
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		analysis: [GenomicStudyAnalysis]? = nil,
 		basedOn: [Reference]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -134,112 +157,91 @@ open class GenomicStudy: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case analysis
 		case basedOn
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case instantiatesCanonical; case _instantiatesCanonical
 		case instantiatesUri; case _instantiatesUri
 		case interpreter
+		case language; case _language
+		case meta
+		case modifierExtension
 		case note
 		case reason
 		case referrer
 		case startDate; case _startDate
 		case status; case _status
 		case subject
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.analysis = try [GenomicStudyAnalysis](from: _container, forKeyIfPresent: .analysis)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.instantiatesCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		self.instantiatesUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		self.interpreter = try [Reference](from: _container, forKeyIfPresent: .interpreter)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.reason = try [CodeableReference](from: _container, forKeyIfPresent: .reason)
 		self.referrer = try Reference(from: _container, forKeyIfPresent: .referrer)
 		self.startDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .startDate, auxiliaryKey: ._startDate)
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try analysis?.encode(on: &_container, forKey: .analysis)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try instantiatesCanonical?.encode(on: &_container, forKey: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		try instantiatesUri?.encode(on: &_container, forKey: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		try interpreter?.encode(on: &_container, forKey: .interpreter)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try reason?.encode(on: &_container, forKey: .reason)
 		try referrer?.encode(on: &_container, forKey: .referrer)
 		try startDate?.encode(on: &_container, forKey: .startDate, auxiliaryKey: ._startDate)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GenomicStudy else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return analysis == _other.analysis
-		    && basedOn == _other.basedOn
-		    && description_fhir == _other.description_fhir
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && instantiatesCanonical == _other.instantiatesCanonical
-		    && instantiatesUri == _other.instantiatesUri
-		    && interpreter == _other.interpreter
-		    && note == _other.note
-		    && reason == _other.reason
-		    && referrer == _other.referrer
-		    && startDate == _other.startDate
-		    && status == _other.status
-		    && subject == _other.subject
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(analysis)
-		hasher.combine(basedOn)
-		hasher.combine(description_fhir)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(instantiatesCanonical)
-		hasher.combine(instantiatesUri)
-		hasher.combine(interpreter)
-		hasher.combine(note)
-		hasher.combine(reason)
-		hasher.combine(referrer)
-		hasher.combine(startDate)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(type)
 	}
 }
 
@@ -248,19 +250,34 @@ open class GenomicStudy: DomainResource {
  
  The details about a specific analysis that was performed in this GenomicStudy.
  */
-open class GenomicStudyAnalysis: BackboneElement {
-	
-	/// Identifiers for the analysis event
-	public var identifier: [Identifier]?
-	
-	/// Type of the methods used in the analysis (e.g., FISH, Karyotyping, MSI)
-	public var methodType: [CodeableConcept]?
+public struct GenomicStudyAnalysis: BackboneElement {
 	
 	/// Type of the genomic changes studied in the analysis (e.g., DNA, RNA, or AA change)
 	public var changeType: [CodeableConcept]?
 	
+	/// The date of the analysis event
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Devices used for the analysis (e.g., instruments, software), with settings and parameters
+	public var device: [GenomicStudyAnalysisDevice]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// What the genomic analysis is about, when it is not about the subject of record
+	public var focus: [Reference]?
+	
 	/// Genome build that is used in this analysis
 	public var genomeBuild: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifiers for the analysis event
+	public var identifier: [Identifier]?
+	
+	/// Inputs for the analysis event
+	public var input: [GenomicStudyAnalysisInput]?
 	
 	/// The defined protocol that describes the analysis
 	public var instantiatesCanonical: FHIRPrimitive<Canonical>?
@@ -268,32 +285,14 @@ open class GenomicStudyAnalysis: BackboneElement {
 	/// The URL pointing to an externally maintained protocol that describes the analysis
 	public var instantiatesUri: FHIRPrimitive<FHIRURI>?
 	
-	/// Name of the analysis event (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
+	/// Type of the methods used in the analysis (e.g., FISH, Karyotyping, MSI)
+	public var methodType: [CodeableConcept]?
 	
-	/// What the genomic analysis is about, when it is not about the subject of record
-	public var focus: [Reference]?
-	
-	/// The specimen used in the analysis event
-	public var specimen: [Reference]?
-	
-	/// The date of the analysis event
-	public var date: FHIRPrimitive<DateTime>?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Any notes capture with the analysis event
 	public var note: [Annotation]?
-	
-	/// The protocol that was performed for the analysis event
-	public var protocolPerformed: Reference?
-	
-	/// The genomic regions to be studied in the analysis (BED file)
-	public var regionsStudied: [Reference]?
-	
-	/// Genomic regions actually called in the analysis event (BED file)
-	public var regionsCalled: [Reference]?
-	
-	/// Inputs for the analysis event
-	public var input: [GenomicStudyAnalysisInput]?
 	
 	/// Outputs for the analysis event
 	public var output: [GenomicStudyAnalysisOutput]?
@@ -301,16 +300,27 @@ open class GenomicStudyAnalysis: BackboneElement {
 	/// Performer for the analysis event
 	public var performer: [GenomicStudyAnalysisPerformer]?
 	
-	/// Devices used for the analysis (e.g., instruments, software), with settings and parameters
-	public var device: [GenomicStudyAnalysisDevice]?
+	/// The protocol that was performed for the analysis event
+	public var protocolPerformed: Reference?
+	
+	/// Genomic regions actually called in the analysis event (BED file)
+	public var regionsCalled: [Reference]?
+	
+	/// The genomic regions to be studied in the analysis (BED file)
+	public var regionsStudied: [Reference]?
+	
+	/// The specimen used in the analysis event
+	public var specimen: [Reference]?
+	
+	/// Name of the analysis event (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		changeType: [CodeableConcept]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
 		device: [GenomicStudyAnalysisDevice]? = nil,
@@ -363,13 +373,16 @@ open class GenomicStudyAnalysis: BackboneElement {
 		case changeType
 		case date; case _date
 		case device
+		case `extension` = "extension"
 		case focus
 		case genomeBuild
+		case id; case _id
 		case identifier
 		case input
 		case instantiatesCanonical; case _instantiatesCanonical
 		case instantiatesUri; case _instantiatesUri
 		case methodType
+		case modifierExtension
 		case note
 		case output
 		case performer
@@ -379,22 +392,25 @@ open class GenomicStudyAnalysis: BackboneElement {
 		case specimen
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.changeType = try [CodeableConcept](from: _container, forKeyIfPresent: .changeType)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.device = try [GenomicStudyAnalysisDevice](from: _container, forKeyIfPresent: .device)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [Reference](from: _container, forKeyIfPresent: .focus)
 		self.genomeBuild = try CodeableConcept(from: _container, forKeyIfPresent: .genomeBuild)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.input = try [GenomicStudyAnalysisInput](from: _container, forKeyIfPresent: .input)
 		self.instantiatesCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		self.instantiatesUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		self.methodType = try [CodeableConcept](from: _container, forKeyIfPresent: .methodType)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.output = try [GenomicStudyAnalysisOutput](from: _container, forKeyIfPresent: .output)
 		self.performer = try [GenomicStudyAnalysisPerformer](from: _container, forKeyIfPresent: .performer)
@@ -403,24 +419,25 @@ open class GenomicStudyAnalysis: BackboneElement {
 		self.regionsStudied = try [Reference](from: _container, forKeyIfPresent: .regionsStudied)
 		self.specimen = try [Reference](from: _container, forKeyIfPresent: .specimen)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try changeType?.encode(on: &_container, forKey: .changeType)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try device?.encode(on: &_container, forKey: .device)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try genomeBuild?.encode(on: &_container, forKey: .genomeBuild)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try input?.encode(on: &_container, forKey: .input)
 		try instantiatesCanonical?.encode(on: &_container, forKey: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		try instantiatesUri?.encode(on: &_container, forKey: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		try methodType?.encode(on: &_container, forKey: .methodType)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try output?.encode(on: &_container, forKey: .output)
 		try performer?.encode(on: &_container, forKey: .performer)
@@ -429,79 +446,35 @@ open class GenomicStudyAnalysis: BackboneElement {
 		try regionsStudied?.encode(on: &_container, forKey: .regionsStudied)
 		try specimen?.encode(on: &_container, forKey: .specimen)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GenomicStudyAnalysis else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return changeType == _other.changeType
-		    && date == _other.date
-		    && device == _other.device
-		    && focus == _other.focus
-		    && genomeBuild == _other.genomeBuild
-		    && identifier == _other.identifier
-		    && input == _other.input
-		    && instantiatesCanonical == _other.instantiatesCanonical
-		    && instantiatesUri == _other.instantiatesUri
-		    && methodType == _other.methodType
-		    && note == _other.note
-		    && output == _other.output
-		    && performer == _other.performer
-		    && protocolPerformed == _other.protocolPerformed
-		    && regionsCalled == _other.regionsCalled
-		    && regionsStudied == _other.regionsStudied
-		    && specimen == _other.specimen
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(changeType)
-		hasher.combine(date)
-		hasher.combine(device)
-		hasher.combine(focus)
-		hasher.combine(genomeBuild)
-		hasher.combine(identifier)
-		hasher.combine(input)
-		hasher.combine(instantiatesCanonical)
-		hasher.combine(instantiatesUri)
-		hasher.combine(methodType)
-		hasher.combine(note)
-		hasher.combine(output)
-		hasher.combine(performer)
-		hasher.combine(protocolPerformed)
-		hasher.combine(regionsCalled)
-		hasher.combine(regionsStudied)
-		hasher.combine(specimen)
-		hasher.combine(title)
 	}
 }
 
 /**
  Devices used for the analysis (e.g., instruments, software), with settings and parameters.
  */
-open class GenomicStudyAnalysisDevice: BackboneElement {
+public struct GenomicStudyAnalysisDevice: BackboneElement {
 	
 	/// Device used for the analysis
 	public var device: Reference?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
 	/// Specific function for the device used for the analysis
 	public var function: CodeableConcept?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		device: Reference? = nil,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -520,77 +493,72 @@ open class GenomicStudyAnalysisDevice: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case device
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.device = try Reference(from: _container, forKeyIfPresent: .device)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
-		try super.init(from: decoder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try device?.encode(on: &_container, forKey: .device)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GenomicStudyAnalysisDevice else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return device == _other.device
-		    && function == _other.function
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(device)
-		hasher.combine(function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
 /**
  Inputs for the analysis event.
  */
-open class GenomicStudyAnalysisInput: BackboneElement {
+public struct GenomicStudyAnalysisInput: BackboneElement {
 	
 	/// All possible types for "generatedBy[x]"
-	public enum GeneratedByX: Hashable {
+	public enum GeneratedByX: Equatable, Hashable, Sendable {
 		case identifier(Identifier)
 		case reference(Reference)
 	}
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
 	/// File containing input data
 	public var file: Reference?
-	
-	/// Type of input data (e.g., BAM, CRAM, or FASTA)
-	public var type: CodeableConcept?
 	
 	/// The analysis event or other GenomicStudy that generated this input file
 	/// One of `generatedBy[x]`
 	public var generatedBy: GeneratedByX?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Type of input data (e.g., BAM, CRAM, or FASTA)
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		file: Reference? = nil,
 		generatedBy: GeneratedByX? = nil,
@@ -610,17 +578,21 @@ open class GenomicStudyAnalysisInput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case file
 		case generatedByIdentifier
 		case generatedByReference
+		case id; case _id
+		case modifierExtension
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.file = try Reference(from: _container, forKeyIfPresent: .file)
 		var _t_generatedBy: GeneratedByX? = nil
 		if let generatedByIdentifier = try Identifier(from: _container, forKeyIfPresent: .generatedByIdentifier) {
@@ -636,15 +608,16 @@ open class GenomicStudyAnalysisInput: BackboneElement {
 			_t_generatedBy = .reference(generatedByReference)
 		}
 		self.generatedBy = _t_generatedBy
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try file?.encode(on: &_container, forKey: .file)
 		if let _enum = generatedBy {
 			switch _enum {
@@ -654,50 +627,38 @@ open class GenomicStudyAnalysisInput: BackboneElement {
 				try _value.encode(on: &_container, forKey: .generatedByReference)
 			}
 		}
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GenomicStudyAnalysisInput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return file == _other.file
-		    && generatedBy == _other.generatedBy
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(file)
-		hasher.combine(generatedBy)
-		hasher.combine(type)
 	}
 }
 
 /**
  Outputs for the analysis event.
  */
-open class GenomicStudyAnalysisOutput: BackboneElement {
+public struct GenomicStudyAnalysisOutput: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// File containing output data
 	public var file: Reference?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Type of output data (e.g., VCF, MAF, or BAM)
 	public var type: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		file: Reference? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -715,68 +676,63 @@ open class GenomicStudyAnalysisOutput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case file
+		case id; case _id
+		case modifierExtension
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.file = try Reference(from: _container, forKeyIfPresent: .file)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try file?.encode(on: &_container, forKey: .file)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GenomicStudyAnalysisOutput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return file == _other.file
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(file)
-		hasher.combine(type)
 	}
 }
 
 /**
  Performer for the analysis event.
  */
-open class GenomicStudyAnalysisPerformer: BackboneElement {
+public struct GenomicStudyAnalysisPerformer: BackboneElement {
 	
 	/// The organization, healthcare professional, or others who participated in performing this analysis
 	public var actor: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Role of the actor for this analysis
 	public var role: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -795,45 +751,32 @@ open class GenomicStudyAnalysisPerformer: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actor
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKeyIfPresent: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role?.encode(on: &_container, forKey: .role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GenomicStudyAnalysisPerformer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(role)
 	}
 }

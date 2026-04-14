@@ -2,8 +2,8 @@
 //  Provenance.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Provenance)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Provenance)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,27 +30,9 @@ import FMCore
  Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust
  policies.
  */
-open class Provenance: DomainResource {
+public struct Provenance: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .provenance }
-	
-	/// Target Reference(s) (usually version specific)
-	public var target: [Reference]
-	
-	/// When the activity occurred
-	public var period: Period?
-	
-	/// When the activity was recorded / updated
-	public var recorded: FHIRPrimitive<Instant>
-	
-	/// Policy or plan the activity was defined by
-	public var policy: [FHIRPrimitive<FHIRURI>]?
-	
-	/// Where the activity occurred, if relevant
-	public var location: Reference?
-	
-	/// Reason the activity is occurring
-	public var reason: [Coding]?
+	public static let resourceType: ResourceType = .provenance
 	
 	/// Activity that occurred
 	public var activity: Coding?
@@ -58,41 +40,82 @@ open class Provenance: DomainResource {
 	/// Actor involved
 	public var agent: [ProvenanceAgent]
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
 	/// An entity used in this activity
 	public var entity: [ProvenanceEntity]?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Where the activity occurred, if relevant
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// When the activity occurred
+	public var period: Period?
+	
+	/// Policy or plan the activity was defined by
+	public var policy: [FHIRPrimitive<FHIRURI>]?
+	
+	/// Reason the activity is occurring
+	public var reason: [Coding]?
+	
+	/// When the activity was recorded / updated
+	public var recorded: FHIRPrimitive<Instant>
+	
 	/// Signature on target
 	public var signature: [Signature]?
+	
+	/// Target Reference(s) (usually version specific)
+	public var target: [Reference]
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(agent: [ProvenanceAgent], recorded: FHIRPrimitive<Instant>, target: [Reference]) {
 		self.agent = agent
 		self.recorded = recorded
 		self.target = target
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							activity: Coding? = nil,
-							agent: [ProvenanceAgent],
-							contained: [ResourceProxy]? = nil,
-							entity: [ProvenanceEntity]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							location: Reference? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							period: Period? = nil,
-							policy: [FHIRPrimitive<FHIRURI>]? = nil,
-							reason: [Coding]? = nil,
-							recorded: FHIRPrimitive<Instant>,
-							signature: [Signature]? = nil,
-							target: [Reference],
-							text: Narrative? = nil)
-	{
+	public init(
+		activity: Coding? = nil,
+		agent: [ProvenanceAgent],
+		contained: [ResourceProxy]? = nil,
+		entity: [ProvenanceEntity]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		location: Reference? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period? = nil,
+		policy: [FHIRPrimitive<FHIRURI>]? = nil,
+		reason: [Coding]? = nil,
+		recorded: FHIRPrimitive<Instant>,
+		signature: [Signature]? = nil,
+		target: [Reference],
+		text: Narrative? = nil
+	) {
 		self.init(agent: agent, recorded: recorded, target: target)
 		self.activity = activity
 		self.contained = contained
@@ -114,87 +137,76 @@ open class Provenance: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case activity
 		case agent
+		case contained
 		case entity
+		case `extension` = "extension"
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case period
 		case policy; case _policy
 		case reason
 		case recorded; case _recorded
 		case signature
 		case target
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.activity = try Coding(from: _container, forKeyIfPresent: .activity)
 		self.agent = try [ProvenanceAgent](from: _container, forKey: .agent)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.entity = try [ProvenanceEntity](from: _container, forKeyIfPresent: .entity)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.policy = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .policy, auxiliaryKey: ._policy)
 		self.reason = try [Coding](from: _container, forKeyIfPresent: .reason)
 		self.recorded = try FHIRPrimitive<Instant>(from: _container, forKey: .recorded, auxiliaryKey: ._recorded)
 		self.signature = try [Signature](from: _container, forKeyIfPresent: .signature)
 		self.target = try [Reference](from: _container, forKey: .target)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try agent.encode(on: &_container, forKey: .agent)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try entity?.encode(on: &_container, forKey: .entity)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
 		try policy?.encode(on: &_container, forKey: .policy, auxiliaryKey: ._policy)
 		try reason?.encode(on: &_container, forKey: .reason)
 		try recorded.encode(on: &_container, forKey: .recorded, auxiliaryKey: ._recorded)
 		try signature?.encode(on: &_container, forKey: .signature)
 		try target.encode(on: &_container, forKey: .target)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Provenance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return activity == _other.activity
-		    && agent == _other.agent
-		    && entity == _other.entity
-		    && location == _other.location
-		    && period == _other.period
-		    && policy == _other.policy
-		    && reason == _other.reason
-		    && recorded == _other.recorded
-		    && signature == _other.signature
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(activity)
-		hasher.combine(agent)
-		hasher.combine(entity)
-		hasher.combine(location)
-		hasher.combine(period)
-		hasher.combine(policy)
-		hasher.combine(reason)
-		hasher.combine(recorded)
-		hasher.combine(signature)
-		hasher.combine(target)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -204,26 +216,28 @@ open class Provenance: DomainResource {
  An actor taking a role in an activity  for which it can be assigned some degree of responsibility for the activity
  taking place.
  */
-open class ProvenanceAgent: BackboneElement {
+public struct ProvenanceAgent: BackboneElement {
 	
 	/// All possible types for "onBehalfOf[x]"
-	public enum OnBehalfOfX: Hashable {
+	public enum OnBehalfOfX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "who[x]"
-	public enum WhoX: Hashable {
+	public enum WhoX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
-	/// What the agents role was
-	public var role: [CodeableConcept]?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Who participated
-	/// One of `who[x]`
-	public var who: WhoX
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Who the agent is representing
 	/// One of `onBehalfOf[x]`
@@ -232,22 +246,28 @@ open class ProvenanceAgent: BackboneElement {
 	/// Type of relationship between agents
 	public var relatedAgentType: CodeableConcept?
 	
+	/// What the agents role was
+	public var role: [CodeableConcept]?
+	
+	/// Who participated
+	/// One of `who[x]`
+	public var who: WhoX
+	
 	/// Designated initializer taking all required properties
 	public init(who: WhoX) {
 		self.who = who
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							onBehalfOf: OnBehalfOfX? = nil,
-							relatedAgentType: CodeableConcept? = nil,
-							role: [CodeableConcept]? = nil,
-							who: WhoX)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		onBehalfOf: OnBehalfOfX? = nil,
+		relatedAgentType: CodeableConcept? = nil,
+		role: [CodeableConcept]? = nil,
+		who: WhoX
+	) {
 		self.init(who: who)
 		self.`extension` = `extension`
 		self.id = id
@@ -260,6 +280,9 @@ open class ProvenanceAgent: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case onBehalfOfReference
 		case onBehalfOfUri; case _onBehalfOfUri
 		case relatedAgentType
@@ -267,9 +290,9 @@ open class ProvenanceAgent: BackboneElement {
 		case whoReference
 		case whoUri; case _whoUri
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -277,7 +300,10 @@ open class ProvenanceAgent: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whoReference, CodingKeys.whoUri], debugDescription: "Must have at least one value for \"who\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_onBehalfOf: OnBehalfOfX? = nil
 		if let onBehalfOfUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri) {
 			if _t_onBehalfOf != nil {
@@ -308,14 +334,15 @@ open class ProvenanceAgent: BackboneElement {
 			_t_who = .reference(whoReference)
 		}
 		self.who = _t_who!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = onBehalfOf {
 			switch _enum {
 			case .uri(let _value):
@@ -334,44 +361,32 @@ open class ProvenanceAgent: BackboneElement {
 				try _value.encode(on: &_container, forKey: .whoReference)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProvenanceAgent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return onBehalfOf == _other.onBehalfOf
-		    && relatedAgentType == _other.relatedAgentType
-		    && role == _other.role
-		    && who == _other.who
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(onBehalfOf)
-		hasher.combine(relatedAgentType)
-		hasher.combine(role)
-		hasher.combine(who)
 	}
 }
 
 /**
  An entity used in this activity.
  */
-open class ProvenanceEntity: BackboneElement {
+public struct ProvenanceEntity: BackboneElement {
 	
 	/// All possible types for "what[x]"
-	public enum WhatX: Hashable {
+	public enum WhatX: Equatable, Hashable, Sendable {
 		case identifier(Identifier)
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// Entity is attributed to this agent
+	public var agent: [ProvenanceAgent]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// How the entity was used during the activity.
 	public var role: FHIRPrimitive<ProvenanceEntityRole>
@@ -380,25 +395,21 @@ open class ProvenanceEntity: BackboneElement {
 	/// One of `what[x]`
 	public var what: WhatX
 	
-	/// Entity is attributed to this agent
-	public var agent: [ProvenanceAgent]?
-	
 	/// Designated initializer taking all required properties
 	public init(role: FHIRPrimitive<ProvenanceEntityRole>, what: WhatX) {
 		self.role = role
 		self.what = what
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							agent: [ProvenanceAgent]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							role: FHIRPrimitive<ProvenanceEntityRole>,
-							what: WhatX)
-	{
+	public init(
+		agent: [ProvenanceAgent]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		role: FHIRPrimitive<ProvenanceEntityRole>,
+		what: WhatX
+	) {
 		self.init(role: role, what: what)
 		self.agent = agent
 		self.`extension` = `extension`
@@ -410,14 +421,17 @@ open class ProvenanceEntity: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case agent
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case role; case _role
 		case whatIdentifier
 		case whatReference
 		case whatUri; case _whatUri
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -425,8 +439,11 @@ open class ProvenanceEntity: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whatIdentifier, CodingKeys.whatReference, CodingKeys.whatUri], debugDescription: "Must have at least one value for \"what\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.agent = try [ProvenanceAgent](from: _container, forKeyIfPresent: .agent)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try FHIRPrimitive<ProvenanceEntityRole>(from: _container, forKey: .role, auxiliaryKey: ._role)
 		var _t_what: WhatX? = nil
 		if let whatUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .whatUri, auxiliaryKey: ._whatUri) {
@@ -448,15 +465,16 @@ open class ProvenanceEntity: BackboneElement {
 			_t_what = .identifier(whatIdentifier)
 		}
 		self.what = _t_what!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try agent?.encode(on: &_container, forKey: .agent)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role.encode(on: &_container, forKey: .role, auxiliaryKey: ._role)
 		
 			switch what {
@@ -468,27 +486,5 @@ open class ProvenanceEntity: BackboneElement {
 				try _value.encode(on: &_container, forKey: .whatIdentifier)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProvenanceEntity else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return agent == _other.agent
-		    && role == _other.role
-		    && what == _other.what
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(agent)
-		hasher.combine(role)
-		hasher.combine(what)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/VisionPrescription)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,33 +24,57 @@ import FMCore
  
  An authorization for the provision of glasses and/or contact lenses to a patient.
  */
-open class VisionPrescription: DomainResource {
+public struct VisionPrescription: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .visionPrescription }
+	public static let resourceType: ResourceType = .visionPrescription
 	
-	/// Business Identifier for vision prescription
-	public var identifier: [Identifier]?
-	
-	/// The status of the resource instance.
-	public var status: FHIRPrimitive<FinancialResourceStatusCodes>
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Response creation date
 	public var created: FHIRPrimitive<DateTime>
 	
-	/// Who prescription is for
-	public var patient: Reference
+	/// When prescription was authorized
+	public var dateWritten: FHIRPrimitive<DateTime>
 	
 	/// Created during encounter / admission / stay
 	public var encounter: Reference?
 	
-	/// When prescription was authorized
-	public var dateWritten: FHIRPrimitive<DateTime>
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier for vision prescription
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Vision lens authorization
+	public var lensSpecification: [VisionPrescriptionLensSpecification]
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Who prescription is for
+	public var patient: Reference
 	
 	/// Who authorized the vision prescription
 	public var prescriber: Reference
 	
-	/// Vision lens authorization
-	public var lensSpecification: [VisionPrescriptionLensSpecification]
+	/// The status of the resource instance.
+	public var status: FHIRPrimitive<FinancialResourceStatusCodes>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(created: FHIRPrimitive<DateTime>, dateWritten: FHIRPrimitive<DateTime>, lensSpecification: [VisionPrescriptionLensSpecification], patient: Reference, prescriber: Reference, status: FHIRPrimitive<FinancialResourceStatusCodes>) {
@@ -60,11 +84,10 @@ open class VisionPrescription: DomainResource {
 		self.patient = patient
 		self.prescriber = prescriber
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		created: FHIRPrimitive<DateTime>,
 		dateWritten: FHIRPrimitive<DateTime>,
@@ -98,77 +121,70 @@ open class VisionPrescription: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case created; case _created
 		case dateWritten; case _dateWritten
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case lensSpecification
+		case meta
+		case modifierExtension
 		case patient
 		case prescriber
 		case status; case _status
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKey: .created, auxiliaryKey: ._created)
 		self.dateWritten = try FHIRPrimitive<DateTime>(from: _container, forKey: .dateWritten, auxiliaryKey: ._dateWritten)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lensSpecification = try [VisionPrescriptionLensSpecification](from: _container, forKey: .lensSpecification)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.patient = try Reference(from: _container, forKey: .patient)
 		self.prescriber = try Reference(from: _container, forKey: .prescriber)
 		self.status = try FHIRPrimitive<FinancialResourceStatusCodes>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try created.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
 		try dateWritten.encode(on: &_container, forKey: .dateWritten, auxiliaryKey: ._dateWritten)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lensSpecification.encode(on: &_container, forKey: .lensSpecification)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try patient.encode(on: &_container, forKey: .patient)
 		try prescriber.encode(on: &_container, forKey: .prescriber)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? VisionPrescription else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return created == _other.created
-		    && dateWritten == _other.dateWritten
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && lensSpecification == _other.lensSpecification
-		    && patient == _other.patient
-		    && prescriber == _other.prescriber
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(created)
-		hasher.combine(dateWritten)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(lensSpecification)
-		hasher.combine(patient)
-		hasher.combine(prescriber)
-		hasher.combine(status)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -178,34 +194,25 @@ open class VisionPrescription: DomainResource {
  Contain the details of  the individual lens specifications and serves as the authorization for the fullfillment by
  certified professionals.
  */
-open class VisionPrescriptionLensSpecification: BackboneElement {
-	
-	/// Product to be supplied
-	public var product: CodeableConcept
-	
-	/// The eye for which the lens specification applies.
-	public var eye: FHIRPrimitive<VisionEyes>
-	
-	/// Power of the lens
-	public var sphere: FHIRPrimitive<FHIRDecimal>?
-	
-	/// Lens power for astigmatism
-	public var cylinder: FHIRPrimitive<FHIRDecimal>?
-	
-	/// Lens meridian which contain no power for astigmatism
-	public var axis: FHIRPrimitive<FHIRInteger>?
-	
-	/// Eye alignment compensation
-	public var prism: [VisionPrescriptionLensSpecificationPrism]?
+public struct VisionPrescriptionLensSpecification: BackboneElement {
 	
 	/// Added power for multifocal levels
 	public var add: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Contact lens power
-	public var power: FHIRPrimitive<FHIRDecimal>?
+	/// Lens meridian which contain no power for astigmatism
+	public var axis: FHIRPrimitive<FHIRInteger>?
 	
 	/// Contact lens back curvature
 	public var backCurve: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Brand required
+	public var brand: FHIRPrimitive<FHIRString>?
+	
+	/// Color required
+	public var color: FHIRPrimitive<FHIRString>?
+	
+	/// Lens power for astigmatism
+	public var cylinder: FHIRPrimitive<FHIRDecimal>?
 	
 	/// Contact lens diameter
 	public var diameter: FHIRPrimitive<FHIRDecimal>?
@@ -213,24 +220,41 @@ open class VisionPrescriptionLensSpecification: BackboneElement {
 	/// Lens wear duration
 	public var duration: Quantity?
 	
-	/// Color required
-	public var color: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Brand required
-	public var brand: FHIRPrimitive<FHIRString>?
+	/// The eye for which the lens specification applies.
+	public var eye: FHIRPrimitive<VisionEyes>
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Notes for coatings
 	public var note: [Annotation]?
+	
+	/// Contact lens power
+	public var power: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Eye alignment compensation
+	public var prism: [VisionPrescriptionLensSpecificationPrism]?
+	
+	/// Product to be supplied
+	public var product: CodeableConcept
+	
+	/// Power of the lens
+	public var sphere: FHIRPrimitive<FHIRDecimal>?
 	
 	/// Designated initializer taking all required properties
 	public init(eye: FHIRPrimitive<VisionEyes>, product: CodeableConcept) {
 		self.eye = eye
 		self.product = product
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		add: FHIRPrimitive<FHIRDecimal>? = nil,
 		axis: FHIRPrimitive<FHIRInteger>? = nil,
 		backCurve: FHIRPrimitive<FHIRDecimal>? = nil,
@@ -278,19 +302,22 @@ open class VisionPrescriptionLensSpecification: BackboneElement {
 		case cylinder; case _cylinder
 		case diameter; case _diameter
 		case duration
+		case `extension` = "extension"
 		case eye; case _eye
+		case id; case _id
+		case modifierExtension
 		case note
 		case power; case _power
 		case prism
 		case product
 		case sphere; case _sphere
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.add = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .add, auxiliaryKey: ._add)
 		self.axis = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .axis, auxiliaryKey: ._axis)
 		self.backCurve = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .backCurve, auxiliaryKey: ._backCurve)
@@ -299,20 +326,21 @@ open class VisionPrescriptionLensSpecification: BackboneElement {
 		self.cylinder = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .cylinder, auxiliaryKey: ._cylinder)
 		self.diameter = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .diameter, auxiliaryKey: ._diameter)
 		self.duration = try Quantity(from: _container, forKeyIfPresent: .duration)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.eye = try FHIRPrimitive<VisionEyes>(from: _container, forKey: .eye, auxiliaryKey: ._eye)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.power = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .power, auxiliaryKey: ._power)
 		self.prism = try [VisionPrescriptionLensSpecificationPrism](from: _container, forKeyIfPresent: .prism)
 		self.product = try CodeableConcept(from: _container, forKey: .product)
 		self.sphere = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .sphere, auxiliaryKey: ._sphere)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try add?.encode(on: &_container, forKey: .add, auxiliaryKey: ._add)
 		try axis?.encode(on: &_container, forKey: .axis, auxiliaryKey: ._axis)
 		try backCurve?.encode(on: &_container, forKey: .backCurve, auxiliaryKey: ._backCurve)
@@ -321,56 +349,15 @@ open class VisionPrescriptionLensSpecification: BackboneElement {
 		try cylinder?.encode(on: &_container, forKey: .cylinder, auxiliaryKey: ._cylinder)
 		try diameter?.encode(on: &_container, forKey: .diameter, auxiliaryKey: ._diameter)
 		try duration?.encode(on: &_container, forKey: .duration)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try eye.encode(on: &_container, forKey: .eye, auxiliaryKey: ._eye)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try power?.encode(on: &_container, forKey: .power, auxiliaryKey: ._power)
 		try prism?.encode(on: &_container, forKey: .prism)
 		try product.encode(on: &_container, forKey: .product)
 		try sphere?.encode(on: &_container, forKey: .sphere, auxiliaryKey: ._sphere)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? VisionPrescriptionLensSpecification else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return add == _other.add
-		    && axis == _other.axis
-		    && backCurve == _other.backCurve
-		    && brand == _other.brand
-		    && color == _other.color
-		    && cylinder == _other.cylinder
-		    && diameter == _other.diameter
-		    && duration == _other.duration
-		    && eye == _other.eye
-		    && note == _other.note
-		    && power == _other.power
-		    && prism == _other.prism
-		    && product == _other.product
-		    && sphere == _other.sphere
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(add)
-		hasher.combine(axis)
-		hasher.combine(backCurve)
-		hasher.combine(brand)
-		hasher.combine(color)
-		hasher.combine(cylinder)
-		hasher.combine(diameter)
-		hasher.combine(duration)
-		hasher.combine(eye)
-		hasher.combine(note)
-		hasher.combine(power)
-		hasher.combine(prism)
-		hasher.combine(product)
-		hasher.combine(sphere)
 	}
 }
 
@@ -379,7 +366,7 @@ open class VisionPrescriptionLensSpecification: BackboneElement {
  
  Allows for adjustment on two axis.
  */
-open class VisionPrescriptionLensSpecificationPrism: BackboneElement {
+public struct VisionPrescriptionLensSpecificationPrism: BackboneElement {
 	
 	/// Amount of adjustment
 	public var amount: FHIRPrimitive<FHIRDecimal>
@@ -387,15 +374,23 @@ open class VisionPrescriptionLensSpecificationPrism: BackboneElement {
 	/// The relative base, or reference lens edge, for the prism.
 	public var base: FHIRPrimitive<VisionBase>
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(amount: FHIRPrimitive<FHIRDecimal>, base: FHIRPrimitive<VisionBase>) {
 		self.amount = amount
 		self.base = base
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: FHIRPrimitive<FHIRDecimal>,
 		base: FHIRPrimitive<VisionBase>,
 		`extension`: [Extension]? = nil,
@@ -413,44 +408,31 @@ open class VisionPrescriptionLensSpecificationPrism: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case amount; case _amount
 		case base; case _base
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.amount = try FHIRPrimitive<FHIRDecimal>(from: _container, forKey: .amount, auxiliaryKey: ._amount)
 		self.base = try FHIRPrimitive<VisionBase>(from: _container, forKey: .base, auxiliaryKey: ._base)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount, auxiliaryKey: ._amount)
 		try base.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? VisionPrescriptionLensSpecificationPrism else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && base == _other.base
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(base)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

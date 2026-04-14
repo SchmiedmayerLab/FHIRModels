@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum LinkageType: String, FHIRPrimitiveType {
 	
-	/// The record represents the "source of truth" (from the perspective of this Linkage resource) for the underlying
-	/// event/condition/etc.
-	case source = "source"
-	
 	/// The record represents the alternative view of the underlying event/condition/etc.  The record may still be
 	/// actively maintained, even though it is not considered to be the source of truth.
-	case alternate = "alternate"
+	case alternate
 	
 	/// The record represents an obsolete record of the underlyng event/condition/etc.  It is not expected to be
 	/// actively maintained.
-	case historical = "historical"
+	case historical
+	
+	/// The record represents the "source of truth" (from the perspective of this Linkage resource) for the underlying
+	/// event/condition/etc.
+	case source
 }

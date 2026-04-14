@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Medication)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,41 +25,64 @@ import FMCore
  This resource is primarily used for the identification and definition of a medication for the purposes of prescribing,
  dispensing, and administering a medication as well as for making statements about medication use.
  */
-open class Medication: DomainResource {
+public struct Medication: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .medication }
-	
-	/// Business identifier for this medication
-	public var identifier: [Identifier]?
-	
-	/// Codes that identify this medication
-	public var code: CodeableConcept?
-	
-	/// A code to indicate if the medication is in active use.
-	public var status: FHIRPrimitive<MedicationStatusCodes>?
-	
-	/// Manufacturer of the item
-	public var manufacturer: Reference?
-	
-	/// powder | tablets | capsule +
-	public var form: CodeableConcept?
+	public static let resourceType: ResourceType = .medication
 	
 	/// Amount of drug in package
 	public var amount: Ratio?
 	
-	/// Active or inactive ingredient
-	public var ingredient: [MedicationIngredient]?
-	
 	/// Details about packaged medications
 	public var batch: MedicationBatch?
 	
+	/// Codes that identify this medication
+	public var code: CodeableConcept?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// powder | tablets | capsule +
+	public var form: CodeableConcept?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier for this medication
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Active or inactive ingredient
+	public var ingredient: [MedicationIngredient]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Manufacturer of the item
+	public var manufacturer: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// A code to indicate if the medication is in active use.
+	public var status: FHIRPrimitive<MedicationStatusCodes>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: Ratio? = nil,
 		batch: MedicationBatch? = nil,
 		code: CodeableConcept? = nil,
@@ -99,77 +122,70 @@ open class Medication: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case amount
 		case batch
 		case code
+		case contained
+		case `extension` = "extension"
 		case form
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case ingredient
+		case language; case _language
 		case manufacturer
+		case meta
+		case modifierExtension
 		case status; case _status
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.amount = try Ratio(from: _container, forKeyIfPresent: .amount)
 		self.batch = try MedicationBatch(from: _container, forKeyIfPresent: .batch)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.form = try CodeableConcept(from: _container, forKeyIfPresent: .form)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.ingredient = try [MedicationIngredient](from: _container, forKeyIfPresent: .ingredient)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.manufacturer = try Reference(from: _container, forKeyIfPresent: .manufacturer)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.status = try FHIRPrimitive<MedicationStatusCodes>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try batch?.encode(on: &_container, forKey: .batch)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try form?.encode(on: &_container, forKey: .form)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try ingredient?.encode(on: &_container, forKey: .ingredient)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try manufacturer?.encode(on: &_container, forKey: .manufacturer)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Medication else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && batch == _other.batch
-		    && code == _other.code
-		    && form == _other.form
-		    && identifier == _other.identifier
-		    && ingredient == _other.ingredient
-		    && manufacturer == _other.manufacturer
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(batch)
-		hasher.combine(code)
-		hasher.combine(form)
-		hasher.combine(identifier)
-		hasher.combine(ingredient)
-		hasher.combine(manufacturer)
-		hasher.combine(status)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -178,21 +194,29 @@ open class Medication: DomainResource {
  
  Information that only applies to packages (not products).
  */
-open class MedicationBatch: BackboneElement {
-	
-	/// Identifier assigned to batch
-	public var lotNumber: FHIRPrimitive<FHIRString>?
+public struct MedicationBatch: BackboneElement {
 	
 	/// When batch will expire
 	public var expirationDate: FHIRPrimitive<DateTime>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifier assigned to batch
+	public var lotNumber: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		expirationDate: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -211,46 +235,33 @@ open class MedicationBatch: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case expirationDate; case _expirationDate
+		case `extension` = "extension"
+		case id; case _id
 		case lotNumber; case _lotNumber
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.expirationDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .expirationDate, auxiliaryKey: ._expirationDate)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.lotNumber = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .lotNumber, auxiliaryKey: ._lotNumber)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try expirationDate?.encode(on: &_container, forKey: .expirationDate, auxiliaryKey: ._expirationDate)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try lotNumber?.encode(on: &_container, forKey: .lotNumber, auxiliaryKey: ._lotNumber)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicationBatch else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return expirationDate == _other.expirationDate
-		    && lotNumber == _other.lotNumber
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(expirationDate)
-		hasher.combine(lotNumber)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -259,20 +270,29 @@ open class MedicationBatch: BackboneElement {
  
  Identifies a particular constituent of interest in the product.
  */
-open class MedicationIngredient: BackboneElement {
+public struct MedicationIngredient: BackboneElement {
 	
 	/// All possible types for "item[x]"
-	public enum ItemX: Hashable {
+	public enum ItemX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Active ingredient indicator
+	public var isActive: FHIRPrimitive<FHIRBool>?
 	
 	/// The actual ingredient or content
 	/// One of `item[x]`
 	public var item: ItemX
 	
-	/// Active ingredient indicator
-	public var isActive: FHIRPrimitive<FHIRBool>?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Quantity of ingredient present
 	public var strength: Ratio?
@@ -280,11 +300,10 @@ open class MedicationIngredient: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(item: ItemX) {
 		self.item = item
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		isActive: FHIRPrimitive<FHIRBool>? = nil,
@@ -303,14 +322,17 @@ open class MedicationIngredient: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case isActive; case _isActive
 		case itemCodeableConcept
 		case itemReference
+		case modifierExtension
 		case strength
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -318,7 +340,9 @@ open class MedicationIngredient: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.itemCodeableConcept, CodingKeys.itemReference], debugDescription: "Must have at least one value for \"item\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.isActive = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isActive, auxiliaryKey: ._isActive)
 		var _t_item: ItemX? = nil
 		if let itemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .itemCodeableConcept) {
@@ -334,15 +358,16 @@ open class MedicationIngredient: BackboneElement {
 			_t_item = .reference(itemReference)
 		}
 		self.item = _t_item!
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.strength = try Ratio(from: _container, forKeyIfPresent: .strength)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try isActive?.encode(on: &_container, forKey: .isActive, auxiliaryKey: ._isActive)
 		
 			switch item {
@@ -352,28 +377,7 @@ open class MedicationIngredient: BackboneElement {
 				try _value.encode(on: &_container, forKey: .itemReference)
 			}
 		
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try strength?.encode(on: &_container, forKey: .strength)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicationIngredient else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return isActive == _other.isActive
-		    && item == _other.item
-		    && strength == _other.strength
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(isActive)
-		hasher.combine(item)
-		hasher.combine(strength)
 	}
 }

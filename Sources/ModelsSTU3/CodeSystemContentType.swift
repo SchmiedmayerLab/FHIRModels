@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum ContentType: String, FHIRPrimitiveType {
 	
-	/// XML content-type corresponding to the application/fhir+xml mime-type.
-	case xml = "xml"
-	
 	/// JSON content-type corresponding to the application/fhir+json mime-type.
-	case json = "json"
-	
-	/// RDF content-type corresponding to the text/turtle mime-type.
-	case ttl = "ttl"
+	case json
 	
 	/// Prevent the use of the corresponding http header.
-	case none = "none"
+	case none
+	
+	/// RDF content-type corresponding to the text/turtle mime-type.
+	case ttl
+	
+	/// XML content-type corresponding to the application/fhir+xml mime-type.
+	case xml
 }

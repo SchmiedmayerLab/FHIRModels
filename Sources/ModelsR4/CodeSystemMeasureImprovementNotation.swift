@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ import FMCore
  */
 public enum MeasureImprovementNotation: String, FHIRPrimitiveType {
 	
+	/// Improvement is indicated as a decrease in the score or measurement (e.g. Lower score indicates better quality).
+	case decrease
+	
 	/// Improvement is indicated as an increase in the score or measurement (e.g. Higher score indicates better
 	/// quality).
 	case increase
-	
-	/// Improvement is indicated as a decrease in the score or measurement (e.g. Lower score indicates better quality).
-	case decrease
 }

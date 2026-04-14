@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,17 +28,17 @@ import FMCore
 public enum ClaimType: String, FHIRPrimitiveType {
 	
 	/// A claim for Institution based, typically in-patient, goods and services.
-	case institutional = "institutional"
+	case institutional
 	
 	/// A claim for Oral Health (Dentist, Denturist, Hygienist) goods and services.
-	case oral = "oral"
+	case oral
 	
 	/// A claim for Pharmacy based goods and services.
-	case pharmacy = "pharmacy"
+	case pharmacy
 	
 	/// A claim for Professional, typically out-patient, goods and services.
-	case professional = "professional"
+	case professional
 	
 	/// A claim for Vision (Ophthamologist, Optometrist and Optician) goods and services.
-	case vision = "vision"
+	case vision
 }

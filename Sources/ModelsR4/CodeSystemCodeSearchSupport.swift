@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum CodeSearchSupport: String, FHIRPrimitiveType {
 	
-	/// The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.
-	case explicit
-	
 	/// The search for code on ValueSet only includes all codes based on the expansion of the value set.
 	case all
+	
+	/// The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.
+	case explicit
 }

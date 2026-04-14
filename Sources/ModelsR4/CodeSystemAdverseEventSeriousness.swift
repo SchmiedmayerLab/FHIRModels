@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -33,22 +33,22 @@ public enum AdverseEventSeriousness: String, FHIRPrimitiveType {
 	/// Serious.
 	case serious = "Serious"
 	
-	/// Results in death.
-	case seriousResultsInDeath = "SeriousResultsInDeath"
+	/// Is a congenital anomaly/birth defect.
+	case seriousIsBirthDefect = "SeriousIsBirthDefect"
 	
 	/// Is Life-threatening.
 	case seriousIsLifeThreatening = "SeriousIsLifeThreatening"
 	
-	/// Requires inpatient hospitalization or causes prolongation of existing hospitalization.
-	case seriousResultsInHospitalization = "SeriousResultsInHospitalization"
+	/// Requires intervention to prevent permanent impairment or damage (i.e., an important medical event that requires
+	/// medical judgement).
+	case seriousRequiresPreventImpairment = "SeriousRequiresPreventImpairment"
+	
+	/// Results in death.
+	case seriousResultsInDeath = "SeriousResultsInDeath"
 	
 	/// Results in persistent or significant disability/incapacity.
 	case seriousResultsInDisability = "SeriousResultsInDisability"
 	
-	/// Is a congenital anomaly/birth defect.
-	case seriousIsBirthDefect = "SeriousIsBirthDefect"
-	
-	/// Requires intervention to prevent permanent impairment or damage (i.e., an important medical event that requires
-	/// medical judgement).
-	case seriousRequiresPreventImpairment = "SeriousRequiresPreventImpairment"
+	/// Requires inpatient hospitalization or causes prolongation of existing hospitalization.
+	case seriousResultsInHospitalization = "SeriousResultsInHospitalization"
 }

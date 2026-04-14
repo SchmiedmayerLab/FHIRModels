@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/ProcedureRequest)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,40 +24,81 @@ import FMCore
  
  A request for a procedure to be performed. May be a proposal or an order.
  */
-open class ProcedureRequest: DomainResource {
+public struct ProcedureRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .procedureRequest }
+	public static let resourceType: ResourceType = .procedureRequest
 	
 	/// All possible types for "asNeeded[x]"
-	public enum AsNeededX: Hashable {
+	public enum AsNeededX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case codeableConcept(CodeableConcept)
 	}
 	
 	/// All possible types for "reason[x]"
-	public enum ReasonX: Hashable {
+	public enum ReasonX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
 	/// All possible types for "scheduled[x]"
-	public enum ScheduledX: Hashable {
+	public enum ScheduledX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
 	}
 	
-	/// Unique identifier for the request
-	public var identifier: [Identifier]?
+	/// Preconditions for procedure
+	/// One of `asNeeded[x]`
+	public var asNeeded: AsNeededX?
 	
-	/// Who the procedure should be done to
-	public var subject: Reference
+	/// What part of body to perform on
+	public var bodySite: [CodeableConcept]?
 	
 	/// What procedure to perform
 	public var code: CodeableConcept
 	
-	/// What part of body to perform on
-	public var bodySite: [CodeableConcept]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Encounter request created during
+	public var encounter: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique identifier for the request
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Additional information about desired procedure
+	public var notes: [Annotation]?
+	
+	/// When request was created
+	public var orderedOn: FHIRPrimitive<DateTime>?
+	
+	/// Who made request
+	public var orderer: Reference?
+	
+	/// Who should perform the procedure
+	public var performer: Reference?
+	
+	/// The clinical priority associated with this order.
+	/// Restricted to: ['routine', 'urgent', 'stat', 'asap']
+	public var priority: FHIRPrimitive<ProcedureRequestPriority>?
 	
 	/// Why procedure should occur
 	/// One of `reason[x]`
@@ -67,66 +108,48 @@ open class ProcedureRequest: DomainResource {
 	/// One of `scheduled[x]`
 	public var scheduled: ScheduledX?
 	
-	/// Encounter request created during
-	public var encounter: Reference?
-	
-	/// Who should perform the procedure
-	public var performer: Reference?
-	
 	/// The status of the order.
 	/// Restricted to: ['proposed', 'draft', 'requested', 'received', 'accepted', 'in-progress', 'completed',
 	/// 'suspended', 'rejected', 'aborted']
 	public var status: FHIRPrimitive<ProcedureRequestStatus>?
 	
-	/// Additional information about desired procedure
-	public var notes: [Annotation]?
+	/// Who the procedure should be done to
+	public var subject: Reference
 	
-	/// Preconditions for procedure
-	/// One of `asNeeded[x]`
-	public var asNeeded: AsNeededX?
-	
-	/// When request was created
-	public var orderedOn: FHIRPrimitive<DateTime>?
-	
-	/// Who made request
-	public var orderer: Reference?
-	
-	/// The clinical priority associated with this order.
-	/// Restricted to: ['routine', 'urgent', 'stat', 'asap']
-	public var priority: FHIRPrimitive<ProcedureRequestPriority>?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept, subject: Reference) {
 		self.code = code
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							asNeeded: AsNeededX? = nil,
-							bodySite: [CodeableConcept]? = nil,
-							code: CodeableConcept,
-							contained: [ResourceProxy]? = nil,
-							encounter: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							notes: [Annotation]? = nil,
-							orderedOn: FHIRPrimitive<DateTime>? = nil,
-							orderer: Reference? = nil,
-							performer: Reference? = nil,
-							priority: FHIRPrimitive<ProcedureRequestPriority>? = nil,
-							reason: ReasonX? = nil,
-							scheduled: ScheduledX? = nil,
-							status: FHIRPrimitive<ProcedureRequestStatus>? = nil,
-							subject: Reference,
-							text: Narrative? = nil)
-	{
+	public init(
+		asNeeded: AsNeededX? = nil,
+		bodySite: [CodeableConcept]? = nil,
+		code: CodeableConcept,
+		contained: [ResourceProxy]? = nil,
+		encounter: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		notes: [Annotation]? = nil,
+		orderedOn: FHIRPrimitive<DateTime>? = nil,
+		orderer: Reference? = nil,
+		performer: Reference? = nil,
+		priority: FHIRPrimitive<ProcedureRequestPriority>? = nil,
+		reason: ReasonX? = nil,
+		scheduled: ScheduledX? = nil,
+		status: FHIRPrimitive<ProcedureRequestStatus>? = nil,
+		subject: Reference,
+		text: Narrative? = nil
+	) {
 		self.init(code: code, subject: subject)
 		self.asNeeded = asNeeded
 		self.bodySite = bodySite
@@ -153,12 +176,20 @@ open class ProcedureRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case asNeededBoolean; case _asNeededBoolean
 		case asNeededCodeableConcept
 		case bodySite
 		case code
+		case contained
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case notes
 		case orderedOn; case _orderedOn
 		case orderer
@@ -171,13 +202,14 @@ open class ProcedureRequest: DomainResource {
 		case scheduledTiming
 		case status; case _status
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_asNeeded: AsNeededX? = nil
 		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
 			if _t_asNeeded != nil {
@@ -194,8 +226,15 @@ open class ProcedureRequest: DomainResource {
 		self.asNeeded = _t_asNeeded
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notes = try [Annotation](from: _container, forKeyIfPresent: .notes)
 		self.orderedOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .orderedOn, auxiliaryKey: ._orderedOn)
 		self.orderer = try Reference(from: _container, forKeyIfPresent: .orderer)
@@ -237,14 +276,15 @@ open class ProcedureRequest: DomainResource {
 		self.scheduled = _t_scheduled
 		self.status = try FHIRPrimitive<ProcedureRequestStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		if let _enum = asNeeded {
 			switch _enum {
 			case .boolean(let _value):
@@ -255,8 +295,15 @@ open class ProcedureRequest: DomainResource {
 		}
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try code.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notes?.encode(on: &_container, forKey: .notes)
 		try orderedOn?.encode(on: &_container, forKey: .orderedOn, auxiliaryKey: ._orderedOn)
 		try orderer?.encode(on: &_container, forKey: .orderer)
@@ -282,49 +329,6 @@ open class ProcedureRequest: DomainResource {
 		}
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProcedureRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return asNeeded == _other.asNeeded
-		    && bodySite == _other.bodySite
-		    && code == _other.code
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && notes == _other.notes
-		    && orderedOn == _other.orderedOn
-		    && orderer == _other.orderer
-		    && performer == _other.performer
-		    && priority == _other.priority
-		    && reason == _other.reason
-		    && scheduled == _other.scheduled
-		    && status == _other.status
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(asNeeded)
-		hasher.combine(bodySite)
-		hasher.combine(code)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(notes)
-		hasher.combine(orderedOn)
-		hasher.combine(orderer)
-		hasher.combine(performer)
-		hasher.combine(priority)
-		hasher.combine(reason)
-		hasher.combine(scheduled)
-		hasher.combine(status)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

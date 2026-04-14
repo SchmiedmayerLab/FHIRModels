@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 6.0.0-ballot3
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -43,9 +43,7 @@ public enum MedicationRequestStatusCodes: String, FHIRPrimitiveType {
 	/// The request is no longer active and the subject should no longer be taking the medication.
 	case ended
 	
-	/// The request was recorded against the wrong patient or for some reason should not have been recorded (e.g. wrong
-	/// medication, wrong dose, etc.). Some of the actions that are implied by the medication request may have occurred.
-	/// For example, the medication may have been dispensed and the patient may have taken some of the medication.
+	/// The request was entered in error and is not valid.
 	case enteredInError = "entered-in-error"
 	
 	/// Actions implied by the request are to be temporarily halted. The request might or might not be resumed. May also

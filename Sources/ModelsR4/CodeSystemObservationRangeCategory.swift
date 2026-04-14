@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ObservationRangeCategory: String, FHIRPrimitiveType {
 	
-	/// Reference (Normal) Range for Ordinal and Continuous Observations.
-	case reference
+	/// Absolute Range for Ordinal and Continuous Observations. Results outside this range are not possible.
+	case absolute
 	
 	/// Critical Range for Ordinal and Continuous Observations.
 	case critical
 	
-	/// Absolute Range for Ordinal and Continuous Observations. Results outside this range are not possible.
-	case absolute
+	/// Reference (Normal) Range for Ordinal and Continuous Observations.
+	case reference
 }

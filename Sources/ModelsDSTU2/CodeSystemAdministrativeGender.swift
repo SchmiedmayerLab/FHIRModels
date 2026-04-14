@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum AdministrativeGender: String, FHIRPrimitiveType {
 	
-	/// Male
-	case male = "male"
-	
 	/// Female
-	case female = "female"
+	case female
+	
+	/// Male
+	case male
 	
 	/// Other
-	case other = "other"
+	case other
 	
 	/// Unknown
-	case unknown = "unknown"
+	case unknown
 }

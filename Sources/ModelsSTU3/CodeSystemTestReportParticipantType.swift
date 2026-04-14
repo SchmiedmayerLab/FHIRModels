@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum TestReportParticipantType: String, FHIRPrimitiveType {
 	
-	/// The test execution engine.
-	case testEngine = "test-engine"
-	
 	/// A FHIR Client
-	case client = "client"
+	case client
 	
 	/// A FHIR Server
-	case server = "server"
+	case server
+	
+	/// The test execution engine.
+	case testEngine = "test-engine"
 }

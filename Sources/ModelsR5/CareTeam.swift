@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/CareTeam)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,50 +25,73 @@ import FMCore
  The Care Team includes all the people and organizations who plan to participate in the coordination and delivery of
  care.
  */
-open class CareTeam: DomainResource {
+public struct CareTeam: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .careTeam }
-	
-	/// External Ids for this team
-	public var identifier: [Identifier]?
-	
-	/// Indicates the current state of the care team.
-	public var status: FHIRPrimitive<CareTeamStatus>?
+	public static let resourceType: ResourceType = .careTeam
 	
 	/// Type of team
 	public var category: [CodeableConcept]?
 	
-	/// Name of the team, such as crisis assessment team
-	public var name: FHIRPrimitive<FHIRString>?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
-	/// Who care team is for
-	public var subject: Reference?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Time period team covers
-	public var period: Period?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// Members of the team
-	public var participant: [CareTeamParticipant]?
+	/// External Ids for this team
+	public var identifier: [Identifier]?
 	
-	/// Why the care team exists
-	public var reason: [CodeableReference]?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
 	
 	/// Organization responsible for the care team
 	public var managingOrganization: [Reference]?
 	
-	/// A contact detail for the care team (that applies to all members)
-	public var telecom: [ContactPoint]?
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of the team, such as crisis assessment team
+	public var name: FHIRPrimitive<FHIRString>?
 	
 	/// Comments made about the CareTeam
 	public var note: [Annotation]?
 	
+	/// Members of the team
+	public var participant: [CareTeamParticipant]?
+	
+	/// Time period team covers
+	public var period: Period?
+	
+	/// Why the care team exists
+	public var reason: [CodeableReference]?
+	
+	/// Indicates the current state of the care team.
+	public var status: FHIRPrimitive<CareTeamStatus>?
+	
+	/// Who care team is for
+	public var subject: Reference?
+	
+	/// A contact detail for the care team (that applies to all members)
+	public var telecom: [ContactPoint]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		category: [CodeableConcept]? = nil,
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -114,9 +137,17 @@ open class CareTeam: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case category
+		case contained
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case managingOrganization
+		case meta
+		case modifierExtension
 		case name; case _name
 		case note
 		case participant
@@ -125,16 +156,24 @@ open class CareTeam: DomainResource {
 		case status; case _status
 		case subject
 		case telecom
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.managingOrganization = try [Reference](from: _container, forKeyIfPresent: .managingOrganization)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.participant = try [CareTeamParticipant](from: _container, forKeyIfPresent: .participant)
@@ -143,17 +182,25 @@ open class CareTeam: DomainResource {
 		self.status = try FHIRPrimitive<CareTeamStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try managingOrganization?.encode(on: &_container, forKey: .managingOrganization)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try note?.encode(on: &_container, forKey: .note)
 		try participant?.encode(on: &_container, forKey: .participant)
@@ -162,44 +209,7 @@ open class CareTeam: DomainResource {
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CareTeam else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return category == _other.category
-		    && identifier == _other.identifier
-		    && managingOrganization == _other.managingOrganization
-		    && name == _other.name
-		    && note == _other.note
-		    && participant == _other.participant
-		    && period == _other.period
-		    && reason == _other.reason
-		    && status == _other.status
-		    && subject == _other.subject
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(category)
-		hasher.combine(identifier)
-		hasher.combine(managingOrganization)
-		hasher.combine(name)
-		hasher.combine(note)
-		hasher.combine(participant)
-		hasher.combine(period)
-		hasher.combine(reason)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(telecom)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -208,34 +218,42 @@ open class CareTeam: DomainResource {
  
  Identifies all people and organizations who are expected to be involved in the care team.
  */
-open class CareTeamParticipant: BackboneElement {
+public struct CareTeamParticipant: BackboneElement {
 	
 	/// All possible types for "coverage[x]"
-	public enum CoverageX: Hashable {
+	public enum CoverageX: Equatable, Hashable, Sendable {
 		case period(Period)
 		case timing(Timing)
 	}
-	
-	/// Type of involvement
-	public var role: CodeableConcept?
-	
-	/// Who is involved
-	public var member: Reference?
-	
-	/// Organization of the practitioner
-	public var onBehalfOf: Reference?
 	
 	/// When the member is generally available within this care team
 	/// One of `coverage[x]`
 	public var coverage: CoverageX?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Who is involved
+	public var member: Reference?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Organization of the practitioner
+	public var onBehalfOf: Reference?
+	
+	/// Type of involvement
+	public var role: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		coverage: CoverageX? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -259,16 +277,19 @@ open class CareTeamParticipant: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case coveragePeriod
 		case coverageTiming
+		case `extension` = "extension"
+		case id; case _id
 		case member
+		case modifierExtension
 		case onBehalfOf
 		case role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_coverage: CoverageX? = nil
 		if let coveragePeriod = try Period(from: _container, forKeyIfPresent: .coveragePeriod) {
 			if _t_coverage != nil {
@@ -283,17 +304,18 @@ open class CareTeamParticipant: BackboneElement {
 			_t_coverage = .timing(coverageTiming)
 		}
 		self.coverage = _t_coverage
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.member = try Reference(from: _container, forKeyIfPresent: .member)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.onBehalfOf = try Reference(from: _container, forKeyIfPresent: .onBehalfOf)
 		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = coverage {
 			switch _enum {
 			case .period(let _value):
@@ -302,32 +324,11 @@ open class CareTeamParticipant: BackboneElement {
 				try _value.encode(on: &_container, forKey: .coverageTiming)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try member?.encode(on: &_container, forKey: .member)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
 		try role?.encode(on: &_container, forKey: .role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? CareTeamParticipant else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return coverage == _other.coverage
-		    && member == _other.member
-		    && onBehalfOf == _other.onBehalfOf
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(coverage)
-		hasher.combine(member)
-		hasher.combine(onBehalfOf)
-		hasher.combine(role)
 	}
 }

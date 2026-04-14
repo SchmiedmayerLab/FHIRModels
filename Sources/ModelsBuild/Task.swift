@@ -2,8 +2,8 @@
 //  Task.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/Task)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/Task)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,45 +27,39 @@ import FMCore
  require a Task (explicit or contained) as a means to track the execution progress (i.e. inputs, outputs, status).
  Please refer to [Fulfillment/Execution](request.html#fulfillment).
  */
-open class Task: DomainResource {
+public struct Task: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .task }
+	public static let resourceType: ResourceType = .task
 	
-	/// Task Instance Identifier
-	public var identifier: [Identifier]?
+	/// Task Creation Date
+	public var authoredOn: FHIRPrimitive<DateTime>?
 	
 	/// Request fulfilled by this task
 	public var basedOn: [Reference]?
 	
-	/// Requisition or grouper id
-	public var groupIdentifier: Identifier?
-	
-	/// Composite task
-	public var partOf: [Reference]?
-	
-	/// The current status of the task.
-	public var status: FHIRPrimitive<TaskStatus>
-	
-	/// Reason for current status
-	public var statusReason: [CodeableReference]?
-	
 	/// E.g. "Specimen collected", "IV prepped"
 	public var businessStatus: CodeableConcept?
-	
-	/// unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
-	public var intent: FHIRPrimitive<FHIRString>
-	
-	/// Indicates how quickly the Task should be addressed with respect to other requests.
-	public var priority: FHIRPrimitive<RequestPriority>?
-	
-	/// True if Task is prohibiting action
-	public var doNotPerform: FHIRPrimitive<FHIRBool>?
 	
 	/// Task Type
 	public var code: CodeableConcept?
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
 	/// Human-readable explanation of task
 	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// True if Task is prohibiting action
+	public var doNotPerform: FHIRPrimitive<FHIRBool>?
+	
+	/// Healthcare event during which this task originated
+	public var encounter: Reference?
+	
+	/// Start and end time of execution
+	public var executionPeriod: Period?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// What task is acting on
 	public var focus: [TaskFocus]?
@@ -73,66 +67,95 @@ open class Task: DomainResource {
 	/// Beneficiary of the Task
 	public var `for`: Reference?
 	
-	/// Healthcare event during which this task originated
-	public var encounter: Reference?
+	/// Requisition or grouper id
+	public var groupIdentifier: Identifier?
 	
-	/// When the task should be performed
-	public var requestedPeriod: Period?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// Start and end time of execution
-	public var executionPeriod: Period?
+	/// Task Instance Identifier
+	public var identifier: [Identifier]?
 	
-	/// Task Creation Date
-	public var authoredOn: FHIRPrimitive<DateTime>?
-	
-	/// Task Last Modified Date
-	public var lastModified: FHIRPrimitive<DateTime>?
-	
-	/// Who is asking for task to be done
-	public var requester: Reference?
-	
-	/// Who should perform the Task
-	public var requestedPerformer: [CodeableReference]?
-	
-	/// Responsible individual
-	public var owner: Reference?
-	
-	/// Who or what performed the task
-	public var performer: [TaskPerformer]?
-	
-	/// Where task occurs
-	public var location: Reference?
-	
-	/// Why task is needed
-	public var reason: [CodeableReference]?
-	
-	/// Associated insurance coverage
-	public var insurance: [Reference]?
-	
-	/// Comments made about the task
-	public var note: [Annotation]?
-	
-	/// Key events in history of the Task
-	public var relevantHistory: [Reference]?
-	
-	/// Constraints on fulfillment tasks
-	public var restriction: TaskRestriction?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Information used to perform task
 	public var input: [TaskInput]?
 	
+	/// Associated insurance coverage
+	public var insurance: [Reference]?
+	
+	/// unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
+	public var intent: FHIRPrimitive<FHIRString>
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Task Last Modified Date
+	public var lastModified: FHIRPrimitive<DateTime>?
+	
+	/// Where task occurs
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Comments made about the task
+	public var note: [Annotation]?
+	
 	/// Information produced as part of task
 	public var output: [TaskOutput]?
+	
+	/// Responsible individual
+	public var owner: Reference?
+	
+	/// Composite task
+	public var partOf: [Reference]?
+	
+	/// Who or what performed the task
+	public var performer: [TaskPerformer]?
+	
+	/// Indicates how quickly the Task should be addressed with respect to other requests.
+	public var priority: FHIRPrimitive<RequestPriority>?
+	
+	/// Why task is needed
+	public var reason: [CodeableReference]?
+	
+	/// Key events in history of the Task
+	public var relevantHistory: [Reference]?
+	
+	/// Who should perform the Task
+	public var requestedPerformer: [CodeableReference]?
+	
+	/// When the task should be performed
+	public var requestedPeriod: Period?
+	
+	/// Who is asking for task to be done
+	public var requester: Reference?
+	
+	/// Constraints on fulfillment tasks
+	public var restriction: TaskRestriction?
+	
+	/// The current status of the task.
+	public var status: FHIRPrimitive<TaskStatus>
+	
+	/// Reason for current status
+	public var statusReason: [CodeableReference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(intent: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<TaskStatus>) {
 		self.intent = intent
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
 		basedOn: [Reference]? = nil,
 		businessStatus: CodeableConcept? = nil,
@@ -216,23 +239,31 @@ open class Task: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case authoredOn; case _authoredOn
 		case basedOn
 		case businessStatus
 		case code
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case doNotPerform; case _doNotPerform
 		case encounter
 		case executionPeriod
+		case `extension` = "extension"
 		case focus
 		case `for` = "for"
 		case groupIdentifier
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case input
 		case insurance
 		case intent; case _intent
+		case language; case _language
 		case lastModified; case _lastModified
 		case location
+		case meta
+		case modifierExtension
 		case note
 		case output
 		case owner
@@ -247,30 +278,38 @@ open class Task: DomainResource {
 		case restriction
 		case status; case _status
 		case statusReason
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.businessStatus = try CodeableConcept(from: _container, forKeyIfPresent: .businessStatus)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.doNotPerform = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .doNotPerform, auxiliaryKey: ._doNotPerform)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.executionPeriod = try Period(from: _container, forKeyIfPresent: .executionPeriod)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [TaskFocus](from: _container, forKeyIfPresent: .focus)
 		self.`for` = try Reference(from: _container, forKeyIfPresent: .`for`)
 		self.groupIdentifier = try Identifier(from: _container, forKeyIfPresent: .groupIdentifier)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.input = try [TaskInput](from: _container, forKeyIfPresent: .input)
 		self.insurance = try [Reference](from: _container, forKeyIfPresent: .insurance)
 		self.intent = try FHIRPrimitive<FHIRString>(from: _container, forKey: .intent, auxiliaryKey: ._intent)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastModified = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .lastModified, auxiliaryKey: ._lastModified)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.output = try [TaskOutput](from: _container, forKeyIfPresent: .output)
 		self.owner = try Reference(from: _container, forKeyIfPresent: .owner)
@@ -285,31 +324,39 @@ open class Task: DomainResource {
 		self.restriction = try TaskRestriction(from: _container, forKeyIfPresent: .restriction)
 		self.status = try FHIRPrimitive<TaskStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusReason = try [CodeableReference](from: _container, forKeyIfPresent: .statusReason)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try businessStatus?.encode(on: &_container, forKey: .businessStatus)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try doNotPerform?.encode(on: &_container, forKey: .doNotPerform, auxiliaryKey: ._doNotPerform)
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try executionPeriod?.encode(on: &_container, forKey: .executionPeriod)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try `for`?.encode(on: &_container, forKey: .`for`)
 		try groupIdentifier?.encode(on: &_container, forKey: .groupIdentifier)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try input?.encode(on: &_container, forKey: .input)
 		try insurance?.encode(on: &_container, forKey: .insurance)
 		try intent.encode(on: &_container, forKey: .intent, auxiliaryKey: ._intent)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastModified?.encode(on: &_container, forKey: .lastModified, auxiliaryKey: ._lastModified)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try output?.encode(on: &_container, forKey: .output)
 		try owner?.encode(on: &_container, forKey: .owner)
@@ -324,84 +371,7 @@ open class Task: DomainResource {
 		try restriction?.encode(on: &_container, forKey: .restriction)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Task else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return authoredOn == _other.authoredOn
-		    && basedOn == _other.basedOn
-		    && businessStatus == _other.businessStatus
-		    && code == _other.code
-		    && description_fhir == _other.description_fhir
-		    && doNotPerform == _other.doNotPerform
-		    && encounter == _other.encounter
-		    && executionPeriod == _other.executionPeriod
-		    && focus == _other.focus
-		    && `for` == _other.`for`
-		    && groupIdentifier == _other.groupIdentifier
-		    && identifier == _other.identifier
-		    && input == _other.input
-		    && insurance == _other.insurance
-		    && intent == _other.intent
-		    && lastModified == _other.lastModified
-		    && location == _other.location
-		    && note == _other.note
-		    && output == _other.output
-		    && owner == _other.owner
-		    && partOf == _other.partOf
-		    && performer == _other.performer
-		    && priority == _other.priority
-		    && reason == _other.reason
-		    && relevantHistory == _other.relevantHistory
-		    && requestedPerformer == _other.requestedPerformer
-		    && requestedPeriod == _other.requestedPeriod
-		    && requester == _other.requester
-		    && restriction == _other.restriction
-		    && status == _other.status
-		    && statusReason == _other.statusReason
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(authoredOn)
-		hasher.combine(basedOn)
-		hasher.combine(businessStatus)
-		hasher.combine(code)
-		hasher.combine(description_fhir)
-		hasher.combine(doNotPerform)
-		hasher.combine(encounter)
-		hasher.combine(executionPeriod)
-		hasher.combine(focus)
-		hasher.combine(`for`)
-		hasher.combine(groupIdentifier)
-		hasher.combine(identifier)
-		hasher.combine(input)
-		hasher.combine(insurance)
-		hasher.combine(intent)
-		hasher.combine(lastModified)
-		hasher.combine(location)
-		hasher.combine(note)
-		hasher.combine(output)
-		hasher.combine(owner)
-		hasher.combine(partOf)
-		hasher.combine(performer)
-		hasher.combine(priority)
-		hasher.combine(reason)
-		hasher.combine(relevantHistory)
-		hasher.combine(requestedPerformer)
-		hasher.combine(requestedPeriod)
-		hasher.combine(requester)
-		hasher.combine(restriction)
-		hasher.combine(status)
-		hasher.combine(statusReason)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -410,13 +380,22 @@ open class Task: DomainResource {
  
  The request being fulfilled or the resource being manipulated (changed, suspended, etc.) by this task.
  */
-open class TaskFocus: BackboneElement {
+public struct TaskFocus: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case reference(Reference)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// What task is acting on
 	/// One of `value[x]`
@@ -425,11 +404,10 @@ open class TaskFocus: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(value: ValueX) {
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -444,12 +422,15 @@ open class TaskFocus: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case valueCanonical; case _valueCanonical
 		case valueReference
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -457,7 +438,10 @@ open class TaskFocus: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueCanonical, CodingKeys.valueReference], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_value: ValueX? = nil
 		if let valueReference = try Reference(from: _container, forKeyIfPresent: .valueReference) {
 			if _t_value != nil {
@@ -472,14 +456,15 @@ open class TaskFocus: BackboneElement {
 			_t_value = .canonical(valueCanonical)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
 			switch value {
 			case .reference(let _value):
@@ -488,24 +473,6 @@ open class TaskFocus: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueCanonical, auxiliaryKey: ._valueCanonical)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TaskFocus else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(value)
 	}
 }
 
@@ -514,10 +481,10 @@ open class TaskFocus: BackboneElement {
  
  Additional information that may be needed in the execution of the task.
  */
-open class TaskInput: BackboneElement {
+public struct TaskInput: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -574,6 +541,15 @@ open class TaskInput: BackboneElement {
 		case uuid(FHIRPrimitive<FHIRURI>)
 		case virtualServiceDetail(VirtualServiceDetail)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Label for the input
 	public var type: CodeableConcept
@@ -586,11 +562,10 @@ open class TaskInput: BackboneElement {
 	public init(type: CodeableConcept, value: ValueX) {
 		self.type = type
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -606,6 +581,9 @@ open class TaskInput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case valueAddress
 		case valueAge
@@ -663,9 +641,9 @@ open class TaskInput: BackboneElement {
 		case valueUuid; case _valueUuid
 		case valueVirtualServiceDetail
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -673,7 +651,10 @@ open class TaskInput: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueAddress, CodingKeys.valueAge, CodingKeys.valueAnnotation, CodingKeys.valueAttachment, CodingKeys.valueAvailability, CodingKeys.valueBase64Binary, CodingKeys.valueBoolean, CodingKeys.valueCanonical, CodingKeys.valueCode, CodingKeys.valueCodeableConcept, CodingKeys.valueCodeableReference, CodingKeys.valueCoding, CodingKeys.valueContactDetail, CodingKeys.valueContactPoint, CodingKeys.valueCount, CodingKeys.valueDataRequirement, CodingKeys.valueDate, CodingKeys.valueDateTime, CodingKeys.valueDecimal, CodingKeys.valueDistance, CodingKeys.valueDosage, CodingKeys.valueDuration, CodingKeys.valueExpression, CodingKeys.valueExtendedContactDetail, CodingKeys.valueHumanName, CodingKeys.valueId, CodingKeys.valueIdentifier, CodingKeys.valueInstant, CodingKeys.valueInteger, CodingKeys.valueInteger64, CodingKeys.valueMarkdown, CodingKeys.valueMeta, CodingKeys.valueMoney, CodingKeys.valueOid, CodingKeys.valueParameterDefinition, CodingKeys.valuePeriod, CodingKeys.valuePositiveInt, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueRatio, CodingKeys.valueRatioRange, CodingKeys.valueReference, CodingKeys.valueRelatedArtifact, CodingKeys.valueSampledData, CodingKeys.valueSignature, CodingKeys.valueString, CodingKeys.valueTime, CodingKeys.valueTiming, CodingKeys.valueTriggerDefinition, CodingKeys.valueUnsignedInt, CodingKeys.valueUri, CodingKeys.valueUrl, CodingKeys.valueUsageContext, CodingKeys.valueUuid, CodingKeys.valueVirtualServiceDetail], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
 		var _t_value: ValueX? = nil
 		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
@@ -1007,14 +988,15 @@ open class TaskInput: BackboneElement {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
 		
 			switch value {
@@ -1130,26 +1112,6 @@ open class TaskInput: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TaskInput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
@@ -1158,10 +1120,10 @@ open class TaskInput: BackboneElement {
  
  Outputs produced by the Task.
  */
-open class TaskOutput: BackboneElement {
+public struct TaskOutput: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -1219,6 +1181,15 @@ open class TaskOutput: BackboneElement {
 		case virtualServiceDetail(VirtualServiceDetail)
 	}
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Label for output
 	public var type: CodeableConcept
 	
@@ -1230,11 +1201,10 @@ open class TaskOutput: BackboneElement {
 	public init(type: CodeableConcept, value: ValueX) {
 		self.type = type
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1250,6 +1220,9 @@ open class TaskOutput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case valueAddress
 		case valueAge
@@ -1307,9 +1280,9 @@ open class TaskOutput: BackboneElement {
 		case valueUuid; case _valueUuid
 		case valueVirtualServiceDetail
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -1317,7 +1290,10 @@ open class TaskOutput: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueAddress, CodingKeys.valueAge, CodingKeys.valueAnnotation, CodingKeys.valueAttachment, CodingKeys.valueAvailability, CodingKeys.valueBase64Binary, CodingKeys.valueBoolean, CodingKeys.valueCanonical, CodingKeys.valueCode, CodingKeys.valueCodeableConcept, CodingKeys.valueCodeableReference, CodingKeys.valueCoding, CodingKeys.valueContactDetail, CodingKeys.valueContactPoint, CodingKeys.valueCount, CodingKeys.valueDataRequirement, CodingKeys.valueDate, CodingKeys.valueDateTime, CodingKeys.valueDecimal, CodingKeys.valueDistance, CodingKeys.valueDosage, CodingKeys.valueDuration, CodingKeys.valueExpression, CodingKeys.valueExtendedContactDetail, CodingKeys.valueHumanName, CodingKeys.valueId, CodingKeys.valueIdentifier, CodingKeys.valueInstant, CodingKeys.valueInteger, CodingKeys.valueInteger64, CodingKeys.valueMarkdown, CodingKeys.valueMeta, CodingKeys.valueMoney, CodingKeys.valueOid, CodingKeys.valueParameterDefinition, CodingKeys.valuePeriod, CodingKeys.valuePositiveInt, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueRatio, CodingKeys.valueRatioRange, CodingKeys.valueReference, CodingKeys.valueRelatedArtifact, CodingKeys.valueSampledData, CodingKeys.valueSignature, CodingKeys.valueString, CodingKeys.valueTime, CodingKeys.valueTiming, CodingKeys.valueTriggerDefinition, CodingKeys.valueUnsignedInt, CodingKeys.valueUri, CodingKeys.valueUrl, CodingKeys.valueUsageContext, CodingKeys.valueUuid, CodingKeys.valueVirtualServiceDetail], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
 		var _t_value: ValueX? = nil
 		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
@@ -1651,14 +1627,15 @@ open class TaskOutput: BackboneElement {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
 		
 			switch value {
@@ -1774,26 +1751,6 @@ open class TaskOutput: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TaskOutput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
@@ -1802,22 +1759,30 @@ open class TaskOutput: BackboneElement {
  
  The entity who performed the requested task.
  */
-open class TaskPerformer: BackboneElement {
-	
-	/// Type of performance
-	public var function: CodeableConcept?
+public struct TaskPerformer: BackboneElement {
 	
 	/// Who performed the task
 	public var actor: Reference
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Type of performance
+	public var function: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(actor: Reference) {
 		self.actor = actor
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -1835,46 +1800,33 @@ open class TaskPerformer: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actor
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKey: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
-		try super.init(from: decoder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TaskPerformer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && function == _other.function
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -1884,10 +1836,16 @@ open class TaskPerformer: BackboneElement {
  If the Task.focus is a request resource and the task is seeking fulfillment (i.e. is asking for the request to be
  actioned), this element identifies any limitations on what parts of the referenced request should be actioned.
  */
-open class TaskRestriction: BackboneElement {
+public struct TaskRestriction: BackboneElement {
 	
-	/// How many times to repeat
-	public var repetitions: FHIRPrimitive<FHIRPositiveInteger>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// When fulfillment is sought
 	public var period: Period?
@@ -1895,13 +1853,15 @@ open class TaskRestriction: BackboneElement {
 	/// Individual or entity from whom fulfillment is being sought
 	public var recipient: [Reference]?
 	
+	/// How many times to repeat
+	public var repetitions: FHIRPrimitive<FHIRPositiveInteger>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1921,51 +1881,36 @@ open class TaskRestriction: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case period
 		case recipient
 		case repetitions; case _repetitions
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.recipient = try [Reference](from: _container, forKeyIfPresent: .recipient)
 		self.repetitions = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .repetitions, auxiliaryKey: ._repetitions)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
 		try recipient?.encode(on: &_container, forKey: .recipient)
 		try repetitions?.encode(on: &_container, forKey: .repetitions, auxiliaryKey: ._repetitions)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TaskRestriction else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return period == _other.period
-		    && recipient == _other.recipient
-		    && repetitions == _other.repetitions
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(period)
-		hasher.combine(recipient)
-		hasher.combine(repetitions)
 	}
 }

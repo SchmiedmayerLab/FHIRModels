@@ -2,8 +2,8 @@
 //  MonetaryComponent.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/MonetaryComponent)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/MonetaryComponent)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,29 +25,34 @@ import FMCore
  Financial line items use this datatype to commonly categorize the value, and other factors that may effect how the
  value should be interpreted.
  */
-open class MonetaryComponent: DataType {
+public struct MonetaryComponent: DataType {
+	
+	/// Explicit value amount to be used
+	public var amount: Money?
+	
+	/// Codes may be used to differentiate between kinds of taxes, surcharges, discounts etc.
+	public var code: CodeableConcept?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Factor used for calculating this component
+	public var factor: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The type of monetary component, what the value is to be used for and how that should be applied in its context.
 	/// e.g. A surchange would increase the cost, a deduction would reduce the cost.
 	public var type: FHIRPrimitive<PriceComponentType>
 	
-	/// Codes may be used to differentiate between kinds of taxes, surcharges, discounts etc.
-	public var code: CodeableConcept?
-	
-	/// Factor used for calculating this component
-	public var factor: FHIRPrimitive<FHIRDecimal>?
-	
-	/// Explicit value amount to be used
-	public var amount: Money?
-	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<PriceComponentType>) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: Money? = nil,
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -68,54 +73,34 @@ open class MonetaryComponent: DataType {
 	private enum CodingKeys: String, CodingKey {
 		case amount
 		case code
+		case `extension` = "extension"
 		case factor; case _factor
+		case id; case _id
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.amount = try Money(from: _container, forKeyIfPresent: .amount)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.type = try FHIRPrimitive<PriceComponentType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try code?.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try factor?.encode(on: &_container, forKey: .factor, auxiliaryKey: ._factor)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MonetaryComponent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && code == _other.code
-		    && factor == _other.factor
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(code)
-		hasher.combine(factor)
-		hasher.combine(type)
 	}
 }

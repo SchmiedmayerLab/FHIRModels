@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MeasureReport)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,15 +25,63 @@ import FMCore
  The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the
  resources involved in that calculation.
  */
-open class MeasureReport: DomainResource {
+public struct MeasureReport: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .measureReport }
+	public static let resourceType: ResourceType = .measureReport
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// When the report was generated
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// What data was used to calculate the measure score
+	public var evaluatedResource: [Reference]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Measure results for each group
+	public var group: [MeasureReportGroup]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Additional identifier for the MeasureReport
 	public var identifier: [Identifier]?
 	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// increase | decrease
+	public var improvementNotation: CodeableConcept?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// What measure was calculated
+	public var measure: FHIRPrimitive<Canonical>
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// What period the report covers
+	public var period: Period
+	
+	/// Who is reporting the data
+	public var reporter: Reference?
+	
 	/// The MeasureReport status. No data will be available until the MeasureReport status is complete.
 	public var status: FHIRPrimitive<MeasureReportStatus>
+	
+	/// What individual(s) the report is for
+	public var subject: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// The type of measure report. This may be an individual report, which provides the score for the measure for an
 	/// individual member of the population; a subject-listing, which returns the list of members that meet the various
@@ -42,41 +90,16 @@ open class MeasureReport: DomainResource {
 	/// quality measure.
 	public var type: FHIRPrimitive<MeasureReportType>
 	
-	/// What measure was calculated
-	public var measure: FHIRPrimitive<Canonical>
-	
-	/// What individual(s) the report is for
-	public var subject: Reference?
-	
-	/// When the report was generated
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Who is reporting the data
-	public var reporter: Reference?
-	
-	/// What period the report covers
-	public var period: Period
-	
-	/// increase | decrease
-	public var improvementNotation: CodeableConcept?
-	
-	/// Measure results for each group
-	public var group: [MeasureReportGroup]?
-	
-	/// What data was used to calculate the measure score
-	public var evaluatedResource: [Reference]?
-	
 	/// Designated initializer taking all required properties
 	public init(measure: FHIRPrimitive<Canonical>, period: Period, status: FHIRPrimitive<MeasureReportStatus>, type: FHIRPrimitive<MeasureReportType>) {
 		self.measure = measure
 		self.period = period
 		self.status = status
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
 		evaluatedResource: [Reference]? = nil,
@@ -118,92 +141,79 @@ open class MeasureReport: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case date; case _date
 		case evaluatedResource
+		case `extension` = "extension"
 		case group
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case improvementNotation
+		case language; case _language
 		case measure; case _measure
+		case meta
+		case modifierExtension
 		case period
 		case reporter
 		case status; case _status
 		case subject
+		case text
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.evaluatedResource = try [Reference](from: _container, forKeyIfPresent: .evaluatedResource)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.group = try [MeasureReportGroup](from: _container, forKeyIfPresent: .group)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.improvementNotation = try CodeableConcept(from: _container, forKeyIfPresent: .improvementNotation)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.measure = try FHIRPrimitive<Canonical>(from: _container, forKey: .measure, auxiliaryKey: ._measure)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKey: .period)
 		self.reporter = try Reference(from: _container, forKeyIfPresent: .reporter)
 		self.status = try FHIRPrimitive<MeasureReportStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try FHIRPrimitive<MeasureReportType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try evaluatedResource?.encode(on: &_container, forKey: .evaluatedResource)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try group?.encode(on: &_container, forKey: .group)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try improvementNotation?.encode(on: &_container, forKey: .improvementNotation)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try measure.encode(on: &_container, forKey: .measure, auxiliaryKey: ._measure)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period.encode(on: &_container, forKey: .period)
 		try reporter?.encode(on: &_container, forKey: .reporter)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReport else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return date == _other.date
-		    && evaluatedResource == _other.evaluatedResource
-		    && group == _other.group
-		    && identifier == _other.identifier
-		    && improvementNotation == _other.improvementNotation
-		    && measure == _other.measure
-		    && period == _other.period
-		    && reporter == _other.reporter
-		    && status == _other.status
-		    && subject == _other.subject
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(date)
-		hasher.combine(evaluatedResource)
-		hasher.combine(group)
-		hasher.combine(identifier)
-		hasher.combine(improvementNotation)
-		hasher.combine(measure)
-		hasher.combine(period)
-		hasher.combine(reporter)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(type)
 	}
 }
 
@@ -212,27 +222,35 @@ open class MeasureReport: DomainResource {
  
  The results of the calculation, one for each population group in the measure.
  */
-open class MeasureReportGroup: BackboneElement {
+public struct MeasureReportGroup: BackboneElement {
 	
 	/// Meaning of the group
 	public var code: CodeableConcept?
 	
-	/// The populations in the group
-	public var population: [MeasureReportGroupPopulation]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// What score this group achieved
 	public var measureScore: Quantity?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The populations in the group
+	public var population: [MeasureReportGroupPopulation]?
 	
 	/// Stratification results
 	public var stratifier: [MeasureReportGroupStratifier]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -255,56 +273,39 @@ open class MeasureReportGroup: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
 		case measureScore
+		case modifierExtension
 		case population
 		case stratifier
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measureScore = try Quantity(from: _container, forKeyIfPresent: .measureScore)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.population = try [MeasureReportGroupPopulation](from: _container, forKeyIfPresent: .population)
 		self.stratifier = try [MeasureReportGroupStratifier](from: _container, forKeyIfPresent: .stratifier)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try measureScore?.encode(on: &_container, forKey: .measureScore)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try population?.encode(on: &_container, forKey: .population)
 		try stratifier?.encode(on: &_container, forKey: .stratifier)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReportGroup else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && measureScore == _other.measureScore
-		    && population == _other.population
-		    && stratifier == _other.stratifier
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(measureScore)
-		hasher.combine(population)
-		hasher.combine(stratifier)
 	}
 }
 
@@ -313,7 +314,7 @@ open class MeasureReportGroup: BackboneElement {
  
  The populations that make up the population group, one for each type of population appropriate for the measure.
  */
-open class MeasureReportGroupPopulation: BackboneElement {
+public struct MeasureReportGroupPopulation: BackboneElement {
 	
 	/// initial-population | numerator | numerator-exclusion | denominator | denominator-exclusion | denominator-
 	/// exception | measure-population | measure-population-exclusion | measure-observation
@@ -322,16 +323,24 @@ open class MeasureReportGroupPopulation: BackboneElement {
 	/// Size of the population
 	public var count: FHIRPrimitive<FHIRInteger>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// For subject-list reports, the subject results in this population
 	public var subjectResults: Reference?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept? = nil,
 		count: FHIRPrimitive<FHIRInteger>? = nil,
 		`extension`: [Extension]? = nil,
@@ -353,50 +362,35 @@ open class MeasureReportGroupPopulation: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case count; case _count
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case subjectResults
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.count = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .count, auxiliaryKey: ._count)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.subjectResults = try Reference(from: _container, forKeyIfPresent: .subjectResults)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try count?.encode(on: &_container, forKey: .count, auxiliaryKey: ._count)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try subjectResults?.encode(on: &_container, forKey: .subjectResults)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReportGroupPopulation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && count == _other.count
-		    && subjectResults == _other.subjectResults
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(count)
-		hasher.combine(subjectResults)
 	}
 }
 
@@ -406,21 +400,29 @@ open class MeasureReportGroupPopulation: BackboneElement {
  When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the
  measure.
  */
-open class MeasureReportGroupStratifier: BackboneElement {
+public struct MeasureReportGroupStratifier: BackboneElement {
 	
 	/// What stratifier of the group
 	public var code: [CodeableConcept]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Stratum results, one for each unique value, or set of values, in the stratifier, or stratifier components
 	public var stratum: [MeasureReportGroupStratifierStratum]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -439,46 +441,33 @@ open class MeasureReportGroupStratifier: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case stratum
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.stratum = try [MeasureReportGroupStratifierStratum](from: _container, forKeyIfPresent: .stratum)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try stratum?.encode(on: &_container, forKey: .stratum)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReportGroupStratifier else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && stratum == _other.stratum
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(stratum)
 	}
 }
 
@@ -488,27 +477,35 @@ open class MeasureReportGroupStratifier: BackboneElement {
  This element contains the results for a single stratum within the stratifier. For example, when stratifying on
  administrative gender, there will be four strata, one for each possible gender value.
  */
-open class MeasureReportGroupStratifierStratum: BackboneElement {
-	
-	/// The stratum value, e.g. male
-	public var value: CodeableConcept?
+public struct MeasureReportGroupStratifierStratum: BackboneElement {
 	
 	/// Stratifier component values
 	public var component: [MeasureReportGroupStratifierStratumComponent]?
 	
-	/// Population results in this stratum
-	public var population: [MeasureReportGroupStratifierStratumPopulation]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// What score this stratum achieved
 	public var measureScore: Quantity?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Population results in this stratum
+	public var population: [MeasureReportGroupStratifierStratumPopulation]?
+	
+	/// The stratum value, e.g. male
+	public var value: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		component: [MeasureReportGroupStratifierStratumComponent]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -531,56 +528,39 @@ open class MeasureReportGroupStratifierStratum: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case component
+		case `extension` = "extension"
+		case id; case _id
 		case measureScore
+		case modifierExtension
 		case population
 		case value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.component = try [MeasureReportGroupStratifierStratumComponent](from: _container, forKeyIfPresent: .component)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measureScore = try Quantity(from: _container, forKeyIfPresent: .measureScore)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.population = try [MeasureReportGroupStratifierStratumPopulation](from: _container, forKeyIfPresent: .population)
 		self.value = try CodeableConcept(from: _container, forKeyIfPresent: .value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try component?.encode(on: &_container, forKey: .component)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try measureScore?.encode(on: &_container, forKey: .measureScore)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try population?.encode(on: &_container, forKey: .population)
 		try value?.encode(on: &_container, forKey: .value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReportGroupStratifierStratum else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return component == _other.component
-		    && measureScore == _other.measureScore
-		    && population == _other.population
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(component)
-		hasher.combine(measureScore)
-		hasher.combine(population)
-		hasher.combine(value)
 	}
 }
 
@@ -589,10 +569,19 @@ open class MeasureReportGroupStratifierStratum: BackboneElement {
  
  A stratifier component value.
  */
-open class MeasureReportGroupStratifierStratumComponent: BackboneElement {
+public struct MeasureReportGroupStratifierStratumComponent: BackboneElement {
 	
 	/// What stratifier component of the group
 	public var code: CodeableConcept
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The stratum component value, e.g. male
 	public var value: CodeableConcept
@@ -601,11 +590,10 @@ open class MeasureReportGroupStratifierStratumComponent: BackboneElement {
 	public init(code: CodeableConcept, value: CodeableConcept) {
 		self.code = code
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -622,46 +610,33 @@ open class MeasureReportGroupStratifierStratumComponent: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.value = try CodeableConcept(from: _container, forKey: .value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try value.encode(on: &_container, forKey: .value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReportGroupStratifierStratumComponent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(value)
 	}
 }
 
@@ -670,7 +645,7 @@ open class MeasureReportGroupStratifierStratumComponent: BackboneElement {
  
  The populations that make up the stratum, one for each type of population appropriate to the measure.
  */
-open class MeasureReportGroupStratifierStratumPopulation: BackboneElement {
+public struct MeasureReportGroupStratifierStratumPopulation: BackboneElement {
 	
 	/// initial-population | numerator | numerator-exclusion | denominator | denominator-exclusion | denominator-
 	/// exception | measure-population | measure-population-exclusion | measure-observation
@@ -679,16 +654,24 @@ open class MeasureReportGroupStratifierStratumPopulation: BackboneElement {
 	/// Size of the population
 	public var count: FHIRPrimitive<FHIRInteger>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// For subject-list reports, the subject results in this population
 	public var subjectResults: Reference?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept? = nil,
 		count: FHIRPrimitive<FHIRInteger>? = nil,
 		`extension`: [Extension]? = nil,
@@ -710,49 +693,34 @@ open class MeasureReportGroupStratifierStratumPopulation: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case count; case _count
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case subjectResults
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.count = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .count, auxiliaryKey: ._count)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.subjectResults = try Reference(from: _container, forKeyIfPresent: .subjectResults)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try count?.encode(on: &_container, forKey: .count, auxiliaryKey: ._count)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try subjectResults?.encode(on: &_container, forKey: .subjectResults)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MeasureReportGroupStratifierStratumPopulation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && count == _other.count
-		    && subjectResults == _other.subjectResults
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(count)
-		hasher.combine(subjectResults)
 	}
 }

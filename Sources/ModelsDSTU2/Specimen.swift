@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/Specimen)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,68 +24,91 @@ import FMCore
  
  A sample to be used for analysis.
  */
-open class Specimen: DomainResource {
+public struct Specimen: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .specimen }
+	public static let resourceType: ResourceType = .specimen
+	
+	/// Identifier assigned by the lab
+	public var accessionIdentifier: Identifier?
+	
+	/// Collection details
+	public var collection: SpecimenCollection?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Direct container of specimen (tube/slide, etc.)
+	public var container: [SpecimenContainer]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// External Identifier
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Specimen from which this specimen originated
+	public var parent: [Reference]?
+	
+	/// The time when specimen was received for processing
+	public var receivedTime: FHIRPrimitive<DateTime>?
 	
 	/// The availability of the specimen.
 	/// Restricted to: ['available', 'unavailable', 'unsatisfactory', 'entered-in-error']
 	public var status: FHIRPrimitive<SpecimenStatus>?
 	
-	/// Kind of material that forms the specimen
-	public var type: CodeableConcept?
-	
-	/// Specimen from which this specimen originated
-	public var parent: [Reference]?
-	
 	/// Where the specimen came from. This may be from the patient(s) or from the environment or a device
 	public var subject: Reference
 	
-	/// Identifier assigned by the lab
-	public var accessionIdentifier: Identifier?
-	
-	/// The time when specimen was received for processing
-	public var receivedTime: FHIRPrimitive<DateTime>?
-	
-	/// Collection details
-	public var collection: SpecimenCollection?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Treatment and processing step details
 	public var treatment: [SpecimenTreatment]?
 	
-	/// Direct container of specimen (tube/slide, etc.)
-	public var container: [SpecimenContainer]?
+	/// Kind of material that forms the specimen
+	public var type: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
 	public init(subject: Reference) {
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							accessionIdentifier: Identifier? = nil,
-							collection: SpecimenCollection? = nil,
-							contained: [ResourceProxy]? = nil,
-							container: [SpecimenContainer]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							parent: [Reference]? = nil,
-							receivedTime: FHIRPrimitive<DateTime>? = nil,
-							status: FHIRPrimitive<SpecimenStatus>? = nil,
-							subject: Reference,
-							text: Narrative? = nil,
-							treatment: [SpecimenTreatment]? = nil,
-							type: CodeableConcept? = nil)
-	{
+	public init(
+		accessionIdentifier: Identifier? = nil,
+		collection: SpecimenCollection? = nil,
+		contained: [ResourceProxy]? = nil,
+		container: [SpecimenContainer]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		parent: [Reference]? = nil,
+		receivedTime: FHIRPrimitive<DateTime>? = nil,
+		status: FHIRPrimitive<SpecimenStatus>? = nil,
+		subject: Reference,
+		text: Narrative? = nil,
+		treatment: [SpecimenTreatment]? = nil,
+		type: CodeableConcept? = nil
+	) {
 		self.init(subject: subject)
 		self.accessionIdentifier = accessionIdentifier
 		self.collection = collection
@@ -109,87 +132,76 @@ open class Specimen: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case accessionIdentifier
 		case collection
+		case contained
 		case container
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case parent
 		case receivedTime; case _receivedTime
 		case status; case _status
 		case subject
+		case text
 		case treatment
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.accessionIdentifier = try Identifier(from: _container, forKeyIfPresent: .accessionIdentifier)
 		self.collection = try SpecimenCollection(from: _container, forKeyIfPresent: .collection)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.container = try [SpecimenContainer](from: _container, forKeyIfPresent: .container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.parent = try [Reference](from: _container, forKeyIfPresent: .parent)
 		self.receivedTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .receivedTime, auxiliaryKey: ._receivedTime)
 		self.status = try FHIRPrimitive<SpecimenStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.treatment = try [SpecimenTreatment](from: _container, forKeyIfPresent: .treatment)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try accessionIdentifier?.encode(on: &_container, forKey: .accessionIdentifier)
 		try collection?.encode(on: &_container, forKey: .collection)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try container?.encode(on: &_container, forKey: .container)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try parent?.encode(on: &_container, forKey: .parent)
 		try receivedTime?.encode(on: &_container, forKey: .receivedTime, auxiliaryKey: ._receivedTime)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try treatment?.encode(on: &_container, forKey: .treatment)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Specimen else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return accessionIdentifier == _other.accessionIdentifier
-		    && collection == _other.collection
-		    && container == _other.container
-		    && identifier == _other.identifier
-		    && parent == _other.parent
-		    && receivedTime == _other.receivedTime
-		    && status == _other.status
-		    && subject == _other.subject
-		    && treatment == _other.treatment
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(accessionIdentifier)
-		hasher.combine(collection)
-		hasher.combine(container)
-		hasher.combine(identifier)
-		hasher.combine(parent)
-		hasher.combine(receivedTime)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(treatment)
-		hasher.combine(type)
 	}
 }
 
@@ -198,149 +210,7 @@ open class Specimen: DomainResource {
  
  Details concerning the specimen collection.
  */
-open class SpecimenCollection: BackboneElement {
-	
-	/// All possible types for "collected[x]"
-	public enum CollectedX: Hashable {
-		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-	}
-	
-	/// Who collected the specimen
-	public var collector: Reference?
-	
-	/// Collector comments
-	public var comment: [FHIRPrimitive<FHIRString>]?
-	
-	/// Collection time
-	/// One of `collected[x]`
-	public var collected: CollectedX?
-	
-	/// The quantity of specimen collected
-	public var quantity: Quantity?
-	
-	/// Technique used to perform collection
-	public var method: CodeableConcept?
-	
-	/// Anatomical collection site
-	public var bodySite: CodeableConcept?
-	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							bodySite: CodeableConcept? = nil,
-							collected: CollectedX? = nil,
-							collector: Reference? = nil,
-							comment: [FHIRPrimitive<FHIRString>]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							method: CodeableConcept? = nil,
-							modifierExtension: [Extension]? = nil,
-							quantity: Quantity? = nil)
-	{
-		self.init()
-		self.bodySite = bodySite
-		self.collected = collected
-		self.collector = collector
-		self.comment = comment
-		self.`extension` = `extension`
-		self.id = id
-		self.method = method
-		self.modifierExtension = modifierExtension
-		self.quantity = quantity
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case bodySite
-		case collectedDateTime; case _collectedDateTime
-		case collectedPeriod
-		case collector
-		case comment; case _comment
-		case method
-		case quantity
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
-		var _t_collected: CollectedX? = nil
-		if let collectedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .collectedDateTime, auxiliaryKey: ._collectedDateTime) {
-			if _t_collected != nil {
-				throw DecodingError.dataCorruptedError(forKey: .collectedDateTime, in: _container, debugDescription: "More than one value provided for \"collected\"")
-			}
-			_t_collected = .dateTime(collectedDateTime)
-		}
-		if let collectedPeriod = try Period(from: _container, forKeyIfPresent: .collectedPeriod) {
-			if _t_collected != nil {
-				throw DecodingError.dataCorruptedError(forKey: .collectedPeriod, in: _container, debugDescription: "More than one value provided for \"collected\"")
-			}
-			_t_collected = .period(collectedPeriod)
-		}
-		self.collected = _t_collected
-		self.collector = try Reference(from: _container, forKeyIfPresent: .collector)
-		self.comment = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
-		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
-		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try bodySite?.encode(on: &_container, forKey: .bodySite)
-		if let _enum = collected {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .collectedDateTime, auxiliaryKey: ._collectedDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .collectedPeriod)
-			}
-		}
-		try collector?.encode(on: &_container, forKey: .collector)
-		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
-		try method?.encode(on: &_container, forKey: .method)
-		try quantity?.encode(on: &_container, forKey: .quantity)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SpecimenCollection else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return bodySite == _other.bodySite
-		    && collected == _other.collected
-		    && collector == _other.collector
-		    && comment == _other.comment
-		    && method == _other.method
-		    && quantity == _other.quantity
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(bodySite)
-		hasher.combine(collected)
-		hasher.combine(collector)
-		hasher.combine(comment)
-		hasher.combine(method)
-		hasher.combine(quantity)
-	}
-}
+public typealias SpecimenCollection = BackboneElement
 
 /**
  Direct container of specimen (tube/slide, etc.).
@@ -348,237 +218,11 @@ open class SpecimenCollection: BackboneElement {
  The container holding the specimen.  The recursive nature of containers; i.e. blood in tube in tray in rack is not
  addressed here.
  */
-open class SpecimenContainer: BackboneElement {
-	
-	/// All possible types for "additive[x]"
-	public enum AdditiveX: Hashable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
-	}
-	
-	/// Id for the container
-	public var identifier: [Identifier]?
-	
-	/// Textual description of the container
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Kind of container directly associated with specimen
-	public var type: CodeableConcept?
-	
-	/// Container volume or size
-	public var capacity: Quantity?
-	
-	/// Quantity of specimen within container
-	public var specimenQuantity: Quantity?
-	
-	/// Additive associated with container
-	/// One of `additive[x]`
-	public var additive: AdditiveX?
-	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							additive: AdditiveX? = nil,
-							capacity: Quantity? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							modifierExtension: [Extension]? = nil,
-							specimenQuantity: Quantity? = nil,
-							type: CodeableConcept? = nil)
-	{
-		self.init()
-		self.additive = additive
-		self.capacity = capacity
-		self.description_fhir = description_fhir
-		self.`extension` = `extension`
-		self.id = id
-		self.identifier = identifier
-		self.modifierExtension = modifierExtension
-		self.specimenQuantity = specimenQuantity
-		self.type = type
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case additiveCodeableConcept
-		case additiveReference
-		case capacity
-		case description_fhir = "description"; case _description_fhir = "_description"
-		case identifier
-		case specimenQuantity
-		case type
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		var _t_additive: AdditiveX? = nil
-		if let additiveCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .additiveCodeableConcept) {
-			if _t_additive != nil {
-				throw DecodingError.dataCorruptedError(forKey: .additiveCodeableConcept, in: _container, debugDescription: "More than one value provided for \"additive\"")
-			}
-			_t_additive = .codeableConcept(additiveCodeableConcept)
-		}
-		if let additiveReference = try Reference(from: _container, forKeyIfPresent: .additiveReference) {
-			if _t_additive != nil {
-				throw DecodingError.dataCorruptedError(forKey: .additiveReference, in: _container, debugDescription: "More than one value provided for \"additive\"")
-			}
-			_t_additive = .reference(additiveReference)
-		}
-		self.additive = _t_additive
-		self.capacity = try Quantity(from: _container, forKeyIfPresent: .capacity)
-		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
-		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
-		self.specimenQuantity = try Quantity(from: _container, forKeyIfPresent: .specimenQuantity)
-		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		if let _enum = additive {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .additiveCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .additiveReference)
-			}
-		}
-		try capacity?.encode(on: &_container, forKey: .capacity)
-		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
-		try identifier?.encode(on: &_container, forKey: .identifier)
-		try specimenQuantity?.encode(on: &_container, forKey: .specimenQuantity)
-		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SpecimenContainer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return additive == _other.additive
-		    && capacity == _other.capacity
-		    && description_fhir == _other.description_fhir
-		    && identifier == _other.identifier
-		    && specimenQuantity == _other.specimenQuantity
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(additive)
-		hasher.combine(capacity)
-		hasher.combine(description_fhir)
-		hasher.combine(identifier)
-		hasher.combine(specimenQuantity)
-		hasher.combine(type)
-	}
-}
+public typealias SpecimenContainer = BackboneElement
 
 /**
  Treatment and processing step details.
  
  Details concerning treatment and processing steps for the specimen.
  */
-open class SpecimenTreatment: BackboneElement {
-	
-	/// Textual description of procedure
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Indicates the treatment or processing step  applied to the specimen
-	public var procedure: CodeableConcept?
-	
-	/// Material used in the processing step
-	public var additive: [Reference]?
-	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							additive: [Reference]? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							procedure: CodeableConcept? = nil)
-	{
-		self.init()
-		self.additive = additive
-		self.description_fhir = description_fhir
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.procedure = procedure
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case additive
-		case description_fhir = "description"; case _description_fhir = "_description"
-		case procedure
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.additive = try [Reference](from: _container, forKeyIfPresent: .additive)
-		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
-		self.procedure = try CodeableConcept(from: _container, forKeyIfPresent: .procedure)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try additive?.encode(on: &_container, forKey: .additive)
-		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
-		try procedure?.encode(on: &_container, forKey: .procedure)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SpecimenTreatment else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return additive == _other.additive
-		    && description_fhir == _other.description_fhir
-		    && procedure == _other.procedure
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(additive)
-		hasher.combine(description_fhir)
-		hasher.combine(procedure)
-	}
-}
+public typealias SpecimenTreatment = BackboneElement

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,31 +27,16 @@ import FMCore
  */
 public enum ConceptMapEquivalence: String, FHIRPrimitiveType {
 	
-	/// The concepts are related to each other, and have at least some overlap in meaning, but the exact relationship is
-	/// not known.
-	case relatedto
-	
-	/// The definitions of the concepts mean the same thing (including when structural implications of meaning are
-	/// considered) (i.e. extensionally identical).
-	case equivalent
+	/// This is an explicit assertion that there is no mapping between the source and target concept.
+	case disjoint
 	
 	/// The definitions of the concepts are exactly the same (i.e. only grammatical differences) and structural
 	/// implications of meaning are identical or irrelevant (i.e. intentionally identical).
 	case equal
 	
-	/// The target mapping is wider in meaning than the source concept.
-	case wider
-	
-	/// The target mapping subsumes the meaning of the source concept (e.g. the source is-a target).
-	case subsumes
-	
-	/// The target mapping is narrower in meaning than the source concept. The sense in which the mapping is narrower
-	/// SHALL be described in the comments in this case, and applications should be careful when attempting to use these
-	/// mappings operationally.
-	case narrower
-	
-	/// The target mapping specializes the meaning of the source concept (e.g. the target is-a source).
-	case specializes
+	/// The definitions of the concepts mean the same thing (including when structural implications of meaning are
+	/// considered) (i.e. extensionally identical).
+	case equivalent
 	
 	/// The target mapping overlaps with the source concept, but both source and target cover additional meaning, or the
 	/// definitions are imprecise and it is uncertain whether they have the same boundaries to their meaning. The sense
@@ -59,9 +44,24 @@ public enum ConceptMapEquivalence: String, FHIRPrimitiveType {
 	/// careful when attempting to use these mappings operationally.
 	case inexact
 	
+	/// The target mapping is narrower in meaning than the source concept. The sense in which the mapping is narrower
+	/// SHALL be described in the comments in this case, and applications should be careful when attempting to use these
+	/// mappings operationally.
+	case narrower
+	
+	/// The concepts are related to each other, and have at least some overlap in meaning, but the exact relationship is
+	/// not known.
+	case relatedto
+	
+	/// The target mapping specializes the meaning of the source concept (e.g. the target is-a source).
+	case specializes
+	
+	/// The target mapping subsumes the meaning of the source concept (e.g. the source is-a target).
+	case subsumes
+	
 	/// There is no match for this concept in the target code system.
 	case unmatched
 	
-	/// This is an explicit assertion that there is no mapping between the source and target concept.
-	case disjoint
+	/// The target mapping is wider in meaning than the source concept.
+	case wider
 }

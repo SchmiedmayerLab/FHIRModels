@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
 public enum ActionConditionKind: String, FHIRPrimitiveType {
 	
 	/// The condition describes whether or not a given action is applicable
-	case applicability = "applicability"
+	case applicability
 	
 	/// The condition is a starting condition for the action
-	case start = "start"
+	case start
 	
 	/// The condition is a stop, or exit condition for the action
-	case stop = "stop"
+	case stop
 }

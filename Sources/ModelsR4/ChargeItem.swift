@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/ChargeItem)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,50 +27,89 @@ import FMCore
  participating organizations and persons. Main Usage of the ChargeItem is to enable the billing process and internal
  cost allocation.
  */
-open class ChargeItem: DomainResource {
+public struct ChargeItem: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .chargeItem }
+	public static let resourceType: ResourceType = .chargeItem
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
 	}
 	
 	/// All possible types for "product[x]"
-	public enum ProductX: Hashable {
+	public enum ProductX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// Business Identifier for item
-	public var identifier: [Identifier]?
+	/// Account to place this charge
+	public var account: [Reference]?
 	
-	/// Defining information about the code of this charge item
-	public var definitionUri: [FHIRPrimitive<FHIRURI>]?
-	
-	/// Resource defining the code of this ChargeItem
-	public var definitionCanonical: [FHIRPrimitive<Canonical>]?
-	
-	/// The current state of the ChargeItem.
-	public var status: FHIRPrimitive<ChargeItemStatus>
-	
-	/// Part of referenced ChargeItem
-	public var partOf: [Reference]?
+	/// Anatomical location, if relevant
+	public var bodysite: [CodeableConcept]?
 	
 	/// A code that identifies the charge, like a billing code
 	public var code: CodeableConcept
 	
-	/// Individual service was done for/to
-	public var subject: Reference
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Encounter / Episode associated with event
 	public var context: Reference?
 	
+	/// Organization that has ownership of the (potential, future) revenue
+	public var costCenter: Reference?
+	
+	/// Resource defining the code of this ChargeItem
+	public var definitionCanonical: [FHIRPrimitive<Canonical>]?
+	
+	/// Defining information about the code of this charge item
+	public var definitionUri: [FHIRPrimitive<FHIRURI>]?
+	
+	/// Date the charge item was entered
+	public var enteredDate: FHIRPrimitive<DateTime>?
+	
+	/// Individual who was entering
+	public var enterer: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Factor overriding the associated rules
+	public var factorOverride: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier for item
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Comments made about the ChargeItem
+	public var note: [Annotation]?
+	
 	/// When the charged service was applied
 	/// One of `occurrence[x]`
 	public var occurrence: OccurrenceX?
+	
+	/// Reason for overriding the list price/factor
+	public var overrideReason: FHIRPrimitive<FHIRString>?
+	
+	/// Part of referenced ChargeItem
+	public var partOf: [Reference]?
 	
 	/// Who performed charged service
 	public var performer: [ChargeItemPerformer]?
@@ -78,62 +117,46 @@ open class ChargeItem: DomainResource {
 	/// Organization providing the charged service
 	public var performingOrganization: Reference?
 	
-	/// Organization requesting the charged service
-	public var requestingOrganization: Reference?
-	
-	/// Organization that has ownership of the (potential, future) revenue
-	public var costCenter: Reference?
-	
-	/// Quantity of which the charge item has been serviced
-	public var quantity: Quantity?
-	
-	/// Anatomical location, if relevant
-	public var bodysite: [CodeableConcept]?
-	
-	/// Factor overriding the associated rules
-	public var factorOverride: FHIRPrimitive<FHIRDecimal>?
-	
 	/// Price overriding the associated rules
 	public var priceOverride: Money?
-	
-	/// Reason for overriding the list price/factor
-	public var overrideReason: FHIRPrimitive<FHIRString>?
-	
-	/// Individual who was entering
-	public var enterer: Reference?
-	
-	/// Date the charge item was entered
-	public var enteredDate: FHIRPrimitive<DateTime>?
-	
-	/// Why was the charged  service rendered?
-	public var reason: [CodeableConcept]?
-	
-	/// Which rendered service is being charged?
-	public var service: [Reference]?
 	
 	/// Product charged
 	/// One of `product[x]`
 	public var product: ProductX?
 	
-	/// Account to place this charge
-	public var account: [Reference]?
+	/// Quantity of which the charge item has been serviced
+	public var quantity: Quantity?
 	
-	/// Comments made about the ChargeItem
-	public var note: [Annotation]?
+	/// Why was the charged  service rendered?
+	public var reason: [CodeableConcept]?
+	
+	/// Organization requesting the charged service
+	public var requestingOrganization: Reference?
+	
+	/// Which rendered service is being charged?
+	public var service: [Reference]?
+	
+	/// The current state of the ChargeItem.
+	public var status: FHIRPrimitive<ChargeItemStatus>
+	
+	/// Individual service was done for/to
+	public var subject: Reference
 	
 	/// Further information supporting this charge
 	public var supportingInformation: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept, status: FHIRPrimitive<ChargeItemStatus>, subject: Reference) {
 		self.code = code
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		account: [Reference]? = nil,
 		bodysite: [CodeableConcept]? = nil,
 		code: CodeableConcept,
@@ -206,17 +229,25 @@ open class ChargeItem: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case account
 		case bodysite
 		case code
+		case contained
 		case context
 		case costCenter
 		case definitionCanonical; case _definitionCanonical
 		case definitionUri; case _definitionUri
 		case enteredDate; case _enteredDate
 		case enterer
+		case `extension` = "extension"
 		case factorOverride; case _factorOverride
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case note
 		case occurrenceDateTime; case _occurrenceDateTime
 		case occurrencePeriod
@@ -235,24 +266,32 @@ open class ChargeItem: DomainResource {
 		case status; case _status
 		case subject
 		case supportingInformation
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.account = try [Reference](from: _container, forKeyIfPresent: .account)
 		self.bodysite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodysite)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.context = try Reference(from: _container, forKeyIfPresent: .context)
 		self.costCenter = try Reference(from: _container, forKeyIfPresent: .costCenter)
 		self.definitionCanonical = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .definitionCanonical, auxiliaryKey: ._definitionCanonical)
 		self.definitionUri = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .definitionUri, auxiliaryKey: ._definitionUri)
 		self.enteredDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .enteredDate, auxiliaryKey: ._enteredDate)
 		self.enterer = try Reference(from: _container, forKeyIfPresent: .enterer)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.factorOverride = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factorOverride, auxiliaryKey: ._factorOverride)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
@@ -300,25 +339,33 @@ open class ChargeItem: DomainResource {
 		self.status = try FHIRPrimitive<ChargeItemStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.supportingInformation = try [Reference](from: _container, forKeyIfPresent: .supportingInformation)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try bodysite?.encode(on: &_container, forKey: .bodysite)
 		try code.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try context?.encode(on: &_container, forKey: .context)
 		try costCenter?.encode(on: &_container, forKey: .costCenter)
 		try definitionCanonical?.encode(on: &_container, forKey: .definitionCanonical, auxiliaryKey: ._definitionCanonical)
 		try definitionUri?.encode(on: &_container, forKey: .definitionUri, auxiliaryKey: ._definitionUri)
 		try enteredDate?.encode(on: &_container, forKey: .enteredDate, auxiliaryKey: ._enteredDate)
 		try enterer?.encode(on: &_container, forKey: .enterer)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try factorOverride?.encode(on: &_container, forKey: .factorOverride, auxiliaryKey: ._factorOverride)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
 			switch _enum {
@@ -350,74 +397,7 @@ open class ChargeItem: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
 		try supportingInformation?.encode(on: &_container, forKey: .supportingInformation)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ChargeItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return account == _other.account
-		    && bodysite == _other.bodysite
-		    && code == _other.code
-		    && context == _other.context
-		    && costCenter == _other.costCenter
-		    && definitionCanonical == _other.definitionCanonical
-		    && definitionUri == _other.definitionUri
-		    && enteredDate == _other.enteredDate
-		    && enterer == _other.enterer
-		    && factorOverride == _other.factorOverride
-		    && identifier == _other.identifier
-		    && note == _other.note
-		    && occurrence == _other.occurrence
-		    && overrideReason == _other.overrideReason
-		    && partOf == _other.partOf
-		    && performer == _other.performer
-		    && performingOrganization == _other.performingOrganization
-		    && priceOverride == _other.priceOverride
-		    && product == _other.product
-		    && quantity == _other.quantity
-		    && reason == _other.reason
-		    && requestingOrganization == _other.requestingOrganization
-		    && service == _other.service
-		    && status == _other.status
-		    && subject == _other.subject
-		    && supportingInformation == _other.supportingInformation
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(account)
-		hasher.combine(bodysite)
-		hasher.combine(code)
-		hasher.combine(context)
-		hasher.combine(costCenter)
-		hasher.combine(definitionCanonical)
-		hasher.combine(definitionUri)
-		hasher.combine(enteredDate)
-		hasher.combine(enterer)
-		hasher.combine(factorOverride)
-		hasher.combine(identifier)
-		hasher.combine(note)
-		hasher.combine(occurrence)
-		hasher.combine(overrideReason)
-		hasher.combine(partOf)
-		hasher.combine(performer)
-		hasher.combine(performingOrganization)
-		hasher.combine(priceOverride)
-		hasher.combine(product)
-		hasher.combine(quantity)
-		hasher.combine(reason)
-		hasher.combine(requestingOrganization)
-		hasher.combine(service)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(supportingInformation)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -426,22 +406,30 @@ open class ChargeItem: DomainResource {
  
  Indicates who or what performed or participated in the charged service.
  */
-open class ChargeItemPerformer: BackboneElement {
-	
-	/// What type of performance was done
-	public var function: CodeableConcept?
+public struct ChargeItemPerformer: BackboneElement {
 	
 	/// Individual who was performing
 	public var actor: Reference
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// What type of performance was done
+	public var function: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(actor: Reference) {
 		self.actor = actor
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -459,45 +447,32 @@ open class ChargeItemPerformer: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actor
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKey: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
-		try super.init(from: decoder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ChargeItemPerformer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && function == _other.function
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

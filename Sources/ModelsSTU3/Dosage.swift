@@ -2,8 +2,8 @@
 //  Dosage.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Dosage)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Dosage)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,61 +24,43 @@ import FMCore
  
  Indicates how the medication is/was taken or should be taken by the patient.
  */
-open class Dosage: Element {
+public struct Dosage: Element {
 	
 	/// All possible types for "asNeeded[x]"
-	public enum AsNeededX: Hashable {
+	public enum AsNeededX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case codeableConcept(CodeableConcept)
 	}
 	
 	/// All possible types for "dose[x]"
-	public enum DoseX: Hashable {
+	public enum DoseX: Equatable, Hashable, Sendable {
 		case quantity(Quantity)
 		case range(Range)
 	}
 	
 	/// All possible types for "rate[x]"
-	public enum RateX: Hashable {
+	public enum RateX: Equatable, Hashable, Sendable {
 		case quantity(Quantity)
 		case range(Range)
 		case ratio(Ratio)
 	}
 	
-	/// The order of the dosage instructions
-	public var sequence: FHIRPrimitive<FHIRInteger>?
-	
-	/// Free text dosage instructions e.g. SIG
-	public var text: FHIRPrimitive<FHIRString>?
-	
 	/// Supplemental instruction - e.g. "with meals"
 	public var additionalInstruction: [CodeableConcept]?
-	
-	/// Patient or consumer oriented instructions
-	public var patientInstruction: FHIRPrimitive<FHIRString>?
-	
-	/// When medication should be administered
-	public var timing: Timing?
 	
 	/// Take "as needed" (for x)
 	/// One of `asNeeded[x]`
 	public var asNeeded: AsNeededX?
 	
-	/// Body site to administer to
-	public var site: CodeableConcept?
-	
-	/// How drug should enter body
-	public var route: CodeableConcept?
-	
-	/// Technique for administering medication
-	public var method: CodeableConcept?
-	
 	/// Amount of medication per dose
 	/// One of `dose[x]`
 	public var dose: DoseX?
 	
-	/// Upper limit on medication per unit of time
-	public var maxDosePerPeriod: Ratio?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Upper limit on medication per administration
 	public var maxDosePerAdministration: Quantity?
@@ -86,34 +68,57 @@ open class Dosage: Element {
 	/// Upper limit on medication per lifetime of the patient
 	public var maxDosePerLifetime: Quantity?
 	
+	/// Upper limit on medication per unit of time
+	public var maxDosePerPeriod: Ratio?
+	
+	/// Technique for administering medication
+	public var method: CodeableConcept?
+	
+	/// Patient or consumer oriented instructions
+	public var patientInstruction: FHIRPrimitive<FHIRString>?
+	
 	/// Amount of medication per unit of time
 	/// One of `rate[x]`
 	public var rate: RateX?
 	
+	/// How drug should enter body
+	public var route: CodeableConcept?
+	
+	/// The order of the dosage instructions
+	public var sequence: FHIRPrimitive<FHIRInteger>?
+	
+	/// Body site to administer to
+	public var site: CodeableConcept?
+	
+	/// Free text dosage instructions e.g. SIG
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// When medication should be administered
+	public var timing: Timing?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							additionalInstruction: [CodeableConcept]? = nil,
-							asNeeded: AsNeededX? = nil,
-							dose: DoseX? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							maxDosePerAdministration: Quantity? = nil,
-							maxDosePerLifetime: Quantity? = nil,
-							maxDosePerPeriod: Ratio? = nil,
-							method: CodeableConcept? = nil,
-							patientInstruction: FHIRPrimitive<FHIRString>? = nil,
-							rate: RateX? = nil,
-							route: CodeableConcept? = nil,
-							sequence: FHIRPrimitive<FHIRInteger>? = nil,
-							site: CodeableConcept? = nil,
-							text: FHIRPrimitive<FHIRString>? = nil,
-							timing: Timing? = nil)
-	{
+	public init(
+		additionalInstruction: [CodeableConcept]? = nil,
+		asNeeded: AsNeededX? = nil,
+		dose: DoseX? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		maxDosePerAdministration: Quantity? = nil,
+		maxDosePerLifetime: Quantity? = nil,
+		maxDosePerPeriod: Ratio? = nil,
+		method: CodeableConcept? = nil,
+		patientInstruction: FHIRPrimitive<FHIRString>? = nil,
+		rate: RateX? = nil,
+		route: CodeableConcept? = nil,
+		sequence: FHIRPrimitive<FHIRInteger>? = nil,
+		site: CodeableConcept? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil,
+		timing: Timing? = nil
+	) {
 		self.init()
 		self.additionalInstruction = additionalInstruction
 		self.asNeeded = asNeeded
@@ -141,6 +146,8 @@ open class Dosage: Element {
 		case asNeededCodeableConcept
 		case doseQuantity
 		case doseRange
+		case `extension` = "extension"
+		case id; case _id
 		case maxDosePerAdministration
 		case maxDosePerLifetime
 		case maxDosePerPeriod
@@ -155,12 +162,12 @@ open class Dosage: Element {
 		case text; case _text
 		case timing
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.additionalInstruction = try [CodeableConcept](from: _container, forKeyIfPresent: .additionalInstruction)
 		var _t_asNeeded: AsNeededX? = nil
 		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
@@ -190,6 +197,8 @@ open class Dosage: Element {
 			_t_dose = .quantity(doseQuantity)
 		}
 		self.dose = _t_dose
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.maxDosePerAdministration = try Quantity(from: _container, forKeyIfPresent: .maxDosePerAdministration)
 		self.maxDosePerLifetime = try Quantity(from: _container, forKeyIfPresent: .maxDosePerLifetime)
 		self.maxDosePerPeriod = try Ratio(from: _container, forKeyIfPresent: .maxDosePerPeriod)
@@ -220,14 +229,12 @@ open class Dosage: Element {
 		self.site = try CodeableConcept(from: _container, forKeyIfPresent: .site)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		self.timing = try Timing(from: _container, forKeyIfPresent: .timing)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try additionalInstruction?.encode(on: &_container, forKey: .additionalInstruction)
 		if let _enum = asNeeded {
 			switch _enum {
@@ -245,6 +252,8 @@ open class Dosage: Element {
 				try _value.encode(on: &_container, forKey: .doseQuantity)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try maxDosePerAdministration?.encode(on: &_container, forKey: .maxDosePerAdministration)
 		try maxDosePerLifetime?.encode(on: &_container, forKey: .maxDosePerLifetime)
 		try maxDosePerPeriod?.encode(on: &_container, forKey: .maxDosePerPeriod)
@@ -265,49 +274,5 @@ open class Dosage: Element {
 		try site?.encode(on: &_container, forKey: .site)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try timing?.encode(on: &_container, forKey: .timing)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Dosage else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return additionalInstruction == _other.additionalInstruction
-		    && asNeeded == _other.asNeeded
-		    && dose == _other.dose
-		    && maxDosePerAdministration == _other.maxDosePerAdministration
-		    && maxDosePerLifetime == _other.maxDosePerLifetime
-		    && maxDosePerPeriod == _other.maxDosePerPeriod
-		    && method == _other.method
-		    && patientInstruction == _other.patientInstruction
-		    && rate == _other.rate
-		    && route == _other.route
-		    && sequence == _other.sequence
-		    && site == _other.site
-		    && text == _other.text
-		    && timing == _other.timing
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(additionalInstruction)
-		hasher.combine(asNeeded)
-		hasher.combine(dose)
-		hasher.combine(maxDosePerAdministration)
-		hasher.combine(maxDosePerLifetime)
-		hasher.combine(maxDosePerPeriod)
-		hasher.combine(method)
-		hasher.combine(patientInstruction)
-		hasher.combine(rate)
-		hasher.combine(route)
-		hasher.combine(sequence)
-		hasher.combine(site)
-		hasher.combine(text)
-		hasher.combine(timing)
 	}
 }

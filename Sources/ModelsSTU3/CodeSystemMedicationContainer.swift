@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,27 +28,27 @@ import FMCore
 public enum MedicationContainer: String, FHIRPrimitiveType {
 	
 	/// A sealed glass capsule containing a liquid
-	case ampoule = "ampoule"
+	case ampoule
 	
 	/// A container, typically made of glass or plastic and with a narrow neck, used for storing liquids.
-	case bottle = "bottle"
+	case bottle
 	
 	/// A container with a flat base and sides, typically square or rectangular and having a lid.
-	case box = "box"
+	case box
 	
 	/// A device of various configuration and composition used with a syringe for the application of anesthetic or other
 	/// materials to a patient.
-	case cartridge = "cartridge"
+	case cartridge
 	
 	/// A package intended to store pharmaceuticals.
-	case container = "container"
+	case container
 	
 	/// A long, hollow cylinder of metal, plastic, glass, etc., for holding medications, typically creams or ointments
-	case tube = "tube"
+	case tube
 	
 	/// A dose of medicine prepared in an individual package for convenience, safety or monitoring.
-	case unitdose = "unitdose"
+	case unitdose
 	
 	/// A small container, typically cylindrical and made of glass, used especially for holding liquid medications.
-	case vial = "vial"
+	case vial
 }

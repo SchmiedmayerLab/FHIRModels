@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/Coverage)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,82 +24,105 @@ import FMCore
  
  Financial instrument which may be used to pay for or reimburse health care products and services.
  */
-open class Coverage: DomainResource {
+public struct Coverage: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .coverage }
-	
-	/// An identifier for the plan issuer
-	public var issuer: Reference?
+	public static let resourceType: ResourceType = .coverage
 	
 	/// BIN Number
 	public var bin: Identifier?
 	
-	/// Coverage start and end dates
-	public var period: Period?
-	
-	/// Type of coverage
-	public var type: Coding?
-	
-	/// Subscriber ID
-	public var subscriberId: Identifier?
-	
-	/// The primary coverage ID
-	public var identifier: [Identifier]?
-	
-	/// An identifier for the group
-	public var group: FHIRPrimitive<FHIRString>?
-	
-	/// An identifier for the plan
-	public var plan: FHIRPrimitive<FHIRString>?
-	
-	/// An identifier for the subsection of the plan
-	public var subPlan: FHIRPrimitive<FHIRString>?
-	
-	/// The dependent number
-	public var dependent: FHIRPrimitive<FHIRPositiveInteger>?
-	
-	/// The plan instance or sequence counter
-	public var sequence: FHIRPrimitive<FHIRPositiveInteger>?
-	
-	/// Plan holder information
-	public var subscriber: Reference?
-	
-	/// Insurer network
-	public var network: Identifier?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Contract details
 	public var contract: [Reference]?
 	
+	/// The dependent number
+	public var dependent: FHIRPrimitive<FHIRPositiveInteger>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// An identifier for the group
+	public var group: FHIRPrimitive<FHIRString>?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The primary coverage ID
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// An identifier for the plan issuer
+	public var issuer: Reference?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Insurer network
+	public var network: Identifier?
+	
+	/// Coverage start and end dates
+	public var period: Period?
+	
+	/// An identifier for the plan
+	public var plan: FHIRPrimitive<FHIRString>?
+	
+	/// The plan instance or sequence counter
+	public var sequence: FHIRPrimitive<FHIRPositiveInteger>?
+	
+	/// An identifier for the subsection of the plan
+	public var subPlan: FHIRPrimitive<FHIRString>?
+	
+	/// Plan holder information
+	public var subscriber: Reference?
+	
+	/// Subscriber ID
+	public var subscriberId: Identifier?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Type of coverage
+	public var type: Coding?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							bin: Identifier? = nil,
-							contained: [ResourceProxy]? = nil,
-							contract: [Reference]? = nil,
-							dependent: FHIRPrimitive<FHIRPositiveInteger>? = nil,
-							`extension`: [Extension]? = nil,
-							group: FHIRPrimitive<FHIRString>? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							issuer: Reference? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							network: Identifier? = nil,
-							period: Period? = nil,
-							plan: FHIRPrimitive<FHIRString>? = nil,
-							sequence: FHIRPrimitive<FHIRPositiveInteger>? = nil,
-							subPlan: FHIRPrimitive<FHIRString>? = nil,
-							subscriber: Reference? = nil,
-							subscriberId: Identifier? = nil,
-							text: Narrative? = nil,
-							type: Coding? = nil)
-	{
+	public init(
+		bin: Identifier? = nil,
+		contained: [ResourceProxy]? = nil,
+		contract: [Reference]? = nil,
+		dependent: FHIRPrimitive<FHIRPositiveInteger>? = nil,
+		`extension`: [Extension]? = nil,
+		group: FHIRPrimitive<FHIRString>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		issuer: Reference? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		network: Identifier? = nil,
+		period: Period? = nil,
+		plan: FHIRPrimitive<FHIRString>? = nil,
+		sequence: FHIRPrimitive<FHIRPositiveInteger>? = nil,
+		subPlan: FHIRPrimitive<FHIRString>? = nil,
+		subscriber: Reference? = nil,
+		subscriberId: Identifier? = nil,
+		text: Narrative? = nil,
+		type: Coding? = nil
+	) {
 		self.init()
 		self.bin = bin
 		self.contained = contained
@@ -128,12 +151,20 @@ open class Coverage: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case bin
+		case contained
 		case contract
 		case dependent; case _dependent
+		case `extension` = "extension"
 		case group; case _group
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case issuer
+		case language; case _language
+		case meta
+		case modifierExtension
 		case network
 		case period
 		case plan; case _plan
@@ -141,20 +172,28 @@ open class Coverage: DomainResource {
 		case subPlan; case _subPlan
 		case subscriber
 		case subscriberId
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.bin = try Identifier(from: _container, forKeyIfPresent: .bin)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.contract = try [Reference](from: _container, forKeyIfPresent: .contract)
 		self.dependent = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .dependent, auxiliaryKey: ._dependent)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.group = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .group, auxiliaryKey: ._group)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.issuer = try Reference(from: _container, forKeyIfPresent: .issuer)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.network = try Identifier(from: _container, forKeyIfPresent: .network)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.plan = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .plan, auxiliaryKey: ._plan)
@@ -162,21 +201,29 @@ open class Coverage: DomainResource {
 		self.subPlan = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .subPlan, auxiliaryKey: ._subPlan)
 		self.subscriber = try Reference(from: _container, forKeyIfPresent: .subscriber)
 		self.subscriberId = try Identifier(from: _container, forKeyIfPresent: .subscriberId)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try Coding(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try bin?.encode(on: &_container, forKey: .bin)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try contract?.encode(on: &_container, forKey: .contract)
 		try dependent?.encode(on: &_container, forKey: .dependent, auxiliaryKey: ._dependent)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try group?.encode(on: &_container, forKey: .group, auxiliaryKey: ._group)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try issuer?.encode(on: &_container, forKey: .issuer)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try network?.encode(on: &_container, forKey: .network)
 		try period?.encode(on: &_container, forKey: .period)
 		try plan?.encode(on: &_container, forKey: .plan, auxiliaryKey: ._plan)
@@ -184,50 +231,7 @@ open class Coverage: DomainResource {
 		try subPlan?.encode(on: &_container, forKey: .subPlan, auxiliaryKey: ._subPlan)
 		try subscriber?.encode(on: &_container, forKey: .subscriber)
 		try subscriberId?.encode(on: &_container, forKey: .subscriberId)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Coverage else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return bin == _other.bin
-		    && contract == _other.contract
-		    && dependent == _other.dependent
-		    && group == _other.group
-		    && identifier == _other.identifier
-		    && issuer == _other.issuer
-		    && network == _other.network
-		    && period == _other.period
-		    && plan == _other.plan
-		    && sequence == _other.sequence
-		    && subPlan == _other.subPlan
-		    && subscriber == _other.subscriber
-		    && subscriberId == _other.subscriberId
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(bin)
-		hasher.combine(contract)
-		hasher.combine(dependent)
-		hasher.combine(group)
-		hasher.combine(identifier)
-		hasher.combine(issuer)
-		hasher.combine(network)
-		hasher.combine(period)
-		hasher.combine(plan)
-		hasher.combine(sequence)
-		hasher.combine(subPlan)
-		hasher.combine(subscriber)
-		hasher.combine(subscriberId)
-		hasher.combine(type)
 	}
 }

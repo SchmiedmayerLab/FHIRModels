@@ -2,8 +2,8 @@
 //  RegulatedAuthorization.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/RegulatedAuthorization)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,34 +27,40 @@ import FMCore
  cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal
  Product.
  */
-open class RegulatedAuthorization: DomainResource {
+public struct RegulatedAuthorization: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .regulatedAuthorization }
+	public static let resourceType: ResourceType = .regulatedAuthorization
 	
-	/// Business identifier for the authorization, typically assigned by the authorizing body
-	public var identifier: [Identifier]?
+	/// Additional information or supporting documentation about the authorization
+	public var attachedDocument: [Reference]?
 	
-	/// The product type, treatment, facility or activity that is being authorized
-	public var subject: [Reference]?
+	/// The legal/regulatory framework or reasons under which this authorization is granted
+	public var basis: [CodeableConcept]?
 	
-	/// Overall type of this authorization, for example drug marketing approval, orphan drug designation
-	public var type: CodeableConcept?
+	/// The case or regulatory procedure for granting or amending a regulated authorization. Note: This area is subject
+	/// to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)
+	public var `case`: RegulatedAuthorizationCase?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// General textual supporting information
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// The territory in which the authorization has been granted
-	public var region: [CodeableConcept]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications
-	public var status: CodeableConcept?
+	/// The organization that has been granted this authorization, by the regulator
+	public var holder: Reference?
 	
-	/// The date at which the current status was assigned
-	public var statusDate: FHIRPrimitive<DateTime>?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// The time period in which the regulatory approval etc. is in effect, e.g. a Marketing Authorization includes the
-	/// date of authorization and/or expiration date
-	public var validityPeriod: Period?
+	/// Business identifier for the authorization, typically assigned by the authorizing body
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Condition for which the use of the regulated product applies
 	public var indication: [CodeableReference]?
@@ -62,29 +68,46 @@ open class RegulatedAuthorization: DomainResource {
 	/// The intended use of the product, e.g. prevention, treatment
 	public var intendedUse: CodeableConcept?
 	
-	/// The legal/regulatory framework or reasons under which this authorization is granted
-	public var basis: [CodeableConcept]?
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
 	
-	/// The organization that has been granted this authorization, by the regulator
-	public var holder: Reference?
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The territory in which the authorization has been granted
+	public var region: [CodeableConcept]?
 	
 	/// The regulatory authority or authorizing body granting the authorization
 	public var regulator: Reference?
 	
-	/// Additional information or supporting documentation about the authorization
-	public var attachedDocument: [Reference]?
+	/// The status that is authorised e.g. approved. Intermediate states can be tracked with cases and applications
+	public var status: CodeableConcept?
 	
-	/// The case or regulatory procedure for granting or amending a regulated authorization. Note: This area is subject
-	/// to ongoing review and the workgroup is seeking implementer feedback on its use (see link at bottom of page)
-	public var `case`: RegulatedAuthorizationCase?
+	/// The date at which the current status was assigned
+	public var statusDate: FHIRPrimitive<DateTime>?
+	
+	/// The product type, treatment, facility or activity that is being authorized
+	public var subject: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Overall type of this authorization, for example drug marketing approval, orphan drug designation
+	public var type: CodeableConcept?
+	
+	/// The time period in which the regulatory approval etc. is in effect, e.g. a Marketing Authorization includes the
+	/// date of authorization and/or expiration date
+	public var validityPeriod: Period?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		attachedDocument: [Reference]? = nil,
 		basis: [CodeableConcept]? = nil,
 		`case`: RegulatedAuthorizationCase? = nil,
@@ -138,112 +161,91 @@ open class RegulatedAuthorization: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case attachedDocument
 		case basis
 		case `case` = "case"
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
 		case holder
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case indication
 		case intendedUse
+		case language; case _language
+		case meta
+		case modifierExtension
 		case region
 		case regulator
 		case status
 		case statusDate; case _statusDate
 		case subject
+		case text
 		case type
 		case validityPeriod
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.attachedDocument = try [Reference](from: _container, forKeyIfPresent: .attachedDocument)
 		self.basis = try [CodeableConcept](from: _container, forKeyIfPresent: .basis)
 		self.`case` = try RegulatedAuthorizationCase(from: _container, forKeyIfPresent: .`case`)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.holder = try Reference(from: _container, forKeyIfPresent: .holder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.indication = try [CodeableReference](from: _container, forKeyIfPresent: .indication)
 		self.intendedUse = try CodeableConcept(from: _container, forKeyIfPresent: .intendedUse)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.region = try [CodeableConcept](from: _container, forKeyIfPresent: .region)
 		self.regulator = try Reference(from: _container, forKeyIfPresent: .regulator)
 		self.status = try CodeableConcept(from: _container, forKeyIfPresent: .status)
 		self.statusDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .statusDate, auxiliaryKey: ._statusDate)
 		self.subject = try [Reference](from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.validityPeriod = try Period(from: _container, forKeyIfPresent: .validityPeriod)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try attachedDocument?.encode(on: &_container, forKey: .attachedDocument)
 		try basis?.encode(on: &_container, forKey: .basis)
 		try `case`?.encode(on: &_container, forKey: .`case`)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try holder?.encode(on: &_container, forKey: .holder)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try indication?.encode(on: &_container, forKey: .indication)
 		try intendedUse?.encode(on: &_container, forKey: .intendedUse)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try region?.encode(on: &_container, forKey: .region)
 		try regulator?.encode(on: &_container, forKey: .regulator)
 		try status?.encode(on: &_container, forKey: .status)
 		try statusDate?.encode(on: &_container, forKey: .statusDate, auxiliaryKey: ._statusDate)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
 		try validityPeriod?.encode(on: &_container, forKey: .validityPeriod)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RegulatedAuthorization else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return attachedDocument == _other.attachedDocument
-		    && basis == _other.basis
-		    && `case` == _other.`case`
-		    && description_fhir == _other.description_fhir
-		    && holder == _other.holder
-		    && identifier == _other.identifier
-		    && indication == _other.indication
-		    && intendedUse == _other.intendedUse
-		    && region == _other.region
-		    && regulator == _other.regulator
-		    && status == _other.status
-		    && statusDate == _other.statusDate
-		    && subject == _other.subject
-		    && type == _other.type
-		    && validityPeriod == _other.validityPeriod
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(attachedDocument)
-		hasher.combine(basis)
-		hasher.combine(`case`)
-		hasher.combine(description_fhir)
-		hasher.combine(holder)
-		hasher.combine(identifier)
-		hasher.combine(indication)
-		hasher.combine(intendedUse)
-		hasher.combine(region)
-		hasher.combine(regulator)
-		hasher.combine(status)
-		hasher.combine(statusDate)
-		hasher.combine(subject)
-		hasher.combine(type)
-		hasher.combine(validityPeriod)
 	}
 }
 
@@ -256,37 +258,45 @@ open class RegulatedAuthorization: DomainResource {
  with the application(s) that relate to this and assesses them. Note: This area is subject to ongoing review and the
  workgroup is seeking implementer feedback on its use (see link at bottom of page).
  */
-open class RegulatedAuthorizationCase: BackboneElement {
+public struct RegulatedAuthorizationCase: BackboneElement {
 	
 	/// All possible types for "date[x]"
-	public enum DateX: Hashable {
+	public enum DateX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
 	
-	/// Identifier by which this case can be referenced
-	public var identifier: Identifier?
-	
-	/// The defining type of case
-	public var type: CodeableConcept?
-	
-	/// The status associated with the case
-	public var status: CodeableConcept?
+	/// Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure
+	public var application: [RegulatedAuthorizationCase]?
 	
 	/// Relevant date for this case
 	/// One of `date[x]`
 	public var date: DateX?
 	
-	/// Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure
-	public var application: [RegulatedAuthorizationCase]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifier by which this case can be referenced
+	public var identifier: Identifier?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The status associated with the case
+	public var status: CodeableConcept?
+	
+	/// The defining type of case
+	public var type: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		application: [RegulatedAuthorizationCase]? = nil,
 		date: DateX? = nil,
 		`extension`: [Extension]? = nil,
@@ -313,16 +323,19 @@ open class RegulatedAuthorizationCase: BackboneElement {
 		case application
 		case dateDateTime; case _dateDateTime
 		case datePeriod
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case status
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.application = try [RegulatedAuthorizationCase](from: _container, forKeyIfPresent: .application)
 		var _t_date: DateX? = nil
 		if let datePeriod = try Period(from: _container, forKeyIfPresent: .datePeriod) {
@@ -338,17 +351,18 @@ open class RegulatedAuthorizationCase: BackboneElement {
 			_t_date = .dateTime(dateDateTime)
 		}
 		self.date = _t_date
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.status = try CodeableConcept(from: _container, forKeyIfPresent: .status)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try application?.encode(on: &_container, forKey: .application)
 		if let _enum = date {
 			switch _enum {
@@ -358,34 +372,11 @@ open class RegulatedAuthorizationCase: BackboneElement {
 				try _value.encode(on: &_container, forKey: .dateDateTime, auxiliaryKey: ._dateDateTime)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try status?.encode(on: &_container, forKey: .status)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RegulatedAuthorizationCase else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return application == _other.application
-		    && date == _other.date
-		    && identifier == _other.identifier
-		    && status == _other.status
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(application)
-		hasher.combine(date)
-		hasher.combine(identifier)
-		hasher.combine(status)
-		hasher.combine(type)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@ public enum LocationStatus: String, FHIRPrimitiveType {
 	/// The location is operational.
 	case active
 	
-	/// The location is temporarily closed.
-	case suspended
-	
 	/// The location is no longer used.
 	case inactive
+	
+	/// The location is temporarily closed.
+	case suspended
 }

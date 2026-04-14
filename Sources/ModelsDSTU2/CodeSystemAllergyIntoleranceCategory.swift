@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum AllergyIntoleranceCategory: String, FHIRPrimitiveType {
 	
+	/// Substances that are encountered in the environment.
+	case environment
+	
 	/// Any substance consumed to provide nutritional support for the body.
-	case food = "food"
+	case food
 	
 	/// Substances administered to achieve a physiological effect.
-	case medication = "medication"
-	
-	/// Substances that are encountered in the environment.
-	case environment = "environment"
+	case medication
 	
 	/// Other substances that are not covered by any other category.
-	case other = "other"
+	case other
 }

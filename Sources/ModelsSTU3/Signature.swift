@@ -2,8 +2,8 @@
 //  Signature.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Signature)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Signature)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,19 +26,35 @@ import FMCore
  graphical image representing a hand-written signature, or a signature process. Different signature approaches have
  different utilities.
  */
-open class Signature: Element {
+public struct Signature: Element {
 	
 	/// All possible types for "onBehalfOf[x]"
-	public enum OnBehalfOfX: Hashable {
+	public enum OnBehalfOfX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "who[x]"
-	public enum WhoX: Hashable {
+	public enum WhoX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// The actual signature content (XML DigSig. JWT, picture, etc.)
+	public var blob: FHIRPrimitive<Base64Binary>?
+	
+	/// The technical format of the signature
+	public var contentType: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The party represented
+	/// One of `onBehalfOf[x]`
+	public var onBehalfOf: OnBehalfOfX?
 	
 	/// Indication of the reason the entity signed the object(s)
 	public var type: [Coding]
@@ -50,35 +66,24 @@ open class Signature: Element {
 	/// One of `who[x]`
 	public var who: WhoX
 	
-	/// The party represented
-	/// One of `onBehalfOf[x]`
-	public var onBehalfOf: OnBehalfOfX?
-	
-	/// The technical format of the signature
-	public var contentType: FHIRPrimitive<FHIRString>?
-	
-	/// The actual signature content (XML DigSig. JWT, picture, etc.)
-	public var blob: FHIRPrimitive<Base64Binary>?
-	
 	/// Designated initializer taking all required properties
 	public init(type: [Coding], when: FHIRPrimitive<Instant>, who: WhoX) {
 		self.type = type
 		self.when = when
 		self.who = who
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							blob: FHIRPrimitive<Base64Binary>? = nil,
-							contentType: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							onBehalfOf: OnBehalfOfX? = nil,
-							type: [Coding],
-							when: FHIRPrimitive<Instant>,
-							who: WhoX)
-	{
+	public init(
+		blob: FHIRPrimitive<Base64Binary>? = nil,
+		contentType: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		onBehalfOf: OnBehalfOfX? = nil,
+		type: [Coding],
+		when: FHIRPrimitive<Instant>,
+		who: WhoX
+	) {
 		self.init(type: type, when: when, who: who)
 		self.blob = blob
 		self.contentType = contentType
@@ -92,6 +97,8 @@ open class Signature: Element {
 	private enum CodingKeys: String, CodingKey {
 		case blob; case _blob
 		case contentType; case _contentType
+		case `extension` = "extension"
+		case id; case _id
 		case onBehalfOfReference
 		case onBehalfOfUri; case _onBehalfOfUri
 		case type
@@ -99,9 +106,9 @@ open class Signature: Element {
 		case whoReference
 		case whoUri; case _whoUri
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -109,9 +116,11 @@ open class Signature: Element {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whoReference, CodingKeys.whoUri], debugDescription: "Must have at least one value for \"who\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.blob = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .blob, auxiliaryKey: ._blob)
 		self.contentType = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .contentType, auxiliaryKey: ._contentType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_onBehalfOf: OnBehalfOfX? = nil
 		if let onBehalfOfUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri) {
 			if _t_onBehalfOf != nil {
@@ -142,16 +151,16 @@ open class Signature: Element {
 			_t_who = .reference(whoReference)
 		}
 		self.who = _t_who!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try blob?.encode(on: &_container, forKey: .blob, auxiliaryKey: ._blob)
 		try contentType?.encode(on: &_container, forKey: .contentType, auxiliaryKey: ._contentType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		if let _enum = onBehalfOf {
 			switch _enum {
 			case .uri(let _value):
@@ -170,33 +179,5 @@ open class Signature: Element {
 				try _value.encode(on: &_container, forKey: .whoReference)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Signature else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return blob == _other.blob
-		    && contentType == _other.contentType
-		    && onBehalfOf == _other.onBehalfOf
-		    && type == _other.type
-		    && when == _other.when
-		    && who == _other.who
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(blob)
-		hasher.combine(contentType)
-		hasher.combine(onBehalfOf)
-		hasher.combine(type)
-		hasher.combine(when)
-		hasher.combine(who)
 	}
 }

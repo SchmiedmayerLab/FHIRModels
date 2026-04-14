@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,27 +28,27 @@ import FMCore
 public enum MediaSubType: String, FHIRPrimitiveType {
 	
 	/// A diagram. Often used in diagnostic reports
-	case diagram = "diagram"
+	case diagram
+	
+	/// A face scan used for identification purposes
+	case face
 	
 	/// A digital record of a fax document
-	case fax = "fax"
+	case fax
+	
+	/// A finger print scan used for identification purposes
+	case fingerprint
+	
+	/// An iris scan used for identification purposes
+	case iris
+	
+	/// A palm scan used for identification purposes
+	case palm
+	
+	/// A retinal image used for identification purposes
+	case retina
 	
 	/// A digital scan of a document. This is reserved for when there is not enough metadata to create a document
 	/// reference
-	case scan = "scan"
-	
-	/// A retinal image used for identification purposes
-	case retina = "retina"
-	
-	/// A finger print scan used for identification purposes
-	case fingerprint = "fingerprint"
-	
-	/// An iris scan used for identification purposes
-	case iris = "iris"
-	
-	/// A palm scan used for identification purposes
-	case palm = "palm"
-	
-	/// A face scan used for identification purposes
-	case face = "face"
+	case scan
 }

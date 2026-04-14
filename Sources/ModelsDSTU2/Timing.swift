@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/Timing)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,30 +26,35 @@ import FMCore
  requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning
  care of various kinds.
  */
-open class Timing: Element {
-	
-	/// When the event occurs
-	public var event: [FHIRPrimitive<DateTime>]?
-	
-	/// When the event is to occur
-	public var `repeat`: TimingRepeat?
+public struct Timing: Element {
 	
 	/// QD | QOD | Q4H | Q6H | BID | TID | QID | AM | PM +
 	public var code: CodeableConcept?
 	
+	/// When the event occurs
+	public var event: [FHIRPrimitive<DateTime>]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// When the event is to occur
+	public var `repeat`: TimingRepeat?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							code: CodeableConcept? = nil,
-							event: [FHIRPrimitive<DateTime>]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							`repeat`: TimingRepeat? = nil)
-	{
+	public init(
+		code: CodeableConcept? = nil,
+		event: [FHIRPrimitive<DateTime>]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		`repeat`: TimingRepeat? = nil
+	) {
 		self.init()
 		self.code = code
 		self.event = event
@@ -63,50 +68,32 @@ open class Timing: Element {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case event; case _event
+		case `extension` = "extension"
+		case id; case _id
 		case `repeat` = "repeat"
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.event = try [FHIRPrimitive<DateTime>](from: _container, forKeyIfPresent: .event, auxiliaryKey: ._event)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.`repeat` = try TimingRepeat(from: _container, forKeyIfPresent: .`repeat`)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try event?.encode(on: &_container, forKey: .event, auxiliaryKey: ._event)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try `repeat`?.encode(on: &_container, forKey: .`repeat`)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Timing else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && event == _other.event
-		    && `repeat` == _other.`repeat`
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(event)
-		hasher.combine(`repeat`)
 	}
 }
 
@@ -115,10 +102,10 @@ open class Timing: Element {
  
  A set of rules that describe when the event should occur.
  */
-open class TimingRepeat: Element {
+public struct TimingRepeat: Element {
 	
 	/// All possible types for "bounds[x]"
-	public enum BoundsX: Hashable {
+	public enum BoundsX: Equatable, Hashable, Sendable {
 		case period(Period)
 		case quantity(Quantity)
 		case range(Range)
@@ -140,11 +127,17 @@ open class TimingRepeat: Element {
 	/// s | min | h | d | wk | mo | a - unit of time (UCUM)
 	public var durationUnits: FHIRPrimitive<FHIRString>?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
 	/// Event occurs frequency times per period
 	public var frequency: FHIRPrimitive<FHIRInteger>?
 	
 	/// Event occurs up to frequencyMax times per period
 	public var frequencyMax: FHIRPrimitive<FHIRInteger>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Event occurs frequency times per period
 	public var period: FHIRPrimitive<FHIRDecimal>?
@@ -159,26 +152,25 @@ open class TimingRepeat: Element {
 	public var when: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							bounds: BoundsX? = nil,
-							count: FHIRPrimitive<FHIRInteger>? = nil,
-							duration: FHIRPrimitive<FHIRDecimal>? = nil,
-							durationMax: FHIRPrimitive<FHIRDecimal>? = nil,
-							durationUnits: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							frequency: FHIRPrimitive<FHIRInteger>? = nil,
-							frequencyMax: FHIRPrimitive<FHIRInteger>? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							period: FHIRPrimitive<FHIRDecimal>? = nil,
-							periodMax: FHIRPrimitive<FHIRDecimal>? = nil,
-							periodUnits: FHIRPrimitive<FHIRString>? = nil,
-							when: FHIRPrimitive<FHIRString>? = nil)
-	{
+	public init(
+		bounds: BoundsX? = nil,
+		count: FHIRPrimitive<FHIRInteger>? = nil,
+		duration: FHIRPrimitive<FHIRDecimal>? = nil,
+		durationMax: FHIRPrimitive<FHIRDecimal>? = nil,
+		durationUnits: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		frequency: FHIRPrimitive<FHIRInteger>? = nil,
+		frequencyMax: FHIRPrimitive<FHIRInteger>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		period: FHIRPrimitive<FHIRDecimal>? = nil,
+		periodMax: FHIRPrimitive<FHIRDecimal>? = nil,
+		periodUnits: FHIRPrimitive<FHIRString>? = nil,
+		when: FHIRPrimitive<FHIRString>? = nil
+	) {
 		self.init()
 		self.bounds = bounds
 		self.count = count
@@ -205,19 +197,21 @@ open class TimingRepeat: Element {
 		case duration; case _duration
 		case durationMax; case _durationMax
 		case durationUnits; case _durationUnits
+		case `extension` = "extension"
 		case frequency; case _frequency
 		case frequencyMax; case _frequencyMax
+		case id; case _id
 		case period; case _period
 		case periodMax; case _periodMax
 		case periodUnits; case _periodUnits
 		case when; case _when
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_bounds: BoundsX? = nil
 		if let boundsQuantity = try Quantity(from: _container, forKeyIfPresent: .boundsQuantity) {
 			if _t_bounds != nil {
@@ -242,20 +236,20 @@ open class TimingRepeat: Element {
 		self.duration = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .duration, auxiliaryKey: ._duration)
 		self.durationMax = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .durationMax, auxiliaryKey: ._durationMax)
 		self.durationUnits = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .durationUnits, auxiliaryKey: ._durationUnits)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.frequency = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .frequency, auxiliaryKey: ._frequency)
 		self.frequencyMax = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .frequencyMax, auxiliaryKey: ._frequencyMax)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.period = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .period, auxiliaryKey: ._period)
 		self.periodMax = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .periodMax, auxiliaryKey: ._periodMax)
 		self.periodUnits = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .periodUnits, auxiliaryKey: ._periodUnits)
 		self.when = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .when, auxiliaryKey: ._when)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = bounds {
 			switch _enum {
 			case .quantity(let _value):
@@ -270,49 +264,13 @@ open class TimingRepeat: Element {
 		try duration?.encode(on: &_container, forKey: .duration, auxiliaryKey: ._duration)
 		try durationMax?.encode(on: &_container, forKey: .durationMax, auxiliaryKey: ._durationMax)
 		try durationUnits?.encode(on: &_container, forKey: .durationUnits, auxiliaryKey: ._durationUnits)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try frequency?.encode(on: &_container, forKey: .frequency, auxiliaryKey: ._frequency)
 		try frequencyMax?.encode(on: &_container, forKey: .frequencyMax, auxiliaryKey: ._frequencyMax)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try period?.encode(on: &_container, forKey: .period, auxiliaryKey: ._period)
 		try periodMax?.encode(on: &_container, forKey: .periodMax, auxiliaryKey: ._periodMax)
 		try periodUnits?.encode(on: &_container, forKey: .periodUnits, auxiliaryKey: ._periodUnits)
 		try when?.encode(on: &_container, forKey: .when, auxiliaryKey: ._when)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TimingRepeat else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return bounds == _other.bounds
-		    && count == _other.count
-		    && duration == _other.duration
-		    && durationMax == _other.durationMax
-		    && durationUnits == _other.durationUnits
-		    && frequency == _other.frequency
-		    && frequencyMax == _other.frequencyMax
-		    && period == _other.period
-		    && periodMax == _other.periodMax
-		    && periodUnits == _other.periodUnits
-		    && when == _other.when
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(bounds)
-		hasher.combine(count)
-		hasher.combine(duration)
-		hasher.combine(durationMax)
-		hasher.combine(durationUnits)
-		hasher.combine(frequency)
-		hasher.combine(frequencyMax)
-		hasher.combine(period)
-		hasher.combine(periodMax)
-		hasher.combine(periodUnits)
-		hasher.combine(when)
 	}
 }

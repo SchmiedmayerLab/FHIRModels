@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import FMCore
  */
 public enum MediaType: String, FHIRPrimitiveType {
 	
+	/// The media consists of a sound recording
+	case audio
+	
 	/// The media consists of one or more unmoving images, including photographs, computer-generated graphs and charts,
 	/// and scanned documents
 	case image
 	
 	/// The media consists of a series of frames that capture a moving image
 	case video
-	
-	/// The media consists of a sound recording
-	case audio
 }

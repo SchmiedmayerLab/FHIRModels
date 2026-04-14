@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum ExampleRelatedClaimRelationshipCodes: String, FHIRPrimitiveType {
 	
-	/// A prior claim instance for the same intended suite of services.
-	case prior
-	
 	/// A claim for a different suite of services which is related the suite claimed here.
 	case associated
+	
+	/// A prior claim instance for the same intended suite of services.
+	case prior
 }

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,27 +27,27 @@ import FMCore
  */
 public enum DeviceSpecificationSpecType: String, FHIRPrimitiveType {
 	
-	/// Unspecified Production Specification - MDC_ID_PROD_SPEC_UNSPECIFIED
-	case unspecified = "unspecified"
+	/// Firmware Revision - MDC_ID_PROD_SPEC_FW
+	case firmwareRevision = "firmware-revision"
 	
-	/// Serial Number - MDC_ID_PROD_SPEC_SERIAL
-	case serialNumber = "serial-number"
-	
-	/// Part Number - MDC_ID_PROD_SPEC_PART
-	case partNumber = "part-number"
+	/// GMDN - MDC_ID_PROD_SPEC_GMDN
+	case gmdn
 	
 	/// Hardware Revision - MDC_ID_PROD_SPEC_HW
 	case hardwareRevision = "hardware-revision"
 	
-	/// Software Revision - MDC_ID_PROD_SPEC_SW
-	case softwareRevision = "software-revision"
-	
-	/// Firmware Revision - MDC_ID_PROD_SPEC_FW
-	case firmwareRevision = "firmware-revision"
+	/// Part Number - MDC_ID_PROD_SPEC_PART
+	case partNumber = "part-number"
 	
 	/// Protocol Revision - MDC_ID_PROD_SPEC_PROTOCOL
 	case protocolRevision = "protocol-revision"
 	
-	/// GMDN - MDC_ID_PROD_SPEC_GMDN
-	case gmdn = "gmdn"
+	/// Serial Number - MDC_ID_PROD_SPEC_SERIAL
+	case serialNumber = "serial-number"
+	
+	/// Software Revision - MDC_ID_PROD_SPEC_SW
+	case softwareRevision = "software-revision"
+	
+	/// Unspecified Production Specification - MDC_ID_PROD_SPEC_UNSPECIFIED
+	case unspecified
 }

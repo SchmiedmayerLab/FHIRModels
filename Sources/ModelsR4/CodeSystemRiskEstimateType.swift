@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,12 +28,14 @@ import FMCore
  */
 public enum RiskEstimateType: String, FHIRPrimitiveType {
 	
-	/// dichotomous measure (present or absent) reported as a ratio compared to the denominator of 1 (A percentage is a
-	/// proportion with denominator of 100).
-	case proportion
+	/// descriptive measure reported as total number of items.
+	case count
 	
 	/// A special use case where the proportion is derived from a formula rather than derived from summary evidence.
 	case derivedProportion
+	
+	/// descriptive measure reported as narrative.
+	case descriptive
 	
 	/// continuous numerical measure reported as an average.
 	case mean
@@ -41,9 +43,7 @@ public enum RiskEstimateType: String, FHIRPrimitiveType {
 	/// continuous numerical measure reported as the middle of the range.
 	case median
 	
-	/// descriptive measure reported as total number of items.
-	case count
-	
-	/// descriptive measure reported as narrative.
-	case descriptive
+	/// dichotomous measure (present or absent) reported as a ratio compared to the denominator of 1 (A percentage is a
+	/// proportion with denominator of 100).
+	case proportion
 }

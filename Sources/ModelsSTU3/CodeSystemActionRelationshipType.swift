@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import FMCore
  */
 public enum ActionRelationshipType: String, FHIRPrimitiveType {
 	
-	/// The action must be performed before the start of the related action
-	case beforeStart = "before-start"
+	/// The action must be performed after the related action
+	case after
 	
-	/// The action must be performed before the related action
-	case before = "before"
-	
-	/// The action must be performed before the end of the related action
-	case beforeEnd = "before-end"
-	
-	/// The action must be performed concurrent with the start of the related action
-	case concurrentWithStart = "concurrent-with-start"
-	
-	/// The action must be performed concurrent with the related action
-	case concurrent = "concurrent"
-	
-	/// The action must be performed concurrent with the end of the related action
-	case concurrentWithEnd = "concurrent-with-end"
+	/// The action must be performed after the end of the related action
+	case afterEnd = "after-end"
 	
 	/// The action must be performed after the start of the related action
 	case afterStart = "after-start"
 	
-	/// The action must be performed after the related action
-	case after = "after"
+	/// The action must be performed before the related action
+	case before
 	
-	/// The action must be performed after the end of the related action
-	case afterEnd = "after-end"
+	/// The action must be performed before the end of the related action
+	case beforeEnd = "before-end"
+	
+	/// The action must be performed before the start of the related action
+	case beforeStart = "before-start"
+	
+	/// The action must be performed concurrent with the related action
+	case concurrent
+	
+	/// The action must be performed concurrent with the end of the related action
+	case concurrentWithEnd = "concurrent-with-end"
+	
+	/// The action must be performed concurrent with the start of the related action
+	case concurrentWithStart = "concurrent-with-start"
 }

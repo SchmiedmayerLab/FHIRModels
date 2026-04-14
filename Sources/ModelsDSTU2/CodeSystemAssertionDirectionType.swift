@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,9 +29,9 @@ import FMCore
  */
 public enum AssertionDirectionType: String, FHIRPrimitiveType {
 	
-	/// The assertion is evaluated on the response. This is the default value.
-	case response = "response"
-	
 	/// The assertion is evaluated on the request.
-	case request = "request"
+	case request
+	
+	/// The assertion is evaluated on the response. This is the default value.
+	case response
 }

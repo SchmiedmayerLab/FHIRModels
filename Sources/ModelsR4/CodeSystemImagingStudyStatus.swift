@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,6 @@ import FMCore
  */
 public enum ImagingStudyStatus: String, FHIRPrimitiveType {
 	
-	/// The existence of the imaging study is registered, but there is nothing yet available.
-	case registered
-	
 	/// At least one instance has been associated with this imaging study.
 	case available
 	
@@ -41,6 +38,9 @@ public enum ImagingStudyStatus: String, FHIRPrimitiveType {
 	/// have existed, though it is possible that real-world decisions were based on it. (If real-world activity has
 	/// occurred, the status should be "cancelled" rather than "entered-in-error".).
 	case enteredInError = "entered-in-error"
+	
+	/// The existence of the imaging study is registered, but there is nothing yet available.
+	case registered
 	
 	/// The system does not know which of the status values currently applies for this request. Note: This concept is
 	/// not to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.

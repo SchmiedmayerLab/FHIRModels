@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/StructureDefinition)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,37 +25,37 @@ import FMCore
  A definition of a FHIR structure. This resource is used to describe the underlying resources, data types defined in
  FHIR, and also for describing extensions, and constraints on resources and data types.
  */
-open class StructureDefinition: DomainResource {
+public struct StructureDefinition: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .structureDefinition }
+	public static let resourceType: ResourceType = .structureDefinition
 	
-	/// Absolute URL used to reference this StructureDefinition
-	public var url: FHIRPrimitive<FHIRURI>
+	/// Whether the structure is abstract
+	public var abstract: FHIRPrimitive<FHIRBool>
 	
-	/// Other identifiers for the StructureDefinition
-	public var identifier: [Identifier]?
+	/// Structure that this set of constraints applies to
+	public var base: FHIRPrimitive<FHIRURI>?
 	
-	/// Logical id for this version of the StructureDefinition
-	public var version: FHIRPrimitive<FHIRString>?
+	/// Assist with indexing and finding
+	public var code: [Coding]?
 	
-	/// Informal name for this StructureDefinition
-	public var name: FHIRPrimitive<FHIRString>
-	
-	/// Use this name when displaying the value
-	public var display: FHIRPrimitive<FHIRString>?
-	
-	/// The status of the StructureDefinition.
-	/// Restricted to: ['draft', 'active', 'retired']
-	public var status: FHIRPrimitive<ConformanceResourceStatus>
-	
-	/// If for testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Name of the publisher (Organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
+	/// Any datatype or resource, including abstract ones
+	public var constrainedType: FHIRPrimitive<FHIRString>?
 	
 	/// Contact details of the publisher
 	public var contact: [StructureDefinitionContact]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Where the extension can be used in instances
+	public var context: [FHIRPrimitive<FHIRString>]?
+	
+	/// If this is an extension, Identifies the context within FHIR resources where the extension can be used.
+	/// Restricted to: ['resource', 'datatype', 'mapping', 'extension']
+	public var contextType: FHIRPrimitive<ExtensionContext>?
+	
+	/// Use and/or publishing restrictions
+	public var copyright: FHIRPrimitive<FHIRString>?
 	
 	/// Date for this version of the StructureDefinition
 	public var date: FHIRPrimitive<DateTime>?
@@ -63,49 +63,73 @@ open class StructureDefinition: DomainResource {
 	/// Natural language description of the StructureDefinition
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Content intends to support these contexts
-	public var useContext: [CodeableConcept]?
+	/// Differential view of the structure
+	public var differential: StructureDefinitionDifferential?
 	
-	/// Scope and Usage this structure definition is for
-	public var requirements: FHIRPrimitive<FHIRString>?
+	/// Use this name when displaying the value
+	public var display: FHIRPrimitive<FHIRString>?
 	
-	/// Use and/or publishing restrictions
-	public var copyright: FHIRPrimitive<FHIRString>?
+	/// If for testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
 	
-	/// Assist with indexing and finding
-	public var code: [Coding]?
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// FHIR Version this StructureDefinition targets
 	public var fhirVersion: FHIRPrimitive<FHIRString>?
 	
-	/// External specification that the content is mapped to
-	public var mapping: [StructureDefinitionMapping]?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Other identifiers for the StructureDefinition
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Defines the kind of structure that this definition is describing.
 	/// Restricted to: ['datatype', 'resource', 'logical']
 	public var kind: FHIRPrimitive<StructureDefinitionKind>
 	
-	/// Any datatype or resource, including abstract ones
-	public var constrainedType: FHIRPrimitive<FHIRString>?
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
 	
-	/// Whether the structure is abstract
-	public var abstract: FHIRPrimitive<FHIRBool>
+	/// External specification that the content is mapped to
+	public var mapping: [StructureDefinitionMapping]?
 	
-	/// If this is an extension, Identifies the context within FHIR resources where the extension can be used.
-	/// Restricted to: ['resource', 'datatype', 'mapping', 'extension']
-	public var contextType: FHIRPrimitive<ExtensionContext>?
+	/// Metadata about the resource
+	public var meta: Meta?
 	
-	/// Where the extension can be used in instances
-	public var context: [FHIRPrimitive<FHIRString>]?
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
-	/// Structure that this set of constraints applies to
-	public var base: FHIRPrimitive<FHIRURI>?
+	/// Informal name for this StructureDefinition
+	public var name: FHIRPrimitive<FHIRString>
+	
+	/// Name of the publisher (Organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Scope and Usage this structure definition is for
+	public var requirements: FHIRPrimitive<FHIRString>?
 	
 	/// Snapshot view of the structure
 	public var snapshot: StructureDefinitionSnapshot?
 	
-	/// Differential view of the structure
-	public var differential: StructureDefinitionDifferential?
+	/// The status of the StructureDefinition.
+	/// Restricted to: ['draft', 'active', 'retired']
+	public var status: FHIRPrimitive<ConformanceResourceStatus>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Absolute URL used to reference this StructureDefinition
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// Content intends to support these contexts
+	public var useContext: [CodeableConcept]?
+	
+	/// Logical id for this version of the StructureDefinition
+	public var version: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(abstract: FHIRPrimitive<FHIRBool>, kind: FHIRPrimitive<StructureDefinitionKind>, name: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<ConformanceResourceStatus>, url: FHIRPrimitive<FHIRURI>) {
@@ -114,45 +138,44 @@ open class StructureDefinition: DomainResource {
 		self.name = name
 		self.status = status
 		self.url = url
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							abstract: FHIRPrimitive<FHIRBool>,
-							base: FHIRPrimitive<FHIRURI>? = nil,
-							code: [Coding]? = nil,
-							constrainedType: FHIRPrimitive<FHIRString>? = nil,
-							contact: [StructureDefinitionContact]? = nil,
-							contained: [ResourceProxy]? = nil,
-							context: [FHIRPrimitive<FHIRString>]? = nil,
-							contextType: FHIRPrimitive<ExtensionContext>? = nil,
-							copyright: FHIRPrimitive<FHIRString>? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							differential: StructureDefinitionDifferential? = nil,
-							display: FHIRPrimitive<FHIRString>? = nil,
-							experimental: FHIRPrimitive<FHIRBool>? = nil,
-							`extension`: [Extension]? = nil,
-							fhirVersion: FHIRPrimitive<FHIRString>? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							kind: FHIRPrimitive<StructureDefinitionKind>,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							mapping: [StructureDefinitionMapping]? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>,
-							publisher: FHIRPrimitive<FHIRString>? = nil,
-							requirements: FHIRPrimitive<FHIRString>? = nil,
-							snapshot: StructureDefinitionSnapshot? = nil,
-							status: FHIRPrimitive<ConformanceResourceStatus>,
-							text: Narrative? = nil,
-							url: FHIRPrimitive<FHIRURI>,
-							useContext: [CodeableConcept]? = nil,
-							version: FHIRPrimitive<FHIRString>? = nil)
-	{
+	public init(
+		abstract: FHIRPrimitive<FHIRBool>,
+		base: FHIRPrimitive<FHIRURI>? = nil,
+		code: [Coding]? = nil,
+		constrainedType: FHIRPrimitive<FHIRString>? = nil,
+		contact: [StructureDefinitionContact]? = nil,
+		contained: [ResourceProxy]? = nil,
+		context: [FHIRPrimitive<FHIRString>]? = nil,
+		contextType: FHIRPrimitive<ExtensionContext>? = nil,
+		copyright: FHIRPrimitive<FHIRString>? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		differential: StructureDefinitionDifferential? = nil,
+		display: FHIRPrimitive<FHIRString>? = nil,
+		experimental: FHIRPrimitive<FHIRBool>? = nil,
+		`extension`: [Extension]? = nil,
+		fhirVersion: FHIRPrimitive<FHIRString>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		kind: FHIRPrimitive<StructureDefinitionKind>,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		mapping: [StructureDefinitionMapping]? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		publisher: FHIRPrimitive<FHIRString>? = nil,
+		requirements: FHIRPrimitive<FHIRString>? = nil,
+		snapshot: StructureDefinitionSnapshot? = nil,
+		status: FHIRPrimitive<ConformanceResourceStatus>,
+		text: Narrative? = nil,
+		url: FHIRPrimitive<FHIRURI>,
+		useContext: [CodeableConcept]? = nil,
+		version: FHIRPrimitive<FHIRString>? = nil
+	) {
 		self.init(abstract: abstract, kind: kind, name: name, status: status, url: url)
 		self.base = base
 		self.code = code
@@ -187,11 +210,13 @@ open class StructureDefinition: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case abstract; case _abstract
 		case base; case _base
 		case code
 		case constrainedType; case _constrainedType
 		case contact
+		case contained
 		case context; case _context
 		case contextType; case _contextType
 		case copyright; case _copyright
@@ -200,30 +225,38 @@ open class StructureDefinition: DomainResource {
 		case differential
 		case display; case _display
 		case experimental; case _experimental
+		case `extension` = "extension"
 		case fhirVersion; case _fhirVersion
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case kind; case _kind
+		case language; case _language
 		case mapping
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case requirements; case _requirements
 		case snapshot
 		case status; case _status
+		case text
 		case url; case _url
 		case useContext
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.abstract = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .abstract, auxiliaryKey: ._abstract)
 		self.base = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .base, auxiliaryKey: ._base)
 		self.code = try [Coding](from: _container, forKeyIfPresent: .code)
 		self.constrainedType = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .constrainedType, auxiliaryKey: ._constrainedType)
 		self.contact = try [StructureDefinitionContact](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.context = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .context, auxiliaryKey: ._context)
 		self.contextType = try FHIRPrimitive<ExtensionContext>(from: _container, forKeyIfPresent: .contextType, auxiliaryKey: ._contextType)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
@@ -232,31 +265,39 @@ open class StructureDefinition: DomainResource {
 		self.differential = try StructureDefinitionDifferential(from: _container, forKeyIfPresent: .differential)
 		self.display = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .display, auxiliaryKey: ._display)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.fhirVersion = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fhirVersion, auxiliaryKey: ._fhirVersion)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.kind = try FHIRPrimitive<StructureDefinitionKind>(from: _container, forKey: .kind, auxiliaryKey: ._kind)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.mapping = try [StructureDefinitionMapping](from: _container, forKeyIfPresent: .mapping)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.requirements = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .requirements, auxiliaryKey: ._requirements)
 		self.snapshot = try StructureDefinitionSnapshot(from: _container, forKeyIfPresent: .snapshot)
 		self.status = try FHIRPrimitive<ConformanceResourceStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
 		self.useContext = try [CodeableConcept](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try abstract.encode(on: &_container, forKey: .abstract, auxiliaryKey: ._abstract)
 		try base?.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
 		try code?.encode(on: &_container, forKey: .code)
 		try constrainedType?.encode(on: &_container, forKey: .constrainedType, auxiliaryKey: ._constrainedType)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try context?.encode(on: &_container, forKey: .context, auxiliaryKey: ._context)
 		try contextType?.encode(on: &_container, forKey: .contextType, auxiliaryKey: ._contextType)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
@@ -265,84 +306,25 @@ open class StructureDefinition: DomainResource {
 		try differential?.encode(on: &_container, forKey: .differential)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fhirVersion?.encode(on: &_container, forKey: .fhirVersion, auxiliaryKey: ._fhirVersion)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try kind.encode(on: &_container, forKey: .kind, auxiliaryKey: ._kind)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try mapping?.encode(on: &_container, forKey: .mapping)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try requirements?.encode(on: &_container, forKey: .requirements, auxiliaryKey: ._requirements)
 		try snapshot?.encode(on: &_container, forKey: .snapshot)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try text?.encode(on: &_container, forKey: .text)
 		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? StructureDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return abstract == _other.abstract
-		    && base == _other.base
-		    && code == _other.code
-		    && constrainedType == _other.constrainedType
-		    && contact == _other.contact
-		    && context == _other.context
-		    && contextType == _other.contextType
-		    && copyright == _other.copyright
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && differential == _other.differential
-		    && display == _other.display
-		    && experimental == _other.experimental
-		    && fhirVersion == _other.fhirVersion
-		    && identifier == _other.identifier
-		    && kind == _other.kind
-		    && mapping == _other.mapping
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && requirements == _other.requirements
-		    && snapshot == _other.snapshot
-		    && status == _other.status
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(abstract)
-		hasher.combine(base)
-		hasher.combine(code)
-		hasher.combine(constrainedType)
-		hasher.combine(contact)
-		hasher.combine(context)
-		hasher.combine(contextType)
-		hasher.combine(copyright)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(differential)
-		hasher.combine(display)
-		hasher.combine(experimental)
-		hasher.combine(fhirVersion)
-		hasher.combine(identifier)
-		hasher.combine(kind)
-		hasher.combine(mapping)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(requirements)
-		hasher.combine(snapshot)
-		hasher.combine(status)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
 	}
 }
 
@@ -351,253 +333,21 @@ open class StructureDefinition: DomainResource {
  
  Contacts to assist a user in finding and communicating with the publisher.
  */
-open class StructureDefinitionContact: BackboneElement {
-	
-	/// Name of a individual to contact
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for individual or publisher
-	public var telecom: [ContactPoint]?
-	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>? = nil,
-							telecom: [ContactPoint]? = nil)
-	{
-		self.init()
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.name = name
-		self.telecom = telecom
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case name; case _name
-		case telecom
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
-		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? StructureDefinitionContact else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return name == _other.name
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(name)
-		hasher.combine(telecom)
-	}
-}
+public typealias StructureDefinitionContact = BackboneElement
 
 /**
  Differential view of the structure.
  
  A differential view is expressed relative to the base StructureDefinition - a statement of differences that it applies.
  */
-open class StructureDefinitionDifferential: BackboneElement {
-	
-	/// Definition of elements in the resource (if no StructureDefinition)
-	public var element: [ElementDefinition]
-	
-	/// Designated initializer taking all required properties
-	public init(element: [ElementDefinition]) {
-		self.element = element
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							element: [ElementDefinition],
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil)
-	{
-		self.init(element: element)
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case element
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.element = try [ElementDefinition](from: _container, forKey: .element)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try element.encode(on: &_container, forKey: .element)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? StructureDefinitionDifferential else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return element == _other.element
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(element)
-	}
-}
+public typealias StructureDefinitionDifferential = BackboneElement
 
 /**
  External specification that the content is mapped to.
  
  An external specification that the content is mapped to.
  */
-open class StructureDefinitionMapping: BackboneElement {
-	
-	/// Internal id when this mapping is used
-	public var identity: FHIRPrimitive<FHIRString>
-	
-	/// Identifies what this mapping refers to
-	public var uri: FHIRPrimitive<FHIRURI>?
-	
-	/// Names what this mapping refers to
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Versions, Issues, Scope limitations etc.
-	public var comments: FHIRPrimitive<FHIRString>?
-	
-	/// Designated initializer taking all required properties
-	public init(identity: FHIRPrimitive<FHIRString>) {
-		self.identity = identity
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							comments: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identity: FHIRPrimitive<FHIRString>,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>? = nil,
-							uri: FHIRPrimitive<FHIRURI>? = nil)
-	{
-		self.init(identity: identity)
-		self.comments = comments
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.name = name
-		self.uri = uri
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case comments; case _comments
-		case identity; case _identity
-		case name; case _name
-		case uri; case _uri
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.comments = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comments, auxiliaryKey: ._comments)
-		self.identity = try FHIRPrimitive<FHIRString>(from: _container, forKey: .identity, auxiliaryKey: ._identity)
-		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
-		self.uri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .uri, auxiliaryKey: ._uri)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try comments?.encode(on: &_container, forKey: .comments, auxiliaryKey: ._comments)
-		try identity.encode(on: &_container, forKey: .identity, auxiliaryKey: ._identity)
-		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		try uri?.encode(on: &_container, forKey: .uri, auxiliaryKey: ._uri)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? StructureDefinitionMapping else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return comments == _other.comments
-		    && identity == _other.identity
-		    && name == _other.name
-		    && uri == _other.uri
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(comments)
-		hasher.combine(identity)
-		hasher.combine(name)
-		hasher.combine(uri)
-	}
-}
+public typealias StructureDefinitionMapping = BackboneElement
 
 /**
  Snapshot view of the structure.
@@ -605,68 +355,4 @@ open class StructureDefinitionMapping: BackboneElement {
  A snapshot view is expressed in a stand alone form that can be used and interpreted without considering the base
  StructureDefinition.
  */
-open class StructureDefinitionSnapshot: BackboneElement {
-	
-	/// Definition of elements in the resource (if no StructureDefinition)
-	public var element: [ElementDefinition]
-	
-	/// Designated initializer taking all required properties
-	public init(element: [ElementDefinition]) {
-		self.element = element
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							element: [ElementDefinition],
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil)
-	{
-		self.init(element: element)
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case element
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.element = try [ElementDefinition](from: _container, forKey: .element)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try element.encode(on: &_container, forKey: .element)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? StructureDefinitionSnapshot else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return element == _other.element
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(element)
-	}
-}
+public typealias StructureDefinitionSnapshot = BackboneElement

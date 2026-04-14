@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/EvidenceReport)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,80 +25,103 @@ import FMCore
  The EvidenceReport Resource is a specialized container for a collection of resources and codeable concepts, adapted to
  support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.
  */
-open class EvidenceReport: DomainResource {
+public struct EvidenceReport: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .evidenceReport }
+	public static let resourceType: ResourceType = .evidenceReport
 	
 	/// All possible types for "citeAs[x]"
-	public enum CiteAsX: Hashable {
+	public enum CiteAsX: Equatable, Hashable, Sendable {
 		case markdown(FHIRPrimitive<FHIRString>)
 		case reference(Reference)
 	}
 	
-	/// Canonical identifier for this EvidenceReport, represented as a globally unique URI
-	public var url: FHIRPrimitive<FHIRURI>?
-	
-	/// The status of this summary. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Unique identifier for the evidence report
-	public var identifier: [Identifier]?
-	
-	/// Identifiers for articles that may relate to more than one evidence report
-	public var relatedIdentifier: [Identifier]?
+	/// Who authored the content
+	public var author: [ContactDetail]?
 	
 	/// Citation for this report
 	/// One of `citeAs[x]`
 	public var citeAs: CiteAsX?
 	
-	/// Kind of report
-	public var type: CodeableConcept?
-	
-	/// Used for footnotes and annotations
-	public var note: [Annotation]?
-	
-	/// Link, description or reference to artifact associated with the report
-	public var relatedArtifact: [RelatedArtifact]?
-	
-	/// Focus of the report
-	public var subject: EvidenceReportSubject
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
 	/// Contact details for the publisher
 	public var contact: [ContactDetail]?
 	
-	/// Who authored the content
-	public var author: [ContactDetail]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Who edited the content
 	public var editor: [ContactDetail]?
 	
-	/// Who reviewed the content
-	public var reviewer: [ContactDetail]?
-	
 	/// Who endorsed the content
 	public var endorser: [ContactDetail]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique identifier for the evidence report
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Used for footnotes and annotations
+	public var note: [Annotation]?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Link, description or reference to artifact associated with the report
+	public var relatedArtifact: [RelatedArtifact]?
+	
+	/// Identifiers for articles that may relate to more than one evidence report
+	public var relatedIdentifier: [Identifier]?
 	
 	/// Relationships to other compositions/documents
 	public var relatesTo: [EvidenceReportRelatesTo]?
 	
+	/// Who reviewed the content
+	public var reviewer: [ContactDetail]?
+	
 	/// Composition is broken into sections
 	public var section: [EvidenceReportSection]?
+	
+	/// The status of this summary. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Focus of the report
+	public var subject: EvidenceReportSubject
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Kind of report
+	public var type: CodeableConcept?
+	
+	/// Canonical identifier for this EvidenceReport, represented as a globally unique URI
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>, subject: EvidenceReportSubject) {
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		author: [ContactDetail]? = nil,
 		citeAs: CiteAsX? = nil,
 		contact: [ContactDetail]? = nil,
@@ -156,13 +179,21 @@ open class EvidenceReport: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case author
 		case citeAsMarkdown; case _citeAsMarkdown
 		case citeAsReference
 		case contact
+		case contained
 		case editor
 		case endorser
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case note
 		case publisher; case _publisher
 		case relatedArtifact
@@ -172,16 +203,17 @@ open class EvidenceReport: DomainResource {
 		case section
 		case status; case _status
 		case subject
+		case text
 		case type
 		case url; case _url
 		case useContext
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.author = try [ContactDetail](from: _container, forKeyIfPresent: .author)
 		var _t_citeAs: CiteAsX? = nil
 		if let citeAsReference = try Reference(from: _container, forKeyIfPresent: .citeAsReference) {
@@ -198,9 +230,16 @@ open class EvidenceReport: DomainResource {
 		}
 		self.citeAs = _t_citeAs
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.editor = try [ContactDetail](from: _container, forKeyIfPresent: .editor)
 		self.endorser = try [ContactDetail](from: _container, forKeyIfPresent: .endorser)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.relatedArtifact = try [RelatedArtifact](from: _container, forKeyIfPresent: .relatedArtifact)
@@ -210,17 +249,18 @@ open class EvidenceReport: DomainResource {
 		self.section = try [EvidenceReportSection](from: _container, forKeyIfPresent: .section)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try EvidenceReportSubject(from: _container, forKey: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		if let _enum = citeAs {
 			switch _enum {
@@ -231,9 +271,16 @@ open class EvidenceReport: DomainResource {
 			}
 		}
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try editor?.encode(on: &_container, forKey: .editor)
 		try endorser?.encode(on: &_container, forKey: .endorser)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try relatedArtifact?.encode(on: &_container, forKey: .relatedArtifact)
@@ -243,61 +290,10 @@ open class EvidenceReport: DomainResource {
 		try section?.encode(on: &_container, forKey: .section)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EvidenceReport else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return author == _other.author
-		    && citeAs == _other.citeAs
-		    && contact == _other.contact
-		    && editor == _other.editor
-		    && endorser == _other.endorser
-		    && identifier == _other.identifier
-		    && note == _other.note
-		    && publisher == _other.publisher
-		    && relatedArtifact == _other.relatedArtifact
-		    && relatedIdentifier == _other.relatedIdentifier
-		    && relatesTo == _other.relatesTo
-		    && reviewer == _other.reviewer
-		    && section == _other.section
-		    && status == _other.status
-		    && subject == _other.subject
-		    && type == _other.type
-		    && url == _other.url
-		    && useContext == _other.useContext
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(author)
-		hasher.combine(citeAs)
-		hasher.combine(contact)
-		hasher.combine(editor)
-		hasher.combine(endorser)
-		hasher.combine(identifier)
-		hasher.combine(note)
-		hasher.combine(publisher)
-		hasher.combine(relatedArtifact)
-		hasher.combine(relatedIdentifier)
-		hasher.combine(relatesTo)
-		hasher.combine(reviewer)
-		hasher.combine(section)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(type)
-		hasher.combine(url)
-		hasher.combine(useContext)
 	}
 }
 
@@ -306,10 +302,19 @@ open class EvidenceReport: DomainResource {
  
  Relationships that this composition has with other compositions or documents that already exist.
  */
-open class EvidenceReportRelatesTo: BackboneElement {
+public struct EvidenceReportRelatesTo: BackboneElement {
 	
 	/// The type of relationship that this composition has with anther composition or document.
 	public var code: FHIRPrimitive<ReportRelationshipType>
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Target of the relationship
 	public var target: EvidenceReportRelatesToTarget
@@ -318,11 +323,10 @@ open class EvidenceReportRelatesTo: BackboneElement {
 	public init(code: FHIRPrimitive<ReportRelationshipType>, target: EvidenceReportRelatesToTarget) {
 		self.code = code
 		self.target = target
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<ReportRelationshipType>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -339,46 +343,33 @@ open class EvidenceReportRelatesTo: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code; case _code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case target
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<ReportRelationshipType>(from: _container, forKey: .code, auxiliaryKey: ._code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.target = try EvidenceReportRelatesToTarget(from: _container, forKey: .target)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try target.encode(on: &_container, forKey: .target)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EvidenceReportRelatesTo else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(target)
 	}
 }
 
@@ -387,27 +378,35 @@ open class EvidenceReportRelatesTo: BackboneElement {
  
  The target composition/document of this relationship.
  */
-open class EvidenceReportRelatesToTarget: BackboneElement {
-	
-	/// Target of the relationship URL
-	public var url: FHIRPrimitive<FHIRURI>?
-	
-	/// Target of the relationship Identifier
-	public var identifier: Identifier?
+public struct EvidenceReportRelatesToTarget: BackboneElement {
 	
 	/// Target of the relationship Display
 	public var display: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Target of the relationship Identifier
+	public var identifier: Identifier?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Target of the relationship Resource reference
 	public var resource: Reference?
 	
+	/// Target of the relationship URL
+	public var url: FHIRPrimitive<FHIRURI>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		display: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -430,56 +429,39 @@ open class EvidenceReportRelatesToTarget: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case display; case _display
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 		case resource
 		case url; case _url
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.display = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .display, auxiliaryKey: ._display)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.resource = try Reference(from: _container, forKeyIfPresent: .resource)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try resource?.encode(on: &_container, forKey: .resource)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EvidenceReportRelatesToTarget else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return display == _other.display
-		    && identifier == _other.identifier
-		    && resource == _other.resource
-		    && url == _other.url
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(display)
-		hasher.combine(identifier)
-		hasher.combine(resource)
-		hasher.combine(url)
 	}
 }
 
@@ -488,10 +470,25 @@ open class EvidenceReportRelatesToTarget: BackboneElement {
  
  The root of the sections that make up the composition.
  */
-open class EvidenceReportSection: BackboneElement {
+public struct EvidenceReportSection: BackboneElement {
 	
-	/// Label for section (e.g. for ToC)
-	public var title: FHIRPrimitive<FHIRString>?
+	/// Who and/or what authored the section
+	public var author: [Reference]?
+	
+	/// Why the section is empty
+	public var emptyReason: CodeableConcept?
+	
+	/// Extensible classifiers as content
+	public var entryClassifier: [CodeableConcept]?
+	
+	/// Quantity as content
+	public var entryQuantity: [Quantity]?
+	
+	/// Reference to resources as content
+	public var entryReference: [Reference]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Classification of section (recommended)
 	public var focus: CodeableConcept?
@@ -499,42 +496,35 @@ open class EvidenceReportSection: BackboneElement {
 	/// Classification of section by Resource
 	public var focusReference: Reference?
 	
-	/// Who and/or what authored the section
-	public var author: [Reference]?
-	
-	/// Text summary of the section, for human interpretation
-	public var text: Narrative?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// How the entry list was prepared - whether it is a working list that is suitable for being maintained on an
 	/// ongoing basis, or if it represents a snapshot of a list of items from another source, or whether it is a
 	/// prepared list where items may be marked as added, modified or deleted.
 	public var mode: FHIRPrimitive<ListMode>?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Order of section entries
 	public var orderedBy: CodeableConcept?
-	
-	/// Extensible classifiers as content
-	public var entryClassifier: [CodeableConcept]?
-	
-	/// Reference to resources as content
-	public var entryReference: [Reference]?
-	
-	/// Quantity as content
-	public var entryQuantity: [Quantity]?
-	
-	/// Why the section is empty
-	public var emptyReason: CodeableConcept?
 	
 	/// Nested Section
 	public var section: [EvidenceReportSection]?
 	
+	/// Text summary of the section, for human interpretation
+	public var text: Narrative?
+	
+	/// Label for section (e.g. for ToC)
+	public var title: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		author: [Reference]? = nil,
 		emptyReason: CodeableConcept? = nil,
 		entryClassifier: [CodeableConcept]? = nil,
@@ -577,92 +567,59 @@ open class EvidenceReportSection: BackboneElement {
 		case entryClassifier
 		case entryQuantity
 		case entryReference
+		case `extension` = "extension"
 		case focus
 		case focusReference
+		case id; case _id
 		case mode; case _mode
+		case modifierExtension
 		case orderedBy
 		case section
 		case text
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.author = try [Reference](from: _container, forKeyIfPresent: .author)
 		self.emptyReason = try CodeableConcept(from: _container, forKeyIfPresent: .emptyReason)
 		self.entryClassifier = try [CodeableConcept](from: _container, forKeyIfPresent: .entryClassifier)
 		self.entryQuantity = try [Quantity](from: _container, forKeyIfPresent: .entryQuantity)
 		self.entryReference = try [Reference](from: _container, forKeyIfPresent: .entryReference)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try CodeableConcept(from: _container, forKeyIfPresent: .focus)
 		self.focusReference = try Reference(from: _container, forKeyIfPresent: .focusReference)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.mode = try FHIRPrimitive<ListMode>(from: _container, forKeyIfPresent: .mode, auxiliaryKey: ._mode)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.orderedBy = try CodeableConcept(from: _container, forKeyIfPresent: .orderedBy)
 		self.section = try [EvidenceReportSection](from: _container, forKeyIfPresent: .section)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try emptyReason?.encode(on: &_container, forKey: .emptyReason)
 		try entryClassifier?.encode(on: &_container, forKey: .entryClassifier)
 		try entryQuantity?.encode(on: &_container, forKey: .entryQuantity)
 		try entryReference?.encode(on: &_container, forKey: .entryReference)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try focusReference?.encode(on: &_container, forKey: .focusReference)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try mode?.encode(on: &_container, forKey: .mode, auxiliaryKey: ._mode)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try orderedBy?.encode(on: &_container, forKey: .orderedBy)
 		try section?.encode(on: &_container, forKey: .section)
 		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EvidenceReportSection else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return author == _other.author
-		    && emptyReason == _other.emptyReason
-		    && entryClassifier == _other.entryClassifier
-		    && entryQuantity == _other.entryQuantity
-		    && entryReference == _other.entryReference
-		    && focus == _other.focus
-		    && focusReference == _other.focusReference
-		    && mode == _other.mode
-		    && orderedBy == _other.orderedBy
-		    && section == _other.section
-		    && text == _other.text
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(author)
-		hasher.combine(emptyReason)
-		hasher.combine(entryClassifier)
-		hasher.combine(entryQuantity)
-		hasher.combine(entryReference)
-		hasher.combine(focus)
-		hasher.combine(focusReference)
-		hasher.combine(mode)
-		hasher.combine(orderedBy)
-		hasher.combine(section)
-		hasher.combine(text)
-		hasher.combine(title)
 	}
 }
 
@@ -671,21 +628,29 @@ open class EvidenceReportSection: BackboneElement {
  
  Specifies the subject or focus of the report. Answers "What is this report about?".
  */
-open class EvidenceReportSubject: BackboneElement {
+public struct EvidenceReportSubject: BackboneElement {
 	
 	/// Characteristic
 	public var characteristic: [EvidenceReportSubjectCharacteristic]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Footnotes and/or explanatory notes
 	public var note: [Annotation]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		characteristic: [EvidenceReportSubjectCharacteristic]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -704,56 +669,43 @@ open class EvidenceReportSubject: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case characteristic
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case note
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.characteristic = try [EvidenceReportSubjectCharacteristic](from: _container, forKeyIfPresent: .characteristic)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try characteristic?.encode(on: &_container, forKey: .characteristic)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EvidenceReportSubject else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return characteristic == _other.characteristic
-		    && note == _other.note
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(characteristic)
-		hasher.combine(note)
 	}
 }
 
 /**
  Characteristic.
  */
-open class EvidenceReportSubjectCharacteristic: BackboneElement {
+public struct EvidenceReportSubjectCharacteristic: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case codeableConcept(CodeableConcept)
 		case quantity(Quantity)
@@ -764,25 +716,33 @@ open class EvidenceReportSubjectCharacteristic: BackboneElement {
 	/// Characteristic code
 	public var code: CodeableConcept
 	
-	/// Characteristic value
-	/// One of `value[x]`
-	public var value: ValueX
-	
 	/// Is used to express not the characteristic
 	public var exclude: FHIRPrimitive<FHIRBool>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Timeframe for the characteristic
 	public var period: Period?
+	
+	/// Characteristic value
+	/// One of `value[x]`
+	public var value: ValueX
 	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept, value: ValueX) {
 		self.code = code
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		exclude: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -804,6 +764,9 @@ open class EvidenceReportSubjectCharacteristic: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case exclude; case _exclude
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case period
 		case valueBoolean; case _valueBoolean
 		case valueCodeableConcept
@@ -811,9 +774,9 @@ open class EvidenceReportSubjectCharacteristic: BackboneElement {
 		case valueRange
 		case valueReference
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -821,9 +784,12 @@ open class EvidenceReportSubjectCharacteristic: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueBoolean, CodingKeys.valueCodeableConcept, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueReference], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
 		self.exclude = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .exclude, auxiliaryKey: ._exclude)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		var _t_value: ValueX? = nil
 		if let valueReference = try Reference(from: _container, forKeyIfPresent: .valueReference) {
@@ -857,16 +823,17 @@ open class EvidenceReportSubjectCharacteristic: BackboneElement {
 			_t_value = .range(valueRange)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try exclude?.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
 		
 			switch value {
@@ -882,29 +849,5 @@ open class EvidenceReportSubjectCharacteristic: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueRange)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EvidenceReportSubjectCharacteristic else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && exclude == _other.exclude
-		    && period == _other.period
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(exclude)
-		hasher.combine(period)
-		hasher.combine(value)
 	}
 }

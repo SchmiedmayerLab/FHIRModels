@@ -2,8 +2,8 @@
 //  Contributor.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Contributor)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Contributor)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,32 +24,37 @@ import FMCore
  
  A contributor to the content of a knowledge asset, including authors, editors, reviewers, and endorsers.
  */
-open class Contributor: Element {
+public struct Contributor: Element {
 	
-	/// The type of contributor.
-	public var type: FHIRPrimitive<ContributorType>
+	/// Contact details of the contributor
+	public var contact: [ContactDetail]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Who contributed the content
 	public var name: FHIRPrimitive<FHIRString>
 	
-	/// Contact details of the contributor
-	public var contact: [ContactDetail]?
+	/// The type of contributor.
+	public var type: FHIRPrimitive<ContributorType>
 	
 	/// Designated initializer taking all required properties
 	public init(name: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<ContributorType>) {
 		self.name = name
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							contact: [ContactDetail]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							name: FHIRPrimitive<FHIRString>,
-							type: FHIRPrimitive<ContributorType>)
-	{
+	public init(
+		contact: [ContactDetail]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		type: FHIRPrimitive<ContributorType>
+	) {
 		self.init(name: name, type: type)
 		self.contact = contact
 		self.`extension` = `extension`
@@ -60,50 +65,32 @@ open class Contributor: Element {
 	
 	private enum CodingKeys: String, CodingKey {
 		case contact
+		case `extension` = "extension"
+		case id; case _id
 		case name; case _name
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.type = try FHIRPrimitive<ContributorType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Contributor else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return contact == _other.contact
-		    && name == _other.name
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(contact)
-		hasher.combine(name)
-		hasher.combine(type)
 	}
 }

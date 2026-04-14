@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,22 +27,22 @@ import FMCore
  */
 public enum SpecialValues: String, FHIRPrimitiveType {
 	
-	/// Boolean true.
-	case `true` = "true"
-	
 	/// Boolean false.
-	case `false` = "false"
+	case `false`
 	
-	/// The content is greater than zero, but too small to be quantified.
-	case trace = "trace"
-	
-	/// The specific quantity is not known, but is known to be non-zero and is not specified because it makes up the
-	/// bulk of the material.
-	case sufficient = "sufficient"
-	
-	/// The value is no longer available.
-	case withdrawn = "withdrawn"
+	/// Boolean true.
+	case `true`
 	
 	/// The are no known applicable values in this context.
 	case nilKnown = "nil-known"
+	
+	/// The specific quantity is not known, but is known to be non-zero and is not specified because it makes up the
+	/// bulk of the material.
+	case sufficient
+	
+	/// The content is greater than zero, but too small to be quantified.
+	case trace
+	
+	/// The value is no longer available.
+	case withdrawn
 }

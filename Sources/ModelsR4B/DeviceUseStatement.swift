@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/DeviceUseStatement)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,22 +25,67 @@ import FMCore
  A record of a device being used by a patient where the record is the result of a report from the patient or another
  clinician.
  */
-open class DeviceUseStatement: DomainResource {
+public struct DeviceUseStatement: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .deviceUseStatement }
+	public static let resourceType: ResourceType = .deviceUseStatement
 	
 	/// All possible types for "timing[x]"
-	public enum TimingX: Hashable {
+	public enum TimingX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
 	}
 	
+	/// Fulfills plan, proposal or order
+	public var basedOn: [Reference]?
+	
+	/// Target body site
+	public var bodySite: CodeableConcept?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Supporting information
+	public var derivedFrom: [Reference]?
+	
+	/// Reference to device used
+	public var device: Reference
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// External identifier for this record
 	public var identifier: [Identifier]?
 	
-	/// Fulfills plan, proposal or order
-	public var basedOn: [Reference]?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Addition details (comments, instructions)
+	public var note: [Annotation]?
+	
+	/// Why device was used
+	public var reasonCode: [CodeableConcept]?
+	
+	/// Why was DeviceUseStatement performed?
+	public var reasonReference: [Reference]?
+	
+	/// When statement was recorded
+	public var recordedOn: FHIRPrimitive<DateTime>?
+	
+	/// Who made the statement
+	public var source: Reference?
 	
 	/// A code representing the patient or other source's judgment about the state of the device used that this
 	/// statement is about.  Generally this will be active or completed.
@@ -49,44 +94,22 @@ open class DeviceUseStatement: DomainResource {
 	/// Patient using device
 	public var subject: Reference
 	
-	/// Supporting information
-	public var derivedFrom: [Reference]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// How often  the device was used
 	/// One of `timing[x]`
 	public var timing: TimingX?
-	
-	/// When statement was recorded
-	public var recordedOn: FHIRPrimitive<DateTime>?
-	
-	/// Who made the statement
-	public var source: Reference?
-	
-	/// Reference to device used
-	public var device: Reference
-	
-	/// Why device was used
-	public var reasonCode: [CodeableConcept]?
-	
-	/// Why was DeviceUseStatement performed?
-	public var reasonReference: [Reference]?
-	
-	/// Target body site
-	public var bodySite: CodeableConcept?
-	
-	/// Addition details (comments, instructions)
-	public var note: [Annotation]?
 	
 	/// Designated initializer taking all required properties
 	public init(device: Reference, status: FHIRPrimitive<DeviceUseStatementStatus>, subject: Reference) {
 		self.device = device
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -133,11 +156,19 @@ open class DeviceUseStatement: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
 		case bodySite
+		case contained
 		case derivedFrom
 		case device
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case note
 		case reasonCode
 		case reasonReference
@@ -145,21 +176,29 @@ open class DeviceUseStatement: DomainResource {
 		case source
 		case status; case _status
 		case subject
+		case text
 		case timingDateTime; case _timingDateTime
 		case timingPeriod
 		case timingTiming
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.derivedFrom = try [Reference](from: _container, forKeyIfPresent: .derivedFrom)
 		self.device = try Reference(from: _container, forKey: .device)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
 		self.reasonReference = try [Reference](from: _container, forKeyIfPresent: .reasonReference)
@@ -167,6 +206,7 @@ open class DeviceUseStatement: DomainResource {
 		self.source = try Reference(from: _container, forKeyIfPresent: .source)
 		self.status = try FHIRPrimitive<DeviceUseStatementStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		var _t_timing: TimingX? = nil
 		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
 			if _t_timing != nil {
@@ -187,19 +227,26 @@ open class DeviceUseStatement: DomainResource {
 			_t_timing = .dateTime(timingDateTime)
 		}
 		self.timing = _t_timing
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try derivedFrom?.encode(on: &_container, forKey: .derivedFrom)
 		try device.encode(on: &_container, forKey: .device)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
 		try reasonReference?.encode(on: &_container, forKey: .reasonReference)
@@ -207,6 +254,7 @@ open class DeviceUseStatement: DomainResource {
 		try source?.encode(on: &_container, forKey: .source)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = timing {
 			switch _enum {
 			case .timing(let _value):
@@ -217,47 +265,5 @@ open class DeviceUseStatement: DomainResource {
 				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceUseStatement else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && bodySite == _other.bodySite
-		    && derivedFrom == _other.derivedFrom
-		    && device == _other.device
-		    && identifier == _other.identifier
-		    && note == _other.note
-		    && reasonCode == _other.reasonCode
-		    && reasonReference == _other.reasonReference
-		    && recordedOn == _other.recordedOn
-		    && source == _other.source
-		    && status == _other.status
-		    && subject == _other.subject
-		    && timing == _other.timing
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(bodySite)
-		hasher.combine(derivedFrom)
-		hasher.combine(device)
-		hasher.combine(identifier)
-		hasher.combine(note)
-		hasher.combine(reasonCode)
-		hasher.combine(reasonReference)
-		hasher.combine(recordedOn)
-		hasher.combine(source)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(timing)
 	}
 }

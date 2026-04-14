@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import FMCore
  */
 public enum DeviceDefinitionParameterGroup: String, FHIRPrimitiveType {
 	
-	/// Haemodynamic Parameter Group - MDC_PGRP_HEMO.
-	case haemodynamic
+	/// Blood Chemistry Parameter Group - MDC_PGRP_BLOOD_CHEM.
+	case bloodChemistry = "blood-chemistry"
+	
+	/// Drug Delivery Parameter Group - MDC_PGRP_DRUG.
+	case drugDelivery = "drug-delivery"
 	
 	/// ECG Parameter Group - MDC_PGRP_ECG.
 	case ecg
+	
+	/// Fluid Chemistry Parameter Group - MDC_PGRP_FLUID.
+	case fluidChemistry = "fluid-chemistry"
+	
+	/// Haemodynamic Parameter Group - MDC_PGRP_HEMO.
+	case haemodynamic
+	
+	/// Miscellaneous Parameter Group - MDC_PGRP_MISC.
+	case miscellaneous
+	
+	/// Neurological Parameter Group - MDC_PGRP_NEURO.
+	case neurological
 	
 	/// Respiratory Parameter Group - MDC_PGRP_RESP.
 	case respiratory
 	
 	/// Ventilation Parameter Group - MDC_PGRP_VENT.
 	case ventilation
-	
-	/// Neurological Parameter Group - MDC_PGRP_NEURO.
-	case neurological
-	
-	/// Drug Delivery Parameter Group - MDC_PGRP_DRUG.
-	case drugDelivery = "drug-delivery"
-	
-	/// Fluid Chemistry Parameter Group - MDC_PGRP_FLUID.
-	case fluidChemistry = "fluid-chemistry"
-	
-	/// Blood Chemistry Parameter Group - MDC_PGRP_BLOOD_CHEM.
-	case bloodChemistry = "blood-chemistry"
-	
-	/// Miscellaneous Parameter Group - MDC_PGRP_MISC.
-	case miscellaneous
 }

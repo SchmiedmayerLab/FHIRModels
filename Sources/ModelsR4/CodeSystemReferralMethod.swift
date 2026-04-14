@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,20 +27,20 @@ import FMCore
  */
 public enum ReferralMethod: String, FHIRPrimitiveType {
 	
-	/// Referrals may be accepted by fax.
-	case fax
-	
-	/// Referrals may be accepted over the phone from a practitioner.
-	case phone
-	
 	/// Referrals may be accepted via a secure messaging system. To determine the types of secure messaging systems
 	/// supported, refer to the identifiers collection. Callers will need to understand the specific identifier system
 	/// used to know that they are able to transmit messages.
 	case elec
 	
-	/// Referrals may be accepted via a secure email. To send please encrypt with the services public key.
-	case semail
+	/// Referrals may be accepted by fax.
+	case fax
 	
 	/// Referrals may be accepted via regular postage (or hand delivered).
 	case mail
+	
+	/// Referrals may be accepted over the phone from a practitioner.
+	case phone
+	
+	/// Referrals may be accepted via a secure email. To send please encrypt with the services public key.
+	case semail
 }

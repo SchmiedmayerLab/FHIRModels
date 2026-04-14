@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum SubscriptionChannelType: String, FHIRPrimitiveType {
 	
+	/// The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
+	case email
+	
+	/// The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the
+	/// application identified in the URI.
+	case message
+	
 	/// The channel is executed by making a post to the URI. If a payload is included, the URL is interpreted as the
 	/// service base, and an update (PUT) is made.
 	case restHook = "rest-hook"
 	
+	/// The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
+	case sms
+	
 	/// The channel is executed by sending a packet across a web socket connection maintained by the client. The URL
 	/// identifies the websocket, and the client binds to this URL.
-	case websocket = "websocket"
-	
-	/// The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
-	case email = "email"
-	
-	/// The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
-	case sms = "sms"
-	
-	/// The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the
-	/// application identified in the URI.
-	case message = "message"
+	case websocket
 }

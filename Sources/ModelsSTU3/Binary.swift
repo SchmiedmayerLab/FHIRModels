@@ -2,8 +2,8 @@
 //  Binary.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/Binary)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/Binary)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,36 +24,47 @@ import FMCore
  
  A binary resource can contain any content, whether text, image, pdf, zip archive, etc.
  */
-open class Binary: Resource {
+public struct Binary: Resource {
 	
-	override open class var resourceType: ResourceType { return .binary }
+	public static let resourceType: ResourceType = .binary
+	
+	/// The actual content
+	public var content: FHIRPrimitive<Base64Binary>
 	
 	/// MimeType of the binary content
 	public var contentType: FHIRPrimitive<FHIRString>
 	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
 	/// Access Control Management
 	public var securityContext: Reference?
-	
-	/// The actual content
-	public var content: FHIRPrimitive<Base64Binary>
 	
 	/// Designated initializer taking all required properties
 	public init(content: FHIRPrimitive<Base64Binary>, contentType: FHIRPrimitive<FHIRString>) {
 		self.content = content
 		self.contentType = contentType
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							content: FHIRPrimitive<Base64Binary>,
-							contentType: FHIRPrimitive<FHIRString>,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							securityContext: Reference? = nil)
-	{
+	public init(
+		content: FHIRPrimitive<Base64Binary>,
+		contentType: FHIRPrimitive<FHIRString>,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		securityContext: Reference? = nil
+	) {
 		self.init(content: content, contentType: contentType)
 		self.id = id
 		self.implicitRules = implicitRules
@@ -65,51 +76,42 @@ open class Binary: Resource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case content; case _content
 		case contentType; case _contentType
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
 		case securityContext
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.content = try FHIRPrimitive<Base64Binary>(from: _container, forKey: .content, auxiliaryKey: ._content)
 		self.contentType = try FHIRPrimitive<FHIRString>(from: _container, forKey: .contentType, auxiliaryKey: ._contentType)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.securityContext = try Reference(from: _container, forKeyIfPresent: .securityContext)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try content.encode(on: &_container, forKey: .content, auxiliaryKey: ._content)
 		try contentType.encode(on: &_container, forKey: .contentType, auxiliaryKey: ._contentType)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try securityContext?.encode(on: &_container, forKey: .securityContext)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Binary else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return content == _other.content
-		    && contentType == _other.contentType
-		    && securityContext == _other.securityContext
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(content)
-		hasher.combine(contentType)
-		hasher.combine(securityContext)
 	}
 }

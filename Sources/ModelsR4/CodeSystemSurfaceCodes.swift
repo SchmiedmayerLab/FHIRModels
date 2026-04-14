@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,36 +27,36 @@ import FMCore
  */
 public enum SurfaceCodes: String, FHIRPrimitiveType {
 	
-	/// The surface of a tooth that is closest to the midline (middle) of the face.
-	case M
-	
-	/// The chewing surface of posterior teeth.
-	case O
-	
-	/// The biting edge of anterior teeth.
-	case I
+	/// The surface of a posterior tooth facing the cheeks.
+	case B
 	
 	/// The surface of a tooth that faces away from the midline of the face.
 	case D
 	
-	/// The surface of a posterior tooth facing the cheeks.
-	case B
-	
-	/// The surface of a tooth facing the lips.
-	case V
-	
-	/// The surface of a tooth facing the tongue.
-	case L
-	
-	/// The Mesioclusal surfaces of a tooth.
-	case MO
+	/// The Distoincisal surfaces of a tooth.
+	case DI
 	
 	/// The Distoclusal surfaces of a tooth.
 	case DO
 	
-	/// The Distoincisal surfaces of a tooth.
-	case DI
+	/// The biting edge of anterior teeth.
+	case I
+	
+	/// The surface of a tooth facing the tongue.
+	case L
+	
+	/// The surface of a tooth that is closest to the midline (middle) of the face.
+	case M
+	
+	/// The Mesioclusal surfaces of a tooth.
+	case MO
 	
 	/// The Mesioclusodistal surfaces of a tooth.
 	case MOD
+	
+	/// The chewing surface of posterior teeth.
+	case O
+	
+	/// The surface of a tooth facing the lips.
+	case V
 }

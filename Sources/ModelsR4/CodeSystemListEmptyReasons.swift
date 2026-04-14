@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,6 +28,9 @@ import FMCore
  */
 public enum ListEmptyReasons: String, FHIRPrimitiveType {
 	
+	/// This list has now closed or has ceased to be relevant or useful.
+	case closed
+	
 	/// Clinical judgment that there are no known items for this list after reasonable investigation. Note that this a
 	/// positive statement by a clinical user, and not a default position asserted by a computer system in the lack of
 	/// other information. Example uses:  * For allergies: the patient or patient's agent/guardian has asserted that
@@ -39,17 +42,14 @@ public enum ListEmptyReasons: String, FHIRPrimitiveType {
 	/// The investigation to find out whether there are items for this list has not occurred.
 	case notasked
 	
-	/// The content of the list was not provided due to privacy or confidentiality concerns. Note that it should not be
-	/// assumed that this means that the particular information in question was withheld due to its contents - it can
-	/// also be a policy decision.
-	case withheld
+	/// The work to populate this list has not yet begun.
+	case notstarted
 	
 	/// Information to populate this list cannot be obtained; e.g. unconscious patient.
 	case unavailable
 	
-	/// The work to populate this list has not yet begun.
-	case notstarted
-	
-	/// This list has now closed or has ceased to be relevant or useful.
-	case closed
+	/// The content of the list was not provided due to privacy or confidentiality concerns. Note that it should not be
+	/// assumed that this means that the particular information in question was withheld due to its contents - it can
+	/// also be a policy decision.
+	case withheld
 }

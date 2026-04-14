@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ClinicalImpressionStatus: String, FHIRPrimitiveType {
 	
-	/// The assessment is still on-going and results are not yet final.
-	case inProgress = "in-progress"
-	
 	/// The assessment is done and the results are final.
-	case completed = "completed"
+	case completed
 	
 	/// This assessment was never actually done and the record is erroneous (e.g. Wrong patient).
 	case enteredInError = "entered-in-error"
+	
+	/// The assessment is still on-going and results are not yet final.
+	case inProgress = "in-progress"
 }

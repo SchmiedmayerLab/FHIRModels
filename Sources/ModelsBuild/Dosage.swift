@@ -2,8 +2,8 @@
 //  Dosage.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/Dosage)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/Dosage)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,22 +24,10 @@ import FMCore
  
  Indicates how the medication is/was taken or should be taken by the patient.
  */
-open class Dosage: BackboneType {
-	
-	/// Whether the dosage applies (e.g. as a whole) (any can be true)
-	public var condition: [DosageCondition]?
-	
-	/// Free text dosage instructions e.g. SIG
-	public var text: FHIRPrimitive<FHIRString>?
+public struct Dosage: BackboneType {
 	
 	/// Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
 	public var additionalInstruction: [CodeableConcept]?
-	
-	/// Patient or consumer oriented instructions
-	public var patientInstruction: FHIRPrimitive<FHIRString>?
-	
-	/// When medication should be administered
-	public var timing: Timing?
 	
 	/// Take "as needed"
 	public var asNeeded: FHIRPrimitive<FHIRBool>?
@@ -47,28 +35,48 @@ open class Dosage: BackboneType {
 	/// Take "as needed" (for x)
 	public var asNeededFor: [CodeableConcept]?
 	
-	/// Body site to administer to
-	public var site: CodeableConcept?
-	
-	/// How drug should enter body
-	public var route: CodeableConcept?
-	
-	/// Technique for administering medication
-	public var method: CodeableConcept?
+	/// Whether the dosage applies (e.g. as a whole) (any can be true)
+	public var condition: [DosageCondition]?
 	
 	/// Amount of medication administered, to be administered or typical amount to be administered
 	public var doseAndRate: [DosageDoseAndRate]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Technique for administering medication
+	public var method: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Patient or consumer oriented instructions
+	public var patientInstruction: FHIRPrimitive<FHIRString>?
+	
+	/// How drug should enter body
+	public var route: CodeableConcept?
+	
 	/// Safety Information about the this dosage instructions
 	public var safety: DosageSafety?
 	
+	/// Body site to administer to
+	public var site: CodeableReference?
+	
+	/// Free text dosage instructions e.g. SIG
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// When medication should be administered
+	public var timing: Timing?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		additionalInstruction: [CodeableConcept]? = nil,
 		asNeeded: FHIRPrimitive<FHIRBool>? = nil,
 		asNeededFor: [CodeableConcept]? = nil,
@@ -81,7 +89,7 @@ open class Dosage: BackboneType {
 		patientInstruction: FHIRPrimitive<FHIRString>? = nil,
 		route: CodeableConcept? = nil,
 		safety: DosageSafety? = nil,
-		site: CodeableConcept? = nil,
+		site: CodeableReference? = nil,
 		text: FHIRPrimitive<FHIRString>? = nil,
 		timing: Timing? = nil
 	) {
@@ -111,7 +119,10 @@ open class Dosage: BackboneType {
 		case asNeededFor
 		case condition
 		case doseAndRate
+		case `extension` = "extension"
+		case id; case _id
 		case method
+		case modifierExtension
 		case patientInstruction; case _patientInstruction
 		case route
 		case safety
@@ -119,84 +130,48 @@ open class Dosage: BackboneType {
 		case text; case _text
 		case timing
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.additionalInstruction = try [CodeableConcept](from: _container, forKeyIfPresent: .additionalInstruction)
 		self.asNeeded = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeeded, auxiliaryKey: ._asNeeded)
 		self.asNeededFor = try [CodeableConcept](from: _container, forKeyIfPresent: .asNeededFor)
 		self.condition = try [DosageCondition](from: _container, forKeyIfPresent: .condition)
 		self.doseAndRate = try [DosageDoseAndRate](from: _container, forKeyIfPresent: .doseAndRate)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.patientInstruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patientInstruction, auxiliaryKey: ._patientInstruction)
 		self.route = try CodeableConcept(from: _container, forKeyIfPresent: .route)
 		self.safety = try DosageSafety(from: _container, forKeyIfPresent: .safety)
-		self.site = try CodeableConcept(from: _container, forKeyIfPresent: .site)
+		self.site = try CodeableReference(from: _container, forKeyIfPresent: .site)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		self.timing = try Timing(from: _container, forKeyIfPresent: .timing)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try additionalInstruction?.encode(on: &_container, forKey: .additionalInstruction)
 		try asNeeded?.encode(on: &_container, forKey: .asNeeded, auxiliaryKey: ._asNeeded)
 		try asNeededFor?.encode(on: &_container, forKey: .asNeededFor)
 		try condition?.encode(on: &_container, forKey: .condition)
 		try doseAndRate?.encode(on: &_container, forKey: .doseAndRate)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try patientInstruction?.encode(on: &_container, forKey: .patientInstruction, auxiliaryKey: ._patientInstruction)
 		try route?.encode(on: &_container, forKey: .route)
 		try safety?.encode(on: &_container, forKey: .safety)
 		try site?.encode(on: &_container, forKey: .site)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try timing?.encode(on: &_container, forKey: .timing)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Dosage else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return additionalInstruction == _other.additionalInstruction
-		    && asNeeded == _other.asNeeded
-		    && asNeededFor == _other.asNeededFor
-		    && condition == _other.condition
-		    && doseAndRate == _other.doseAndRate
-		    && method == _other.method
-		    && patientInstruction == _other.patientInstruction
-		    && route == _other.route
-		    && safety == _other.safety
-		    && site == _other.site
-		    && text == _other.text
-		    && timing == _other.timing
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(additionalInstruction)
-		hasher.combine(asNeeded)
-		hasher.combine(asNeededFor)
-		hasher.combine(condition)
-		hasher.combine(doseAndRate)
-		hasher.combine(method)
-		hasher.combine(patientInstruction)
-		hasher.combine(route)
-		hasher.combine(safety)
-		hasher.combine(site)
-		hasher.combine(text)
-		hasher.combine(timing)
 	}
 }
 
@@ -206,41 +181,46 @@ open class Dosage: BackboneType {
  Depending on the resource,this is the amount of medication administered, to  be administered or typical amount to be
  administered.
  */
-open class DosageDoseAndRate: Element {
+public struct DosageDoseAndRate: Element {
 	
 	/// All possible types for "dose[x]"
-	public enum DoseX: Hashable {
+	public enum DoseX: Equatable, Hashable, Sendable {
 		case expression(Expression)
 		case quantity(Quantity)
 		case range(Range)
 	}
 	
 	/// All possible types for "rate[x]"
-	public enum RateX: Hashable {
+	public enum RateX: Equatable, Hashable, Sendable {
 		case expression(Expression)
 		case quantity(Quantity)
 		case range(Range)
 		case ratio(Ratio)
 	}
 	
-	/// The kind of dose or rate specified
-	public var type: CodeableConcept?
-	
 	/// Amount of medication per dose
 	/// One of `dose[x]`
 	public var dose: DoseX?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Amount of medication per unit of time
 	/// One of `rate[x]`
 	public var rate: RateX?
 	
+	/// The kind of dose or rate specified
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		dose: DoseX? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -261,18 +241,20 @@ open class DosageDoseAndRate: Element {
 		case doseExpression
 		case doseQuantity
 		case doseRange
+		case `extension` = "extension"
+		case id; case _id
 		case rateExpression
 		case rateQuantity
 		case rateRange
 		case rateRatio
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_dose: DoseX? = nil
 		if let doseRange = try Range(from: _container, forKeyIfPresent: .doseRange) {
 			if _t_dose != nil {
@@ -293,6 +275,8 @@ open class DosageDoseAndRate: Element {
 			_t_dose = .expression(doseExpression)
 		}
 		self.dose = _t_dose
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_rate: RateX? = nil
 		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
 			if _t_rate != nil {
@@ -320,14 +304,12 @@ open class DosageDoseAndRate: Element {
 		}
 		self.rate = _t_rate
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = dose {
 			switch _enum {
 			case .range(let _value):
@@ -338,6 +320,8 @@ open class DosageDoseAndRate: Element {
 				try _value.encode(on: &_container, forKey: .doseExpression)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		if let _enum = rate {
 			switch _enum {
 			case .ratio(let _value):
@@ -351,27 +335,5 @@ open class DosageDoseAndRate: Element {
 			}
 		}
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DosageDoseAndRate else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return dose == _other.dose
-		    && rate == _other.rate
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(dose)
-		hasher.combine(rate)
-		hasher.combine(type)
 	}
 }

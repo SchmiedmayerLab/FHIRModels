@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,6 @@ import FMCore
  */
 public enum SubscriptionStatus: String, FHIRPrimitiveType {
 	
-	/// The client has requested the subscription, and the server has not yet set it up.
-	case requested
-	
 	/// The subscription is active.
 	case active
 	
@@ -38,4 +35,7 @@ public enum SubscriptionStatus: String, FHIRPrimitiveType {
 	
 	/// Too many errors have occurred or the subscription has expired.
 	case off
+	
+	/// The client has requested the subscription, and the server has not yet set it up.
+	case requested
 }

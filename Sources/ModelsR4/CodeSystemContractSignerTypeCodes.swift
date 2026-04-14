@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,28 +27,28 @@ import FMCore
  */
 public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	
-	/// A person who has corrected, edited, or amended pre-existing information.
-	case AMENDER
-	
-	/// A person in the role of verifier who attests to the accuracy of an act, but who does not have privileges to
-	/// legally authenticate information content. An example would be a resident physician who sees a patient and
-	/// dictates a note, then later signs it. The resident's signature constitutes an authentication.
-	case AUTHN
-	
-	/// An entity that authored specific content. There can be multiple authors of content, which may take such forms as
-	/// a contract, a healthcare record entry or document, a policy, or a consent directive.
-	case AUT
-	
 	/// An entity that has a business or professional relationship with another entity in accordance with an agreement.
 	case AFFL
 	
 	/// An entity that acts or is authorized to act on behalf of another entity in accordance with an agreement.
 	case AGNT
 	
+	/// A person who has corrected, edited, or amended pre-existing information.
+	case AMENDER
+	
 	/// An agent role in which the agent is an Entity acting in the employ of an organization. The focus is on
 	/// functional role on behalf of the organization, unlike the Employee role where the focus is on the 'Human
 	/// Resources' relationship between the employee and the organization.
 	case ASSIGNED
+	
+	/// An entity that authored specific content. There can be multiple authors of content, which may take such forms as
+	/// a contract, a healthcare record entry or document, a policy, or a consent directive.
+	case AUT
+	
+	/// A person in the role of verifier who attests to the accuracy of an act, but who does not have privileges to
+	/// legally authenticate information content. An example would be a resident physician who sees a patient and
+	/// dictates a note, then later signs it. The resident's signature constitutes an authentication.
+	case AUTHN
 	
 	/// The member of a jurisdiction afforded certain rights and encumbered with certain obligation in accordance with
 	/// jurisdictional policy.
@@ -90,9 +90,6 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	/// A party to whom some right or authority is delegated by a delegator.
 	case DELEGATEE
 	
-	/// A party that delegates a right or authority to another party.
-	case delegator
-	
 	/// A person covered under an insurance policy or program based on an association with a subscriber, which is
 	/// recognized by the policy holder. The dependent has an association with the subscriber such as a financial
 	/// dependency or personal relationship such as that of a spouse, or a natural or adopted child. The policy holder
@@ -132,6 +129,10 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	/// (3) making specific decisions concerning a grantee.
 	case GRANTOR
 	
+	/// A person appointed by the court to look out for the best interests of a minor child during the course of legal
+	/// proceedings.
+	case GUADLTM
+	
 	/// A person or organization contractually recognized by the issuer as an entity that has assumed fiscal
 	/// responsibility (e.g., by making or giving a promise, assurance, or pledge) for another entity's financial
 	/// obligations by guaranteeing to pay for amounts owed to a particular account.  In a healthcare context, the
@@ -140,23 +141,6 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	
 	/// A person or organization legally empowered with responsibility for the care of a ward.
 	case GUARD
-	
-	/// A person appointed by the court to look out for the best interests of a minor child during the course of legal
-	/// proceedings.
-	case GUADLTM
-	
-	/// An entity that is the source of reported information (e.g., a next of kin who answers questions about the
-	/// patient's history). For history questions, the patient is logically an informant, yet the informant of history
-	/// questions is implicitly the subject.
-	case INF
-	
-	/// A person who converts spoken or written language into the language of key participants in an event such as when
-	/// a provider is obtaining a patient's consent to treatment or permission to disclose information.
-	case INTPRT
-	
-	/// An entity that is the subject of an investigation. This role is scoped by the party responsible for the
-	/// investigation.
-	case INSBJ
 	
 	/// A person who has been granted the authority to represent or act on another's behalf for healthcare related
 	/// matters in a manner which is a legally binding upon the person giving such authority as if he or she personally
@@ -168,6 +152,19 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	
 	/// An entity that is authorized to provide health care services by an authorizing organization or jurisdiction.
 	case HPROV
+	
+	/// An entity that is the source of reported information (e.g., a next of kin who answers questions about the
+	/// patient's history). For history questions, the patient is logically an informant, yet the informant of history
+	/// questions is implicitly the subject.
+	case INF
+	
+	/// An entity that is the subject of an investigation. This role is scoped by the party responsible for the
+	/// investigation.
+	case INSBJ
+	
+	/// A person who converts spoken or written language into the language of key participants in an event such as when
+	/// a provider is obtaining a patient's consent to treatment or permission to disclose information.
+	case INTPRT
 	
 	/// A person in the role of verifier who attests to the accuracy of information content, and who has privileges to
 	/// certify the legal authenticity of that content with a signature that constitutes a legal authentication.  For
@@ -221,10 +218,6 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	/// into the patient record.
 	case REVIEWER
 	
-	/// An entity entering the data into the originating system. This includes the transcriptionist for dictated text
-	/// transcribed into electronic form.
-	case TRANS
-	
 	/// An automated data source that generates a signature along with content. Examples: (1) the signature for an image
 	/// that is generated by a device for inclusion in the patient record; (2) the signature for an ECG derived by an
 	/// ECG system for inclusion in the patient record; (3) the data from a biomedical monitoring device or system that
@@ -238,6 +231,10 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	/// mortgage to pay for end of life expenses; and (3) making specific legal decisions concerning a grantee such as
 	/// managing a trust.
 	case SPOWATT
+	
+	/// An entity entering the data into the originating system. This includes the transcriptionist for dictated text
+	/// transcribed into electronic form.
+	case TRANS
 	
 	/// A person who validates a health information document for inclusion in the patient record. For example, a medical
 	/// student or resident is credentialed to perform history or physical examinations and to write progress notes. The
@@ -255,4 +252,7 @@ public enum ContractSignerTypeCodes: String, FHIRPrimitiveType {
 	/// signed, much less approves of anything stated in the content. For example, an advanced directive witness or a
 	/// witness that a party to a contract signed that certain demographic or financial information is truthful.
 	case WIT
+	
+	/// A party that delegates a right or authority to another party.
+	case delegator
 }

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import FMCore
  */
 public enum ListMode: String, FHIRPrimitiveType {
 	
-	/// This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is
-	/// tracking changes
-	case working = "working"
+	/// A list that indicates where changes have been made or recommended
+	case changes
 	
 	/// This list was prepared as a snapshot. It should not be assumed to be current
-	case snapshot = "snapshot"
+	case snapshot
 	
-	/// A list that indicates where changes have been made or recommended
-	case changes = "changes"
+	/// This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is
+	/// tracking changes
+	case working
 }

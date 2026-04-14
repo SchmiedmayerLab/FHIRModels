@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,21 +31,21 @@ public enum DiagnosisRole: String, FHIRPrimitiveType {
 	/// AD
 	case AD
 	
-	/// DD
-	case DD
-	
 	/// CC
 	case CC
 	
 	/// CM
 	case CM
 	
-	/// preOp
-	case preOp = "pre-op"
+	/// DD
+	case DD
+	
+	/// billing
+	case billing
 	
 	/// postOp
 	case postOp = "post-op"
 	
-	/// billing
-	case billing
+	/// preOp
+	case preOp = "pre-op"
 }

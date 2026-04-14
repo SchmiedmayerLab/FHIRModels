@@ -3,6 +3,20 @@ Changelog
 
 The changelog is in reverse chronological order, as usual.
 
+### 0.9.0
+
+- BREAKING CHANGES, The `Sendable` Release: makes all types adopt Swift Sendable, which means:
+    - All types are now structs, all abstract types protocols. Resources and elements used to be `open class` and are now `public struct`
+    - The initializers and Codable interfaces didn't change, depending on how "FHIRModels" is used in your projects there may be zero to lots of adjustments necessary
+    - The top level `FHIRType` protocol is now `Sendable`
+    - Abstract types, including but not exclusively `Resource` and `DomainResource`, can no longer be instantiated (and probably never needed to be), and `FHIRAbstractResource` has been removed
+    - Specialized elements such as `Age`, `Count`, `Distance`, and `Duration` are mere typealiases of `Quantity`
+    - Since the FHIR data models define recursive structures (e.g. "Patient" -> "Identifier" -> "Reference" -> "Identifier" -> ...), all-struct doesn't work in Swift. To work around this cyle, `Identifier` and `Reference` are now `final class, Sendable`
+    - The second infinite loop is around `ResourceProxy` and `Bundle`. To break this cycle, `ResourceProxy.bundle` is now a `indirect case`
+    - This finally addresses https://github.com/apple/FHIRModels/issues/26
+    - Bump Swift tools version to 6.2
+- Update _build_ models to 6.0.0-ballot4 (http://build.fhir.org/)
+
 ### 0.8.0
 
 - BREAKING CHANGES: update _build_ models to 6.0.0-ballot3 (http://build.fhir.org/)

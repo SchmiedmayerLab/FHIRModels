@@ -2,8 +2,8 @@
 //  DeviceRequest.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/DeviceRequest)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/DeviceRequest)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,72 +25,87 @@ import FMCore
  Represents a request for a patient to employ a medical device. The device may be an implantable device, or an external
  assistive device, such as a walker.
  */
-open class DeviceRequest: DomainResource {
+public struct DeviceRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .deviceRequest }
+	public static let resourceType: ResourceType = .deviceRequest
 	
 	/// All possible types for "code[x]"
-	public enum CodeX: Hashable {
+	public enum CodeX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
 	}
 	
-	/// External Request identifier
-	public var identifier: [Identifier]?
-	
-	/// Protocol or definition
-	public var definition: [Reference]?
+	/// When recorded
+	public var authoredOn: FHIRPrimitive<DateTime>?
 	
 	/// What request fulfills
 	public var basedOn: [Reference]?
-	
-	/// What request replaces
-	public var priorRequest: [Reference]?
-	
-	/// Identifier of composite request
-	public var groupIdentifier: Identifier?
-	
-	/// The status of the request.
-	public var status: FHIRPrimitive<RequestStatus>?
-	
-	/// proposal | plan | original-order | encoded | reflex-order
-	public var intent: CodeableConcept
-	
-	/// None
-	public var priority: FHIRPrimitive<RequestPriority>?
 	
 	/// Device requested
 	/// One of `code[x]`
 	public var code: CodeX
 	
-	/// Focus of request
-	public var subject: Reference
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Encounter or Episode motivating request
 	public var context: Reference?
+	
+	/// Protocol or definition
+	public var definition: [Reference]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Identifier of composite request
+	public var groupIdentifier: Identifier?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// External Request identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// proposal | plan | original-order | encoded | reflex-order
+	public var intent: CodeableConcept
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Notes or comments
+	public var note: [Annotation]?
 	
 	/// Desired time or schedule for use
 	/// One of `occurrence[x]`
 	public var occurrence: OccurrenceX?
 	
-	/// When recorded
-	public var authoredOn: FHIRPrimitive<DateTime>?
-	
-	/// Who/what is requesting diagnostics
-	public var requester: DeviceRequestRequester?
+	/// Requested Filler
+	public var performer: Reference?
 	
 	/// Fille role
 	public var performerType: CodeableConcept?
 	
-	/// Requested Filler
-	public var performer: Reference?
+	/// What request replaces
+	public var priorRequest: [Reference]?
+	
+	/// None
+	public var priority: FHIRPrimitive<RequestPriority>?
 	
 	/// Coded Reason for request
 	public var reasonCode: [CodeableConcept]?
@@ -98,55 +113,63 @@ open class DeviceRequest: DomainResource {
 	/// Linked Reason for request
 	public var reasonReference: [Reference]?
 	
+	/// Request provenance
+	public var relevantHistory: [Reference]?
+	
+	/// Who/what is requesting diagnostics
+	public var requester: DeviceRequestRequester?
+	
+	/// The status of the request.
+	public var status: FHIRPrimitive<RequestStatus>?
+	
+	/// Focus of request
+	public var subject: Reference
+	
 	/// Additional clinical information
 	public var supportingInfo: [Reference]?
 	
-	/// Notes or comments
-	public var note: [Annotation]?
-	
-	/// Request provenance
-	public var relevantHistory: [Reference]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(code: CodeX, intent: CodeableConcept, subject: Reference) {
 		self.code = code
 		self.intent = intent
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							authoredOn: FHIRPrimitive<DateTime>? = nil,
-							basedOn: [Reference]? = nil,
-							code: CodeX,
-							contained: [ResourceProxy]? = nil,
-							context: Reference? = nil,
-							definition: [Reference]? = nil,
-							`extension`: [Extension]? = nil,
-							groupIdentifier: Identifier? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							intent: CodeableConcept,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							note: [Annotation]? = nil,
-							occurrence: OccurrenceX? = nil,
-							performer: Reference? = nil,
-							performerType: CodeableConcept? = nil,
-							priorRequest: [Reference]? = nil,
-							priority: FHIRPrimitive<RequestPriority>? = nil,
-							reasonCode: [CodeableConcept]? = nil,
-							reasonReference: [Reference]? = nil,
-							relevantHistory: [Reference]? = nil,
-							requester: DeviceRequestRequester? = nil,
-							status: FHIRPrimitive<RequestStatus>? = nil,
-							subject: Reference,
-							supportingInfo: [Reference]? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		authoredOn: FHIRPrimitive<DateTime>? = nil,
+		basedOn: [Reference]? = nil,
+		code: CodeX,
+		contained: [ResourceProxy]? = nil,
+		context: Reference? = nil,
+		definition: [Reference]? = nil,
+		`extension`: [Extension]? = nil,
+		groupIdentifier: Identifier? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		intent: CodeableConcept,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		note: [Annotation]? = nil,
+		occurrence: OccurrenceX? = nil,
+		performer: Reference? = nil,
+		performerType: CodeableConcept? = nil,
+		priorRequest: [Reference]? = nil,
+		priority: FHIRPrimitive<RequestPriority>? = nil,
+		reasonCode: [CodeableConcept]? = nil,
+		reasonReference: [Reference]? = nil,
+		relevantHistory: [Reference]? = nil,
+		requester: DeviceRequestRequester? = nil,
+		status: FHIRPrimitive<RequestStatus>? = nil,
+		subject: Reference,
+		supportingInfo: [Reference]? = nil,
+		text: Narrative? = nil
+	) {
 		self.init(code: code, intent: intent, subject: subject)
 		self.authoredOn = authoredOn
 		self.basedOn = basedOn
@@ -179,15 +202,23 @@ open class DeviceRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case authoredOn; case _authoredOn
 		case basedOn
 		case codeCodeableConcept
 		case codeReference
+		case contained
 		case context
 		case definition
+		case `extension` = "extension"
 		case groupIdentifier
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case intent
+		case language; case _language
+		case meta
+		case modifierExtension
 		case note
 		case occurrenceDateTime; case _occurrenceDateTime
 		case occurrencePeriod
@@ -203,10 +234,11 @@ open class DeviceRequest: DomainResource {
 		case status; case _status
 		case subject
 		case supportingInfo
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -214,7 +246,7 @@ open class DeviceRequest: DomainResource {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.codeCodeableConcept, CodingKeys.codeReference], debugDescription: "Must have at least one value for \"code\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		var _t_code: CodeX? = nil
@@ -231,11 +263,18 @@ open class DeviceRequest: DomainResource {
 			_t_code = .codeableConcept(codeCodeableConcept)
 		}
 		self.code = _t_code!
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.context = try Reference(from: _container, forKeyIfPresent: .context)
 		self.definition = try [Reference](from: _container, forKeyIfPresent: .definition)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.groupIdentifier = try Identifier(from: _container, forKeyIfPresent: .groupIdentifier)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.intent = try CodeableConcept(from: _container, forKey: .intent)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
@@ -268,14 +307,15 @@ open class DeviceRequest: DomainResource {
 		self.status = try FHIRPrimitive<RequestStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.supportingInfo = try [Reference](from: _container, forKeyIfPresent: .supportingInfo)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		
@@ -286,11 +326,18 @@ open class DeviceRequest: DomainResource {
 				try _value.encode(on: &_container, forKey: .codeCodeableConcept)
 			}
 		
+		try contained?.encode(on: &_container, forKey: .contained)
 		try context?.encode(on: &_container, forKey: .context)
 		try definition?.encode(on: &_container, forKey: .definition)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try groupIdentifier?.encode(on: &_container, forKey: .groupIdentifier)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try intent.encode(on: &_container, forKey: .intent)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
 			switch _enum {
@@ -313,64 +360,7 @@ open class DeviceRequest: DomainResource {
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
 		try supportingInfo?.encode(on: &_container, forKey: .supportingInfo)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return authoredOn == _other.authoredOn
-		    && basedOn == _other.basedOn
-		    && code == _other.code
-		    && context == _other.context
-		    && definition == _other.definition
-		    && groupIdentifier == _other.groupIdentifier
-		    && identifier == _other.identifier
-		    && intent == _other.intent
-		    && note == _other.note
-		    && occurrence == _other.occurrence
-		    && performer == _other.performer
-		    && performerType == _other.performerType
-		    && priorRequest == _other.priorRequest
-		    && priority == _other.priority
-		    && reasonCode == _other.reasonCode
-		    && reasonReference == _other.reasonReference
-		    && relevantHistory == _other.relevantHistory
-		    && requester == _other.requester
-		    && status == _other.status
-		    && subject == _other.subject
-		    && supportingInfo == _other.supportingInfo
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(authoredOn)
-		hasher.combine(basedOn)
-		hasher.combine(code)
-		hasher.combine(context)
-		hasher.combine(definition)
-		hasher.combine(groupIdentifier)
-		hasher.combine(identifier)
-		hasher.combine(intent)
-		hasher.combine(note)
-		hasher.combine(occurrence)
-		hasher.combine(performer)
-		hasher.combine(performerType)
-		hasher.combine(priorRequest)
-		hasher.combine(priority)
-		hasher.combine(reasonCode)
-		hasher.combine(reasonReference)
-		hasher.combine(relevantHistory)
-		hasher.combine(requester)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(supportingInfo)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -379,10 +369,19 @@ open class DeviceRequest: DomainResource {
  
  The individual who initiated the request and has responsibility for its activation.
  */
-open class DeviceRequestRequester: BackboneElement {
+public struct DeviceRequestRequester: BackboneElement {
 	
 	/// Individual making the request
 	public var agent: Reference
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Organization agent is acting for
 	public var onBehalfOf: Reference?
@@ -390,17 +389,16 @@ open class DeviceRequestRequester: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(agent: Reference) {
 		self.agent = agent
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							agent: Reference,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							onBehalfOf: Reference? = nil)
-	{
+	public init(
+		agent: Reference,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		onBehalfOf: Reference? = nil
+	) {
 		self.init(agent: agent)
 		self.`extension` = `extension`
 		self.id = id
@@ -412,45 +410,32 @@ open class DeviceRequestRequester: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case agent
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case onBehalfOf
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.agent = try Reference(from: _container, forKey: .agent)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.onBehalfOf = try Reference(from: _container, forKeyIfPresent: .onBehalfOf)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try agent.encode(on: &_container, forKey: .agent)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceRequestRequester else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return agent == _other.agent
-		    && onBehalfOf == _other.onBehalfOf
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(agent)
-		hasher.combine(onBehalfOf)
 	}
 }

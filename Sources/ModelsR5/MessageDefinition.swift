@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/MessageDefinition)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,27 +25,118 @@ import FMCore
  Defines the characteristics of a message that can be shared between systems, including the type of event that initiates
  the message, the content to be transmitted and what response(s), if any, are permitted.
  */
-open class MessageDefinition: DomainResource {
+public struct MessageDefinition: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .messageDefinition }
+	public static let resourceType: ResourceType = .messageDefinition
 	
 	/// All possible types for "event[x]"
-	public enum EventX: Hashable {
+	public enum EventX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// The cannonical URL for a given MessageDefinition
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// Responses to this message
+	public var allowedResponse: [MessageDefinitionAllowedResponse]?
+	
+	/// Definition this one is based on
+	public var base: FHIRPrimitive<Canonical>?
+	
+	/// The impact of the content of the message.
+	public var category: FHIRPrimitive<MessageSignificanceCategory>?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Use and/or publishing restrictions
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Copyright holder and year(s)
+	public var copyrightLabel: FHIRPrimitive<FHIRString>?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>
+	
+	/// Natural language description of the message definition
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Event code  or link to the EventDefinition
+	/// One of `event[x]`
+	public var event: EventX
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Resource(s) that are the subject of the event
+	public var focus: [MessageDefinitionFocus]?
+	
+	/// Canonical reference to a GraphDefinition
+	public var graph: FHIRPrimitive<Canonical>?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business Identifier for a given MessageDefinition
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Intended jurisdiction for message definition (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this message definition (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Protocol/workflow this is part of
+	public var parent: [FHIRPrimitive<Canonical>]?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this message definition is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// Takes the place of
+	public var replaces: [FHIRPrimitive<Canonical>]?
+	
+	/// Declare at a message definition level whether a response is required or only upon error or success, or never.
+	public var responseRequired: FHIRPrimitive<MessageheaderResponseRequest>?
+	
+	/// The status of this message definition. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this message definition (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// The cannonical URL for a given MessageDefinition
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
 	
 	/// Business version of the message definition
 	public var version: FHIRPrimitive<FHIRString>?
@@ -54,83 +145,15 @@ open class MessageDefinition: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Name for this message definition (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this message definition (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Takes the place of
-	public var replaces: [FHIRPrimitive<Canonical>]?
-	
-	/// The status of this message definition. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the message definition
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for message definition (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this message definition is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Use and/or publishing restrictions
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
-	/// Copyright holder and year(s)
-	public var copyrightLabel: FHIRPrimitive<FHIRString>?
-	
-	/// Definition this one is based on
-	public var base: FHIRPrimitive<Canonical>?
-	
-	/// Protocol/workflow this is part of
-	public var parent: [FHIRPrimitive<Canonical>]?
-	
-	/// Event code  or link to the EventDefinition
-	/// One of `event[x]`
-	public var event: EventX
-	
-	/// The impact of the content of the message.
-	public var category: FHIRPrimitive<MessageSignificanceCategory>?
-	
-	/// Resource(s) that are the subject of the event
-	public var focus: [MessageDefinitionFocus]?
-	
-	/// Declare at a message definition level whether a response is required or only upon error or success, or never.
-	public var responseRequired: FHIRPrimitive<MessageheaderResponseRequest>?
-	
-	/// Responses to this message
-	public var allowedResponse: [MessageDefinitionAllowedResponse]?
-	
-	/// Canonical reference to a GraphDefinition
-	public var graph: FHIRPrimitive<Canonical>?
-	
 	/// Designated initializer taking all required properties
 	public init(date: FHIRPrimitive<DateTime>, event: EventX, status: FHIRPrimitive<PublicationStatus>) {
 		self.date = date
 		self.event = event
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		allowedResponse: [MessageDefinitionAllowedResponse]? = nil,
 		base: FHIRPrimitive<Canonical>? = nil,
 		category: FHIRPrimitive<MessageSignificanceCategory>? = nil,
@@ -203,10 +226,12 @@ open class MessageDefinition: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case allowedResponse
 		case base; case _base
 		case category; case _category
 		case contact
+		case contained
 		case copyright; case _copyright
 		case copyrightLabel; case _copyrightLabel
 		case date; case _date
@@ -214,10 +239,16 @@ open class MessageDefinition: DomainResource {
 		case eventCoding
 		case eventUri; case _eventUri
 		case experimental; case _experimental
+		case `extension` = "extension"
 		case focus
 		case graph; case _graph
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name; case _name
 		case parent; case _parent
 		case publisher; case _publisher
@@ -225,6 +256,7 @@ open class MessageDefinition: DomainResource {
 		case replaces; case _replaces
 		case responseRequired; case _responseRequired
 		case status; case _status
+		case text
 		case title; case _title
 		case url; case _url
 		case useContext
@@ -232,9 +264,9 @@ open class MessageDefinition: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -242,11 +274,12 @@ open class MessageDefinition: DomainResource {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.eventCoding, CodingKeys.eventUri], debugDescription: "Must have at least one value for \"event\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.allowedResponse = try [MessageDefinitionAllowedResponse](from: _container, forKeyIfPresent: .allowedResponse)
 		self.base = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .base, auxiliaryKey: ._base)
 		self.category = try FHIRPrimitive<MessageSignificanceCategory>(from: _container, forKeyIfPresent: .category, auxiliaryKey: ._category)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.copyrightLabel = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKey: .date, auxiliaryKey: ._date)
@@ -266,10 +299,16 @@ open class MessageDefinition: DomainResource {
 		}
 		self.event = _t_event!
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [MessageDefinitionFocus](from: _container, forKeyIfPresent: .focus)
 		self.graph = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .graph, auxiliaryKey: ._graph)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.parent = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .parent, auxiliaryKey: ._parent)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
@@ -277,6 +316,7 @@ open class MessageDefinition: DomainResource {
 		self.replaces = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .replaces, auxiliaryKey: ._replaces)
 		self.responseRequired = try FHIRPrimitive<MessageheaderResponseRequest>(from: _container, forKeyIfPresent: .responseRequired, auxiliaryKey: ._responseRequired)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
@@ -295,18 +335,19 @@ open class MessageDefinition: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try allowedResponse?.encode(on: &_container, forKey: .allowedResponse)
 		try base?.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
 		try category?.encode(on: &_container, forKey: .category, auxiliaryKey: ._category)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try copyrightLabel?.encode(on: &_container, forKey: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		try date.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -320,10 +361,16 @@ open class MessageDefinition: DomainResource {
 			}
 		
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try graph?.encode(on: &_container, forKey: .graph, auxiliaryKey: ._graph)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try parent?.encode(on: &_container, forKey: .parent, auxiliaryKey: ._parent)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
@@ -331,6 +378,7 @@ open class MessageDefinition: DomainResource {
 		try replaces?.encode(on: &_container, forKey: .replaces, auxiliaryKey: ._replaces)
 		try responseRequired?.encode(on: &_container, forKey: .responseRequired, auxiliaryKey: ._responseRequired)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
@@ -343,74 +391,6 @@ open class MessageDefinition: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return allowedResponse == _other.allowedResponse
-		    && base == _other.base
-		    && category == _other.category
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && copyrightLabel == _other.copyrightLabel
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && event == _other.event
-		    && experimental == _other.experimental
-		    && focus == _other.focus
-		    && graph == _other.graph
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && name == _other.name
-		    && parent == _other.parent
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && replaces == _other.replaces
-		    && responseRequired == _other.responseRequired
-		    && status == _other.status
-		    && title == _other.title
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(allowedResponse)
-		hasher.combine(base)
-		hasher.combine(category)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(copyrightLabel)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(event)
-		hasher.combine(experimental)
-		hasher.combine(focus)
-		hasher.combine(graph)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(name)
-		hasher.combine(parent)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(replaces)
-		hasher.combine(responseRequired)
-		hasher.combine(status)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
@@ -419,10 +399,19 @@ open class MessageDefinition: DomainResource {
  
  Indicates what types of messages may be sent as an application-level response to this message.
  */
-open class MessageDefinitionAllowedResponse: BackboneElement {
+public struct MessageDefinitionAllowedResponse: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Reference to allowed message definition response
 	public var message: FHIRPrimitive<Canonical>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// When should this response be used
 	public var situation: FHIRPrimitive<FHIRString>?
@@ -430,11 +419,10 @@ open class MessageDefinitionAllowedResponse: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(message: FHIRPrimitive<Canonical>) {
 		self.message = message
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		message: FHIRPrimitive<Canonical>,
@@ -451,47 +439,34 @@ open class MessageDefinitionAllowedResponse: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case message; case _message
+		case modifierExtension
 		case situation; case _situation
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.message = try FHIRPrimitive<Canonical>(from: _container, forKey: .message, auxiliaryKey: ._message)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.situation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .situation, auxiliaryKey: ._situation)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try message.encode(on: &_container, forKey: .message, auxiliaryKey: ._message)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try situation?.encode(on: &_container, forKey: .situation, auxiliaryKey: ._situation)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageDefinitionAllowedResponse else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return message == _other.message
-		    && situation == _other.situation
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(message)
-		hasher.combine(situation)
 	}
 }
 
@@ -501,7 +476,7 @@ open class MessageDefinitionAllowedResponse: BackboneElement {
  Identifies the resource (or resources) that are being addressed by the event.  For example, the Encounter for an admit
  message or two Account records for a merge.
  */
-open class MessageDefinitionFocus: BackboneElement {
+public struct MessageDefinitionFocus: BackboneElement {
 	
 	/// The kind of resource that must be the focus for this message.
 	/// Restricted to: ['Account', 'ActivityDefinition', 'ActorDefinition', 'AdministrableProductDefinition',
@@ -535,24 +510,32 @@ open class MessageDefinitionFocus: BackboneElement {
 	/// 'ValueSet', 'VerificationResult', 'VisionPrescription']
 	public var code: FHIRPrimitive<ResourceType>
 	
-	/// Profile that must be adhered to by focus
-	public var profile: FHIRPrimitive<Canonical>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Maximum number of focuses of this type
+	public var max: FHIRPrimitive<FHIRString>?
 	
 	/// Minimum number of focuses of this type
 	public var min: FHIRPrimitive<FHIRUnsignedInteger>
 	
-	/// Maximum number of focuses of this type
-	public var max: FHIRPrimitive<FHIRString>?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Profile that must be adhered to by focus
+	public var profile: FHIRPrimitive<Canonical>?
 	
 	/// Designated initializer taking all required properties
 	public init(code: FHIRPrimitive<ResourceType>, min: FHIRPrimitive<FHIRUnsignedInteger>) {
 		self.code = code
 		self.min = min
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<ResourceType>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -573,55 +556,38 @@ open class MessageDefinitionFocus: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code; case _code
+		case `extension` = "extension"
+		case id; case _id
 		case max; case _max
 		case min; case _min
+		case modifierExtension
 		case profile; case _profile
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<ResourceType>(from: _container, forKey: .code, auxiliaryKey: ._code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.max = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .max, auxiliaryKey: ._max)
 		self.min = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKey: .min, auxiliaryKey: ._min)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.profile = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .profile, auxiliaryKey: ._profile)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try max?.encode(on: &_container, forKey: .max, auxiliaryKey: ._max)
 		try min.encode(on: &_container, forKey: .min, auxiliaryKey: ._min)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try profile?.encode(on: &_container, forKey: .profile, auxiliaryKey: ._profile)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageDefinitionFocus else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && max == _other.max
-		    && min == _other.min
-		    && profile == _other.profile
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(max)
-		hasher.combine(min)
-		hasher.combine(profile)
 	}
 }

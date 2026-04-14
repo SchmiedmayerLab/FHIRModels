@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/OrderResponse)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,57 +22,80 @@ import FMCore
 /**
  A response to an order.
  */
-open class OrderResponse: DomainResource {
+public struct OrderResponse: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .orderResponse }
+	public static let resourceType: ResourceType = .orderResponse
 	
-	/// Identifiers assigned to this order by the orderer or by the receiver
-	public var identifier: [Identifier]?
-	
-	/// The order that this is a response to
-	public var request: Reference
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// When the response was made
 	public var date: FHIRPrimitive<DateTime>?
 	
-	/// Who made the response
-	public var who: Reference?
+	/// Additional description of the response
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Details of the outcome of performing the order
+	public var fulfillment: [Reference]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifiers assigned to this order by the orderer or by the receiver
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// What this response says about the status of the original order.
 	/// Restricted to: ['pending', 'review', 'rejected', 'error', 'accepted', 'cancelled', 'aborted', 'completed']
 	public var orderStatus: FHIRPrimitive<OrderStatus>
 	
-	/// Additional description of the response
-	public var description_fhir: FHIRPrimitive<FHIRString>?
+	/// The order that this is a response to
+	public var request: Reference
 	
-	/// Details of the outcome of performing the order
-	public var fulfillment: [Reference]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Who made the response
+	public var who: Reference?
 	
 	/// Designated initializer taking all required properties
 	public init(orderStatus: FHIRPrimitive<OrderStatus>, request: Reference) {
 		self.orderStatus = orderStatus
 		self.request = request
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							contained: [ResourceProxy]? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							fulfillment: [Reference]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							orderStatus: FHIRPrimitive<OrderStatus>,
-							request: Reference,
-							text: Narrative? = nil,
-							who: Reference? = nil)
-	{
+	public init(
+		contained: [ResourceProxy]? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		fulfillment: [Reference]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		orderStatus: FHIRPrimitive<OrderStatus>,
+		request: Reference,
+		text: Narrative? = nil,
+		who: Reference? = nil
+	) {
 		self.init(orderStatus: orderStatus, request: request)
 		self.contained = contained
 		self.date = date
@@ -92,71 +115,66 @@ open class OrderResponse: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
 		case fulfillment
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case orderStatus; case _orderStatus
 		case request
+		case text
 		case who
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.fulfillment = try [Reference](from: _container, forKeyIfPresent: .fulfillment)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.orderStatus = try FHIRPrimitive<OrderStatus>(from: _container, forKey: .orderStatus, auxiliaryKey: ._orderStatus)
 		self.request = try Reference(from: _container, forKey: .request)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.who = try Reference(from: _container, forKeyIfPresent: .who)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fulfillment?.encode(on: &_container, forKey: .fulfillment)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try orderStatus.encode(on: &_container, forKey: .orderStatus, auxiliaryKey: ._orderStatus)
 		try request.encode(on: &_container, forKey: .request)
+		try text?.encode(on: &_container, forKey: .text)
 		try who?.encode(on: &_container, forKey: .who)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OrderResponse else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && fulfillment == _other.fulfillment
-		    && identifier == _other.identifier
-		    && orderStatus == _other.orderStatus
-		    && request == _other.request
-		    && who == _other.who
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(fulfillment)
-		hasher.combine(identifier)
-		hasher.combine(orderStatus)
-		hasher.combine(request)
-		hasher.combine(who)
 	}
 }

@@ -2,8 +2,8 @@
 //  ExtendedContactDetail.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/ExtendedContactDetail)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/ExtendedContactDetail)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,19 +25,19 @@ import FMCore
  Specifies contact information for a specific purpose over a period of time, might be handled/monitored by a specific
  named person or organization.
  */
-open class ExtendedContactDetail: DataType {
-	
-	/// The type of contact
-	public var purpose: CodeableConcept?
-	
-	/// Name of an individual to contact
-	public var name: [HumanName]?
-	
-	/// Contact details (e.g.phone/fax/url)
-	public var telecom: [ContactPoint]?
+public struct ExtendedContactDetail: DataType {
 	
 	/// Address for the contact
 	public var address: Address?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Name of an individual to contact
+	public var name: [HumanName]?
 	
 	/// This contact detail is handled/monitored by a specific organization
 	public var organization: Reference?
@@ -45,13 +45,18 @@ open class ExtendedContactDetail: DataType {
 	/// Period that this contact was valid for usage
 	public var period: Period?
 	
+	/// The type of contact
+	public var purpose: CodeableConcept?
+	
+	/// Contact details (e.g.phone/fax/url)
+	public var telecom: [ContactPoint]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		address: Address? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -76,65 +81,41 @@ open class ExtendedContactDetail: DataType {
 	
 	private enum CodingKeys: String, CodingKey {
 		case address
+		case `extension` = "extension"
+		case id; case _id
 		case name
 		case organization
 		case period
 		case purpose
 		case telecom
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.address = try Address(from: _container, forKeyIfPresent: .address)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.name = try [HumanName](from: _container, forKeyIfPresent: .name)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.purpose = try CodeableConcept(from: _container, forKeyIfPresent: .purpose)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try name?.encode(on: &_container, forKey: .name)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try period?.encode(on: &_container, forKey: .period)
 		try purpose?.encode(on: &_container, forKey: .purpose)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ExtendedContactDetail else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return address == _other.address
-		    && name == _other.name
-		    && organization == _other.organization
-		    && period == _other.period
-		    && purpose == _other.purpose
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(address)
-		hasher.combine(name)
-		hasher.combine(organization)
-		hasher.combine(period)
-		hasher.combine(purpose)
-		hasher.combine(telecom)
 	}
 }

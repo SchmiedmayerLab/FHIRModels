@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,15 +28,15 @@ import FMCore
  */
 public enum CodeSystemContentMode: String, FHIRPrimitiveType {
 	
-	/// None of the concepts defined by the code system are included in the code system resource
-	case notPresent = "not-present"
+	/// All the concepts defined by the code system are included in the code system resource
+	case complete
 	
 	/// A few representative concepts are included in the code system resource
-	case example = "example"
+	case example
 	
 	/// A subset of the code system concepts are included in the code system resource
-	case fragment = "fragment"
+	case fragment
 	
-	/// All the concepts defined by the code system are included in the code system resource
-	case complete = "complete"
+	/// None of the concepts defined by the code system are included in the code system resource
+	case notPresent = "not-present"
 }

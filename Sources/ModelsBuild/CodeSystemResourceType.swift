@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 6.0.0-ballot3
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -268,18 +268,12 @@ public enum ResourceType: String, FHIRPrimitiveType {
 	case goal = "Goal"
 	
 	/// Represents a defined collection of entities that may be discussed or acted upon collectively but which are not
-	/// typically expected to act collectively.  These collections are also not typically formally or legally
-	/// recognized.
-	/// 
-	/// NOTE: Group may be used to define families or households, which in some circumstances may act collectively or
-	/// have a degree of legal or formal recognition.  This should be considered an exception.  When Group is used for
-	/// types of entities other than Patient or RelatedPerson, the expectation remains that the Group will not act
-	/// collectively or have formal recognition - use Organization if these behaviors are needed.
-	/// 
-	/// For example, it is possible for a 'family' Group to be a performer of an Observation or owner of a Task.
-	/// However, this is not permitted for a Group made up of Practitioners, PractitionerRoles or Organizations.
-	/// Organization or CareTeam would need to be used instead.  A Group of Practitioners could, however, be a subject
-	/// of an Observation.
+	/// typically expected to act collectively*. These collections are also not typically formally or legally
+	/// recognized.\r\n\r\n*NOTE: Group may be used to define families or households, which in some circumstances may
+	/// act collectively or have a degree of legal or formal recognition. This should be considered an exception. When
+	/// Group is used for types of entities other than Patient or RelatedPerson, the expectation remains that the Group
+	/// will not act collectively or have formal recognition - use Organization if these behaviors are needed. See more
+	/// discussion [below](group.html#group-usage)
 	case group = "Group"
 	
 	/// A guidance response is the formal response to a guidance request, including any output parameters returned by
@@ -291,8 +285,8 @@ public enum ResourceType: String, FHIRPrimitiveType {
 	/// linked HealthcareServices.
 	case healthcareService = "HealthcareService"
 	
-	/// A selection of DICOM SOP instances within a single Study and Series. This might include additional specifics
-	/// such as a set of frames or an image region, allowing linkage to an Observation Resource.
+	/// A selection of DICOM SOP instances within a single DICOM Study and Series. This might include additional
+	/// specifics such as a set of frames or an image region, allowing linkage to an Observation Resource.
 	case imagingSelection = "ImagingSelection"
 	
 	/// Representation of the content produced in a DICOM imaging study. A study comprises a set of series, each of

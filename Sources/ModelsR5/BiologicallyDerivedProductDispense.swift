@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/BiologicallyDerivedProductDispense)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,68 +26,91 @@ import FMCore
  derived product from the supply organization or department (e.g. hospital transfusion laboratory) to the clinical team
  responsible for clinical application.
  */
-open class BiologicallyDerivedProductDispense: DomainResource {
+public struct BiologicallyDerivedProductDispense: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .biologicallyDerivedProductDispense }
-	
-	/// Business identifier for this dispense
-	public var identifier: [Identifier]?
+	public static let resourceType: ResourceType = .biologicallyDerivedProductDispense
 	
 	/// The order or request that this dispense is fulfilling
 	public var basedOn: [Reference]?
 	
-	/// Short description
-	public var partOf: [Reference]?
-	
-	/// A code specifying the state of the dispense event.
-	public var status: FHIRPrimitive<BiologicallyDerivedProductDispenseStatus>
-	
-	/// Relationship between the donor and intended recipient
-	public var originRelationshipType: CodeableConcept?
-	
-	/// The BiologicallyDerivedProduct that is dispensed
-	public var product: Reference
-	
-	/// The intended recipient of the dispensed product
-	public var patient: Reference
-	
-	/// Indicates the type of matching associated with the dispense
-	public var matchStatus: CodeableConcept?
-	
-	/// Indicates who or what performed an action
-	public var performer: [BiologicallyDerivedProductDispensePerformer]?
-	
-	/// Where the dispense occurred
-	public var location: Reference?
-	
-	/// Amount dispensed
-	public var quantity: Quantity?
-	
-	/// When product was selected/matched
-	public var preparedDate: FHIRPrimitive<DateTime>?
-	
-	/// When the product was dispatched
-	public var whenHandedOver: FHIRPrimitive<DateTime>?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Where the product was dispatched to
 	public var destination: Reference?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier for this dispense
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Where the dispense occurred
+	public var location: Reference?
+	
+	/// Indicates the type of matching associated with the dispense
+	public var matchStatus: CodeableConcept?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// Additional notes
 	public var note: [Annotation]?
 	
+	/// Relationship between the donor and intended recipient
+	public var originRelationshipType: CodeableConcept?
+	
+	/// Short description
+	public var partOf: [Reference]?
+	
+	/// The intended recipient of the dispensed product
+	public var patient: Reference
+	
+	/// Indicates who or what performed an action
+	public var performer: [BiologicallyDerivedProductDispensePerformer]?
+	
+	/// When product was selected/matched
+	public var preparedDate: FHIRPrimitive<DateTime>?
+	
+	/// The BiologicallyDerivedProduct that is dispensed
+	public var product: Reference
+	
+	/// Amount dispensed
+	public var quantity: Quantity?
+	
+	/// A code specifying the state of the dispense event.
+	public var status: FHIRPrimitive<BiologicallyDerivedProductDispenseStatus>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Specific instructions for use
 	public var usageInstruction: FHIRPrimitive<FHIRString>?
+	
+	/// When the product was dispatched
+	public var whenHandedOver: FHIRPrimitive<DateTime>?
 	
 	/// Designated initializer taking all required properties
 	public init(patient: Reference, product: Reference, status: FHIRPrimitive<BiologicallyDerivedProductDispenseStatus>) {
 		self.patient = patient
 		self.product = product
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		basedOn: [Reference]? = nil,
 		contained: [ResourceProxy]? = nil,
 		destination: Reference? = nil,
@@ -140,11 +163,19 @@ open class BiologicallyDerivedProductDispense: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
+		case contained
 		case destination
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
 		case matchStatus
+		case meta
+		case modifierExtension
 		case note
 		case originRelationshipType
 		case partOf
@@ -154,20 +185,28 @@ open class BiologicallyDerivedProductDispense: DomainResource {
 		case product
 		case quantity
 		case status; case _status
+		case text
 		case usageInstruction; case _usageInstruction
 		case whenHandedOver; case _whenHandedOver
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.destination = try Reference(from: _container, forKeyIfPresent: .destination)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.matchStatus = try CodeableConcept(from: _container, forKeyIfPresent: .matchStatus)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.originRelationshipType = try CodeableConcept(from: _container, forKeyIfPresent: .originRelationshipType)
 		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
@@ -177,21 +216,29 @@ open class BiologicallyDerivedProductDispense: DomainResource {
 		self.product = try Reference(from: _container, forKey: .product)
 		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
 		self.status = try FHIRPrimitive<BiologicallyDerivedProductDispenseStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.usageInstruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .usageInstruction, auxiliaryKey: ._usageInstruction)
 		self.whenHandedOver = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .whenHandedOver, auxiliaryKey: ._whenHandedOver)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try destination?.encode(on: &_container, forKey: .destination)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
 		try matchStatus?.encode(on: &_container, forKey: .matchStatus)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try originRelationshipType?.encode(on: &_container, forKey: .originRelationshipType)
 		try partOf?.encode(on: &_container, forKey: .partOf)
@@ -201,78 +248,39 @@ open class BiologicallyDerivedProductDispense: DomainResource {
 		try product.encode(on: &_container, forKey: .product)
 		try quantity?.encode(on: &_container, forKey: .quantity)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try text?.encode(on: &_container, forKey: .text)
 		try usageInstruction?.encode(on: &_container, forKey: .usageInstruction, auxiliaryKey: ._usageInstruction)
 		try whenHandedOver?.encode(on: &_container, forKey: .whenHandedOver, auxiliaryKey: ._whenHandedOver)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? BiologicallyDerivedProductDispense else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && destination == _other.destination
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && matchStatus == _other.matchStatus
-		    && note == _other.note
-		    && originRelationshipType == _other.originRelationshipType
-		    && partOf == _other.partOf
-		    && patient == _other.patient
-		    && performer == _other.performer
-		    && preparedDate == _other.preparedDate
-		    && product == _other.product
-		    && quantity == _other.quantity
-		    && status == _other.status
-		    && usageInstruction == _other.usageInstruction
-		    && whenHandedOver == _other.whenHandedOver
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(destination)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(matchStatus)
-		hasher.combine(note)
-		hasher.combine(originRelationshipType)
-		hasher.combine(partOf)
-		hasher.combine(patient)
-		hasher.combine(performer)
-		hasher.combine(preparedDate)
-		hasher.combine(product)
-		hasher.combine(quantity)
-		hasher.combine(status)
-		hasher.combine(usageInstruction)
-		hasher.combine(whenHandedOver)
 	}
 }
 
 /**
  Indicates who or what performed an action.
  */
-open class BiologicallyDerivedProductDispensePerformer: BackboneElement {
-	
-	/// Identifies the function of the performer during the dispense
-	public var function: CodeableConcept?
+public struct BiologicallyDerivedProductDispensePerformer: BackboneElement {
 	
 	/// Who performed the action
 	public var actor: Reference
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Identifies the function of the performer during the dispense
+	public var function: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(actor: Reference) {
 		self.actor = actor
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -290,45 +298,32 @@ open class BiologicallyDerivedProductDispensePerformer: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actor
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKey: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
-		try super.init(from: decoder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? BiologicallyDerivedProductDispensePerformer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && function == _other.function
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

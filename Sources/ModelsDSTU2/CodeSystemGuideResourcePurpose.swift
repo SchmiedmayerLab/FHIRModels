@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum GuideResourcePurpose: String, FHIRPrimitiveType {
 	
-	/// The resource is intended as an example.
-	case example = "example"
-	
-	/// The resource defines a value set or concept map used in the implementation guide.
-	case terminology = "terminology"
-	
-	/// The resource defines a profile (StructureDefinition) that is used in the implementation guide.
-	case profile = "profile"
-	
 	/// The resource defines an extension (StructureDefinition) that is used in the implementation guide.
-	case `extension` = "extension"
+	case `extension`
 	
 	/// The resource contains a dictionary that is part of the implementation guide.
-	case dictionary = "dictionary"
+	case dictionary
+	
+	/// The resource is intended as an example.
+	case example
 	
 	/// The resource defines a logical model (in a StructureDefinition) that is used in the implementation guide.
-	case logical = "logical"
+	case logical
+	
+	/// The resource defines a profile (StructureDefinition) that is used in the implementation guide.
+	case profile
+	
+	/// The resource defines a value set or concept map used in the implementation guide.
+	case terminology
 }

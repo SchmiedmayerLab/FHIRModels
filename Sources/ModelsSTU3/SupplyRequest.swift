@@ -2,8 +2,8 @@
 //  SupplyRequest.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/SupplyRequest)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/SupplyRequest)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,54 +24,31 @@ import FMCore
  
  A record of a request for a medication, substance or device used in the healthcare setting.
  */
-open class SupplyRequest: DomainResource {
+public struct SupplyRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .supplyRequest }
+	public static let resourceType: ResourceType = .supplyRequest
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
 	}
 	
 	/// All possible types for "reason[x]"
-	public enum ReasonX: Hashable {
+	public enum ReasonX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// Unique identifier
-	public var identifier: Identifier?
-	
-	/// Status of the supply request.
-	public var status: FHIRPrimitive<SupplyRequestStatus>?
+	/// When the request was made
+	public var authoredOn: FHIRPrimitive<DateTime>?
 	
 	/// The kind of supply (central, non-stock, etc.)
 	public var category: CodeableConcept?
 	
-	/// Indicates how quickly this SupplyRequest should be addressed with respect to other requests.
-	public var priority: FHIRPrimitive<RequestPriority>?
-	
-	/// The item being requested
-	public var orderedItem: SupplyRequestOrderedItem?
-	
-	/// When the request should be fulfilled
-	/// One of `occurrence[x]`
-	public var occurrence: OccurrenceX?
-	
-	/// When the request was made
-	public var authoredOn: FHIRPrimitive<DateTime>?
-	
-	/// Who/what is requesting service
-	public var requester: SupplyRequestRequester?
-	
-	/// Who is intended to fulfill the request
-	public var supplier: [Reference]?
-	
-	/// Why the supply item was requested
-	/// One of `reason[x]`
-	public var reason: ReasonX?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The origin of the supply
 	public var deliverFrom: Reference?
@@ -79,34 +56,80 @@ open class SupplyRequest: DomainResource {
 	/// The destination of the supply
 	public var deliverTo: Reference?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique identifier
+	public var identifier: Identifier?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// When the request should be fulfilled
+	/// One of `occurrence[x]`
+	public var occurrence: OccurrenceX?
+	
+	/// The item being requested
+	public var orderedItem: SupplyRequestOrderedItem?
+	
+	/// Indicates how quickly this SupplyRequest should be addressed with respect to other requests.
+	public var priority: FHIRPrimitive<RequestPriority>?
+	
+	/// Why the supply item was requested
+	/// One of `reason[x]`
+	public var reason: ReasonX?
+	
+	/// Who/what is requesting service
+	public var requester: SupplyRequestRequester?
+	
+	/// Status of the supply request.
+	public var status: FHIRPrimitive<SupplyRequestStatus>?
+	
+	/// Who is intended to fulfill the request
+	public var supplier: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							authoredOn: FHIRPrimitive<DateTime>? = nil,
-							category: CodeableConcept? = nil,
-							contained: [ResourceProxy]? = nil,
-							deliverFrom: Reference? = nil,
-							deliverTo: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: Identifier? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							occurrence: OccurrenceX? = nil,
-							orderedItem: SupplyRequestOrderedItem? = nil,
-							priority: FHIRPrimitive<RequestPriority>? = nil,
-							reason: ReasonX? = nil,
-							requester: SupplyRequestRequester? = nil,
-							status: FHIRPrimitive<SupplyRequestStatus>? = nil,
-							supplier: [Reference]? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		authoredOn: FHIRPrimitive<DateTime>? = nil,
+		category: CodeableConcept? = nil,
+		contained: [ResourceProxy]? = nil,
+		deliverFrom: Reference? = nil,
+		deliverTo: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		occurrence: OccurrenceX? = nil,
+		orderedItem: SupplyRequestOrderedItem? = nil,
+		priority: FHIRPrimitive<RequestPriority>? = nil,
+		reason: ReasonX? = nil,
+		requester: SupplyRequestRequester? = nil,
+		status: FHIRPrimitive<SupplyRequestStatus>? = nil,
+		supplier: [Reference]? = nil,
+		text: Narrative? = nil
+	) {
 		self.init()
 		self.authoredOn = authoredOn
 		self.category = category
@@ -133,11 +156,19 @@ open class SupplyRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case authoredOn; case _authoredOn
 		case category
+		case contained
 		case deliverFrom
 		case deliverTo
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case occurrenceDateTime; case _occurrenceDateTime
 		case occurrencePeriod
 		case occurrenceTiming
@@ -148,18 +179,26 @@ open class SupplyRequest: DomainResource {
 		case requester
 		case status; case _status
 		case supplier
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.category = try CodeableConcept(from: _container, forKeyIfPresent: .category)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.deliverFrom = try Reference(from: _container, forKeyIfPresent: .deliverFrom)
 		self.deliverTo = try Reference(from: _container, forKeyIfPresent: .deliverTo)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
 			if _t_occurrence != nil {
@@ -199,19 +238,27 @@ open class SupplyRequest: DomainResource {
 		self.requester = try SupplyRequestRequester(from: _container, forKeyIfPresent: .requester)
 		self.status = try FHIRPrimitive<SupplyRequestStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.supplier = try [Reference](from: _container, forKeyIfPresent: .supplier)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try category?.encode(on: &_container, forKey: .category)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try deliverFrom?.encode(on: &_container, forKey: .deliverFrom)
 		try deliverTo?.encode(on: &_container, forKey: .deliverTo)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = occurrence {
 			switch _enum {
 			case .dateTime(let _value):
@@ -235,81 +282,50 @@ open class SupplyRequest: DomainResource {
 		try requester?.encode(on: &_container, forKey: .requester)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try supplier?.encode(on: &_container, forKey: .supplier)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SupplyRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return authoredOn == _other.authoredOn
-		    && category == _other.category
-		    && deliverFrom == _other.deliverFrom
-		    && deliverTo == _other.deliverTo
-		    && identifier == _other.identifier
-		    && occurrence == _other.occurrence
-		    && orderedItem == _other.orderedItem
-		    && priority == _other.priority
-		    && reason == _other.reason
-		    && requester == _other.requester
-		    && status == _other.status
-		    && supplier == _other.supplier
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(authoredOn)
-		hasher.combine(category)
-		hasher.combine(deliverFrom)
-		hasher.combine(deliverTo)
-		hasher.combine(identifier)
-		hasher.combine(occurrence)
-		hasher.combine(orderedItem)
-		hasher.combine(priority)
-		hasher.combine(reason)
-		hasher.combine(requester)
-		hasher.combine(status)
-		hasher.combine(supplier)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
 /**
  The item being requested.
  */
-open class SupplyRequestOrderedItem: BackboneElement {
+public struct SupplyRequestOrderedItem: BackboneElement {
 	
 	/// All possible types for "item[x]"
-	public enum ItemX: Hashable {
+	public enum ItemX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// The requested amount of the item indicated
-	public var quantity: Quantity
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Medication, Substance, or Device requested to be supplied
 	/// One of `item[x]`
 	public var item: ItemX?
 	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The requested amount of the item indicated
+	public var quantity: Quantity
+	
 	/// Designated initializer taking all required properties
 	public init(quantity: Quantity) {
 		self.quantity = quantity
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							item: ItemX? = nil,
-							modifierExtension: [Extension]? = nil,
-							quantity: Quantity)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: ItemX? = nil,
+		modifierExtension: [Extension]? = nil,
+		quantity: Quantity
+	) {
 		self.init(quantity: quantity)
 		self.`extension` = `extension`
 		self.id = id
@@ -320,16 +336,21 @@ open class SupplyRequestOrderedItem: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case itemCodeableConcept
 		case itemReference
+		case modifierExtension
 		case quantity
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_item: ItemX? = nil
 		if let itemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .itemCodeableConcept) {
 			if _t_item != nil {
@@ -344,15 +365,16 @@ open class SupplyRequestOrderedItem: BackboneElement {
 			_t_item = .reference(itemReference)
 		}
 		self.item = _t_item
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.quantity = try Quantity(from: _container, forKey: .quantity)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		if let _enum = item {
 			switch _enum {
 			case .codeableConcept(let _value):
@@ -361,27 +383,8 @@ open class SupplyRequestOrderedItem: BackboneElement {
 				try _value.encode(on: &_container, forKey: .itemReference)
 			}
 		}
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try quantity.encode(on: &_container, forKey: .quantity)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SupplyRequestOrderedItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return item == _other.item
-		    && quantity == _other.quantity
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(item)
-		hasher.combine(quantity)
 	}
 }
 
@@ -390,10 +393,19 @@ open class SupplyRequestOrderedItem: BackboneElement {
  
  The individual who initiated the request and has responsibility for its activation.
  */
-open class SupplyRequestRequester: BackboneElement {
+public struct SupplyRequestRequester: BackboneElement {
 	
 	/// Individual making the request
 	public var agent: Reference
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Organization agent is acting for
 	public var onBehalfOf: Reference?
@@ -401,17 +413,16 @@ open class SupplyRequestRequester: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(agent: Reference) {
 		self.agent = agent
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							agent: Reference,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							onBehalfOf: Reference? = nil)
-	{
+	public init(
+		agent: Reference,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		onBehalfOf: Reference? = nil
+	) {
 		self.init(agent: agent)
 		self.`extension` = `extension`
 		self.id = id
@@ -423,45 +434,32 @@ open class SupplyRequestRequester: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case agent
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case onBehalfOf
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.agent = try Reference(from: _container, forKey: .agent)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.onBehalfOf = try Reference(from: _container, forKeyIfPresent: .onBehalfOf)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try agent.encode(on: &_container, forKey: .agent)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SupplyRequestRequester else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return agent == _other.agent
-		    && onBehalfOf == _other.onBehalfOf
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(agent)
-		hasher.combine(onBehalfOf)
 	}
 }

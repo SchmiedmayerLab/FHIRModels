@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/Goal)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,56 +25,58 @@ import FMCore
  Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an
  activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
  */
-open class Goal: DomainResource {
+public struct Goal: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .goal }
+	public static let resourceType: ResourceType = .goal
 	
 	/// All possible types for "start[x]"
-	public enum StartX: Hashable {
+	public enum StartX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case date(FHIRPrimitive<FHIRDate>)
 	}
-	
-	/// External Ids for this goal
-	public var identifier: [Identifier]?
-	
-	/// The state of the goal throughout its lifecycle.
-	public var lifecycleStatus: FHIRPrimitive<GoalLifecycleStatus>
 	
 	/// in-progress | improving | worsening | no-change | achieved | sustaining | not-achieved | no-progress | not-
 	/// attainable
 	public var achievementStatus: CodeableConcept?
 	
+	/// Issues addressed by this goal
+	public var addresses: [Reference]?
+	
 	/// E.g. Treatment, dietary, behavioral, etc.
 	public var category: [CodeableConcept]?
 	
-	/// high-priority | medium-priority | low-priority
-	public var priority: CodeableConcept?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Code or text describing goal
 	public var description_fhir: CodeableConcept
 	
-	/// Who this goal is intended for
-	public var subject: Reference
-	
-	/// When goal pursuit begins
-	/// One of `start[x]`
-	public var start: StartX?
-	
-	/// Target outcome for the goal
-	public var target: [GoalTarget]?
-	
-	/// When goal status took effect
-	public var statusDate: FHIRPrimitive<FHIRDate>?
-	
-	/// Reason for current status
-	public var statusReason: FHIRPrimitive<FHIRString>?
-	
 	/// Who's responsible for creating Goal?
 	public var expressedBy: Reference?
 	
-	/// Issues addressed by this goal
-	public var addresses: [Reference]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// External Ids for this goal
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// The state of the goal throughout its lifecycle.
+	public var lifecycleStatus: FHIRPrimitive<GoalLifecycleStatus>
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Comments about the goal
 	public var note: [Annotation]?
@@ -85,16 +87,37 @@ open class Goal: DomainResource {
 	/// Observation that resulted from goal
 	public var outcomeReference: [Reference]?
 	
+	/// high-priority | medium-priority | low-priority
+	public var priority: CodeableConcept?
+	
+	/// When goal pursuit begins
+	/// One of `start[x]`
+	public var start: StartX?
+	
+	/// When goal status took effect
+	public var statusDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Reason for current status
+	public var statusReason: FHIRPrimitive<FHIRString>?
+	
+	/// Who this goal is intended for
+	public var subject: Reference
+	
+	/// Target outcome for the goal
+	public var target: [GoalTarget]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
 	public init(description_fhir: CodeableConcept, lifecycleStatus: FHIRPrimitive<GoalLifecycleStatus>, subject: Reference) {
 		self.description_fhir = description_fhir
 		self.lifecycleStatus = lifecycleStatus
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		achievementStatus: CodeableConcept? = nil,
 		addresses: [Reference]? = nil,
 		category: [CodeableConcept]? = nil,
@@ -147,13 +170,21 @@ open class Goal: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case achievementStatus
 		case addresses
 		case category
+		case contained
 		case description_fhir = "description"
 		case expressedBy
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case lifecycleStatus; case _lifecycleStatus
+		case meta
+		case modifierExtension
 		case note
 		case outcomeCode
 		case outcomeReference
@@ -164,20 +195,28 @@ open class Goal: DomainResource {
 		case statusReason; case _statusReason
 		case subject
 		case target
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.achievementStatus = try CodeableConcept(from: _container, forKeyIfPresent: .achievementStatus)
 		self.addresses = try [Reference](from: _container, forKeyIfPresent: .addresses)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try CodeableConcept(from: _container, forKey: .description_fhir)
 		self.expressedBy = try Reference(from: _container, forKeyIfPresent: .expressedBy)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lifecycleStatus = try FHIRPrimitive<GoalLifecycleStatus>(from: _container, forKey: .lifecycleStatus, auxiliaryKey: ._lifecycleStatus)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.outcomeCode = try [CodeableConcept](from: _container, forKeyIfPresent: .outcomeCode)
 		self.outcomeReference = try [Reference](from: _container, forKeyIfPresent: .outcomeReference)
@@ -200,21 +239,29 @@ open class Goal: DomainResource {
 		self.statusReason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .statusReason, auxiliaryKey: ._statusReason)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.target = try [GoalTarget](from: _container, forKeyIfPresent: .target)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try achievementStatus?.encode(on: &_container, forKey: .achievementStatus)
 		try addresses?.encode(on: &_container, forKey: .addresses)
 		try category?.encode(on: &_container, forKey: .category)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir)
 		try expressedBy?.encode(on: &_container, forKey: .expressedBy)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lifecycleStatus.encode(on: &_container, forKey: .lifecycleStatus, auxiliaryKey: ._lifecycleStatus)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try outcomeCode?.encode(on: &_container, forKey: .outcomeCode)
 		try outcomeReference?.encode(on: &_container, forKey: .outcomeReference)
@@ -231,54 +278,7 @@ open class Goal: DomainResource {
 		try statusReason?.encode(on: &_container, forKey: .statusReason, auxiliaryKey: ._statusReason)
 		try subject.encode(on: &_container, forKey: .subject)
 		try target?.encode(on: &_container, forKey: .target)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Goal else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return achievementStatus == _other.achievementStatus
-		    && addresses == _other.addresses
-		    && category == _other.category
-		    && description_fhir == _other.description_fhir
-		    && expressedBy == _other.expressedBy
-		    && identifier == _other.identifier
-		    && lifecycleStatus == _other.lifecycleStatus
-		    && note == _other.note
-		    && outcomeCode == _other.outcomeCode
-		    && outcomeReference == _other.outcomeReference
-		    && priority == _other.priority
-		    && start == _other.start
-		    && statusDate == _other.statusDate
-		    && statusReason == _other.statusReason
-		    && subject == _other.subject
-		    && target == _other.target
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(achievementStatus)
-		hasher.combine(addresses)
-		hasher.combine(category)
-		hasher.combine(description_fhir)
-		hasher.combine(expressedBy)
-		hasher.combine(identifier)
-		hasher.combine(lifecycleStatus)
-		hasher.combine(note)
-		hasher.combine(outcomeCode)
-		hasher.combine(outcomeReference)
-		hasher.combine(priority)
-		hasher.combine(start)
-		hasher.combine(statusDate)
-		hasher.combine(statusReason)
-		hasher.combine(subject)
-		hasher.combine(target)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -287,10 +287,10 @@ open class Goal: DomainResource {
  
  Indicates what should be done by when.
  */
-open class GoalTarget: BackboneElement {
+public struct GoalTarget: BackboneElement {
 	
 	/// All possible types for "detail[x]"
-	public enum DetailX: Hashable {
+	public enum DetailX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case codeableConcept(CodeableConcept)
 		case integer(FHIRPrimitive<FHIRInteger>)
@@ -301,13 +301,10 @@ open class GoalTarget: BackboneElement {
 	}
 	
 	/// All possible types for "due[x]"
-	public enum DueX: Hashable {
+	public enum DueX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
 		case duration(Duration)
 	}
-	
-	/// The parameter whose value is being tracked
-	public var measure: CodeableConcept?
 	
 	/// The target value to be achieved
 	/// One of `detail[x]`
@@ -317,13 +314,24 @@ open class GoalTarget: BackboneElement {
 	/// One of `due[x]`
 	public var due: DueX?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The parameter whose value is being tracked
+	public var measure: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		detail: DetailX? = nil,
 		due: DueX? = nil,
 		`extension`: [Extension]? = nil,
@@ -352,14 +360,17 @@ open class GoalTarget: BackboneElement {
 		case detailString; case _detailString
 		case dueDate; case _dueDate
 		case dueDuration
+		case `extension` = "extension"
+		case id; case _id
 		case measure
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_detail: DetailX? = nil
 		if let detailQuantity = try Quantity(from: _container, forKeyIfPresent: .detailQuantity) {
 			if _t_detail != nil {
@@ -418,15 +429,16 @@ open class GoalTarget: BackboneElement {
 			_t_due = .duration(dueDuration)
 		}
 		self.due = _t_due
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measure = try CodeableConcept(from: _container, forKeyIfPresent: .measure)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = detail {
 			switch _enum {
 			case .quantity(let _value):
@@ -453,28 +465,9 @@ open class GoalTarget: BackboneElement {
 				try _value.encode(on: &_container, forKey: .dueDuration)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try measure?.encode(on: &_container, forKey: .measure)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GoalTarget else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return detail == _other.detail
-		    && due == _other.due
-		    && measure == _other.measure
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(detail)
-		hasher.combine(due)
-		hasher.combine(measure)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

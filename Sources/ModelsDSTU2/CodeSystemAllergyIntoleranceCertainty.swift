@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,13 +28,13 @@ import FMCore
  */
 public enum AllergyIntoleranceCertainty: String, FHIRPrimitiveType {
 	
-	/// There is a low level of clinical certainty that the reaction was caused by the identified Substance.
-	case unlikely = "unlikely"
-	
-	/// There is a high level of clinical certainty that the reaction was caused by the identified Substance.
-	case likely = "likely"
-	
 	/// There is a very high level of clinical certainty that the reaction was due to the identified Substance, which
 	/// may include clinical evidence by testing or rechallenge.
-	case confirmed = "confirmed"
+	case confirmed
+	
+	/// There is a high level of clinical certainty that the reaction was caused by the identified Substance.
+	case likely
+	
+	/// There is a low level of clinical certainty that the reaction was caused by the identified Substance.
+	case unlikely
 }

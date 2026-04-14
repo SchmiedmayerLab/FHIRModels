@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/ActivityDefinition)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,24 +25,24 @@ import FMCore
  This resource allows for the definition of some activity to be performed, independent of a particular patient,
  practitioner, or other performance context.
  */
-open class ActivityDefinition: DomainResource {
+public struct ActivityDefinition: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .activityDefinition }
+	public static let resourceType: ResourceType = .activityDefinition
 	
 	/// All possible types for "product[x]"
-	public enum ProductX: Hashable {
+	public enum ProductX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
 	/// All possible types for "subject[x]"
-	public enum SubjectX: Hashable {
+	public enum SubjectX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
 	/// All possible types for "timing[x]"
-	public enum TimingX: Hashable {
+	public enum TimingX: Equatable, Hashable, Sendable {
 		case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case duration(Duration)
@@ -51,136 +51,97 @@ open class ActivityDefinition: DomainResource {
 		case timing(Timing)
 	}
 	
-	/// Canonical identifier for this activity definition, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
-	
-	/// Additional identifier for the activity definition
-	public var identifier: [Identifier]?
-	
-	/// Business version of the activity definition
-	public var version: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this activity definition (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this activity definition (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Subordinate title of the activity definition
-	public var subtitle: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this activity definition. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Type of individual the activity definition is intended for
-	/// One of `subject[x]`
-	public var subject: SubjectX?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the activity definition
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for activity definition (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this activity definition is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Describes the clinical usage of the activity definition
-	public var usage: FHIRPrimitive<FHIRString>?
-	
-	/// Use and/or publishing restrictions
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
 	/// When the activity definition was approved by publisher
 	public var approvalDate: FHIRPrimitive<FHIRDate>?
-	
-	/// When the activity definition was last reviewed
-	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
-	
-	/// When the activity definition is expected to be used
-	public var effectivePeriod: Period?
-	
-	/// E.g. Education, Treatment, Assessment, etc.
-	public var topic: [CodeableConcept]?
 	
 	/// Who authored the content
 	public var author: [ContactDetail]?
 	
+	/// What part of body to perform on
+	public var bodySite: [CodeableConcept]?
+	
+	/// Detail type of activity
+	public var code: CodeableConcept?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Use and/or publishing restrictions
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Natural language description of the activity definition
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// True if the activity should not be performed
+	public var doNotPerform: FHIRPrimitive<FHIRBool>?
+	
+	/// Detailed dosage instructions
+	public var dosage: [Dosage]?
+	
+	/// Dynamic aspects of the definition
+	public var dynamicValue: [ActivityDefinitionDynamicValue]?
+	
 	/// Who edited the content
 	public var editor: [ContactDetail]?
 	
-	/// Who reviewed the content
-	public var reviewer: [ContactDetail]?
+	/// When the activity definition is expected to be used
+	public var effectivePeriod: Period?
 	
 	/// Who endorsed the content
 	public var endorser: [ContactDetail]?
 	
-	/// Additional documentation, citations, etc.
-	public var relatedArtifact: [RelatedArtifact]?
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
 	
-	/// Logic used by the activity definition
-	public var library: [FHIRPrimitive<Canonical>]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// A description of the kind of resource the activity definition is representing. For example, a MedicationRequest,
-	/// a ServiceRequest, or a CommunicationRequest. Typically, but not always, this is a Request resource.
-	public var kind: FHIRPrimitive<RequestResourceType>?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// What profile the resource needs to conform to
-	public var profile: FHIRPrimitive<Canonical>?
+	/// Additional identifier for the activity definition
+	public var identifier: [Identifier]?
 	
-	/// Detail type of activity
-	public var code: CodeableConcept?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Indicates the level of authority/intentionality associated with the activity and where the request should fit
 	/// into the workflow chain.
 	public var intent: FHIRPrimitive<RequestIntent>?
 	
-	/// Indicates how quickly the activity  should be addressed with respect to other requests.
-	public var priority: FHIRPrimitive<RequestPriority>?
+	/// Intended jurisdiction for activity definition (if applicable)
+	public var jurisdiction: [CodeableConcept]?
 	
-	/// True if the activity should not be performed
-	public var doNotPerform: FHIRPrimitive<FHIRBool>?
+	/// A description of the kind of resource the activity definition is representing. For example, a MedicationRequest,
+	/// a ServiceRequest, or a CommunicationRequest. Typically, but not always, this is a Request resource.
+	public var kind: FHIRPrimitive<RequestResourceType>?
 	
-	/// When activity is to occur
-	/// One of `timing[x]`
-	public var timing: TimingX?
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// When the activity definition was last reviewed
+	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Logic used by the activity definition
+	public var library: [FHIRPrimitive<Canonical>]?
 	
 	/// Where it should happen
 	public var location: Reference?
 	
-	/// Who should participate in the action
-	public var participant: [ActivityDefinitionParticipant]?
+	/// Metadata about the resource
+	public var meta: Meta?
 	
-	/// What's administered/supplied
-	/// One of `product[x]`
-	public var product: ProductX?
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
-	/// How much is administered/consumed/supplied
-	public var quantity: Quantity?
-	
-	/// Detailed dosage instructions
-	public var dosage: [Dosage]?
-	
-	/// What part of body to perform on
-	public var bodySite: [CodeableConcept]?
-	
-	/// What specimens are required to perform this action
-	public var specimenRequirement: [Reference]?
+	/// Name for this activity definition (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
 	
 	/// What observations are required to perform this action
 	public var observationRequirement: [Reference]?
@@ -188,20 +149,82 @@ open class ActivityDefinition: DomainResource {
 	/// What observations must be produced by this action
 	public var observationResultRequirement: [Reference]?
 	
+	/// Who should participate in the action
+	public var participant: [ActivityDefinitionParticipant]?
+	
+	/// Indicates how quickly the activity  should be addressed with respect to other requests.
+	public var priority: FHIRPrimitive<RequestPriority>?
+	
+	/// What's administered/supplied
+	/// One of `product[x]`
+	public var product: ProductX?
+	
+	/// What profile the resource needs to conform to
+	public var profile: FHIRPrimitive<Canonical>?
+	
+	/// Name of the publisher (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this activity definition is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// How much is administered/consumed/supplied
+	public var quantity: Quantity?
+	
+	/// Additional documentation, citations, etc.
+	public var relatedArtifact: [RelatedArtifact]?
+	
+	/// Who reviewed the content
+	public var reviewer: [ContactDetail]?
+	
+	/// What specimens are required to perform this action
+	public var specimenRequirement: [Reference]?
+	
+	/// The status of this activity definition. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Type of individual the activity definition is intended for
+	/// One of `subject[x]`
+	public var subject: SubjectX?
+	
+	/// Subordinate title of the activity definition
+	public var subtitle: FHIRPrimitive<FHIRString>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// When activity is to occur
+	/// One of `timing[x]`
+	public var timing: TimingX?
+	
+	/// Name for this activity definition (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// E.g. Education, Treatment, Assessment, etc.
+	public var topic: [CodeableConcept]?
+	
 	/// Transform to apply the template
 	public var transform: FHIRPrimitive<Canonical>?
 	
-	/// Dynamic aspects of the definition
-	public var dynamicValue: [ActivityDefinitionDynamicValue]?
+	/// Canonical identifier for this activity definition, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Describes the clinical usage of the activity definition
+	public var usage: FHIRPrimitive<FHIRString>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
+	
+	/// Business version of the activity definition
+	public var version: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
 		bodySite: [CodeableConcept]? = nil,
@@ -316,11 +339,13 @@ open class ActivityDefinition: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case approvalDate; case _approvalDate
 		case author
 		case bodySite
 		case code
 		case contact
+		case contained
 		case copyright; case _copyright
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
@@ -331,13 +356,19 @@ open class ActivityDefinition: DomainResource {
 		case effectivePeriod
 		case endorser
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case intent; case _intent
 		case jurisdiction
 		case kind; case _kind
+		case language; case _language
 		case lastReviewDate; case _lastReviewDate
 		case library; case _library
 		case location
+		case meta
+		case modifierExtension
 		case name; case _name
 		case observationRequirement
 		case observationResultRequirement
@@ -356,6 +387,7 @@ open class ActivityDefinition: DomainResource {
 		case subjectCodeableConcept
 		case subjectReference
 		case subtitle; case _subtitle
+		case text
 		case timingAge
 		case timingDateTime; case _timingDateTime
 		case timingDuration
@@ -370,17 +402,18 @@ open class ActivityDefinition: DomainResource {
 		case useContext
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.approvalDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .approvalDate, auxiliaryKey: ._approvalDate)
 		self.author = try [ContactDetail](from: _container, forKeyIfPresent: .author)
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -391,13 +424,19 @@ open class ActivityDefinition: DomainResource {
 		self.effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod)
 		self.endorser = try [ContactDetail](from: _container, forKeyIfPresent: .endorser)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.intent = try FHIRPrimitive<RequestIntent>(from: _container, forKeyIfPresent: .intent, auxiliaryKey: ._intent)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
 		self.kind = try FHIRPrimitive<RequestResourceType>(from: _container, forKeyIfPresent: .kind, auxiliaryKey: ._kind)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastReviewDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
 		self.library = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .library, auxiliaryKey: ._library)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.observationRequirement = try [Reference](from: _container, forKeyIfPresent: .observationRequirement)
 		self.observationResultRequirement = try [Reference](from: _container, forKeyIfPresent: .observationResultRequirement)
@@ -440,6 +479,7 @@ open class ActivityDefinition: DomainResource {
 		}
 		self.subject = _t_subject
 		self.subtitle = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .subtitle, auxiliaryKey: ._subtitle)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		var _t_timing: TimingX? = nil
 		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
 			if _t_timing != nil {
@@ -485,19 +525,20 @@ open class ActivityDefinition: DomainResource {
 		self.usage = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .usage, auxiliaryKey: ._usage)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try code?.encode(on: &_container, forKey: .code)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -508,13 +549,19 @@ open class ActivityDefinition: DomainResource {
 		try effectivePeriod?.encode(on: &_container, forKey: .effectivePeriod)
 		try endorser?.encode(on: &_container, forKey: .endorser)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try intent?.encode(on: &_container, forKey: .intent, auxiliaryKey: ._intent)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
 		try kind?.encode(on: &_container, forKey: .kind, auxiliaryKey: ._kind)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastReviewDate?.encode(on: &_container, forKey: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
 		try library?.encode(on: &_container, forKey: .library, auxiliaryKey: ._library)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try observationRequirement?.encode(on: &_container, forKey: .observationRequirement)
 		try observationResultRequirement?.encode(on: &_container, forKey: .observationResultRequirement)
@@ -545,6 +592,7 @@ open class ActivityDefinition: DomainResource {
 			}
 		}
 		try subtitle?.encode(on: &_container, forKey: .subtitle, auxiliaryKey: ._subtitle)
+		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = timing {
 			switch _enum {
 			case .timing(let _value):
@@ -568,114 +616,6 @@ open class ActivityDefinition: DomainResource {
 		try usage?.encode(on: &_container, forKey: .usage, auxiliaryKey: ._usage)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ActivityDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return approvalDate == _other.approvalDate
-		    && author == _other.author
-		    && bodySite == _other.bodySite
-		    && code == _other.code
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && doNotPerform == _other.doNotPerform
-		    && dosage == _other.dosage
-		    && dynamicValue == _other.dynamicValue
-		    && editor == _other.editor
-		    && effectivePeriod == _other.effectivePeriod
-		    && endorser == _other.endorser
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && intent == _other.intent
-		    && jurisdiction == _other.jurisdiction
-		    && kind == _other.kind
-		    && lastReviewDate == _other.lastReviewDate
-		    && library == _other.library
-		    && location == _other.location
-		    && name == _other.name
-		    && observationRequirement == _other.observationRequirement
-		    && observationResultRequirement == _other.observationResultRequirement
-		    && participant == _other.participant
-		    && priority == _other.priority
-		    && product == _other.product
-		    && profile == _other.profile
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && quantity == _other.quantity
-		    && relatedArtifact == _other.relatedArtifact
-		    && reviewer == _other.reviewer
-		    && specimenRequirement == _other.specimenRequirement
-		    && status == _other.status
-		    && subject == _other.subject
-		    && subtitle == _other.subtitle
-		    && timing == _other.timing
-		    && title == _other.title
-		    && topic == _other.topic
-		    && transform == _other.transform
-		    && url == _other.url
-		    && usage == _other.usage
-		    && useContext == _other.useContext
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(approvalDate)
-		hasher.combine(author)
-		hasher.combine(bodySite)
-		hasher.combine(code)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(doNotPerform)
-		hasher.combine(dosage)
-		hasher.combine(dynamicValue)
-		hasher.combine(editor)
-		hasher.combine(effectivePeriod)
-		hasher.combine(endorser)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(intent)
-		hasher.combine(jurisdiction)
-		hasher.combine(kind)
-		hasher.combine(lastReviewDate)
-		hasher.combine(library)
-		hasher.combine(location)
-		hasher.combine(name)
-		hasher.combine(observationRequirement)
-		hasher.combine(observationResultRequirement)
-		hasher.combine(participant)
-		hasher.combine(priority)
-		hasher.combine(product)
-		hasher.combine(profile)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(quantity)
-		hasher.combine(relatedArtifact)
-		hasher.combine(reviewer)
-		hasher.combine(specimenRequirement)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(subtitle)
-		hasher.combine(timing)
-		hasher.combine(title)
-		hasher.combine(topic)
-		hasher.combine(transform)
-		hasher.combine(url)
-		hasher.combine(usage)
-		hasher.combine(useContext)
-		hasher.combine(version)
 	}
 }
 
@@ -686,23 +626,31 @@ open class ActivityDefinition: DomainResource {
  dosage of a medication must be computed based on the patient's weight, a dynamic value would be used to specify an
  expression that calculated the weight, and the path on the request resource that would contain the result.
  */
-open class ActivityDefinitionDynamicValue: BackboneElement {
-	
-	/// The path to the element to be set dynamically
-	public var path: FHIRPrimitive<FHIRString>
+public struct ActivityDefinitionDynamicValue: BackboneElement {
 	
 	/// An expression that provides the dynamic value for the customization
 	public var expression: Expression
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The path to the element to be set dynamically
+	public var path: FHIRPrimitive<FHIRString>
 	
 	/// Designated initializer taking all required properties
 	public init(expression: Expression, path: FHIRPrimitive<FHIRString>) {
 		self.expression = expression
 		self.path = path
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		expression: Expression,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -719,46 +667,33 @@ open class ActivityDefinitionDynamicValue: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case expression
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case path; case _path
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.expression = try Expression(from: _container, forKey: .expression)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKey: .path, auxiliaryKey: ._path)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try expression.encode(on: &_container, forKey: .expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try path.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ActivityDefinitionDynamicValue else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return expression == _other.expression
-		    && path == _other.path
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(expression)
-		hasher.combine(path)
 	}
 }
 
@@ -767,22 +702,30 @@ open class ActivityDefinitionDynamicValue: BackboneElement {
  
  Indicates who should participate in performing the action described.
  */
-open class ActivityDefinitionParticipant: BackboneElement {
+public struct ActivityDefinitionParticipant: BackboneElement {
 	
-	/// The type of participant in the action.
-	public var type: FHIRPrimitive<ActionParticipantType>
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// E.g. Nurse, Surgeon, Parent, etc.
 	public var role: CodeableConcept?
 	
+	/// The type of participant in the action.
+	public var type: FHIRPrimitive<ActionParticipantType>
+	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<ActionParticipantType>) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -799,46 +742,33 @@ open class ActivityDefinitionParticipant: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case role
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
 		self.type = try FHIRPrimitive<ActionParticipantType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role?.encode(on: &_container, forKey: .role)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ActivityDefinitionParticipant else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return role == _other.role
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(role)
-		hasher.combine(type)
 	}
 }

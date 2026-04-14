@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,11 +31,6 @@ public enum ISO210892017HealthRecordLifecycleEvents: String, FHIRPrimitiveType {
 	
 	/// Occurs when an agent causes the system to obtain and open a record entry for inspection or review.
 	case access
-	
-	/// Occurs when an agent causes the system to tag or otherwise indicate special access management and suspension of
-	/// record entry deletion/destruction, if deemed relevant to a lawsuit or which are reasonably anticipated to be
-	/// relevant or to fulfill organizational policy under the legal doctrine of “duty to preserve”.
-	case hold
 	
 	/// Occurs when an agent makes any change to record entry content currently residing in storage considered permanent
 	/// (persistent).
@@ -74,6 +69,11 @@ public enum ISO210892017HealthRecordLifecycleEvents: String, FHIRPrimitiveType {
 	/// explicit criteria.
 	case extract
 	
+	/// Occurs when an agent causes the system to tag or otherwise indicate special access management and suspension of
+	/// record entry deletion/destruction, if deemed relevant to a lawsuit or which are reasonably anticipated to be
+	/// relevant or to fulfill organizational policy under the legal doctrine of “duty to preserve”.
+	case hold
+	
 	/// Occurs when an agent causes the system to connect related record entries.
 	case link
 	
@@ -101,10 +101,6 @@ public enum ISO210892017HealthRecordLifecycleEvents: String, FHIRPrimitiveType {
 	/// source and/or information subject.
 	case reidentify
 	
-	/// Occurs when an agent causes the system to remove a tag or other cues for special access management had required
-	/// to fulfill organizational policy under the legal doctrine of “duty to preserve”.
-	case unhold
-	
 	/// Occurs when an agent causes the system to produce and deliver record entry content in a particular form and
 	/// manner.
 	case report
@@ -119,6 +115,10 @@ public enum ISO210892017HealthRecordLifecycleEvents: String, FHIRPrimitiveType {
 	
 	/// Occurs when an agent causes the system to send record entry content from one (EHR/PHR/other) system to another.
 	case transmit
+	
+	/// Occurs when an agent causes the system to remove a tag or other cues for special access management had required
+	/// to fulfill organizational policy under the legal doctrine of “duty to preserve”.
+	case unhold
 	
 	/// Occurs when an agent causes the system to disconnect two or more record entries previously connected, rendering
 	/// them separate (disconnected) again.

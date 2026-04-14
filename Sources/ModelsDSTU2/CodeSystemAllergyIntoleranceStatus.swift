@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,26 +28,26 @@ import FMCore
 public enum AllergyIntoleranceStatus: String, FHIRPrimitiveType {
 	
 	/// An active record of a reaction to the identified Substance.
-	case active = "active"
-	
-	/// A low level of certainty about the propensity for a reaction to the identified Substance.
-	case unconfirmed = "unconfirmed"
+	case active
 	
 	/// A high level of certainty about the propensity for a reaction to the identified Substance, which may include
 	/// clinical evidence by testing or rechallenge.
-	case confirmed = "confirmed"
-	
-	/// An inactive record of a reaction to the identified Substance.
-	case inactive = "inactive"
-	
-	/// A reaction to the identified Substance has been clinically reassessed by testing or rechallenge and considered
-	/// to be resolved.
-	case resolved = "resolved"
-	
-	/// A propensity for a reaction to the identified Substance has been disproven with a high level of clinical
-	/// certainty, which may include testing or rechallenge, and is refuted.
-	case refuted = "refuted"
+	case confirmed
 	
 	/// The statement was entered in error and is not valid.
 	case enteredInError = "entered-in-error"
+	
+	/// An inactive record of a reaction to the identified Substance.
+	case inactive
+	
+	/// A propensity for a reaction to the identified Substance has been disproven with a high level of clinical
+	/// certainty, which may include testing or rechallenge, and is refuted.
+	case refuted
+	
+	/// A reaction to the identified Substance has been clinically reassessed by testing or rechallenge and considered
+	/// to be resolved.
+	case resolved
+	
+	/// A low level of certainty about the propensity for a reaction to the identified Substance.
+	case unconfirmed
 }

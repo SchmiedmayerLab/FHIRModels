@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/AppointmentResponse)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,27 +22,45 @@ import FMCore
 /**
  A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection.
  */
-open class AppointmentResponse: DomainResource {
+public struct AppointmentResponse: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .appointmentResponse }
+	public static let resourceType: ResourceType = .appointmentResponse
 	
-	/// External Ids for this item
-	public var identifier: [Identifier]?
+	/// Person, Location, HealthcareService, or Device
+	public var actor: Reference?
 	
 	/// Appointment this response relates to
 	public var appointment: Reference
 	
-	/// Time from appointment, or requested new start time
-	public var start: FHIRPrimitive<Instant>?
+	/// Additional comments
+	public var comment: FHIRPrimitive<FHIRString>?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Time from appointment, or requested new end time
 	public var end: FHIRPrimitive<Instant>?
 	
-	/// Role of participant in the appointment
-	public var participantType: [CodeableConcept]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Person, Location, HealthcareService, or Device
-	public var actor: Reference?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// External Ids for this item
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Participation status of the participant. When the status is declined or tentative if the start/end times are
 	/// different to the appointment, then these times should be interpreted as a requested time change. When the status
@@ -50,18 +68,23 @@ open class AppointmentResponse: DomainResource {
 	/// empty.
 	public var participantStatus: FHIRPrimitive<ParticipationStatus>
 	
-	/// Additional comments
-	public var comment: FHIRPrimitive<FHIRString>?
+	/// Role of participant in the appointment
+	public var participantType: [CodeableConcept]?
+	
+	/// Time from appointment, or requested new start time
+	public var start: FHIRPrimitive<Instant>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(appointment: Reference, participantStatus: FHIRPrimitive<ParticipationStatus>) {
 		self.appointment = appointment
 		self.participantStatus = participantStatus
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference? = nil,
 		appointment: Reference,
 		comment: FHIRPrimitive<FHIRString>? = nil,
@@ -99,76 +122,69 @@ open class AppointmentResponse: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case actor
 		case appointment
 		case comment; case _comment
+		case contained
 		case end; case _end
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case participantStatus; case _participantStatus
 		case participantType
 		case start; case _start
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKeyIfPresent: .actor)
 		self.appointment = try Reference(from: _container, forKey: .appointment)
 		self.comment = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.end = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .end, auxiliaryKey: ._end)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.participantStatus = try FHIRPrimitive<ParticipationStatus>(from: _container, forKey: .participantStatus, auxiliaryKey: ._participantStatus)
 		self.participantType = try [CodeableConcept](from: _container, forKeyIfPresent: .participantType)
 		self.start = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .start, auxiliaryKey: ._start)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try appointment.encode(on: &_container, forKey: .appointment)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try end?.encode(on: &_container, forKey: .end, auxiliaryKey: ._end)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try participantStatus.encode(on: &_container, forKey: .participantStatus, auxiliaryKey: ._participantStatus)
 		try participantType?.encode(on: &_container, forKey: .participantType)
 		try start?.encode(on: &_container, forKey: .start, auxiliaryKey: ._start)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? AppointmentResponse else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && appointment == _other.appointment
-		    && comment == _other.comment
-		    && end == _other.end
-		    && identifier == _other.identifier
-		    && participantStatus == _other.participantStatus
-		    && participantType == _other.participantType
-		    && start == _other.start
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(appointment)
-		hasher.combine(comment)
-		hasher.combine(end)
-		hasher.combine(identifier)
-		hasher.combine(participantStatus)
-		hasher.combine(participantType)
-		hasher.combine(start)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

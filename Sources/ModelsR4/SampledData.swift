@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/SampledData)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,7 +25,25 @@ import FMCore
  A series of measurements taken by a device, with upper and lower limits. There may be more than one dimension in the
  data.
  */
-open class SampledData: Element {
+public struct SampledData: Element {
+	
+	/// Decimal values with spaces, or "E" | "U" | "L"
+	public var data: FHIRPrimitive<FHIRString>?
+	
+	/// Number of sample points at each time point
+	public var dimensions: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Multiply data by this before adding to origin
+	public var factor: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Lower limit of detection
+	public var lowerLimit: FHIRPrimitive<FHIRDecimal>?
 	
 	/// Zero value and units
 	public var origin: Quantity
@@ -33,31 +51,18 @@ open class SampledData: Element {
 	/// Number of milliseconds between samples
 	public var period: FHIRPrimitive<FHIRDecimal>
 	
-	/// Multiply data by this before adding to origin
-	public var factor: FHIRPrimitive<FHIRDecimal>?
-	
-	/// Lower limit of detection
-	public var lowerLimit: FHIRPrimitive<FHIRDecimal>?
-	
 	/// Upper limit of detection
 	public var upperLimit: FHIRPrimitive<FHIRDecimal>?
-	
-	/// Number of sample points at each time point
-	public var dimensions: FHIRPrimitive<FHIRPositiveInteger>
-	
-	/// Decimal values with spaces, or "E" | "U" | "L"
-	public var data: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(dimensions: FHIRPrimitive<FHIRPositiveInteger>, origin: Quantity, period: FHIRPrimitive<FHIRDecimal>) {
 		self.dimensions = dimensions
 		self.origin = origin
 		self.period = period
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		data: FHIRPrimitive<FHIRString>? = nil,
 		dimensions: FHIRPrimitive<FHIRPositiveInteger>,
 		`extension`: [Extension]? = nil,
@@ -82,69 +87,43 @@ open class SampledData: Element {
 	private enum CodingKeys: String, CodingKey {
 		case data; case _data
 		case dimensions; case _dimensions
+		case `extension` = "extension"
 		case factor; case _factor
+		case id; case _id
 		case lowerLimit; case _lowerLimit
 		case origin
 		case period; case _period
 		case upperLimit; case _upperLimit
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.data = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .data, auxiliaryKey: ._data)
 		self.dimensions = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .dimensions, auxiliaryKey: ._dimensions)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.lowerLimit = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .lowerLimit, auxiliaryKey: ._lowerLimit)
 		self.origin = try Quantity(from: _container, forKey: .origin)
 		self.period = try FHIRPrimitive<FHIRDecimal>(from: _container, forKey: .period, auxiliaryKey: ._period)
 		self.upperLimit = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .upperLimit, auxiliaryKey: ._upperLimit)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try data?.encode(on: &_container, forKey: .data, auxiliaryKey: ._data)
 		try dimensions.encode(on: &_container, forKey: .dimensions, auxiliaryKey: ._dimensions)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try factor?.encode(on: &_container, forKey: .factor, auxiliaryKey: ._factor)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try lowerLimit?.encode(on: &_container, forKey: .lowerLimit, auxiliaryKey: ._lowerLimit)
 		try origin.encode(on: &_container, forKey: .origin)
 		try period.encode(on: &_container, forKey: .period, auxiliaryKey: ._period)
 		try upperLimit?.encode(on: &_container, forKey: .upperLimit, auxiliaryKey: ._upperLimit)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SampledData else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return data == _other.data
-		    && dimensions == _other.dimensions
-		    && factor == _other.factor
-		    && lowerLimit == _other.lowerLimit
-		    && origin == _other.origin
-		    && period == _other.period
-		    && upperLimit == _other.upperLimit
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(data)
-		hasher.combine(dimensions)
-		hasher.combine(factor)
-		hasher.combine(lowerLimit)
-		hasher.combine(origin)
-		hasher.combine(period)
-		hasher.combine(upperLimit)
 	}
 }

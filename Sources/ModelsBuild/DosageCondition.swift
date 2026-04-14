@@ -2,8 +2,8 @@
 //  DosageCondition.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/DosageCondition)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/DosageCondition)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@ import FMCore
  DosageCondition expresses a time or time period as relative to the time of an event defined in data types other than
  dateTime.
  */
-open class DosageCondition: BackboneType {
+public struct DosageCondition: BackboneType {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -92,24 +92,32 @@ open class DosageCondition: BackboneType {
 	/// Additional details about the event - depends on the code
 	public var details: CodeableConcept?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// How the value is tested.
 	public var operation: FHIRPrimitive<ComparisonOperationCS>?
+	
+	/// Free-text description
+	public var text: FHIRPrimitive<FHIRString>?
 	
 	/// The value for this critera
 	/// One of `value[x]`
 	public var value: ValueX?
 	
-	/// Free-text description
-	public var text: FHIRPrimitive<FHIRString>?
-	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept) {
 		self.code = code
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		details: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -134,6 +142,9 @@ open class DosageCondition: BackboneType {
 	private enum CodingKeys: String, CodingKey {
 		case code
 		case details
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case operation; case _operation
 		case text; case _text
 		case valueAddress
@@ -192,14 +203,17 @@ open class DosageCondition: BackboneType {
 		case valueUuid; case _valueUuid
 		case valueVirtualServiceDetail
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
 		self.details = try CodeableConcept(from: _container, forKeyIfPresent: .details)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.operation = try FHIRPrimitive<ComparisonOperationCS>(from: _container, forKeyIfPresent: .operation, auxiliaryKey: ._operation)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		var _t_value: ValueX? = nil
@@ -534,16 +548,17 @@ open class DosageCondition: BackboneType {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try details?.encode(on: &_container, forKey: .details)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try operation?.encode(on: &_container, forKey: .operation, auxiliaryKey: ._operation)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		if let _enum = value {
@@ -660,31 +675,5 @@ open class DosageCondition: BackboneType {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DosageCondition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && details == _other.details
-		    && operation == _other.operation
-		    && text == _other.text
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(details)
-		hasher.combine(operation)
-		hasher.combine(text)
-		hasher.combine(value)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/PractitionerRole)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,15 +25,63 @@ import FMCore
  A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period
  of time.
  */
-open class PractitionerRole: DomainResource {
+public struct PractitionerRole: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .practitionerRole }
+	public static let resourceType: ResourceType = .practitionerRole
+	
+	/// Whether this practitioner role record is in active use
+	public var active: FHIRPrimitive<FHIRBool>?
+	
+	/// Times the Practitioner is available at this location and/or healthcare service (including exceptions)
+	public var availability: [Availability]?
+	
+	/// Collection of characteristics (attributes)
+	public var characteristic: [CodeableConcept]?
+	
+	/// Roles which this practitioner may perform
+	public var code: [CodeableConcept]?
+	
+	/// A language the practitioner (in this role) can use in patient communication
+	public var communication: [CodeableConcept]?
+	
+	/// Official contact details relating to this PractitionerRole
+	public var contact: [ExtendedContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Endpoints for interacting with the practitioner in this role
+	public var endpoint: [Reference]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Healthcare services provided for this role's Organization/Location(s)
+	public var healthcareService: [Reference]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Identifiers for a role/location
 	public var identifier: [Identifier]?
 	
-	/// Whether this practitioner role record is in active use
-	public var active: FHIRPrimitive<FHIRBool>?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Location(s) where the practitioner provides care
+	public var location: [Reference]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Organization where the roles are available
+	public var organization: Reference?
 	
 	/// The period during which the practitioner is authorized to perform in these role(s)
 	public var period: Period?
@@ -41,43 +89,18 @@ open class PractitionerRole: DomainResource {
 	/// Practitioner that provides services for the organization
 	public var practitioner: Reference?
 	
-	/// Organization where the roles are available
-	public var organization: Reference?
-	
-	/// Roles which this practitioner may perform
-	public var code: [CodeableConcept]?
-	
 	/// Specific specialty of the practitioner
 	public var specialty: [CodeableConcept]?
 	
-	/// Location(s) where the practitioner provides care
-	public var location: [Reference]?
-	
-	/// Healthcare services provided for this role's Organization/Location(s)
-	public var healthcareService: [Reference]?
-	
-	/// Official contact details relating to this PractitionerRole
-	public var contact: [ExtendedContactDetail]?
-	
-	/// Collection of characteristics (attributes)
-	public var characteristic: [CodeableConcept]?
-	
-	/// A language the practitioner (in this role) can use in patient communication
-	public var communication: [CodeableConcept]?
-	
-	/// Times the Practitioner is available at this location and/or healthcare service (including exceptions)
-	public var availability: [Availability]?
-	
-	/// Endpoints for interacting with the practitioner in this role
-	public var endpoint: [Reference]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		availability: [Availability]? = nil,
 		characteristic: [CodeableConcept]? = nil,
@@ -129,106 +152,87 @@ open class PractitionerRole: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
 		case availability
 		case characteristic
 		case code
 		case communication
 		case contact
+		case contained
 		case endpoint
+		case `extension` = "extension"
 		case healthcareService
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case organization
 		case period
 		case practitioner
 		case specialty
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
 		self.availability = try [Availability](from: _container, forKeyIfPresent: .availability)
 		self.characteristic = try [CodeableConcept](from: _container, forKeyIfPresent: .characteristic)
 		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
 		self.communication = try [CodeableConcept](from: _container, forKeyIfPresent: .communication)
 		self.contact = try [ExtendedContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.endpoint = try [Reference](from: _container, forKeyIfPresent: .endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.healthcareService = try [Reference](from: _container, forKeyIfPresent: .healthcareService)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try [Reference](from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.practitioner = try Reference(from: _container, forKeyIfPresent: .practitioner)
 		self.specialty = try [CodeableConcept](from: _container, forKeyIfPresent: .specialty)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try availability?.encode(on: &_container, forKey: .availability)
 		try characteristic?.encode(on: &_container, forKey: .characteristic)
 		try code?.encode(on: &_container, forKey: .code)
 		try communication?.encode(on: &_container, forKey: .communication)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try endpoint?.encode(on: &_container, forKey: .endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try healthcareService?.encode(on: &_container, forKey: .healthcareService)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try period?.encode(on: &_container, forKey: .period)
 		try practitioner?.encode(on: &_container, forKey: .practitioner)
 		try specialty?.encode(on: &_container, forKey: .specialty)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PractitionerRole else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && availability == _other.availability
-		    && characteristic == _other.characteristic
-		    && code == _other.code
-		    && communication == _other.communication
-		    && contact == _other.contact
-		    && endpoint == _other.endpoint
-		    && healthcareService == _other.healthcareService
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && organization == _other.organization
-		    && period == _other.period
-		    && practitioner == _other.practitioner
-		    && specialty == _other.specialty
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(availability)
-		hasher.combine(characteristic)
-		hasher.combine(code)
-		hasher.combine(communication)
-		hasher.combine(contact)
-		hasher.combine(endpoint)
-		hasher.combine(healthcareService)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(organization)
-		hasher.combine(period)
-		hasher.combine(practitioner)
-		hasher.combine(specialty)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

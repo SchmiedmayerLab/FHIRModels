@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/ReferralRequest)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,92 +25,115 @@ import FMCore
  Used to record and send details about a request for referral service or transfer of a patient to the care of another
  provider or provider organization.
  */
-open class ReferralRequest: DomainResource {
+public struct ReferralRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .referralRequest }
+	public static let resourceType: ResourceType = .referralRequest
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Date of creation/activation
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Date referral/transfer of care request is sent
+	public var dateSent: FHIRPrimitive<DateTime>?
+	
+	/// A textual description of the referral
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Originating encounter
+	public var encounter: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Requested service(s) fulfillment time
+	public var fulfillmentTime: Period?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Patient referred to care or transfer
+	public var patient: Reference?
+	
+	/// Urgency of referral / transfer of care request
+	public var priority: CodeableConcept?
+	
+	/// Reason for referral / transfer of care request
+	public var reason: CodeableConcept?
+	
+	/// Receiver of referral / transfer of care request
+	public var recipient: [Reference]?
+	
+	/// Requester of referral / transfer of care
+	public var requester: Reference?
+	
+	/// Actions requested as part of the referral
+	public var serviceRequested: [CodeableConcept]?
+	
+	/// The clinical specialty (discipline) that the referral is requested for
+	public var specialty: CodeableConcept?
 	
 	/// The workflow status of the referral or transfer of care request.
 	/// Restricted to: ['draft', 'requested', 'active', 'cancelled', 'accepted', 'rejected', 'completed']
 	public var status: FHIRPrimitive<ReferralStatus>
 	
-	/// Business identifier
-	public var identifier: [Identifier]?
+	/// Additonal information to support referral or transfer of care request
+	public var supportingInformation: [Reference]?
 	
-	/// Date of creation/activation
-	public var date: FHIRPrimitive<DateTime>?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Referral/Transition of care request type
 	public var type: CodeableConcept?
 	
-	/// The clinical specialty (discipline) that the referral is requested for
-	public var specialty: CodeableConcept?
-	
-	/// Urgency of referral / transfer of care request
-	public var priority: CodeableConcept?
-	
-	/// Patient referred to care or transfer
-	public var patient: Reference?
-	
-	/// Requester of referral / transfer of care
-	public var requester: Reference?
-	
-	/// Receiver of referral / transfer of care request
-	public var recipient: [Reference]?
-	
-	/// Originating encounter
-	public var encounter: Reference?
-	
-	/// Date referral/transfer of care request is sent
-	public var dateSent: FHIRPrimitive<DateTime>?
-	
-	/// Reason for referral / transfer of care request
-	public var reason: CodeableConcept?
-	
-	/// A textual description of the referral
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Actions requested as part of the referral
-	public var serviceRequested: [CodeableConcept]?
-	
-	/// Additonal information to support referral or transfer of care request
-	public var supportingInformation: [Reference]?
-	
-	/// Requested service(s) fulfillment time
-	public var fulfillmentTime: Period?
-	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<ReferralStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							contained: [ResourceProxy]? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							dateSent: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							encounter: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							fulfillmentTime: Period? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							patient: Reference? = nil,
-							priority: CodeableConcept? = nil,
-							reason: CodeableConcept? = nil,
-							recipient: [Reference]? = nil,
-							requester: Reference? = nil,
-							serviceRequested: [CodeableConcept]? = nil,
-							specialty: CodeableConcept? = nil,
-							status: FHIRPrimitive<ReferralStatus>,
-							supportingInformation: [Reference]? = nil,
-							text: Narrative? = nil,
-							type: CodeableConcept? = nil)
-	{
+	public init(
+		contained: [ResourceProxy]? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		dateSent: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		encounter: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		fulfillmentTime: Period? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		patient: Reference? = nil,
+		priority: CodeableConcept? = nil,
+		reason: CodeableConcept? = nil,
+		recipient: [Reference]? = nil,
+		requester: Reference? = nil,
+		serviceRequested: [CodeableConcept]? = nil,
+		specialty: CodeableConcept? = nil,
+		status: FHIRPrimitive<ReferralStatus>,
+		supportingInformation: [Reference]? = nil,
+		text: Narrative? = nil,
+		type: CodeableConcept? = nil
+	) {
 		self.init(status: status)
 		self.contained = contained
 		self.date = date
@@ -140,12 +163,20 @@ open class ReferralRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case date; case _date
 		case dateSent; case _dateSent
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case encounter
+		case `extension` = "extension"
 		case fulfillmentTime
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case patient
 		case priority
 		case reason
@@ -155,20 +186,28 @@ open class ReferralRequest: DomainResource {
 		case specialty
 		case status; case _status
 		case supportingInformation
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.dateSent = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .dateSent, auxiliaryKey: ._dateSent)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.fulfillmentTime = try Period(from: _container, forKeyIfPresent: .fulfillmentTime)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
 		self.priority = try CodeableConcept(from: _container, forKeyIfPresent: .priority)
 		self.reason = try CodeableConcept(from: _container, forKeyIfPresent: .reason)
@@ -178,21 +217,29 @@ open class ReferralRequest: DomainResource {
 		self.specialty = try CodeableConcept(from: _container, forKeyIfPresent: .specialty)
 		self.status = try FHIRPrimitive<ReferralStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.supportingInformation = try [Reference](from: _container, forKeyIfPresent: .supportingInformation)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try dateSent?.encode(on: &_container, forKey: .dateSent, auxiliaryKey: ._dateSent)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fulfillmentTime?.encode(on: &_container, forKey: .fulfillmentTime)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try patient?.encode(on: &_container, forKey: .patient)
 		try priority?.encode(on: &_container, forKey: .priority)
 		try reason?.encode(on: &_container, forKey: .reason)
@@ -202,54 +249,7 @@ open class ReferralRequest: DomainResource {
 		try specialty?.encode(on: &_container, forKey: .specialty)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try supportingInformation?.encode(on: &_container, forKey: .supportingInformation)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ReferralRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return date == _other.date
-		    && dateSent == _other.dateSent
-		    && description_fhir == _other.description_fhir
-		    && encounter == _other.encounter
-		    && fulfillmentTime == _other.fulfillmentTime
-		    && identifier == _other.identifier
-		    && patient == _other.patient
-		    && priority == _other.priority
-		    && reason == _other.reason
-		    && recipient == _other.recipient
-		    && requester == _other.requester
-		    && serviceRequested == _other.serviceRequested
-		    && specialty == _other.specialty
-		    && status == _other.status
-		    && supportingInformation == _other.supportingInformation
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(date)
-		hasher.combine(dateSent)
-		hasher.combine(description_fhir)
-		hasher.combine(encounter)
-		hasher.combine(fulfillmentTime)
-		hasher.combine(identifier)
-		hasher.combine(patient)
-		hasher.combine(priority)
-		hasher.combine(reason)
-		hasher.combine(recipient)
-		hasher.combine(requester)
-		hasher.combine(serviceRequested)
-		hasher.combine(specialty)
-		hasher.combine(status)
-		hasher.combine(supportingInformation)
-		hasher.combine(type)
 	}
 }

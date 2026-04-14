@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,27 +27,27 @@ import FMCore
  */
 public enum ObservationStatus: String, FHIRPrimitiveType {
 	
-	/// The existence of the observation is registered, but there is no result yet available.
-	case registered = "registered"
-	
-	/// This is an initial or interim observation: data may be incomplete or unverified.
-	case preliminary = "preliminary"
-	
-	/// The observation is complete and verified by an authorized person.
-	case final = "final"
-	
 	/// The observation has been modified subsequent to being Final, and is complete and verified by an authorized
 	/// person.
-	case amended = "amended"
+	case amended
 	
 	/// The observation is unavailable because the measurement was not started or not completed (also sometimes called
 	/// "aborted").
-	case cancelled = "cancelled"
+	case cancelled
 	
 	/// The observation has been withdrawn following previous final release.
 	case enteredInError = "entered-in-error"
 	
+	/// The observation is complete and verified by an authorized person.
+	case final
+	
+	/// This is an initial or interim observation: data may be incomplete or unverified.
+	case preliminary
+	
+	/// The existence of the observation is registered, but there is no result yet available.
+	case registered
+	
 	/// The observation status is unknown.  Note that "unknown" is a value of last resort and every attempt should be
 	/// made to provide a meaningful value other than "unknown".
-	case unknown = "unknown"
+	case unknown
 }

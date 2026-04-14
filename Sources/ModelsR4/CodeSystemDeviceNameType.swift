@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,6 @@ import FMCore
  */
 public enum DeviceNameType: String, FHIRPrimitiveType {
 	
-	/// UDI Label name.
-	case udiLabelName = "udi-label-name"
-	
-	/// User Friendly name.
-	case userFriendlyName = "user-friendly-name"
-	
-	/// Patient Reported name.
-	case patientReportedName = "patient-reported-name"
-	
 	/// Manufacturer name.
 	case manufacturerName = "manufacturer-name"
 	
@@ -44,4 +35,13 @@ public enum DeviceNameType: String, FHIRPrimitiveType {
 	
 	/// other.
 	case other
+	
+	/// Patient Reported name.
+	case patientReportedName = "patient-reported-name"
+	
+	/// UDI Label name.
+	case udiLabelName = "udi-label-name"
+	
+	/// User Friendly name.
+	case userFriendlyName = "user-friendly-name"
 }

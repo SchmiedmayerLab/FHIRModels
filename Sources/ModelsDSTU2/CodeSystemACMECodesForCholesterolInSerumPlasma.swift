@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ACMECodesForCholesterolInSerumPlasma: String, FHIRPrimitiveType {
 	
-	/// Serum Cholesterol, in mmol/L
-	case cholMmol = "chol-mmol"
+	/// Serum Cholesterol
+	case chol
 	
 	/// Serum Cholesterol, in mg/L
 	case cholMass = "chol-mass"
 	
-	/// Serum Cholesterol
-	case chol = "chol"
+	/// Serum Cholesterol, in mmol/L
+	case cholMmol = "chol-mmol"
 }

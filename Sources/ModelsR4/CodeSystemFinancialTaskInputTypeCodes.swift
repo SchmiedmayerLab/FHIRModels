@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,23 +27,23 @@ import FMCore
  */
 public enum FinancialTaskInputTypeCodes: String, FHIRPrimitiveType {
 	
-	/// The name of a resource to include in a selection.
-	case include
-	
 	/// The name of a resource to not include in a selection.
 	case exclude
 	
-	/// A reference to the response resource to the original processing of a resource.
-	case origresponse
-	
-	/// A reference value which must be quoted to authorize an action.
-	case reference
+	/// The name of a resource to include in a selection.
+	case include
 	
 	/// The sequence number associated with an item for reprocessing.
 	case item
 	
+	/// A reference to the response resource to the original processing of a resource.
+	case origresponse
+	
 	/// The reference period for the action being requested.
 	case period
+	
+	/// A reference value which must be quoted to authorize an action.
+	case reference
 	
 	/// The processing status from a check on the processing status of a resource such as the adjudication of a claim.
 	case status

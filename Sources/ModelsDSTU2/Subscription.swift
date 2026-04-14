@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/Subscription)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,45 @@ import FMCore
  resource matches the given criteria, it sends a message on the defined "channel" so that another system is able to take
  an appropriate action.
  */
-open class Subscription: DomainResource {
+public struct Subscription: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .subscription }
+	public static let resourceType: ResourceType = .subscription
+	
+	/// The channel on which to report matches to the criteria
+	public var channel: SubscriptionChannel
+	
+	/// Contact details for source (e.g. troubleshooting)
+	public var contact: [ContactPoint]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Rule for server push criteria
 	public var criteria: FHIRPrimitive<FHIRString>
 	
-	/// Contact details for source (e.g. troubleshooting)
-	public var contact: [ContactPoint]?
+	/// When to automatically delete the subscription
+	public var end: FHIRPrimitive<Instant>?
+	
+	/// Latest error note
+	public var error: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Description of why this subscription was created
 	public var reason: FHIRPrimitive<FHIRString>
@@ -44,17 +74,11 @@ open class Subscription: DomainResource {
 	/// Restricted to: ['requested', 'active', 'error', 'off']
 	public var status: FHIRPrimitive<SubscriptionStatus>
 	
-	/// Latest error note
-	public var error: FHIRPrimitive<FHIRString>?
-	
-	/// The channel on which to report matches to the criteria
-	public var channel: SubscriptionChannel
-	
-	/// When to automatically delete the subscription
-	public var end: FHIRPrimitive<Instant>?
-	
 	/// A tag to add to matching resources
 	public var tag: [Coding]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(channel: SubscriptionChannel, criteria: FHIRPrimitive<FHIRString>, reason: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<SubscriptionStatus>) {
@@ -62,28 +86,27 @@ open class Subscription: DomainResource {
 		self.criteria = criteria
 		self.reason = reason
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							channel: SubscriptionChannel,
-							contact: [ContactPoint]? = nil,
-							contained: [ResourceProxy]? = nil,
-							criteria: FHIRPrimitive<FHIRString>,
-							end: FHIRPrimitive<Instant>? = nil,
-							error: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							reason: FHIRPrimitive<FHIRString>,
-							status: FHIRPrimitive<SubscriptionStatus>,
-							tag: [Coding]? = nil,
-							text: Narrative? = nil)
-	{
+	public init(
+		channel: SubscriptionChannel,
+		contact: [ContactPoint]? = nil,
+		contained: [ResourceProxy]? = nil,
+		criteria: FHIRPrimitive<FHIRString>,
+		end: FHIRPrimitive<Instant>? = nil,
+		error: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		reason: FHIRPrimitive<FHIRString>,
+		status: FHIRPrimitive<SubscriptionStatus>,
+		tag: [Coding]? = nil,
+		text: Narrative? = nil
+	) {
 		self.init(channel: channel, criteria: criteria, reason: reason, status: status)
 		self.contact = contact
 		self.contained = contained
@@ -102,77 +125,70 @@ open class Subscription: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case channel
 		case contact
+		case contained
 		case criteria; case _criteria
 		case end; case _end
 		case error; case _error
+		case `extension` = "extension"
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case reason; case _reason
 		case status; case _status
 		case tag
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.channel = try SubscriptionChannel(from: _container, forKey: .channel)
 		self.contact = try [ContactPoint](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.criteria = try FHIRPrimitive<FHIRString>(from: _container, forKey: .criteria, auxiliaryKey: ._criteria)
 		self.end = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .end, auxiliaryKey: ._end)
 		self.error = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .error, auxiliaryKey: ._error)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.reason = try FHIRPrimitive<FHIRString>(from: _container, forKey: .reason, auxiliaryKey: ._reason)
 		self.status = try FHIRPrimitive<SubscriptionStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.tag = try [Coding](from: _container, forKeyIfPresent: .tag)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try channel.encode(on: &_container, forKey: .channel)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try criteria.encode(on: &_container, forKey: .criteria, auxiliaryKey: ._criteria)
 		try end?.encode(on: &_container, forKey: .end, auxiliaryKey: ._end)
 		try error?.encode(on: &_container, forKey: .error, auxiliaryKey: ._error)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try reason.encode(on: &_container, forKey: .reason, auxiliaryKey: ._reason)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try tag?.encode(on: &_container, forKey: .tag)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Subscription else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return channel == _other.channel
-		    && contact == _other.contact
-		    && criteria == _other.criteria
-		    && end == _other.end
-		    && error == _other.error
-		    && reason == _other.reason
-		    && status == _other.status
-		    && tag == _other.tag
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(channel)
-		hasher.combine(contact)
-		hasher.combine(criteria)
-		hasher.combine(end)
-		hasher.combine(error)
-		hasher.combine(reason)
-		hasher.combine(status)
-		hasher.combine(tag)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -181,99 +197,4 @@ open class Subscription: DomainResource {
  
  Details where to send notifications when resources are received that meet the criteria.
  */
-open class SubscriptionChannel: BackboneElement {
-	
-	/// The type of channel to send notifications on.
-	/// Restricted to: ['rest-hook', 'websocket', 'email', 'sms', 'message']
-	public var type: FHIRPrimitive<SubscriptionChannelType>
-	
-	/// Where the channel points to
-	public var endpoint: FHIRPrimitive<FHIRURI>?
-	
-	/// Mimetype to send, or blank for no payload
-	public var payload: FHIRPrimitive<FHIRString>
-	
-	/// Usage depends on the channel type
-	public var header: FHIRPrimitive<FHIRString>?
-	
-	/// Designated initializer taking all required properties
-	public init(payload: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<SubscriptionChannelType>) {
-		self.payload = payload
-		self.type = type
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							endpoint: FHIRPrimitive<FHIRURI>? = nil,
-							`extension`: [Extension]? = nil,
-							header: FHIRPrimitive<FHIRString>? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							payload: FHIRPrimitive<FHIRString>,
-							type: FHIRPrimitive<SubscriptionChannelType>)
-	{
-		self.init(payload: payload, type: type)
-		self.endpoint = endpoint
-		self.`extension` = `extension`
-		self.header = header
-		self.id = id
-		self.modifierExtension = modifierExtension
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case endpoint; case _endpoint
-		case header; case _header
-		case payload; case _payload
-		case type; case _type
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.endpoint = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .endpoint, auxiliaryKey: ._endpoint)
-		self.header = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .header, auxiliaryKey: ._header)
-		self.payload = try FHIRPrimitive<FHIRString>(from: _container, forKey: .payload, auxiliaryKey: ._payload)
-		self.type = try FHIRPrimitive<SubscriptionChannelType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try endpoint?.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
-		try header?.encode(on: &_container, forKey: .header, auxiliaryKey: ._header)
-		try payload.encode(on: &_container, forKey: .payload, auxiliaryKey: ._payload)
-		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionChannel else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return endpoint == _other.endpoint
-		    && header == _other.header
-		    && payload == _other.payload
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(endpoint)
-		hasher.combine(header)
-		hasher.combine(payload)
-		hasher.combine(type)
-	}
-}
+public typealias SubscriptionChannel = BackboneElement

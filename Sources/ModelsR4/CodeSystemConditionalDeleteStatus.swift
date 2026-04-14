@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum ConditionalDeleteStatus: String, FHIRPrimitiveType {
 	
+	/// Conditional deletes are supported, and multiple resources can be deleted in a single interaction.
+	case multiple
+	
 	/// No support for conditional deletes.
 	case notSupported = "not-supported"
 	
 	/// Conditional deletes are supported, but only single resources at a time.
 	case single
-	
-	/// Conditional deletes are supported, and multiple resources can be deleted in a single interaction.
-	case multiple
 }

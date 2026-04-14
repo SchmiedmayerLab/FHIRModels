@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,17 +30,17 @@ import FMCore
 public enum ImmunizationRecommendationDateCriterionCodes: String, FHIRPrimitiveType {
 	
 	/// Date the next dose is considered due.
-	case due = "due"
-	
-	/// At the recommended date.
-	case recommended = "recommended"
+	case due
 	
 	/// As early as possible.
-	case earliest = "earliest"
-	
-	/// Date the next dose is considered overdue.
-	case overdue = "overdue"
+	case earliest
 	
 	/// The latest date the next dose is to be given.
-	case latest = "latest"
+	case latest
+	
+	/// Date the next dose is considered overdue.
+	case overdue
+	
+	/// At the recommended date.
+	case recommended
 }

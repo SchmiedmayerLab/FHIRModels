@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/OperationOutcome)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,21 +24,44 @@ import FMCore
  
  A collection of error, warning, or information messages that result from a system action.
  */
-open class OperationOutcome: DomainResource {
+public struct OperationOutcome: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .operationOutcome }
+	public static let resourceType: ResourceType = .operationOutcome
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// A single issue associated with the action
 	public var issue: [OperationOutcomeIssue]
 	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
 	public init(issue: [OperationOutcomeIssue]) {
 		self.issue = issue
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -63,42 +86,49 @@ open class OperationOutcome: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
+		case `extension` = "extension"
+		case id; case _id
+		case implicitRules; case _implicitRules
 		case issue
+		case language; case _language
+		case meta
+		case modifierExtension
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.issue = try [OperationOutcomeIssue](from: _container, forKey: .issue)
-		try super.init(from: decoder)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try issue.encode(on: &_container, forKey: .issue)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OperationOutcome else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return issue == _other.issue
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(issue)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -107,10 +137,7 @@ open class OperationOutcome: DomainResource {
  
  An error, warning, or information message that results from a system action.
  */
-open class OperationOutcomeIssue: BackboneElement {
-	
-	/// Indicates whether the issue indicates a variation from successful processing.
-	public var severity: FHIRPrimitive<IssueSeverity>
+public struct OperationOutcomeIssue: BackboneElement {
 	
 	/// Describes the type of the issue. The system that creates an OperationOutcome SHALL choose the most applicable
 	/// code from the IssueType value set, and may additional provide its own code for the error in the details element.
@@ -122,21 +149,32 @@ open class OperationOutcomeIssue: BackboneElement {
 	/// Additional diagnostic information about the issue
 	public var diagnostics: FHIRPrimitive<FHIRString>?
 	
+	/// FHIRPath of element(s) related to issue
+	public var expression: [FHIRPrimitive<FHIRString>]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Deprecated: Path of element(s) related to issue
 	public var location: [FHIRPrimitive<FHIRString>]?
 	
-	/// FHIRPath of element(s) related to issue
-	public var expression: [FHIRPrimitive<FHIRString>]?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Indicates whether the issue indicates a variation from successful processing.
+	public var severity: FHIRPrimitive<IssueSeverity>
 	
 	/// Designated initializer taking all required properties
 	public init(code: FHIRPrimitive<IssueType>, severity: FHIRPrimitive<IssueSeverity>) {
 		self.code = code
 		self.severity = severity
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<IssueType>,
 		details: CodeableConcept? = nil,
 		diagnostics: FHIRPrimitive<FHIRString>? = nil,
@@ -164,62 +202,41 @@ open class OperationOutcomeIssue: BackboneElement {
 		case details
 		case diagnostics; case _diagnostics
 		case expression; case _expression
+		case `extension` = "extension"
+		case id; case _id
 		case location; case _location
+		case modifierExtension
 		case severity; case _severity
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<IssueType>(from: _container, forKey: .code, auxiliaryKey: ._code)
 		self.details = try CodeableConcept(from: _container, forKeyIfPresent: .details)
 		self.diagnostics = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .diagnostics, auxiliaryKey: ._diagnostics)
 		self.expression = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .expression, auxiliaryKey: ._expression)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.location = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .location, auxiliaryKey: ._location)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.severity = try FHIRPrimitive<IssueSeverity>(from: _container, forKey: .severity, auxiliaryKey: ._severity)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try details?.encode(on: &_container, forKey: .details)
 		try diagnostics?.encode(on: &_container, forKey: .diagnostics, auxiliaryKey: ._diagnostics)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try location?.encode(on: &_container, forKey: .location, auxiliaryKey: ._location)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try severity.encode(on: &_container, forKey: .severity, auxiliaryKey: ._severity)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OperationOutcomeIssue else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && details == _other.details
-		    && diagnostics == _other.diagnostics
-		    && expression == _other.expression
-		    && location == _other.location
-		    && severity == _other.severity
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(details)
-		hasher.combine(diagnostics)
-		hasher.combine(expression)
-		hasher.combine(location)
-		hasher.combine(severity)
 	}
 }

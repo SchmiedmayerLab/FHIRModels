@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,24 +27,24 @@ import FMCore
  */
 public enum AdjudicationCodes: String, FHIRPrimitiveType {
 	
-	/// total
-	case total = "total"
+	/// benefit
+	case benefit
 	
 	/// copay
-	case copay = "copay"
-	
-	/// eligible
-	case eligible = "eligible"
+	case copay
 	
 	/// deductible
-	case deductible = "deductible"
+	case deductible
+	
+	/// eligible
+	case eligible
 	
 	/// eligpercent
-	case eligpercent = "eligpercent"
+	case eligpercent
 	
 	/// tax
-	case tax = "tax"
+	case tax
 	
-	/// benefit
-	case benefit = "benefit"
+	/// total
+	case total
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -92,15 +92,15 @@ public enum ContractResourcePublicationStatusCodes: String, FHIRPrimitiveType {
 	/// v.3 status codes: superseded.
 	case renewed
 	
-	/// A Contract that is rescinded.  May be required prior to replacing with an updated Contract. Comparable FHIR and
-	/// v.3 status codes: nullified.
-	case revoked
-	
 	/// Contract is reactivated after being pended because of faulty execution. *E.g., competency of the signer(s), or
 	/// where the policy is substantially different from and did not accompany the application/form so that the
 	/// applicant could not compare them. Aka - ''reactivated''. Usage: Optional stage where a pended contract is
 	/// reactivated. Precedence Order = 8. Comparable FHIR and v.3 status codes: reactivated.
 	case resolved
+	
+	/// A Contract that is rescinded.  May be required prior to replacing with an updated Contract. Comparable FHIR and
+	/// v.3 status codes: nullified.
+	case revoked
 	
 	/// Contract reaches its expiry date. It might or might not be renewed or renegotiated. Usage: Normal end of
 	/// contract period. Precedence Order = 12. Comparable FHIR and v.3 status codes: Obsoleted.

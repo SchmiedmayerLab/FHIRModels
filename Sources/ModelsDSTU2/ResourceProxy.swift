@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public enum ResourceProxy: FHIRType {
 	case basic(Basic)
 	case binary(Binary)
 	case bodySite(BodySite)
-	case bundle(Bundle)
+	indirect case bundle(Bundle)
 	case carePlan(CarePlan)
 	case claim(Claim)
 	case claimResponse(ClaimResponse)
@@ -52,7 +52,6 @@ public enum ResourceProxy: FHIRType {
 	case diagnosticReport(DiagnosticReport)
 	case documentManifest(DocumentManifest)
 	case documentReference(DocumentReference)
-	case domainResource(DomainResource)
 	case eligibilityRequest(EligibilityRequest)
 	case eligibilityResponse(EligibilityResponse)
 	case encounter(Encounter)
@@ -102,7 +101,6 @@ public enum ResourceProxy: FHIRType {
 	case questionnaireResponse(QuestionnaireResponse)
 	case referralRequest(ReferralRequest)
 	case relatedPerson(RelatedPerson)
-	case resource(Resource)
 	case riskAssessment(RiskAssessment)
 	case schedule(Schedule)
 	case searchParameter(SearchParameter)
@@ -116,7 +114,7 @@ public enum ResourceProxy: FHIRType {
 	case testScript(TestScript)
 	case valueSet(ValueSet)
 	case visionPrescription(VisionPrescription)
-	case unrecognized(Resource)
+	case unrecognized
 	
 	public var resourceType: String {
 		switch self {
@@ -184,8 +182,6 @@ public enum ResourceProxy: FHIRType {
 			return "DocumentManifest"
 		case .documentReference:
 			return "DocumentReference"
-		case .domainResource:
-			return "DomainResource"
 		case .eligibilityRequest:
 			return "EligibilityRequest"
 		case .eligibilityResponse:
@@ -284,8 +280,6 @@ public enum ResourceProxy: FHIRType {
 			return "ReferralRequest"
 		case .relatedPerson:
 			return "RelatedPerson"
-		case .resource:
-			return "Resource"
 		case .riskAssessment:
 			return "RiskAssessment"
 		case .schedule:
@@ -319,7 +313,7 @@ public enum ResourceProxy: FHIRType {
 	
 	// MARK: -
 	
-	public init(with resource: Resource) {
+	public init(with resource: any Resource) {
 		switch type(of: resource).resourceType {
 		case .account:
 			self = .account(resource as! Account)
@@ -386,7 +380,7 @@ public enum ResourceProxy: FHIRType {
 		case .documentReference:
 			self = .documentReference(resource as! DocumentReference)
 		case .domainResource:
-			self = .domainResource(resource as! DomainResource)
+			self = .unrecognized
 		case .eligibilityRequest:
 			self = .eligibilityRequest(resource as! EligibilityRequest)
 		case .eligibilityResponse:
@@ -486,7 +480,7 @@ public enum ResourceProxy: FHIRType {
 		case .relatedPerson:
 			self = .relatedPerson(resource as! RelatedPerson)
 		case .resource:
-			self = .resource(resource)
+			self = .unrecognized
 		case .riskAssessment:
 			self = .riskAssessment(resource as! RiskAssessment)
 		case .schedule:
@@ -516,7 +510,7 @@ public enum ResourceProxy: FHIRType {
 		}
 	}
 	
-	public func get() -> Resource {
+	public func get() -> any Resource {
 		switch self {
 		case .account(let resource):
 			return resource
@@ -581,8 +575,6 @@ public enum ResourceProxy: FHIRType {
 		case .documentManifest(let resource):
 			return resource
 		case .documentReference(let resource):
-			return resource
-		case .domainResource(let resource):
 			return resource
 		case .eligibilityRequest(let resource):
 			return resource
@@ -682,8 +674,6 @@ public enum ResourceProxy: FHIRType {
 			return resource
 		case .relatedPerson(let resource):
 			return resource
-		case .resource(let resource):
-			return resource
 		case .riskAssessment(let resource):
 			return resource
 		case .schedule(let resource):
@@ -710,16 +700,13 @@ public enum ResourceProxy: FHIRType {
 			return resource
 		case .visionPrescription(let resource):
 			return resource
-		case .unrecognized(let resource):
-			return resource
+		case .unrecognized:
+			return Basic(code: CodeableConcept())
 		}
 	}
 	
 	public func get<T: Resource>(if type: T.Type) -> T? {
-		guard let resource = get() as? T else {
-			return nil
-		}
-		return resource
+		return get() as? T
 	}
 	
 	// MARK: - Codable
@@ -796,8 +783,6 @@ public enum ResourceProxy: FHIRType {
 			self = .documentManifest(try DocumentManifest(from: decoder))
 		case "DocumentReference":
 			self = .documentReference(try DocumentReference(from: decoder))
-		case "DomainResource":
-			self = .domainResource(try DomainResource(from: decoder))
 		case "EligibilityRequest":
 			self = .eligibilityRequest(try EligibilityRequest(from: decoder))
 		case "EligibilityResponse":
@@ -896,8 +881,6 @@ public enum ResourceProxy: FHIRType {
 			self = .referralRequest(try ReferralRequest(from: decoder))
 		case "RelatedPerson":
 			self = .relatedPerson(try RelatedPerson(from: decoder))
-		case "Resource":
-			self = .resource(try Resource(from: decoder))
 		case "RiskAssessment":
 			self = .riskAssessment(try RiskAssessment(from: decoder))
 		case "Schedule":
@@ -925,11 +908,202 @@ public enum ResourceProxy: FHIRType {
 		case "VisionPrescription":
 			self = .visionPrescription(try VisionPrescription(from: decoder))
 		default:
-			self = .unrecognized(try Resource(from: decoder))
+			self = .unrecognized
 		}
 	}
 	
 	public func encode(to encoder: Encoder) throws {
-		try get().encode(to: encoder)
+		switch self {
+		case .account(let resource):
+			try resource.encode(to: encoder)
+		case .allergyIntolerance(let resource):
+			try resource.encode(to: encoder)
+		case .appointment(let resource):
+			try resource.encode(to: encoder)
+		case .appointmentResponse(let resource):
+			try resource.encode(to: encoder)
+		case .auditEvent(let resource):
+			try resource.encode(to: encoder)
+		case .basic(let resource):
+			try resource.encode(to: encoder)
+		case .binary(let resource):
+			try resource.encode(to: encoder)
+		case .bodySite(let resource):
+			try resource.encode(to: encoder)
+		case .bundle(let resource):
+			try resource.encode(to: encoder)
+		case .carePlan(let resource):
+			try resource.encode(to: encoder)
+		case .claim(let resource):
+			try resource.encode(to: encoder)
+		case .claimResponse(let resource):
+			try resource.encode(to: encoder)
+		case .clinicalImpression(let resource):
+			try resource.encode(to: encoder)
+		case .communication(let resource):
+			try resource.encode(to: encoder)
+		case .communicationRequest(let resource):
+			try resource.encode(to: encoder)
+		case .composition(let resource):
+			try resource.encode(to: encoder)
+		case .conceptMap(let resource):
+			try resource.encode(to: encoder)
+		case .condition(let resource):
+			try resource.encode(to: encoder)
+		case .conformance(let resource):
+			try resource.encode(to: encoder)
+		case .contract(let resource):
+			try resource.encode(to: encoder)
+		case .coverage(let resource):
+			try resource.encode(to: encoder)
+		case .dataElement(let resource):
+			try resource.encode(to: encoder)
+		case .detectedIssue(let resource):
+			try resource.encode(to: encoder)
+		case .device(let resource):
+			try resource.encode(to: encoder)
+		case .deviceComponent(let resource):
+			try resource.encode(to: encoder)
+		case .deviceMetric(let resource):
+			try resource.encode(to: encoder)
+		case .deviceUseRequest(let resource):
+			try resource.encode(to: encoder)
+		case .deviceUseStatement(let resource):
+			try resource.encode(to: encoder)
+		case .diagnosticOrder(let resource):
+			try resource.encode(to: encoder)
+		case .diagnosticReport(let resource):
+			try resource.encode(to: encoder)
+		case .documentManifest(let resource):
+			try resource.encode(to: encoder)
+		case .documentReference(let resource):
+			try resource.encode(to: encoder)
+		case .eligibilityRequest(let resource):
+			try resource.encode(to: encoder)
+		case .eligibilityResponse(let resource):
+			try resource.encode(to: encoder)
+		case .encounter(let resource):
+			try resource.encode(to: encoder)
+		case .enrollmentRequest(let resource):
+			try resource.encode(to: encoder)
+		case .enrollmentResponse(let resource):
+			try resource.encode(to: encoder)
+		case .episodeOfCare(let resource):
+			try resource.encode(to: encoder)
+		case .explanationOfBenefit(let resource):
+			try resource.encode(to: encoder)
+		case .familyMemberHistory(let resource):
+			try resource.encode(to: encoder)
+		case .flag(let resource):
+			try resource.encode(to: encoder)
+		case .goal(let resource):
+			try resource.encode(to: encoder)
+		case .group(let resource):
+			try resource.encode(to: encoder)
+		case .healthcareService(let resource):
+			try resource.encode(to: encoder)
+		case .imagingObjectSelection(let resource):
+			try resource.encode(to: encoder)
+		case .imagingStudy(let resource):
+			try resource.encode(to: encoder)
+		case .immunization(let resource):
+			try resource.encode(to: encoder)
+		case .immunizationRecommendation(let resource):
+			try resource.encode(to: encoder)
+		case .implementationGuide(let resource):
+			try resource.encode(to: encoder)
+		case .list(let resource):
+			try resource.encode(to: encoder)
+		case .location(let resource):
+			try resource.encode(to: encoder)
+		case .media(let resource):
+			try resource.encode(to: encoder)
+		case .medication(let resource):
+			try resource.encode(to: encoder)
+		case .medicationAdministration(let resource):
+			try resource.encode(to: encoder)
+		case .medicationDispense(let resource):
+			try resource.encode(to: encoder)
+		case .medicationOrder(let resource):
+			try resource.encode(to: encoder)
+		case .medicationStatement(let resource):
+			try resource.encode(to: encoder)
+		case .messageHeader(let resource):
+			try resource.encode(to: encoder)
+		case .namingSystem(let resource):
+			try resource.encode(to: encoder)
+		case .nutritionOrder(let resource):
+			try resource.encode(to: encoder)
+		case .observation(let resource):
+			try resource.encode(to: encoder)
+		case .operationDefinition(let resource):
+			try resource.encode(to: encoder)
+		case .operationOutcome(let resource):
+			try resource.encode(to: encoder)
+		case .order(let resource):
+			try resource.encode(to: encoder)
+		case .orderResponse(let resource):
+			try resource.encode(to: encoder)
+		case .organization(let resource):
+			try resource.encode(to: encoder)
+		case .parameters(let resource):
+			try resource.encode(to: encoder)
+		case .patient(let resource):
+			try resource.encode(to: encoder)
+		case .paymentNotice(let resource):
+			try resource.encode(to: encoder)
+		case .paymentReconciliation(let resource):
+			try resource.encode(to: encoder)
+		case .person(let resource):
+			try resource.encode(to: encoder)
+		case .practitioner(let resource):
+			try resource.encode(to: encoder)
+		case .procedure(let resource):
+			try resource.encode(to: encoder)
+		case .procedureRequest(let resource):
+			try resource.encode(to: encoder)
+		case .processRequest(let resource):
+			try resource.encode(to: encoder)
+		case .processResponse(let resource):
+			try resource.encode(to: encoder)
+		case .provenance(let resource):
+			try resource.encode(to: encoder)
+		case .questionnaire(let resource):
+			try resource.encode(to: encoder)
+		case .questionnaireResponse(let resource):
+			try resource.encode(to: encoder)
+		case .referralRequest(let resource):
+			try resource.encode(to: encoder)
+		case .relatedPerson(let resource):
+			try resource.encode(to: encoder)
+		case .riskAssessment(let resource):
+			try resource.encode(to: encoder)
+		case .schedule(let resource):
+			try resource.encode(to: encoder)
+		case .searchParameter(let resource):
+			try resource.encode(to: encoder)
+		case .slot(let resource):
+			try resource.encode(to: encoder)
+		case .specimen(let resource):
+			try resource.encode(to: encoder)
+		case .structureDefinition(let resource):
+			try resource.encode(to: encoder)
+		case .subscription(let resource):
+			try resource.encode(to: encoder)
+		case .substance(let resource):
+			try resource.encode(to: encoder)
+		case .supplyDelivery(let resource):
+			try resource.encode(to: encoder)
+		case .supplyRequest(let resource):
+			try resource.encode(to: encoder)
+		case .testScript(let resource):
+			try resource.encode(to: encoder)
+		case .valueSet(let resource):
+			try resource.encode(to: encoder)
+		case .visionPrescription(let resource):
+			try resource.encode(to: encoder)
+		case .unrecognized:
+			break
+		}
 	}
 }

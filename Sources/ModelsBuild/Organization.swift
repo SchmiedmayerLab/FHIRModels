@@ -2,8 +2,8 @@
 //  Organization.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/Organization)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/Organization)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,48 +25,71 @@ import FMCore
  A formally or informally recognized grouping of people or organizations formed for the purpose of achieving some form
  of collective action.
  */
-open class Organization: DomainResource {
+public struct Organization: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .organization }
-	
-	/// Identifies this organization  across multiple systems
-	public var identifier: [Identifier]?
+	public static let resourceType: ResourceType = .organization
 	
 	/// Whether the organization's record is still in active use
 	public var active: FHIRPrimitive<FHIRBool>?
 	
-	/// Kind of organization
-	public var type: [CodeableConcept]?
-	
-	/// Name used for the organization
-	public var name: FHIRPrimitive<FHIRString>?
-	
 	/// A list of alternate names that the organization is known as, or was known as in the past
 	public var alias: [FHIRPrimitive<FHIRString>]?
+	
+	/// Official contact details for the Organization
+	public var contact: [ExtendedContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Additional details about the Organization that could be displayed as further information to identify the
 	/// Organization beyond its name
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Official contact details for the Organization
-	public var contact: [ExtendedContactDetail]?
+	/// Technical endpoints providing access to services operated for the organization
+	public var endpoint: [Reference]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifies this organization  across multiple systems
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name used for the organization
+	public var name: FHIRPrimitive<FHIRString>?
 	
 	/// The organization of which this organization forms a part
 	public var partOf: Reference?
 	
-	/// Technical endpoints providing access to services operated for the organization
-	public var endpoint: [Reference]?
-	
 	/// Qualifications, certifications, accreditations, licenses, training, etc. pertaining to the provision of care
 	public var qualification: [OrganizationQualification]?
 	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Kind of organization
+	public var type: [CodeableConcept]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
 		contact: [ExtendedContactDetail]? = nil,
@@ -110,87 +133,76 @@ open class Organization: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
 		case alias; case _alias
 		case contact
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case endpoint
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name; case _name
 		case partOf
 		case qualification
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
 		self.alias = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .alias, auxiliaryKey: ._alias)
 		self.contact = try [ExtendedContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.endpoint = try [Reference](from: _container, forKeyIfPresent: .endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.partOf = try Reference(from: _container, forKeyIfPresent: .partOf)
 		self.qualification = try [OrganizationQualification](from: _container, forKeyIfPresent: .qualification)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try endpoint?.encode(on: &_container, forKey: .endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try partOf?.encode(on: &_container, forKey: .partOf)
 		try qualification?.encode(on: &_container, forKey: .qualification)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Organization else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && alias == _other.alias
-		    && contact == _other.contact
-		    && description_fhir == _other.description_fhir
-		    && endpoint == _other.endpoint
-		    && identifier == _other.identifier
-		    && name == _other.name
-		    && partOf == _other.partOf
-		    && qualification == _other.qualification
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(alias)
-		hasher.combine(contact)
-		hasher.combine(description_fhir)
-		hasher.combine(endpoint)
-		hasher.combine(identifier)
-		hasher.combine(name)
-		hasher.combine(partOf)
-		hasher.combine(qualification)
-		hasher.combine(type)
 	}
 }
 
@@ -203,31 +215,39 @@ open class Organization: DomainResource {
  For example, an approval to provide a type of services issued by a certifying body (such as the US Joint Commission) to
  an organization.
  */
-open class OrganizationQualification: BackboneElement {
-	
-	/// An identifier for this qualification for the organization
-	public var identifier: [Identifier]?
+public struct OrganizationQualification: BackboneElement {
 	
 	/// Coded representation of the qualification
 	public var code: CodeableConcept
 	
-	/// Status/progress of the qualification
-	public var status: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Period during which the qualification is valid
-	public var period: Period?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An identifier for this qualification for the organization
+	public var identifier: [Identifier]?
 	
 	/// Organization that regulates and issues the qualification
 	public var issuer: Reference?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Period during which the qualification is valid
+	public var period: Period?
+	
+	/// Status/progress of the qualification
+	public var status: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept) {
 		self.code = code
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -251,60 +271,41 @@ open class OrganizationQualification: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case issuer
+		case modifierExtension
 		case period
 		case status
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.issuer = try Reference(from: _container, forKeyIfPresent: .issuer)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.status = try CodeableConcept(from: _container, forKeyIfPresent: .status)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try issuer?.encode(on: &_container, forKey: .issuer)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
 		try status?.encode(on: &_container, forKey: .status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OrganizationQualification else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && identifier == _other.identifier
-		    && issuer == _other.issuer
-		    && period == _other.period
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(identifier)
-		hasher.combine(issuer)
-		hasher.combine(period)
-		hasher.combine(status)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,12 +28,12 @@ import FMCore
 public enum QICoreAdverseEventTypeCodes: String, FHIRPrimitiveType {
 	
 	/// A safety incident, reaction, medication error, or other untoward medical event affecting a patient
-	case incident = "incident"
+	case incident
 	
 	/// A safety event that almost happened, but was noticed and prevented in time to prevent harm from occurring to the
 	/// patient
 	case nearMiss = "near-miss"
 	
 	/// Any unsafe condition that poses a elevated risk to patient safety
-	case unsafe = "unsafe"
+	case unsafe
 }

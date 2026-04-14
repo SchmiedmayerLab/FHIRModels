@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,19 +29,19 @@ import FMCore
  */
 public enum ImmunizationRecommendationStatusCodes: String, FHIRPrimitiveType {
 	
+	/// The patient is fully protected and no further doses are recommended.
+	case complete
+	
+	/// The patient is contraindicated for futher doses.
+	case contraindicated
+	
 	/// The patient is due for their next vaccination.
 	case due
-	
-	/// The patient is considered overdue for their next vaccination.
-	case overdue
 	
 	/// The patient is immune to the target disease and further immunization against the disease is not likely to
 	/// provide benefit.
 	case immune
 	
-	/// The patient is contraindicated for futher doses.
-	case contraindicated
-	
-	/// The patient is fully protected and no further doses are recommended.
-	case complete
+	/// The patient is considered overdue for their next vaccination.
+	case overdue
 }

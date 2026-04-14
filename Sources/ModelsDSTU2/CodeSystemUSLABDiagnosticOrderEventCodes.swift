@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,16 +27,16 @@ import FMCore
  */
 public enum USLABDiagnosticOrderEventCodes: String, FHIRPrimitiveType {
 	
+	/// a Provider (.orderer) adds one or more additional tests to a previously transmitted test requisition.
+	case addOnRequest = "add-on-request"
+	
+	/// The laboratory cancels a previously ordered test.
+	case labCancel = "lab-cancel"
+	
 	/// a Provider (.orderer) orders one or more new laboratory tests or scheduled laboratory tests (including future
 	/// tests) to be performed by a laboratory.
 	case newRequest = "new-request"
 	
-	/// a Provider (.orderer) adds one or more additional tests to a previously transmitted test requisition.
-	case addOnRequest = "add-on-request"
-	
 	/// The Provider (orderer) requests cancelation of previously ordered test.
 	case ordererCancel = "orderer-cancel"
-	
-	/// The laboratory cancels a previously ordered test.
-	case labCancel = "lab-cancel"
 }

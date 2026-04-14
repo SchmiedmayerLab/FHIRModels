@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,36 +28,36 @@ import FMCore
  */
 public enum PatientContactRelationship: String, FHIRPrimitiveType {
 	
-	/// Contact for use in case of emergency.
-	case emergency = "emergency"
-	
-	/// family
-	case family = "family"
-	
-	/// guardian
-	case guardian = "guardian"
-	
-	/// friend
-	case friend = "friend"
-	
-	/// partner
-	case partner = "partner"
-	
-	/// Contact for matters related to the patients occupation/employment.
-	case work = "work"
+	/// Contact that acts on behalf of the patient
+	case agent
 	
 	/// (Non)professional caregiver
-	case caregiver = "caregiver"
+	case caregiver
 	
-	/// Contact that acts on behalf of the patient
-	case agent = "agent"
+	/// Contact for use in case of emergency.
+	case emergency
+	
+	/// family
+	case family
+	
+	/// friend
+	case friend
 	
 	/// Contact for financial matters
-	case guarantor = "guarantor"
+	case guarantor
+	
+	/// guardian
+	case guardian
 	
 	/// For animals, the owner of the animal
-	case owner = "owner"
+	case owner
 	
 	/// Parent of the patient
-	case parent = "parent"
+	case parent
+	
+	/// partner
+	case partner
+	
+	/// Contact for matters related to the patients occupation/employment.
+	case work
 }

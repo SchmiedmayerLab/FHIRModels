@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/HumanName)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,13 +25,10 @@ import FMCore
  A name, normally of a human, that can be used for other living entities (e.g. animals but not organizations) that have
  been assigned names by a human and may need the use of name parts or the need for usage information.
  */
-open class HumanName: DataType {
+public struct HumanName: DataType {
 	
-	/// Identifies the purpose for this name.
-	public var use: FHIRPrimitive<NameUse>?
-	
-	/// Text representation of the full name
-	public var text: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Family name (often called 'Surname')
 	public var family: FHIRPrimitive<FHIRString>?
@@ -39,22 +36,30 @@ open class HumanName: DataType {
 	/// Given names (not always 'first'). Includes middle names
 	public var given: [FHIRPrimitive<FHIRString>]?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Time period when name was/is in use
+	public var period: Period?
+	
 	/// Parts that come before the name
 	public var prefix: [FHIRPrimitive<FHIRString>]?
 	
 	/// Parts that come after the name
 	public var suffix: [FHIRPrimitive<FHIRString>]?
 	
-	/// Time period when name was/is in use
-	public var period: Period?
+	/// Text representation of the full name
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// Identifies the purpose for this name.
+	public var use: FHIRPrimitive<NameUse>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		family: FHIRPrimitive<FHIRString>? = nil,
 		given: [FHIRPrimitive<FHIRString>]? = nil,
@@ -80,71 +85,45 @@ open class HumanName: DataType {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case family; case _family
 		case given; case _given
+		case id; case _id
 		case period
 		case prefix; case _prefix
 		case suffix; case _suffix
 		case text; case _text
 		case use; case _use
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.family = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .family, auxiliaryKey: ._family)
 		self.given = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .given, auxiliaryKey: ._given)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.prefix = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .prefix, auxiliaryKey: ._prefix)
 		self.suffix = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .suffix, auxiliaryKey: ._suffix)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 		self.use = try FHIRPrimitive<NameUse>(from: _container, forKeyIfPresent: .use, auxiliaryKey: ._use)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try family?.encode(on: &_container, forKey: .family, auxiliaryKey: ._family)
 		try given?.encode(on: &_container, forKey: .given, auxiliaryKey: ._given)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try period?.encode(on: &_container, forKey: .period)
 		try prefix?.encode(on: &_container, forKey: .prefix, auxiliaryKey: ._prefix)
 		try suffix?.encode(on: &_container, forKey: .suffix, auxiliaryKey: ._suffix)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try use?.encode(on: &_container, forKey: .use, auxiliaryKey: ._use)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? HumanName else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return family == _other.family
-		    && given == _other.given
-		    && period == _other.period
-		    && prefix == _other.prefix
-		    && suffix == _other.suffix
-		    && text == _other.text
-		    && use == _other.use
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(family)
-		hasher.combine(given)
-		hasher.combine(period)
-		hasher.combine(prefix)
-		hasher.combine(suffix)
-		hasher.combine(text)
-		hasher.combine(use)
 	}
 }

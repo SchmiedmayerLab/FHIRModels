@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/Ingredient)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -22,28 +22,9 @@ import FMCore
 /**
  An ingredient of a manufactured item or pharmaceutical product.
  */
-open class Ingredient: DomainResource {
+public struct Ingredient: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .ingredient }
-	
-	/// An identifier or code by which the ingredient can be referenced
-	public var identifier: Identifier?
-	
-	/// The status of this ingredient. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// The product which this ingredient is a constituent part of
-	public var `for`: [Reference]?
-	
-	/// Purpose of the ingredient within the product, e.g. active, inactive
-	public var role: CodeableConcept
-	
-	/// Precise action within the drug product, e.g. antioxidant, alkalizing agent
-	public var function: [CodeableConcept]?
-	
-	/// A classification of the ingredient according to where in the physical item it tends to be used, such the outer
-	/// shell of a tablet, inner body or ink
-	public var group: CodeableConcept?
+	public static let resourceType: ResourceType = .ingredient
 	
 	/// If the ingredient is a known or suspected allergen
 	public var allergenicIndicator: FHIRPrimitive<FHIRBool>?
@@ -52,22 +33,64 @@ open class Ingredient: DomainResource {
 	/// loss on drying
 	public var comment: FHIRPrimitive<FHIRString>?
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The product which this ingredient is a constituent part of
+	public var `for`: [Reference]?
+	
+	/// Precise action within the drug product, e.g. antioxidant, alkalizing agent
+	public var function: [CodeableConcept]?
+	
+	/// A classification of the ingredient according to where in the physical item it tends to be used, such the outer
+	/// shell of a tablet, inner body or ink
+	public var group: CodeableConcept?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An identifier or code by which the ingredient can be referenced
+	public var identifier: Identifier?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
 	/// An organization that manufactures this ingredient
 	public var manufacturer: [IngredientManufacturer]?
 	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Purpose of the ingredient within the product, e.g. active, inactive
+	public var role: CodeableConcept
+	
+	/// The status of this ingredient. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
 	/// The substance that comprises this ingredient
 	public var substance: IngredientSubstance
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(role: CodeableConcept, status: FHIRPrimitive<PublicationStatus>, substance: IngredientSubstance) {
 		self.role = role
 		self.status = status
 		self.substance = substance
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		allergenicIndicator: FHIRPrimitive<FHIRBool>? = nil,
 		comment: FHIRPrimitive<FHIRString>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -108,87 +131,76 @@ open class Ingredient: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case allergenicIndicator; case _allergenicIndicator
 		case comment; case _comment
+		case contained
+		case `extension` = "extension"
 		case `for` = "for"
 		case function
 		case group
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case manufacturer
+		case meta
+		case modifierExtension
 		case role
 		case status; case _status
 		case substance
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.allergenicIndicator = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .allergenicIndicator, auxiliaryKey: ._allergenicIndicator)
 		self.comment = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.`for` = try [Reference](from: _container, forKeyIfPresent: .`for`)
 		self.function = try [CodeableConcept](from: _container, forKeyIfPresent: .function)
 		self.group = try CodeableConcept(from: _container, forKeyIfPresent: .group)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.manufacturer = try [IngredientManufacturer](from: _container, forKeyIfPresent: .manufacturer)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try CodeableConcept(from: _container, forKey: .role)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.substance = try IngredientSubstance(from: _container, forKey: .substance)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try allergenicIndicator?.encode(on: &_container, forKey: .allergenicIndicator, auxiliaryKey: ._allergenicIndicator)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try `for`?.encode(on: &_container, forKey: .`for`)
 		try function?.encode(on: &_container, forKey: .function)
 		try group?.encode(on: &_container, forKey: .group)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try manufacturer?.encode(on: &_container, forKey: .manufacturer)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role.encode(on: &_container, forKey: .role)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try substance.encode(on: &_container, forKey: .substance)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Ingredient else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return allergenicIndicator == _other.allergenicIndicator
-		    && comment == _other.comment
-		    && `for` == _other.`for`
-		    && function == _other.function
-		    && group == _other.group
-		    && identifier == _other.identifier
-		    && manufacturer == _other.manufacturer
-		    && role == _other.role
-		    && status == _other.status
-		    && substance == _other.substance
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(allergenicIndicator)
-		hasher.combine(comment)
-		hasher.combine(`for`)
-		hasher.combine(function)
-		hasher.combine(group)
-		hasher.combine(identifier)
-		hasher.combine(manufacturer)
-		hasher.combine(role)
-		hasher.combine(status)
-		hasher.combine(substance)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -200,24 +212,32 @@ open class Ingredient: DomainResource {
  organisations allowed to manufacture this ingredient for this product         Users must be clear on the application of
  context relevant to their use case.
  */
-open class IngredientManufacturer: BackboneElement {
+public struct IngredientManufacturer: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An organization that manufactures this ingredient
+	public var manufacturer: Reference
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The way in which this manufacturer is associated with the ingredient. For example whether it is a possible one
 	/// (others allowed), or an exclusive authorized one for this ingredient. Note that this is not the manufacturing
 	/// process role.
 	public var role: FHIRPrimitive<IngredientManufacturerRole>?
 	
-	/// An organization that manufactures this ingredient
-	public var manufacturer: Reference
-	
 	/// Designated initializer taking all required properties
 	public init(manufacturer: Reference) {
 		self.manufacturer = manufacturer
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		manufacturer: Reference,
@@ -234,57 +254,53 @@ open class IngredientManufacturer: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case manufacturer
+		case modifierExtension
 		case role; case _role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.manufacturer = try Reference(from: _container, forKey: .manufacturer)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try FHIRPrimitive<IngredientManufacturerRole>(from: _container, forKeyIfPresent: .role, auxiliaryKey: ._role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try manufacturer.encode(on: &_container, forKey: .manufacturer)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role?.encode(on: &_container, forKey: .role, auxiliaryKey: ._role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? IngredientManufacturer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return manufacturer == _other.manufacturer
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(manufacturer)
-		hasher.combine(role)
 	}
 }
 
 /**
  The substance that comprises this ingredient.
  */
-open class IngredientSubstance: BackboneElement {
+public struct IngredientSubstance: BackboneElement {
 	
 	/// A code or full resource that represents the ingredient substance
 	public var code: CodeableReference
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The quantity of substance, per presentation, or per volume or mass, and type of quantity
 	public var strength: [IngredientSubstanceStrength]?
@@ -292,11 +308,10 @@ open class IngredientSubstance: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(code: CodeableReference) {
 		self.code = code
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableReference,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -314,46 +329,33 @@ open class IngredientSubstance: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case strength
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableReference(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.strength = try [IngredientSubstanceStrength](from: _container, forKeyIfPresent: .strength)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try strength?.encode(on: &_container, forKey: .strength)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? IngredientSubstance else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && strength == _other.strength
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(strength)
 	}
 }
 
@@ -364,10 +366,10 @@ open class IngredientSubstance: BackboneElement {
  or manufactured item. The allowed repetitions do not represent different strengths, but are different representations -
  mathematically equivalent - of a single strength.
  */
-open class IngredientSubstanceStrength: BackboneElement {
+public struct IngredientSubstanceStrength: BackboneElement {
 	
 	/// All possible types for "concentration[x]"
-	public enum ConcentrationX: Hashable {
+	public enum ConcentrationX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case quantity(Quantity)
 		case ratio(Ratio)
@@ -375,48 +377,56 @@ open class IngredientSubstanceStrength: BackboneElement {
 	}
 	
 	/// All possible types for "presentation[x]"
-	public enum PresentationX: Hashable {
+	public enum PresentationX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case quantity(Quantity)
 		case ratio(Ratio)
 		case ratioRange(RatioRange)
 	}
 	
-	/// The quantity of substance in the unit of presentation
-	/// One of `presentation[x]`
-	public var presentation: PresentationX?
-	
-	/// Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)
-	public var textPresentation: FHIRPrimitive<FHIRString>?
+	/// A code that indicates if the strength is, for example, based on the ingredient substance as stated or on the
+	/// substance base (when the ingredient is a salt)
+	public var basis: CodeableConcept?
 	
 	/// The strength per unitary volume (or mass)
 	/// One of `concentration[x]`
 	public var concentration: ConcentrationX?
 	
-	/// Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a
-	/// ratio)
-	public var textConcentration: FHIRPrimitive<FHIRString>?
+	/// Where the strength range applies
+	public var country: [CodeableConcept]?
 	
-	/// A code that indicates if the strength is, for example, based on the ingredient substance as stated or on the
-	/// substance base (when the ingredient is a salt)
-	public var basis: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// When strength is measured at a particular point or distance
 	public var measurementPoint: FHIRPrimitive<FHIRString>?
 	
-	/// Where the strength range applies
-	public var country: [CodeableConcept]?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The quantity of substance in the unit of presentation
+	/// One of `presentation[x]`
+	public var presentation: PresentationX?
 	
 	/// Strength expressed in terms of a reference substance
 	public var referenceStrength: [IngredientSubstanceStrengthReferenceStrength]?
 	
+	/// Text of either the whole concentration strength or a part of it (rest being in Strength.concentration as a
+	/// ratio)
+	public var textConcentration: FHIRPrimitive<FHIRString>?
+	
+	/// Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)
+	public var textPresentation: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		basis: CodeableConcept? = nil,
 		concentration: ConcentrationX? = nil,
 		country: [CodeableConcept]? = nil,
@@ -452,7 +462,10 @@ open class IngredientSubstanceStrength: BackboneElement {
 		case concentrationRatio
 		case concentrationRatioRange
 		case country
+		case `extension` = "extension"
+		case id; case _id
 		case measurementPoint; case _measurementPoint
+		case modifierExtension
 		case presentationCodeableConcept
 		case presentationQuantity
 		case presentationRatio
@@ -461,12 +474,12 @@ open class IngredientSubstanceStrength: BackboneElement {
 		case textConcentration; case _textConcentration
 		case textPresentation; case _textPresentation
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basis = try CodeableConcept(from: _container, forKeyIfPresent: .basis)
 		var _t_concentration: ConcentrationX? = nil
 		if let concentrationRatio = try Ratio(from: _container, forKeyIfPresent: .concentrationRatio) {
@@ -495,7 +508,10 @@ open class IngredientSubstanceStrength: BackboneElement {
 		}
 		self.concentration = _t_concentration
 		self.country = try [CodeableConcept](from: _container, forKeyIfPresent: .country)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measurementPoint = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .measurementPoint, auxiliaryKey: ._measurementPoint)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_presentation: PresentationX? = nil
 		if let presentationRatio = try Ratio(from: _container, forKeyIfPresent: .presentationRatio) {
 			if _t_presentation != nil {
@@ -525,14 +541,12 @@ open class IngredientSubstanceStrength: BackboneElement {
 		self.referenceStrength = try [IngredientSubstanceStrengthReferenceStrength](from: _container, forKeyIfPresent: .referenceStrength)
 		self.textConcentration = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textConcentration, auxiliaryKey: ._textConcentration)
 		self.textPresentation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textPresentation, auxiliaryKey: ._textPresentation)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try basis?.encode(on: &_container, forKey: .basis)
 		if let _enum = concentration {
 			switch _enum {
@@ -547,7 +561,10 @@ open class IngredientSubstanceStrength: BackboneElement {
 			}
 		}
 		try country?.encode(on: &_container, forKey: .country)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try measurementPoint?.encode(on: &_container, forKey: .measurementPoint, auxiliaryKey: ._measurementPoint)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = presentation {
 			switch _enum {
 			case .ratio(let _value):
@@ -563,38 +580,6 @@ open class IngredientSubstanceStrength: BackboneElement {
 		try referenceStrength?.encode(on: &_container, forKey: .referenceStrength)
 		try textConcentration?.encode(on: &_container, forKey: .textConcentration, auxiliaryKey: ._textConcentration)
 		try textPresentation?.encode(on: &_container, forKey: .textPresentation, auxiliaryKey: ._textPresentation)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? IngredientSubstanceStrength else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basis == _other.basis
-		    && concentration == _other.concentration
-		    && country == _other.country
-		    && measurementPoint == _other.measurementPoint
-		    && presentation == _other.presentation
-		    && referenceStrength == _other.referenceStrength
-		    && textConcentration == _other.textConcentration
-		    && textPresentation == _other.textPresentation
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basis)
-		hasher.combine(concentration)
-		hasher.combine(country)
-		hasher.combine(measurementPoint)
-		hasher.combine(presentation)
-		hasher.combine(referenceStrength)
-		hasher.combine(textConcentration)
-		hasher.combine(textPresentation)
 	}
 }
 
@@ -606,37 +591,45 @@ open class IngredientSubstanceStrength: BackboneElement {
  the strength (quantitative composition) of the active moiety of the active substance. There are situations when the
  active substance and active moiety are different, therefore both a strength and a reference strength are needed.
  */
-open class IngredientSubstanceStrengthReferenceStrength: BackboneElement {
+public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 	
 	/// All possible types for "strength[x]"
-	public enum StrengthX: Hashable {
+	public enum StrengthX: Equatable, Hashable, Sendable {
 		case quantity(Quantity)
 		case ratio(Ratio)
 		case ratioRange(RatioRange)
 	}
 	
-	/// Relevant reference substance
-	public var substance: CodeableReference
+	/// Where the strength range applies
+	public var country: [CodeableConcept]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// When strength is measured at a particular point or distance
+	public var measurementPoint: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Strength expressed in terms of a reference substance
 	/// One of `strength[x]`
 	public var strength: StrengthX
 	
-	/// When strength is measured at a particular point or distance
-	public var measurementPoint: FHIRPrimitive<FHIRString>?
-	
-	/// Where the strength range applies
-	public var country: [CodeableConcept]?
+	/// Relevant reference substance
+	public var substance: CodeableReference
 	
 	/// Designated initializer taking all required properties
 	public init(strength: StrengthX, substance: CodeableReference) {
 		self.strength = strength
 		self.substance = substance
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		country: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -657,15 +650,18 @@ open class IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case country
+		case `extension` = "extension"
+		case id; case _id
 		case measurementPoint; case _measurementPoint
+		case modifierExtension
 		case strengthQuantity
 		case strengthRatio
 		case strengthRatioRange
 		case substance
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -673,9 +669,12 @@ open class IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.strengthQuantity, CodingKeys.strengthRatio, CodingKeys.strengthRatioRange], debugDescription: "Must have at least one value for \"strength\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.country = try [CodeableConcept](from: _container, forKeyIfPresent: .country)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measurementPoint = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .measurementPoint, auxiliaryKey: ._measurementPoint)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_strength: StrengthX? = nil
 		if let strengthRatio = try Ratio(from: _container, forKeyIfPresent: .strengthRatio) {
 			if _t_strength != nil {
@@ -697,16 +696,17 @@ open class IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 		}
 		self.strength = _t_strength!
 		self.substance = try CodeableReference(from: _container, forKey: .substance)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try country?.encode(on: &_container, forKey: .country)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try measurementPoint?.encode(on: &_container, forKey: .measurementPoint, auxiliaryKey: ._measurementPoint)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
 			switch strength {
 			case .ratio(let _value):
@@ -718,29 +718,5 @@ open class IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 			}
 		
 		try substance.encode(on: &_container, forKey: .substance)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? IngredientSubstanceStrengthReferenceStrength else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return country == _other.country
-		    && measurementPoint == _other.measurementPoint
-		    && strength == _other.strength
-		    && substance == _other.substance
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(country)
-		hasher.combine(measurementPoint)
-		hasher.combine(strength)
-		hasher.combine(substance)
 	}
 }

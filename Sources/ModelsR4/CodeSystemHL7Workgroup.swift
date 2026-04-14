@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,17 +27,23 @@ import FMCore
  */
 public enum HL7Workgroup: String, FHIRPrimitiveType {
 	
+	/// Application Implementation and Design (http://www.hl7.org/Special/committees/java/index.cfm).
+	case aid
+	
+	/// Biomedical Research and Regulation (http://www.hl7.org/Special/committees/rcrim/index.cfm).
+	case brr
+	
 	/// Community Based Collaborative Care (http://www.hl7.org/Special/committees/cbcc/index.cfm).
 	case cbcc
 	
 	/// Clinical Decision Support (http://www.hl7.org/Special/committees/dss/index.cfm).
 	case cds
 	
-	/// Clinical Quality Information (http://www.hl7.org/Special/committees/cqi/index.cfm).
-	case cqi
-	
 	/// Clinical Genomics (http://www.hl7.org/Special/committees/clingenomics/index.cfm).
 	case cg
+	
+	/// Clinical Quality Information (http://www.hl7.org/Special/committees/cqi/index.cfm).
+	case cqi
 	
 	/// Health Care Devices (http://www.hl7.org/Special/committees/healthcaredevices/index.cfm).
 	case dev
@@ -81,9 +87,6 @@ public enum HL7Workgroup: String, FHIRPrimitiveType {
 	/// Pharmacy (http://www.hl7.org/Special/committees/medication/index.cfm).
 	case phx
 	
-	/// Biomedical Research and Regulation (http://www.hl7.org/Special/committees/rcrim/index.cfm).
-	case brr
-	
 	/// Structured Documents (http://www.hl7.org/Special/committees/structure/index.cfm).
 	case sd
 	
@@ -95,7 +98,4 @@ public enum HL7Workgroup: String, FHIRPrimitiveType {
 	
 	/// Vocabulary (http://www.hl7.org/Special/committees/Vocab/index.cfm).
 	case vocab
-	
-	/// Application Implementation and Design (http://www.hl7.org/Special/committees/java/index.cfm).
-	case aid
 }

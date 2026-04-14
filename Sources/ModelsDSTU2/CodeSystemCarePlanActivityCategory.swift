@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,23 +28,23 @@ import FMCore
 public enum CarePlanActivityCategory: String, FHIRPrimitiveType {
 	
 	/// Plan for the patient to consume food of a specified nature
-	case diet = "diet"
+	case diet
 	
 	/// Plan for the patient to consume/receive a drug, vaccine or other product
-	case drug = "drug"
+	case drug
 	
 	/// Plan to meet or communicate with the patient (in-patient, out-patient, phone call, etc.)
-	case encounter = "encounter"
+	case encounter
 	
 	/// Plan to capture information about a patient (vitals, labs, diagnostic images, etc.)
-	case observation = "observation"
-	
-	/// Plan to modify the patient in some way (surgery, physiotherapy, education, counseling, etc.)
-	case procedure = "procedure"
-	
-	/// Plan to provide something to the patient (medication, medical supply, etc.)
-	case supply = "supply"
+	case observation
 	
 	/// Some other form of action
-	case other = "other"
+	case other
+	
+	/// Plan to modify the patient in some way (surgery, physiotherapy, education, counseling, etc.)
+	case procedure
+	
+	/// Plan to provide something to the patient (medication, medical supply, etc.)
+	case supply
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,18 +30,18 @@ public enum InvoicePriceComponentType: String, FHIRPrimitiveType {
 	/// the amount is the base price used for calculating the total price before applying surcharges, discount or taxes.
 	case base
 	
-	/// the amount is a surcharge applied on the base price.
-	case surcharge
-	
 	/// the amount is a deduction applied on the base price.
 	case deduction
 	
 	/// the amount is a discount applied on the base price.
 	case discount
 	
-	/// the amount is the tax component of the total price.
-	case tax
-	
 	/// the amount is of informational character, it has not been applied in the calculation of the total price.
 	case informational
+	
+	/// the amount is a surcharge applied on the base price.
+	case surcharge
+	
+	/// the amount is the tax component of the total price.
+	case tax
 }

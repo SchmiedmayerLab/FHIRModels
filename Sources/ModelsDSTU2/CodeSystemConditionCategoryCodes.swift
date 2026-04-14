@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,14 +28,14 @@ import FMCore
 public enum ConditionCategoryCodes: String, FHIRPrimitiveType {
 	
 	/// The patient considers the condition an issue to be addressed.
-	case complaint = "complaint"
-	
-	/// A symptom of a condition (as might be mentioned in a review of systems).
-	case symptom = "symptom"
-	
-	/// An observation made by a healthcare provider.
-	case finding = "finding"
+	case complaint
 	
 	/// This is a judgment made by a healthcare provider that the patient has a particular disease or condition.
-	case diagnosis = "diagnosis"
+	case diagnosis
+	
+	/// An observation made by a healthcare provider.
+	case finding
+	
+	/// A symptom of a condition (as might be mentioned in a review of systems).
+	case symptom
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,24 +30,24 @@ public enum DeviceMetricColor: String, FHIRPrimitiveType {
 	/// Color for representation - black.
 	case black
 	
-	/// Color for representation - red.
-	case red
-	
-	/// Color for representation - green.
-	case green
-	
-	/// Color for representation - yellow.
-	case yellow
-	
 	/// Color for representation - blue.
 	case blue
-	
-	/// Color for representation - magenta.
-	case magenta
 	
 	/// Color for representation - cyan.
 	case cyan
 	
+	/// Color for representation - green.
+	case green
+	
+	/// Color for representation - magenta.
+	case magenta
+	
+	/// Color for representation - red.
+	case red
+	
 	/// Color for representation - white.
 	case white
+	
+	/// Color for representation - yellow.
+	case yellow
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,16 +27,16 @@ import FMCore
  */
 public enum AllergyIntoleranceCriticality: String, FHIRPrimitiveType {
 	
-	/// The potential clinical impact of a future reaction is estimated as low risk: exposure to substance is unlikely
-	/// to result in a life threatening or organ system threatening outcome. Future exposure to the Substance is
-	/// considered a relative contra-indication.
-	case CRITL = "CRITL"
-	
 	/// The potential clinical impact of a future reaction is estimated as high risk: exposure to substance may result
 	/// in a life threatening or organ system threatening outcome. Future exposure to the Substance may be considered an
 	/// absolute contra-indication.
-	case CRITH = "CRITH"
+	case CRITH
+	
+	/// The potential clinical impact of a future reaction is estimated as low risk: exposure to substance is unlikely
+	/// to result in a life threatening or organ system threatening outcome. Future exposure to the Substance is
+	/// considered a relative contra-indication.
+	case CRITL
 	
 	/// Unable to assess the potential clinical impact with the information available.
-	case CRITU = "CRITU"
+	case CRITU
 }

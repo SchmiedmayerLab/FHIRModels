@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,11 @@ import FMCore
  */
 public enum StandardsStatus: String, FHIRPrimitiveType {
 	
+	/// This portion of the specification is provided for implementer assistance, and does not make rules that
+	/// implementers are required to follow. Typical examples of this content in the FHIR specification are tables of
+	/// contents, registries, examples, and implementer advice.
+	case deprecated
+	
 	/// This portion of the specification is not considered to be complete enough or sufficiently reviewed to be safe
 	/// for implementation. It may have known issues or still be in the "in development" stage. It is included in the
 	/// publication as a place-holder, to solicit feedback from the implementation community and/or to give implementers
@@ -35,6 +40,14 @@ public enum StandardsStatus: String, FHIRPrimitiveType {
 	/// that is Draft that will usually be elevated to Trial Use once review and correction is complete after it has
 	/// been subjected to ballot.
 	case draft
+	
+	/// This is content that is managed outside the FHIR Specification, but included for implementer convenience.
+	case external
+	
+	/// This portion of the specification is provided for implementer assistance, and does not make rules that
+	/// implementers are required to follow. Typical examples of this content in the FHIR specification are tables of
+	/// contents, registries, examples, and implementer advice.
+	case informative
 	
 	/// This content has been subject to review and production implementation in a wide variety of environments. The
 	/// content is considered to be stable and has been 'locked', subjecting it to FHIR Inter-version Compatibility
@@ -50,17 +63,4 @@ public enum StandardsStatus: String, FHIRPrimitiveType {
 	/// Future versions of FHIR may make significant changes to Trial Use content that are not compatible with
 	/// previously published content.
 	case trialUse = "trial-use"
-	
-	/// This portion of the specification is provided for implementer assistance, and does not make rules that
-	/// implementers are required to follow. Typical examples of this content in the FHIR specification are tables of
-	/// contents, registries, examples, and implementer advice.
-	case informative
-	
-	/// This portion of the specification is provided for implementer assistance, and does not make rules that
-	/// implementers are required to follow. Typical examples of this content in the FHIR specification are tables of
-	/// contents, registries, examples, and implementer advice.
-	case deprecated
-	
-	/// This is content that is managed outside the FHIR Specification, but included for implementer convenience.
-	case external
 }

@@ -2,8 +2,8 @@
 //  NutritionIntake.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/NutritionIntake)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/NutritionIntake)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,50 +30,79 @@ import FMCore
  formula consumed.   The consumption information may come from sources such as the patient's memory, from a nutrition
  label, or from a clinician documenting observed intake.
  */
-open class NutritionIntake: DomainResource {
+public struct NutritionIntake: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .nutritionIntake }
+	public static let resourceType: ResourceType = .nutritionIntake
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 	}
 	
 	/// All possible types for "reported[x]"
-	public enum ReportedX: Hashable {
+	public enum ReportedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case reference(Reference)
 	}
 	
-	/// External identifier
-	public var identifier: [Identifier]?
-	
 	/// Fulfils plan, proposal or order
 	public var basedOn: [Reference]?
-	
-	/// Part of referenced event
-	public var partOf: [Reference]?
-	
-	/// A code representing the patient or other source's judgment about the state of the intake that this assertion is
-	/// about.  Generally, this will be active or completed.
-	public var status: FHIRPrimitive<EventStatus>
-	
-	/// Reason for current status
-	public var statusReason: [CodeableConcept]?
 	
 	/// Code representing an overall type of nutrition intake
 	public var code: CodeableConcept?
 	
-	/// Who is/was consuming the food (i.e. solid and/or liquid)
-	public var subject: Reference
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional supporting information
+	public var derivedFrom: [Reference]?
 	
 	/// Encounter associated with NutritionIntake
 	public var encounter: Reference?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// External identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Where the intake occurred
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Further information about the consumption
+	public var note: [Annotation]?
+	
+	/// The nutrition product intended for consumption and/or administration
+	public var nutritionItem: [NutritionIntakeNutritionItem]?
+	
 	/// The date/time or interval when the food (i.e. solid and/or liquid) is/was consumed
 	/// One of `occurrence[x]`
 	public var occurrence: OccurrenceX?
+	
+	/// Part of referenced event
+	public var partOf: [Reference]?
+	
+	/// Who or what performed the intake and how they were involved
+	public var performer: [NutritionIntakePerformer]?
+	
+	/// Reason for why the food (i.e. solid and/or liquid) is /was consumed
+	public var reason: [CodeableReference]?
 	
 	/// When the intake was recorded
 	public var recorded: FHIRPrimitive<DateTime>?
@@ -83,33 +112,27 @@ open class NutritionIntake: DomainResource {
 	/// One of `reported[x]`
 	public var reported: ReportedX?
 	
-	/// The nutrition product intended for consumption and/or administration
-	public var nutritionItem: [NutritionIntakeNutritionItem]?
+	/// A code representing the patient or other source's judgment about the state of the intake that this assertion is
+	/// about.  Generally, this will be active or completed.
+	public var status: FHIRPrimitive<EventStatus>
 	
-	/// Who or what performed the intake and how they were involved
-	public var performer: [NutritionIntakePerformer]?
+	/// Reason for current status
+	public var statusReason: [CodeableConcept]?
 	
-	/// Where the intake occurred
-	public var location: Reference?
+	/// Who is/was consuming the food (i.e. solid and/or liquid)
+	public var subject: Reference
 	
-	/// Additional supporting information
-	public var derivedFrom: [Reference]?
-	
-	/// Reason for why the food (i.e. solid and/or liquid) is /was consumed
-	public var reason: [CodeableReference]?
-	
-	/// Further information about the consumption
-	public var note: [Annotation]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<EventStatus>, subject: Reference) {
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		basedOn: [Reference]? = nil,
 		code: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -165,12 +188,20 @@ open class NutritionIntake: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
 		case code
+		case contained
 		case derivedFrom
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case note
 		case nutritionItem
 		case occurrenceDateTime; case _occurrenceDateTime
@@ -184,19 +215,27 @@ open class NutritionIntake: DomainResource {
 		case status; case _status
 		case statusReason
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.derivedFrom = try [Reference](from: _container, forKeyIfPresent: .derivedFrom)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.nutritionItem = try [NutritionIntakeNutritionItem](from: _container, forKeyIfPresent: .nutritionItem)
 		var _t_occurrence: OccurrenceX? = nil
@@ -234,20 +273,28 @@ open class NutritionIntake: DomainResource {
 		self.status = try FHIRPrimitive<EventStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusReason = try [CodeableConcept](from: _container, forKeyIfPresent: .statusReason)
 		self.subject = try Reference(from: _container, forKey: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try derivedFrom?.encode(on: &_container, forKey: .derivedFrom)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try nutritionItem?.encode(on: &_container, forKey: .nutritionItem)
 		if let _enum = occurrence {
@@ -273,83 +320,42 @@ open class NutritionIntake: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
 		try subject.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? NutritionIntake else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && code == _other.code
-		    && derivedFrom == _other.derivedFrom
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && note == _other.note
-		    && nutritionItem == _other.nutritionItem
-		    && occurrence == _other.occurrence
-		    && partOf == _other.partOf
-		    && performer == _other.performer
-		    && reason == _other.reason
-		    && recorded == _other.recorded
-		    && reported == _other.reported
-		    && status == _other.status
-		    && statusReason == _other.statusReason
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(code)
-		hasher.combine(derivedFrom)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(note)
-		hasher.combine(nutritionItem)
-		hasher.combine(occurrence)
-		hasher.combine(partOf)
-		hasher.combine(performer)
-		hasher.combine(reason)
-		hasher.combine(recorded)
-		hasher.combine(reported)
-		hasher.combine(status)
-		hasher.combine(statusReason)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
 /**
  The nutrition product intended for consumption and/or administration.
  */
-open class NutritionIntakeNutritionItem: BackboneElement {
-	
-	/// The type of food (i.e. solid or liquid) product
-	public var type: CodeableConcept?
-	
-	/// A product used for nutritional purposes (e.g. food or supplement)
-	public var nutritionProduct: CodeableReference?
+public struct NutritionIntakeNutritionItem: BackboneElement {
 	
 	/// What nutrition item was consumed
 	public var consumedItem: [NutritionIntakeNutritionItemConsumedItem]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// What nutrition item was not consumed
 	public var notConsumedItem: [NutritionIntakeNutritionItemNotConsumedItem]?
 	
+	/// A product used for nutritional purposes (e.g. food or supplement)
+	public var nutritionProduct: CodeableReference?
+	
+	/// The type of food (i.e. solid or liquid) product
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		consumedItem: [NutritionIntakeNutritionItemConsumedItem]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -372,90 +378,81 @@ open class NutritionIntakeNutritionItem: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case consumedItem
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case notConsumedItem
 		case nutritionProduct
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.consumedItem = try [NutritionIntakeNutritionItemConsumedItem](from: _container, forKeyIfPresent: .consumedItem)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notConsumedItem = try [NutritionIntakeNutritionItemNotConsumedItem](from: _container, forKeyIfPresent: .notConsumedItem)
 		self.nutritionProduct = try CodeableReference(from: _container, forKeyIfPresent: .nutritionProduct)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try consumedItem?.encode(on: &_container, forKey: .consumedItem)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notConsumedItem?.encode(on: &_container, forKey: .notConsumedItem)
 		try nutritionProduct?.encode(on: &_container, forKey: .nutritionProduct)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? NutritionIntakeNutritionItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return consumedItem == _other.consumedItem
-		    && notConsumedItem == _other.notConsumedItem
-		    && nutritionProduct == _other.nutritionProduct
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(consumedItem)
-		hasher.combine(notConsumedItem)
-		hasher.combine(nutritionProduct)
-		hasher.combine(type)
 	}
 }
 
 /**
  What nutrition item was consumed.
  */
-open class NutritionIntakeNutritionItemConsumedItem: BackboneElement {
+public struct NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 	
 	/// All possible types for "rate[x]"
-	public enum RateX: Hashable {
+	public enum RateX: Equatable, Hashable, Sendable {
 		case quantity(Quantity)
 		case ratio(Ratio)
 	}
 	
-	/// Scheduled frequency of consumption
-	public var schedule: Timing?
-	
 	/// Quantity of the specified food (i.e. solid and/or liquid)
 	public var amount: Quantity?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Rate of enteral feeding administration
 	/// One of `rate[x]`
 	public var rate: RateX?
 	
+	/// Scheduled frequency of consumption
+	public var schedule: Timing?
+	
 	/// Nutrients and/or energy contained in the intake
 	public var totalIntake: [NutritionIntakeNutritionItemConsumedItemTotalIntake]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: Quantity? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -478,18 +475,24 @@ open class NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case amount
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case rateQuantity
 		case rateRatio
 		case schedule
 		case totalIntake
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.amount = try Quantity(from: _container, forKeyIfPresent: .amount)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_rate: RateX? = nil
 		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
 			if _t_rate != nil {
@@ -506,15 +509,16 @@ open class NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 		self.rate = _t_rate
 		self.schedule = try Timing(from: _container, forKeyIfPresent: .schedule)
 		self.totalIntake = try [NutritionIntakeNutritionItemConsumedItemTotalIntake](from: _container, forKeyIfPresent: .totalIntake)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = rate {
 			switch _enum {
 			case .quantity(let _value):
@@ -525,40 +529,13 @@ open class NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 		}
 		try schedule?.encode(on: &_container, forKey: .schedule)
 		try totalIntake?.encode(on: &_container, forKey: .totalIntake)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? NutritionIntakeNutritionItemConsumedItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && rate == _other.rate
-		    && schedule == _other.schedule
-		    && totalIntake == _other.totalIntake
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(rate)
-		hasher.combine(schedule)
-		hasher.combine(totalIntake)
 	}
 }
 
 /**
  Nutrients and/or energy contained in the intake.
  */
-open class NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneElement {
-	
-	/// Type of nutrient consumed in the intake
-	public var nutrient: CodeableReference
+public struct NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneElement {
 	
 	/// Total amount of nutrient consumed
 	public var amount: Quantity
@@ -566,15 +543,26 @@ open class NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneElement 
 	/// Total energy consumed in kilocalories or kilojoules
 	public var energy: Quantity?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Type of nutrient consumed in the intake
+	public var nutrient: CodeableReference
+	
 	/// Designated initializer taking all required properties
 	public init(amount: Quantity, nutrient: CodeableReference) {
 		self.amount = amount
 		self.nutrient = nutrient
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: Quantity,
 		energy: Quantity? = nil,
 		`extension`: [Extension]? = nil,
@@ -594,57 +582,54 @@ open class NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneElement 
 	private enum CodingKeys: String, CodingKey {
 		case amount
 		case energy
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case nutrient
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.amount = try Quantity(from: _container, forKey: .amount)
 		self.energy = try Quantity(from: _container, forKeyIfPresent: .energy)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.nutrient = try CodeableReference(from: _container, forKey: .nutrient)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount)
 		try energy?.encode(on: &_container, forKey: .energy)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try nutrient.encode(on: &_container, forKey: .nutrient)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? NutritionIntakeNutritionItemConsumedItemTotalIntake else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && energy == _other.energy
-		    && nutrient == _other.nutrient
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(energy)
-		hasher.combine(nutrient)
 	}
 }
 
 /**
  What nutrition item was not consumed.
  */
-open class NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
+public struct NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
+	
+	/// Quantity of the specified food (i.e. solid and/or liquid) that was not consumed
+	public var amount: Quantity?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Reason the nutrition item was not consumed
 	public var reason: CodeableConcept?
@@ -652,16 +637,12 @@ open class NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
 	/// The intended frequency of consumption that was not followed
 	public var schedule: Timing?
 	
-	/// Quantity of the specified food (i.e. solid and/or liquid) that was not consumed
-	public var amount: Quantity?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: Quantity? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -682,73 +663,66 @@ open class NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case amount
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case reason
 		case schedule
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.amount = try Quantity(from: _container, forKeyIfPresent: .amount)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.reason = try CodeableConcept(from: _container, forKeyIfPresent: .reason)
 		self.schedule = try Timing(from: _container, forKeyIfPresent: .schedule)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try reason?.encode(on: &_container, forKey: .reason)
 		try schedule?.encode(on: &_container, forKey: .schedule)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? NutritionIntakeNutritionItemNotConsumedItem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && reason == _other.reason
-		    && schedule == _other.schedule
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(reason)
-		hasher.combine(schedule)
 	}
 }
 
 /**
  Who or what performed the intake and how they were involved.
  */
-open class NutritionIntakePerformer: BackboneElement {
-	
-	/// Type of performer
-	public var function: CodeableConcept?
+public struct NutritionIntakePerformer: BackboneElement {
 	
 	/// Who or what performed the intake
 	public var actor: Reference
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Type of performer
+	public var function: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(actor: Reference) {
 		self.actor = actor
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -766,45 +740,32 @@ open class NutritionIntakePerformer: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actor
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKey: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
-		try super.init(from: decoder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? NutritionIntakePerformer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && function == _other.function
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

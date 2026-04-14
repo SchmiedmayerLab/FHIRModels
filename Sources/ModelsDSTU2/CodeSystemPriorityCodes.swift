@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum PriorityCodes: String, FHIRPrimitiveType {
 	
-	/// Immediately in real time.
-	case stat = "stat"
+	/// Later, when possible.
+	case deferred
 	
 	/// With best effort.
-	case normal = "normal"
+	case normal
 	
-	/// Later, when possible.
-	case deferred = "deferred"
+	/// Immediately in real time.
+	case stat
 }

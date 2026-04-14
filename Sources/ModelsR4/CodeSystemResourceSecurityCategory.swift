@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -52,16 +52,16 @@ public enum ResourceSecurityCategory: String, FHIRPrimitiveType {
 	/// For this purpose access to these Resources will tend to be Role specific using methods such as RBAC or ABAC.
 	case individual
 	
+	/// Some Resources can be used for a wide scope of use-cases that span very sensitive to very non-sensitive. These
+	/// Resources do not fall into any of the above classifications, as their sensitivity is highly variable. These
+	/// Resources will need special handling. These Resources often contain metadata that describes the content in a way
+	/// that can be used for Access Control decisions.
+	case notClassified = "not-classified"
+	
 	/// These Resources make up the bulk of FHIR and therefore are the most commonly understood. These Resources contain
 	/// highly sesitive health information, or are closely linked to highly sensitive health information. These
 	/// Resources will often use the security labels to differentiate various confidentiality levels within this broad
 	/// group of Patient Sensitive data. Access to these Resources often requires a declared Purpose Of Use. Access to
 	/// these Resources is often controlled by a Privacy Consent.
 	case patient
-	
-	/// Some Resources can be used for a wide scope of use-cases that span very sensitive to very non-sensitive. These
-	/// Resources do not fall into any of the above classifications, as their sensitivity is highly variable. These
-	/// Resources will need special handling. These Resources often contain metadata that describes the content in a way
-	/// that can be used for Access Control decisions.
-	case notClassified = "not-classified"
 }

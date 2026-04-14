@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,33 +27,33 @@ import FMCore
  */
 public enum EncounterClass: String, FHIRPrimitiveType {
 	
-	/// An encounter during which the patient is hospitalized and stays overnight.
-	case inpatient = "inpatient"
-	
-	/// An encounter during which the patient is not hospitalized overnight.
-	case outpatient = "outpatient"
-	
 	/// An encounter where the patient visits the practitioner in his/her office, e.g. a G.P. visit.
-	case ambulatory = "ambulatory"
-	
-	/// An encounter in the Emergency Care Department.
-	case emergency = "emergency"
-	
-	/// An encounter where the practitioner visits the patient at his/her home.
-	case home = "home"
-	
-	/// An encounter taking place outside the regular environment for giving care.
-	case field = "field"
+	case ambulatory
 	
 	/// An encounter where the patient needs more prolonged treatment or investigations than outpatients, but who do not
 	/// need to stay in the hospital overnight.
-	case daytime = "daytime"
+	case daytime
 	
-	/// An encounter that takes place where the patient and practitioner do not physically meet but use electronic means
-	/// for contact.
-	case virtual = "virtual"
+	/// An encounter in the Emergency Care Department.
+	case emergency
+	
+	/// An encounter taking place outside the regular environment for giving care.
+	case field
+	
+	/// An encounter where the practitioner visits the patient at his/her home.
+	case home
+	
+	/// An encounter during which the patient is hospitalized and stays overnight.
+	case inpatient
 	
 	/// Any other encounter type that is not described by one of the other values. Where this is used it is expected
 	/// that an implementer will include an extension value to define what the actual other type is.
-	case other = "other"
+	case other
+	
+	/// An encounter during which the patient is not hospitalized overnight.
+	case outpatient
+	
+	/// An encounter that takes place where the patient and practitioner do not physically meet but use electronic means
+	/// for contact.
+	case virtual
 }

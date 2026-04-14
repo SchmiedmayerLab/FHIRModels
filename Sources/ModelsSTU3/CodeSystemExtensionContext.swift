@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import FMCore
  */
 public enum ExtensionContext: String, FHIRPrimitiveType {
 	
-	/// The context is all elements matching a particular resource element path.
-	case resource = "resource"
+	/// The context is a particular extension from a particular profile, a uri that identifies the extension definition.
+	case `extension`
 	
 	/// The context is all nodes matching a particular data type element path (root or repeating element) or all
 	/// elements referencing a particular primitive data type (expressed as the datatype name).
-	case datatype = "datatype"
+	case datatype
 	
-	/// The context is a particular extension from a particular profile, a uri that identifies the extension definition.
-	case `extension` = "extension"
+	/// The context is all elements matching a particular resource element path.
+	case resource
 }

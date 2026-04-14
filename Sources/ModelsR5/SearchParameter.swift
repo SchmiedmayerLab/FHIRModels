@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/SearchParameter)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,64 +24,39 @@ import FMCore
  
  A search parameter that defines a named search item that can be used to search/filter on a resource.
  */
-open class SearchParameter: DomainResource {
+public struct SearchParameter: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .searchParameter }
+	public static let resourceType: ResourceType = .searchParameter
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// Canonical identifier for this search parameter, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>
+	/// The resource type(s) this search parameter applies to
+	public var base: [FHIRPrimitive<FHIRString>]
 	
-	/// Additional identifier for the search parameter (business identifier)
-	public var identifier: [Identifier]?
+	/// Chained names supported
+	public var chain: [FHIRPrimitive<FHIRString>]?
 	
-	/// Business version of the search parameter
-	public var version: FHIRPrimitive<FHIRString>?
+	/// Recommended name for parameter in search url
+	public var code: FHIRPrimitive<FHIRString>
 	
-	/// How to compare versions
-	/// One of `versionAlgorithm[x]`
-	public var versionAlgorithm: VersionAlgorithmX?
+	/// Comparators supported for the search parameter.
+	public var comparator: [FHIRPrimitive<SearchComparator>]?
 	
-	/// Name for this search parameter (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>
+	/// For Composite resources to define the parts
+	public var component: [SearchParameterComponent]?
 	
-	/// Name for this search parameter (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Original definition for the search parameter
-	public var derivedFrom: FHIRPrimitive<Canonical>?
-	
-	/// The status of this search parameter. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
+	/// FHIRPath expression that constraints the usage of this SearchParamete
+	public var constraint: FHIRPrimitive<FHIRString>?
 	
 	/// Contact details for the publisher
 	public var contact: [ContactDetail]?
 	
-	/// Natural language description of the search parameter
-	public var description_fhir: FHIRPrimitive<FHIRString>
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for search parameter (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this search parameter is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Use and/or publishing restrictions
 	public var copyright: FHIRPrimitive<FHIRString>?
@@ -89,44 +64,93 @@ open class SearchParameter: DomainResource {
 	/// Copyright holder and year(s)
 	public var copyrightLabel: FHIRPrimitive<FHIRString>?
 	
-	/// Recommended name for parameter in search url
-	public var code: FHIRPrimitive<FHIRString>
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
 	
-	/// The resource type(s) this search parameter applies to
-	public var base: [FHIRPrimitive<FHIRString>]
+	/// Original definition for the search parameter
+	public var derivedFrom: FHIRPrimitive<Canonical>?
 	
-	/// The type of value that a search parameter may contain, and how the content is interpreted.
-	public var type: FHIRPrimitive<SearchParamType>
+	/// Natural language description of the search parameter
+	public var description_fhir: FHIRPrimitive<FHIRString>
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
 	
 	/// FHIRPath expression that extracts the values
 	public var expression: FHIRPrimitive<FHIRString>?
 	
-	/// How the search parameter relates to the set of elements returned by evaluating the expression query.
-	public var processingMode: FHIRPrimitive<SearchProcessingModeType>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// FHIRPath expression that constraints the usage of this SearchParamete
-	public var constraint: FHIRPrimitive<FHIRString>?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// Types of resource (if a resource reference)
-	public var target: [FHIRPrimitive<FHIRString>]?
+	/// Additional identifier for the search parameter (business identifier)
+	public var identifier: [Identifier]?
 	
-	/// Allow multiple values per parameter (or)
-	public var multipleOr: FHIRPrimitive<FHIRBool>?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
-	/// Allow multiple parameters (and)
-	public var multipleAnd: FHIRPrimitive<FHIRBool>?
+	/// Intended jurisdiction for search parameter (if applicable)
+	public var jurisdiction: [CodeableConcept]?
 	
-	/// Comparators supported for the search parameter.
-	public var comparator: [FHIRPrimitive<SearchComparator>]?
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
 	
 	/// A modifier supported for the search parameter.
 	public var modifier: [FHIRPrimitive<SearchModifierCode>]?
 	
-	/// Chained names supported
-	public var chain: [FHIRPrimitive<FHIRString>]?
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
-	/// For Composite resources to define the parts
-	public var component: [SearchParameterComponent]?
+	/// Allow multiple parameters (and)
+	public var multipleAnd: FHIRPrimitive<FHIRBool>?
+	
+	/// Allow multiple values per parameter (or)
+	public var multipleOr: FHIRPrimitive<FHIRBool>?
+	
+	/// Name for this search parameter (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>
+	
+	/// How the search parameter relates to the set of elements returned by evaluating the expression query.
+	public var processingMode: FHIRPrimitive<SearchProcessingModeType>?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this search parameter is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// The status of this search parameter. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Types of resource (if a resource reference)
+	public var target: [FHIRPrimitive<FHIRString>]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this search parameter (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// The type of value that a search parameter may contain, and how the content is interpreted.
+	public var type: FHIRPrimitive<SearchParamType>
+	
+	/// Canonical identifier for this search parameter, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
+	
+	/// Business version of the search parameter
+	public var version: FHIRPrimitive<FHIRString>?
+	
+	/// How to compare versions
+	/// One of `versionAlgorithm[x]`
+	public var versionAlgorithm: VersionAlgorithmX?
 	
 	/// Designated initializer taking all required properties
 	public init(base: [FHIRPrimitive<FHIRString>], code: FHIRPrimitive<FHIRString>, description_fhir: FHIRPrimitive<FHIRString>, name: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<PublicationStatus>, type: FHIRPrimitive<SearchParamType>, url: FHIRPrimitive<FHIRURI>) {
@@ -137,11 +161,10 @@ open class SearchParameter: DomainResource {
 		self.status = status
 		self.type = type
 		self.url = url
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		base: [FHIRPrimitive<FHIRString>],
 		chain: [FHIRPrimitive<FHIRString>]? = nil,
 		code: FHIRPrimitive<FHIRString>,
@@ -220,6 +243,7 @@ open class SearchParameter: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case base; case _base
 		case chain; case _chain
 		case code; case _code
@@ -227,6 +251,7 @@ open class SearchParameter: DomainResource {
 		case component
 		case constraint; case _constraint
 		case contact
+		case contained
 		case copyright; case _copyright
 		case copyrightLabel; case _copyrightLabel
 		case date; case _date
@@ -234,9 +259,15 @@ open class SearchParameter: DomainResource {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case experimental; case _experimental
 		case expression; case _expression
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
+		case meta
 		case modifier; case _modifier
+		case modifierExtension
 		case multipleAnd; case _multipleAnd
 		case multipleOr; case _multipleOr
 		case name; case _name
@@ -245,6 +276,7 @@ open class SearchParameter: DomainResource {
 		case purpose; case _purpose
 		case status; case _status
 		case target; case _target
+		case text
 		case title; case _title
 		case type; case _type
 		case url; case _url
@@ -253,12 +285,12 @@ open class SearchParameter: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.base = try [FHIRPrimitive<FHIRString>](from: _container, forKey: .base, auxiliaryKey: ._base)
 		self.chain = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .chain, auxiliaryKey: ._chain)
 		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKey: .code, auxiliaryKey: ._code)
@@ -266,6 +298,7 @@ open class SearchParameter: DomainResource {
 		self.component = try [SearchParameterComponent](from: _container, forKeyIfPresent: .component)
 		self.constraint = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .constraint, auxiliaryKey: ._constraint)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.copyrightLabel = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
@@ -273,9 +306,15 @@ open class SearchParameter: DomainResource {
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
 		self.expression = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .expression, auxiliaryKey: ._expression)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifier = try [FHIRPrimitive<SearchModifierCode>](from: _container, forKeyIfPresent: .modifier, auxiliaryKey: ._modifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.multipleAnd = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .multipleAnd, auxiliaryKey: ._multipleAnd)
 		self.multipleOr = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .multipleOr, auxiliaryKey: ._multipleOr)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
@@ -284,6 +323,7 @@ open class SearchParameter: DomainResource {
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.target = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .target, auxiliaryKey: ._target)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.type = try FHIRPrimitive<SearchParamType>(from: _container, forKey: .type, auxiliaryKey: ._type)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
@@ -303,14 +343,14 @@ open class SearchParameter: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try base.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
 		try chain?.encode(on: &_container, forKey: .chain, auxiliaryKey: ._chain)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
@@ -318,6 +358,7 @@ open class SearchParameter: DomainResource {
 		try component?.encode(on: &_container, forKey: .component)
 		try constraint?.encode(on: &_container, forKey: .constraint, auxiliaryKey: ._constraint)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try copyrightLabel?.encode(on: &_container, forKey: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -325,9 +366,15 @@ open class SearchParameter: DomainResource {
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try modifier?.encode(on: &_container, forKey: .modifier, auxiliaryKey: ._modifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try multipleAnd?.encode(on: &_container, forKey: .multipleAnd, auxiliaryKey: ._multipleAnd)
 		try multipleOr?.encode(on: &_container, forKey: .multipleOr, auxiliaryKey: ._multipleOr)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
@@ -336,6 +383,7 @@ open class SearchParameter: DomainResource {
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try target?.encode(on: &_container, forKey: .target, auxiliaryKey: ._target)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
@@ -349,84 +397,6 @@ open class SearchParameter: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SearchParameter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return base == _other.base
-		    && chain == _other.chain
-		    && code == _other.code
-		    && comparator == _other.comparator
-		    && component == _other.component
-		    && constraint == _other.constraint
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && copyrightLabel == _other.copyrightLabel
-		    && date == _other.date
-		    && derivedFrom == _other.derivedFrom
-		    && description_fhir == _other.description_fhir
-		    && experimental == _other.experimental
-		    && expression == _other.expression
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && modifier == _other.modifier
-		    && multipleAnd == _other.multipleAnd
-		    && multipleOr == _other.multipleOr
-		    && name == _other.name
-		    && processingMode == _other.processingMode
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && status == _other.status
-		    && target == _other.target
-		    && title == _other.title
-		    && type == _other.type
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(base)
-		hasher.combine(chain)
-		hasher.combine(code)
-		hasher.combine(comparator)
-		hasher.combine(component)
-		hasher.combine(constraint)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(copyrightLabel)
-		hasher.combine(date)
-		hasher.combine(derivedFrom)
-		hasher.combine(description_fhir)
-		hasher.combine(experimental)
-		hasher.combine(expression)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(modifier)
-		hasher.combine(multipleAnd)
-		hasher.combine(multipleOr)
-		hasher.combine(name)
-		hasher.combine(processingMode)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(status)
-		hasher.combine(target)
-		hasher.combine(title)
-		hasher.combine(type)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
@@ -435,7 +405,7 @@ open class SearchParameter: DomainResource {
  
  Used to define the parts of a composite search parameter.
  */
-open class SearchParameterComponent: BackboneElement {
+public struct SearchParameterComponent: BackboneElement {
 	
 	/// Defines how the part works
 	public var definition: FHIRPrimitive<Canonical>
@@ -443,15 +413,23 @@ open class SearchParameterComponent: BackboneElement {
 	/// Subexpression relative to main expression
 	public var expression: FHIRPrimitive<FHIRString>
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(definition: FHIRPrimitive<Canonical>, expression: FHIRPrimitive<FHIRString>) {
 		self.definition = definition
 		self.expression = expression
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		definition: FHIRPrimitive<Canonical>,
 		expression: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
@@ -469,44 +447,31 @@ open class SearchParameterComponent: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case definition; case _definition
 		case expression; case _expression
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.definition = try FHIRPrimitive<Canonical>(from: _container, forKey: .definition, auxiliaryKey: ._definition)
 		self.expression = try FHIRPrimitive<FHIRString>(from: _container, forKey: .expression, auxiliaryKey: ._expression)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try definition.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
 		try expression.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SearchParameterComponent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return definition == _other.definition
-		    && expression == _other.expression
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(definition)
-		hasher.combine(expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

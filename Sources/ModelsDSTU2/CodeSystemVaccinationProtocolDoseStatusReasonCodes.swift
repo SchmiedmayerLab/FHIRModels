@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,17 +30,17 @@ import FMCore
 public enum VaccinationProtocolDoseStatusReasonCodes: String, FHIRPrimitiveType {
 	
 	/// advstorage
-	case advstorage = "advstorage"
+	case advstorage
 	
 	/// coldchbrk
-	case coldchbrk = "coldchbrk"
+	case coldchbrk
 	
 	/// explot
-	case explot = "explot"
+	case explot
 	
 	/// outsidesched
-	case outsidesched = "outsidesched"
+	case outsidesched
 	
 	/// prodrecall
-	case prodrecall = "prodrecall"
+	case prodrecall
 }

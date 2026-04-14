@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
 public enum QuestionnaireStatus: String, FHIRPrimitiveType {
 	
 	/// This Questionnaire is not ready for official use.
-	case draft = "draft"
+	case draft
 	
 	/// This Questionnaire is ready for use.
-	case published = "published"
+	case published
 	
 	/// This Questionnaire should no longer be used to gather data.
-	case retired = "retired"
+	case retired
 }

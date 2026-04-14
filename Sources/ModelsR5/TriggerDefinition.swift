@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/TriggerDefinition)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,24 +25,33 @@ import FMCore
  A description of a triggering event. Triggering events can be named events, data events, or periodic, as determined by
  the type element.
  */
-open class TriggerDefinition: DataType {
+public struct TriggerDefinition: DataType {
 	
 	/// All possible types for "timing[x]"
-	public enum TimingX: Hashable {
+	public enum TimingX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case reference(Reference)
 		case timing(Timing)
 	}
 	
-	/// The type of triggering event.
-	public var type: FHIRPrimitive<TriggerType>
+	/// Coded definition of the event
+	public var code: CodeableConcept?
+	
+	/// Whether the event triggers (boolean expression)
+	public var condition: Expression?
+	
+	/// Triggering data of the event (multiple = 'and')
+	public var data: [DataRequirement]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Name or URI that identifies the event
 	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Coded definition of the event
-	public var code: CodeableConcept?
 	
 	/// What event
 	public var subscriptionTopic: FHIRPrimitive<Canonical>?
@@ -51,20 +60,16 @@ open class TriggerDefinition: DataType {
 	/// One of `timing[x]`
 	public var timing: TimingX?
 	
-	/// Triggering data of the event (multiple = 'and')
-	public var data: [DataRequirement]?
-	
-	/// Whether the event triggers (boolean expression)
-	public var condition: Expression?
+	/// The type of triggering event.
+	public var type: FHIRPrimitive<TriggerType>
 	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<TriggerType>) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept? = nil,
 		condition: Expression? = nil,
 		data: [DataRequirement]? = nil,
@@ -92,6 +97,8 @@ open class TriggerDefinition: DataType {
 		case code
 		case condition
 		case data
+		case `extension` = "extension"
+		case id; case _id
 		case name; case _name
 		case subscriptionTopic; case _subscriptionTopic
 		case timingDate; case _timingDate
@@ -100,15 +107,17 @@ open class TriggerDefinition: DataType {
 		case timingTiming
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.condition = try Expression(from: _container, forKeyIfPresent: .condition)
 		self.data = try [DataRequirement](from: _container, forKeyIfPresent: .data)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.subscriptionTopic = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .subscriptionTopic, auxiliaryKey: ._subscriptionTopic)
 		var _t_timing: TimingX? = nil
@@ -138,17 +147,17 @@ open class TriggerDefinition: DataType {
 		}
 		self.timing = _t_timing
 		self.type = try FHIRPrimitive<TriggerType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try condition?.encode(on: &_container, forKey: .condition)
 		try data?.encode(on: &_container, forKey: .data)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try subscriptionTopic?.encode(on: &_container, forKey: .subscriptionTopic, auxiliaryKey: ._subscriptionTopic)
 		if let _enum = timing {
@@ -164,35 +173,5 @@ open class TriggerDefinition: DataType {
 			}
 		}
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TriggerDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && condition == _other.condition
-		    && data == _other.data
-		    && name == _other.name
-		    && subscriptionTopic == _other.subscriptionTopic
-		    && timing == _other.timing
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(condition)
-		hasher.combine(data)
-		hasher.combine(name)
-		hasher.combine(subscriptionTopic)
-		hasher.combine(timing)
-		hasher.combine(type)
 	}
 }

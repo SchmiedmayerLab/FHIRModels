@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ public enum FlagStatus: String, FHIRPrimitiveType {
 	/// should view the flag.
 	case active
 	
-	/// The flag no longer needs to be displayed.
-	case inactive
-	
 	/// The flag was added in error and should no longer be displayed.
 	case enteredInError = "entered-in-error"
+	
+	/// The flag no longer needs to be displayed.
+	case inactive
 }

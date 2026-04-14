@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,17 +28,17 @@ import FMCore
 public enum MatchGrade: String, FHIRPrimitiveType {
 	
 	/// This record meets the matching criteria to be automatically considered as a full match.
-	case certain = "certain"
-	
-	/// This record is a close match, but not a certain match. Additional review (e.g. by a human) may be required
-	/// before using this as a match.
-	case probable = "probable"
-	
-	/// This record may be a matching one. Additional review (e.g. by a human) SHOULD be performed before using this as
-	/// a match.
-	case possible = "possible"
+	case certain
 	
 	/// This record is known not to be a match. Note that usually non-matching records are not returned, but in some
 	/// cases records previously or likely considered as a match may specifically be negated by the matching engine
 	case certainlyNot = "certainly-not"
+	
+	/// This record may be a matching one. Additional review (e.g. by a human) SHOULD be performed before using this as
+	/// a match.
+	case possible
+	
+	/// This record is a close match, but not a certain match. Additional review (e.g. by a human) may be required
+	/// before using this as a match.
+	case probable
 }

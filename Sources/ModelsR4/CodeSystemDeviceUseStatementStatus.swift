@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -39,10 +39,10 @@ public enum DeviceUseStatementStatus: String, FHIRPrimitiveType {
 	/// The device may be used at some time in the future.
 	case intended
 	
-	/// Actions implied by the statement have been permanently halted, before all of them occurred.
-	case stopped
-	
 	/// Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be
 	/// called "suspended".
 	case onHold = "on-hold"
+	
+	/// Actions implied by the statement have been permanently halted, before all of them occurred.
+	case stopped
 }

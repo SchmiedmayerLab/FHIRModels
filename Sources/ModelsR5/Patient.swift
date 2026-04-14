@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/Patient)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,80 +25,103 @@ import FMCore
  Demographics and other administrative information about an individual or animal receiving care or other health-related
  services.
  */
-open class Patient: DomainResource {
+public struct Patient: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .patient }
+	public static let resourceType: ResourceType = .patient
 	
 	/// All possible types for "deceased[x]"
-	public enum DeceasedX: Hashable {
+	public enum DeceasedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case dateTime(FHIRPrimitive<DateTime>)
 	}
 	
 	/// All possible types for "multipleBirth[x]"
-	public enum MultipleBirthX: Hashable {
+	public enum MultipleBirthX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case integer(FHIRPrimitive<FHIRInteger>)
 	}
 	
-	/// An identifier for this patient
-	public var identifier: [Identifier]?
-	
 	/// Whether this patient's record is in active use
 	public var active: FHIRPrimitive<FHIRBool>?
 	
-	/// A name associated with the patient
-	public var name: [HumanName]?
-	
-	/// A contact detail for the individual
-	public var telecom: [ContactPoint]?
-	
-	/// Administrative Gender - the gender that the patient is considered to have for administration and record keeping
-	/// purposes.
-	public var gender: FHIRPrimitive<AdministrativeGender>?
+	/// An address for the individual
+	public var address: [Address]?
 	
 	/// The date of birth for the individual
 	public var birthDate: FHIRPrimitive<FHIRDate>?
+	
+	/// A language which may be used to communicate with the patient about his or her health
+	public var communication: [PatientCommunication]?
+	
+	/// A contact party (e.g. guardian, partner, friend) for the patient
+	public var contact: [PatientContact]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Indicates if the individual is deceased or not
 	/// One of `deceased[x]`
 	public var deceased: DeceasedX?
 	
-	/// An address for the individual
-	public var address: [Address]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Administrative Gender - the gender that the patient is considered to have for administration and record keeping
+	/// purposes.
+	public var gender: FHIRPrimitive<AdministrativeGender>?
+	
+	/// Patient's nominated primary care provider
+	public var generalPractitioner: [Reference]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An identifier for this patient
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Link to a Patient or RelatedPerson resource that concerns the same actual individual
+	public var link: [PatientLink]?
+	
+	/// Organization that is the custodian of the patient record
+	public var managingOrganization: Reference?
 	
 	/// Marital (civil) status of a patient
 	public var maritalStatus: CodeableConcept?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Whether patient is part of a multiple birth
 	/// One of `multipleBirth[x]`
 	public var multipleBirth: MultipleBirthX?
 	
+	/// A name associated with the patient
+	public var name: [HumanName]?
+	
 	/// Image of the patient
 	public var photo: [Attachment]?
 	
-	/// A contact party (e.g. guardian, partner, friend) for the patient
-	public var contact: [PatientContact]?
+	/// A contact detail for the individual
+	public var telecom: [ContactPoint]?
 	
-	/// A language which may be used to communicate with the patient about his or her health
-	public var communication: [PatientCommunication]?
-	
-	/// Patient's nominated primary care provider
-	public var generalPractitioner: [Reference]?
-	
-	/// Organization that is the custodian of the patient record
-	public var managingOrganization: Reference?
-	
-	/// Link to a Patient or RelatedPerson resource that concerns the same actual individual
-	public var link: [PatientLink]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		address: [Address]? = nil,
 		birthDate: FHIRPrimitive<FHIRDate>? = nil,
@@ -154,36 +177,46 @@ open class Patient: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
 		case address
 		case birthDate; case _birthDate
 		case communication
 		case contact
+		case contained
 		case deceasedBoolean; case _deceasedBoolean
 		case deceasedDateTime; case _deceasedDateTime
+		case `extension` = "extension"
 		case gender; case _gender
 		case generalPractitioner
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case link
 		case managingOrganization
 		case maritalStatus
+		case meta
+		case modifierExtension
 		case multipleBirthBoolean; case _multipleBirthBoolean
 		case multipleBirthInteger; case _multipleBirthInteger
 		case name
 		case photo
 		case telecom
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
 		self.address = try [Address](from: _container, forKeyIfPresent: .address)
 		self.birthDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .birthDate, auxiliaryKey: ._birthDate)
 		self.communication = try [PatientCommunication](from: _container, forKeyIfPresent: .communication)
 		self.contact = try [PatientContact](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		var _t_deceased: DeceasedX? = nil
 		if let deceasedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean) {
 			if _t_deceased != nil {
@@ -198,12 +231,18 @@ open class Patient: DomainResource {
 			_t_deceased = .dateTime(deceasedDateTime)
 		}
 		self.deceased = _t_deceased
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
 		self.generalPractitioner = try [Reference](from: _container, forKeyIfPresent: .generalPractitioner)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.link = try [PatientLink](from: _container, forKeyIfPresent: .link)
 		self.managingOrganization = try Reference(from: _container, forKeyIfPresent: .managingOrganization)
 		self.maritalStatus = try CodeableConcept(from: _container, forKeyIfPresent: .maritalStatus)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_multipleBirth: MultipleBirthX? = nil
 		if let multipleBirthBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .multipleBirthBoolean, auxiliaryKey: ._multipleBirthBoolean) {
 			if _t_multipleBirth != nil {
@@ -221,19 +260,21 @@ open class Patient: DomainResource {
 		self.name = try [HumanName](from: _container, forKeyIfPresent: .name)
 		self.photo = try [Attachment](from: _container, forKeyIfPresent: .photo)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
 		try birthDate?.encode(on: &_container, forKey: .birthDate, auxiliaryKey: ._birthDate)
 		try communication?.encode(on: &_container, forKey: .communication)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		if let _enum = deceased {
 			switch _enum {
 			case .boolean(let _value):
@@ -242,12 +283,18 @@ open class Patient: DomainResource {
 				try _value.encode(on: &_container, forKey: .deceasedDateTime, auxiliaryKey: ._deceasedDateTime)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
 		try generalPractitioner?.encode(on: &_container, forKey: .generalPractitioner)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try link?.encode(on: &_container, forKey: .link)
 		try managingOrganization?.encode(on: &_container, forKey: .managingOrganization)
 		try maritalStatus?.encode(on: &_container, forKey: .maritalStatus)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = multipleBirth {
 			switch _enum {
 			case .boolean(let _value):
@@ -259,64 +306,26 @@ open class Patient: DomainResource {
 		try name?.encode(on: &_container, forKey: .name)
 		try photo?.encode(on: &_container, forKey: .photo)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Patient else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && address == _other.address
-		    && birthDate == _other.birthDate
-		    && communication == _other.communication
-		    && contact == _other.contact
-		    && deceased == _other.deceased
-		    && gender == _other.gender
-		    && generalPractitioner == _other.generalPractitioner
-		    && identifier == _other.identifier
-		    && link == _other.link
-		    && managingOrganization == _other.managingOrganization
-		    && maritalStatus == _other.maritalStatus
-		    && multipleBirth == _other.multipleBirth
-		    && name == _other.name
-		    && photo == _other.photo
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(address)
-		hasher.combine(birthDate)
-		hasher.combine(communication)
-		hasher.combine(contact)
-		hasher.combine(deceased)
-		hasher.combine(gender)
-		hasher.combine(generalPractitioner)
-		hasher.combine(identifier)
-		hasher.combine(link)
-		hasher.combine(managingOrganization)
-		hasher.combine(maritalStatus)
-		hasher.combine(multipleBirth)
-		hasher.combine(name)
-		hasher.combine(photo)
-		hasher.combine(telecom)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
 /**
  A language which may be used to communicate with the patient about his or her health.
  */
-open class PatientCommunication: BackboneElement {
+public struct PatientCommunication: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The language which can be used to communicate with the patient about his or her health
 	public var language: CodeableConcept
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Language preference indicator
 	public var preferred: FHIRPrimitive<FHIRBool>?
@@ -324,11 +333,10 @@ open class PatientCommunication: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(language: CodeableConcept) {
 		self.language = language
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		language: CodeableConcept,
@@ -345,70 +353,60 @@ open class PatientCommunication: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case language
+		case modifierExtension
 		case preferred; case _preferred
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.language = try CodeableConcept(from: _container, forKey: .language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.preferred = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .preferred, auxiliaryKey: ._preferred)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try language.encode(on: &_container, forKey: .language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try preferred?.encode(on: &_container, forKey: .preferred, auxiliaryKey: ._preferred)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PatientCommunication else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return language == _other.language
-		    && preferred == _other.preferred
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(language)
-		hasher.combine(preferred)
 	}
 }
 
 /**
  A contact party (e.g. guardian, partner, friend) for the patient.
  */
-open class PatientContact: BackboneElement {
-	
-	/// The kind of relationship
-	public var relationship: [CodeableConcept]?
-	
-	/// A name associated with the contact person
-	public var name: HumanName?
-	
-	/// A contact detail for the person
-	public var telecom: [ContactPoint]?
+public struct PatientContact: BackboneElement {
 	
 	/// Address for the contact person
 	public var address: Address?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
 	/// Administrative Gender - the gender that the contact person is considered to have for administration and record
 	/// keeping purposes.
 	public var gender: FHIRPrimitive<AdministrativeGender>?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// A name associated with the contact person
+	public var name: HumanName?
 	
 	/// Organization that is associated with the contact
 	public var organization: Reference?
@@ -416,13 +414,18 @@ open class PatientContact: BackboneElement {
 	/// The period during which this contact person or organization is valid to be contacted relating to this patient
 	public var period: Period?
 	
+	/// The kind of relationship
+	public var relationship: [CodeableConcept]?
+	
+	/// A contact detail for the person
+	public var telecom: [ContactPoint]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		address: Address? = nil,
 		`extension`: [Extension]? = nil,
 		gender: FHIRPrimitive<AdministrativeGender>? = nil,
@@ -451,78 +454,64 @@ open class PatientContact: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case address
+		case `extension` = "extension"
 		case gender; case _gender
+		case id; case _id
+		case modifierExtension
 		case name
 		case organization
 		case period
 		case relationship
 		case telecom
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.address = try Address(from: _container, forKeyIfPresent: .address)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try HumanName(from: _container, forKeyIfPresent: .name)
 		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.relationship = try [CodeableConcept](from: _container, forKeyIfPresent: .relationship)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name)
 		try organization?.encode(on: &_container, forKey: .organization)
 		try period?.encode(on: &_container, forKey: .period)
 		try relationship?.encode(on: &_container, forKey: .relationship)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PatientContact else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return address == _other.address
-		    && gender == _other.gender
-		    && name == _other.name
-		    && organization == _other.organization
-		    && period == _other.period
-		    && relationship == _other.relationship
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(address)
-		hasher.combine(gender)
-		hasher.combine(name)
-		hasher.combine(organization)
-		hasher.combine(period)
-		hasher.combine(relationship)
-		hasher.combine(telecom)
 	}
 }
 
 /**
  Link to a Patient or RelatedPerson resource that concerns the same actual individual.
  */
-open class PatientLink: BackboneElement {
+public struct PatientLink: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The other patient or related person resource that the link refers to
 	public var other: Reference
@@ -534,11 +523,10 @@ open class PatientLink: BackboneElement {
 	public init(other: Reference, type: FHIRPrimitive<LinkType>) {
 		self.other = other
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -554,46 +542,33 @@ open class PatientLink: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case other
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.other = try Reference(from: _container, forKey: .other)
 		self.type = try FHIRPrimitive<LinkType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try other.encode(on: &_container, forKey: .other)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PatientLink else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return other == _other.other
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(other)
-		hasher.combine(type)
 	}
 }

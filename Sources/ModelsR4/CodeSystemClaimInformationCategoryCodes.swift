@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,45 +27,45 @@ import FMCore
  */
 public enum ClaimInformationCategoryCodes: String, FHIRPrimitiveType {
 	
-	/// Codes conveying additional situation and condition information.
-	case info
+	/// Materials attached such as images, documents and resources.
+	case attachment
 	
 	/// Discharge status and discharge to locations.
 	case discharge
 	
-	/// Period, start or end dates of aspects of the Condition.
-	case onset
-	
-	/// Nature and date of the related event e.g. Last exam, service, X-ray etc.
-	case related
+	/// An indication that the patient was unable to work, the period if known otherwise a Yes/No (boolean).
+	case employmentimpacted
 	
 	/// Insurance policy exceptions.
 	case exception
 	
-	/// Materials being forwarded, e.g. Models, molds, images, documents.
-	case material
-	
-	/// Materials attached such as images, documents and resources.
-	case attachment
-	
-	/// Teeth which are missing for any reason, for example: prior extraction, never developed.
-	case missingtooth
-	
-	/// The type of prosthesis and date of supply if a previously supplied prosthesis.
-	case prosthesis
-	
-	/// Other information identified by the type.system.
-	case other
+	/// The external cause of an illness or injury.
+	case externalcause
 	
 	/// An indication that the patient was hospitalized, the period if known otherwise a Yes/No (boolean).
 	case hospitalized
 	
-	/// An indication that the patient was unable to work, the period if known otherwise a Yes/No (boolean).
-	case employmentimpacted
+	/// Codes conveying additional situation and condition information.
+	case info
 	
-	/// The external cause of an illness or injury.
-	case externalcause
+	/// Materials being forwarded, e.g. Models, molds, images, documents.
+	case material
+	
+	/// Teeth which are missing for any reason, for example: prior extraction, never developed.
+	case missingtooth
+	
+	/// Period, start or end dates of aspects of the Condition.
+	case onset
+	
+	/// Other information identified by the type.system.
+	case other
 	
 	/// The reason for the patient visit.
 	case patientreasonforvisit
+	
+	/// The type of prosthesis and date of supply if a previously supplied prosthesis.
+	case prosthesis
+	
+	/// Nature and date of the related event e.g. Last exam, service, X-ray etc.
+	case related
 }

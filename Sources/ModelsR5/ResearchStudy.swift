@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/ResearchStudy)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,64 +27,27 @@ import FMCore
  and treat disease. They may also study certain outcomes and certain groups of people by looking at data collected in
  the past or future.
  */
-open class ResearchStudy: DomainResource {
+public struct ResearchStudy: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .researchStudy }
+	public static let resourceType: ResourceType = .researchStudy
 	
-	/// Canonical identifier for this study resource
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// Sponsors, collaborators, and other parties
+	public var associatedParty: [ResearchStudyAssociatedParty]?
 	
-	/// Business Identifier for study
-	public var identifier: [Identifier]?
+	/// Classification for the study
+	public var classifier: [CodeableConcept]?
 	
-	/// The business version for the study record
-	public var version: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this study (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Human readable name of the study
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Additional names for the study
-	public var label: [ResearchStudyLabel]?
-	
-	/// Steps followed in executing study
-	public var `protocol`: [Reference]?
-	
-	/// Part of larger study
-	public var partOf: [Reference]?
-	
-	/// References, URLs, and attachments
-	public var relatedArtifact: [RelatedArtifact]?
-	
-	/// Date the resource last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// The publication state of the resource (not of the study).
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// treatment | prevention | diagnostic | supportive-care | screening | health-services-research | basic-science |
-	/// device-feasibility
-	public var primaryPurposeType: CodeableConcept?
-	
-	/// n-a | early-phase-1 | phase-1 | phase-1-phase-2 | phase-2 | phase-2-phase-3 | phase-3 | phase-4
-	public var phase: CodeableConcept?
-	
-	/// Classifications of the study design characteristics
-	public var studyDesign: [CodeableConcept]?
-	
-	/// Drugs, devices, etc. under study
-	public var focus: [CodeableReference]?
+	/// Defined path through the study for a subject
+	public var comparisonGroup: [ResearchStudyComparisonGroup]?
 	
 	/// Condition being studied
 	public var condition: [CodeableConcept]?
 	
-	/// Used to search for the study
-	public var keyword: [CodeableConcept]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
-	/// Geographic area for the study
-	public var region: [CodeableConcept]?
+	/// Date the resource last changed
+	public var date: FHIRPrimitive<DateTime>?
 	
 	/// Brief text explaining the study
 	public var descriptionSummary: FHIRPrimitive<FHIRString>?
@@ -92,33 +55,41 @@ open class ResearchStudy: DomainResource {
 	/// Detailed narrative of the study
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// When the study began and ended
-	public var period: Period?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Facility where study activities are conducted
-	public var site: [Reference]?
+	/// Drugs, devices, etc. under study
+	public var focus: [CodeableReference]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier for study
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Used to search for the study
+	public var keyword: [CodeableConcept]?
+	
+	/// Additional names for the study
+	public var label: [ResearchStudyLabel]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this study (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
 	
 	/// Comments made about the study
 	public var note: [Annotation]?
-	
-	/// Classification for the study
-	public var classifier: [CodeableConcept]?
-	
-	/// Sponsors, collaborators, and other parties
-	public var associatedParty: [ResearchStudyAssociatedParty]?
-	
-	/// Status of study with time for that status
-	public var progressStatus: [ResearchStudyProgressStatus]?
-	
-	/// accrual-goal-met | closed-due-to-toxicity | closed-due-to-lack-of-study-progress | temporarily-closed-per-study-
-	/// design
-	public var whyStopped: CodeableConcept?
-	
-	/// Target or actual group of participants enrolled in study
-	public var recruitment: ResearchStudyRecruitment?
-	
-	/// Defined path through the study for a subject
-	public var comparisonGroup: [ResearchStudyComparisonGroup]?
 	
 	/// A goal for the study
 	public var objective: [ResearchStudyObjective]?
@@ -126,17 +97,69 @@ open class ResearchStudy: DomainResource {
 	/// A variable measured during the study
 	public var outcomeMeasure: [ResearchStudyOutcomeMeasure]?
 	
+	/// Part of larger study
+	public var partOf: [Reference]?
+	
+	/// When the study began and ended
+	public var period: Period?
+	
+	/// n-a | early-phase-1 | phase-1 | phase-1-phase-2 | phase-2 | phase-2-phase-3 | phase-3 | phase-4
+	public var phase: CodeableConcept?
+	
+	/// treatment | prevention | diagnostic | supportive-care | screening | health-services-research | basic-science |
+	/// device-feasibility
+	public var primaryPurposeType: CodeableConcept?
+	
+	/// Status of study with time for that status
+	public var progressStatus: [ResearchStudyProgressStatus]?
+	
+	/// Steps followed in executing study
+	public var `protocol`: [Reference]?
+	
+	/// Target or actual group of participants enrolled in study
+	public var recruitment: ResearchStudyRecruitment?
+	
+	/// Geographic area for the study
+	public var region: [CodeableConcept]?
+	
+	/// References, URLs, and attachments
+	public var relatedArtifact: [RelatedArtifact]?
+	
 	/// Link to results generated during the study
 	public var result: [Reference]?
+	
+	/// Facility where study activities are conducted
+	public var site: [Reference]?
+	
+	/// The publication state of the resource (not of the study).
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Classifications of the study design characteristics
+	public var studyDesign: [CodeableConcept]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Human readable name of the study
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Canonical identifier for this study resource
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The business version for the study record
+	public var version: FHIRPrimitive<FHIRString>?
+	
+	/// accrual-goal-met | closed-due-to-toxicity | closed-due-to-lack-of-study-progress | temporarily-closed-per-study-
+	/// design
+	public var whyStopped: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>) {
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		associatedParty: [ResearchStudyAssociatedParty]? = nil,
 		classifier: [CodeableConcept]? = nil,
 		comparisonGroup: [ResearchStudyComparisonGroup]? = nil,
@@ -223,17 +246,25 @@ open class ResearchStudy: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case associatedParty
 		case classifier
 		case comparisonGroup
 		case condition
+		case contained
 		case date; case _date
 		case descriptionSummary; case _descriptionSummary
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
 		case focus
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case keyword
 		case label
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name; case _name
 		case note
 		case objective
@@ -251,28 +282,36 @@ open class ResearchStudy: DomainResource {
 		case site
 		case status; case _status
 		case studyDesign
+		case text
 		case title; case _title
 		case url; case _url
 		case version; case _version
 		case whyStopped
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.associatedParty = try [ResearchStudyAssociatedParty](from: _container, forKeyIfPresent: .associatedParty)
 		self.classifier = try [CodeableConcept](from: _container, forKeyIfPresent: .classifier)
 		self.comparisonGroup = try [ResearchStudyComparisonGroup](from: _container, forKeyIfPresent: .comparisonGroup)
 		self.condition = try [CodeableConcept](from: _container, forKeyIfPresent: .condition)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.descriptionSummary = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .descriptionSummary, auxiliaryKey: ._descriptionSummary)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [CodeableReference](from: _container, forKeyIfPresent: .focus)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.keyword = try [CodeableConcept](from: _container, forKeyIfPresent: .keyword)
 		self.label = try [ResearchStudyLabel](from: _container, forKeyIfPresent: .label)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.objective = try [ResearchStudyObjective](from: _container, forKeyIfPresent: .objective)
@@ -290,29 +329,37 @@ open class ResearchStudy: DomainResource {
 		self.site = try [Reference](from: _container, forKeyIfPresent: .site)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.studyDesign = try [CodeableConcept](from: _container, forKeyIfPresent: .studyDesign)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
 		self.whyStopped = try CodeableConcept(from: _container, forKeyIfPresent: .whyStopped)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try associatedParty?.encode(on: &_container, forKey: .associatedParty)
 		try classifier?.encode(on: &_container, forKey: .classifier)
 		try comparisonGroup?.encode(on: &_container, forKey: .comparisonGroup)
 		try condition?.encode(on: &_container, forKey: .condition)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try descriptionSummary?.encode(on: &_container, forKey: .descriptionSummary, auxiliaryKey: ._descriptionSummary)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try keyword?.encode(on: &_container, forKey: .keyword)
 		try label?.encode(on: &_container, forKey: .label)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try note?.encode(on: &_container, forKey: .note)
 		try objective?.encode(on: &_container, forKey: .objective)
@@ -330,122 +377,51 @@ open class ResearchStudy: DomainResource {
 		try site?.encode(on: &_container, forKey: .site)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try studyDesign?.encode(on: &_container, forKey: .studyDesign)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		try whyStopped?.encode(on: &_container, forKey: .whyStopped)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudy else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return associatedParty == _other.associatedParty
-		    && classifier == _other.classifier
-		    && comparisonGroup == _other.comparisonGroup
-		    && condition == _other.condition
-		    && date == _other.date
-		    && descriptionSummary == _other.descriptionSummary
-		    && description_fhir == _other.description_fhir
-		    && focus == _other.focus
-		    && identifier == _other.identifier
-		    && keyword == _other.keyword
-		    && label == _other.label
-		    && name == _other.name
-		    && note == _other.note
-		    && objective == _other.objective
-		    && outcomeMeasure == _other.outcomeMeasure
-		    && partOf == _other.partOf
-		    && period == _other.period
-		    && phase == _other.phase
-		    && primaryPurposeType == _other.primaryPurposeType
-		    && progressStatus == _other.progressStatus
-		    && `protocol` == _other.`protocol`
-		    && recruitment == _other.recruitment
-		    && region == _other.region
-		    && relatedArtifact == _other.relatedArtifact
-		    && result == _other.result
-		    && site == _other.site
-		    && status == _other.status
-		    && studyDesign == _other.studyDesign
-		    && title == _other.title
-		    && url == _other.url
-		    && version == _other.version
-		    && whyStopped == _other.whyStopped
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(associatedParty)
-		hasher.combine(classifier)
-		hasher.combine(comparisonGroup)
-		hasher.combine(condition)
-		hasher.combine(date)
-		hasher.combine(descriptionSummary)
-		hasher.combine(description_fhir)
-		hasher.combine(focus)
-		hasher.combine(identifier)
-		hasher.combine(keyword)
-		hasher.combine(label)
-		hasher.combine(name)
-		hasher.combine(note)
-		hasher.combine(objective)
-		hasher.combine(outcomeMeasure)
-		hasher.combine(partOf)
-		hasher.combine(period)
-		hasher.combine(phase)
-		hasher.combine(primaryPurposeType)
-		hasher.combine(progressStatus)
-		hasher.combine(`protocol`)
-		hasher.combine(recruitment)
-		hasher.combine(region)
-		hasher.combine(relatedArtifact)
-		hasher.combine(result)
-		hasher.combine(site)
-		hasher.combine(status)
-		hasher.combine(studyDesign)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(version)
-		hasher.combine(whyStopped)
 	}
 }
 
 /**
  Sponsors, collaborators, and other parties.
  */
-open class ResearchStudyAssociatedParty: BackboneElement {
+public struct ResearchStudyAssociatedParty: BackboneElement {
+	
+	/// nih | fda | government | nonprofit | academic | industry
+	public var classifier: [CodeableConcept]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Name of associated party
 	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Individual or organization associated with study (use practitionerRole to specify their organisation)
+	public var party: Reference?
+	
+	/// When active in the role
+	public var period: [Period]?
 	
 	/// sponsor | lead-sponsor | sponsor-investigator | primary-investigator | collaborator | funding-source | general-
 	/// contact | recruitment-contact | sub-investigator | study-director | study-chair
 	public var role: CodeableConcept
 	
-	/// When active in the role
-	public var period: [Period]?
-	
-	/// nih | fda | government | nonprofit | academic | industry
-	public var classifier: [CodeableConcept]?
-	
-	/// Individual or organization associated with study (use practitionerRole to specify their organisation)
-	public var party: Reference?
-	
 	/// Designated initializer taking all required properties
 	public init(role: CodeableConcept) {
 		self.role = role
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		classifier: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -469,61 +445,42 @@ open class ResearchStudyAssociatedParty: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case classifier
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case party
 		case period
 		case role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.classifier = try [CodeableConcept](from: _container, forKeyIfPresent: .classifier)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.party = try Reference(from: _container, forKeyIfPresent: .party)
 		self.period = try [Period](from: _container, forKeyIfPresent: .period)
 		self.role = try CodeableConcept(from: _container, forKey: .role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try classifier?.encode(on: &_container, forKey: .classifier)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try party?.encode(on: &_container, forKey: .party)
 		try period?.encode(on: &_container, forKey: .period)
 		try role.encode(on: &_container, forKey: .role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyAssociatedParty else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return classifier == _other.classifier
-		    && name == _other.name
-		    && party == _other.party
-		    && period == _other.period
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(classifier)
-		hasher.combine(name)
-		hasher.combine(party)
-		hasher.combine(period)
-		hasher.combine(role)
 	}
 }
 
@@ -534,34 +491,42 @@ open class ResearchStudyAssociatedParty: BackboneElement {
  exposure to drug A, wash-out, exposure to drug B, wash-out, follow-up. E.g. for a stability study: {store sample from
  lot A at 25 degrees for 1 month}, {store sample from lot A at 40 degrees for 1 month}.
  */
-open class ResearchStudyComparisonGroup: BackboneElement {
-	
-	/// Allows the comparisonGroup for the study and the comparisonGroup for the subject to be linked easily
-	public var linkId: FHIRPrimitive<FHIRString>?
-	
-	/// Label for study comparisonGroup
-	public var name: FHIRPrimitive<FHIRString>
-	
-	/// Categorization of study comparisonGroup
-	public var type: CodeableConcept?
+public struct ResearchStudyComparisonGroup: BackboneElement {
 	
 	/// Short explanation of study path
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Interventions or exposures in this comparisonGroup or cohort
 	public var intendedExposure: [Reference]?
+	
+	/// Allows the comparisonGroup for the study and the comparisonGroup for the subject to be linked easily
+	public var linkId: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Label for study comparisonGroup
+	public var name: FHIRPrimitive<FHIRString>
 	
 	/// Group of participants who were enrolled in study comparisonGroup
 	public var observedGroup: Reference?
 	
+	/// Categorization of study comparisonGroup
+	public var type: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
 	public init(name: FHIRPrimitive<FHIRString>) {
 		self.name = name
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -587,73 +552,61 @@ open class ResearchStudyComparisonGroup: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
 		case intendedExposure
 		case linkId; case _linkId
+		case modifierExtension
 		case name; case _name
 		case observedGroup
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.intendedExposure = try [Reference](from: _container, forKeyIfPresent: .intendedExposure)
 		self.linkId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .linkId, auxiliaryKey: ._linkId)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.observedGroup = try Reference(from: _container, forKeyIfPresent: .observedGroup)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try intendedExposure?.encode(on: &_container, forKey: .intendedExposure)
 		try linkId?.encode(on: &_container, forKey: .linkId, auxiliaryKey: ._linkId)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try observedGroup?.encode(on: &_container, forKey: .observedGroup)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyComparisonGroup else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && intendedExposure == _other.intendedExposure
-		    && linkId == _other.linkId
-		    && name == _other.name
-		    && observedGroup == _other.observedGroup
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(intendedExposure)
-		hasher.combine(linkId)
-		hasher.combine(name)
-		hasher.combine(observedGroup)
-		hasher.combine(type)
 	}
 }
 
 /**
  Additional names for the study.
  */
-open class ResearchStudyLabel: BackboneElement {
+public struct ResearchStudyLabel: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// primary | official | scientific | plain-language | subtitle | short-title | acronym | earlier-title | language |
 	/// auto-translated | human-use | machine-use | duplicate-uid
@@ -663,12 +616,11 @@ open class ResearchStudyLabel: BackboneElement {
 	public var value: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -686,47 +638,34 @@ open class ResearchStudyLabel: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case value; case _value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.value = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .value, auxiliaryKey: ._value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
 		try value?.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyLabel else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
@@ -736,7 +675,19 @@ open class ResearchStudyLabel: BackboneElement {
  A goal that the study is aiming to achieve in terms of a scientific question to be answered by the analysis of data
  collected during the study.
  */
-open class ResearchStudyObjective: BackboneElement {
+public struct ResearchStudyObjective: BackboneElement {
+	
+	/// Description of the objective
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Label for the objective
 	public var name: FHIRPrimitive<FHIRString>?
@@ -744,16 +695,12 @@ open class ResearchStudyObjective: BackboneElement {
 	/// primary | secondary | exploratory
 	public var type: CodeableConcept?
 	
-	/// Description of the objective
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -774,51 +721,36 @@ open class ResearchStudyObjective: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyObjective else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && name == _other.name
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(name)
-		hasher.combine(type)
 	}
 }
 
@@ -829,27 +761,35 @@ open class ResearchStudyObjective: BackboneElement {
  to quantify the effect of experimental variables on the participants in a study, or for observational studies, to
  describe patterns of diseases or traits or associations with exposures, risk factors or treatment.
  */
-open class ResearchStudyOutcomeMeasure: BackboneElement {
-	
-	/// Label for the outcome
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// primary | secondary | exploratory
-	public var type: [CodeableConcept]?
+public struct ResearchStudyOutcomeMeasure: BackboneElement {
 	
 	/// Description of the outcome
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Label for the outcome
+	public var name: FHIRPrimitive<FHIRString>?
+	
 	/// Structured outcome definition
 	public var reference: Reference?
 	
+	/// primary | secondary | exploratory
+	public var type: [CodeableConcept]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -872,81 +812,72 @@ open class ResearchStudyOutcomeMeasure: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case reference
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.reference = try Reference(from: _container, forKeyIfPresent: .reference)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try reference?.encode(on: &_container, forKey: .reference)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyOutcomeMeasure else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && name == _other.name
-		    && reference == _other.reference
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(name)
-		hasher.combine(reference)
-		hasher.combine(type)
 	}
 }
 
 /**
  Status of study with time for that status.
  */
-open class ResearchStudyProgressStatus: BackboneElement {
-	
-	/// Label for status or state (e.g. recruitment status)
-	public var state: CodeableConcept
+public struct ResearchStudyProgressStatus: BackboneElement {
 	
 	/// Actual if true else anticipated
 	public var actual: FHIRPrimitive<FHIRBool>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Date range
 	public var period: Period?
+	
+	/// Label for status or state (e.g. recruitment status)
+	public var state: CodeableConcept
 	
 	/// Designated initializer taking all required properties
 	public init(state: CodeableConcept) {
 		self.state = state
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actual: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -966,61 +897,46 @@ open class ResearchStudyProgressStatus: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actual; case _actual
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case period
 		case state
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actual = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .actual, auxiliaryKey: ._actual)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.state = try CodeableConcept(from: _container, forKey: .state)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actual?.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
 		try state.encode(on: &_container, forKey: .state)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyProgressStatus else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actual == _other.actual
-		    && period == _other.period
-		    && state == _other.state
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actual)
-		hasher.combine(period)
-		hasher.combine(state)
 	}
 }
 
 /**
  Target or actual group of participants enrolled in study.
  */
-open class ResearchStudyRecruitment: BackboneElement {
+public struct ResearchStudyRecruitment: BackboneElement {
 	
-	/// Estimated total number of participants to be enrolled
-	public var targetNumber: FHIRPrimitive<FHIRUnsignedInteger>?
+	/// Group of participants who were enrolled in study
+	public var actualGroup: Reference?
 	
 	/// Actual total number of participants enrolled in study
 	public var actualNumber: FHIRPrimitive<FHIRUnsignedInteger>?
@@ -1028,16 +944,24 @@ open class ResearchStudyRecruitment: BackboneElement {
 	/// Inclusion and exclusion criteria
 	public var eligibility: Reference?
 	
-	/// Group of participants who were enrolled in study
-	public var actualGroup: Reference?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Estimated total number of participants to be enrolled
+	public var targetNumber: FHIRPrimitive<FHIRUnsignedInteger>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actualGroup: Reference? = nil,
 		actualNumber: FHIRPrimitive<FHIRUnsignedInteger>? = nil,
 		eligibility: Reference? = nil,
@@ -1062,53 +986,36 @@ open class ResearchStudyRecruitment: BackboneElement {
 		case actualGroup
 		case actualNumber; case _actualNumber
 		case eligibility
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case targetNumber; case _targetNumber
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actualGroup = try Reference(from: _container, forKeyIfPresent: .actualGroup)
 		self.actualNumber = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .actualNumber, auxiliaryKey: ._actualNumber)
 		self.eligibility = try Reference(from: _container, forKeyIfPresent: .eligibility)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.targetNumber = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .targetNumber, auxiliaryKey: ._targetNumber)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actualGroup?.encode(on: &_container, forKey: .actualGroup)
 		try actualNumber?.encode(on: &_container, forKey: .actualNumber, auxiliaryKey: ._actualNumber)
 		try eligibility?.encode(on: &_container, forKey: .eligibility)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try targetNumber?.encode(on: &_container, forKey: .targetNumber, auxiliaryKey: ._targetNumber)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ResearchStudyRecruitment else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actualGroup == _other.actualGroup
-		    && actualNumber == _other.actualNumber
-		    && eligibility == _other.eligibility
-		    && targetNumber == _other.targetNumber
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actualGroup)
-		hasher.combine(actualNumber)
-		hasher.combine(eligibility)
-		hasher.combine(targetNumber)
 	}
 }

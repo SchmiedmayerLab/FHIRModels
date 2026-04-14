@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,31 +27,31 @@ import FMCore
  */
 public enum OrderStatus: String, FHIRPrimitiveType {
 	
+	/// Processing the order was stopped because of some workflow/business logic reason.
+	case aborted
+	
+	/// The order has been accepted, and work is in progress.
+	case accepted
+	
+	/// Processing the order was halted at the initiators request.
+	case cancelled
+	
+	/// The order has been completed.
+	case completed
+	
+	/// The order was unable to be processed because of a technical error (i.e. unexpected error)
+	case error
+	
 	/// The order is known, but no processing has occurred at this time
-	case pending = "pending"
+	case pending
+	
+	/// The order was rejected because of a workflow/business logic reason
+	case rejected
+	
+	/// The order has been cancelled and replaced by another.
+	case replaced
 	
 	/// The order is undergoing initial processing to determine whether it will be accepted (usually this involves human
 	/// review)
-	case review = "review"
-	
-	/// The order was rejected because of a workflow/business logic reason
-	case rejected = "rejected"
-	
-	/// The order was unable to be processed because of a technical error (i.e. unexpected error)
-	case error = "error"
-	
-	/// The order has been accepted, and work is in progress.
-	case accepted = "accepted"
-	
-	/// Processing the order was halted at the initiators request.
-	case cancelled = "cancelled"
-	
-	/// The order has been cancelled and replaced by another.
-	case replaced = "replaced"
-	
-	/// Processing the order was stopped because of some workflow/business logic reason.
-	case aborted = "aborted"
-	
-	/// The order has been completed.
-	case completed = "completed"
+	case review
 }

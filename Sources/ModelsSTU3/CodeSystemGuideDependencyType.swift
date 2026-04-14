@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum GuideDependencyType: String, FHIRPrimitiveType {
 	
-	/// The guide is referred to by URL.
-	case reference = "reference"
-	
 	/// The guide is embedded in this guide when published.
-	case inclusion = "inclusion"
+	case inclusion
+	
+	/// The guide is referred to by URL.
+	case reference
 }

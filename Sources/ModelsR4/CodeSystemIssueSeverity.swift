@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,16 +27,16 @@ import FMCore
  */
 public enum IssueSeverity: String, FHIRPrimitiveType {
 	
+	/// The issue is sufficiently important to cause the action to fail.
+	case error
+	
 	/// The issue caused the action to fail and no further checking could be performed.
 	case fatal
 	
-	/// The issue is sufficiently important to cause the action to fail.
-	case error
+	/// The issue has no relation to the degree of success of the action.
+	case information
 	
 	/// The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or
 	/// in a way that is not as desired.
 	case warning
-	
-	/// The issue has no relation to the degree of success of the action.
-	case information
 }

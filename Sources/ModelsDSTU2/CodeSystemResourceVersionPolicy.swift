@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public enum ResourceVersionPolicy: String, FHIRPrimitiveType {
 	case noVersion = "no-version"
 	
 	/// VersionId meta-property is supported (server) or used (client).
-	case versioned = "versioned"
+	case versioned
 	
 	/// VersionId is must be correct for updates (server) or will be specified (If-match header) for updates (client).
 	case versionedUpdate = "versioned-update"

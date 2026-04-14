@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,8 +28,8 @@ import FMCore
  */
 public enum CodeSystemContentMode: String, FHIRPrimitiveType {
 	
-	/// None of the concepts defined by the code system are included in the code system resource.
-	case notPresent = "not-present"
+	/// All the concepts defined by the code system are included in the code system resource.
+	case complete
 	
 	/// A few representative concepts are included in the code system resource. There is no useful intent in the subset
 	/// choice and there's no process to make it workable: it's not intended to be workable.
@@ -41,8 +41,8 @@ public enum CodeSystemContentMode: String, FHIRPrimitiveType {
 	/// Fragments are also known as partitions.
 	case fragment
 	
-	/// All the concepts defined by the code system are included in the code system resource.
-	case complete
+	/// None of the concepts defined by the code system are included in the code system resource.
+	case notPresent = "not-present"
 	
 	/// The resource doesn't define any new concepts; it just provides additional designations and properties to another
 	/// code system.

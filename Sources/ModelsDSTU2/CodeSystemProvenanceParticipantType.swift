@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,30 +28,30 @@ import FMCore
  */
 public enum ProvenanceParticipantType: String, FHIRPrimitiveType {
 	
-	/// The participant is a person acting on their on behalf or on behalf of the patient rather than as an practitioner
-	/// for an organization.  I.e. "not a healthcare provider".
-	case person = "person"
-	
-	/// The participant is a practitioner, a person (provider) who is directly or indirectly involved in the
-	/// provisioning of healthcare.
-	case practitioner = "practitioner"
-	
-	/// The participant is an organization.
-	case organization = "organization"
-	
-	/// The participant is a software application including services, algorithms, etc.
-	case software = "software"
-	
-	/// The participant is the patient, a person or animal receiving care or other health-related services.
-	case patient = "patient"
-	
 	/// The participant is a device, an instance of a manufactured thing that is used in the provision of healthcare
 	/// without being substantially changed through that activity. The device may be a machine, an insert, a computer,
 	/// an application, etc. This includes durable (reusable) medical equipment as well as disposable equipment used for
 	/// diagnostic, treatment, and research for healthcare and public health.
-	case device = "device"
+	case device
+	
+	/// The participant is an organization.
+	case organization
+	
+	/// The participant is the patient, a person or animal receiving care or other health-related services.
+	case patient
+	
+	/// The participant is a person acting on their on behalf or on behalf of the patient rather than as an practitioner
+	/// for an organization.  I.e. "not a healthcare provider".
+	case person
+	
+	/// The participant is a practitioner, a person (provider) who is directly or indirectly involved in the
+	/// provisioning of healthcare.
+	case practitioner
 	
 	/// The participant is a related person, a person that is involved in the care for a patient, but who is not the
 	/// target of healthcare, nor has a formal responsibility in the care process.
 	case relatedPerson = "related-person"
+	
+	/// The participant is a software application including services, algorithms, etc.
+	case software
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,13 +27,13 @@ import FMCore
  */
 public enum MedicationRequestCourseOfTherapyCodes: String, FHIRPrimitiveType {
 	
-	/// A medication which is expected to be continued beyond the present order and which the patient should be assumed
-	/// to be taking unless explicitly stopped.
-	case continuous
-	
 	/// A medication which the patient is only expected to consume for the duration of the current order and which is
 	/// not expected to be renewed.
 	case acute
+	
+	/// A medication which is expected to be continued beyond the present order and which the patient should be assumed
+	/// to be taking unless explicitly stopped.
+	case continuous
 	
 	/// A medication which is expected to be used on a part time basis at certain times of the year
 	case seasonal

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ public enum FlagStatus: String, FHIRPrimitiveType {
 	
 	/// A current flag that should be displayed to a user. A system may use the category to determine which roles should
 	/// view the flag.
-	case active = "active"
-	
-	/// The flag does not need to be displayed any more.
-	case inactive = "inactive"
+	case active
 	
 	/// The flag was added in error, and should no longer be displayed.
 	case enteredInError = "entered-in-error"
+	
+	/// The flag does not need to be displayed any more.
+	case inactive
 }

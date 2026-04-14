@@ -2,8 +2,8 @@
 //  Element.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/Element)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/Element)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,72 +24,20 @@ import FMCore
  
  Base definition for all elements in a resource.
  */
-open class Element: Base {
-	
-	/// Unique id for inter-element referencing
-	public var id: FHIRPrimitive<FHIRString>?
+public protocol ElementReadOnly: Base {
 	
 	/// Additional content defined by implementations
-	public var `extension`: [Extension]?
+	var `extension`: [Extension]? { get }
 	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
+	/// Unique id for inter-element referencing
+	var id: FHIRPrimitive<FHIRString>? { get }
+}
+
+public protocol Element: ElementReadOnly {
 	
-	/// Convenience initializer
-	public convenience init(
-		`extension`: [Extension]? = nil,
-		id: FHIRPrimitive<FHIRString>? = nil
-	) {
-		self.init()
-		self.`extension` = `extension`
-		self.id = id
-	}
+	/// Additional content defined by implementations
+	var `extension`: [Extension]? { get set }
 	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case `extension` = "extension"
-		case id; case _id
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Element else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return `extension` == _other.`extension`
-		    && id == _other.id
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(`extension`)
-		hasher.combine(id)
-	}
+	/// Unique id for inter-element referencing
+	var id: FHIRPrimitive<FHIRString>? { get set }
 }

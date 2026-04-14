@@ -2,8 +2,8 @@
 //  MessageHeader.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/MessageHeader)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/MessageHeader)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,26 +26,50 @@ import FMCore
  subject of the action as well as other information related to the action are typically transmitted in a bundle in which
  the MessageHeader resource instance is the first resource in the bundle.
  */
-open class MessageHeader: DomainResource {
+public struct MessageHeader: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .messageHeader }
+	public static let resourceType: ResourceType = .messageHeader
 	
 	/// All possible types for "event[x]"
-	public enum EventX: Hashable {
+	public enum EventX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case coding(Coding)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
-	/// The real world event that triggered this messsage
-	/// One of `event[x]`
-	public var event: EventX
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Link to the definition for this message
+	public var definition: FHIRPrimitive<Canonical>?
 	
 	/// Message destination application(s)
 	public var destination: [MessageHeaderDestination]?
 	
-	/// Message source application
-	public var source: MessageHeaderSource
+	/// The real world event that triggered this messsage
+	/// One of `event[x]`
+	public var event: EventX
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The actual content of the message
+	public var focus: [Reference]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Cause of event
 	public var reason: CodeableConcept?
@@ -53,21 +77,20 @@ open class MessageHeader: DomainResource {
 	/// If this is a reply to prior message
 	public var response: MessageHeaderResponse?
 	
-	/// The actual content of the message
-	public var focus: [Reference]?
+	/// Message source application
+	public var source: MessageHeaderSource
 	
-	/// Link to the definition for this message
-	public var definition: FHIRPrimitive<Canonical>?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(event: EventX, source: MessageHeaderSource) {
 		self.event = event
 		self.source = source
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		definition: FHIRPrimitive<Canonical>? = nil,
 		destination: [MessageHeaderDestination]? = nil,
@@ -103,19 +126,28 @@ open class MessageHeader: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case definition; case _definition
 		case destination
 		case eventCanonical; case _eventCanonical
 		case eventCoding
 		case eventUri; case _eventUri
+		case `extension` = "extension"
 		case focus
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case reason
 		case response
 		case source
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -123,7 +155,8 @@ open class MessageHeader: DomainResource {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.eventCanonical, CodingKeys.eventCoding, CodingKeys.eventUri], debugDescription: "Must have at least one value for \"event\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.definition = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
 		self.destination = try [MessageHeaderDestination](from: _container, forKeyIfPresent: .destination)
 		var _t_event: EventX? = nil
@@ -146,18 +179,26 @@ open class MessageHeader: DomainResource {
 			_t_event = .canonical(eventCanonical)
 		}
 		self.event = _t_event!
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [Reference](from: _container, forKeyIfPresent: .focus)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.reason = try CodeableConcept(from: _container, forKeyIfPresent: .reason)
 		self.response = try MessageHeaderResponse(from: _container, forKeyIfPresent: .response)
 		self.source = try MessageHeaderSource(from: _container, forKey: .source)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
 		try destination?.encode(on: &_container, forKey: .destination)
 		
@@ -170,40 +211,17 @@ open class MessageHeader: DomainResource {
 				try _value.encode(on: &_container, forKey: .eventCanonical, auxiliaryKey: ._eventCanonical)
 			}
 		
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try reason?.encode(on: &_container, forKey: .reason)
 		try response?.encode(on: &_container, forKey: .response)
 		try source.encode(on: &_container, forKey: .source)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageHeader else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return definition == _other.definition
-		    && destination == _other.destination
-		    && event == _other.event
-		    && focus == _other.focus
-		    && reason == _other.reason
-		    && response == _other.response
-		    && source == _other.source
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(definition)
-		hasher.combine(destination)
-		hasher.combine(event)
-		hasher.combine(focus)
-		hasher.combine(reason)
-		hasher.combine(response)
-		hasher.combine(source)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -212,10 +230,10 @@ open class MessageHeader: DomainResource {
  
  The destination application which the message is intended for.
  */
-open class MessageHeaderDestination: BackboneElement {
+public struct MessageHeaderDestination: BackboneElement {
 	
 	/// All possible types for "endpoint[x]"
-	public enum EndpointX: Hashable {
+	public enum EndpointX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case url(FHIRPrimitive<FHIRURI>)
 	}
@@ -224,6 +242,15 @@ open class MessageHeaderDestination: BackboneElement {
 	/// One of `endpoint[x]`
 	public var endpoint: EndpointX?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Name of system
 	public var name: FHIRPrimitive<FHIRString>?
 	
@@ -231,12 +258,11 @@ open class MessageHeaderDestination: BackboneElement {
 	public var receiver: Reference?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		endpoint: EndpointX? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -258,15 +284,18 @@ open class MessageHeaderDestination: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case endpointReference
 		case endpointUrl; case _endpointUrl
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case receiver
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_endpoint: EndpointX? = nil
 		if let endpointUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .endpointUrl, auxiliaryKey: ._endpointUrl) {
 			if _t_endpoint != nil {
@@ -281,16 +310,17 @@ open class MessageHeaderDestination: BackboneElement {
 			_t_endpoint = .reference(endpointReference)
 		}
 		self.endpoint = _t_endpoint
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.receiver = try Reference(from: _container, forKeyIfPresent: .receiver)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = endpoint {
 			switch _enum {
 			case .url(let _value):
@@ -299,30 +329,11 @@ open class MessageHeaderDestination: BackboneElement {
 				try _value.encode(on: &_container, forKey: .endpointReference)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try receiver?.encode(on: &_container, forKey: .receiver)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageHeaderDestination else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return endpoint == _other.endpoint
-		    && name == _other.name
-		    && receiver == _other.receiver
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(endpoint)
-		hasher.combine(name)
-		hasher.combine(receiver)
 	}
 }
 
@@ -331,10 +342,7 @@ open class MessageHeaderDestination: BackboneElement {
  
  Information about the message that this message is a response to.  Only present if this message is a response.
  */
-open class MessageHeaderResponse: BackboneElement {
-	
-	/// Bundle.identifier of original message
-	public var identifier: Identifier
+public struct MessageHeaderResponse: BackboneElement {
 	
 	/// Code that identifies the type of response to the message - whether it was successful or not, and whether it
 	/// should be resent or not.
@@ -343,15 +351,26 @@ open class MessageHeaderResponse: BackboneElement {
 	/// Specific list of hints/warnings/errors
 	public var details: Reference?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Bundle.identifier of original message
+	public var identifier: Identifier
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(code: FHIRPrimitive<ResponseType>, identifier: Identifier) {
 		self.code = code
 		self.identifier = identifier
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<ResponseType>,
 		details: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -371,50 +390,35 @@ open class MessageHeaderResponse: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code; case _code
 		case details
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<ResponseType>(from: _container, forKey: .code, auxiliaryKey: ._code)
 		self.details = try Reference(from: _container, forKeyIfPresent: .details)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKey: .identifier)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try details?.encode(on: &_container, forKey: .details)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier.encode(on: &_container, forKey: .identifier)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageHeaderResponse else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && details == _other.details
-		    && identifier == _other.identifier
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(details)
-		hasher.combine(identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -423,20 +427,35 @@ open class MessageHeaderResponse: BackboneElement {
  
  The source application from which this message originated.
  */
-open class MessageHeaderSource: BackboneElement {
+public struct MessageHeaderSource: BackboneElement {
 	
 	/// All possible types for "endpoint[x]"
-	public enum EndpointX: Hashable {
+	public enum EndpointX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case url(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// Human contact for problems
+	public var contact: ContactPoint?
 	
 	/// Actual source address or Endpoint resource
 	/// One of `endpoint[x]`
 	public var endpoint: EndpointX?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Name of system
 	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Real world sender of the message
+	public var sender: Reference?
 	
 	/// Name of software running the system
 	public var software: FHIRPrimitive<FHIRString>?
@@ -444,19 +463,12 @@ open class MessageHeaderSource: BackboneElement {
 	/// Version of software running
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Human contact for problems
-	public var contact: ContactPoint?
-	
-	/// Real world sender of the message
-	public var sender: Reference?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contact: ContactPoint? = nil,
 		endpoint: EndpointX? = nil,
 		`extension`: [Extension]? = nil,
@@ -485,17 +497,20 @@ open class MessageHeaderSource: BackboneElement {
 		case contact
 		case endpointReference
 		case endpointUrl; case _endpointUrl
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case sender
 		case software; case _software
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.contact = try ContactPoint(from: _container, forKeyIfPresent: .contact)
 		var _t_endpoint: EndpointX? = nil
 		if let endpointUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .endpointUrl, auxiliaryKey: ._endpointUrl) {
@@ -511,18 +526,19 @@ open class MessageHeaderSource: BackboneElement {
 			_t_endpoint = .reference(endpointReference)
 		}
 		self.endpoint = _t_endpoint
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.sender = try Reference(from: _container, forKeyIfPresent: .sender)
 		self.software = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .software, auxiliaryKey: ._software)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		if let _enum = endpoint {
 			switch _enum {
@@ -532,37 +548,12 @@ open class MessageHeaderSource: BackboneElement {
 				try _value.encode(on: &_container, forKey: .endpointReference)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try sender?.encode(on: &_container, forKey: .sender)
 		try software?.encode(on: &_container, forKey: .software, auxiliaryKey: ._software)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MessageHeaderSource else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return contact == _other.contact
-		    && endpoint == _other.endpoint
-		    && name == _other.name
-		    && sender == _other.sender
-		    && software == _other.software
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(contact)
-		hasher.combine(endpoint)
-		hasher.combine(name)
-		hasher.combine(sender)
-		hasher.combine(software)
-		hasher.combine(version)
 	}
 }

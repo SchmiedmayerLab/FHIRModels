@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,14 +28,14 @@ import FMCore
 public enum SpecimenStatus: String, FHIRPrimitiveType {
 	
 	/// The physical specimen is present and in good condition.
-	case available = "available"
-	
-	/// There is no physical specimen because it is either lost, destroyed or consumed.
-	case unavailable = "unavailable"
-	
-	/// The specimen cannot be used because of a quality issue such as a broken container, contamination, or too old.
-	case unsatisfactory = "unsatisfactory"
+	case available
 	
 	/// The specimen was entered in error and therefore nullified.
 	case enteredInError = "entered-in-error"
+	
+	/// There is no physical specimen because it is either lost, destroyed or consumed.
+	case unavailable
+	
+	/// The specimen cannot be used because of a quality issue such as a broken container, contamination, or too old.
+	case unsatisfactory
 }

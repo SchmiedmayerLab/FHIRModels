@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/DataElement)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,86 +24,109 @@ import FMCore
  
  The formal description of a single piece of information that can be gathered and reported.
  */
-open class DataElement: DomainResource {
+public struct DataElement: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .dataElement }
+	public static let resourceType: ResourceType = .dataElement
 	
-	/// Globally unique logical id for data element
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// Contact details of the publisher
+	public var contact: [DataElementContact]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Use and/or publishing restrictions
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Date for this version of the data element
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Definition of element
+	public var element: [ElementDefinition]
+	
+	/// If for testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Logical id to reference this data element
 	public var identifier: [Identifier]?
 	
-	/// Logical id for this version of the data element
-	public var version: FHIRPrimitive<FHIRString>?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// External specification mapped to
+	public var mapping: [DataElementMapping]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Descriptive label for this element definition
 	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Name of the publisher (Organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
 	
 	/// The status of the data element.
 	/// Restricted to: ['draft', 'active', 'retired']
 	public var status: FHIRPrimitive<ConformanceResourceStatus>
 	
-	/// If for testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Name of the publisher (Organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details of the publisher
-	public var contact: [DataElementContact]?
-	
-	/// Date for this version of the data element
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Content intends to support these contexts
-	public var useContext: [CodeableConcept]?
-	
-	/// Use and/or publishing restrictions
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
 	/// Identifies how precise the data element is in its definition.
 	/// Restricted to: ['comparable', 'flexible']
 	public var stringency: FHIRPrimitive<DataElementStringency>?
 	
-	/// External specification mapped to
-	public var mapping: [DataElementMapping]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
-	/// Definition of element
-	public var element: [ElementDefinition]
+	/// Globally unique logical id for data element
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Content intends to support these contexts
+	public var useContext: [CodeableConcept]?
+	
+	/// Logical id for this version of the data element
+	public var version: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(element: [ElementDefinition], status: FHIRPrimitive<ConformanceResourceStatus>) {
 		self.element = element
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							contact: [DataElementContact]? = nil,
-							contained: [ResourceProxy]? = nil,
-							copyright: FHIRPrimitive<FHIRString>? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							element: [ElementDefinition],
-							experimental: FHIRPrimitive<FHIRBool>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							mapping: [DataElementMapping]? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>? = nil,
-							publisher: FHIRPrimitive<FHIRString>? = nil,
-							status: FHIRPrimitive<ConformanceResourceStatus>,
-							stringency: FHIRPrimitive<DataElementStringency>? = nil,
-							text: Narrative? = nil,
-							url: FHIRPrimitive<FHIRURI>? = nil,
-							useContext: [CodeableConcept]? = nil,
-							version: FHIRPrimitive<FHIRString>? = nil)
-	{
+	public init(
+		contact: [DataElementContact]? = nil,
+		contained: [ResourceProxy]? = nil,
+		copyright: FHIRPrimitive<FHIRString>? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		element: [ElementDefinition],
+		experimental: FHIRPrimitive<FHIRBool>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		mapping: [DataElementMapping]? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		publisher: FHIRPrimitive<FHIRString>? = nil,
+		status: FHIRPrimitive<ConformanceResourceStatus>,
+		stringency: FHIRPrimitive<DataElementStringency>? = nil,
+		text: Narrative? = nil,
+		url: FHIRPrimitive<FHIRURI>? = nil,
+		useContext: [CodeableConcept]? = nil,
+		version: FHIRPrimitive<FHIRString>? = nil
+	) {
 		self.init(element: element, status: status)
 		self.contact = contact
 		self.contained = contained
@@ -130,107 +153,88 @@ open class DataElement: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case contact
+		case contained
 		case copyright; case _copyright
 		case date; case _date
 		case element
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case mapping
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case status; case _status
 		case stringency; case _stringency
+		case text
 		case url; case _url
 		case useContext
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.contact = try [DataElementContact](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.element = try [ElementDefinition](from: _container, forKey: .element)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.mapping = try [DataElementMapping](from: _container, forKeyIfPresent: .mapping)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.status = try FHIRPrimitive<ConformanceResourceStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.stringency = try FHIRPrimitive<DataElementStringency>(from: _container, forKeyIfPresent: .stringency, auxiliaryKey: ._stringency)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [CodeableConcept](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try element.encode(on: &_container, forKey: .element)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try mapping?.encode(on: &_container, forKey: .mapping)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try stringency?.encode(on: &_container, forKey: .stringency, auxiliaryKey: ._stringency)
+		try text?.encode(on: &_container, forKey: .text)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DataElement else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return contact == _other.contact
-		    && copyright == _other.copyright
-		    && date == _other.date
-		    && element == _other.element
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && mapping == _other.mapping
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && status == _other.status
-		    && stringency == _other.stringency
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(date)
-		hasher.combine(element)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(mapping)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(status)
-		hasher.combine(stringency)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
 	}
 }
 
@@ -239,81 +243,7 @@ open class DataElement: DomainResource {
  
  Contacts to assist a user in finding and communicating with the publisher.
  */
-open class DataElementContact: BackboneElement {
-	
-	/// Name of a individual to contact
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for individual or publisher
-	public var telecom: [ContactPoint]?
-	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>? = nil,
-							telecom: [ContactPoint]? = nil)
-	{
-		self.init()
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.name = name
-		self.telecom = telecom
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case name; case _name
-		case telecom
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
-		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DataElementContact else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return name == _other.name
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(name)
-		hasher.combine(telecom)
-	}
-}
+public typealias DataElementContact = BackboneElement
 
 /**
  External specification mapped to.
@@ -321,98 +251,4 @@ open class DataElementContact: BackboneElement {
  Identifies a specification (other than a terminology) that the elements which make up the DataElement have some
  correspondence with.
  */
-open class DataElementMapping: BackboneElement {
-	
-	/// Internal id when this mapping is used
-	public var identity: FHIRPrimitive<FHIRString>
-	
-	/// Identifies what this mapping refers to
-	public var uri: FHIRPrimitive<FHIRURI>?
-	
-	/// Names what this mapping refers to
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Versions, Issues, Scope limitations etc.
-	public var comments: FHIRPrimitive<FHIRString>?
-	
-	/// Designated initializer taking all required properties
-	public init(identity: FHIRPrimitive<FHIRString>) {
-		self.identity = identity
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							comments: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identity: FHIRPrimitive<FHIRString>,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>? = nil,
-							uri: FHIRPrimitive<FHIRURI>? = nil)
-	{
-		self.init(identity: identity)
-		self.comments = comments
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.name = name
-		self.uri = uri
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case comments; case _comments
-		case identity; case _identity
-		case name; case _name
-		case uri; case _uri
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.comments = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comments, auxiliaryKey: ._comments)
-		self.identity = try FHIRPrimitive<FHIRString>(from: _container, forKey: .identity, auxiliaryKey: ._identity)
-		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
-		self.uri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .uri, auxiliaryKey: ._uri)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try comments?.encode(on: &_container, forKey: .comments, auxiliaryKey: ._comments)
-		try identity.encode(on: &_container, forKey: .identity, auxiliaryKey: ._identity)
-		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		try uri?.encode(on: &_container, forKey: .uri, auxiliaryKey: ._uri)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DataElementMapping else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return comments == _other.comments
-		    && identity == _other.identity
-		    && name == _other.name
-		    && uri == _other.uri
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(comments)
-		hasher.combine(identity)
-		hasher.combine(name)
-		hasher.combine(uri)
-	}
-}
+public typealias DataElementMapping = BackboneElement

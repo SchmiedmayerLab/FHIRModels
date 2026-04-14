@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,63 +27,36 @@ import FMCore
  */
 public enum TestScriptOperationCode: String, FHIRPrimitiveType {
 	
-	/// Read the current state of the resource.
-	case read
-	
-	/// Read the state of a specific version of the resource.
-	case vread
-	
-	/// Update an existing resource by its id.
-	case update
-	
-	/// Update an existing resource by its id (or create it if it is new).
-	case updateCreate
-	
-	/// Patch an existing resource by its id.
-	case patch
-	
-	/// Delete a resource.
-	case delete
-	
-	/// Conditionally delete a single resource based on search parameters.
-	case deleteCondSingle
-	
-	/// Conditionally delete one or more resources based on search parameters.
-	case deleteCondMultiple
-	
-	/// Retrieve the change history for a particular resource or resource type.
-	case history
-	
-	/// Create a new resource with a server assigned id.
-	case create
-	
-	/// Search based on some filter criteria.
-	case search
+	/// Realizes an ActivityDefinition in a specific context
+	case apply
 	
 	/// Update, create or delete a set of resources as independent actions.
 	case batch
 	
-	/// Update, create or delete a set of resources as a single transaction.
-	case transaction
-	
 	/// Get a capability statement for the system.
 	case capabilities
-	
-	/// Realizes an ActivityDefinition in a specific context
-	case apply
 	
 	/// Closure Table Maintenance
 	case closure
 	
-	/// Finding Codes based on supplied properties
-	case findMatches = "find-matches"
-	
 	/// Compare two systems CapabilityStatements
 	case conforms
+	
+	/// Create a new resource with a server assigned id.
+	case create
 	
 	/// Aggregates and returns the parameters and data requirements for a resource and all its dependencies as a single
 	/// module definition
 	case dataRequirements = "data-requirements"
+	
+	/// Delete a resource.
+	case delete
+	
+	/// Conditionally delete one or more resources based on search parameters.
+	case deleteCondMultiple
+	
+	/// Conditionally delete a single resource based on search parameters.
+	case deleteCondSingle
 	
 	/// Generate a Document
 	case document
@@ -103,8 +76,14 @@ public enum TestScriptOperationCode: String, FHIRPrimitiveType {
 	/// Find a functional list
 	case find
 	
+	/// Finding Codes based on supplied properties
+	case findMatches = "find-matches"
+	
 	/// Invoke a GraphQL query
 	case graphql
+	
+	/// Retrieve the change history for a particular resource or resource type.
+	case history
 	
 	/// Test if a server implements a client's required operations
 	case implements
@@ -127,6 +106,9 @@ public enum TestScriptOperationCode: String, FHIRPrimitiveType {
 	/// Delete profiles, tags, and security labels for a resource
 	case metaDelete = "meta-delete"
 	
+	/// Patch an existing resource by its id.
+	case patch
+	
 	/// Populate Questionnaire
 	case populate
 	
@@ -142,6 +124,12 @@ public enum TestScriptOperationCode: String, FHIRPrimitiveType {
 	/// Build Questionnaire
 	case questionnaire
 	
+	/// Read the current state of the resource.
+	case read
+	
+	/// Search based on some filter criteria.
+	case search
+	
 	/// Observation Statistics
 	case stats
 	
@@ -151,15 +139,27 @@ public enum TestScriptOperationCode: String, FHIRPrimitiveType {
 	/// CodeSystem Subsumption Testing
 	case subsumes
 	
+	/// Update, create or delete a set of resources as a single transaction.
+	case transaction
+	
 	/// Model Instance Transformation
 	case transform
 	
 	/// Concept Translation
 	case translate
 	
+	/// Update an existing resource by its id.
+	case update
+	
+	/// Update an existing resource by its id (or create it if it is new).
+	case updateCreate
+	
 	/// Validate a resource
 	case validate
 	
 	/// ValueSet based Validation
 	case validateCode = "validate-code"
+	
+	/// Read the state of a specific version of the resource.
+	case vread
 }

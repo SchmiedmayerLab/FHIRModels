@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,23 @@ import FMCore
  */
 public enum RelatedArtifactType: String, FHIRPrimitiveType {
 	
+	/// Bibliographic citation for papers, references, or other relevant material for the knowledge resource. This is
+	/// intended to allow for citation of related material, but that was not necessarily specifically prepared in
+	/// connection with this knowledge resource.
+	case citation
+	
+	/// The knowledge resource is composed of the given related artifact.
+	case composedOf = "composed-of"
+	
+	/// The knowledge resource depends on the given related artifact.
+	case dependsOn = "depends-on"
+	
+	/// The knowledge resource is derived from the related artifact. This is intended to capture the relationship in
+	/// which a particular knowledge resource is based on the content of another artifact, but is modified to capture
+	/// either a different set of overall requirements, or a more specific set of requirements such as those involved in
+	/// a particular institution or clinical setting.
+	case derivedFrom = "derived-from"
+	
 	/// Additional documentation for the knowledge resource. This would include additional instructions on usage as well
 	/// as additional information on clinical context or appropriateness.
 	case documentation
@@ -37,26 +54,9 @@ public enum RelatedArtifactType: String, FHIRPrimitiveType {
 	/// resource.
 	case justification
 	
-	/// Bibliographic citation for papers, references, or other relevant material for the knowledge resource. This is
-	/// intended to allow for citation of related material, but that was not necessarily specifically prepared in
-	/// connection with this knowledge resource.
-	case citation
-	
 	/// The previous version of the knowledge resource.
 	case predecessor
 	
 	/// The next version of the knowledge resource.
 	case successor
-	
-	/// The knowledge resource is derived from the related artifact. This is intended to capture the relationship in
-	/// which a particular knowledge resource is based on the content of another artifact, but is modified to capture
-	/// either a different set of overall requirements, or a more specific set of requirements such as those involved in
-	/// a particular institution or clinical setting.
-	case derivedFrom = "derived-from"
-	
-	/// The knowledge resource depends on the given related artifact.
-	case dependsOn = "depends-on"
-	
-	/// The knowledge resource is composed of the given related artifact.
-	case composedOf = "composed-of"
 }

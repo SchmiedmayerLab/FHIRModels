@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 6.0.0-ballot3
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,8 +30,7 @@ public enum MedicationStatementStatusCodes: String, FHIRPrimitiveType {
 	/// The medication usage is draft or preliminary.
 	case draft
 	
-	/// Some of the actions that are implied by the medication usage may have occurred.  For example, the patient may
-	/// have taken some of the medication.  Clinical decision support systems should take this status into account.
+	/// The statement was entered in error and is not valid.
 	case enteredInError = "entered-in-error"
 	
 	/// The action of recording the medication statement is finished.

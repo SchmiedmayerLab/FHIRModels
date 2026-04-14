@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -32,16 +32,16 @@ public enum ContactPointUse: String, FHIRPrimitiveType {
 	/// Typically used with urgent cases, or if no other contacts are available.
 	case home
 	
-	/// An office contact point. First choice for business related contacts during business hours.
-	case work
-	
-	/// A temporary contact point. The period can provide more detailed information.
-	case temp
+	/// A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes,
+	/// suitable for urgent matters, not the first choice for routine business.
+	case mobile
 	
 	/// This contact point is no longer in use (or was never correct, but retained for records).
 	case old
 	
-	/// A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes,
-	/// suitable for urgent matters, not the first choice for routine business.
-	case mobile
+	/// A temporary contact point. The period can provide more detailed information.
+	case temp
+	
+	/// An office contact point. First choice for business related contacts during business hours.
+	case work
 }

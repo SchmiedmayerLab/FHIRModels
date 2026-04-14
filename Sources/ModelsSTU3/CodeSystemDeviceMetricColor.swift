@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,26 +28,26 @@ import FMCore
 public enum DeviceMetricColor: String, FHIRPrimitiveType {
 	
 	/// Color for representation - black.
-	case black = "black"
-	
-	/// Color for representation - red.
-	case red = "red"
-	
-	/// Color for representation - green.
-	case green = "green"
-	
-	/// Color for representation - yellow.
-	case yellow = "yellow"
+	case black
 	
 	/// Color for representation - blue.
-	case blue = "blue"
-	
-	/// Color for representation - magenta.
-	case magenta = "magenta"
+	case blue
 	
 	/// Color for representation - cyan.
-	case cyan = "cyan"
+	case cyan
+	
+	/// Color for representation - green.
+	case green
+	
+	/// Color for representation - magenta.
+	case magenta
+	
+	/// Color for representation - red.
+	case red
 	
 	/// Color for representation - white.
-	case white = "white"
+	case white
+	
+	/// Color for representation - yellow.
+	case yellow
 }

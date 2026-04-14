@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,18 +28,18 @@ import FMCore
  */
 public enum EnteralFormulaAdditiveTypeCode: String, FHIRPrimitiveType {
 	
-	/// lipid
-	case lipid = "lipid"
-	
-	/// protein
-	case protein = "protein"
-	
 	/// carbohydrate
-	case carbohydrate = "carbohydrate"
+	case carbohydrate
 	
 	/// fiber
-	case fiber = "fiber"
+	case fiber
+	
+	/// lipid
+	case lipid
+	
+	/// protein
+	case protein
 	
 	/// water
-	case water = "water"
+	case water
 }

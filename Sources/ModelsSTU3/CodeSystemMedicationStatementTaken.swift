@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum MedicationStatementTaken: String, FHIRPrimitiveType {
 	
-	/// Positive assertion that patient has taken medication
-	case Y = "y"
-	
 	/// Negative assertion that patient has not taken medication
 	case N = "n"
 	
-	/// Unknown assertion if patient has taken medication
-	case unk = "unk"
+	/// Positive assertion that patient has taken medication
+	case Y = "y"
 	
 	/// Patient reporting does not apply
-	case na = "na"
+	case na
+	
+	/// Unknown assertion if patient has taken medication
+	case unk
 }

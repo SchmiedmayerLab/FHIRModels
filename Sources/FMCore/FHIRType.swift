@@ -19,7 +19,7 @@
 /**
  The base protocol for all FHIR objects.
  */
-public protocol FHIRType: Codable, Hashable {
+public protocol FHIRType: Codable, Equatable, Hashable, Sendable {
 	
 }
 

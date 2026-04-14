@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/DeviceComponent)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,24 +24,44 @@ import FMCore
  
  Describes the characteristics, operational status and capabilities of a medical-related component of a medical device.
  */
-open class DeviceComponent: DomainResource {
+public struct DeviceComponent: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .deviceComponent }
+	public static let resourceType: ResourceType = .deviceComponent
 	
-	/// What kind of component it is
-	public var type: CodeableConcept
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Instance id assigned by the software stack
 	public var identifier: Identifier
 	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Language code for the human-readable text strings produced by the device
+	public var languageCode: CodeableConcept?
+	
 	/// Recent system change timestamp
 	public var lastSystemChange: FHIRPrimitive<Instant>
 	
-	/// A source device of this component
-	public var source: Reference?
+	/// Describes the physical principle of the measurement. For example: thermal, chemical, acoustical, etc.
+	/// Restricted to: ['other', 'chemical', 'electrical', 'impedance', 'nuclear', 'optical', 'thermal', 'biological',
+	/// 'mechanical', 'acoustical', 'manual']
+	public var measurementPrinciple: FHIRPrimitive<MeasmntPrinciple>?
 	
-	/// Parent resource link
-	public var parent: Reference?
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Component operational status
 	public var operationalStatus: [CodeableConcept]?
@@ -49,46 +69,49 @@ open class DeviceComponent: DomainResource {
 	/// Current supported parameter group
 	public var parameterGroup: CodeableConcept?
 	
-	/// Describes the physical principle of the measurement. For example: thermal, chemical, acoustical, etc.
-	/// Restricted to: ['other', 'chemical', 'electrical', 'impedance', 'nuclear', 'optical', 'thermal', 'biological',
-	/// 'mechanical', 'acoustical', 'manual']
-	public var measurementPrinciple: FHIRPrimitive<MeasmntPrinciple>?
+	/// Parent resource link
+	public var parent: Reference?
 	
 	/// Production specification of the component
 	public var productionSpecification: [DeviceComponentProductionSpecification]?
 	
-	/// Language code for the human-readable text strings produced by the device
-	public var languageCode: CodeableConcept?
+	/// A source device of this component
+	public var source: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// What kind of component it is
+	public var type: CodeableConcept
 	
 	/// Designated initializer taking all required properties
 	public init(identifier: Identifier, lastSystemChange: FHIRPrimitive<Instant>, type: CodeableConcept) {
 		self.identifier = identifier
 		self.lastSystemChange = lastSystemChange
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							contained: [ResourceProxy]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: Identifier,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							languageCode: CodeableConcept? = nil,
-							lastSystemChange: FHIRPrimitive<Instant>,
-							measurementPrinciple: FHIRPrimitive<MeasmntPrinciple>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							operationalStatus: [CodeableConcept]? = nil,
-							parameterGroup: CodeableConcept? = nil,
-							parent: Reference? = nil,
-							productionSpecification: [DeviceComponentProductionSpecification]? = nil,
-							source: Reference? = nil,
-							text: Narrative? = nil,
-							type: CodeableConcept)
-	{
+	public init(
+		contained: [ResourceProxy]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		languageCode: CodeableConcept? = nil,
+		lastSystemChange: FHIRPrimitive<Instant>,
+		measurementPrinciple: FHIRPrimitive<MeasmntPrinciple>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		operationalStatus: [CodeableConcept]? = nil,
+		parameterGroup: CodeableConcept? = nil,
+		parent: Reference? = nil,
+		productionSpecification: [DeviceComponentProductionSpecification]? = nil,
+		source: Reference? = nil,
+		text: Narrative? = nil,
+		type: CodeableConcept
+	) {
 		self.init(identifier: identifier, lastSystemChange: lastSystemChange, type: type)
 		self.contained = contained
 		self.`extension` = `extension`
@@ -110,87 +133,76 @@ open class DeviceComponent: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case languageCode
 		case lastSystemChange; case _lastSystemChange
 		case measurementPrinciple; case _measurementPrinciple
+		case meta
+		case modifierExtension
 		case operationalStatus
 		case parameterGroup
 		case parent
 		case productionSpecification
 		case source
+		case text
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKey: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.languageCode = try CodeableConcept(from: _container, forKeyIfPresent: .languageCode)
 		self.lastSystemChange = try FHIRPrimitive<Instant>(from: _container, forKey: .lastSystemChange, auxiliaryKey: ._lastSystemChange)
 		self.measurementPrinciple = try FHIRPrimitive<MeasmntPrinciple>(from: _container, forKeyIfPresent: .measurementPrinciple, auxiliaryKey: ._measurementPrinciple)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.operationalStatus = try [CodeableConcept](from: _container, forKeyIfPresent: .operationalStatus)
 		self.parameterGroup = try CodeableConcept(from: _container, forKeyIfPresent: .parameterGroup)
 		self.parent = try Reference(from: _container, forKeyIfPresent: .parent)
 		self.productionSpecification = try [DeviceComponentProductionSpecification](from: _container, forKeyIfPresent: .productionSpecification)
 		self.source = try Reference(from: _container, forKeyIfPresent: .source)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try languageCode?.encode(on: &_container, forKey: .languageCode)
 		try lastSystemChange.encode(on: &_container, forKey: .lastSystemChange, auxiliaryKey: ._lastSystemChange)
 		try measurementPrinciple?.encode(on: &_container, forKey: .measurementPrinciple, auxiliaryKey: ._measurementPrinciple)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try operationalStatus?.encode(on: &_container, forKey: .operationalStatus)
 		try parameterGroup?.encode(on: &_container, forKey: .parameterGroup)
 		try parent?.encode(on: &_container, forKey: .parent)
 		try productionSpecification?.encode(on: &_container, forKey: .productionSpecification)
 		try source?.encode(on: &_container, forKey: .source)
+		try text?.encode(on: &_container, forKey: .text)
 		try type.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceComponent else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return identifier == _other.identifier
-		    && languageCode == _other.languageCode
-		    && lastSystemChange == _other.lastSystemChange
-		    && measurementPrinciple == _other.measurementPrinciple
-		    && operationalStatus == _other.operationalStatus
-		    && parameterGroup == _other.parameterGroup
-		    && parent == _other.parent
-		    && productionSpecification == _other.productionSpecification
-		    && source == _other.source
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(identifier)
-		hasher.combine(languageCode)
-		hasher.combine(lastSystemChange)
-		hasher.combine(measurementPrinciple)
-		hasher.combine(operationalStatus)
-		hasher.combine(parameterGroup)
-		hasher.combine(parent)
-		hasher.combine(productionSpecification)
-		hasher.combine(source)
-		hasher.combine(type)
 	}
 }
 
@@ -199,88 +211,4 @@ open class DeviceComponent: DomainResource {
  
  Describes the production specification such as component revision, serial number, etc.
  */
-open class DeviceComponentProductionSpecification: BackboneElement {
-	
-	/// Specification type
-	public var specType: CodeableConcept?
-	
-	/// Internal component unique identification
-	public var componentId: Identifier?
-	
-	/// A printable string defining the component
-	public var productionSpec: FHIRPrimitive<FHIRString>?
-	
-	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							componentId: Identifier? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							productionSpec: FHIRPrimitive<FHIRString>? = nil,
-							specType: CodeableConcept? = nil)
-	{
-		self.init()
-		self.componentId = componentId
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.productionSpec = productionSpec
-		self.specType = specType
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case componentId
-		case productionSpec; case _productionSpec
-		case specType
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.componentId = try Identifier(from: _container, forKeyIfPresent: .componentId)
-		self.productionSpec = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .productionSpec, auxiliaryKey: ._productionSpec)
-		self.specType = try CodeableConcept(from: _container, forKeyIfPresent: .specType)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try componentId?.encode(on: &_container, forKey: .componentId)
-		try productionSpec?.encode(on: &_container, forKey: .productionSpec, auxiliaryKey: ._productionSpec)
-		try specType?.encode(on: &_container, forKey: .specType)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceComponentProductionSpecification else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return componentId == _other.componentId
-		    && productionSpec == _other.productionSpec
-		    && specType == _other.specType
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(componentId)
-		hasher.combine(productionSpec)
-		hasher.combine(specType)
-	}
-}
+public typealias DeviceComponentProductionSpecification = BackboneElement

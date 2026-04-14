@@ -2,8 +2,8 @@
 //  SubscriptionTopic.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/SubscriptionTopic)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/SubscriptionTopic)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,21 +25,99 @@ import FMCore
  Describes a stream of resource state changes or events and annotated with labels useful to filter projections from this
  topic.
  */
-open class SubscriptionTopic: DomainResource {
+public struct SubscriptionTopic: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .subscriptionTopic }
+	public static let resourceType: ResourceType = .subscriptionTopic
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// Canonical identifier for this subscription topic, represented as an absolute URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>
+	/// When SubscriptionTopic is/was approved by publisher
+	public var approvalDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Notice about intellectual property ownership, can include restrictions on use
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Copyright holder and year(s)
+	public var copyrightLabel: FHIRPrimitive<FHIRString>?
+	
+	/// Date status first applied
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Based on FHIR protocol or definition
+	public var derivedFrom: [FHIRPrimitive<Canonical>]?
+	
+	/// Natural language description of the SubscriptionTopic
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// The effective date range for the SubscriptionTopic
+	public var effectivePeriod: Period?
+	
+	/// If For testing only - never for real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business identifier for subscription topic
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Intended jurisdiction of the SubscriptionTopic (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Date the Subscription Topic was last reviewed by the publisher
+	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this subscription topic (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// The name of the individual or organization that published the SubscriptionTopic
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this SubscriptionTopic is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// The current state of the SubscriptionTopic.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this subscription topic (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Definition of a trigger for the subscription topic
+	public var trigger: [SubscriptionTopicTrigger]?
+	
+	/// Canonical identifier for this subscription topic, represented as an absolute URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// Content intends to support these contexts
+	public var useContext: [UsageContext]?
 	
 	/// Business version of the subscription topic
 	public var version: FHIRPrimitive<FHIRString>?
@@ -48,69 +126,14 @@ open class SubscriptionTopic: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Name for this subscription topic (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this subscription topic (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Based on FHIR protocol or definition
-	public var derivedFrom: [FHIRPrimitive<Canonical>]?
-	
-	/// The current state of the SubscriptionTopic.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// If For testing only - never for real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date status first applied
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// The name of the individual or organization that published the SubscriptionTopic
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the SubscriptionTopic
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Content intends to support these contexts
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction of the SubscriptionTopic (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this SubscriptionTopic is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Notice about intellectual property ownership, can include restrictions on use
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
-	/// Copyright holder and year(s)
-	public var copyrightLabel: FHIRPrimitive<FHIRString>?
-	
-	/// When SubscriptionTopic is/was approved by publisher
-	public var approvalDate: FHIRPrimitive<FHIRDate>?
-	
-	/// Date the Subscription Topic was last reviewed by the publisher
-	public var lastReviewDate: FHIRPrimitive<FHIRDate>?
-	
-	/// The effective date range for the SubscriptionTopic
-	public var effectivePeriod: Period?
-	
-	/// Definition of a trigger for the subscription topic
-	public var trigger: [SubscriptionTopicTrigger]?
-	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<PublicationStatus>, url: FHIRPrimitive<FHIRURI>) {
 		self.status = status
 		self.url = url
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		contact: [ContactDetail]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -176,8 +199,10 @@ open class SubscriptionTopic: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case approvalDate; case _approvalDate
 		case contact
+		case contained
 		case copyright; case _copyright
 		case copyrightLabel; case _copyrightLabel
 		case date; case _date
@@ -185,13 +210,20 @@ open class SubscriptionTopic: DomainResource {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case effectivePeriod
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
 		case lastReviewDate; case _lastReviewDate
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case purpose; case _purpose
 		case status; case _status
+		case text
 		case title; case _title
 		case trigger
 		case url; case _url
@@ -200,14 +232,15 @@ open class SubscriptionTopic: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.approvalDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .approvalDate, auxiliaryKey: ._approvalDate)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.copyrightLabel = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
@@ -215,13 +248,20 @@ open class SubscriptionTopic: DomainResource {
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastReviewDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.trigger = try [SubscriptionTopicTrigger](from: _container, forKeyIfPresent: .trigger)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
@@ -241,16 +281,17 @@ open class SubscriptionTopic: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try copyrightLabel?.encode(on: &_container, forKey: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -258,13 +299,20 @@ open class SubscriptionTopic: DomainResource {
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try effectivePeriod?.encode(on: &_container, forKey: .effectivePeriod)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastReviewDate?.encode(on: &_container, forKey: .lastReviewDate, auxiliaryKey: ._lastReviewDate)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try trigger?.encode(on: &_container, forKey: .trigger)
 		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
@@ -278,66 +326,6 @@ open class SubscriptionTopic: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionTopic else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return approvalDate == _other.approvalDate
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && copyrightLabel == _other.copyrightLabel
-		    && date == _other.date
-		    && derivedFrom == _other.derivedFrom
-		    && description_fhir == _other.description_fhir
-		    && effectivePeriod == _other.effectivePeriod
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && lastReviewDate == _other.lastReviewDate
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && status == _other.status
-		    && title == _other.title
-		    && trigger == _other.trigger
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(approvalDate)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(copyrightLabel)
-		hasher.combine(date)
-		hasher.combine(derivedFrom)
-		hasher.combine(description_fhir)
-		hasher.combine(effectivePeriod)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(lastReviewDate)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(status)
-		hasher.combine(title)
-		hasher.combine(trigger)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
@@ -349,10 +337,34 @@ open class SubscriptionTopic: DomainResource {
  Multiple triggers are considered OR joined (e.g., an update matching ANY of the definitions will trigger a
  notification).
  */
-open class SubscriptionTopicTrigger: BackboneElement {
+public struct SubscriptionTopicTrigger: BackboneElement {
+	
+	/// Properties by which a Subscription can filter notifications based on this trigger
+	public var canFilterBy: [SubscriptionTopicTriggerCanFilterBy]?
 	
 	/// Text representation of the resource trigger
 	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Event which can trigger a notification from the SubscriptionTopic
+	public var event: CodeableConcept?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// FHIRPath based trigger rule
+	public var fhirPathCriteria: FHIRPrimitive<FHIRString>?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Properties for describing the shape of notifications generated by this trigger
+	public var notificationShape: [SubscriptionTopicTriggerNotificationShape]?
+	
+	/// Query based trigger rule
+	public var queryCriteria: SubscriptionTopicTriggerQueryCriteria?
 	
 	/// Key Data Type, Resource (reference to definition), or relevant definition for this trigger
 	public var resource: FHIRPrimitive<FHIRURI>
@@ -363,29 +375,13 @@ open class SubscriptionTopicTrigger: BackboneElement {
 	/// Restricted to: ['create', 'update', 'delete']
 	public var supportedInteraction: [FHIRPrimitive<FHIRRestfulInteractions>]?
 	
-	/// Query based trigger rule
-	public var queryCriteria: SubscriptionTopicTriggerQueryCriteria?
-	
-	/// FHIRPath based trigger rule
-	public var fhirPathCriteria: FHIRPrimitive<FHIRString>?
-	
-	/// Event which can trigger a notification from the SubscriptionTopic
-	public var event: CodeableConcept?
-	
-	/// Properties by which a Subscription can filter notifications based on this trigger
-	public var canFilterBy: [SubscriptionTopicTriggerCanFilterBy]?
-	
-	/// Properties for describing the shape of notifications generated by this trigger
-	public var notificationShape: [SubscriptionTopicTriggerNotificationShape]?
-	
 	/// Designated initializer taking all required properties
 	public init(resource: FHIRPrimitive<FHIRURI>) {
 		self.resource = resource
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		canFilterBy: [SubscriptionTopicTriggerCanFilterBy]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		event: CodeableConcept? = nil,
@@ -417,74 +413,49 @@ open class SubscriptionTopicTrigger: BackboneElement {
 		case canFilterBy
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case event
+		case `extension` = "extension"
 		case fhirPathCriteria; case _fhirPathCriteria
+		case id; case _id
+		case modifierExtension
 		case notificationShape
 		case queryCriteria
 		case resource; case _resource
 		case supportedInteraction; case _supportedInteraction
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.canFilterBy = try [SubscriptionTopicTriggerCanFilterBy](from: _container, forKeyIfPresent: .canFilterBy)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.event = try CodeableConcept(from: _container, forKeyIfPresent: .event)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.fhirPathCriteria = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fhirPathCriteria, auxiliaryKey: ._fhirPathCriteria)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notificationShape = try [SubscriptionTopicTriggerNotificationShape](from: _container, forKeyIfPresent: .notificationShape)
 		self.queryCriteria = try SubscriptionTopicTriggerQueryCriteria(from: _container, forKeyIfPresent: .queryCriteria)
 		self.resource = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .resource, auxiliaryKey: ._resource)
 		self.supportedInteraction = try [FHIRPrimitive<FHIRRestfulInteractions>](from: _container, forKeyIfPresent: .supportedInteraction, auxiliaryKey: ._supportedInteraction)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try canFilterBy?.encode(on: &_container, forKey: .canFilterBy)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try event?.encode(on: &_container, forKey: .event)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fhirPathCriteria?.encode(on: &_container, forKey: .fhirPathCriteria, auxiliaryKey: ._fhirPathCriteria)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notificationShape?.encode(on: &_container, forKey: .notificationShape)
 		try queryCriteria?.encode(on: &_container, forKey: .queryCriteria)
 		try resource.encode(on: &_container, forKey: .resource, auxiliaryKey: ._resource)
 		try supportedInteraction?.encode(on: &_container, forKey: .supportedInteraction, auxiliaryKey: ._supportedInteraction)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionTopicTrigger else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return canFilterBy == _other.canFilterBy
-		    && description_fhir == _other.description_fhir
-		    && event == _other.event
-		    && fhirPathCriteria == _other.fhirPathCriteria
-		    && notificationShape == _other.notificationShape
-		    && queryCriteria == _other.queryCriteria
-		    && resource == _other.resource
-		    && supportedInteraction == _other.supportedInteraction
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(canFilterBy)
-		hasher.combine(description_fhir)
-		hasher.combine(event)
-		hasher.combine(fhirPathCriteria)
-		hasher.combine(notificationShape)
-		hasher.combine(queryCriteria)
-		hasher.combine(resource)
-		hasher.combine(supportedInteraction)
 	}
 }
 
@@ -494,35 +465,43 @@ open class SubscriptionTopicTrigger: BackboneElement {
  List of properties by which Subscriptions can be filtered. May be defined Search Parameters (e.g., Encounter.patient)
  or parameters defined within this SubscriptionTopic context (e.g., hub.event).
  */
-open class SubscriptionTopicTriggerCanFilterBy: BackboneElement {
+public struct SubscriptionTopicTriggerCanFilterBy: BackboneElement {
+	
+	/// Comparators allowed for the filter parameter.
+	public var comparator: [FHIRPrimitive<SearchComparator>]?
 	
 	/// Description of this filter parameter
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// URL of the triggering Resource that this filter applies to
-	public var resource: FHIRPrimitive<FHIRURI>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Canonical URL for a filterParameter definition
+	public var filterDefinition: FHIRPrimitive<FHIRURI>?
 	
 	/// Human-readable and computation-friendly name for a filter parameter usable by subscriptions on this topic, via
 	/// Subscription.filterBy.filterParameter
 	public var filterParameter: FHIRPrimitive<FHIRString>
 	
-	/// Canonical URL for a filterParameter definition
-	public var filterDefinition: FHIRPrimitive<FHIRURI>?
-	
-	/// Comparators allowed for the filter parameter.
-	public var comparator: [FHIRPrimitive<SearchComparator>]?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Modifiers allowed for the filter parameter.
 	public var modifier: [FHIRPrimitive<SearchModifierCode>]?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// URL of the triggering Resource that this filter applies to
+	public var resource: FHIRPrimitive<FHIRURI>?
+	
 	/// Designated initializer taking all required properties
 	public init(filterParameter: FHIRPrimitive<FHIRString>) {
 		self.filterParameter = filterParameter
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		comparator: [FHIRPrimitive<SearchComparator>]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -549,65 +528,44 @@ open class SubscriptionTopicTriggerCanFilterBy: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case comparator; case _comparator
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
 		case filterDefinition; case _filterDefinition
 		case filterParameter; case _filterParameter
+		case id; case _id
 		case modifier; case _modifier
+		case modifierExtension
 		case resource; case _resource
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.comparator = try [FHIRPrimitive<SearchComparator>](from: _container, forKeyIfPresent: .comparator, auxiliaryKey: ._comparator)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.filterDefinition = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .filterDefinition, auxiliaryKey: ._filterDefinition)
 		self.filterParameter = try FHIRPrimitive<FHIRString>(from: _container, forKey: .filterParameter, auxiliaryKey: ._filterParameter)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifier = try [FHIRPrimitive<SearchModifierCode>](from: _container, forKeyIfPresent: .modifier, auxiliaryKey: ._modifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.resource = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .resource, auxiliaryKey: ._resource)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try comparator?.encode(on: &_container, forKey: .comparator, auxiliaryKey: ._comparator)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try filterDefinition?.encode(on: &_container, forKey: .filterDefinition, auxiliaryKey: ._filterDefinition)
 		try filterParameter.encode(on: &_container, forKey: .filterParameter, auxiliaryKey: ._filterParameter)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifier?.encode(on: &_container, forKey: .modifier, auxiliaryKey: ._modifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try resource?.encode(on: &_container, forKey: .resource, auxiliaryKey: ._resource)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionTopicTriggerCanFilterBy else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return comparator == _other.comparator
-		    && description_fhir == _other.description_fhir
-		    && filterDefinition == _other.filterDefinition
-		    && filterParameter == _other.filterParameter
-		    && modifier == _other.modifier
-		    && resource == _other.resource
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(comparator)
-		hasher.combine(description_fhir)
-		hasher.combine(filterDefinition)
-		hasher.combine(filterParameter)
-		hasher.combine(modifier)
-		hasher.combine(resource)
 	}
 }
 
@@ -616,28 +574,36 @@ open class SubscriptionTopicTriggerCanFilterBy: BackboneElement {
  
  List of properties to describe the shape (e.g., resources) included in notifications from this trigger.
  */
-open class SubscriptionTopicTriggerNotificationShape: BackboneElement {
+public struct SubscriptionTopicTriggerNotificationShape: BackboneElement {
 	
-	/// URL of the key definition that is the focus in a notification shape
-	public var resource: FHIRPrimitive<FHIRURI>
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Include directives, rooted in the resource for this shape
 	public var include: [FHIRPrimitive<FHIRString>]?
 	
-	/// Reverse include directives, rooted in the resource for this shape
-	public var revInclude: [FHIRPrimitive<FHIRString>]?
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Query describing data relevant to this notification
 	public var relatedQuery: [SubscriptionTopicTriggerNotificationShapeRelatedQuery]?
 	
+	/// URL of the key definition that is the focus in a notification shape
+	public var resource: FHIRPrimitive<FHIRURI>
+	
+	/// Reverse include directives, rooted in the resource for this shape
+	public var revInclude: [FHIRPrimitive<FHIRString>]?
+	
 	/// Designated initializer taking all required properties
 	public init(resource: FHIRPrimitive<FHIRURI>) {
 		self.resource = resource
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		include: [FHIRPrimitive<FHIRString>]? = nil,
@@ -658,57 +624,40 @@ open class SubscriptionTopicTriggerNotificationShape: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case include; case _include
+		case modifierExtension
 		case relatedQuery
 		case resource; case _resource
 		case revInclude; case _revInclude
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.include = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .include, auxiliaryKey: ._include)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.relatedQuery = try [SubscriptionTopicTriggerNotificationShapeRelatedQuery](from: _container, forKeyIfPresent: .relatedQuery)
 		self.resource = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .resource, auxiliaryKey: ._resource)
 		self.revInclude = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .revInclude, auxiliaryKey: ._revInclude)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try include?.encode(on: &_container, forKey: .include, auxiliaryKey: ._include)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try relatedQuery?.encode(on: &_container, forKey: .relatedQuery)
 		try resource.encode(on: &_container, forKey: .resource, auxiliaryKey: ._resource)
 		try revInclude?.encode(on: &_container, forKey: .revInclude, auxiliaryKey: ._revInclude)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionTopicTriggerNotificationShape else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return include == _other.include
-		    && relatedQuery == _other.relatedQuery
-		    && resource == _other.resource
-		    && revInclude == _other.revInclude
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(include)
-		hasher.combine(relatedQuery)
-		hasher.combine(resource)
-		hasher.combine(revInclude)
 	}
 }
 
@@ -718,22 +667,30 @@ open class SubscriptionTopicTriggerNotificationShape: BackboneElement {
  Queries and codes that could be included with notifications of this shape. Servers MAY include these queries if
  supported and desired in the workflow.
  */
-open class SubscriptionTopicTriggerNotificationShapeRelatedQuery: BackboneElement {
+public struct SubscriptionTopicTriggerNotificationShapeRelatedQuery: BackboneElement {
 	
-	/// Coded information describing the type of data this query provides
-	public var queryType: Coding?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Query to perform
 	public var query: FHIRPrimitive<FHIRString>
 	
+	/// Coded information describing the type of data this query provides
+	public var queryType: Coding?
+	
 	/// Designated initializer taking all required properties
 	public init(query: FHIRPrimitive<FHIRString>) {
 		self.query = query
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -750,47 +707,34 @@ open class SubscriptionTopicTriggerNotificationShapeRelatedQuery: BackboneElemen
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case query; case _query
 		case queryType
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.query = try FHIRPrimitive<FHIRString>(from: _container, forKey: .query, auxiliaryKey: ._query)
 		self.queryType = try Coding(from: _container, forKeyIfPresent: .queryType)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try query.encode(on: &_container, forKey: .query, auxiliaryKey: ._query)
 		try queryType?.encode(on: &_container, forKey: .queryType)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionTopicTriggerNotificationShapeRelatedQuery else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return query == _other.query
-		    && queryType == _other.queryType
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(query)
-		hasher.combine(queryType)
 	}
 }
 
@@ -800,32 +744,40 @@ open class SubscriptionTopicTriggerNotificationShapeRelatedQuery: BackboneElemen
  The FHIR query based rules that the server should use to determine when to trigger a notification for this subscription
  topic.
  */
-open class SubscriptionTopicTriggerQueryCriteria: BackboneElement {
+public struct SubscriptionTopicTriggerQueryCriteria: BackboneElement {
+	
+	/// Rule applied to current resource state
+	public var current: FHIRPrimitive<FHIRString>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Rule applied to previous resource state
 	public var previous: FHIRPrimitive<FHIRString>?
+	
+	/// Both must be true flag
+	public var requireBoth: FHIRPrimitive<FHIRBool>?
 	
 	/// For `create` interactions, should the `previous` criteria count as an automatic pass or an automatic fail. If
 	/// not present, the testing behavior during `create` interactions is unspecified (server discretion).
 	public var resultForCreate: FHIRPrimitive<CriteriaNotExistsBehavior>?
 	
-	/// Rule applied to current resource state
-	public var current: FHIRPrimitive<FHIRString>?
-	
 	/// For 'delete' interactions, should the 'current' query criteria count as an automatic pass or an automatic fail.
 	/// If not present, the testing behavior during `delete` interactions is unspecified (server discretion).
 	public var resultForDelete: FHIRPrimitive<CriteriaNotExistsBehavior>?
 	
-	/// Both must be true flag
-	public var requireBoth: FHIRPrimitive<FHIRBool>?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		current: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -850,60 +802,41 @@ open class SubscriptionTopicTriggerQueryCriteria: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case current; case _current
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case previous; case _previous
 		case requireBoth; case _requireBoth
 		case resultForCreate; case _resultForCreate
 		case resultForDelete; case _resultForDelete
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.current = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .current, auxiliaryKey: ._current)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.previous = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .previous, auxiliaryKey: ._previous)
 		self.requireBoth = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .requireBoth, auxiliaryKey: ._requireBoth)
 		self.resultForCreate = try FHIRPrimitive<CriteriaNotExistsBehavior>(from: _container, forKeyIfPresent: .resultForCreate, auxiliaryKey: ._resultForCreate)
 		self.resultForDelete = try FHIRPrimitive<CriteriaNotExistsBehavior>(from: _container, forKeyIfPresent: .resultForDelete, auxiliaryKey: ._resultForDelete)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try current?.encode(on: &_container, forKey: .current, auxiliaryKey: ._current)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try previous?.encode(on: &_container, forKey: .previous, auxiliaryKey: ._previous)
 		try requireBoth?.encode(on: &_container, forKey: .requireBoth, auxiliaryKey: ._requireBoth)
 		try resultForCreate?.encode(on: &_container, forKey: .resultForCreate, auxiliaryKey: ._resultForCreate)
 		try resultForDelete?.encode(on: &_container, forKey: .resultForDelete, auxiliaryKey: ._resultForDelete)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubscriptionTopicTriggerQueryCriteria else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return current == _other.current
-		    && previous == _other.previous
-		    && requireBoth == _other.requireBoth
-		    && resultForCreate == _other.resultForCreate
-		    && resultForDelete == _other.resultForDelete
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(current)
-		hasher.combine(previous)
-		hasher.combine(requireBoth)
-		hasher.combine(resultForCreate)
-		hasher.combine(resultForDelete)
 	}
 }

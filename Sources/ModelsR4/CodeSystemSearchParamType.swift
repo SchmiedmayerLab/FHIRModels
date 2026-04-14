@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,24 @@ import FMCore
  */
 public enum SearchParamType: String, FHIRPrimitiveType {
 	
-	/// Search parameter SHALL be a number (a whole number, or a decimal).
-	case number
+	/// A composite search parameter that combines a search on two values together.
+	case composite
 	
 	/// Search parameter is on a date/time. The date format is the standard XML format, though other formats may be
 	/// supported.
 	case date
+	
+	/// Search parameter SHALL be a number (a whole number, or a decimal).
+	case number
+	
+	/// A search parameter that searches on a quantity.
+	case quantity
+	
+	/// A reference to another resource (Reference or canonical).
+	case reference
+	
+	/// Special logic applies to this parameter per the description of the search parameter.
+	case special
 	
 	/// Search parameter is a simple string, like a name part. Search is case-insensitive and accent-insensitive. May
 	/// match just the start of a string. String parameters may contain spaces.
@@ -43,18 +55,6 @@ public enum SearchParamType: String, FHIRPrimitiveType {
 	/// of namespace and value, separated by a "|", depending on the modifier used.
 	case token
 	
-	/// A reference to another resource (Reference or canonical).
-	case reference
-	
-	/// A composite search parameter that combines a search on two values together.
-	case composite
-	
-	/// A search parameter that searches on a quantity.
-	case quantity
-	
 	/// A search parameter that searches on a URI (RFC 3986).
 	case uri
-	
-	/// Special logic applies to this parameter per the description of the search parameter.
-	case special
 }

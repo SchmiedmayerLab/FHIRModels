@@ -2,8 +2,8 @@
 //  RelativeTime.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/RelativeTime)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/RelativeTime)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,16 +25,16 @@ import FMCore
  RelativeTime expresses a time or time period as relative to the time of an event defined in data types other than
  dateTime.
  */
-open class RelativeTime: BackboneType {
+public struct RelativeTime: BackboneType {
 	
 	/// All possible types for "offset[x]"
-	public enum OffsetX: Hashable {
+	public enum OffsetX: Equatable, Hashable, Sendable {
 		case duration(Duration)
 		case range(Range)
 	}
 	
-	/// The specific event occurrence or resource context used as a base point (reference point) in time
-	public var contextReference: Reference?
+	/// Coded representation of the event used as a base point (reference point) in time
+	public var contextCode: CodeableConcept?
 	
 	/// The type of event used as a base point
 	public var contextDefinition: FHIRPrimitive<Canonical>?
@@ -42,8 +42,17 @@ open class RelativeTime: BackboneType {
 	/// Path to the element defining the basis for the relative time
 	public var contextPath: FHIRPrimitive<FHIRString>?
 	
-	/// Coded representation of the event used as a base point (reference point) in time
-	public var contextCode: CodeableConcept?
+	/// The specific event occurrence or resource context used as a base point (reference point) in time
+	public var contextReference: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// An offset or offset range before (negative values) or after (positive values) the event
 	/// One of `offset[x]`
@@ -53,12 +62,11 @@ open class RelativeTime: BackboneType {
 	public var text: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contextCode: CodeableConcept? = nil,
 		contextDefinition: FHIRPrimitive<Canonical>? = nil,
 		contextPath: FHIRPrimitive<FHIRString>? = nil,
@@ -88,20 +96,26 @@ open class RelativeTime: BackboneType {
 		case contextDefinition; case _contextDefinition
 		case contextPath; case _contextPath
 		case contextReference
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case offsetDuration
 		case offsetRange
 		case text; case _text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.contextCode = try CodeableConcept(from: _container, forKeyIfPresent: .contextCode)
 		self.contextDefinition = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .contextDefinition, auxiliaryKey: ._contextDefinition)
 		self.contextPath = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .contextPath, auxiliaryKey: ._contextPath)
 		self.contextReference = try Reference(from: _container, forKeyIfPresent: .contextReference)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_offset: OffsetX? = nil
 		if let offsetDuration = try Duration(from: _container, forKeyIfPresent: .offsetDuration) {
 			if _t_offset != nil {
@@ -117,18 +131,19 @@ open class RelativeTime: BackboneType {
 		}
 		self.offset = _t_offset
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try contextCode?.encode(on: &_container, forKey: .contextCode)
 		try contextDefinition?.encode(on: &_container, forKey: .contextDefinition, auxiliaryKey: ._contextDefinition)
 		try contextPath?.encode(on: &_container, forKey: .contextPath, auxiliaryKey: ._contextPath)
 		try contextReference?.encode(on: &_container, forKey: .contextReference)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = offset {
 			switch _enum {
 			case .duration(let _value):
@@ -138,33 +153,5 @@ open class RelativeTime: BackboneType {
 			}
 		}
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RelativeTime else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return contextCode == _other.contextCode
-		    && contextDefinition == _other.contextDefinition
-		    && contextPath == _other.contextPath
-		    && contextReference == _other.contextReference
-		    && offset == _other.offset
-		    && text == _other.text
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(contextCode)
-		hasher.combine(contextDefinition)
-		hasher.combine(contextPath)
-		hasher.combine(contextReference)
-		hasher.combine(offset)
-		hasher.combine(text)
 	}
 }

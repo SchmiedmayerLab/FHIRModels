@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,18 +28,18 @@ import FMCore
 public enum SlotStatus: String, FHIRPrimitiveType {
 	
 	/// Indicates that the time interval is busy because one  or more events have been scheduled for that interval.
-	case busy = "busy"
-	
-	/// Indicates that the time interval is free for scheduling.
-	case free = "free"
-	
-	/// Indicates that the time interval is busy and that the interval can not be scheduled.
-	case busyUnavailable = "busy-unavailable"
+	case busy
 	
 	/// Indicates that the time interval is busy because one or more events have been tentatively scheduled for that
 	/// interval.
 	case busyTentative = "busy-tentative"
 	
+	/// Indicates that the time interval is busy and that the interval can not be scheduled.
+	case busyUnavailable = "busy-unavailable"
+	
 	/// This instance should not have been part of this patient's medical record.
 	case enteredInError = "entered-in-error"
+	
+	/// Indicates that the time interval is free for scheduling.
+	case free
 }

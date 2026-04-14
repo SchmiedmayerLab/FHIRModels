@@ -2,8 +2,8 @@
 //  OperationDefinition.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/OperationDefinition)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/OperationDefinition)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,51 +25,12 @@ import FMCore
  A formal computable definition of an operation (on the RESTful interface) or a named query (using the search
  interaction).
  */
-open class OperationDefinition: DomainResource {
+public struct OperationDefinition: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .operationDefinition }
+	public static let resourceType: ResourceType = .operationDefinition
 	
-	/// Logical URI to reference this operation definition (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
-	
-	/// Business version of the operation definition
-	public var version: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this operation definition (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>
-	
-	/// The status of this operation definition. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// Whether this is an operation or a named query.
-	public var kind: FHIRPrimitive<OperationKind>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date this was last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the operation definition
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Context the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for operation definition (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this operation definition is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Whether content is unchanged by the operation
-	public var idempotent: FHIRPrimitive<FHIRBool>?
+	/// Marks this as a profile of the base
+	public var base: Reference?
 	
 	/// Name used to invoke the operation
 	public var code: FHIRPrimitive<FHIRString>
@@ -77,26 +38,89 @@ open class OperationDefinition: DomainResource {
 	/// Additional information about use
 	public var comment: FHIRPrimitive<FHIRString>?
 	
-	/// Marks this as a profile of the base
-	public var base: Reference?
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
 	
-	/// The types on which this operation can be executed.
-	public var resource: [FHIRPrimitive<ResourceType>]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
-	/// Invoke at the system level?
-	public var system: FHIRPrimitive<FHIRBool>
+	/// Date this was last changed
+	public var date: FHIRPrimitive<DateTime>?
 	
-	/// Invole at the type level?
-	public var type: FHIRPrimitive<FHIRBool>
+	/// Natural language description of the operation definition
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Whether content is unchanged by the operation
+	public var idempotent: FHIRPrimitive<FHIRBool>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Invoke on an instance?
 	public var instance: FHIRPrimitive<FHIRBool>
 	
-	/// Parameters for the operation/query
-	public var parameter: [OperationDefinitionParameter]?
+	/// Intended jurisdiction for operation definition (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Whether this is an operation or a named query.
+	public var kind: FHIRPrimitive<OperationKind>
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this operation definition (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>
 	
 	/// Define overloaded variants for when  generating code
 	public var overload: [OperationDefinitionOverload]?
+	
+	/// Parameters for the operation/query
+	public var parameter: [OperationDefinitionParameter]?
+	
+	/// Name of the publisher (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this operation definition is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// The types on which this operation can be executed.
+	public var resource: [FHIRPrimitive<ResourceType>]?
+	
+	/// The status of this operation definition. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Invoke at the system level?
+	public var system: FHIRPrimitive<FHIRBool>
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Invole at the type level?
+	public var type: FHIRPrimitive<FHIRBool>
+	
+	/// Logical URI to reference this operation definition (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Context the content is intended to support
+	public var useContext: [UsageContext]?
+	
+	/// Business version of the operation definition
+	public var version: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(code: FHIRPrimitive<FHIRString>, instance: FHIRPrimitive<FHIRBool>, kind: FHIRPrimitive<OperationKind>, name: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<PublicationStatus>, system: FHIRPrimitive<FHIRBool>, type: FHIRPrimitive<FHIRBool>) {
@@ -107,43 +131,42 @@ open class OperationDefinition: DomainResource {
 		self.status = status
 		self.system = system
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							base: Reference? = nil,
-							code: FHIRPrimitive<FHIRString>,
-							comment: FHIRPrimitive<FHIRString>? = nil,
-							contact: [ContactDetail]? = nil,
-							contained: [ResourceProxy]? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							experimental: FHIRPrimitive<FHIRBool>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							idempotent: FHIRPrimitive<FHIRBool>? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							instance: FHIRPrimitive<FHIRBool>,
-							jurisdiction: [CodeableConcept]? = nil,
-							kind: FHIRPrimitive<OperationKind>,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>,
-							overload: [OperationDefinitionOverload]? = nil,
-							parameter: [OperationDefinitionParameter]? = nil,
-							publisher: FHIRPrimitive<FHIRString>? = nil,
-							purpose: FHIRPrimitive<FHIRString>? = nil,
-							resource: [FHIRPrimitive<ResourceType>]? = nil,
-							status: FHIRPrimitive<PublicationStatus>,
-							system: FHIRPrimitive<FHIRBool>,
-							text: Narrative? = nil,
-							type: FHIRPrimitive<FHIRBool>,
-							url: FHIRPrimitive<FHIRURI>? = nil,
-							useContext: [UsageContext]? = nil,
-							version: FHIRPrimitive<FHIRString>? = nil)
-	{
+	public init(
+		base: Reference? = nil,
+		code: FHIRPrimitive<FHIRString>,
+		comment: FHIRPrimitive<FHIRString>? = nil,
+		contact: [ContactDetail]? = nil,
+		contained: [ResourceProxy]? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		experimental: FHIRPrimitive<FHIRBool>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		idempotent: FHIRPrimitive<FHIRBool>? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		instance: FHIRPrimitive<FHIRBool>,
+		jurisdiction: [CodeableConcept]? = nil,
+		kind: FHIRPrimitive<OperationKind>,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		overload: [OperationDefinitionOverload]? = nil,
+		parameter: [OperationDefinitionParameter]? = nil,
+		publisher: FHIRPrimitive<FHIRString>? = nil,
+		purpose: FHIRPrimitive<FHIRString>? = nil,
+		resource: [FHIRPrimitive<ResourceType>]? = nil,
+		status: FHIRPrimitive<PublicationStatus>,
+		system: FHIRPrimitive<FHIRBool>,
+		text: Narrative? = nil,
+		type: FHIRPrimitive<FHIRBool>,
+		url: FHIRPrimitive<FHIRURI>? = nil,
+		useContext: [UsageContext]? = nil,
+		version: FHIRPrimitive<FHIRString>? = nil
+	) {
 		self.init(code: code, instance: instance, kind: kind, name: name, status: status, system: system, type: type)
 		self.base = base
 		self.comment = comment
@@ -174,17 +197,25 @@ open class OperationDefinition: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case base
 		case code; case _code
 		case comment; case _comment
 		case contact
+		case contained
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case idempotent; case _idempotent
+		case implicitRules; case _implicitRules
 		case instance; case _instance
 		case jurisdiction
 		case kind; case _kind
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name; case _name
 		case overload
 		case parameter
@@ -193,28 +224,36 @@ open class OperationDefinition: DomainResource {
 		case resource; case _resource
 		case status; case _status
 		case system; case _system
+		case text
 		case type; case _type
 		case url; case _url
 		case useContext
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.base = try Reference(from: _container, forKeyIfPresent: .base)
 		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKey: .code, auxiliaryKey: ._code)
 		self.comment = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.idempotent = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .idempotent, auxiliaryKey: ._idempotent)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.instance = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .instance, auxiliaryKey: ._instance)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
 		self.kind = try FHIRPrimitive<OperationKind>(from: _container, forKey: .kind, auxiliaryKey: ._kind)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.overload = try [OperationDefinitionOverload](from: _container, forKeyIfPresent: .overload)
 		self.parameter = try [OperationDefinitionParameter](from: _container, forKeyIfPresent: .parameter)
@@ -223,29 +262,37 @@ open class OperationDefinition: DomainResource {
 		self.resource = try [FHIRPrimitive<ResourceType>](from: _container, forKeyIfPresent: .resource, auxiliaryKey: ._resource)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.system = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .system, auxiliaryKey: ._system)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .type, auxiliaryKey: ._type)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try base?.encode(on: &_container, forKey: .base)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try idempotent?.encode(on: &_container, forKey: .idempotent, auxiliaryKey: ._idempotent)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try instance.encode(on: &_container, forKey: .instance, auxiliaryKey: ._instance)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
 		try kind.encode(on: &_container, forKey: .kind, auxiliaryKey: ._kind)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try overload?.encode(on: &_container, forKey: .overload)
 		try parameter?.encode(on: &_container, forKey: .parameter)
@@ -254,72 +301,11 @@ open class OperationDefinition: DomainResource {
 		try resource?.encode(on: &_container, forKey: .resource, auxiliaryKey: ._resource)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try system.encode(on: &_container, forKey: .system, auxiliaryKey: ._system)
+		try text?.encode(on: &_container, forKey: .text)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OperationDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return base == _other.base
-		    && code == _other.code
-		    && comment == _other.comment
-		    && contact == _other.contact
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && experimental == _other.experimental
-		    && idempotent == _other.idempotent
-		    && instance == _other.instance
-		    && jurisdiction == _other.jurisdiction
-		    && kind == _other.kind
-		    && name == _other.name
-		    && overload == _other.overload
-		    && parameter == _other.parameter
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && resource == _other.resource
-		    && status == _other.status
-		    && system == _other.system
-		    && type == _other.type
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(base)
-		hasher.combine(code)
-		hasher.combine(comment)
-		hasher.combine(contact)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(experimental)
-		hasher.combine(idempotent)
-		hasher.combine(instance)
-		hasher.combine(jurisdiction)
-		hasher.combine(kind)
-		hasher.combine(name)
-		hasher.combine(overload)
-		hasher.combine(parameter)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(resource)
-		hasher.combine(status)
-		hasher.combine(system)
-		hasher.combine(type)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
 	}
 }
 
@@ -329,27 +315,35 @@ open class OperationDefinition: DomainResource {
  Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when
  generating overloaded parameter sets for this operation.
  */
-open class OperationDefinitionOverload: BackboneElement {
-	
-	/// Name of parameter to include in overload
-	public var parameterName: [FHIRPrimitive<FHIRString>]?
+public struct OperationDefinitionOverload: BackboneElement {
 	
 	/// Comments to go on overload
 	public var comment: FHIRPrimitive<FHIRString>?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of parameter to include in overload
+	public var parameterName: [FHIRPrimitive<FHIRString>]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							comment: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							parameterName: [FHIRPrimitive<FHIRString>]? = nil)
-	{
+	public init(
+		comment: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		parameterName: [FHIRPrimitive<FHIRString>]? = nil
+	) {
 		self.init()
 		self.comment = comment
 		self.`extension` = `extension`
@@ -362,46 +356,33 @@ open class OperationDefinitionOverload: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case comment; case _comment
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case parameterName; case _parameterName
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.comment = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.parameterName = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .parameterName, auxiliaryKey: ._parameterName)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try parameterName?.encode(on: &_container, forKey: .parameterName, auxiliaryKey: ._parameterName)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OperationDefinitionOverload else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return comment == _other.comment
-		    && parameterName == _other.parameterName
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(comment)
-		hasher.combine(parameterName)
 	}
 }
 
@@ -410,37 +391,46 @@ open class OperationDefinitionOverload: BackboneElement {
  
  The parameters for the operation/query.
  */
-open class OperationDefinitionParameter: BackboneElement {
-	
-	/// Name in Parameters.parameter.name or in URL
-	public var name: FHIRPrimitive<FHIRString>
-	
-	/// Whether this is an input or an output parameter.
-	public var use: FHIRPrimitive<OperationParameterUse>
-	
-	/// Minimum Cardinality
-	public var min: FHIRPrimitive<FHIRInteger>
-	
-	/// Maximum Cardinality (a number or *)
-	public var max: FHIRPrimitive<FHIRString>
-	
-	/// Description of meaning/use
-	public var documentation: FHIRPrimitive<FHIRString>?
-	
-	/// What type this parameter has
-	public var type: FHIRPrimitive<FHIRString>?
-	
-	/// How the parameter is understood as a search parameter. This is only used if the parameter type is 'string'.
-	public var searchType: FHIRPrimitive<SearchParamType>?
-	
-	/// Profile on the type
-	public var profile: Reference?
+public struct OperationDefinitionParameter: BackboneElement {
 	
 	/// ValueSet details if this is coded
 	public var binding: OperationDefinitionParameterBinding?
 	
+	/// Description of meaning/use
+	public var documentation: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Maximum Cardinality (a number or *)
+	public var max: FHIRPrimitive<FHIRString>
+	
+	/// Minimum Cardinality
+	public var min: FHIRPrimitive<FHIRInteger>
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name in Parameters.parameter.name or in URL
+	public var name: FHIRPrimitive<FHIRString>
+	
 	/// Parts of a nested Parameter
 	public var part: [OperationDefinitionParameter]?
+	
+	/// Profile on the type
+	public var profile: Reference?
+	
+	/// How the parameter is understood as a search parameter. This is only used if the parameter type is 'string'.
+	public var searchType: FHIRPrimitive<SearchParamType>?
+	
+	/// What type this parameter has
+	public var type: FHIRPrimitive<FHIRString>?
+	
+	/// Whether this is an input or an output parameter.
+	public var use: FHIRPrimitive<OperationParameterUse>
 	
 	/// Designated initializer taking all required properties
 	public init(max: FHIRPrimitive<FHIRString>, min: FHIRPrimitive<FHIRInteger>, name: FHIRPrimitive<FHIRString>, use: FHIRPrimitive<OperationParameterUse>) {
@@ -448,25 +438,24 @@ open class OperationDefinitionParameter: BackboneElement {
 		self.min = min
 		self.name = name
 		self.use = use
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							binding: OperationDefinitionParameterBinding? = nil,
-							documentation: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							max: FHIRPrimitive<FHIRString>,
-							min: FHIRPrimitive<FHIRInteger>,
-							modifierExtension: [Extension]? = nil,
-							name: FHIRPrimitive<FHIRString>,
-							part: [OperationDefinitionParameter]? = nil,
-							profile: Reference? = nil,
-							searchType: FHIRPrimitive<SearchParamType>? = nil,
-							type: FHIRPrimitive<FHIRString>? = nil,
-							use: FHIRPrimitive<OperationParameterUse>)
-	{
+	public init(
+		binding: OperationDefinitionParameterBinding? = nil,
+		documentation: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		max: FHIRPrimitive<FHIRString>,
+		min: FHIRPrimitive<FHIRInteger>,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		part: [OperationDefinitionParameter]? = nil,
+		profile: Reference? = nil,
+		searchType: FHIRPrimitive<SearchParamType>? = nil,
+		type: FHIRPrimitive<FHIRString>? = nil,
+		use: FHIRPrimitive<OperationParameterUse>
+	) {
 		self.init(max: max, min: min, name: name, use: use)
 		self.binding = binding
 		self.documentation = documentation
@@ -484,8 +473,11 @@ open class OperationDefinitionParameter: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case binding
 		case documentation; case _documentation
+		case `extension` = "extension"
+		case id; case _id
 		case max; case _max
 		case min; case _min
+		case modifierExtension
 		case name; case _name
 		case part
 		case profile
@@ -493,76 +485,44 @@ open class OperationDefinitionParameter: BackboneElement {
 		case type; case _type
 		case use; case _use
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.binding = try OperationDefinitionParameterBinding(from: _container, forKeyIfPresent: .binding)
 		self.documentation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .documentation, auxiliaryKey: ._documentation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.max = try FHIRPrimitive<FHIRString>(from: _container, forKey: .max, auxiliaryKey: ._max)
 		self.min = try FHIRPrimitive<FHIRInteger>(from: _container, forKey: .min, auxiliaryKey: ._min)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.part = try [OperationDefinitionParameter](from: _container, forKeyIfPresent: .part)
 		self.profile = try Reference(from: _container, forKeyIfPresent: .profile)
 		self.searchType = try FHIRPrimitive<SearchParamType>(from: _container, forKeyIfPresent: .searchType, auxiliaryKey: ._searchType)
 		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
 		self.use = try FHIRPrimitive<OperationParameterUse>(from: _container, forKey: .use, auxiliaryKey: ._use)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try binding?.encode(on: &_container, forKey: .binding)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try max.encode(on: &_container, forKey: .max, auxiliaryKey: ._max)
 		try min.encode(on: &_container, forKey: .min, auxiliaryKey: ._min)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try part?.encode(on: &_container, forKey: .part)
 		try profile?.encode(on: &_container, forKey: .profile)
 		try searchType?.encode(on: &_container, forKey: .searchType, auxiliaryKey: ._searchType)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		try use.encode(on: &_container, forKey: .use, auxiliaryKey: ._use)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OperationDefinitionParameter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return binding == _other.binding
-		    && documentation == _other.documentation
-		    && max == _other.max
-		    && min == _other.min
-		    && name == _other.name
-		    && part == _other.part
-		    && profile == _other.profile
-		    && searchType == _other.searchType
-		    && type == _other.type
-		    && use == _other.use
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(binding)
-		hasher.combine(documentation)
-		hasher.combine(max)
-		hasher.combine(min)
-		hasher.combine(name)
-		hasher.combine(part)
-		hasher.combine(profile)
-		hasher.combine(searchType)
-		hasher.combine(type)
-		hasher.combine(use)
 	}
 }
 
@@ -571,13 +531,22 @@ open class OperationDefinitionParameter: BackboneElement {
  
  Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
  */
-open class OperationDefinitionParameterBinding: BackboneElement {
+public struct OperationDefinitionParameterBinding: BackboneElement {
 	
 	/// All possible types for "valueSet[x]"
-	public enum ValueSetX: Hashable {
+	public enum ValueSetX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the
 	/// provided value set must be adhered to in the instances.
@@ -591,17 +560,16 @@ open class OperationDefinitionParameterBinding: BackboneElement {
 	public init(strength: FHIRPrimitive<BindingStrength>, valueSet: ValueSetX) {
 		self.strength = strength
 		self.valueSet = valueSet
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							modifierExtension: [Extension]? = nil,
-							strength: FHIRPrimitive<BindingStrength>,
-							valueSet: ValueSetX)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		strength: FHIRPrimitive<BindingStrength>,
+		valueSet: ValueSetX
+	) {
 		self.init(strength: strength, valueSet: valueSet)
 		self.`extension` = `extension`
 		self.id = id
@@ -611,13 +579,16 @@ open class OperationDefinitionParameterBinding: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case strength; case _strength
 		case valueSetReference
 		case valueSetUri; case _valueSetUri
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -625,7 +596,10 @@ open class OperationDefinitionParameterBinding: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueSetReference, CodingKeys.valueSetUri], debugDescription: "Must have at least one value for \"valueSet\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.strength = try FHIRPrimitive<BindingStrength>(from: _container, forKey: .strength, auxiliaryKey: ._strength)
 		var _t_valueSet: ValueSetX? = nil
 		if let valueSetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueSetUri, auxiliaryKey: ._valueSetUri) {
@@ -641,14 +615,15 @@ open class OperationDefinitionParameterBinding: BackboneElement {
 			_t_valueSet = .reference(valueSetReference)
 		}
 		self.valueSet = _t_valueSet!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try strength.encode(on: &_container, forKey: .strength, auxiliaryKey: ._strength)
 		
 			switch valueSet {
@@ -658,25 +633,5 @@ open class OperationDefinitionParameterBinding: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueSetReference)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? OperationDefinitionParameterBinding else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return strength == _other.strength
-		    && valueSet == _other.valueSet
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(strength)
-		hasher.combine(valueSet)
 	}
 }

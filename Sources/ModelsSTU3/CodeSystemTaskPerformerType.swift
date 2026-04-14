@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,27 +27,27 @@ import FMCore
  */
 public enum TaskPerformerType: String, FHIRPrimitiveType {
 	
-	/// A workflow participant that requests services.
-	case requester = "requester"
+	/// A workflow participant that acquires resources (specimens, images, etc) necessary to perform the task.
+	case acquirer
 	
 	/// A workflow participant that dispatches services (assigns another task to a participant).
-	case dispatcher = "dispatcher"
-	
-	/// A workflow participant that schedules (dispatches and sets the time or date for performance of) services.
-	case scheduler = "scheduler"
-	
-	/// A workflow participant that performs services.
-	case performer = "performer"
-	
-	/// A workflow participant that monitors task activity.
-	case monitor = "monitor"
+	case dispatcher
 	
 	/// A workflow participant that manages task activity.
-	case manager = "manager"
+	case manager
 	
-	/// A workflow participant that acquires resources (specimens, images, etc) necessary to perform the task.
-	case acquirer = "acquirer"
+	/// A workflow participant that monitors task activity.
+	case monitor
+	
+	/// A workflow participant that performs services.
+	case performer
+	
+	/// A workflow participant that requests services.
+	case requester
 	
 	/// A workflow participant that reviews task inputs or outputs.
-	case reviewer = "reviewer"
+	case reviewer
+	
+	/// A workflow participant that schedules (dispatches and sets the time or date for performance of) services.
+	case scheduler
 }

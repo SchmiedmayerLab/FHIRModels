@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,15 +29,11 @@ public enum MediaModality: String, FHIRPrimitiveType {
 	/// A diagram. Often used in diagnostic reports
 	case diagram
 	
+	/// A face scan used for identification purposes
+	case face
+	
 	/// A digital record of a fax document
 	case fax
-	
-	/// A digital scan of a document. This is reserved for when there is not enough metadata to create a document
-	/// reference
-	case scan
-	
-	/// A retinal image used for identification purposes
-	case retina
 	
 	/// A finger print scan used for identification purposes
 	case fingerprint
@@ -48,6 +44,10 @@ public enum MediaModality: String, FHIRPrimitiveType {
 	/// A palm scan used for identification purposes
 	case palm
 	
-	/// A face scan used for identification purposes
-	case face
+	/// A retinal image used for identification purposes
+	case retina
+	
+	/// A digital scan of a document. This is reserved for when there is not enough metadata to create a document
+	/// reference
+	case scan
 }

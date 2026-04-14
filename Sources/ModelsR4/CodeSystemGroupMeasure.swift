@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,14 +30,14 @@ public enum GroupMeasure: String, FHIRPrimitiveType {
 	/// Aggregated using Mean of participant values.
 	case mean
 	
-	/// Aggregated using Median of participant values.
-	case median
-	
 	/// Aggregated using Mean of study mean values.
 	case meanOfMean = "mean-of-mean"
 	
 	/// Aggregated using Mean of study median values.
 	case meanOfMedian = "mean-of-median"
+	
+	/// Aggregated using Median of participant values.
+	case median
 	
 	/// Aggregated using Median of study mean values.
 	case medianOfMean = "median-of-mean"

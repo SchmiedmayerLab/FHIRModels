@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,24 +27,24 @@ import FMCore
  */
 public enum CarePlanActivityStatus: String, FHIRPrimitiveType {
 	
-	/// Activity is planned but no action has yet been taken.
-	case notStarted = "not-started"
+	/// The activities have been ended prior to completion (perhaps even before they were started).
+	case cancelled
 	
-	/// Appointment or other booking has occurred but activity has not yet begun.
-	case scheduled = "scheduled"
+	/// The activities have been completed (more or less) as planned.
+	case completed
 	
 	/// Activity has been started but is not yet complete.
 	case inProgress = "in-progress"
 	
+	/// Activity is planned but no action has yet been taken.
+	case notStarted = "not-started"
+	
 	/// Activity was started but has temporarily ceased with an expectation of resumption at a future time.
 	case onHold = "on-hold"
 	
-	/// The activities have been completed (more or less) as planned.
-	case completed = "completed"
-	
-	/// The activities have been ended prior to completion (perhaps even before they were started).
-	case cancelled = "cancelled"
+	/// Appointment or other booking has occurred but activity has not yet begun.
+	case scheduled
 	
 	/// The authoring system doesn't know the current state of the activity.
-	case unknown = "unknown"
+	case unknown
 }

@@ -2,8 +2,8 @@
 //  GuidanceResponse.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/GuidanceResponse)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/GuidanceResponse)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,26 +25,77 @@ import FMCore
  A guidance response is the formal response to a guidance request, including any output parameters returned by the
  evaluation, as well as the description of any proposed actions to be taken.
  */
-open class GuidanceResponse: DomainResource {
+public struct GuidanceResponse: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .guidanceResponse }
+	public static let resourceType: ResourceType = .guidanceResponse
 	
 	/// All possible types for "module[x]"
-	public enum ModuleX: Hashable {
+	public enum ModuleX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case codeableConcept(CodeableConcept)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
-	/// The identifier of the request associated with this response, if any
-	public var requestIdentifier: Identifier?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional required data
+	public var dataRequirement: [DataRequirement]?
+	
+	/// Encounter the guidance response is part of
+	public var encounter: Reference?
+	
+	/// Messages resulting from the evaluation of the artifact or artifacts
+	public var evaluationMessage: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business identifier for guidance response
 	public var identifier: [Identifier]?
 	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Where guidance response occurred
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// What guidance was requested
 	/// One of `module[x]`
 	public var module: ModuleX
+	
+	/// Additional notes about the response
+	public var note: [Annotation]?
+	
+	/// When the guidance response was processed
+	public var occurrenceDateTime: FHIRPrimitive<DateTime>?
+	
+	/// The output parameters of the evaluation, if any
+	public var outputParameters: Reference?
+	
+	/// Device returning the guidance
+	public var performer: Reference?
+	
+	/// Why guidance is needed
+	public var reason: [CodeableReference]?
+	
+	/// The identifier of the request associated with this response, if any
+	public var requestIdentifier: Identifier?
+	
+	/// Proposed actions, if any
+	public var result: [Reference]?
 	
 	/// The status of the response. If the evaluation is completed successfully, the status will indicate success.
 	/// However, in order to complete the evaluation, the engine may require more information. In this case, the status
@@ -57,45 +108,17 @@ open class GuidanceResponse: DomainResource {
 	/// Individual service was done for/to
 	public var subject: Reference?
 	
-	/// Encounter the guidance response is part of
-	public var encounter: Reference?
-	
-	/// When the guidance response was processed
-	public var occurrenceDateTime: FHIRPrimitive<DateTime>?
-	
-	/// Device returning the guidance
-	public var performer: Reference?
-	
-	/// Where guidance response occurred
-	public var location: Reference?
-	
-	/// Why guidance is needed
-	public var reason: [CodeableReference]?
-	
-	/// Additional notes about the response
-	public var note: [Annotation]?
-	
-	/// Messages resulting from the evaluation of the artifact or artifacts
-	public var evaluationMessage: Reference?
-	
-	/// The output parameters of the evaluation, if any
-	public var outputParameters: Reference?
-	
-	/// Proposed actions, if any
-	public var result: [Reference]?
-	
-	/// Additional required data
-	public var dataRequirement: [DataRequirement]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(module: ModuleX, status: FHIRPrimitive<GuidanceResponseStatus>) {
 		self.module = module
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		contained: [ResourceProxy]? = nil,
 		dataRequirement: [DataRequirement]? = nil,
 		encounter: Reference? = nil,
@@ -147,11 +170,19 @@ open class GuidanceResponse: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
+		case contained
 		case dataRequirement
 		case encounter
 		case evaluationMessage
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case moduleCanonical; case _moduleCanonical
 		case moduleCodeableConcept
 		case moduleUri; case _moduleUri
@@ -164,10 +195,11 @@ open class GuidanceResponse: DomainResource {
 		case result
 		case status; case _status
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -175,12 +207,19 @@ open class GuidanceResponse: DomainResource {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.moduleCanonical, CodingKeys.moduleCodeableConcept, CodingKeys.moduleUri], debugDescription: "Must have at least one value for \"module\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.dataRequirement = try [DataRequirement](from: _container, forKeyIfPresent: .dataRequirement)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.evaluationMessage = try Reference(from: _container, forKeyIfPresent: .evaluationMessage)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_module: ModuleX? = nil
 		if let moduleUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .moduleUri, auxiliaryKey: ._moduleUri) {
 			if _t_module != nil {
@@ -210,19 +249,27 @@ open class GuidanceResponse: DomainResource {
 		self.result = try [Reference](from: _container, forKeyIfPresent: .result)
 		self.status = try FHIRPrimitive<GuidanceResponseStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try dataRequirement?.encode(on: &_container, forKey: .dataRequirement)
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try evaluationMessage?.encode(on: &_container, forKey: .evaluationMessage)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
 			switch module {
 			case .uri(let _value):
@@ -242,51 +289,6 @@ open class GuidanceResponse: DomainResource {
 		try result?.encode(on: &_container, forKey: .result)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? GuidanceResponse else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return dataRequirement == _other.dataRequirement
-		    && encounter == _other.encounter
-		    && evaluationMessage == _other.evaluationMessage
-		    && identifier == _other.identifier
-		    && location == _other.location
-		    && module == _other.module
-		    && note == _other.note
-		    && occurrenceDateTime == _other.occurrenceDateTime
-		    && outputParameters == _other.outputParameters
-		    && performer == _other.performer
-		    && reason == _other.reason
-		    && requestIdentifier == _other.requestIdentifier
-		    && result == _other.result
-		    && status == _other.status
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(dataRequirement)
-		hasher.combine(encounter)
-		hasher.combine(evaluationMessage)
-		hasher.combine(identifier)
-		hasher.combine(location)
-		hasher.combine(module)
-		hasher.combine(note)
-		hasher.combine(occurrenceDateTime)
-		hasher.combine(outputParameters)
-		hasher.combine(performer)
-		hasher.combine(reason)
-		hasher.combine(requestIdentifier)
-		hasher.combine(result)
-		hasher.combine(status)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

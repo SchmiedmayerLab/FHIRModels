@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,9 @@ import FMCore
  */
 public enum ActionParticipantType: String, FHIRPrimitiveType {
 	
+	/// The participant is a system or device used in the care of the patient.
+	case device
+	
 	/// The participant is the patient under evaluation.
 	case patient
 	
@@ -35,7 +38,4 @@ public enum ActionParticipantType: String, FHIRPrimitiveType {
 	
 	/// The participant is a person related to the patient.
 	case relatedPerson = "related-person"
-	
-	/// The participant is a system or device used in the care of the patient.
-	case device
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,5 +28,5 @@ import FMCore
 public enum MaritalStatusCodes: String, FHIRPrimitiveType {
 	
 	/// The person is not presently married. The marital history is not known or stated.
-	case U = "U"
+	case U
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,18 +27,18 @@ import FMCore
  */
 public enum InvoiceStatus: String, FHIRPrimitiveType {
 	
-	/// the invoice has been prepared but not yet finalized.
-	case draft
-	
-	/// the invoice has been finalized and sent to the recipient.
-	case issued
-	
 	/// the invoice has been balaced / completely paid.
 	case balanced
 	
 	/// the invoice was cancelled.
 	case cancelled
 	
+	/// the invoice has been prepared but not yet finalized.
+	case draft
+	
 	/// the invoice was determined as entered in error before it was issued.
 	case enteredInError = "entered-in-error"
+	
+	/// the invoice has been finalized and sent to the recipient.
+	case issued
 }

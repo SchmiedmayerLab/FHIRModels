@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,39 +27,39 @@ import FMCore
  */
 public enum QICoreCommunicationMediumCodes: String, FHIRPrimitiveType {
 	
-	/// The communication medium has not been specified
-	case unspecified = "unspecified"
+	/// The message was communicated via a medical device
+	case device
 	
-	/// The message was communicated via telephone
-	case telephone = "telephone"
+	/// The message was sent as an email
+	case email
 	
 	/// The message was sent via a fax transmission
-	case fax = "fax"
-	
-	/// The message was communicated via a medical device
-	case device = "device"
-	
-	/// The message was communicated via a video call
-	case video = "video"
-	
-	/// The message was left on the recipient's voicemail system
-	case voicemail = "voicemail"
-	
-	/// The message was sent via text message (SMS)
-	case text = "text"
-	
-	/// The message was communicated via a social media platform
-	case socialMedia = "social-media"
+	case fax
 	
 	/// The message was communicated in person
 	case inPerson = "in-person"
 	
 	/// The message was posted via conventional mail
-	case mail = "mail"
-	
-	/// The message was sent as an email
-	case email = "email"
+	case mail
 	
 	/// The message was communicated via a patient portal
-	case portal = "portal"
+	case portal
+	
+	/// The message was communicated via a social media platform
+	case socialMedia = "social-media"
+	
+	/// The message was communicated via telephone
+	case telephone
+	
+	/// The message was sent via text message (SMS)
+	case text
+	
+	/// The communication medium has not been specified
+	case unspecified
+	
+	/// The message was communicated via a video call
+	case video
+	
+	/// The message was left on the recipient's voicemail system
+	case voicemail
 }

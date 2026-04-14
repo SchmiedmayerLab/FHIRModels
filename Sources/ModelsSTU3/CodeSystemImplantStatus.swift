@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum ImplantStatus: String, FHIRPrimitiveType {
 	
+	/// The implanted device has been turned off
+	case disabled
+	
 	/// The implanted device is working normally
-	case functional = "functional"
+	case functional
 	
 	/// The implanted device is not working
 	case nonFunctional = "non-functional"
 	
-	/// The implanted device has been turned off
-	case disabled = "disabled"
-	
 	/// the functional status of the implant has not been determined
-	case unknown = "unknown"
+	case unknown
 }

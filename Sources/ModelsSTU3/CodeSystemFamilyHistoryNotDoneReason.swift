@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ import FMCore
  */
 public enum FamilyHistoryNotDoneReason: String, FHIRPrimitiveType {
 	
+	/// Patient does not have the information now, but can provide the information at a later date.
+	case deferred
+	
 	/// Patient does not know the subject, e.g. the biological parent of an adopted patient.
 	case subjectUnknown = "subject-unknown"
-	
-	/// The patient withheld or refused to share the information.
-	case withheld = "withheld"
 	
 	/// Information cannot be obtained; e.g. unconscious patient
 	case unableToObtain = "unable-to-obtain"
 	
-	/// Patient does not have the information now, but can provide the information at a later date.
-	case deferred = "deferred"
+	/// The patient withheld or refused to share the information.
+	case withheld
 }

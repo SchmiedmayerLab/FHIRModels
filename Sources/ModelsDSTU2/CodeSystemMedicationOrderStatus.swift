@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,22 +28,22 @@ import FMCore
 public enum MedicationOrderStatus: String, FHIRPrimitiveType {
 	
 	/// The prescription is 'actionable', but not all actions that are implied by it have occurred yet.
-	case active = "active"
+	case active
+	
+	/// All actions that are implied by the prescription have occurred.
+	case completed
+	
+	/// The prescription is not yet 'actionable', i.e. it is a work in progress, requires sign-off or verification, and
+	/// needs to be run through decision support process.
+	case draft
+	
+	/// The prescription was entered in error.
+	case enteredInError = "entered-in-error"
 	
 	/// Actions implied by the prescription are to be temporarily halted, but are expected to continue later.  May also
 	/// be called "suspended".
 	case onHold = "on-hold"
 	
-	/// All actions that are implied by the prescription have occurred.
-	case completed = "completed"
-	
-	/// The prescription was entered in error.
-	case enteredInError = "entered-in-error"
-	
 	/// Actions implied by the prescription are to be permanently halted, before all of them occurred.
-	case stopped = "stopped"
-	
-	/// The prescription is not yet 'actionable', i.e. it is a work in progress, requires sign-off or verification, and
-	/// needs to be run through decision support process.
-	case draft = "draft"
+	case stopped
 }

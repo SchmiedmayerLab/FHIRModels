@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/Transport)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,45 +24,36 @@ import FMCore
  
  Record of transport of item.
  */
-open class Transport: DomainResource {
+public struct Transport: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .transport }
+	public static let resourceType: ResourceType = .transport
 	
-	/// External identifier
-	public var identifier: [Identifier]?
-	
-	/// Formal definition of transport
-	public var instantiatesCanonical: FHIRPrimitive<Canonical>?
-	
-	/// Formal definition of transport
-	public var instantiatesUri: FHIRPrimitive<FHIRURI>?
+	/// Transport Creation Date
+	public var authoredOn: FHIRPrimitive<DateTime>?
 	
 	/// Request fulfilled by this transport
 	public var basedOn: [Reference]?
 	
-	/// Requisition or grouper id
-	public var groupIdentifier: Identifier?
-	
-	/// Part of referenced event
-	public var partOf: [Reference]?
-	
-	/// A code specifying the state of the transport event.
-	public var status: FHIRPrimitive<TransportStatus>?
-	
-	/// Reason for current status
-	public var statusReason: CodeableConcept?
-	
-	/// unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
-	public var intent: FHIRPrimitive<FHIRString>
-	
-	/// routine | urgent | asap | stat
-	public var priority: FHIRPrimitive<FHIRString>?
-	
 	/// Transport Type
 	public var code: CodeableConcept?
 	
+	/// Completion time of the event (the occurrence)
+	public var completionTime: FHIRPrimitive<DateTime>?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// The entity current location
+	public var currentLocation: Reference
+	
 	/// Human-readable explanation of transport
 	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Healthcare event during which this transport originated
+	public var encounter: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// What transport is acting on
 	public var focus: Reference?
@@ -70,70 +61,102 @@ open class Transport: DomainResource {
 	/// Beneficiary of the Transport
 	public var `for`: Reference?
 	
-	/// Healthcare event during which this transport originated
-	public var encounter: Reference?
+	/// Requisition or grouper id
+	public var groupIdentifier: Identifier?
 	
-	/// Completion time of the event (the occurrence)
-	public var completionTime: FHIRPrimitive<DateTime>?
+	/// Parent (or preceding) transport
+	public var history: Reference?
 	
-	/// Transport Creation Date
-	public var authoredOn: FHIRPrimitive<DateTime>?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// Transport Last Modified Date
-	public var lastModified: FHIRPrimitive<DateTime>?
+	/// External identifier
+	public var identifier: [Identifier]?
 	
-	/// Who is asking for transport to be done
-	public var requester: Reference?
-	
-	/// Requested performer
-	public var performerType: [CodeableConcept]?
-	
-	/// Responsible individual
-	public var owner: Reference?
-	
-	/// Where transport occurs
-	public var location: Reference?
-	
-	/// Associated insurance coverage
-	public var insurance: [Reference]?
-	
-	/// Comments made about the transport
-	public var note: [Annotation]?
-	
-	/// Key events in history of the Transport
-	public var relevantHistory: [Reference]?
-	
-	/// Constraints on fulfillment transports
-	public var restriction: TransportRestriction?
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Information used to perform transport
 	public var input: [TransportInput]?
 	
+	/// Formal definition of transport
+	public var instantiatesCanonical: FHIRPrimitive<Canonical>?
+	
+	/// Formal definition of transport
+	public var instantiatesUri: FHIRPrimitive<FHIRURI>?
+	
+	/// Associated insurance coverage
+	public var insurance: [Reference]?
+	
+	/// unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
+	public var intent: FHIRPrimitive<FHIRString>
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Transport Last Modified Date
+	public var lastModified: FHIRPrimitive<DateTime>?
+	
+	/// Where transport occurs
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Comments made about the transport
+	public var note: [Annotation]?
+	
 	/// Information produced as part of transport
 	public var output: [TransportOutput]?
 	
-	/// The desired location
-	public var requestedLocation: Reference
+	/// Responsible individual
+	public var owner: Reference?
 	
-	/// The entity current location
-	public var currentLocation: Reference
+	/// Part of referenced event
+	public var partOf: [Reference]?
+	
+	/// Requested performer
+	public var performerType: [CodeableConcept]?
+	
+	/// routine | urgent | asap | stat
+	public var priority: FHIRPrimitive<FHIRString>?
 	
 	/// Why transport is needed
 	public var reason: CodeableReference?
 	
-	/// Parent (or preceding) transport
-	public var history: Reference?
+	/// Key events in history of the Transport
+	public var relevantHistory: [Reference]?
+	
+	/// The desired location
+	public var requestedLocation: Reference
+	
+	/// Who is asking for transport to be done
+	public var requester: Reference?
+	
+	/// Constraints on fulfillment transports
+	public var restriction: TransportRestriction?
+	
+	/// A code specifying the state of the transport event.
+	public var status: FHIRPrimitive<TransportStatus>?
+	
+	/// Reason for current status
+	public var statusReason: CodeableConcept?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(currentLocation: Reference, intent: FHIRPrimitive<FHIRString>, requestedLocation: Reference) {
 		self.currentLocation = currentLocation
 		self.intent = intent
 		self.requestedLocation = requestedLocation
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
 		basedOn: [Reference]? = nil,
 		code: CodeableConcept? = nil,
@@ -218,25 +241,33 @@ open class Transport: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case authoredOn; case _authoredOn
 		case basedOn
 		case code
 		case completionTime; case _completionTime
+		case contained
 		case currentLocation
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case encounter
+		case `extension` = "extension"
 		case focus
 		case `for` = "for"
 		case groupIdentifier
 		case history
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case input
 		case instantiatesCanonical; case _instantiatesCanonical
 		case instantiatesUri; case _instantiatesUri
 		case insurance
 		case intent; case _intent
+		case language; case _language
 		case lastModified; case _lastModified
 		case location
+		case meta
+		case modifierExtension
 		case note
 		case output
 		case owner
@@ -250,32 +281,40 @@ open class Transport: DomainResource {
 		case restriction
 		case status; case _status
 		case statusReason
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.completionTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .completionTime, auxiliaryKey: ._completionTime)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.currentLocation = try Reference(from: _container, forKey: .currentLocation)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try Reference(from: _container, forKeyIfPresent: .focus)
 		self.`for` = try Reference(from: _container, forKeyIfPresent: .`for`)
 		self.groupIdentifier = try Identifier(from: _container, forKeyIfPresent: .groupIdentifier)
 		self.history = try Reference(from: _container, forKeyIfPresent: .history)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.input = try [TransportInput](from: _container, forKeyIfPresent: .input)
 		self.instantiatesCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		self.instantiatesUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		self.insurance = try [Reference](from: _container, forKeyIfPresent: .insurance)
 		self.intent = try FHIRPrimitive<FHIRString>(from: _container, forKey: .intent, auxiliaryKey: ._intent)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lastModified = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .lastModified, auxiliaryKey: ._lastModified)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.output = try [TransportOutput](from: _container, forKeyIfPresent: .output)
 		self.owner = try Reference(from: _container, forKeyIfPresent: .owner)
@@ -289,33 +328,41 @@ open class Transport: DomainResource {
 		self.restriction = try TransportRestriction(from: _container, forKeyIfPresent: .restriction)
 		self.status = try FHIRPrimitive<TransportStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.statusReason = try CodeableConcept(from: _container, forKeyIfPresent: .statusReason)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try code?.encode(on: &_container, forKey: .code)
 		try completionTime?.encode(on: &_container, forKey: .completionTime, auxiliaryKey: ._completionTime)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try currentLocation.encode(on: &_container, forKey: .currentLocation)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try `for`?.encode(on: &_container, forKey: .`for`)
 		try groupIdentifier?.encode(on: &_container, forKey: .groupIdentifier)
 		try history?.encode(on: &_container, forKey: .history)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try input?.encode(on: &_container, forKey: .input)
 		try instantiatesCanonical?.encode(on: &_container, forKey: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		try instantiatesUri?.encode(on: &_container, forKey: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		try insurance?.encode(on: &_container, forKey: .insurance)
 		try intent.encode(on: &_container, forKey: .intent, auxiliaryKey: ._intent)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lastModified?.encode(on: &_container, forKey: .lastModified, auxiliaryKey: ._lastModified)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try output?.encode(on: &_container, forKey: .output)
 		try owner?.encode(on: &_container, forKey: .owner)
@@ -329,86 +376,7 @@ open class Transport: DomainResource {
 		try restriction?.encode(on: &_container, forKey: .restriction)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Transport else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return authoredOn == _other.authoredOn
-		    && basedOn == _other.basedOn
-		    && code == _other.code
-		    && completionTime == _other.completionTime
-		    && currentLocation == _other.currentLocation
-		    && description_fhir == _other.description_fhir
-		    && encounter == _other.encounter
-		    && focus == _other.focus
-		    && `for` == _other.`for`
-		    && groupIdentifier == _other.groupIdentifier
-		    && history == _other.history
-		    && identifier == _other.identifier
-		    && input == _other.input
-		    && instantiatesCanonical == _other.instantiatesCanonical
-		    && instantiatesUri == _other.instantiatesUri
-		    && insurance == _other.insurance
-		    && intent == _other.intent
-		    && lastModified == _other.lastModified
-		    && location == _other.location
-		    && note == _other.note
-		    && output == _other.output
-		    && owner == _other.owner
-		    && partOf == _other.partOf
-		    && performerType == _other.performerType
-		    && priority == _other.priority
-		    && reason == _other.reason
-		    && relevantHistory == _other.relevantHistory
-		    && requestedLocation == _other.requestedLocation
-		    && requester == _other.requester
-		    && restriction == _other.restriction
-		    && status == _other.status
-		    && statusReason == _other.statusReason
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(authoredOn)
-		hasher.combine(basedOn)
-		hasher.combine(code)
-		hasher.combine(completionTime)
-		hasher.combine(currentLocation)
-		hasher.combine(description_fhir)
-		hasher.combine(encounter)
-		hasher.combine(focus)
-		hasher.combine(`for`)
-		hasher.combine(groupIdentifier)
-		hasher.combine(history)
-		hasher.combine(identifier)
-		hasher.combine(input)
-		hasher.combine(instantiatesCanonical)
-		hasher.combine(instantiatesUri)
-		hasher.combine(insurance)
-		hasher.combine(intent)
-		hasher.combine(lastModified)
-		hasher.combine(location)
-		hasher.combine(note)
-		hasher.combine(output)
-		hasher.combine(owner)
-		hasher.combine(partOf)
-		hasher.combine(performerType)
-		hasher.combine(priority)
-		hasher.combine(reason)
-		hasher.combine(relevantHistory)
-		hasher.combine(requestedLocation)
-		hasher.combine(requester)
-		hasher.combine(restriction)
-		hasher.combine(status)
-		hasher.combine(statusReason)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -417,10 +385,10 @@ open class Transport: DomainResource {
  
  Additional information that may be needed in the execution of the transport.
  */
-open class TransportInput: BackboneElement {
+public struct TransportInput: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -476,6 +444,15 @@ open class TransportInput: BackboneElement {
 		case usageContext(UsageContext)
 		case uuid(FHIRPrimitive<FHIRURI>)
 	}
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Label for the input
 	public var type: CodeableConcept
@@ -488,11 +465,10 @@ open class TransportInput: BackboneElement {
 	public init(type: CodeableConcept, value: ValueX) {
 		self.type = type
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -508,6 +484,9 @@ open class TransportInput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case valueAddress
 		case valueAge
@@ -564,9 +543,9 @@ open class TransportInput: BackboneElement {
 		case valueUsageContext
 		case valueUuid; case _valueUuid
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -574,7 +553,10 @@ open class TransportInput: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueAddress, CodingKeys.valueAge, CodingKeys.valueAnnotation, CodingKeys.valueAttachment, CodingKeys.valueAvailability, CodingKeys.valueBase64Binary, CodingKeys.valueBoolean, CodingKeys.valueCanonical, CodingKeys.valueCode, CodingKeys.valueCodeableConcept, CodingKeys.valueCodeableReference, CodingKeys.valueCoding, CodingKeys.valueContactDetail, CodingKeys.valueContactPoint, CodingKeys.valueCount, CodingKeys.valueDataRequirement, CodingKeys.valueDate, CodingKeys.valueDateTime, CodingKeys.valueDecimal, CodingKeys.valueDistance, CodingKeys.valueDosage, CodingKeys.valueDuration, CodingKeys.valueExpression, CodingKeys.valueExtendedContactDetail, CodingKeys.valueHumanName, CodingKeys.valueId, CodingKeys.valueIdentifier, CodingKeys.valueInstant, CodingKeys.valueInteger, CodingKeys.valueInteger64, CodingKeys.valueMarkdown, CodingKeys.valueMeta, CodingKeys.valueMoney, CodingKeys.valueOid, CodingKeys.valueParameterDefinition, CodingKeys.valuePeriod, CodingKeys.valuePositiveInt, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueRatio, CodingKeys.valueRatioRange, CodingKeys.valueReference, CodingKeys.valueRelatedArtifact, CodingKeys.valueSampledData, CodingKeys.valueSignature, CodingKeys.valueString, CodingKeys.valueTime, CodingKeys.valueTiming, CodingKeys.valueTriggerDefinition, CodingKeys.valueUnsignedInt, CodingKeys.valueUri, CodingKeys.valueUrl, CodingKeys.valueUsageContext, CodingKeys.valueUuid], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
 		var _t_value: ValueX? = nil
 		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
@@ -902,14 +884,15 @@ open class TransportInput: BackboneElement {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
 		
 			switch value {
@@ -1023,26 +1006,6 @@ open class TransportInput: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TransportInput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
@@ -1051,10 +1014,10 @@ open class TransportInput: BackboneElement {
  
  Outputs produced by the Transport.
  */
-open class TransportOutput: BackboneElement {
+public struct TransportOutput: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case address(Address)
 		case age(Age)
 		case annotation(Annotation)
@@ -1111,6 +1074,15 @@ open class TransportOutput: BackboneElement {
 		case uuid(FHIRPrimitive<FHIRURI>)
 	}
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Label for output
 	public var type: CodeableConcept
 	
@@ -1122,11 +1094,10 @@ open class TransportOutput: BackboneElement {
 	public init(type: CodeableConcept, value: ValueX) {
 		self.type = type
 		self.value = value
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1142,6 +1113,9 @@ open class TransportOutput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type
 		case valueAddress
 		case valueAge
@@ -1198,9 +1172,9 @@ open class TransportOutput: BackboneElement {
 		case valueUsageContext
 		case valueUuid; case _valueUuid
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -1208,7 +1182,10 @@ open class TransportOutput: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueAddress, CodingKeys.valueAge, CodingKeys.valueAnnotation, CodingKeys.valueAttachment, CodingKeys.valueAvailability, CodingKeys.valueBase64Binary, CodingKeys.valueBoolean, CodingKeys.valueCanonical, CodingKeys.valueCode, CodingKeys.valueCodeableConcept, CodingKeys.valueCodeableReference, CodingKeys.valueCoding, CodingKeys.valueContactDetail, CodingKeys.valueContactPoint, CodingKeys.valueCount, CodingKeys.valueDataRequirement, CodingKeys.valueDate, CodingKeys.valueDateTime, CodingKeys.valueDecimal, CodingKeys.valueDistance, CodingKeys.valueDosage, CodingKeys.valueDuration, CodingKeys.valueExpression, CodingKeys.valueExtendedContactDetail, CodingKeys.valueHumanName, CodingKeys.valueId, CodingKeys.valueIdentifier, CodingKeys.valueInstant, CodingKeys.valueInteger, CodingKeys.valueInteger64, CodingKeys.valueMarkdown, CodingKeys.valueMeta, CodingKeys.valueMoney, CodingKeys.valueOid, CodingKeys.valueParameterDefinition, CodingKeys.valuePeriod, CodingKeys.valuePositiveInt, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueRatio, CodingKeys.valueRatioRange, CodingKeys.valueReference, CodingKeys.valueRelatedArtifact, CodingKeys.valueSampledData, CodingKeys.valueSignature, CodingKeys.valueString, CodingKeys.valueTime, CodingKeys.valueTiming, CodingKeys.valueTriggerDefinition, CodingKeys.valueUnsignedInt, CodingKeys.valueUri, CodingKeys.valueUrl, CodingKeys.valueUsageContext, CodingKeys.valueUuid], debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
 		var _t_value: ValueX? = nil
 		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
@@ -1536,14 +1513,15 @@ open class TransportOutput: BackboneElement {
 			_t_value = .meta(valueMeta)
 		}
 		self.value = _t_value!
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type)
 		
 			switch value {
@@ -1657,26 +1635,6 @@ open class TransportOutput: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueMeta)
 			}
 		
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TransportOutput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
@@ -1686,10 +1644,16 @@ open class TransportOutput: BackboneElement {
  If the Transport.focus is a request resource and the transport is seeking fulfillment (i.e. is asking for the request
  to be actioned), this element identifies any limitations on what parts of the referenced request should be actioned.
  */
-open class TransportRestriction: BackboneElement {
+public struct TransportRestriction: BackboneElement {
 	
-	/// How many times to repeat
-	public var repetitions: FHIRPrimitive<FHIRPositiveInteger>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// When fulfillment sought
 	public var period: Period?
@@ -1697,13 +1661,15 @@ open class TransportRestriction: BackboneElement {
 	/// For whom is fulfillment sought?
 	public var recipient: [Reference]?
 	
+	/// How many times to repeat
+	public var repetitions: FHIRPrimitive<FHIRPositiveInteger>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1723,51 +1689,36 @@ open class TransportRestriction: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case period
 		case recipient
 		case repetitions; case _repetitions
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
 		self.recipient = try [Reference](from: _container, forKeyIfPresent: .recipient)
 		self.repetitions = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .repetitions, auxiliaryKey: ._repetitions)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
 		try recipient?.encode(on: &_container, forKey: .recipient)
 		try repetitions?.encode(on: &_container, forKey: .repetitions, auxiliaryKey: ._repetitions)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TransportRestriction else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return period == _other.period
-		    && recipient == _other.recipient
-		    && repetitions == _other.repetitions
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(period)
-		hasher.combine(recipient)
-		hasher.combine(repetitions)
 	}
 }

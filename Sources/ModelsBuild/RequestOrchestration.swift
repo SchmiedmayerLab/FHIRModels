@@ -2,8 +2,8 @@
 //  RequestOrchestration.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/RequestOrchestration)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/RequestOrchestration)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,12 +25,48 @@ import FMCore
  A set of related requests that can be used to capture intended activities that have inter-dependencies such as "give
  this medication after that one".
  */
-open class RequestOrchestration: DomainResource {
+public struct RequestOrchestration: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .requestOrchestration }
+	public static let resourceType: ResourceType = .requestOrchestration
+	
+	/// Proposed actions, if any
+	public var action: [RequestOrchestrationAction]?
+	
+	/// Device or practitioner that authored the request orchestration
+	public var author: Reference?
+	
+	/// When the request orchestration was authored
+	public var authoredOn: FHIRPrimitive<DateTime>?
+	
+	/// Fulfills plan, proposal, or order
+	public var basedOn: [Reference]?
+	
+	/// What's being requested/ordered
+	public var code: CodeableConcept?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Created as part of
+	public var encounter: Reference?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// What goals
+	public var goal: [Reference]?
+	
+	/// Composite request this is part of
+	public var groupIdentifier: Identifier?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business identifier
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Instantiates FHIR protocol or definition
 	public var instantiatesCanonical: [FHIRPrimitive<Canonical>]?
@@ -38,62 +74,49 @@ open class RequestOrchestration: DomainResource {
 	/// Instantiates external protocol or definition
 	public var instantiatesUri: [FHIRPrimitive<FHIRURI>]?
 	
-	/// Fulfills plan, proposal, or order
-	public var basedOn: [Reference]?
+	/// Indicates the level of authority/intentionality associated with the request and where the request fits into the
+	/// workflow chain.
+	public var intent: FHIRPrimitive<RequestIntent>
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Additional notes about the response
+	public var note: [Annotation]?
+	
+	/// Indicates how quickly the request should be addressed with respect to other requests.
+	public var priority: FHIRPrimitive<RequestPriority>?
+	
+	/// Why the request orchestration is needed
+	public var reason: [CodeableReference]?
 	
 	/// Request(s) replaced by this request
 	public var replaces: [Reference]?
-	
-	/// Composite request this is part of
-	public var groupIdentifier: Identifier?
 	
 	/// The current state of the request. For request orchestrations, the status reflects the status of all the requests
 	/// in the orchestration.
 	public var status: FHIRPrimitive<RequestStatus>
 	
-	/// Indicates the level of authority/intentionality associated with the request and where the request fits into the
-	/// workflow chain.
-	public var intent: FHIRPrimitive<RequestIntent>
-	
-	/// Indicates how quickly the request should be addressed with respect to other requests.
-	public var priority: FHIRPrimitive<RequestPriority>?
-	
-	/// What's being requested/ordered
-	public var code: CodeableConcept?
-	
 	/// Who the request orchestration is about
 	public var subject: Reference?
 	
-	/// Created as part of
-	public var encounter: Reference?
-	
-	/// When the request orchestration was authored
-	public var authoredOn: FHIRPrimitive<DateTime>?
-	
-	/// Device or practitioner that authored the request orchestration
-	public var author: Reference?
-	
-	/// Why the request orchestration is needed
-	public var reason: [CodeableReference]?
-	
-	/// What goals
-	public var goal: [Reference]?
-	
-	/// Additional notes about the response
-	public var note: [Annotation]?
-	
-	/// Proposed actions, if any
-	public var action: [RequestOrchestrationAction]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
 	public init(intent: FHIRPrimitive<RequestIntent>, status: FHIRPrimitive<RequestStatus>) {
 		self.intent = intent
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		action: [RequestOrchestrationAction]? = nil,
 		author: Reference? = nil,
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
@@ -151,127 +174,100 @@ open class RequestOrchestration: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case action
 		case author
 		case authoredOn; case _authoredOn
 		case basedOn
 		case code
+		case contained
 		case encounter
+		case `extension` = "extension"
 		case goal
 		case groupIdentifier
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case instantiatesCanonical; case _instantiatesCanonical
 		case instantiatesUri; case _instantiatesUri
 		case intent; case _intent
+		case language; case _language
+		case meta
+		case modifierExtension
 		case note
 		case priority; case _priority
 		case reason
 		case replaces
 		case status; case _status
 		case subject
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try [RequestOrchestrationAction](from: _container, forKeyIfPresent: .action)
 		self.author = try Reference(from: _container, forKeyIfPresent: .author)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.goal = try [Reference](from: _container, forKeyIfPresent: .goal)
 		self.groupIdentifier = try Identifier(from: _container, forKeyIfPresent: .groupIdentifier)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.instantiatesCanonical = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		self.instantiatesUri = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		self.intent = try FHIRPrimitive<RequestIntent>(from: _container, forKey: .intent, auxiliaryKey: ._intent)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.priority = try FHIRPrimitive<RequestPriority>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
 		self.reason = try [CodeableReference](from: _container, forKeyIfPresent: .reason)
 		self.replaces = try [Reference](from: _container, forKeyIfPresent: .replaces)
 		self.status = try FHIRPrimitive<RequestStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try author?.encode(on: &_container, forKey: .author)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try goal?.encode(on: &_container, forKey: .goal)
 		try groupIdentifier?.encode(on: &_container, forKey: .groupIdentifier)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try instantiatesCanonical?.encode(on: &_container, forKey: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		try instantiatesUri?.encode(on: &_container, forKey: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
 		try intent.encode(on: &_container, forKey: .intent, auxiliaryKey: ._intent)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try priority?.encode(on: &_container, forKey: .priority, auxiliaryKey: ._priority)
 		try reason?.encode(on: &_container, forKey: .reason)
 		try replaces?.encode(on: &_container, forKey: .replaces)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestration else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && author == _other.author
-		    && authoredOn == _other.authoredOn
-		    && basedOn == _other.basedOn
-		    && code == _other.code
-		    && encounter == _other.encounter
-		    && goal == _other.goal
-		    && groupIdentifier == _other.groupIdentifier
-		    && identifier == _other.identifier
-		    && instantiatesCanonical == _other.instantiatesCanonical
-		    && instantiatesUri == _other.instantiatesUri
-		    && intent == _other.intent
-		    && note == _other.note
-		    && priority == _other.priority
-		    && reason == _other.reason
-		    && replaces == _other.replaces
-		    && status == _other.status
-		    && subject == _other.subject
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(author)
-		hasher.combine(authoredOn)
-		hasher.combine(basedOn)
-		hasher.combine(code)
-		hasher.combine(encounter)
-		hasher.combine(goal)
-		hasher.combine(groupIdentifier)
-		hasher.combine(identifier)
-		hasher.combine(instantiatesCanonical)
-		hasher.combine(instantiatesUri)
-		hasher.combine(intent)
-		hasher.combine(note)
-		hasher.combine(priority)
-		hasher.combine(reason)
-		hasher.combine(replaces)
-		hasher.combine(status)
-		hasher.combine(subject)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -280,16 +276,16 @@ open class RequestOrchestration: DomainResource {
  
  The actions, if any, produced by the evaluation of the artifact.
  */
-open class RequestOrchestrationAction: BackboneElement {
+public struct RequestOrchestrationAction: BackboneElement {
 	
 	/// All possible types for "definition[x]"
-	public enum DefinitionX: Hashable {
+	public enum DefinitionX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "timing[x]"
-	public enum TimingX: Hashable {
+	public enum TimingX: Equatable, Hashable, Sendable {
 		case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case duration(Duration)
@@ -299,57 +295,8 @@ open class RequestOrchestrationAction: BackboneElement {
 		case timing(Timing)
 	}
 	
-	/// Pointer to specific item from the PlanDefinition
-	public var linkId: FHIRPrimitive<FHIRString>?
-	
-	/// User-visible prefix for the action (e.g. 1. or A.)
-	public var prefix: FHIRPrimitive<FHIRString>?
-	
-	/// User-visible title
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Short description of the action
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
-	public var textEquivalent: FHIRPrimitive<FHIRString>?
-	
-	/// Indicates how quickly the action should be addressed with respect to other actions.
-	public var priority: FHIRPrimitive<RequestPriority>?
-	
-	/// Code representing the meaning of the action or sub-actions
-	public var code: [CodeableConcept]?
-	
-	/// Supporting documentation for the intended performer of the action
-	public var documentation: [RelatedArtifact]?
-	
-	/// What goals
-	public var goal: [Reference]?
-	
-	/// Whether or not the action is applicable
-	public var condition: [RequestOrchestrationActionCondition]?
-	
-	/// Input data requirements
-	public var input: [RequestOrchestrationActionInput]?
-	
-	/// Output data definition
-	public var output: [RequestOrchestrationActionOutput]?
-	
-	/// Relationship to another action
-	public var relatedAction: [RequestOrchestrationActionRelatedAction]?
-	
-	/// When the action should take place
-	/// One of `timing[x]`
-	public var timing: TimingX?
-	
-	/// Where it should happen
-	public var location: CodeableReference?
-	
-	/// Who should perform the action
-	public var participant: [RequestOrchestrationActionParticipant]?
-	
-	/// create | update | remove | fire-event
-	public var type: CodeableConcept?
+	/// Sub action
+	public var action: [RequestOrchestrationAction]?
 	
 	/// All - meaning the applicability of each child action is evaluated independently; if a child action is applicable
 	/// according to the applicability criteria, it is applied. Any - meaning that each child action is evaluated in
@@ -357,44 +304,101 @@ open class RequestOrchestrationAction: BackboneElement {
 	/// action will stop. If not specified, the default behavior of All is used.
 	public var applicabilityBehavior: FHIRPrimitive<ActionApplicabilityBehavior>?
 	
-	/// Defines the grouping behavior for the action and its children.
-	public var groupingBehavior: FHIRPrimitive<ActionGroupingBehavior>?
-	
-	/// Defines the selection behavior for the action and its children.
-	public var selectionBehavior: FHIRPrimitive<ActionSelectionBehavior>?
-	
-	/// Defines expectations around whether an action is required.
-	public var requiredBehavior: FHIRPrimitive<ActionRequiredBehavior>?
-	
-	/// Defines whether the action should usually be preselected.
-	public var precheckBehavior: FHIRPrimitive<ActionPrecheckBehavior>?
-	
 	/// Defines whether the action can be selected multiple times.
 	public var cardinalityBehavior: FHIRPrimitive<ActionCardinalityBehavior>?
 	
-	/// The target of the action
-	public var resource: Reference?
+	/// Code representing the meaning of the action or sub-actions
+	public var code: [CodeableConcept]?
+	
+	/// Whether or not the action is applicable
+	public var condition: [RequestOrchestrationActionCondition]?
 	
 	/// Description of the activity to be performed
 	/// One of `definition[x]`
 	public var definition: DefinitionX?
 	
-	/// Transform to apply the template
-	public var transform: FHIRPrimitive<Canonical>?
+	/// Short description of the action
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Supporting documentation for the intended performer of the action
+	public var documentation: [RelatedArtifact]?
 	
 	/// Dynamic aspects of the definition
 	public var dynamicValue: [RequestOrchestrationActionDynamicValue]?
 	
-	/// Sub action
-	public var action: [RequestOrchestrationAction]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// What goals
+	public var goal: [Reference]?
+	
+	/// Defines the grouping behavior for the action and its children.
+	public var groupingBehavior: FHIRPrimitive<ActionGroupingBehavior>?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Input data requirements
+	public var input: [RequestOrchestrationActionInput]?
+	
+	/// Pointer to specific item from the PlanDefinition
+	public var linkId: FHIRPrimitive<FHIRString>?
+	
+	/// Where it should happen
+	public var location: CodeableReference?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Output data definition
+	public var output: [RequestOrchestrationActionOutput]?
+	
+	/// Who should perform the action
+	public var participant: [RequestOrchestrationActionParticipant]?
+	
+	/// Defines whether the action should usually be preselected.
+	public var precheckBehavior: FHIRPrimitive<ActionPrecheckBehavior>?
+	
+	/// User-visible prefix for the action (e.g. 1. or A.)
+	public var prefix: FHIRPrimitive<FHIRString>?
+	
+	/// Indicates how quickly the action should be addressed with respect to other actions.
+	public var priority: FHIRPrimitive<RequestPriority>?
+	
+	/// Relationship to another action
+	public var relatedAction: [RequestOrchestrationActionRelatedAction]?
+	
+	/// Defines expectations around whether an action is required.
+	public var requiredBehavior: FHIRPrimitive<ActionRequiredBehavior>?
+	
+	/// The target of the action
+	public var resource: Reference?
+	
+	/// Defines the selection behavior for the action and its children.
+	public var selectionBehavior: FHIRPrimitive<ActionSelectionBehavior>?
+	
+	/// Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
+	public var textEquivalent: FHIRPrimitive<FHIRString>?
+	
+	/// When the action should take place
+	/// One of `timing[x]`
+	public var timing: TimingX?
+	
+	/// User-visible title
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Transform to apply the template
+	public var transform: FHIRPrimitive<Canonical>?
+	
+	/// create | update | remove | fire-event
+	public var type: CodeableConcept?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		action: [RequestOrchestrationAction]? = nil,
 		applicabilityBehavior: FHIRPrimitive<ActionApplicabilityBehavior>? = nil,
 		cardinalityBehavior: FHIRPrimitive<ActionCardinalityBehavior>? = nil,
@@ -474,11 +478,14 @@ open class RequestOrchestrationAction: BackboneElement {
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case documentation
 		case dynamicValue
+		case `extension` = "extension"
 		case goal
 		case groupingBehavior; case _groupingBehavior
+		case id; case _id
 		case input
 		case linkId; case _linkId
 		case location
+		case modifierExtension
 		case output
 		case participant
 		case precheckBehavior; case _precheckBehavior
@@ -500,12 +507,12 @@ open class RequestOrchestrationAction: BackboneElement {
 		case transform; case _transform
 		case type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try [RequestOrchestrationAction](from: _container, forKeyIfPresent: .action)
 		self.applicabilityBehavior = try FHIRPrimitive<ActionApplicabilityBehavior>(from: _container, forKeyIfPresent: .applicabilityBehavior, auxiliaryKey: ._applicabilityBehavior)
 		self.cardinalityBehavior = try FHIRPrimitive<ActionCardinalityBehavior>(from: _container, forKeyIfPresent: .cardinalityBehavior, auxiliaryKey: ._cardinalityBehavior)
@@ -528,11 +535,14 @@ open class RequestOrchestrationAction: BackboneElement {
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.documentation = try [RelatedArtifact](from: _container, forKeyIfPresent: .documentation)
 		self.dynamicValue = try [RequestOrchestrationActionDynamicValue](from: _container, forKeyIfPresent: .dynamicValue)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.goal = try [Reference](from: _container, forKeyIfPresent: .goal)
 		self.groupingBehavior = try FHIRPrimitive<ActionGroupingBehavior>(from: _container, forKeyIfPresent: .groupingBehavior, auxiliaryKey: ._groupingBehavior)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.input = try [RequestOrchestrationActionInput](from: _container, forKeyIfPresent: .input)
 		self.linkId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .linkId, auxiliaryKey: ._linkId)
 		self.location = try CodeableReference(from: _container, forKeyIfPresent: .location)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.output = try [RequestOrchestrationActionOutput](from: _container, forKeyIfPresent: .output)
 		self.participant = try [RequestOrchestrationActionParticipant](from: _container, forKeyIfPresent: .participant)
 		self.precheckBehavior = try FHIRPrimitive<ActionPrecheckBehavior>(from: _container, forKeyIfPresent: .precheckBehavior, auxiliaryKey: ._precheckBehavior)
@@ -590,14 +600,12 @@ open class RequestOrchestrationAction: BackboneElement {
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.transform = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .transform, auxiliaryKey: ._transform)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try applicabilityBehavior?.encode(on: &_container, forKey: .applicabilityBehavior, auxiliaryKey: ._applicabilityBehavior)
 		try cardinalityBehavior?.encode(on: &_container, forKey: .cardinalityBehavior, auxiliaryKey: ._cardinalityBehavior)
@@ -614,11 +622,14 @@ open class RequestOrchestrationAction: BackboneElement {
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try documentation?.encode(on: &_container, forKey: .documentation)
 		try dynamicValue?.encode(on: &_container, forKey: .dynamicValue)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try goal?.encode(on: &_container, forKey: .goal)
 		try groupingBehavior?.encode(on: &_container, forKey: .groupingBehavior, auxiliaryKey: ._groupingBehavior)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try input?.encode(on: &_container, forKey: .input)
 		try linkId?.encode(on: &_container, forKey: .linkId, auxiliaryKey: ._linkId)
 		try location?.encode(on: &_container, forKey: .location)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try output?.encode(on: &_container, forKey: .output)
 		try participant?.encode(on: &_container, forKey: .participant)
 		try precheckBehavior?.encode(on: &_container, forKey: .precheckBehavior, auxiliaryKey: ._precheckBehavior)
@@ -650,78 +661,6 @@ open class RequestOrchestrationAction: BackboneElement {
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try transform?.encode(on: &_container, forKey: .transform, auxiliaryKey: ._transform)
 		try type?.encode(on: &_container, forKey: .type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationAction else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && applicabilityBehavior == _other.applicabilityBehavior
-		    && cardinalityBehavior == _other.cardinalityBehavior
-		    && code == _other.code
-		    && condition == _other.condition
-		    && definition == _other.definition
-		    && description_fhir == _other.description_fhir
-		    && documentation == _other.documentation
-		    && dynamicValue == _other.dynamicValue
-		    && goal == _other.goal
-		    && groupingBehavior == _other.groupingBehavior
-		    && input == _other.input
-		    && linkId == _other.linkId
-		    && location == _other.location
-		    && output == _other.output
-		    && participant == _other.participant
-		    && precheckBehavior == _other.precheckBehavior
-		    && prefix == _other.prefix
-		    && priority == _other.priority
-		    && relatedAction == _other.relatedAction
-		    && requiredBehavior == _other.requiredBehavior
-		    && resource == _other.resource
-		    && selectionBehavior == _other.selectionBehavior
-		    && textEquivalent == _other.textEquivalent
-		    && timing == _other.timing
-		    && title == _other.title
-		    && transform == _other.transform
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(applicabilityBehavior)
-		hasher.combine(cardinalityBehavior)
-		hasher.combine(code)
-		hasher.combine(condition)
-		hasher.combine(definition)
-		hasher.combine(description_fhir)
-		hasher.combine(documentation)
-		hasher.combine(dynamicValue)
-		hasher.combine(goal)
-		hasher.combine(groupingBehavior)
-		hasher.combine(input)
-		hasher.combine(linkId)
-		hasher.combine(location)
-		hasher.combine(output)
-		hasher.combine(participant)
-		hasher.combine(precheckBehavior)
-		hasher.combine(prefix)
-		hasher.combine(priority)
-		hasher.combine(relatedAction)
-		hasher.combine(requiredBehavior)
-		hasher.combine(resource)
-		hasher.combine(selectionBehavior)
-		hasher.combine(textEquivalent)
-		hasher.combine(timing)
-		hasher.combine(title)
-		hasher.combine(transform)
-		hasher.combine(type)
 	}
 }
 
@@ -730,22 +669,30 @@ open class RequestOrchestrationAction: BackboneElement {
  
  An expression that describes applicability criteria, or start/stop conditions for the action.
  */
-open class RequestOrchestrationActionCondition: BackboneElement {
-	
-	/// The kind of condition.
-	public var kind: FHIRPrimitive<ActionConditionKind>
+public struct RequestOrchestrationActionCondition: BackboneElement {
 	
 	/// Boolean-valued expression
 	public var expression: Expression?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The kind of condition.
+	public var kind: FHIRPrimitive<ActionConditionKind>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
 	public init(kind: FHIRPrimitive<ActionConditionKind>) {
 		self.kind = kind
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		expression: Expression? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -763,46 +710,33 @@ open class RequestOrchestrationActionCondition: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case expression
+		case `extension` = "extension"
+		case id; case _id
 		case kind; case _kind
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.expression = try Expression(from: _container, forKeyIfPresent: .expression)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.kind = try FHIRPrimitive<ActionConditionKind>(from: _container, forKey: .kind, auxiliaryKey: ._kind)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try expression?.encode(on: &_container, forKey: .expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try kind.encode(on: &_container, forKey: .kind, auxiliaryKey: ._kind)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationActionCondition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return expression == _other.expression
-		    && kind == _other.kind
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(expression)
-		hasher.combine(kind)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -813,21 +747,29 @@ open class RequestOrchestrationActionCondition: BackboneElement {
  must be computed based on the patient's weight, a customization would be used to specify an expression that calculated
  the weight, and the path on the resource that would contain the result.
  */
-open class RequestOrchestrationActionDynamicValue: BackboneElement {
-	
-	/// The path to the element to be set dynamically
-	public var path: FHIRPrimitive<FHIRString>?
+public struct RequestOrchestrationActionDynamicValue: BackboneElement {
 	
 	/// An expression that provides the dynamic value for the customization
 	public var expression: Expression?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The path to the element to be set dynamically
+	public var path: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		expression: Expression? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -846,46 +788,33 @@ open class RequestOrchestrationActionDynamicValue: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case expression
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case path; case _path
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.expression = try Expression(from: _container, forKeyIfPresent: .expression)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .path, auxiliaryKey: ._path)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try expression?.encode(on: &_container, forKey: .expression)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try path?.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationActionDynamicValue else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return expression == _other.expression
-		    && path == _other.path
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(expression)
-		hasher.combine(path)
 	}
 }
 
@@ -894,24 +823,32 @@ open class RequestOrchestrationActionDynamicValue: BackboneElement {
  
  Defines input data requirements for the action.
  */
-open class RequestOrchestrationActionInput: BackboneElement {
+public struct RequestOrchestrationActionInput: BackboneElement {
 	
-	/// User-visible title
-	public var title: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// What data is provided
-	public var requirement: DataRequirement?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// What data is provided
 	public var relatedData: FHIRPrimitive<FHIRString>?
 	
+	/// What data is provided
+	public var requirement: DataRequirement?
+	
+	/// User-visible title
+	public var title: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -931,52 +868,37 @@ open class RequestOrchestrationActionInput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case relatedData; case _relatedData
 		case requirement
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.relatedData = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .relatedData, auxiliaryKey: ._relatedData)
 		self.requirement = try DataRequirement(from: _container, forKeyIfPresent: .requirement)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try relatedData?.encode(on: &_container, forKey: .relatedData, auxiliaryKey: ._relatedData)
 		try requirement?.encode(on: &_container, forKey: .requirement)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationActionInput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return relatedData == _other.relatedData
-		    && requirement == _other.requirement
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(relatedData)
-		hasher.combine(requirement)
-		hasher.combine(title)
 	}
 }
 
@@ -985,24 +907,32 @@ open class RequestOrchestrationActionInput: BackboneElement {
  
  Defines the outputs of the action, if any.
  */
-open class RequestOrchestrationActionOutput: BackboneElement {
+public struct RequestOrchestrationActionOutput: BackboneElement {
 	
-	/// User-visible title
-	public var title: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// What data is provided
-	public var requirement: DataRequirement?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// What data is provided
 	public var relatedData: FHIRPrimitive<FHIRString>?
 	
+	/// What data is provided
+	public var requirement: DataRequirement?
+	
+	/// User-visible title
+	public var title: FHIRPrimitive<FHIRString>?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1022,52 +952,37 @@ open class RequestOrchestrationActionOutput: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case relatedData; case _relatedData
 		case requirement
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.relatedData = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .relatedData, auxiliaryKey: ._relatedData)
 		self.requirement = try DataRequirement(from: _container, forKeyIfPresent: .requirement)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try relatedData?.encode(on: &_container, forKey: .relatedData, auxiliaryKey: ._relatedData)
 		try requirement?.encode(on: &_container, forKey: .requirement)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationActionOutput else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return relatedData == _other.relatedData
-		    && requirement == _other.requirement
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(relatedData)
-		hasher.combine(requirement)
-		hasher.combine(title)
 	}
 }
 
@@ -1076,13 +991,32 @@ open class RequestOrchestrationActionOutput: BackboneElement {
  
  The participant that should perform or be responsible for this action.
  */
-open class RequestOrchestrationActionParticipant: BackboneElement {
+public struct RequestOrchestrationActionParticipant: BackboneElement {
 	
 	/// All possible types for "actor[x]"
-	public enum ActorX: Hashable {
+	public enum ActorX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
 		case reference(Reference)
 	}
+	
+	/// Who/what is participating?
+	/// One of `actor[x]`
+	public var actor: ActorX?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// E.g. Author, Reviewer, Witness, etc
+	public var function: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// E.g. Nurse, Surgeon, Parent, etc
+	public var role: CodeableConcept?
 	
 	/// The type of participant in the action.
 	public var type: FHIRPrimitive<ActionParticipantType>?
@@ -1093,23 +1027,12 @@ open class RequestOrchestrationActionParticipant: BackboneElement {
 	/// Who or what can participate
 	public var typeReference: Reference?
 	
-	/// E.g. Nurse, Surgeon, Parent, etc
-	public var role: CodeableConcept?
-	
-	/// E.g. Author, Reviewer, Witness, etc
-	public var function: CodeableConcept?
-	
-	/// Who/what is participating?
-	/// One of `actor[x]`
-	public var actor: ActorX?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: ActorX? = nil,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -1137,18 +1060,21 @@ open class RequestOrchestrationActionParticipant: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case actorCanonical; case _actorCanonical
 		case actorReference
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 		case role
 		case type; case _type
 		case typeCanonical; case _typeCanonical
 		case typeReference
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_actor: ActorX? = nil
 		if let actorCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .actorCanonical, auxiliaryKey: ._actorCanonical) {
 			if _t_actor != nil {
@@ -1163,19 +1089,20 @@ open class RequestOrchestrationActionParticipant: BackboneElement {
 			_t_actor = .reference(actorReference)
 		}
 		self.actor = _t_actor
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
 		self.type = try FHIRPrimitive<ActionParticipantType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
 		self.typeCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .typeCanonical, auxiliaryKey: ._typeCanonical)
 		self.typeReference = try Reference(from: _container, forKeyIfPresent: .typeReference)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = actor {
 			switch _enum {
 			case .canonical(let _value):
@@ -1184,39 +1111,14 @@ open class RequestOrchestrationActionParticipant: BackboneElement {
 				try _value.encode(on: &_container, forKey: .actorReference)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role?.encode(on: &_container, forKey: .role)
 		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		try typeCanonical?.encode(on: &_container, forKey: .typeCanonical, auxiliaryKey: ._typeCanonical)
 		try typeReference?.encode(on: &_container, forKey: .typeReference)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationActionParticipant else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && function == _other.function
-		    && role == _other.role
-		    && type == _other.type
-		    && typeCanonical == _other.typeCanonical
-		    && typeReference == _other.typeReference
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(function)
-		hasher.combine(role)
-		hasher.combine(type)
-		hasher.combine(typeCanonical)
-		hasher.combine(typeReference)
 	}
 }
 
@@ -1225,36 +1127,44 @@ open class RequestOrchestrationActionParticipant: BackboneElement {
  
  A relationship to another action such as "before" or "30-60 minutes after start of".
  */
-open class RequestOrchestrationActionRelatedAction: BackboneElement {
+public struct RequestOrchestrationActionRelatedAction: BackboneElement {
 	
 	/// All possible types for "offset[x]"
-	public enum OffsetX: Hashable {
+	public enum OffsetX: Equatable, Hashable, Sendable {
 		case duration(Duration)
 		case range(Range)
 	}
 	
-	/// What action this is related to
-	public var targetId: FHIRPrimitive<FHIRString>
-	
-	/// The relationship of this action to the related action.
-	public var relationship: FHIRPrimitive<ActionRelationshipType>
-	
 	/// The relationship of the end of this action to the related action.
 	public var endRelationship: FHIRPrimitive<ActionRelationshipType>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Time offset for the relationship
 	/// One of `offset[x]`
 	public var offset: OffsetX?
 	
+	/// The relationship of this action to the related action.
+	public var relationship: FHIRPrimitive<ActionRelationshipType>
+	
+	/// What action this is related to
+	public var targetId: FHIRPrimitive<FHIRString>
+	
 	/// Designated initializer taking all required properties
 	public init(relationship: FHIRPrimitive<ActionRelationshipType>, targetId: FHIRPrimitive<FHIRString>) {
 		self.relationship = relationship
 		self.targetId = targetId
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		endRelationship: FHIRPrimitive<ActionRelationshipType>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1275,18 +1185,24 @@ open class RequestOrchestrationActionRelatedAction: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case endRelationship; case _endRelationship
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case offsetDuration
 		case offsetRange
 		case relationship; case _relationship
 		case targetId; case _targetId
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.endRelationship = try FHIRPrimitive<ActionRelationshipType>(from: _container, forKeyIfPresent: .endRelationship, auxiliaryKey: ._endRelationship)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		var _t_offset: OffsetX? = nil
 		if let offsetDuration = try Duration(from: _container, forKeyIfPresent: .offsetDuration) {
 			if _t_offset != nil {
@@ -1303,15 +1219,16 @@ open class RequestOrchestrationActionRelatedAction: BackboneElement {
 		self.offset = _t_offset
 		self.relationship = try FHIRPrimitive<ActionRelationshipType>(from: _container, forKey: .relationship, auxiliaryKey: ._relationship)
 		self.targetId = try FHIRPrimitive<FHIRString>(from: _container, forKey: .targetId, auxiliaryKey: ._targetId)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try endRelationship?.encode(on: &_container, forKey: .endRelationship, auxiliaryKey: ._endRelationship)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = offset {
 			switch _enum {
 			case .duration(let _value):
@@ -1322,29 +1239,5 @@ open class RequestOrchestrationActionRelatedAction: BackboneElement {
 		}
 		try relationship.encode(on: &_container, forKey: .relationship, auxiliaryKey: ._relationship)
 		try targetId.encode(on: &_container, forKey: .targetId, auxiliaryKey: ._targetId)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? RequestOrchestrationActionRelatedAction else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return endRelationship == _other.endRelationship
-		    && offset == _other.offset
-		    && relationship == _other.relationship
-		    && targetId == _other.targetId
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(endRelationship)
-		hasher.combine(offset)
-		hasher.combine(relationship)
-		hasher.combine(targetId)
 	}
 }

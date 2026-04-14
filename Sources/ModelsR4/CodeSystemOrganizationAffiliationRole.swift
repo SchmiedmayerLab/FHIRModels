@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,29 +28,29 @@ import FMCore
  */
 public enum OrganizationAffiliationRole: String, FHIRPrimitiveType {
 	
-	/// provider
-	case provider
+	/// An organization that facilitates electronic clinical data exchange between entities
+	case HIEHIO = "HIE/HIO"
 	
 	/// An organization such as a public health agency, community/social services provider, etc.
 	case agency
+	
+	/// An organization providing diagnostic testing/laboratory services
+	case diagnostics
+	
+	/// A type of non-ownership relationship between entities (encompasses partnerships, collaboration, joint ventures,
+	/// etc.)
+	case member
+	
+	/// An organization providing reimbursement, payment, or related services
+	case payer
+	
+	/// provider
+	case provider
 	
 	/// An organization providing research-related services such as conducting research, recruiting research
 	/// participants, analyzing data, etc.
 	case research
 	
-	/// An organization providing reimbursement, payment, or related services
-	case payer
-	
-	/// An organization providing diagnostic testing/laboratory services
-	case diagnostics
-	
 	/// An organization that provides medical supplies (e.g. medical devices, equipment, pharmaceutical products, etc.)
 	case supplier
-	
-	/// An organization that facilitates electronic clinical data exchange between entities
-	case HIEHIO = "HIE/HIO"
-	
-	/// A type of non-ownership relationship between entities (encompasses partnerships, collaboration, joint ventures,
-	/// etc.)
-	case member
 }

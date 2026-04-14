@@ -2,8 +2,8 @@
 //  BodyStructure.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/BodyStructure)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/BodyStructure)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,40 +25,62 @@ import FMCore
  Record details about an anatomical structure.  This resource may be used when a coded concept does not provide the
  necessary detail needed for the use case.
  */
-open class BodyStructure: DomainResource {
+public struct BodyStructure: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .bodyStructure }
-	
-	/// Bodystructure identifier
-	public var identifier: [Identifier]?
+	public static let resourceType: ResourceType = .bodyStructure
 	
 	/// Whether this record is in active use
 	public var active: FHIRPrimitive<FHIRBool>?
 	
-	/// Included anatomic location(s)
-	public var includedStructure: [BodyStructureIncludedStructure]
-	
-	/// Excluded anatomic locations(s)
-	public var excludedStructure: [BodyStructureIncludedStructure]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Text description
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Excluded anatomic locations(s)
+	public var excludedStructure: [BodyStructureIncludedStructure]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Bodystructure identifier
+	public var identifier: [Identifier]?
+	
 	/// Attached images
 	public var image: [Attachment]?
 	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Included anatomic location(s)
+	public var includedStructure: [BodyStructureIncludedStructure]
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// Who this is about
-	public var patient: Reference
+	public var patient: Reference?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	public init(includedStructure: [BodyStructureIncludedStructure], patient: Reference) {
+	public init(includedStructure: [BodyStructureIncludedStructure]) {
 		self.includedStructure = includedStructure
-		self.patient = patient
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		contained: [ResourceProxy]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -72,10 +94,10 @@ open class BodyStructure: DomainResource {
 		language: FHIRPrimitive<FHIRString>? = nil,
 		meta: Meta? = nil,
 		modifierExtension: [Extension]? = nil,
-		patient: Reference,
+		patient: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(includedStructure: includedStructure, patient: patient)
+		self.init(includedStructure: includedStructure)
 		self.active = active
 		self.contained = contained
 		self.description_fhir = description_fhir
@@ -88,78 +110,74 @@ open class BodyStructure: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.patient = patient
 		self.text = text
 	}
 	
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case excludedStructure
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case image
+		case implicitRules; case _implicitRules
 		case includedStructure
+		case language; case _language
+		case meta
+		case modifierExtension
 		case patient
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.excludedStructure = try [BodyStructureIncludedStructure](from: _container, forKeyIfPresent: .excludedStructure)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.image = try [Attachment](from: _container, forKeyIfPresent: .image)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.includedStructure = try [BodyStructureIncludedStructure](from: _container, forKey: .includedStructure)
-		self.patient = try Reference(from: _container, forKey: .patient)
-		try super.init(from: decoder)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try excludedStructure?.encode(on: &_container, forKey: .excludedStructure)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try image?.encode(on: &_container, forKey: .image)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try includedStructure.encode(on: &_container, forKey: .includedStructure)
-		try patient.encode(on: &_container, forKey: .patient)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? BodyStructure else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && description_fhir == _other.description_fhir
-		    && excludedStructure == _other.excludedStructure
-		    && identifier == _other.identifier
-		    && image == _other.image
-		    && includedStructure == _other.includedStructure
-		    && patient == _other.patient
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(description_fhir)
-		hasher.combine(excludedStructure)
-		hasher.combine(identifier)
-		hasher.combine(image)
-		hasher.combine(includedStructure)
-		hasher.combine(patient)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try patient?.encode(on: &_container, forKey: .patient)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -168,37 +186,45 @@ open class BodyStructure: DomainResource {
  
  The anatomical location(s) or region(s) of the specimen, lesion, or body structure.
  */
-open class BodyStructureIncludedStructure: BackboneElement {
-	
-	/// Code that represents the included structure
-	public var structure: CodeableConcept
-	
-	/// Code that represents the included structure laterality
-	public var laterality: CodeableConcept?
+public struct BodyStructureIncludedStructure: BackboneElement {
 	
 	/// Landmark relative location
 	public var bodyLandmarkOrientation: [BodyStructureIncludedStructureBodyLandmarkOrientation]?
 	
-	/// Cartesian reference for structure
-	public var spatialReference: [Reference]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Image(s) of structural aspects
 	public var image: [Attachment]?
 	
-	/// Code that represents the included structure qualifier
-	public var qualifier: [CodeableConcept]?
+	/// Code that represents the included structure laterality
+	public var laterality: CodeableConcept?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Kind of Structure
 	public var morphology: CodeableConcept?
 	
+	/// Code that represents the included structure qualifier
+	public var qualifier: [CodeableConcept]?
+	
+	/// Cartesian reference for structure
+	public var spatialReference: [Reference]?
+	
+	/// Code that represents the included structure
+	public var structure: CodeableConcept
+	
 	/// Designated initializer taking all required properties
 	public init(structure: CodeableConcept) {
 		self.structure = structure
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		bodyLandmarkOrientation: [BodyStructureIncludedStructureBodyLandmarkOrientation]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -226,71 +252,48 @@ open class BodyStructureIncludedStructure: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case bodyLandmarkOrientation
+		case `extension` = "extension"
+		case id; case _id
 		case image
 		case laterality
+		case modifierExtension
 		case morphology
 		case qualifier
 		case spatialReference
 		case structure
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.bodyLandmarkOrientation = try [BodyStructureIncludedStructureBodyLandmarkOrientation](from: _container, forKeyIfPresent: .bodyLandmarkOrientation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.image = try [Attachment](from: _container, forKeyIfPresent: .image)
 		self.laterality = try CodeableConcept(from: _container, forKeyIfPresent: .laterality)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.morphology = try CodeableConcept(from: _container, forKeyIfPresent: .morphology)
 		self.qualifier = try [CodeableConcept](from: _container, forKeyIfPresent: .qualifier)
 		self.spatialReference = try [Reference](from: _container, forKeyIfPresent: .spatialReference)
 		self.structure = try CodeableConcept(from: _container, forKey: .structure)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try bodyLandmarkOrientation?.encode(on: &_container, forKey: .bodyLandmarkOrientation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try image?.encode(on: &_container, forKey: .image)
 		try laterality?.encode(on: &_container, forKey: .laterality)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try morphology?.encode(on: &_container, forKey: .morphology)
 		try qualifier?.encode(on: &_container, forKey: .qualifier)
 		try spatialReference?.encode(on: &_container, forKey: .spatialReference)
 		try structure.encode(on: &_container, forKey: .structure)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? BodyStructureIncludedStructure else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return bodyLandmarkOrientation == _other.bodyLandmarkOrientation
-		    && image == _other.image
-		    && laterality == _other.laterality
-		    && morphology == _other.morphology
-		    && qualifier == _other.qualifier
-		    && spatialReference == _other.spatialReference
-		    && structure == _other.structure
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(bodyLandmarkOrientation)
-		hasher.combine(image)
-		hasher.combine(laterality)
-		hasher.combine(morphology)
-		hasher.combine(qualifier)
-		hasher.combine(spatialReference)
-		hasher.combine(structure)
 	}
 }
 
@@ -299,10 +302,7 @@ open class BodyStructureIncludedStructure: BackboneElement {
  
  Body location in relation to a specific body landmark (e.g., a body structure such a navel, scar, or implanted device).
  */
-open class BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneElement {
-	
-	/// Explanation of landmark
-	public var landmarkDescription: [CodeableConcept]?
+public struct BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneElement {
 	
 	/// Clockface orientation
 	public var clockFacePosition: [CodeableConcept]?
@@ -310,16 +310,27 @@ open class BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneElemen
 	/// Landmark relative location
 	public var distanceFromLandmark: [BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark]?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Explanation of landmark
+	public var landmarkDescription: [CodeableConcept]?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Relative landmark surface orientation
 	public var surfaceOrientation: [CodeableConcept]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		clockFacePosition: [CodeableConcept]? = nil,
 		distanceFromLandmark: [BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark]? = nil,
 		`extension`: [Extension]? = nil,
@@ -343,55 +354,38 @@ open class BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneElemen
 	private enum CodingKeys: String, CodingKey {
 		case clockFacePosition
 		case distanceFromLandmark
+		case `extension` = "extension"
+		case id; case _id
 		case landmarkDescription
+		case modifierExtension
 		case surfaceOrientation
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.clockFacePosition = try [CodeableConcept](from: _container, forKeyIfPresent: .clockFacePosition)
 		self.distanceFromLandmark = try [BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark](from: _container, forKeyIfPresent: .distanceFromLandmark)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.landmarkDescription = try [CodeableConcept](from: _container, forKeyIfPresent: .landmarkDescription)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.surfaceOrientation = try [CodeableConcept](from: _container, forKeyIfPresent: .surfaceOrientation)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try clockFacePosition?.encode(on: &_container, forKey: .clockFacePosition)
 		try distanceFromLandmark?.encode(on: &_container, forKey: .distanceFromLandmark)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try landmarkDescription?.encode(on: &_container, forKey: .landmarkDescription)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try surfaceOrientation?.encode(on: &_container, forKey: .surfaceOrientation)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? BodyStructureIncludedStructureBodyLandmarkOrientation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return clockFacePosition == _other.clockFacePosition
-		    && distanceFromLandmark == _other.distanceFromLandmark
-		    && landmarkDescription == _other.landmarkDescription
-		    && surfaceOrientation == _other.surfaceOrientation
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(clockFacePosition)
-		hasher.combine(distanceFromLandmark)
-		hasher.combine(landmarkDescription)
-		hasher.combine(surfaceOrientation)
 	}
 }
 
@@ -400,21 +394,29 @@ open class BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneElemen
  
  The distance in centimeters a certain observation is made from a body landmark.
  */
-open class BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark: BackboneElement {
+public struct BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark: BackboneElement {
 	
 	/// Measurement device
 	public var device: [CodeableReference]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Measured distance from body landmark
 	public var value: [Quantity]?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		device: [CodeableReference]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -433,45 +435,32 @@ open class BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLand
 	
 	private enum CodingKeys: String, CodingKey {
 		case device
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case value
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.device = try [CodeableReference](from: _container, forKeyIfPresent: .device)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.value = try [Quantity](from: _container, forKeyIfPresent: .value)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try device?.encode(on: &_container, forKey: .device)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try value?.encode(on: &_container, forKey: .value)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return device == _other.device
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(device)
-		hasher.combine(value)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,20 @@ import FMCore
  */
 public enum OrganizationType: String, FHIRPrimitiveType {
 	
-	/// An organization that provides healthcare services.
-	case prov
+	/// An organization that is a registered business or corporation but not identified by other types.
+	case bus
+	
+	/// An un-incorporated community group.
+	case cg
+	
+	/// An organization that is identified as a Pharmaceutical/Clinical Research Sponsor.
+	case crs
 	
 	/// A department or ward within a hospital (Generally is not applicable to top level organizations)
 	case dept
 	
-	/// An organizational team is usually a grouping of practitioners that perform a specific function within an
-	/// organization (which could be a top level organization, or a department).
-	case team
+	/// An educational institution that provides education or research facilities.
+	case edu
 	
 	/// A political body, often used when including organization records for government bodies such as a Federal
 	/// Government, State or Local Government.
@@ -44,25 +49,20 @@ public enum OrganizationType: String, FHIRPrimitiveType {
 	/// A company that provides insurance to its subscribers that may include healthcare related policies.
 	case ins
 	
+	/// Other type of organization not already specified.
+	case other
+	
 	/// A company, charity, or governmental organization, which processes claims and/or issues payments to providers on
 	/// behalf of patients or groups of patients.
 	case pay
 	
-	/// An educational institution that provides education or research facilities.
-	case edu
+	/// An organization that provides healthcare services.
+	case prov
 	
 	/// An organization that is identified as a part of a religious institution.
 	case reli
 	
-	/// An organization that is identified as a Pharmaceutical/Clinical Research Sponsor.
-	case crs
-	
-	/// An un-incorporated community group.
-	case cg
-	
-	/// An organization that is a registered business or corporation but not identified by other types.
-	case bus
-	
-	/// Other type of organization not already specified.
-	case other
+	/// An organizational team is usually a grouping of practitioners that perform a specific function within an
+	/// organization (which could be a top level organization, or a department).
+	case team
 }

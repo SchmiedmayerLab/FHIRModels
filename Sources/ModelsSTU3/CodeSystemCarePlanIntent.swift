@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,20 +27,20 @@ import FMCore
  */
 public enum CarePlanIntent: String, FHIRPrimitiveType {
 	
-	/// The care plan is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and
-	/// without providing an authorization to act
-	case proposal = "proposal"
-	
-	/// The care plan represents an intention to ensure something occurs without providing an authorization for others
-	/// to act
-	case plan = "plan"
-	
-	/// The care plan represents a request/demand and authorization for action
-	case order = "order"
-	
 	/// The care plan represents a component or option for a RequestGroup that establishes timing, conditionality and/or
 	/// other constraints among a set of requests.
 	/// 
 	/// Refer to [[[RequestGroup]]] for additional information on how this status is used
-	case option = "option"
+	case option
+	
+	/// The care plan represents a request/demand and authorization for action
+	case order
+	
+	/// The care plan represents an intention to ensure something occurs without providing an authorization for others
+	/// to act
+	case plan
+	
+	/// The care plan is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and
+	/// without providing an authorization to act
+	case proposal
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,11 +27,11 @@ import FMCore
  */
 public enum ProcedureDeviceActionCodes: String, FHIRPrimitiveType {
 	
-	/// The device was implanted in the patient during the procedure.
-	case implanted
-	
 	/// The device was explanted from the patient during the procedure.
 	case explanted
+	
+	/// The device was implanted in the patient during the procedure.
+	case implanted
 	
 	/// The device remains in the patient, but its location, settings, or functionality was changed.
 	case manipulated

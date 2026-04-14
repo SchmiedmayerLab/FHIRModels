@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,15 +27,6 @@ import FMCore
  */
 public enum MilitaryServiceCodes: String, FHIRPrimitiveType {
 	
-	/// The military status is not indicated
-	case notIndicated = "not-indicated"
-	
-	/// The subject has no history of military service
-	case noMilitaryService = "no-military-service"
-	
-	/// The subject is has served in the military but is no longer active
-	case veteran = "veteran"
-	
 	/// The subject is not a reserve member and is currently engaged in full-time military activity
 	case activeDuty = "active-duty"
 	
@@ -44,4 +35,13 @@ public enum MilitaryServiceCodes: String, FHIRPrimitiveType {
 	
 	/// The subject is a reserve member and is not currently engaged in full-time military activity
 	case inactiveReserve = "inactive-reserve"
+	
+	/// The subject has no history of military service
+	case noMilitaryService = "no-military-service"
+	
+	/// The military status is not indicated
+	case notIndicated = "not-indicated"
+	
+	/// The subject is has served in the military but is no longer active
+	case veteran
 }

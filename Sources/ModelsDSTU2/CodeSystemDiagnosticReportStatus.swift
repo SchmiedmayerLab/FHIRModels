@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,28 +27,28 @@ import FMCore
  */
 public enum DiagnosticReportStatus: String, FHIRPrimitiveType {
 	
-	/// The existence of the report is registered, but there is nothing yet available.
-	case registered = "registered"
-	
-	/// This is a partial (e.g. initial, interim or preliminary) report: data in the report may be incomplete or
-	/// unverified.
-	case partial = "partial"
-	
-	/// The report is complete and verified by an authorized person.
-	case final = "final"
-	
-	/// The report has been modified subsequent to being Final, and is complete and verified by an authorized person.
-	/// New content has been added, but existing content hasn't changed
-	case corrected = "corrected"
-	
 	/// The report has been modified subsequent to being Final, and is complete and verified by an authorized person.
 	/// New content has been added, but existing content hasn't changed.
-	case appended = "appended"
+	case appended
 	
 	/// The report is unavailable because the measurement was not started or not completed (also sometimes called
 	/// "aborted").
-	case cancelled = "cancelled"
+	case cancelled
+	
+	/// The report has been modified subsequent to being Final, and is complete and verified by an authorized person.
+	/// New content has been added, but existing content hasn't changed
+	case corrected
 	
 	/// The report has been withdrawn following a previous final release.
 	case enteredInError = "entered-in-error"
+	
+	/// The report is complete and verified by an authorized person.
+	case final
+	
+	/// This is a partial (e.g. initial, interim or preliminary) report: data in the report may be incomplete or
+	/// unverified.
+	case partial
+	
+	/// The existence of the report is registered, but there is nothing yet available.
+	case registered
 }

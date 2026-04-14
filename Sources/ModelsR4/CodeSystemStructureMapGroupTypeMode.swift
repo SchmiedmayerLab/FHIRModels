@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@ public enum StructureMapGroupTypeMode: String, FHIRPrimitiveType {
 	/// This group is not a default group for the types.
 	case none
 	
-	/// This group is a default mapping group for the specified types and for the primary source type.
-	case types
-	
 	/// This group is a default mapping group for the specified types.
 	case typeAndTypes = "type-and-types"
+	
+	/// This group is a default mapping group for the specified types and for the primary source type.
+	case types
 }

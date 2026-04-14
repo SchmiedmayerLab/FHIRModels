@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum UslabObservationkind: String, FHIRPrimitiveType {
 	
-	/// The value is Observation.value[x] is an actual result from a laboratory test
-	case result = "result"
+	/// The value is Observation.value[x] is some other unsolicited clnically relevant information.
+	case information
 	
 	/// The value is Observation.value[x] is a response to laboratory Ask at order (AOE) questions
-	case response = "response"
+	case response
 	
-	/// The value is Observation.value[x] is some other unsolicited clnically relevant information.
-	case information = "information"
+	/// The value is Observation.value[x] is an actual result from a laboratory test
+	case result
 }

@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ import FMCore
  */
 public enum EventCapabilityMode: String, FHIRPrimitiveType {
 	
-	/// The application sends requests and receives responses.
-	case sender = "sender"
-	
 	/// The application receives requests and sends responses.
-	case receiver = "receiver"
+	case receiver
+	
+	/// The application sends requests and receives responses.
+	case sender
 }

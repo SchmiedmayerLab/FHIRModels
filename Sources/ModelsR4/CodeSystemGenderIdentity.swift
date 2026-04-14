@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -26,24 +26,24 @@ import FMCore
  */
 public enum GenderIdentity: String, FHIRPrimitiveType {
 	
+	/// the patient identifies as female
+	case female
+	
+	/// the patient identifies as male
+	case male
+	
+	/// the patient identifies with neither/both female and male
+	case nonBinary = "non-binary"
+	
+	/// the patient does not wish to disclose his gender identity
+	case nonDisclose = "non-disclose"
+	
+	/// other gender identity
+	case other
+	
 	/// the patient identifies as transgender male-to-female
 	case transgenderFemale = "transgender-female"
 	
 	/// the patient identifies as transgender female-to-male
 	case transgenderMale = "transgender-male"
-	
-	/// the patient identifies with neither/both female and male
-	case nonBinary = "non-binary"
-	
-	/// the patient identifies as male
-	case male
-	
-	/// the patient identifies as female
-	case female
-	
-	/// other gender identity
-	case other
-	
-	/// the patient does not wish to disclose his gender identity
-	case nonDisclose = "non-disclose"
 }

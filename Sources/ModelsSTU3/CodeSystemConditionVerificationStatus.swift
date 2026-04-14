@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,23 +27,23 @@ import FMCore
  */
 public enum ConditionVerificationStatus: String, FHIRPrimitiveType {
 	
-	/// This is a tentative diagnosis - still a candidate that is under consideration.
-	case provisional = "provisional"
+	/// There is sufficient diagnostic and/or clinical evidence to treat this as a confirmed condition.
+	case confirmed
 	
 	/// One of a set of potential (and typically mutually exclusive) diagnoses asserted to further guide the diagnostic
 	/// process and preliminary treatment.
-	case differential = "differential"
-	
-	/// There is sufficient diagnostic and/or clinical evidence to treat this as a confirmed condition.
-	case confirmed = "confirmed"
-	
-	/// This condition has been ruled out by diagnostic and clinical evidence.
-	case refuted = "refuted"
+	case differential
 	
 	/// The statement was entered in error and is not valid.
 	case enteredInError = "entered-in-error"
 	
+	/// This is a tentative diagnosis - still a candidate that is under consideration.
+	case provisional
+	
+	/// This condition has been ruled out by diagnostic and clinical evidence.
+	case refuted
+	
 	/// The condition status is unknown.  Note that "unknown" is a value of last resort and every attempt should be made
 	/// to provide a meaningful value other than "unknown".
-	case unknown = "unknown"
+	case unknown
 }

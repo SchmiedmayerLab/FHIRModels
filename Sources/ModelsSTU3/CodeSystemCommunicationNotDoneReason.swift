@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum CommunicationNotDoneReason: String, FHIRPrimitiveType {
 	
-	/// The communication was not done due to an unknown reason.
-	case unknown = "unknown"
-	
-	/// The communication was not done due to a system error.
-	case systemError = "system-error"
+	/// The communication was not done due to a family objection.
+	case familyObjection = "family-objection"
 	
 	/// The communication was not done due to an invalid phone number.
 	case invalidPhoneNumber = "invalid-phone-number"
 	
+	/// The communication was not done due to a patient objection.
+	case patientObjection = "patient-objection"
+	
 	/// The communication was not done due to the recipient being unavailable.
 	case recipientUnavailable = "recipient-unavailable"
 	
-	/// The communication was not done due to a family objection.
-	case familyObjection = "family-objection"
+	/// The communication was not done due to a system error.
+	case systemError = "system-error"
 	
-	/// The communication was not done due to a patient objection.
-	case patientObjection = "patient-objection"
+	/// The communication was not done due to an unknown reason.
+	case unknown
 }

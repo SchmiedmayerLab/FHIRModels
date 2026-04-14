@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@ import FMCore
  */
 public enum ListMode: String, FHIRPrimitiveType {
 	
-	/// This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is
-	/// tracking changes.
-	case working
+	/// A point-in-time list that shows what changes have been made or recommended.  E.g. a discharge medication list
+	/// showing what was added and removed during an encounter.
+	case changes
 	
 	/// This list was prepared as a snapshot. It should not be assumed to be current.
 	case snapshot
 	
-	/// A point-in-time list that shows what changes have been made or recommended.  E.g. a discharge medication list
-	/// showing what was added and removed during an encounter.
-	case changes
+	/// This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is
+	/// tracking changes.
+	case working
 }

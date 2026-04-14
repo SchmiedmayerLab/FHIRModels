@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ import FMCore
  */
 public enum RestfulSecurityService: String, FHIRPrimitiveType {
 	
-	/// OAuth (unspecified version see oauth.net).
-	case oAuth = "OAuth"
-	
-	/// OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org/).
-	case sMARTOnFHIR = "SMART-on-FHIR"
-	
 	/// Microsoft NTLM Authentication.
 	case NTLM
 	
 	/// Basic authentication defined in HTTP specification.
 	case basic = "Basic"
 	
+	/// SSL where client must have a certificate registered with the server.
+	case certificates = "Certificates"
+	
 	/// see http://www.ietf.org/rfc/rfc4120.txt.
 	case kerberos = "Kerberos"
 	
-	/// SSL where client must have a certificate registered with the server.
-	case certificates = "Certificates"
+	/// OAuth (unspecified version see oauth.net).
+	case oAuth = "OAuth"
+	
+	/// OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org/).
+	case sMARTOnFHIR = "SMART-on-FHIR"
 }

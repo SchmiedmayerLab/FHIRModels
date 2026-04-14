@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.3.0 (http://hl7.org/fhir/StructureDefinition/Practitioner)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,31 +24,52 @@ import FMCore
  
  A person who is directly or indirectly involved in the provisioning of healthcare.
  */
-open class Practitioner: DomainResource {
+public struct Practitioner: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .practitioner }
-	
-	/// An identifier for the person as this agent
-	public var identifier: [Identifier]?
+	public static let resourceType: ResourceType = .practitioner
 	
 	/// Whether this practitioner's record is in active use
 	public var active: FHIRPrimitive<FHIRBool>?
 	
-	/// The name(s) associated with the practitioner
-	public var name: [HumanName]?
-	
-	/// A contact detail for the practitioner (that apply to all roles)
-	public var telecom: [ContactPoint]?
-	
 	/// Address(es) of the practitioner that are not role specific (typically home address)
 	public var address: [Address]?
+	
+	/// The date  on which the practitioner was born
+	public var birthDate: FHIRPrimitive<FHIRDate>?
+	
+	/// A language the practitioner can use in patient communication
+	public var communication: [CodeableConcept]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Administrative Gender - the gender that the person is considered to have for administration and record keeping
 	/// purposes.
 	public var gender: FHIRPrimitive<AdministrativeGender>?
 	
-	/// The date  on which the practitioner was born
-	public var birthDate: FHIRPrimitive<FHIRDate>?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An identifier for the person as this agent
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The name(s) associated with the practitioner
+	public var name: [HumanName]?
 	
 	/// Image of the person
 	public var photo: [Attachment]?
@@ -56,16 +77,18 @@ open class Practitioner: DomainResource {
 	/// Certification, licenses, or training pertaining to the provision of care
 	public var qualification: [PractitionerQualification]?
 	
-	/// A language the practitioner can use in patient communication
-	public var communication: [CodeableConcept]?
+	/// A contact detail for the practitioner (that apply to all roles)
+	public var telecom: [ContactPoint]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		address: [Address]? = nil,
 		birthDate: FHIRPrimitive<FHIRDate>? = nil,
@@ -109,87 +132,76 @@ open class Practitioner: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case active; case _active
 		case address
 		case birthDate; case _birthDate
 		case communication
+		case contained
+		case `extension` = "extension"
 		case gender; case _gender
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case name
 		case photo
 		case qualification
 		case telecom
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.active = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .active, auxiliaryKey: ._active)
 		self.address = try [Address](from: _container, forKeyIfPresent: .address)
 		self.birthDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .birthDate, auxiliaryKey: ._birthDate)
 		self.communication = try [CodeableConcept](from: _container, forKeyIfPresent: .communication)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try [HumanName](from: _container, forKeyIfPresent: .name)
 		self.photo = try [Attachment](from: _container, forKeyIfPresent: .photo)
 		self.qualification = try [PractitionerQualification](from: _container, forKeyIfPresent: .qualification)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
 		try birthDate?.encode(on: &_container, forKey: .birthDate, auxiliaryKey: ._birthDate)
 		try communication?.encode(on: &_container, forKey: .communication)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name)
 		try photo?.encode(on: &_container, forKey: .photo)
 		try qualification?.encode(on: &_container, forKey: .qualification)
 		try telecom?.encode(on: &_container, forKey: .telecom)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Practitioner else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return active == _other.active
-		    && address == _other.address
-		    && birthDate == _other.birthDate
-		    && communication == _other.communication
-		    && gender == _other.gender
-		    && identifier == _other.identifier
-		    && name == _other.name
-		    && photo == _other.photo
-		    && qualification == _other.qualification
-		    && telecom == _other.telecom
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(active)
-		hasher.combine(address)
-		hasher.combine(birthDate)
-		hasher.combine(communication)
-		hasher.combine(gender)
-		hasher.combine(identifier)
-		hasher.combine(name)
-		hasher.combine(photo)
-		hasher.combine(qualification)
-		hasher.combine(telecom)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }
 
@@ -200,28 +212,36 @@ open class Practitioner: DomainResource {
  practitioner.  For example, a medical license issued by a medical board authorizing the practitioner to practice
  medicine within a certian locality.
  */
-open class PractitionerQualification: BackboneElement {
-	
-	/// An identifier for this qualification for the practitioner
-	public var identifier: [Identifier]?
+public struct PractitionerQualification: BackboneElement {
 	
 	/// Coded representation of the qualification
 	public var code: CodeableConcept
 	
-	/// Period during which the qualification is valid
-	public var period: Period?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An identifier for this qualification for the practitioner
+	public var identifier: [Identifier]?
 	
 	/// Organization that regulates and issues the qualification
 	public var issuer: Reference?
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Period during which the qualification is valid
+	public var period: Period?
+	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept) {
 		self.code = code
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -243,55 +263,38 @@ open class PractitionerQualification: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case issuer
+		case modifierExtension
 		case period
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.issuer = try Reference(from: _container, forKeyIfPresent: .issuer)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try issuer?.encode(on: &_container, forKey: .issuer)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try period?.encode(on: &_container, forKey: .period)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? PractitionerQualification else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && identifier == _other.identifier
-		    && issuer == _other.issuer
-		    && period == _other.period
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(identifier)
-		hasher.combine(issuer)
-		hasher.combine(period)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,17 +29,17 @@ public enum XDSRelationshipType: String, FHIRPrimitiveType {
 	
 	/// A separate XDS document that references a prior document, and may extend or alter the observations in the prior
 	/// document.
-	case APND = "APND"
+	case APND
 	
 	/// A new version of an existing document.
-	case RPLC = "RPLC"
+	case RPLC
 	
 	/// A transformed document is derived by a machine translation from some other format.
-	case XFRM = "XFRM"
+	case XFRM
 	
 	/// Both a XFRM and a RPLC relationship.
-	case XFRM_RPLC = "XFRM_RPLC"
+	case XFRM_RPLC
 	
 	/// This document signs the target document.
-	case signs = "signs"
+	case signs
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import FMCore
  */
 public enum QICoreAppropriatenessScore: String, FHIRPrimitiveType {
 	
+	/// The procedure is appropriate
+	case appropriate
+	
+	/// The procedure is extremely appropriate
+	case extremelyAppropriate = "extremely-appropriate"
+	
 	/// The procedure is extremely inappropriate
 	case extremelyInappropriate = "extremely-inappropriate"
 	
 	/// The procedure is inappropriate
-	case inappropriate = "inappropriate"
-	
-	/// The procedure is probably inappropriate
-	case probablyInappropriate = "probably-inappropriate"
-	
-	/// The appropriateness of the procedure is uncertain, leaning towards inappropriate
-	case uncertainInappropriate = "uncertain-inappropriate"
-	
-	/// The appropriateness of the procedure is uncertain
-	case uncertain = "uncertain"
-	
-	/// The appropriateness of the procedure is uncertain, leaning towards appropriate
-	case uncertainAppropriate = "uncertain-appropriate"
+	case inappropriate
 	
 	/// The procedure is probably appropriate
 	case probablyAppropriate = "probably-appropriate"
 	
-	/// The procedure is appropriate
-	case appropriate = "appropriate"
+	/// The procedure is probably inappropriate
+	case probablyInappropriate = "probably-inappropriate"
 	
-	/// The procedure is extremely appropriate
-	case extremelyAppropriate = "extremely-appropriate"
+	/// The appropriateness of the procedure is uncertain
+	case uncertain
+	
+	/// The appropriateness of the procedure is uncertain, leaning towards appropriate
+	case uncertainAppropriate = "uncertain-appropriate"
+	
+	/// The appropriateness of the procedure is uncertain, leaning towards inappropriate
+	case uncertainInappropriate = "uncertain-inappropriate"
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,22 +27,22 @@ import FMCore
  */
 public enum ContactPointSystem: String, FHIRPrimitiveType {
 	
-	/// The value is a telephone number used for voice calls. Use of full international numbers starting with + is
-	/// recommended to enable automatic dialing support but not required.
-	case phone = "phone"
+	/// The value is an email address.
+	case email
 	
 	/// The value is a fax machine. Use of full international numbers starting with + is recommended to enable automatic
 	/// dialing support but not required.
-	case fax = "fax"
-	
-	/// The value is an email address.
-	case email = "email"
-	
-	/// The value is a pager number. These may be local pager numbers that are only usable on a particular pager system.
-	case pager = "pager"
+	case fax
 	
 	/// A contact that is not a phone, fax, or email address. The format of the value SHOULD be a URL. This is intended
 	/// for various personal contacts including blogs, Twitter, Facebook, etc. Do not use for email addresses. If this
 	/// is not a URL, then it will require human interpretation.
-	case other = "other"
+	case other
+	
+	/// The value is a pager number. These may be local pager numbers that are only usable on a particular pager system.
+	case pager
+	
+	/// The value is a telephone number used for voice calls. Use of full international numbers starting with + is
+	/// recommended to enable automatic dialing support but not required.
+	case phone
 }

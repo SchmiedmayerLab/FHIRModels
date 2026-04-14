@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,19 +27,19 @@ import FMCore
  */
 public enum GoalRelationshipType: String, FHIRPrimitiveType {
 	
-	/// Indicates that the target goal is one which must be met before striving for the current goal
-	case predecessor = "predecessor"
-	
-	/// Indicates that the target goal is a desired objective once the current goal is met
-	case successor = "successor"
-	
-	/// Indicates that this goal has been replaced by the target goal
-	case replacement = "replacement"
-	
 	/// Indicates that the target goal is considered to be a "piece" of attaining this goal.
-	case component = "component"
+	case component
 	
 	/// Indicates that the relationship is not covered by one of the pre-defined codes.  (An extension may convey more
 	/// information about the meaning of the relationship.)
-	case other = "other"
+	case other
+	
+	/// Indicates that the target goal is one which must be met before striving for the current goal
+	case predecessor
+	
+	/// Indicates that this goal has been replaced by the target goal
+	case replacement
+	
+	/// Indicates that the target goal is a desired objective once the current goal is met
+	case successor
 }

@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/DeviceUseRequest)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,18 +25,18 @@ import FMCore
  Represents a request for a patient to employ a medical device. The device may be an implantable device, or an external
  assistive device, such as a walker.
  */
-open class DeviceUseRequest: DomainResource {
+public struct DeviceUseRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .deviceUseRequest }
+	public static let resourceType: ResourceType = .deviceUseRequest
 	
 	/// All possible types for "bodySite[x]"
-	public enum BodySiteX: Hashable {
+	public enum BodySiteX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
 	/// All possible types for "timing[x]"
-	public enum TimingX: Hashable {
+	public enum TimingX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
 		case timing(Timing)
@@ -46,10 +46,8 @@ open class DeviceUseRequest: DomainResource {
 	/// One of `bodySite[x]`
 	public var bodySite: BodySiteX?
 	
-	/// The status of the request.
-	/// Restricted to: ['proposed', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'completed',
-	/// 'suspended', 'rejected', 'aborted']
-	public var status: FHIRPrimitive<DeviceUseRequestStatus>?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Device requested
 	public var device: Reference
@@ -57,66 +55,91 @@ open class DeviceUseRequest: DomainResource {
 	/// Encounter motivating request
 	public var encounter: Reference?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Request identifier
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
 	
 	/// Reason for request
 	public var indication: [CodeableConcept]?
 	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
 	/// Notes or comments
 	public var notes: [FHIRPrimitive<FHIRString>]?
 	
-	/// PRN
-	public var prnReason: [CodeableConcept]?
-	
 	/// When ordered
 	public var orderedOn: FHIRPrimitive<DateTime>?
-	
-	/// When recorded
-	public var recordedOn: FHIRPrimitive<DateTime>?
-	
-	/// Focus of request
-	public var subject: Reference
-	
-	/// Schedule for use
-	/// One of `timing[x]`
-	public var timing: TimingX?
 	
 	/// Characterizes how quickly the  use of device must be initiated. Includes concepts such as stat, urgent, routine.
 	/// Restricted to: ['routine', 'urgent', 'stat', 'asap']
 	public var priority: FHIRPrimitive<DeviceUseRequestPriority>?
 	
+	/// PRN
+	public var prnReason: [CodeableConcept]?
+	
+	/// When recorded
+	public var recordedOn: FHIRPrimitive<DateTime>?
+	
+	/// The status of the request.
+	/// Restricted to: ['proposed', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'completed',
+	/// 'suspended', 'rejected', 'aborted']
+	public var status: FHIRPrimitive<DeviceUseRequestStatus>?
+	
+	/// Focus of request
+	public var subject: Reference
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Schedule for use
+	/// One of `timing[x]`
+	public var timing: TimingX?
+	
 	/// Designated initializer taking all required properties
 	public init(device: Reference, subject: Reference) {
 		self.device = device
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							bodySite: BodySiteX? = nil,
-							contained: [ResourceProxy]? = nil,
-							device: Reference,
-							encounter: Reference? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							identifier: [Identifier]? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							indication: [CodeableConcept]? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							notes: [FHIRPrimitive<FHIRString>]? = nil,
-							orderedOn: FHIRPrimitive<DateTime>? = nil,
-							priority: FHIRPrimitive<DeviceUseRequestPriority>? = nil,
-							prnReason: [CodeableConcept]? = nil,
-							recordedOn: FHIRPrimitive<DateTime>? = nil,
-							status: FHIRPrimitive<DeviceUseRequestStatus>? = nil,
-							subject: Reference,
-							text: Narrative? = nil,
-							timing: TimingX? = nil)
-	{
+	public init(
+		bodySite: BodySiteX? = nil,
+		contained: [ResourceProxy]? = nil,
+		device: Reference,
+		encounter: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		indication: [CodeableConcept]? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		notes: [FHIRPrimitive<FHIRString>]? = nil,
+		orderedOn: FHIRPrimitive<DateTime>? = nil,
+		priority: FHIRPrimitive<DeviceUseRequestPriority>? = nil,
+		prnReason: [CodeableConcept]? = nil,
+		recordedOn: FHIRPrimitive<DateTime>? = nil,
+		status: FHIRPrimitive<DeviceUseRequestStatus>? = nil,
+		subject: Reference,
+		text: Narrative? = nil,
+		timing: TimingX? = nil
+	) {
 		self.init(device: device, subject: subject)
 		self.bodySite = bodySite
 		self.contained = contained
@@ -142,12 +165,20 @@ open class DeviceUseRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case bodySiteCodeableConcept
 		case bodySiteReference
+		case contained
 		case device
 		case encounter
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case indication
+		case language; case _language
+		case meta
+		case modifierExtension
 		case notes; case _notes
 		case orderedOn; case _orderedOn
 		case priority; case _priority
@@ -155,16 +186,17 @@ open class DeviceUseRequest: DomainResource {
 		case recordedOn; case _recordedOn
 		case status; case _status
 		case subject
+		case text
 		case timingDateTime; case _timingDateTime
 		case timingPeriod
 		case timingTiming
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_bodySite: BodySiteX? = nil
 		if let bodySiteCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .bodySiteCodeableConcept) {
 			if _t_bodySite != nil {
@@ -179,10 +211,17 @@ open class DeviceUseRequest: DomainResource {
 			_t_bodySite = .reference(bodySiteReference)
 		}
 		self.bodySite = _t_bodySite
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.device = try Reference(from: _container, forKey: .device)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.indication = try [CodeableConcept](from: _container, forKeyIfPresent: .indication)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notes = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .notes, auxiliaryKey: ._notes)
 		self.orderedOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .orderedOn, auxiliaryKey: ._orderedOn)
 		self.priority = try FHIRPrimitive<DeviceUseRequestPriority>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
@@ -190,6 +229,7 @@ open class DeviceUseRequest: DomainResource {
 		self.recordedOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .recordedOn, auxiliaryKey: ._recordedOn)
 		self.status = try FHIRPrimitive<DeviceUseRequestStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		var _t_timing: TimingX? = nil
 		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
 			if _t_timing != nil {
@@ -210,14 +250,14 @@ open class DeviceUseRequest: DomainResource {
 			_t_timing = .dateTime(timingDateTime)
 		}
 		self.timing = _t_timing
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		if let _enum = bodySite {
 			switch _enum {
 			case .codeableConcept(let _value):
@@ -226,10 +266,17 @@ open class DeviceUseRequest: DomainResource {
 				try _value.encode(on: &_container, forKey: .bodySiteReference)
 			}
 		}
+		try contained?.encode(on: &_container, forKey: .contained)
 		try device.encode(on: &_container, forKey: .device)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try indication?.encode(on: &_container, forKey: .indication)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notes?.encode(on: &_container, forKey: .notes, auxiliaryKey: ._notes)
 		try orderedOn?.encode(on: &_container, forKey: .orderedOn, auxiliaryKey: ._orderedOn)
 		try priority?.encode(on: &_container, forKey: .priority, auxiliaryKey: ._priority)
@@ -237,6 +284,7 @@ open class DeviceUseRequest: DomainResource {
 		try recordedOn?.encode(on: &_container, forKey: .recordedOn, auxiliaryKey: ._recordedOn)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = timing {
 			switch _enum {
 			case .timing(let _value):
@@ -247,47 +295,5 @@ open class DeviceUseRequest: DomainResource {
 				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DeviceUseRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return bodySite == _other.bodySite
-		    && device == _other.device
-		    && encounter == _other.encounter
-		    && identifier == _other.identifier
-		    && indication == _other.indication
-		    && notes == _other.notes
-		    && orderedOn == _other.orderedOn
-		    && priority == _other.priority
-		    && prnReason == _other.prnReason
-		    && recordedOn == _other.recordedOn
-		    && status == _other.status
-		    && subject == _other.subject
-		    && timing == _other.timing
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(bodySite)
-		hasher.combine(device)
-		hasher.combine(encounter)
-		hasher.combine(identifier)
-		hasher.combine(indication)
-		hasher.combine(notes)
-		hasher.combine(orderedOn)
-		hasher.combine(priority)
-		hasher.combine(prnReason)
-		hasher.combine(recordedOn)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(timing)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/SubstanceAmount)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@ import FMCore
  (counter-ion) and/or solvates (water, alcohols) is also captured. Purity, grade, physical form or particle size are not
  taken into account in the definition of a chemical substance or in the assignment of a Substance ID.
  */
-open class SubstanceAmount: BackboneElement {
+public struct SubstanceAmount: BackboneElement {
 	
 	/// All possible types for "amount[x]"
-	public enum AmountX: Hashable {
+	public enum AmountX: Equatable, Hashable, Sendable {
 		case quantity(Quantity)
 		case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
@@ -40,6 +40,9 @@ open class SubstanceAmount: BackboneElement {
 	/// One of `amount[x]`
 	public var amount: AmountX?
 	
+	/// A textual comment on a numeric value
+	public var amountText: FHIRPrimitive<FHIRString>?
+	
 	/// Most elements that require a quantitative value will also have a field called amount type. Amount type should
 	/// always be specified because the actual value of the amount is often dependent on it. EXAMPLE: In capturing the
 	/// actual relative amounts of substances or molecular fragments it is essential to indicate whether the amount
@@ -47,19 +50,24 @@ open class SubstanceAmount: BackboneElement {
 	/// type for all related definitional elements
 	public var amountType: CodeableConcept?
 	
-	/// A textual comment on a numeric value
-	public var amountText: FHIRPrimitive<FHIRString>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Reference range of possible or expected values
 	public var referenceRange: SubstanceAmountReferenceRange?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		amount: AmountX? = nil,
 		amountText: FHIRPrimitive<FHIRString>? = nil,
 		amountType: CodeableConcept? = nil,
@@ -86,14 +94,17 @@ open class SubstanceAmount: BackboneElement {
 		case amountString; case _amountString
 		case amountText; case _amountText
 		case amountType
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case referenceRange
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_amount: AmountX? = nil
 		if let amountQuantity = try Quantity(from: _container, forKeyIfPresent: .amountQuantity) {
 			if _t_amount != nil {
@@ -116,15 +127,16 @@ open class SubstanceAmount: BackboneElement {
 		self.amount = _t_amount
 		self.amountText = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .amountText, auxiliaryKey: ._amountText)
 		self.amountType = try CodeableConcept(from: _container, forKeyIfPresent: .amountType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.referenceRange = try SubstanceAmountReferenceRange(from: _container, forKeyIfPresent: .referenceRange)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = amount {
 			switch _enum {
 			case .quantity(let _value):
@@ -137,52 +149,36 @@ open class SubstanceAmount: BackboneElement {
 		}
 		try amountText?.encode(on: &_container, forKey: .amountText, auxiliaryKey: ._amountText)
 		try amountType?.encode(on: &_container, forKey: .amountType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try referenceRange?.encode(on: &_container, forKey: .referenceRange)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubstanceAmount else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return amount == _other.amount
-		    && amountText == _other.amountText
-		    && amountType == _other.amountType
-		    && referenceRange == _other.referenceRange
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(amount)
-		hasher.combine(amountText)
-		hasher.combine(amountType)
-		hasher.combine(referenceRange)
 	}
 }
 
 /**
  Reference range of possible or expected values.
  */
-open class SubstanceAmountReferenceRange: Element {
+public struct SubstanceAmountReferenceRange: Element {
 	
-	/// Lower limit possible or expected
-	public var lowLimit: Quantity?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Upper limit possible or expected
 	public var highLimit: Quantity?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Lower limit possible or expected
+	public var lowLimit: Quantity?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		highLimit: Quantity? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -198,46 +194,30 @@ open class SubstanceAmountReferenceRange: Element {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case highLimit
+		case id; case _id
 		case lowLimit
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.highLimit = try Quantity(from: _container, forKeyIfPresent: .highLimit)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.lowLimit = try Quantity(from: _container, forKeyIfPresent: .lowLimit)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try highLimit?.encode(on: &_container, forKey: .highLimit)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try lowLimit?.encode(on: &_container, forKey: .lowLimit)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? SubstanceAmountReferenceRange else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return highLimit == _other.highLimit
-		    && lowLimit == _other.lowLimit
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(highLimit)
-		hasher.combine(lowLimit)
 	}
 }

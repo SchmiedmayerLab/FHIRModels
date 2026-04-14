@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,18 +27,18 @@ import FMCore
  */
 public enum RiskProbability: String, FHIRPrimitiveType {
 	
-	/// The specified outcome is exceptionally unlikely.
-	case negligible = "negligible"
-	
-	/// The specified outcome is possible but unlikely.
-	case low = "low"
-	
-	/// The specified outcome has a reasonable likelihood of occurrence.
-	case moderate = "moderate"
+	/// The specified outcome is effectively guaranteed.
+	case certain
 	
 	/// The specified outcome is more likely to occur than not.
-	case high = "high"
+	case high
 	
-	/// The specified outcome is effectively guaranteed.
-	case certain = "certain"
+	/// The specified outcome is possible but unlikely.
+	case low
+	
+	/// The specified outcome has a reasonable likelihood of occurrence.
+	case moderate
+	
+	/// The specified outcome is exceptionally unlikely.
+	case negligible
 }

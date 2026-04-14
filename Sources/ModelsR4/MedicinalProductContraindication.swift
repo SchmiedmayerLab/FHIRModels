@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/MedicinalProductContraindication)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,12 +25,15 @@ import FMCore
  The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory
  purposes.
  */
-open class MedicinalProductContraindication: DomainResource {
+public struct MedicinalProductContraindication: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .medicinalProductContraindication }
+	public static let resourceType: ResourceType = .medicinalProductContraindication
 	
-	/// The medication for which this is an indication
-	public var subject: [Reference]?
+	/// A comorbidity (concurrent condition) or coinfection
+	public var comorbidity: [CodeableConcept]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The disease, symptom or procedure for the contraindication
 	public var disease: CodeableConcept?
@@ -38,11 +41,23 @@ open class MedicinalProductContraindication: DomainResource {
 	/// The status of the disease or symptom for the contraindication
 	public var diseaseStatus: CodeableConcept?
 	
-	/// A comorbidity (concurrent condition) or coinfection
-	public var comorbidity: [CodeableConcept]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
-	/// Information about the use of the medicinal product in relation to other therapies as part of the indication
-	public var therapeuticIndication: [Reference]?
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Information about the use of the medicinal product in relation to other therapies described as part of the
 	/// indication
@@ -51,13 +66,21 @@ open class MedicinalProductContraindication: DomainResource {
 	/// The population group to which this applies
 	public var population: [Population]?
 	
+	/// The medication for which this is an indication
+	public var subject: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Information about the use of the medicinal product in relation to other therapies as part of the indication
+	public var therapeuticIndication: [Reference]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		comorbidity: [CodeableConcept]? = nil,
 		contained: [ResourceProxy]? = nil,
 		disease: CodeableConcept? = nil,
@@ -95,103 +118,106 @@ open class MedicinalProductContraindication: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case comorbidity
+		case contained
 		case disease
 		case diseaseStatus
+		case `extension` = "extension"
+		case id; case _id
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
+		case modifierExtension
 		case otherTherapy
 		case population
 		case subject
+		case text
 		case therapeuticIndication
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.comorbidity = try [CodeableConcept](from: _container, forKeyIfPresent: .comorbidity)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.disease = try CodeableConcept(from: _container, forKeyIfPresent: .disease)
 		self.diseaseStatus = try CodeableConcept(from: _container, forKeyIfPresent: .diseaseStatus)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.otherTherapy = try [MedicinalProductContraindicationOtherTherapy](from: _container, forKeyIfPresent: .otherTherapy)
 		self.population = try [Population](from: _container, forKeyIfPresent: .population)
 		self.subject = try [Reference](from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.therapeuticIndication = try [Reference](from: _container, forKeyIfPresent: .therapeuticIndication)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try comorbidity?.encode(on: &_container, forKey: .comorbidity)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try disease?.encode(on: &_container, forKey: .disease)
 		try diseaseStatus?.encode(on: &_container, forKey: .diseaseStatus)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try otherTherapy?.encode(on: &_container, forKey: .otherTherapy)
 		try population?.encode(on: &_container, forKey: .population)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try therapeuticIndication?.encode(on: &_container, forKey: .therapeuticIndication)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductContraindication else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return comorbidity == _other.comorbidity
-		    && disease == _other.disease
-		    && diseaseStatus == _other.diseaseStatus
-		    && otherTherapy == _other.otherTherapy
-		    && population == _other.population
-		    && subject == _other.subject
-		    && therapeuticIndication == _other.therapeuticIndication
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(comorbidity)
-		hasher.combine(disease)
-		hasher.combine(diseaseStatus)
-		hasher.combine(otherTherapy)
-		hasher.combine(population)
-		hasher.combine(subject)
-		hasher.combine(therapeuticIndication)
 	}
 }
 
 /**
  Information about the use of the medicinal product in relation to other therapies described as part of the indication.
  */
-open class MedicinalProductContraindicationOtherTherapy: BackboneElement {
+public struct MedicinalProductContraindicationOtherTherapy: BackboneElement {
 	
 	/// All possible types for "medication[x]"
-	public enum MedicationX: Hashable {
+	public enum MedicationX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// The type of relationship between the medicinal product indication or contraindication and another therapy
-	public var therapyRelationshipType: CodeableConcept
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Reference to a specific medication (active substance, medicinal product or class of products) as part of an
 	/// indication or contraindication
 	/// One of `medication[x]`
 	public var medication: MedicationX
 	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// The type of relationship between the medicinal product indication or contraindication and another therapy
+	public var therapyRelationshipType: CodeableConcept
+	
 	/// Designated initializer taking all required properties
 	public init(medication: MedicationX, therapyRelationshipType: CodeableConcept) {
 		self.medication = medication
 		self.therapyRelationshipType = therapyRelationshipType
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		medication: MedicationX,
@@ -207,13 +233,16 @@ open class MedicinalProductContraindicationOtherTherapy: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case medicationCodeableConcept
 		case medicationReference
+		case modifierExtension
 		case therapyRelationshipType
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Validate that we have at least one of the mandatory properties for expanded properties
@@ -221,7 +250,9 @@ open class MedicinalProductContraindicationOtherTherapy: BackboneElement {
 			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.medicationCodeableConcept, CodingKeys.medicationReference], debugDescription: "Must have at least one value for \"medication\" but have none"))
 		}
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		var _t_medication: MedicationX? = nil
 		if let medicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .medicationCodeableConcept) {
 			if _t_medication != nil {
@@ -236,15 +267,16 @@ open class MedicinalProductContraindicationOtherTherapy: BackboneElement {
 			_t_medication = .reference(medicationReference)
 		}
 		self.medication = _t_medication!
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.therapyRelationshipType = try CodeableConcept(from: _container, forKey: .therapyRelationshipType)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		
 			switch medication {
 			case .codeableConcept(let _value):
@@ -253,26 +285,7 @@ open class MedicinalProductContraindicationOtherTherapy: BackboneElement {
 				try _value.encode(on: &_container, forKey: .medicationReference)
 			}
 		
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try therapyRelationshipType.encode(on: &_container, forKey: .therapyRelationshipType)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? MedicinalProductContraindicationOtherTherapy else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return medication == _other.medication
-		    && therapyRelationshipType == _other.therapyRelationshipType
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(medication)
-		hasher.combine(therapyRelationshipType)
 	}
 }

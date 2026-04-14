@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@ import FMCore
  */
 public enum ResponseType: String, FHIRPrimitiveType {
 	
+	/// The message was rejected because of a problem with the content. There is no point in re-sending without change.
+	/// The response narrative SHALL describe the issue.
+	case fatalError = "fatal-error"
+	
 	/// The message was accepted and processed without error.
 	case ok
 	
 	/// Some internal unexpected error occurred - wait and try again. Note - this is usually used for things like
 	/// database unavailable, which may be expected to resolve, though human intervention may be required.
 	case transientError = "transient-error"
-	
-	/// The message was rejected because of a problem with the content. There is no point in re-sending without change.
-	/// The response narrative SHALL describe the issue.
-	case fatalError = "fatal-error"
 }

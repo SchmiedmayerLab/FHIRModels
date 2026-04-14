@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,6 +27,10 @@ import FMCore
  */
 public enum FilterOperator: String, FHIRPrimitiveType {
 	
+	/// The specified property of the code is in the set of codes or concepts specified in the provided value (comma
+	/// separated list).
+	case `in`
+	
 	/// The specified property of the code equals the provided value.
 	case eq = "="
 	
@@ -37,14 +41,10 @@ public enum FilterOperator: String, FHIRPrimitiveType {
 	/// The specified property of the code does not have an is-a relationship with the provided value.
 	case isNotA = "is-not-a"
 	
-	/// The specified property of the code  matches the regex specified in the provided value.
-	case regex = "regex"
-	
-	/// The specified property of the code is in the set of codes or concepts specified in the provided value (comma
-	/// separated list).
-	case `in` = "in"
-	
 	/// The specified property of the code is not in the set of codes or concepts specified in the provided value (comma
 	/// separated list).
 	case notIn = "not-in"
+	
+	/// The specified property of the code  matches the regex specified in the provided value.
+	case regex
 }

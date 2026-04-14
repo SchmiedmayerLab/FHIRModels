@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/EnrollmentRequest)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,38 +24,61 @@ import FMCore
  
  This resource provides the insurance enrollment details to the insurer regarding a specified coverage.
  */
-open class EnrollmentRequest: DomainResource {
+public struct EnrollmentRequest: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .enrollmentRequest }
-	
-	/// Business Identifier
-	public var identifier: [Identifier]?
-	
-	/// The status of the resource instance.
-	public var status: FHIRPrimitive<FinancialResourceStatusCodes>?
-	
-	/// Creation date
-	public var created: FHIRPrimitive<DateTime>?
-	
-	/// Target
-	public var insurer: Reference?
-	
-	/// Responsible practitioner
-	public var provider: Reference?
+	public static let resourceType: ResourceType = .enrollmentRequest
 	
 	/// The subject to be enrolled
 	public var candidate: Reference?
 	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
 	/// Insurance information
 	public var coverage: Reference?
 	
+	/// Creation date
+	public var created: FHIRPrimitive<DateTime>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Business Identifier
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Target
+	public var insurer: Reference?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Responsible practitioner
+	public var provider: Reference?
+	
+	/// The status of the resource instance.
+	public var status: FHIRPrimitive<FinancialResourceStatusCodes>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		candidate: Reference? = nil,
 		contained: [ResourceProxy]? = nil,
 		coverage: Reference? = nil,
@@ -93,71 +116,66 @@ open class EnrollmentRequest: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case candidate
+		case contained
 		case coverage
 		case created; case _created
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case insurer
+		case language; case _language
+		case meta
+		case modifierExtension
 		case provider
 		case status; case _status
+		case text
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.candidate = try Reference(from: _container, forKeyIfPresent: .candidate)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.coverage = try Reference(from: _container, forKeyIfPresent: .coverage)
 		self.created = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .created, auxiliaryKey: ._created)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.insurer = try Reference(from: _container, forKeyIfPresent: .insurer)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.provider = try Reference(from: _container, forKeyIfPresent: .provider)
 		self.status = try FHIRPrimitive<FinancialResourceStatusCodes>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
-		try super.init(from: decoder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try candidate?.encode(on: &_container, forKey: .candidate)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try coverage?.encode(on: &_container, forKey: .coverage)
 		try created?.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try insurer?.encode(on: &_container, forKey: .insurer)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try provider?.encode(on: &_container, forKey: .provider)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? EnrollmentRequest else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return candidate == _other.candidate
-		    && coverage == _other.coverage
-		    && created == _other.created
-		    && identifier == _other.identifier
-		    && insurer == _other.insurer
-		    && provider == _other.provider
-		    && status == _other.status
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(candidate)
-		hasher.combine(coverage)
-		hasher.combine(created)
-		hasher.combine(identifier)
-		hasher.combine(insurer)
-		hasher.combine(provider)
-		hasher.combine(status)
+		try text?.encode(on: &_container, forKey: .text)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/ConditionDefinition)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,21 +24,120 @@ import FMCore
  
  A definition of a condition and information relevant to managing it.
  */
-open class ConditionDefinition: DomainResource {
+public struct ConditionDefinition: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .conditionDefinition }
+	public static let resourceType: ResourceType = .conditionDefinition
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// Canonical identifier for this condition definition, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// Anatomical location, if relevant
+	public var bodySite: CodeableConcept?
+	
+	/// Identification of the condition, problem or diagnosis
+	public var code: CodeableConcept
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Formal Definition for the condition
+	public var definition: [FHIRPrimitive<FHIRURI>]?
+	
+	/// Natural language description of the condition definition
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// For testing purposes, not real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Whether bodySite is appropriate
+	public var hasBodySite: FHIRPrimitive<FHIRBool>?
+	
+	/// Whether Severity is appropriate
+	public var hasSeverity: FHIRPrimitive<FHIRBool>?
+	
+	/// Whether stage is appropriate
+	public var hasStage: FHIRPrimitive<FHIRBool>?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Additional identifier for the condition definition
 	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Intended jurisdiction for condition definition (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Medications particularly relevant for this condition
+	public var medication: [ConditionDefinitionMedication]?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this condition definition (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Observations particularly relevant to this condition
+	public var observation: [ConditionDefinitionObservation]?
+	
+	/// Plan that is appropriate
+	public var plan: [ConditionDefinitionPlan]?
+	
+	/// Observation that suggets this condition
+	public var precondition: [ConditionDefinitionPrecondition]?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Questionnaire for this condition
+	public var questionnaire: [ConditionDefinitionQuestionnaire]?
+	
+	/// Subjective severity of condition
+	public var severity: CodeableConcept?
+	
+	/// Stage/grade, usually assessed formally
+	public var stage: CodeableConcept?
+	
+	/// The status of this condition definition. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Subordinate title of the event definition
+	public var subtitle: FHIRPrimitive<FHIRString>?
+	
+	/// Appropriate team for this condition
+	public var team: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this condition definition (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Canonical identifier for this condition definition, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
 	
 	/// Business version of the condition definition
 	public var version: FHIRPrimitive<FHIRString>?
@@ -47,90 +146,14 @@ open class ConditionDefinition: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Name for this condition definition (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this condition definition (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// Subordinate title of the event definition
-	public var subtitle: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this condition definition. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing purposes, not real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the condition definition
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Intended jurisdiction for condition definition (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Identification of the condition, problem or diagnosis
-	public var code: CodeableConcept
-	
-	/// Subjective severity of condition
-	public var severity: CodeableConcept?
-	
-	/// Anatomical location, if relevant
-	public var bodySite: CodeableConcept?
-	
-	/// Stage/grade, usually assessed formally
-	public var stage: CodeableConcept?
-	
-	/// Whether Severity is appropriate
-	public var hasSeverity: FHIRPrimitive<FHIRBool>?
-	
-	/// Whether bodySite is appropriate
-	public var hasBodySite: FHIRPrimitive<FHIRBool>?
-	
-	/// Whether stage is appropriate
-	public var hasStage: FHIRPrimitive<FHIRBool>?
-	
-	/// Formal Definition for the condition
-	public var definition: [FHIRPrimitive<FHIRURI>]?
-	
-	/// Observations particularly relevant to this condition
-	public var observation: [ConditionDefinitionObservation]?
-	
-	/// Medications particularly relevant for this condition
-	public var medication: [ConditionDefinitionMedication]?
-	
-	/// Observation that suggets this condition
-	public var precondition: [ConditionDefinitionPrecondition]?
-	
-	/// Appropriate team for this condition
-	public var team: [Reference]?
-	
-	/// Questionnaire for this condition
-	public var questionnaire: [ConditionDefinitionQuestionnaire]?
-	
-	/// Plan that is appropriate
-	public var plan: [ConditionDefinitionPlan]?
-	
 	/// Designated initializer taking all required properties
 	public init(code: CodeableConcept, status: FHIRPrimitive<PublicationStatus>) {
 		self.code = code
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		bodySite: CodeableConcept? = nil,
 		code: CodeableConcept,
 		contact: [ContactDetail]? = nil,
@@ -210,19 +233,27 @@ open class ConditionDefinition: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case bodySite
 		case code
 		case contact
+		case contained
 		case date; case _date
 		case definition; case _definition
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case experimental; case _experimental
+		case `extension` = "extension"
 		case hasBodySite; case _hasBodySite
 		case hasSeverity; case _hasSeverity
 		case hasStage; case _hasStage
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case jurisdiction
+		case language; case _language
 		case medication
+		case meta
+		case modifierExtension
 		case name; case _name
 		case observation
 		case plan
@@ -234,6 +265,7 @@ open class ConditionDefinition: DomainResource {
 		case status; case _status
 		case subtitle; case _subtitle
 		case team
+		case text
 		case title; case _title
 		case url; case _url
 		case useContext
@@ -241,25 +273,32 @@ open class ConditionDefinition: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.definition = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.hasBodySite = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .hasBodySite, auxiliaryKey: ._hasBodySite)
 		self.hasSeverity = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .hasSeverity, auxiliaryKey: ._hasSeverity)
 		self.hasStage = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .hasStage, auxiliaryKey: ._hasStage)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.medication = try [ConditionDefinitionMedication](from: _container, forKeyIfPresent: .medication)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.observation = try [ConditionDefinitionObservation](from: _container, forKeyIfPresent: .observation)
 		self.plan = try [ConditionDefinitionPlan](from: _container, forKeyIfPresent: .plan)
@@ -271,6 +310,7 @@ open class ConditionDefinition: DomainResource {
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subtitle = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .subtitle, auxiliaryKey: ._subtitle)
 		self.team = try [Reference](from: _container, forKeyIfPresent: .team)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
@@ -289,27 +329,34 @@ open class ConditionDefinition: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try code.encode(on: &_container, forKey: .code)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try hasBodySite?.encode(on: &_container, forKey: .hasBodySite, auxiliaryKey: ._hasBodySite)
 		try hasSeverity?.encode(on: &_container, forKey: .hasSeverity, auxiliaryKey: ._hasSeverity)
 		try hasStage?.encode(on: &_container, forKey: .hasStage, auxiliaryKey: ._hasStage)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try medication?.encode(on: &_container, forKey: .medication)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try observation?.encode(on: &_container, forKey: .observation)
 		try plan?.encode(on: &_container, forKey: .plan)
@@ -321,6 +368,7 @@ open class ConditionDefinition: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subtitle?.encode(on: &_container, forKey: .subtitle, auxiliaryKey: ._subtitle)
 		try team?.encode(on: &_container, forKey: .team)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
@@ -333,87 +381,13 @@ open class ConditionDefinition: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ConditionDefinition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return bodySite == _other.bodySite
-		    && code == _other.code
-		    && contact == _other.contact
-		    && date == _other.date
-		    && definition == _other.definition
-		    && description_fhir == _other.description_fhir
-		    && experimental == _other.experimental
-		    && hasBodySite == _other.hasBodySite
-		    && hasSeverity == _other.hasSeverity
-		    && hasStage == _other.hasStage
-		    && identifier == _other.identifier
-		    && jurisdiction == _other.jurisdiction
-		    && medication == _other.medication
-		    && name == _other.name
-		    && observation == _other.observation
-		    && plan == _other.plan
-		    && precondition == _other.precondition
-		    && publisher == _other.publisher
-		    && questionnaire == _other.questionnaire
-		    && severity == _other.severity
-		    && stage == _other.stage
-		    && status == _other.status
-		    && subtitle == _other.subtitle
-		    && team == _other.team
-		    && title == _other.title
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(bodySite)
-		hasher.combine(code)
-		hasher.combine(contact)
-		hasher.combine(date)
-		hasher.combine(definition)
-		hasher.combine(description_fhir)
-		hasher.combine(experimental)
-		hasher.combine(hasBodySite)
-		hasher.combine(hasSeverity)
-		hasher.combine(hasStage)
-		hasher.combine(identifier)
-		hasher.combine(jurisdiction)
-		hasher.combine(medication)
-		hasher.combine(name)
-		hasher.combine(observation)
-		hasher.combine(plan)
-		hasher.combine(precondition)
-		hasher.combine(publisher)
-		hasher.combine(questionnaire)
-		hasher.combine(severity)
-		hasher.combine(stage)
-		hasher.combine(status)
-		hasher.combine(subtitle)
-		hasher.combine(team)
-		hasher.combine(title)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
 /**
  Medications particularly relevant for this condition.
  */
-open class ConditionDefinitionMedication: BackboneElement {
+public struct ConditionDefinitionMedication: BackboneElement {
 	
 	/// Category that is relevant
 	public var category: CodeableConcept?
@@ -421,13 +395,21 @@ open class ConditionDefinitionMedication: BackboneElement {
 	/// Code for relevant Medication
 	public var code: CodeableConcept?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		category: CodeableConcept? = nil,
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -447,52 +429,39 @@ open class ConditionDefinitionMedication: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case category
 		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.category = try CodeableConcept(from: _container, forKeyIfPresent: .category)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try code?.encode(on: &_container, forKey: .code)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ConditionDefinitionMedication else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return category == _other.category
-		    && code == _other.code
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(category)
-		hasher.combine(code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
 /**
  Observations particularly relevant to this condition.
  */
-open class ConditionDefinitionObservation: BackboneElement {
+public struct ConditionDefinitionObservation: BackboneElement {
 	
 	/// Category that is relevant
 	public var category: CodeableConcept?
@@ -500,13 +469,21 @@ open class ConditionDefinitionObservation: BackboneElement {
 	/// Code for relevant Observation
 	public var code: CodeableConcept?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		category: CodeableConcept? = nil,
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -526,67 +503,62 @@ open class ConditionDefinitionObservation: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case category
 		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.category = try CodeableConcept(from: _container, forKeyIfPresent: .category)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
-		try super.init(from: decoder)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try code?.encode(on: &_container, forKey: .code)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ConditionDefinitionObservation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return category == _other.category
-		    && code == _other.code
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(category)
-		hasher.combine(code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
 /**
  Plan that is appropriate.
  */
-open class ConditionDefinitionPlan: BackboneElement {
+public struct ConditionDefinitionPlan: BackboneElement {
 	
-	/// Use for the plan
-	public var role: CodeableConcept?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// The actual plan
 	public var reference: Reference
 	
+	/// Use for the plan
+	public var role: CodeableConcept?
+	
 	/// Designated initializer taking all required properties
 	public init(reference: Reference) {
 		self.reference = reference
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -603,47 +575,34 @@ open class ConditionDefinitionPlan: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case reference
 		case role
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.reference = try Reference(from: _container, forKey: .reference)
 		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try reference.encode(on: &_container, forKey: .reference)
 		try role?.encode(on: &_container, forKey: .role)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ConditionDefinitionPlan else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return reference == _other.reference
-		    && role == _other.role
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(reference)
-		hasher.combine(role)
 	}
 }
 
@@ -652,19 +611,28 @@ open class ConditionDefinitionPlan: BackboneElement {
  
  An observation that suggests that this condition applies.
  */
-open class ConditionDefinitionPrecondition: BackboneElement {
+public struct ConditionDefinitionPrecondition: BackboneElement {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case quantity(Quantity)
 	}
 	
-	/// Kind of pre-condition.
-	public var type: FHIRPrimitive<ConditionPreconditionType>
-	
 	/// Code for relevant Observation
 	public var code: CodeableConcept
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Kind of pre-condition.
+	public var type: FHIRPrimitive<ConditionPreconditionType>
 	
 	/// Value of Observation
 	/// One of `value[x]`
@@ -674,11 +642,10 @@ open class ConditionDefinitionPrecondition: BackboneElement {
 	public init(code: CodeableConcept, type: FHIRPrimitive<ConditionPreconditionType>) {
 		self.code = code
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -697,17 +664,23 @@ open class ConditionDefinitionPrecondition: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case type; case _type
 		case valueCodeableConcept
 		case valueQuantity
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try FHIRPrimitive<ConditionPreconditionType>(from: _container, forKey: .type, auxiliaryKey: ._type)
 		var _t_value: ValueX? = nil
 		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
@@ -723,15 +696,16 @@ open class ConditionDefinitionPrecondition: BackboneElement {
 			_t_value = .quantity(valueQuantity)
 		}
 		self.value = _t_value
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		if let _enum = value {
 			switch _enum {
@@ -741,35 +715,22 @@ open class ConditionDefinitionPrecondition: BackboneElement {
 				try _value.encode(on: &_container, forKey: .valueQuantity)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ConditionDefinitionPrecondition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && type == _other.type
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(type)
-		hasher.combine(value)
 	}
 }
 
 /**
  Questionnaire for this condition.
  */
-open class ConditionDefinitionQuestionnaire: BackboneElement {
+public struct ConditionDefinitionQuestionnaire: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Use of the questionnaire.
 	public var purpose: FHIRPrimitive<ConditionQuestionnairePurpose>
@@ -781,11 +742,10 @@ open class ConditionDefinitionQuestionnaire: BackboneElement {
 	public init(purpose: FHIRPrimitive<ConditionQuestionnairePurpose>, reference: Reference) {
 		self.purpose = purpose
 		self.reference = reference
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -801,46 +761,33 @@ open class ConditionDefinitionQuestionnaire: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case purpose; case _purpose
 		case reference
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.purpose = try FHIRPrimitive<ConditionQuestionnairePurpose>(from: _container, forKey: .purpose, auxiliaryKey: ._purpose)
 		self.reference = try Reference(from: _container, forKey: .reference)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try purpose.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
 		try reference.encode(on: &_container, forKey: .reference)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ConditionDefinitionQuestionnaire else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return purpose == _other.purpose
-		    && reference == _other.reference
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(purpose)
-		hasher.combine(reference)
 	}
 }

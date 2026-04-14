@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,23 +30,29 @@ public enum BenefitTypeCodes: String, FHIRPrimitiveType {
 	/// Maximum benefit allowable.
 	case benefit
 	
-	/// Cost to be incurred before benefits are applied
-	case deductible
-	
-	/// Service visit
-	case visit
-	
-	/// Type of room
-	case room
-	
 	/// Copayment per service
 	case copay
+	
+	/// Copayment maximum per service
+	case copayMaximum = "copay-maximum"
 	
 	/// Copayment percentage per service
 	case copayPercent = "copay-percent"
 	
-	/// Copayment maximum per service
-	case copayMaximum = "copay-maximum"
+	/// Cost to be incurred before benefits are applied
+	case deductible
+	
+	/// Medical Primary Health Coverage
+	case medicalPrimarycare = "medical-primarycare"
+	
+	/// Pharmacy Dispense Coverage
+	case pharmacyDispense = "pharmacy-dispense"
+	
+	/// Type of room
+	case room
+	
+	/// Contact Lenses
+	case visionContacts = "vision-contacts"
 	
 	/// Vision Exam
 	case visionExam = "vision-exam"
@@ -54,12 +60,6 @@ public enum BenefitTypeCodes: String, FHIRPrimitiveType {
 	/// Frames and lenses
 	case visionGlasses = "vision-glasses"
 	
-	/// Contact Lenses
-	case visionContacts = "vision-contacts"
-	
-	/// Medical Primary Health Coverage
-	case medicalPrimarycare = "medical-primarycare"
-	
-	/// Pharmacy Dispense Coverage
-	case pharmacyDispense = "pharmacy-dispense"
+	/// Service visit
+	case visit
 }

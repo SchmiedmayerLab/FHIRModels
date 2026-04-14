@@ -2,8 +2,8 @@
 //  DataRequirement.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 3.0.1.11917 (http://hl7.org/fhir/StructureDefinition/DataRequirement)
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917 (http://hl7.org/fhir/StructureDefinition/DataRequirement)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,16 +25,7 @@ import FMCore
  Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of
  the data.
  */
-open class DataRequirement: Element {
-	
-	/// The type of the required data
-	public var type: FHIRPrimitive<FHIRString>
-	
-	/// The profile of the required data
-	public var profile: [FHIRPrimitive<FHIRURI>]?
-	
-	/// Indicates that specific structure elements are referenced by the knowledge module
-	public var mustSupport: [FHIRPrimitive<FHIRString>]?
+public struct DataRequirement: Element {
 	
 	/// What codes are expected
 	public var codeFilter: [DataRequirementCodeFilter]?
@@ -42,22 +33,36 @@ open class DataRequirement: Element {
 	/// What dates/date ranges are expected
 	public var dateFilter: [DataRequirementDateFilter]?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Indicates that specific structure elements are referenced by the knowledge module
+	public var mustSupport: [FHIRPrimitive<FHIRString>]?
+	
+	/// The profile of the required data
+	public var profile: [FHIRPrimitive<FHIRURI>]?
+	
+	/// The type of the required data
+	public var type: FHIRPrimitive<FHIRString>
+	
 	/// Designated initializer taking all required properties
 	public init(type: FHIRPrimitive<FHIRString>) {
 		self.type = type
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							codeFilter: [DataRequirementCodeFilter]? = nil,
-							dateFilter: [DataRequirementDateFilter]? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							mustSupport: [FHIRPrimitive<FHIRString>]? = nil,
-							profile: [FHIRPrimitive<FHIRURI>]? = nil,
-							type: FHIRPrimitive<FHIRString>)
-	{
+	public init(
+		codeFilter: [DataRequirementCodeFilter]? = nil,
+		dateFilter: [DataRequirementDateFilter]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		mustSupport: [FHIRPrimitive<FHIRString>]? = nil,
+		profile: [FHIRPrimitive<FHIRURI>]? = nil,
+		type: FHIRPrimitive<FHIRString>
+	) {
 		self.init(type: type)
 		self.codeFilter = codeFilter
 		self.dateFilter = dateFilter
@@ -72,60 +77,38 @@ open class DataRequirement: Element {
 	private enum CodingKeys: String, CodingKey {
 		case codeFilter
 		case dateFilter
+		case `extension` = "extension"
+		case id; case _id
 		case mustSupport; case _mustSupport
 		case profile; case _profile
 		case type; case _type
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.codeFilter = try [DataRequirementCodeFilter](from: _container, forKeyIfPresent: .codeFilter)
 		self.dateFilter = try [DataRequirementDateFilter](from: _container, forKeyIfPresent: .dateFilter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.mustSupport = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .mustSupport, auxiliaryKey: ._mustSupport)
 		self.profile = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .profile, auxiliaryKey: ._profile)
 		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKey: .type, auxiliaryKey: ._type)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try codeFilter?.encode(on: &_container, forKey: .codeFilter)
 		try dateFilter?.encode(on: &_container, forKey: .dateFilter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try mustSupport?.encode(on: &_container, forKey: .mustSupport, auxiliaryKey: ._mustSupport)
 		try profile?.encode(on: &_container, forKey: .profile, auxiliaryKey: ._profile)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DataRequirement else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return codeFilter == _other.codeFilter
-		    && dateFilter == _other.dateFilter
-		    && mustSupport == _other.mustSupport
-		    && profile == _other.profile
-		    && type == _other.type
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(codeFilter)
-		hasher.combine(dateFilter)
-		hasher.combine(mustSupport)
-		hasher.combine(profile)
-		hasher.combine(type)
 	}
 }
 
@@ -135,46 +118,51 @@ open class DataRequirement: Element {
  Code filters specify additional constraints on the data, specifying the value set of interest for a particular element
  of the data.
  */
-open class DataRequirementCodeFilter: Element {
+public struct DataRequirementCodeFilter: Element {
 	
 	/// All possible types for "valueSet[x]"
-	public enum ValueSetX: Hashable {
+	public enum ValueSetX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// The code-valued attribute of the filter
 	public var path: FHIRPrimitive<FHIRString>
+	
+	/// What code is expected
+	public var valueCode: [FHIRPrimitive<FHIRString>]?
+	
+	/// What CodeableConcept is expected
+	public var valueCodeableConcept: [CodeableConcept]?
+	
+	/// What Coding is expected
+	public var valueCoding: [Coding]?
 	
 	/// Valueset for the filter
 	/// One of `valueSet[x]`
 	public var valueSet: ValueSetX?
 	
-	/// What code is expected
-	public var valueCode: [FHIRPrimitive<FHIRString>]?
-	
-	/// What Coding is expected
-	public var valueCoding: [Coding]?
-	
-	/// What CodeableConcept is expected
-	public var valueCodeableConcept: [CodeableConcept]?
-	
 	/// Designated initializer taking all required properties
 	public init(path: FHIRPrimitive<FHIRString>) {
 		self.path = path
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							path: FHIRPrimitive<FHIRString>,
-							valueCode: [FHIRPrimitive<FHIRString>]? = nil,
-							valueCodeableConcept: [CodeableConcept]? = nil,
-							valueCoding: [Coding]? = nil,
-							valueSet: ValueSetX? = nil)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		path: FHIRPrimitive<FHIRString>,
+		valueCode: [FHIRPrimitive<FHIRString>]? = nil,
+		valueCodeableConcept: [CodeableConcept]? = nil,
+		valueCoding: [Coding]? = nil,
+		valueSet: ValueSetX? = nil
+	) {
 		self.init(path: path)
 		self.`extension` = `extension`
 		self.id = id
@@ -187,6 +175,8 @@ open class DataRequirementCodeFilter: Element {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case path; case _path
 		case valueCode; case _valueCode
 		case valueCodeableConcept
@@ -194,12 +184,14 @@ open class DataRequirementCodeFilter: Element {
 		case valueSetReference
 		case valueSetString; case _valueSetString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKey: .path, auxiliaryKey: ._path)
 		self.valueCode = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .valueCode, auxiliaryKey: ._valueCode)
 		self.valueCodeableConcept = try [CodeableConcept](from: _container, forKeyIfPresent: .valueCodeableConcept)
@@ -218,14 +210,14 @@ open class DataRequirementCodeFilter: Element {
 			_t_valueSet = .reference(valueSetReference)
 		}
 		self.valueSet = _t_valueSet
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try path.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
 		try valueCode?.encode(on: &_container, forKey: .valueCode, auxiliaryKey: ._valueCode)
 		try valueCodeableConcept?.encode(on: &_container, forKey: .valueCodeableConcept)
@@ -238,32 +230,6 @@ open class DataRequirementCodeFilter: Element {
 				try _value.encode(on: &_container, forKey: .valueSetReference)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DataRequirementCodeFilter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return path == _other.path
-		    && valueCode == _other.valueCode
-		    && valueCodeableConcept == _other.valueCodeableConcept
-		    && valueCoding == _other.valueCoding
-		    && valueSet == _other.valueSet
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(path)
-		hasher.combine(valueCode)
-		hasher.combine(valueCodeableConcept)
-		hasher.combine(valueCoding)
-		hasher.combine(valueSet)
 	}
 }
 
@@ -272,14 +238,20 @@ open class DataRequirementCodeFilter: Element {
  
  Date filters specify additional constraints on the data in terms of the applicable date range for specific elements.
  */
-open class DataRequirementDateFilter: Element {
+public struct DataRequirementDateFilter: Element {
 	
 	/// All possible types for "value[x]"
-	public enum ValueX: Hashable {
+	public enum ValueX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
 		case duration(Duration)
 		case period(Period)
 	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The date-valued attribute of the filter
 	public var path: FHIRPrimitive<FHIRString>
@@ -291,16 +263,15 @@ open class DataRequirementDateFilter: Element {
 	/// Designated initializer taking all required properties
 	public init(path: FHIRPrimitive<FHIRString>) {
 		self.path = path
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							path: FHIRPrimitive<FHIRString>,
-							value: ValueX? = nil)
-	{
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		path: FHIRPrimitive<FHIRString>,
+		value: ValueX? = nil
+	) {
 		self.init(path: path)
 		self.`extension` = `extension`
 		self.id = id
@@ -310,17 +281,21 @@ open class DataRequirementDateFilter: Element {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
 		case path; case _path
 		case valueDateTime; case _valueDateTime
 		case valueDuration
 		case valuePeriod
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKey: .path, auxiliaryKey: ._path)
 		var _t_value: ValueX? = nil
 		if let valueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .valueDateTime, auxiliaryKey: ._valueDateTime) {
@@ -342,14 +317,14 @@ open class DataRequirementDateFilter: Element {
 			_t_value = .duration(valueDuration)
 		}
 		self.value = _t_value
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try path.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
 		if let _enum = value {
 			switch _enum {
@@ -361,25 +336,5 @@ open class DataRequirementDateFilter: Element {
 				try _value.encode(on: &_container, forKey: .valueDuration)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? DataRequirementDateFilter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return path == _other.path
-		    && value == _other.value
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(path)
-		hasher.combine(value)
 	}
 }

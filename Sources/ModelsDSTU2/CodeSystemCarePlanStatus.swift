@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,18 +27,18 @@ import FMCore
  */
 public enum CarePlanStatus: String, FHIRPrimitiveType {
 	
-	/// The plan has been suggested but no commitment to it has yet been made.
-	case proposed = "proposed"
-	
-	/// The plan is in development or awaiting use but is not yet intended to be acted upon.
-	case draft = "draft"
-	
 	/// The plan is intended to be followed and used as part of patient care.
-	case active = "active"
-	
-	/// The plan is no longer in use and is not expected to be followed or used in patient care.
-	case completed = "completed"
+	case active
 	
 	/// The plan has been terminated prior to reaching completion (though it may have been replaced by a new plan).
-	case cancelled = "cancelled"
+	case cancelled
+	
+	/// The plan is no longer in use and is not expected to be followed or used in patient care.
+	case completed
+	
+	/// The plan is in development or awaiting use but is not yet intended to be acted upon.
+	case draft
+	
+	/// The plan has been suggested but no commitment to it has yet been made.
+	case proposed
 }

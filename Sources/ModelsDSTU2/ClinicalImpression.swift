@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 1.0.2.7202 (http://hl7.org/fhir/StructureDefinition/ClinicalImpression)
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,25 +28,24 @@ import FMCore
  "ClinicalImpression" rather than "ClinicalAssessment" to avoid confusion with the recording of assessment tools such as
  Apgar score.
  */
-open class ClinicalImpression: DomainResource {
+public struct ClinicalImpression: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .clinicalImpression }
+	public static let resourceType: ResourceType = .clinicalImpression
 	
 	/// All possible types for "trigger[x]"
-	public enum TriggerX: Hashable {
+	public enum TriggerX: Equatable, Hashable, Sendable {
 		case codeableConcept(CodeableConcept)
 		case reference(Reference)
 	}
 	
-	/// The patient being assessed
-	public var patient: Reference
+	/// Actions taken during assessment
+	public var action: [Reference]?
 	
 	/// The clinician performing the assessment
 	public var assessor: Reference?
 	
-	/// Identifies the workflow status of the assessment.
-	/// Restricted to: ['in-progress', 'completed', 'entered-in-error']
-	public var status: FHIRPrimitive<ClinicalImpressionStatus>
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// When the assessment occurred
 	public var date: FHIRPrimitive<DateTime>?
@@ -54,27 +53,47 @@ open class ClinicalImpression: DomainResource {
 	/// Why/how the assessment was performed
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Possible or likely findings and diagnoses
+	public var finding: [ClinicalImpressionFinding]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// One or more sets of investigations (signs, symptions, etc.)
+	public var investigations: [ClinicalImpressionInvestigations]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The patient being assessed
+	public var patient: Reference
+	
+	/// Plan of action after assessment
+	public var plan: [Reference]?
+	
 	/// Reference to last assessment
 	public var previous: Reference?
 	
 	/// General assessment of patient state
 	public var problem: [Reference]?
 	
-	/// Request or event that necessitated this assessment
-	/// One of `trigger[x]`
-	public var trigger: TriggerX?
-	
-	/// One or more sets of investigations (signs, symptions, etc.)
-	public var investigations: [ClinicalImpressionInvestigations]?
+	/// Estimate of likely outcome
+	public var prognosis: FHIRPrimitive<FHIRString>?
 	
 	/// Clinical Protocol followed
 	public var `protocol`: FHIRPrimitive<FHIRURI>?
-	
-	/// Summary of the assessment
-	public var summary: FHIRPrimitive<FHIRString>?
-	
-	/// Possible or likely findings and diagnoses
-	public var finding: [ClinicalImpressionFinding]?
 	
 	/// Diagnoses/conditions resolved since previous assessment
 	public var resolved: [CodeableConcept]?
@@ -82,50 +101,54 @@ open class ClinicalImpression: DomainResource {
 	/// Diagnosis considered not possible
 	public var ruledOut: [ClinicalImpressionRuledOut]?
 	
-	/// Estimate of likely outcome
-	public var prognosis: FHIRPrimitive<FHIRString>?
+	/// Identifies the workflow status of the assessment.
+	/// Restricted to: ['in-progress', 'completed', 'entered-in-error']
+	public var status: FHIRPrimitive<ClinicalImpressionStatus>
 	
-	/// Plan of action after assessment
-	public var plan: [Reference]?
+	/// Summary of the assessment
+	public var summary: FHIRPrimitive<FHIRString>?
 	
-	/// Actions taken during assessment
-	public var action: [Reference]?
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Request or event that necessitated this assessment
+	/// One of `trigger[x]`
+	public var trigger: TriggerX?
 	
 	/// Designated initializer taking all required properties
 	public init(patient: Reference, status: FHIRPrimitive<ClinicalImpressionStatus>) {
 		self.patient = patient
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
-							action: [Reference]? = nil,
-							assessor: Reference? = nil,
-							contained: [ResourceProxy]? = nil,
-							date: FHIRPrimitive<DateTime>? = nil,
-							description_fhir: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							finding: [ClinicalImpressionFinding]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							implicitRules: FHIRPrimitive<FHIRURI>? = nil,
-							investigations: [ClinicalImpressionInvestigations]? = nil,
-							language: FHIRPrimitive<FHIRString>? = nil,
-							meta: Meta? = nil,
-							modifierExtension: [Extension]? = nil,
-							patient: Reference,
-							plan: [Reference]? = nil,
-							previous: Reference? = nil,
-							problem: [Reference]? = nil,
-							prognosis: FHIRPrimitive<FHIRString>? = nil,
-							`protocol`: FHIRPrimitive<FHIRURI>? = nil,
-							resolved: [CodeableConcept]? = nil,
-							ruledOut: [ClinicalImpressionRuledOut]? = nil,
-							status: FHIRPrimitive<ClinicalImpressionStatus>,
-							summary: FHIRPrimitive<FHIRString>? = nil,
-							text: Narrative? = nil,
-							trigger: TriggerX? = nil)
-	{
+	public init(
+		action: [Reference]? = nil,
+		assessor: Reference? = nil,
+		contained: [ResourceProxy]? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		finding: [ClinicalImpressionFinding]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		implicitRules: FHIRPrimitive<FHIRURI>? = nil,
+		investigations: [ClinicalImpressionInvestigations]? = nil,
+		language: FHIRPrimitive<FHIRString>? = nil,
+		meta: Meta? = nil,
+		modifierExtension: [Extension]? = nil,
+		patient: Reference,
+		plan: [Reference]? = nil,
+		previous: Reference? = nil,
+		problem: [Reference]? = nil,
+		prognosis: FHIRPrimitive<FHIRString>? = nil,
+		`protocol`: FHIRPrimitive<FHIRURI>? = nil,
+		resolved: [CodeableConcept]? = nil,
+		ruledOut: [ClinicalImpressionRuledOut]? = nil,
+		status: FHIRPrimitive<ClinicalImpressionStatus>,
+		summary: FHIRPrimitive<FHIRString>? = nil,
+		text: Narrative? = nil,
+		trigger: TriggerX? = nil
+	) {
 		self.init(patient: patient, status: status)
 		self.action = action
 		self.assessor = assessor
@@ -155,12 +178,20 @@ open class ClinicalImpression: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case action
 		case assessor
+		case contained
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
 		case finding
+		case id; case _id
+		case implicitRules; case _implicitRules
 		case investigations
+		case language; case _language
+		case meta
+		case modifierExtension
 		case patient
 		case plan
 		case previous
@@ -171,21 +202,29 @@ open class ClinicalImpression: DomainResource {
 		case ruledOut
 		case status; case _status
 		case summary; case _summary
+		case text
 		case triggerCodeableConcept
 		case triggerReference
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try [Reference](from: _container, forKeyIfPresent: .action)
 		self.assessor = try Reference(from: _container, forKeyIfPresent: .assessor)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.finding = try [ClinicalImpressionFinding](from: _container, forKeyIfPresent: .finding)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.investigations = try [ClinicalImpressionInvestigations](from: _container, forKeyIfPresent: .investigations)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.patient = try Reference(from: _container, forKey: .patient)
 		self.plan = try [Reference](from: _container, forKeyIfPresent: .plan)
 		self.previous = try Reference(from: _container, forKeyIfPresent: .previous)
@@ -196,6 +235,7 @@ open class ClinicalImpression: DomainResource {
 		self.ruledOut = try [ClinicalImpressionRuledOut](from: _container, forKeyIfPresent: .ruledOut)
 		self.status = try FHIRPrimitive<ClinicalImpressionStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.summary = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .summary, auxiliaryKey: ._summary)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		var _t_trigger: TriggerX? = nil
 		if let triggerCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .triggerCodeableConcept) {
 			if _t_trigger != nil {
@@ -210,20 +250,27 @@ open class ClinicalImpression: DomainResource {
 			_t_trigger = .reference(triggerReference)
 		}
 		self.trigger = _t_trigger
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try assessor?.encode(on: &_container, forKey: .assessor)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try finding?.encode(on: &_container, forKey: .finding)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try investigations?.encode(on: &_container, forKey: .investigations)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try patient.encode(on: &_container, forKey: .patient)
 		try plan?.encode(on: &_container, forKey: .plan)
 		try previous?.encode(on: &_container, forKey: .previous)
@@ -234,6 +281,7 @@ open class ClinicalImpression: DomainResource {
 		try ruledOut?.encode(on: &_container, forKey: .ruledOut)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try summary?.encode(on: &_container, forKey: .summary, auxiliaryKey: ._summary)
+		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = trigger {
 			switch _enum {
 			case .codeableConcept(let _value):
@@ -242,56 +290,6 @@ open class ClinicalImpression: DomainResource {
 				try _value.encode(on: &_container, forKey: .triggerReference)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ClinicalImpression else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && assessor == _other.assessor
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && finding == _other.finding
-		    && investigations == _other.investigations
-		    && patient == _other.patient
-		    && plan == _other.plan
-		    && previous == _other.previous
-		    && problem == _other.problem
-		    && prognosis == _other.prognosis
-		    && `protocol` == _other.`protocol`
-		    && resolved == _other.resolved
-		    && ruledOut == _other.ruledOut
-		    && status == _other.status
-		    && summary == _other.summary
-		    && trigger == _other.trigger
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(assessor)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(finding)
-		hasher.combine(investigations)
-		hasher.combine(patient)
-		hasher.combine(plan)
-		hasher.combine(previous)
-		hasher.combine(problem)
-		hasher.combine(prognosis)
-		hasher.combine(`protocol`)
-		hasher.combine(resolved)
-		hasher.combine(ruledOut)
-		hasher.combine(status)
-		hasher.combine(summary)
-		hasher.combine(trigger)
 	}
 }
 
@@ -300,81 +298,7 @@ open class ClinicalImpression: DomainResource {
  
  Specific findings or diagnoses that was considered likely or relevant to ongoing treatment.
  */
-open class ClinicalImpressionFinding: BackboneElement {
-	
-	/// Specific text or code for finding
-	public var item: CodeableConcept
-	
-	/// Which investigations support finding
-	public var cause: FHIRPrimitive<FHIRString>?
-	
-	/// Designated initializer taking all required properties
-	public init(item: CodeableConcept) {
-		self.item = item
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							cause: FHIRPrimitive<FHIRString>? = nil,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							item: CodeableConcept,
-							modifierExtension: [Extension]? = nil)
-	{
-		self.init(item: item)
-		self.cause = cause
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case cause; case _cause
-		case item
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.cause = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .cause, auxiliaryKey: ._cause)
-		self.item = try CodeableConcept(from: _container, forKey: .item)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try cause?.encode(on: &_container, forKey: .cause, auxiliaryKey: ._cause)
-		try item.encode(on: &_container, forKey: .item)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ClinicalImpressionFinding else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return cause == _other.cause
-		    && item == _other.item
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(cause)
-		hasher.combine(item)
-	}
-}
+public typealias ClinicalImpressionFinding = BackboneElement
 
 /**
  One or more sets of investigations (signs, symptions, etc.).
@@ -383,157 +307,9 @@ open class ClinicalImpressionFinding: BackboneElement {
  depending on the type and context of the assessment. These investigations may include data generated during the
  assessment process, or data previously generated and recorded that is pertinent to the outcomes.
  */
-open class ClinicalImpressionInvestigations: BackboneElement {
-	
-	/// A name/code for the set
-	public var code: CodeableConcept
-	
-	/// Record of a specific investigation
-	public var item: [Reference]?
-	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							code: CodeableConcept,
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							item: [Reference]? = nil,
-							modifierExtension: [Extension]? = nil)
-	{
-		self.init(code: code)
-		self.`extension` = `extension`
-		self.id = id
-		self.item = item
-		self.modifierExtension = modifierExtension
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case code
-		case item
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.code = try CodeableConcept(from: _container, forKey: .code)
-		self.item = try [Reference](from: _container, forKeyIfPresent: .item)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try code.encode(on: &_container, forKey: .code)
-		try item?.encode(on: &_container, forKey: .item)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ClinicalImpressionInvestigations else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && item == _other.item
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(item)
-	}
-}
+public typealias ClinicalImpressionInvestigations = BackboneElement
 
 /**
  Diagnosis considered not possible.
  */
-open class ClinicalImpressionRuledOut: BackboneElement {
-	
-	/// Specific text of code for diagnosis
-	public var item: CodeableConcept
-	
-	/// Grounds for elimination
-	public var reason: FHIRPrimitive<FHIRString>?
-	
-	/// Designated initializer taking all required properties
-	public init(item: CodeableConcept) {
-		self.item = item
-		super.init()
-	}
-	
-	/// Convenience initializer
-	public convenience init(
-							`extension`: [Extension]? = nil,
-							id: FHIRPrimitive<FHIRString>? = nil,
-							item: CodeableConcept,
-							modifierExtension: [Extension]? = nil,
-							reason: FHIRPrimitive<FHIRString>? = nil)
-	{
-		self.init(item: item)
-		self.`extension` = `extension`
-		self.id = id
-		self.modifierExtension = modifierExtension
-		self.reason = reason
-	}
-	
-	// MARK: - Codable
-	
-	private enum CodingKeys: String, CodingKey {
-		case item
-		case reason; case _reason
-	}
-	
-	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
-		
-		// Decode all our properties
-		self.item = try CodeableConcept(from: _container, forKey: .item)
-		self.reason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .reason, auxiliaryKey: ._reason)
-		try super.init(from: decoder)
-	}
-	
-	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
-		try item.encode(on: &_container, forKey: .item)
-		try reason?.encode(on: &_container, forKey: .reason, auxiliaryKey: ._reason)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ClinicalImpressionRuledOut else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return item == _other.item
-		    && reason == _other.reason
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(item)
-		hasher.combine(reason)
-	}
-}
+public typealias ClinicalImpressionRuledOut = BackboneElement

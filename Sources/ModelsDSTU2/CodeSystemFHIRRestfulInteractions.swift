@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,51 +27,51 @@ import FMCore
  */
 public enum FHIRRestfulInteractions: String, FHIRPrimitiveType {
 	
-	/// Read the current state of the resource.
-	case read = "read"
+	/// Get a conformance statement for the system.
+	case conformance
 	
-	/// Read the state of a specific version of the resource.
-	case vread = "vread"
-	
-	/// Update an existing resource by its id (or create it if it is new).
-	case update = "update"
+	/// Create a new resource with a server assigned id.
+	case create
 	
 	/// Delete a resource.
-	case delete = "delete"
+	case delete
 	
 	/// Retrieve the update history for a particular resource, type of resource, or the entire system.
-	case history = "history"
+	case history
 	
 	/// Retrieve the update history for a particular resource.
 	case historyInstance = "history-instance"
 	
-	/// Retrieve the update history for a all resources of a particular type.
-	case historyType = "history-type"
-	
 	/// Retrieve the update history for all resources on a system.
 	case historySystem = "history-system"
 	
-	/// Create a new resource with a server assigned id.
-	case create = "create"
+	/// Retrieve the update history for a all resources of a particular type.
+	case historyType = "history-type"
+	
+	/// Perform an operation as defined by an OperationDefinition.
+	case operation
+	
+	/// Read the current state of the resource.
+	case read
 	
 	/// Search a resource type or all resources based on some filter criteria.
-	case search = "search"
-	
-	/// Search all resources of the specified type based on some filter criteria.
-	case searchType = "search-type"
+	case search
 	
 	/// Search all resources based on some filter criteria.
 	case searchSystem = "search-system"
 	
-	/// Check that the content would be acceptable as an update.
-	case validate = "validate"
-	
-	/// Get a conformance statement for the system.
-	case conformance = "conformance"
+	/// Search all resources of the specified type based on some filter criteria.
+	case searchType = "search-type"
 	
 	/// Update, create or delete a set of resources as a single transaction.
-	case transaction = "transaction"
+	case transaction
 	
-	/// Perform an operation as defined by an OperationDefinition.
-	case operation = "operation"
+	/// Update an existing resource by its id (or create it if it is new).
+	case update
+	
+	/// Check that the content would be acceptable as an update.
+	case validate
+	
+	/// Read the state of a specific version of the resource.
+	case vread
 }

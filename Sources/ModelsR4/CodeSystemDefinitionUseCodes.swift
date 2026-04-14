@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ import FMCore
  */
 public enum DefinitionUseCodes: String, FHIRPrimitiveType {
 	
-	/// This structure is defined as part of the base FHIR Specification
-	case fhirStructure = "fhir-structure"
+	/// This structure captures an analysis of a domain
+	case archetype
 	
 	/// This structure is intended to be treated like a FHIR resource (e.g. on the FHIR API)
 	case customResource = "custom-resource"
@@ -36,12 +36,12 @@ public enum DefinitionUseCodes: String, FHIRPrimitiveType {
 	/// This structure captures an analysis of a domain
 	case dam
 	
-	/// This structure represents and existing structure (e.g. CDA, HL7 v2)
-	case wireFormat = "wire-format"
-	
-	/// This structure captures an analysis of a domain
-	case archetype
+	/// This structure is defined as part of the base FHIR Specification
+	case fhirStructure = "fhir-structure"
 	
 	/// This structure is a template (n.b: 'template' has many meanings)
 	case template
+	
+	/// This structure represents and existing structure (e.g. CDA, HL7 v2)
+	case wireFormat = "wire-format"
 }

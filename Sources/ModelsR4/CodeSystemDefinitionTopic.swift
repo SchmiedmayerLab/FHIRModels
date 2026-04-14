@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  */
 public enum DefinitionTopic: String, FHIRPrimitiveType {
 	
-	/// The definition is related to treatment of the patient.
-	case treatment
+	/// The definition is related to assessment of the patient.
+	case assessment
 	
 	/// The definition is related to education of the patient.
 	case education
 	
-	/// The definition is related to assessment of the patient.
-	case assessment
+	/// The definition is related to treatment of the patient.
+	case treatment
 }

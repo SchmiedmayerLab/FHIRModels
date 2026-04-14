@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,30 +27,30 @@ import FMCore
  */
 public enum DeviceComponentParameterGroup: String, FHIRPrimitiveType {
 	
-	/// Haemodynamic Parameter Group - MDC_PGRP_HEMO
-	case haemodynamic = "haemodynamic"
-	
-	/// ECG Parameter Group - MDC_PGRP_ECG
-	case ecg = "ecg"
-	
-	/// Respiratory Parameter Group - MDC_PGRP_RESP
-	case respiratory = "respiratory"
-	
-	/// Ventilation Parameter Group - MDC_PGRP_VENT
-	case ventilation = "ventilation"
-	
-	/// Neurological Parameter Group - MDC_PGRP_NEURO
-	case neurological = "neurological"
+	/// Blood Chemistry Parameter Group - MDC_PGRP_BLOOD_CHEM
+	case bloodChemistry = "blood-chemistry"
 	
 	/// Drug Delivery Parameter Group - MDC_PGRP_DRUG
 	case drugDelivery = "drug-delivery"
 	
+	/// ECG Parameter Group - MDC_PGRP_ECG
+	case ecg
+	
 	/// Fluid Chemistry Parameter Group - MDC_PGRP_FLUID
 	case fluidChemistry = "fluid-chemistry"
 	
-	/// Blood Chemistry Parameter Group - MDC_PGRP_BLOOD_CHEM
-	case bloodChemistry = "blood-chemistry"
+	/// Haemodynamic Parameter Group - MDC_PGRP_HEMO
+	case haemodynamic
 	
 	/// Miscellaneous Parameter Group - MDC_PGRP_MISC
-	case miscellaneous = "miscellaneous"
+	case miscellaneous
+	
+	/// Neurological Parameter Group - MDC_PGRP_NEURO
+	case neurological
+	
+	/// Respiratory Parameter Group - MDC_PGRP_RESP
+	case respiratory
+	
+	/// Ventilation Parameter Group - MDC_PGRP_VENT
+	case ventilation
 }

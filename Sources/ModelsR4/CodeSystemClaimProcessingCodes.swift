@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,6 @@ import FMCore
  */
 public enum ClaimProcessingCodes: String, FHIRPrimitiveType {
 	
-	/// The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
-	case queued
-	
 	/// The processing has completed without errors
 	case complete
 	
@@ -38,4 +35,7 @@ public enum ClaimProcessingCodes: String, FHIRPrimitiveType {
 	
 	/// No errors have been detected in the Claim and some of the adjudication has been performed.
 	case partial
+	
+	/// The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
+	case queued
 }

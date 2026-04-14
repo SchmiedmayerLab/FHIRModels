@@ -2,8 +2,8 @@
 //  Location.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/Location)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/Location)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,76 +25,99 @@ import FMCore
  Details and position information for a place where services are provided and resources and participants may be stored,
  found, contained, or accommodated.
  */
-open class Location: DomainResource {
+public struct Location: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .location }
+	public static let resourceType: ResourceType = .location
 	
-	/// Unique code or number identifying the location to its users
-	public var identifier: [Identifier]?
+	/// Physical location
+	public var address: Address?
 	
-	/// The status property covers the general availability of the resource, not the current value which may be covered
-	/// by the operationalStatus, or by a schedule/slots if they are configured for the location.
-	public var status: FHIRPrimitive<LocationStatus>?
+	/// A list of alternate names that the location is known as, or was known as, in the past
+	public var alias: [FHIRPrimitive<FHIRString>]?
 	
-	/// The operational status of the location (typically only for a bed/room)
-	public var operationalStatus: Coding?
+	/// Collection of characteristics (attributes)
+	public var characteristic: [CodeableConcept]?
 	
 	/// Codes that identify this location
 	public var code: [CodeableConcept]?
 	
-	/// Name of the location as used by humans
-	public var name: FHIRPrimitive<FHIRString>?
+	/// Official contact details for the location
+	public var contact: [ExtendedContactDetail]?
 	
-	/// A list of alternate names that the location is known as, or was known as, in the past
-	public var alias: [FHIRPrimitive<FHIRString>]?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// Additional details about the location that could be displayed as further information to identify the location
 	/// beyond its name
 	public var description_fhir: FHIRPrimitive<FHIRString>?
 	
-	/// Indicates whether a resource instance represents a specific location or a class of locations.
-	public var mode: FHIRPrimitive<LocationMode>?
+	/// Technical endpoints providing access to services operated for the location
+	public var endpoint: [Reference]?
 	
-	/// Types of services available at this location
-	public var type: [CodeableConcept]?
-	
-	/// Official contact details for the location
-	public var contact: [ExtendedContactDetail]?
-	
-	/// Physical location
-	public var address: Address?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Physical form of the location
 	public var form: CodeableConcept?
 	
-	/// The absolute geographic location
-	public var position: LocationPosition?
+	/// What days/times during a week is this location usually open (including exceptions)
+	public var hoursOfOperation: Availability?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Unique code or number identifying the location to its users
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
 	
 	/// Organization responsible for provisioning and upkeep
 	public var managingOrganization: Reference?
 	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Indicates whether a resource instance represents a specific location or a class of locations.
+	public var mode: FHIRPrimitive<LocationMode>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of the location as used by humans
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// The operational status of the location (typically only for a bed/room)
+	public var operationalStatus: Coding?
+	
 	/// Another Location this one is physically a part of
 	public var partOf: Reference?
 	
-	/// Collection of characteristics (attributes)
-	public var characteristic: [CodeableConcept]?
+	/// The absolute geographic location
+	public var position: LocationPosition?
 	
-	/// What days/times during a week is this location usually open (including exceptions)
-	public var hoursOfOperation: Availability?
+	/// The status property covers the general availability of the resource, not the current value which may be covered
+	/// by the operationalStatus, or by a schedule/slots if they are configured for the location.
+	public var status: FHIRPrimitive<LocationStatus>?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Types of services available at this location
+	public var type: [CodeableConcept]?
 	
 	/// Connection details of a virtual service (e.g. conference call)
 	public var virtualService: [VirtualServiceDetail]?
 	
-	/// Technical endpoints providing access to services operated for the location
-	public var endpoint: [Reference]?
-	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		address: Address? = nil,
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
 		characteristic: [CodeableConcept]? = nil,
@@ -156,132 +179,103 @@ open class Location: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case address
 		case alias; case _alias
 		case characteristic
 		case code
 		case contact
+		case contained
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case endpoint
+		case `extension` = "extension"
 		case form
 		case hoursOfOperation
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
 		case managingOrganization
+		case meta
 		case mode; case _mode
+		case modifierExtension
 		case name; case _name
 		case operationalStatus
 		case partOf
 		case position
 		case status; case _status
+		case text
 		case type
 		case virtualService
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.address = try Address(from: _container, forKeyIfPresent: .address)
 		self.alias = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .alias, auxiliaryKey: ._alias)
 		self.characteristic = try [CodeableConcept](from: _container, forKeyIfPresent: .characteristic)
 		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
 		self.contact = try [ExtendedContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.endpoint = try [Reference](from: _container, forKeyIfPresent: .endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.form = try CodeableConcept(from: _container, forKeyIfPresent: .form)
 		self.hoursOfOperation = try Availability(from: _container, forKeyIfPresent: .hoursOfOperation)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.managingOrganization = try Reference(from: _container, forKeyIfPresent: .managingOrganization)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.mode = try FHIRPrimitive<LocationMode>(from: _container, forKeyIfPresent: .mode, auxiliaryKey: ._mode)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.operationalStatus = try Coding(from: _container, forKeyIfPresent: .operationalStatus)
 		self.partOf = try Reference(from: _container, forKeyIfPresent: .partOf)
 		self.position = try LocationPosition(from: _container, forKeyIfPresent: .position)
 		self.status = try FHIRPrimitive<LocationStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
 		self.virtualService = try [VirtualServiceDetail](from: _container, forKeyIfPresent: .virtualService)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
 		try characteristic?.encode(on: &_container, forKey: .characteristic)
 		try code?.encode(on: &_container, forKey: .code)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try endpoint?.encode(on: &_container, forKey: .endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try form?.encode(on: &_container, forKey: .form)
 		try hoursOfOperation?.encode(on: &_container, forKey: .hoursOfOperation)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try managingOrganization?.encode(on: &_container, forKey: .managingOrganization)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try mode?.encode(on: &_container, forKey: .mode, auxiliaryKey: ._mode)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try operationalStatus?.encode(on: &_container, forKey: .operationalStatus)
 		try partOf?.encode(on: &_container, forKey: .partOf)
 		try position?.encode(on: &_container, forKey: .position)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
 		try virtualService?.encode(on: &_container, forKey: .virtualService)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Location else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return address == _other.address
-		    && alias == _other.alias
-		    && characteristic == _other.characteristic
-		    && code == _other.code
-		    && contact == _other.contact
-		    && description_fhir == _other.description_fhir
-		    && endpoint == _other.endpoint
-		    && form == _other.form
-		    && hoursOfOperation == _other.hoursOfOperation
-		    && identifier == _other.identifier
-		    && managingOrganization == _other.managingOrganization
-		    && mode == _other.mode
-		    && name == _other.name
-		    && operationalStatus == _other.operationalStatus
-		    && partOf == _other.partOf
-		    && position == _other.position
-		    && status == _other.status
-		    && type == _other.type
-		    && virtualService == _other.virtualService
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(address)
-		hasher.combine(alias)
-		hasher.combine(characteristic)
-		hasher.combine(code)
-		hasher.combine(contact)
-		hasher.combine(description_fhir)
-		hasher.combine(endpoint)
-		hasher.combine(form)
-		hasher.combine(hoursOfOperation)
-		hasher.combine(identifier)
-		hasher.combine(managingOrganization)
-		hasher.combine(mode)
-		hasher.combine(name)
-		hasher.combine(operationalStatus)
-		hasher.combine(partOf)
-		hasher.combine(position)
-		hasher.combine(status)
-		hasher.combine(type)
-		hasher.combine(virtualService)
 	}
 }
 
@@ -291,26 +285,34 @@ open class Location: DomainResource {
  The absolute geographic location of the Location, expressed using the WGS84 datum (This is the same co-ordinate system
  used in KML).
  */
-open class LocationPosition: BackboneElement {
+public struct LocationPosition: BackboneElement {
 	
-	/// Longitude with WGS84 datum
-	public var longitude: FHIRPrimitive<FHIRDecimal>
+	/// Altitude with WGS84 datum
+	public var altitude: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Latitude with WGS84 datum
 	public var latitude: FHIRPrimitive<FHIRDecimal>
 	
-	/// Altitude with WGS84 datum
-	public var altitude: FHIRPrimitive<FHIRDecimal>?
+	/// Longitude with WGS84 datum
+	public var longitude: FHIRPrimitive<FHIRDecimal>
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Designated initializer taking all required properties
 	public init(latitude: FHIRPrimitive<FHIRDecimal>, longitude: FHIRPrimitive<FHIRDecimal>) {
 		self.latitude = latitude
 		self.longitude = longitude
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		altitude: FHIRPrimitive<FHIRDecimal>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -329,50 +331,35 @@ open class LocationPosition: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case altitude; case _altitude
+		case `extension` = "extension"
+		case id; case _id
 		case latitude; case _latitude
 		case longitude; case _longitude
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.altitude = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .altitude, auxiliaryKey: ._altitude)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.latitude = try FHIRPrimitive<FHIRDecimal>(from: _container, forKey: .latitude, auxiliaryKey: ._latitude)
 		self.longitude = try FHIRPrimitive<FHIRDecimal>(from: _container, forKey: .longitude, auxiliaryKey: ._longitude)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try altitude?.encode(on: &_container, forKey: .altitude, auxiliaryKey: ._altitude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try latitude.encode(on: &_container, forKey: .latitude, auxiliaryKey: ._latitude)
 		try longitude.encode(on: &_container, forKey: .longitude, auxiliaryKey: ._longitude)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? LocationPosition else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return altitude == _other.altitude
-		    && latitude == _other.latitude
-		    && longitude == _other.longitude
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(altitude)
-		hasher.combine(latitude)
-		hasher.combine(longitude)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

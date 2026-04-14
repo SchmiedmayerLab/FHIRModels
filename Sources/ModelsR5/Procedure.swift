@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/Procedure)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import FMCore
  counseling, or hypnotherapy.  This can be a quality or safety inspection for a location, organization, or device.  This
  can be an accreditation procedure on a practitioner for licensing.
  */
-open class Procedure: DomainResource {
+public struct Procedure: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .procedure }
+	public static let resourceType: ResourceType = .procedure
 	
 	/// All possible types for "occurrence[x]"
-	public enum OccurrenceX: Hashable {
+	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case period(Period)
@@ -42,31 +42,16 @@ open class Procedure: DomainResource {
 	}
 	
 	/// All possible types for "reported[x]"
-	public enum ReportedX: Hashable {
+	public enum ReportedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case reference(Reference)
 	}
 	
-	/// External Identifiers for this procedure
-	public var identifier: [Identifier]?
-	
-	/// Instantiates FHIR protocol or definition
-	public var instantiatesCanonical: [FHIRPrimitive<Canonical>]?
-	
-	/// Instantiates external protocol or definition
-	public var instantiatesUri: [FHIRPrimitive<FHIRURI>]?
-	
 	/// A request for this procedure
 	public var basedOn: [Reference]?
 	
-	/// Part of referenced event
-	public var partOf: [Reference]?
-	
-	/// preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown
-	public var status: FHIRPrimitive<FHIRString>
-	
-	/// Reason for current status
-	public var statusReason: CodeableConcept?
+	/// Target body sites
+	public var bodySite: [CodeableConcept]?
 	
 	/// Classification of the procedure
 	public var category: [CodeableConcept]?
@@ -74,18 +59,72 @@ open class Procedure: DomainResource {
 	/// Identification of the procedure
 	public var code: CodeableConcept?
 	
-	/// Individual or entity the procedure was performed on
-	public var subject: Reference
+	/// Complication following the procedure
+	public var complication: [CodeableReference]?
 	
-	/// Who is the target of the procedure when it is not the subject of record only
-	public var focus: Reference?
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
 	
 	/// The Encounter during which this Procedure was created
 	public var encounter: Reference?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Manipulated, implanted, or removed device
+	public var focalDevice: [ProcedureFocalDevice]?
+	
+	/// Who is the target of the procedure when it is not the subject of record only
+	public var focus: Reference?
+	
+	/// Instructions for follow up
+	public var followUp: [CodeableConcept]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// External Identifiers for this procedure
+	public var identifier: [Identifier]?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Instantiates FHIR protocol or definition
+	public var instantiatesCanonical: [FHIRPrimitive<Canonical>]?
+	
+	/// Instantiates external protocol or definition
+	public var instantiatesUri: [FHIRPrimitive<FHIRURI>]?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Where the procedure happened
+	public var location: Reference?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Additional information about the procedure
+	public var note: [Annotation]?
+	
 	/// When the procedure occurred or is occurring
 	/// One of `occurrence[x]`
 	public var occurrence: OccurrenceX?
+	
+	/// The result of procedure
+	public var outcome: CodeableConcept?
+	
+	/// Part of referenced event
+	public var partOf: [Reference]?
+	
+	/// Who performed the procedure and what they did
+	public var performer: [ProcedurePerformer]?
+	
+	/// The justification that the procedure was performed
+	public var reason: [CodeableReference]?
 	
 	/// When the procedure was first captured in the subject's record
 	public var recorded: FHIRPrimitive<DateTime>?
@@ -93,55 +132,39 @@ open class Procedure: DomainResource {
 	/// Who recorded the procedure
 	public var recorder: Reference?
 	
+	/// Any report resulting from the procedure
+	public var report: [Reference]?
+	
 	/// Reported rather than primary record
 	/// One of `reported[x]`
 	public var reported: ReportedX?
 	
-	/// Who performed the procedure and what they did
-	public var performer: [ProcedurePerformer]?
+	/// preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown
+	public var status: FHIRPrimitive<FHIRString>
 	
-	/// Where the procedure happened
-	public var location: Reference?
+	/// Reason for current status
+	public var statusReason: CodeableConcept?
 	
-	/// The justification that the procedure was performed
-	public var reason: [CodeableReference]?
-	
-	/// Target body sites
-	public var bodySite: [CodeableConcept]?
-	
-	/// The result of procedure
-	public var outcome: CodeableConcept?
-	
-	/// Any report resulting from the procedure
-	public var report: [Reference]?
-	
-	/// Complication following the procedure
-	public var complication: [CodeableReference]?
-	
-	/// Instructions for follow up
-	public var followUp: [CodeableConcept]?
-	
-	/// Additional information about the procedure
-	public var note: [Annotation]?
-	
-	/// Manipulated, implanted, or removed device
-	public var focalDevice: [ProcedureFocalDevice]?
-	
-	/// Items used during procedure
-	public var used: [CodeableReference]?
+	/// Individual or entity the procedure was performed on
+	public var subject: Reference
 	
 	/// Extra information relevant to the procedure
 	public var supportingInfo: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Items used during procedure
+	public var used: [CodeableReference]?
 	
 	/// Designated initializer taking all required properties
 	public init(status: FHIRPrimitive<FHIRString>, subject: Reference) {
 		self.status = status
 		self.subject = subject
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: [CodeableConcept]? = nil,
 		category: [CodeableConcept]? = nil,
@@ -219,19 +242,27 @@ open class Procedure: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case basedOn
 		case bodySite
 		case category
 		case code
 		case complication
+		case contained
 		case encounter
+		case `extension` = "extension"
 		case focalDevice
 		case focus
 		case followUp
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
 		case instantiatesCanonical; case _instantiatesCanonical
 		case instantiatesUri; case _instantiatesUri
+		case language; case _language
 		case location
+		case meta
+		case modifierExtension
 		case note
 		case occurrenceAge
 		case occurrenceDateTime; case _occurrenceDateTime
@@ -252,27 +283,35 @@ open class Procedure: DomainResource {
 		case statusReason
 		case subject
 		case supportingInfo
+		case text
 		case used
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
 		self.category = try [CodeableConcept](from: _container, forKeyIfPresent: .category)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
 		self.complication = try [CodeableReference](from: _container, forKeyIfPresent: .complication)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focalDevice = try [ProcedureFocalDevice](from: _container, forKeyIfPresent: .focalDevice)
 		self.focus = try Reference(from: _container, forKeyIfPresent: .focus)
 		self.followUp = try [CodeableConcept](from: _container, forKeyIfPresent: .followUp)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.instantiatesCanonical = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		self.instantiatesUri = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
@@ -337,28 +376,36 @@ open class Procedure: DomainResource {
 		self.statusReason = try CodeableConcept(from: _container, forKeyIfPresent: .statusReason)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.supportingInfo = try [Reference](from: _container, forKeyIfPresent: .supportingInfo)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.used = try [CodeableReference](from: _container, forKeyIfPresent: .used)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try category?.encode(on: &_container, forKey: .category)
 		try code?.encode(on: &_container, forKey: .code)
 		try complication?.encode(on: &_container, forKey: .complication)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try encounter?.encode(on: &_container, forKey: .encounter)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focalDevice?.encode(on: &_container, forKey: .focalDevice)
 		try focus?.encode(on: &_container, forKey: .focus)
 		try followUp?.encode(on: &_container, forKey: .followUp)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try instantiatesCanonical?.encode(on: &_container, forKey: .instantiatesCanonical, auxiliaryKey: ._instantiatesCanonical)
 		try instantiatesUri?.encode(on: &_container, forKey: .instantiatesUri, auxiliaryKey: ._instantiatesUri)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
 			switch _enum {
@@ -395,79 +442,8 @@ open class Procedure: DomainResource {
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
 		try subject.encode(on: &_container, forKey: .subject)
 		try supportingInfo?.encode(on: &_container, forKey: .supportingInfo)
+		try text?.encode(on: &_container, forKey: .text)
 		try used?.encode(on: &_container, forKey: .used)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Procedure else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return basedOn == _other.basedOn
-		    && bodySite == _other.bodySite
-		    && category == _other.category
-		    && code == _other.code
-		    && complication == _other.complication
-		    && encounter == _other.encounter
-		    && focalDevice == _other.focalDevice
-		    && focus == _other.focus
-		    && followUp == _other.followUp
-		    && identifier == _other.identifier
-		    && instantiatesCanonical == _other.instantiatesCanonical
-		    && instantiatesUri == _other.instantiatesUri
-		    && location == _other.location
-		    && note == _other.note
-		    && occurrence == _other.occurrence
-		    && outcome == _other.outcome
-		    && partOf == _other.partOf
-		    && performer == _other.performer
-		    && reason == _other.reason
-		    && recorded == _other.recorded
-		    && recorder == _other.recorder
-		    && report == _other.report
-		    && reported == _other.reported
-		    && status == _other.status
-		    && statusReason == _other.statusReason
-		    && subject == _other.subject
-		    && supportingInfo == _other.supportingInfo
-		    && used == _other.used
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(basedOn)
-		hasher.combine(bodySite)
-		hasher.combine(category)
-		hasher.combine(code)
-		hasher.combine(complication)
-		hasher.combine(encounter)
-		hasher.combine(focalDevice)
-		hasher.combine(focus)
-		hasher.combine(followUp)
-		hasher.combine(identifier)
-		hasher.combine(instantiatesCanonical)
-		hasher.combine(instantiatesUri)
-		hasher.combine(location)
-		hasher.combine(note)
-		hasher.combine(occurrence)
-		hasher.combine(outcome)
-		hasher.combine(partOf)
-		hasher.combine(performer)
-		hasher.combine(reason)
-		hasher.combine(recorded)
-		hasher.combine(recorder)
-		hasher.combine(report)
-		hasher.combine(reported)
-		hasher.combine(status)
-		hasher.combine(statusReason)
-		hasher.combine(subject)
-		hasher.combine(supportingInfo)
-		hasher.combine(used)
 	}
 }
 
@@ -477,22 +453,30 @@ open class Procedure: DomainResource {
  A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis,
  attaching a wound-vac, etc.) as a focal portion of the Procedure.
  */
-open class ProcedureFocalDevice: BackboneElement {
+public struct ProcedureFocalDevice: BackboneElement {
 	
 	/// Kind of change to device
 	public var action: CodeableConcept?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Device that was changed
 	public var manipulated: Reference
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Designated initializer taking all required properties
 	public init(manipulated: Reference) {
 		self.manipulated = manipulated
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		action: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -510,46 +494,33 @@ open class ProcedureFocalDevice: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case action
+		case `extension` = "extension"
+		case id; case _id
 		case manipulated
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.action = try CodeableConcept(from: _container, forKeyIfPresent: .action)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.manipulated = try Reference(from: _container, forKey: .manipulated)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try manipulated.encode(on: &_container, forKey: .manipulated)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProcedureFocalDevice else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return action == _other.action
-		    && manipulated == _other.manipulated
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(action)
-		hasher.combine(manipulated)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
@@ -558,13 +529,22 @@ open class ProcedureFocalDevice: BackboneElement {
  
  Indicates who or what performed the procedure and how they were involved.
  */
-open class ProcedurePerformer: BackboneElement {
+public struct ProcedurePerformer: BackboneElement {
+	
+	/// Who performed the procedure
+	public var actor: Reference
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Type of performance
 	public var function: CodeableConcept?
 	
-	/// Who performed the procedure
-	public var actor: Reference
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Organization the device or practitioner was acting for
 	public var onBehalfOf: Reference?
@@ -575,11 +555,10 @@ open class ProcedurePerformer: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(actor: Reference) {
 		self.actor = actor
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
 		function: CodeableConcept? = nil,
@@ -601,55 +580,38 @@ open class ProcedurePerformer: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case actor
+		case `extension` = "extension"
 		case function
+		case id; case _id
+		case modifierExtension
 		case onBehalfOf
 		case period
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.actor = try Reference(from: _container, forKey: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.function = try CodeableConcept(from: _container, forKeyIfPresent: .function)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.onBehalfOf = try Reference(from: _container, forKeyIfPresent: .onBehalfOf)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
 		try period?.encode(on: &_container, forKey: .period)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ProcedurePerformer else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return actor == _other.actor
-		    && function == _other.function
-		    && onBehalfOf == _other.onBehalfOf
-		    && period == _other.period
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(actor)
-		hasher.combine(function)
-		hasher.combine(onBehalfOf)
-		hasher.combine(period)
 	}
 }

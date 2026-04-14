@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,19 +27,19 @@ import FMCore
  */
 public enum ConsentActionCodes: String, FHIRPrimitiveType {
 	
-	/// Gather retrieved information for storage
-	case collect
-	
 	/// Retrieval without permitting collection, use or disclosure. e.g., no screen-scraping for collection, use or
 	/// disclosure (view-only access)
 	case access
 	
-	/// Utilize the retrieved information
-	case use
+	/// Gather retrieved information for storage
+	case collect
+	
+	/// Allow retrieval of a patient's information for the purpose of update or rectify
+	case correct
 	
 	/// Transfer retrieved information
 	case disclose
 	
-	/// Allow retrieval of a patient's information for the purpose of update or rectify
-	case correct
+	/// Utilize the retrieved information
+	case use
 }

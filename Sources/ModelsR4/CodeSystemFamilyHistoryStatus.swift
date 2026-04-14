@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -27,9 +27,6 @@ import FMCore
  */
 public enum FamilyHistoryStatus: String, FHIRPrimitiveType {
 	
-	/// Some health information is known and captured, but not complete - see notes for details.
-	case partial
-	
 	/// All available related health information is captured as of the date (and possibly time) when the family member
 	/// history was taken.
 	case completed
@@ -39,4 +36,7 @@ public enum FamilyHistoryStatus: String, FHIRPrimitiveType {
 	
 	/// Health information for this family member is unavailable/unknown.
 	case healthUnknown = "health-unknown"
+	
+	/// Some health information is known and captured, but not complete - see notes for details.
+	case partial
 }

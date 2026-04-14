@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,6 +29,12 @@ import FMCore
  */
 public enum MedicationDispenseStatus: String, FHIRPrimitiveType {
 	
+	/// All actions that are implied by the dispense have occurred.
+	case completed
+	
+	/// The dispense was entered in error and therefore nullified.
+	case enteredInError = "entered-in-error"
+	
 	/// The dispense has started but has not yet completed.
 	case inProgress = "in-progress"
 	
@@ -36,12 +42,6 @@ public enum MedicationDispenseStatus: String, FHIRPrimitiveType {
 	/// be called "suspended"
 	case onHold = "on-hold"
 	
-	/// All actions that are implied by the dispense have occurred.
-	case completed = "completed"
-	
-	/// The dispense was entered in error and therefore nullified.
-	case enteredInError = "entered-in-error"
-	
 	/// Actions implied by the dispense have been permanently halted, before all of them occurred.
-	case stopped = "stopped"
+	case stopped
 }

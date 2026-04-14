@@ -2,8 +2,8 @@
 //  TerminologyCapabilities.swift
 //  HealthSoftware
 //
-//  Generated from FHIR 6.0.0-ballot3 (http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities)
-//  Copyright 2025 Apple Inc.
+//  Generated from FHIR 6.0.0-ballot4 (http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities)
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,21 +25,115 @@ import FMCore
  A TerminologyCapabilities resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may be
  used as a statement of actual server functionality or a statement of required or desired server implementation.
  */
-open class TerminologyCapabilities: DomainResource {
+public struct TerminologyCapabilities: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .terminologyCapabilities }
+	public static let resourceType: ResourceType = .terminologyCapabilities
 	
 	/// All possible types for "versionAlgorithm[x]"
-	public enum VersionAlgorithmX: Hashable {
+	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
 		case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
-	/// Canonical identifier for this terminology capabilities, represented as a URI (globally unique)
-	public var url: FHIRPrimitive<FHIRURI>?
+	/// The degree to which the server supports the code search parameter on ValueSet, if it is supported.
+	public var codeSearch: FHIRPrimitive<CodeSearchSupport>?
+	
+	/// A code system supported by the server
+	public var codeSystem: [TerminologyCapabilitiesCodeSystem]?
+	
+	/// Contact details for the publisher
+	public var contact: [ContactDetail]?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// Notice about intellectual property ownership, can include restrictions on use
+	public var copyright: FHIRPrimitive<FHIRString>?
+	
+	/// Copyright holder and year(s)
+	public var copyrightLabel: FHIRPrimitive<FHIRString>?
+	
+	/// Date last changed
+	public var date: FHIRPrimitive<DateTime>
+	
+	/// Natural language description of the terminology capabilities
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Information about the [ValueSet/$expand](valueset-operation-expand.html) operation
+	public var expansion: TerminologyCapabilitiesExpansion?
+	
+	/// For testing only - never for real usage
+	public var experimental: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Additional identifier for the terminology capabilities
 	public var identifier: [Identifier]?
+	
+	/// If this describes a specific instance
+	public var implementation: TerminologyCapabilitiesImplementation?
+	
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Jurisdiction of the authority that maintains the terminology capabilities (if applicable)
+	public var jurisdiction: [CodeableConcept]?
+	
+	/// The way that this statement is intended to be used, to describe an actual running instance of software, a
+	/// particular product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
+	public var kind: FHIRPrimitive<CapabilityStatementKind>
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Whether lockedDate is supported
+	public var lockedDate: FHIRPrimitive<FHIRBool>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name for this terminology capabilities (computer friendly)
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Name of the publisher/steward (organization or individual)
+	public var publisher: FHIRPrimitive<FHIRString>?
+	
+	/// Why this terminology capabilities is defined
+	public var purpose: FHIRPrimitive<FHIRString>?
+	
+	/// Software that is covered by this terminology capability statement
+	public var software: TerminologyCapabilitiesSoftware?
+	
+	/// The status of this terminology capabilities. Enables tracking the life-cycle of the content.
+	public var status: FHIRPrimitive<PublicationStatus>
+	
+	/// Supplement Support Information
+	public var supplements: TerminologyCapabilitiesSupplements?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Name for this terminology capabilities (human friendly)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation
+	public var translation: TerminologyCapabilitiesTranslation?
+	
+	/// Canonical identifier for this terminology capabilities, represented as a URI (globally unique)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// The context that the content is intended to support
+	public var useContext: [UsageContext]?
+	
+	/// Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation
+	public var validateCode: TerminologyCapabilitiesValidateCode?
 	
 	/// Business version of the terminology capabilities
 	public var version: FHIRPrimitive<FHIRString>?
@@ -48,86 +142,15 @@ open class TerminologyCapabilities: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Name for this terminology capabilities (computer friendly)
-	public var name: FHIRPrimitive<FHIRString>?
-	
-	/// Name for this terminology capabilities (human friendly)
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// The status of this terminology capabilities. Enables tracking the life-cycle of the content.
-	public var status: FHIRPrimitive<PublicationStatus>
-	
-	/// For testing only - never for real usage
-	public var experimental: FHIRPrimitive<FHIRBool>?
-	
-	/// Date last changed
-	public var date: FHIRPrimitive<DateTime>
-	
-	/// Name of the publisher/steward (organization or individual)
-	public var publisher: FHIRPrimitive<FHIRString>?
-	
-	/// Contact details for the publisher
-	public var contact: [ContactDetail]?
-	
-	/// Natural language description of the terminology capabilities
-	public var description_fhir: FHIRPrimitive<FHIRString>?
-	
-	/// The context that the content is intended to support
-	public var useContext: [UsageContext]?
-	
-	/// Jurisdiction of the authority that maintains the terminology capabilities (if applicable)
-	public var jurisdiction: [CodeableConcept]?
-	
-	/// Why this terminology capabilities is defined
-	public var purpose: FHIRPrimitive<FHIRString>?
-	
-	/// Notice about intellectual property ownership, can include restrictions on use
-	public var copyright: FHIRPrimitive<FHIRString>?
-	
-	/// Copyright holder and year(s)
-	public var copyrightLabel: FHIRPrimitive<FHIRString>?
-	
-	/// The way that this statement is intended to be used, to describe an actual running instance of software, a
-	/// particular product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
-	public var kind: FHIRPrimitive<CapabilityStatementKind>
-	
-	/// Software that is covered by this terminology capability statement
-	public var software: TerminologyCapabilitiesSoftware?
-	
-	/// If this describes a specific instance
-	public var implementation: TerminologyCapabilitiesImplementation?
-	
-	/// Whether lockedDate is supported
-	public var lockedDate: FHIRPrimitive<FHIRBool>?
-	
-	/// A code system supported by the server
-	public var codeSystem: [TerminologyCapabilitiesCodeSystem]?
-	
-	/// Supplement Support Information
-	public var supplements: TerminologyCapabilitiesSupplements?
-	
-	/// Information about the [ValueSet/$expand](valueset-operation-expand.html) operation
-	public var expansion: TerminologyCapabilitiesExpansion?
-	
-	/// The degree to which the server supports the code search parameter on ValueSet, if it is supported.
-	public var codeSearch: FHIRPrimitive<CodeSearchSupport>?
-	
-	/// Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation
-	public var validateCode: TerminologyCapabilitiesValidateCode?
-	
-	/// Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation
-	public var translation: TerminologyCapabilitiesTranslation?
-	
 	/// Designated initializer taking all required properties
 	public init(date: FHIRPrimitive<DateTime>, kind: FHIRPrimitive<CapabilityStatementKind>, status: FHIRPrimitive<PublicationStatus>) {
 		self.date = date
 		self.kind = kind
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		codeSearch: FHIRPrimitive<CodeSearchSupport>? = nil,
 		codeSystem: [TerminologyCapabilitiesCodeSystem]? = nil,
 		contact: [ContactDetail]? = nil,
@@ -202,26 +225,35 @@ open class TerminologyCapabilities: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case codeSearch; case _codeSearch
 		case codeSystem
 		case contact
+		case contained
 		case copyright; case _copyright
 		case copyrightLabel; case _copyrightLabel
 		case date; case _date
 		case description_fhir = "description"; case _description_fhir = "_description"
 		case expansion
 		case experimental; case _experimental
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
 		case implementation
+		case implicitRules; case _implicitRules
 		case jurisdiction
 		case kind; case _kind
+		case language; case _language
 		case lockedDate; case _lockedDate
+		case meta
+		case modifierExtension
 		case name; case _name
 		case publisher; case _publisher
 		case purpose; case _purpose
 		case software
 		case status; case _status
 		case supplements
+		case text
 		case title; case _title
 		case translation
 		case url; case _url
@@ -231,32 +263,40 @@ open class TerminologyCapabilities: DomainResource {
 		case versionAlgorithmCoding
 		case versionAlgorithmString; case _versionAlgorithmString
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.codeSearch = try FHIRPrimitive<CodeSearchSupport>(from: _container, forKeyIfPresent: .codeSearch, auxiliaryKey: ._codeSearch)
 		self.codeSystem = try [TerminologyCapabilitiesCodeSystem](from: _container, forKeyIfPresent: .codeSystem)
 		self.contact = try [ContactDetail](from: _container, forKeyIfPresent: .contact)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
 		self.copyrightLabel = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKey: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.expansion = try TerminologyCapabilitiesExpansion(from: _container, forKeyIfPresent: .expansion)
 		self.experimental = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .experimental, auxiliaryKey: ._experimental)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.implementation = try TerminologyCapabilitiesImplementation(from: _container, forKeyIfPresent: .implementation)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.jurisdiction = try [CodeableConcept](from: _container, forKeyIfPresent: .jurisdiction)
 		self.kind = try FHIRPrimitive<CapabilityStatementKind>(from: _container, forKey: .kind, auxiliaryKey: ._kind)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.lockedDate = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .lockedDate, auxiliaryKey: ._lockedDate)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.purpose = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .purpose, auxiliaryKey: ._purpose)
 		self.software = try TerminologyCapabilitiesSoftware(from: _container, forKeyIfPresent: .software)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.supplements = try TerminologyCapabilitiesSupplements(from: _container, forKeyIfPresent: .supplements)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.translation = try TerminologyCapabilitiesTranslation(from: _container, forKeyIfPresent: .translation)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
@@ -277,34 +317,42 @@ open class TerminologyCapabilities: DomainResource {
 			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
 		}
 		self.versionAlgorithm = _t_versionAlgorithm
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try codeSearch?.encode(on: &_container, forKey: .codeSearch, auxiliaryKey: ._codeSearch)
 		try codeSystem?.encode(on: &_container, forKey: .codeSystem)
 		try contact?.encode(on: &_container, forKey: .contact)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try copyrightLabel?.encode(on: &_container, forKey: .copyrightLabel, auxiliaryKey: ._copyrightLabel)
 		try date.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try expansion?.encode(on: &_container, forKey: .expansion)
 		try experimental?.encode(on: &_container, forKey: .experimental, auxiliaryKey: ._experimental)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		try implementation?.encode(on: &_container, forKey: .implementation)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try jurisdiction?.encode(on: &_container, forKey: .jurisdiction)
 		try kind.encode(on: &_container, forKey: .kind, auxiliaryKey: ._kind)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try lockedDate?.encode(on: &_container, forKey: .lockedDate, auxiliaryKey: ._lockedDate)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try purpose?.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
 		try software?.encode(on: &_container, forKey: .software)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try supplements?.encode(on: &_container, forKey: .supplements)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try translation?.encode(on: &_container, forKey: .translation)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
@@ -319,76 +367,6 @@ open class TerminologyCapabilities: DomainResource {
 				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
 			}
 		}
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilities else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return codeSearch == _other.codeSearch
-		    && codeSystem == _other.codeSystem
-		    && contact == _other.contact
-		    && copyright == _other.copyright
-		    && copyrightLabel == _other.copyrightLabel
-		    && date == _other.date
-		    && description_fhir == _other.description_fhir
-		    && expansion == _other.expansion
-		    && experimental == _other.experimental
-		    && identifier == _other.identifier
-		    && implementation == _other.implementation
-		    && jurisdiction == _other.jurisdiction
-		    && kind == _other.kind
-		    && lockedDate == _other.lockedDate
-		    && name == _other.name
-		    && publisher == _other.publisher
-		    && purpose == _other.purpose
-		    && software == _other.software
-		    && status == _other.status
-		    && supplements == _other.supplements
-		    && title == _other.title
-		    && translation == _other.translation
-		    && url == _other.url
-		    && useContext == _other.useContext
-		    && validateCode == _other.validateCode
-		    && version == _other.version
-		    && versionAlgorithm == _other.versionAlgorithm
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(codeSearch)
-		hasher.combine(codeSystem)
-		hasher.combine(contact)
-		hasher.combine(copyright)
-		hasher.combine(copyrightLabel)
-		hasher.combine(date)
-		hasher.combine(description_fhir)
-		hasher.combine(expansion)
-		hasher.combine(experimental)
-		hasher.combine(identifier)
-		hasher.combine(implementation)
-		hasher.combine(jurisdiction)
-		hasher.combine(kind)
-		hasher.combine(lockedDate)
-		hasher.combine(name)
-		hasher.combine(publisher)
-		hasher.combine(purpose)
-		hasher.combine(software)
-		hasher.combine(status)
-		hasher.combine(supplements)
-		hasher.combine(title)
-		hasher.combine(translation)
-		hasher.combine(url)
-		hasher.combine(useContext)
-		hasher.combine(validateCode)
-		hasher.combine(version)
-		hasher.combine(versionAlgorithm)
 	}
 }
 
@@ -398,32 +376,40 @@ open class TerminologyCapabilities: DomainResource {
  Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the
  general assumptions a client can make about support for any CodeSystem resource.
  */
-open class TerminologyCapabilitiesCodeSystem: BackboneElement {
-	
-	/// Canonical identifier for the code system, represented as a URI (no version portion)
-	public var uri: FHIRPrimitive<Canonical>?
-	
-	/// Canonical identifier for a supported supplement to this code system (including supplement version)
-	public var supplement: [FHIRPrimitive<Canonical>]?
-	
-	/// Version of Code System supported
-	public var version: [TerminologyCapabilitiesCodeSystemVersion]?
+public struct TerminologyCapabilitiesCodeSystem: BackboneElement {
 	
 	/// The extent of the content of the code system (the concepts and codes it defines) are represented in this
 	/// resource instance.
 	public var content: FHIRPrimitive<CodeSystemContentMode>
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Whether subsumption is supported
 	public var subsumption: FHIRPrimitive<FHIRBool>?
+	
+	/// Canonical identifier for a supported supplement to this code system (including supplement version)
+	public var supplement: [FHIRPrimitive<Canonical>]?
+	
+	/// Canonical identifier for the code system, represented as a URI (no version portion)
+	public var uri: FHIRPrimitive<Canonical>?
+	
+	/// Version of Code System supported
+	public var version: [TerminologyCapabilitiesCodeSystemVersion]?
 	
 	/// Designated initializer taking all required properties
 	public init(content: FHIRPrimitive<CodeSystemContentMode>) {
 		self.content = content
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		content: FHIRPrimitive<CodeSystemContentMode>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -447,61 +433,42 @@ open class TerminologyCapabilitiesCodeSystem: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case content; case _content
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case subsumption; case _subsumption
 		case supplement; case _supplement
 		case uri; case _uri
 		case version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.content = try FHIRPrimitive<CodeSystemContentMode>(from: _container, forKey: .content, auxiliaryKey: ._content)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.subsumption = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .subsumption, auxiliaryKey: ._subsumption)
 		self.supplement = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .supplement, auxiliaryKey: ._supplement)
 		self.uri = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .uri, auxiliaryKey: ._uri)
 		self.version = try [TerminologyCapabilitiesCodeSystemVersion](from: _container, forKeyIfPresent: .version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try content.encode(on: &_container, forKey: .content, auxiliaryKey: ._content)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try subsumption?.encode(on: &_container, forKey: .subsumption, auxiliaryKey: ._subsumption)
 		try supplement?.encode(on: &_container, forKey: .supplement, auxiliaryKey: ._supplement)
 		try uri?.encode(on: &_container, forKey: .uri, auxiliaryKey: ._uri)
 		try version?.encode(on: &_container, forKey: .version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesCodeSystem else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return content == _other.content
-		    && subsumption == _other.subsumption
-		    && supplement == _other.supplement
-		    && uri == _other.uri
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(content)
-		hasher.combine(subsumption)
-		hasher.combine(supplement)
-		hasher.combine(uri)
-		hasher.combine(version)
 	}
 }
 
@@ -510,36 +477,44 @@ open class TerminologyCapabilitiesCodeSystem: BackboneElement {
  
  For the code system, a list of versions that are supported by the server.
  */
-open class TerminologyCapabilitiesCodeSystemVersion: BackboneElement {
+public struct TerminologyCapabilitiesCodeSystemVersion: BackboneElement {
 	
 	/// Version identifier for this version
 	public var code: FHIRPrimitive<FHIRString>?
 	
-	/// If this is the default version for this code system
-	public var isDefault: FHIRPrimitive<FHIRBool>?
-	
-	/// Canonical identifier for a supported supplement to this code system version (including supplement version)
-	public var supplement: [FHIRPrimitive<Canonical>]?
-	
 	/// If compositional grammar is supported
 	public var compositional: FHIRPrimitive<FHIRBool>?
 	
-	/// Language Displays supported
-	public var language: [FHIRPrimitive<FHIRString>]?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Filter Properties supported
 	public var filter: [TerminologyCapabilitiesCodeSystemVersionFilter]?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// If this is the default version for this code system
+	public var isDefault: FHIRPrimitive<FHIRBool>?
+	
+	/// Language Displays supported
+	public var language: [FHIRPrimitive<FHIRString>]?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Properties supported for $lookup
 	public var property: [FHIRPrimitive<FHIRString>]?
 	
+	/// Canonical identifier for a supported supplement to this code system version (including supplement version)
+	public var supplement: [FHIRPrimitive<Canonical>]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<FHIRString>? = nil,
 		compositional: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -569,80 +544,66 @@ open class TerminologyCapabilitiesCodeSystemVersion: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case code; case _code
 		case compositional; case _compositional
+		case `extension` = "extension"
 		case filter
+		case id; case _id
 		case isDefault; case _isDefault
 		case language; case _language
+		case modifierExtension
 		case property; case _property
 		case supplement; case _supplement
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .code, auxiliaryKey: ._code)
 		self.compositional = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .compositional, auxiliaryKey: ._compositional)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.filter = try [TerminologyCapabilitiesCodeSystemVersionFilter](from: _container, forKeyIfPresent: .filter)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.isDefault = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isDefault, auxiliaryKey: ._isDefault)
 		self.language = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.property = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .property, auxiliaryKey: ._property)
 		self.supplement = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .supplement, auxiliaryKey: ._supplement)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try compositional?.encode(on: &_container, forKey: .compositional, auxiliaryKey: ._compositional)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try filter?.encode(on: &_container, forKey: .filter)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try isDefault?.encode(on: &_container, forKey: .isDefault, auxiliaryKey: ._isDefault)
 		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try property?.encode(on: &_container, forKey: .property, auxiliaryKey: ._property)
 		try supplement?.encode(on: &_container, forKey: .supplement, auxiliaryKey: ._supplement)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesCodeSystemVersion else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && compositional == _other.compositional
-		    && filter == _other.filter
-		    && isDefault == _other.isDefault
-		    && language == _other.language
-		    && property == _other.property
-		    && supplement == _other.supplement
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(compositional)
-		hasher.combine(filter)
-		hasher.combine(isDefault)
-		hasher.combine(language)
-		hasher.combine(property)
-		hasher.combine(supplement)
 	}
 }
 
 /**
  Filter Properties supported.
  */
-open class TerminologyCapabilitiesCodeSystemVersionFilter: BackboneElement {
+public struct TerminologyCapabilitiesCodeSystemVersionFilter: BackboneElement {
 	
 	/// Code of the property supported
 	public var code: FHIRPrimitive<FHIRString>
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Operations supported for the property
 	public var op: [FHIRPrimitive<FHIRString>]
@@ -651,11 +612,10 @@ open class TerminologyCapabilitiesCodeSystemVersionFilter: BackboneElement {
 	public init(code: FHIRPrimitive<FHIRString>, op: [FHIRPrimitive<FHIRString>]) {
 		self.code = code
 		self.op = op
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -672,62 +632,58 @@ open class TerminologyCapabilitiesCodeSystemVersionFilter: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case code; case _code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case op; case _op
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKey: .code, auxiliaryKey: ._code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.op = try [FHIRPrimitive<FHIRString>](from: _container, forKey: .op, auxiliaryKey: ._op)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try op.encode(on: &_container, forKey: .op, auxiliaryKey: ._op)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesCodeSystemVersionFilter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && op == _other.op
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(op)
 	}
 }
 
 /**
  Information about the [ValueSet/$expand](valueset-operation-expand.html) operation.
  */
-open class TerminologyCapabilitiesExpansion: BackboneElement {
+public struct TerminologyCapabilitiesExpansion: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Whether the server can return nested value sets
 	public var hierarchical: FHIRPrimitive<FHIRBool>?
 	
-	/// Whether the server supports paging on expansion
-	public var paging: FHIRPrimitive<FHIRBool>?
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Allow request for incomplete expansions?
 	public var incomplete: FHIRPrimitive<FHIRBool>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Whether the server supports paging on expansion
+	public var paging: FHIRPrimitive<FHIRBool>?
 	
 	/// Supported expansion parameter
 	public var parameter: [TerminologyCapabilitiesExpansionParameter]?
@@ -736,12 +692,11 @@ open class TerminologyCapabilitiesExpansion: BackboneElement {
 	public var textFilter: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		hierarchical: FHIRPrimitive<FHIRBool>? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -765,84 +720,73 @@ open class TerminologyCapabilitiesExpansion: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case hierarchical; case _hierarchical
+		case id; case _id
 		case incomplete; case _incomplete
+		case modifierExtension
 		case paging; case _paging
 		case parameter
 		case textFilter; case _textFilter
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.hierarchical = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .hierarchical, auxiliaryKey: ._hierarchical)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.incomplete = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .incomplete, auxiliaryKey: ._incomplete)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.paging = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .paging, auxiliaryKey: ._paging)
 		self.parameter = try [TerminologyCapabilitiesExpansionParameter](from: _container, forKeyIfPresent: .parameter)
 		self.textFilter = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textFilter, auxiliaryKey: ._textFilter)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try hierarchical?.encode(on: &_container, forKey: .hierarchical, auxiliaryKey: ._hierarchical)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try incomplete?.encode(on: &_container, forKey: .incomplete, auxiliaryKey: ._incomplete)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try paging?.encode(on: &_container, forKey: .paging, auxiliaryKey: ._paging)
 		try parameter?.encode(on: &_container, forKey: .parameter)
 		try textFilter?.encode(on: &_container, forKey: .textFilter, auxiliaryKey: ._textFilter)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesExpansion else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return hierarchical == _other.hierarchical
-		    && incomplete == _other.incomplete
-		    && paging == _other.paging
-		    && parameter == _other.parameter
-		    && textFilter == _other.textFilter
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(hierarchical)
-		hasher.combine(incomplete)
-		hasher.combine(paging)
-		hasher.combine(parameter)
-		hasher.combine(textFilter)
 	}
 }
 
 /**
  Supported expansion parameter.
  */
-open class TerminologyCapabilitiesExpansionParameter: BackboneElement {
-	
-	/// Name of the supported expansion parameter
-	public var name: FHIRPrimitive<FHIRString>
+public struct TerminologyCapabilitiesExpansionParameter: BackboneElement {
 	
 	/// Description of support for parameter
 	public var documentation: FHIRPrimitive<FHIRString>?
 	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
+	/// Name of the supported expansion parameter
+	public var name: FHIRPrimitive<FHIRString>
+	
 	/// Designated initializer taking all required properties
 	public init(name: FHIRPrimitive<FHIRString>) {
 		self.name = name
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		documentation: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -860,46 +804,33 @@ open class TerminologyCapabilitiesExpansionParameter: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case documentation; case _documentation
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.documentation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .documentation, auxiliaryKey: ._documentation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesExpansionParameter else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return documentation == _other.documentation
-		    && name == _other.name
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(documentation)
-		hasher.combine(name)
 	}
 }
 
@@ -909,10 +840,19 @@ open class TerminologyCapabilitiesExpansionParameter: BackboneElement {
  Identifies a specific implementation instance that is described by the terminology capability statement - i.e. a
  particular installation, rather than the capabilities of a software program.
  */
-open class TerminologyCapabilitiesImplementation: BackboneElement {
+public struct TerminologyCapabilitiesImplementation: BackboneElement {
 	
 	/// Describes this specific instance
 	public var description_fhir: FHIRPrimitive<FHIRString>
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Base URL for the implementation
 	public var url: FHIRPrimitive<FHIRURI>?
@@ -920,11 +860,10 @@ open class TerminologyCapabilitiesImplementation: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(description_fhir: FHIRPrimitive<FHIRString>) {
 		self.description_fhir = description_fhir
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		description_fhir: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -942,46 +881,33 @@ open class TerminologyCapabilitiesImplementation: BackboneElement {
 	
 	private enum CodingKeys: String, CodingKey {
 		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case url; case _url
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesImplementation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return description_fhir == _other.description_fhir
-		    && url == _other.url
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(description_fhir)
-		hasher.combine(url)
 	}
 }
 
@@ -991,7 +917,16 @@ open class TerminologyCapabilitiesImplementation: BackboneElement {
  Software that is covered by this terminology capability statement.  It is used when the statement describes the
  capabilities of a particular software version, independent of an installation.
  */
-open class TerminologyCapabilitiesSoftware: BackboneElement {
+public struct TerminologyCapabilitiesSoftware: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// A name the software is known by
 	public var name: FHIRPrimitive<FHIRString>
@@ -1002,11 +937,10 @@ open class TerminologyCapabilitiesSoftware: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(name: FHIRPrimitive<FHIRString>) {
 		self.name = name
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1023,47 +957,34 @@ open class TerminologyCapabilitiesSoftware: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case name; case _name
 		case version; case _version
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesSoftware else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return name == _other.name
-		    && version == _other.version
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(name)
-		hasher.combine(version)
 	}
 }
 
@@ -1072,7 +993,10 @@ open class TerminologyCapabilitiesSoftware: BackboneElement {
  
  Information about how the system supports CodeSystem supplements.
  */
-open class TerminologyCapabilitiesSupplements: BackboneElement {
+public struct TerminologyCapabilitiesSupplements: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
 	
 	/// Codes that describes how the server implements global language packs - that is, supplements that contain only
 	/// designations for a single language that are marked as intended by the extension
@@ -1080,13 +1004,18 @@ open class TerminologyCapabilitiesSupplements: BackboneElement {
 	/// without explicit reference.
 	public var globals: FHIRPrimitive<GlobalLangPackSupportVS>?
 	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
+	
 	/// Designated initializer taking all required properties
-	override public init() {
-		super.init()
+	public init() {
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		globals: FHIRPrimitive<GlobalLangPackSupportVS>? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1102,49 +1031,47 @@ open class TerminologyCapabilitiesSupplements: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
 		case globals; case _globals
+		case id; case _id
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.globals = try FHIRPrimitive<GlobalLangPackSupportVS>(from: _container, forKeyIfPresent: .globals, auxiliaryKey: ._globals)
-		try super.init(from: decoder)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try globals?.encode(on: &_container, forKey: .globals, auxiliaryKey: ._globals)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesSupplements else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return globals == _other.globals
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(globals)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }
 
 /**
  Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation.
  */
-open class TerminologyCapabilitiesTranslation: BackboneElement {
+public struct TerminologyCapabilitiesTranslation: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Whether the client must identify the map
 	public var needsMap: FHIRPrimitive<FHIRBool>
@@ -1152,11 +1079,10 @@ open class TerminologyCapabilitiesTranslation: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(needsMap: FHIRPrimitive<FHIRBool>) {
 		self.needsMap = needsMap
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1171,49 +1097,47 @@ open class TerminologyCapabilitiesTranslation: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case needsMap; case _needsMap
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.needsMap = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .needsMap, auxiliaryKey: ._needsMap)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try needsMap.encode(on: &_container, forKey: .needsMap, auxiliaryKey: ._needsMap)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesTranslation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return needsMap == _other.needsMap
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(needsMap)
 	}
 }
 
 /**
  Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation.
  */
-open class TerminologyCapabilitiesValidateCode: BackboneElement {
+public struct TerminologyCapabilitiesValidateCode: BackboneElement {
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Whether translations are validated
 	public var translations: FHIRPrimitive<FHIRBool>
@@ -1221,11 +1145,10 @@ open class TerminologyCapabilitiesValidateCode: BackboneElement {
 	/// Designated initializer taking all required properties
 	public init(translations: FHIRPrimitive<FHIRBool>) {
 		self.translations = translations
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
@@ -1240,41 +1163,30 @@ open class TerminologyCapabilitiesValidateCode: BackboneElement {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
 		case translations; case _translations
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.translations = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .translations, auxiliaryKey: ._translations)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try translations.encode(on: &_container, forKey: .translations, auxiliaryKey: ._translations)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? TerminologyCapabilitiesValidateCode else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return translations == _other.translations
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(translations)
 	}
 }

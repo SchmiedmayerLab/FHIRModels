@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
  */
 public enum GenderStatus: String, FHIRPrimitiveType {
 	
-	/// The animal has been sterilized, castrated or otherwise made infertile.
-	case neutered
-	
 	/// The animal's reproductive organs are intact.
 	case intact
+	
+	/// The animal has been sterilized, castrated or otherwise made infertile.
+	case neutered
 	
 	/// Unable to determine whether the animal has been neutered.
 	case unknown

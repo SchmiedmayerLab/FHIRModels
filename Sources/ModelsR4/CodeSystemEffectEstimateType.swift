@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,24 +28,24 @@ import FMCore
  */
 public enum EffectEstimateType: String, FHIRPrimitiveType {
 	
-	/// relative risk (a type of relative effect estimate).
-	case relativeRR = "relative-RR"
-	
-	/// odds ratio (a type of relative effect estimate).
-	case relativeOR = "relative-OR"
-	
-	/// hazard ratio (a type of relative effect estimate).
-	case relativeHR = "relative-HR"
-	
 	/// absolute risk difference (a type of absolute effect estimate).
 	case absoluteARD = "absolute-ARD"
 	
 	/// mean difference (a type of absolute effect estimate).
 	case absoluteMeanDiff = "absolute-MeanDiff"
 	
+	/// median difference (a type of absolute effect estimate).
+	case absoluteMedianDiff = "absolute-MedianDiff"
+	
 	/// standardized mean difference (a type of absolute effect estimate).
 	case absoluteSMD = "absolute-SMD"
 	
-	/// median difference (a type of absolute effect estimate).
-	case absoluteMedianDiff = "absolute-MedianDiff"
+	/// hazard ratio (a type of relative effect estimate).
+	case relativeHR = "relative-HR"
+	
+	/// odds ratio (a type of relative effect estimate).
+	case relativeOR = "relative-OR"
+	
+	/// relative risk (a type of relative effect estimate).
+	case relativeRR = "relative-RR"
 }

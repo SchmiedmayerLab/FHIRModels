@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -31,21 +31,21 @@ public enum SubscriberRelationshipCodes: String, FHIRPrimitiveType {
 	/// The Beneficiary is a child of the Subscriber
 	case child
 	
-	/// The Beneficiary is a parent of the Subscriber
-	case parent
-	
-	/// The Beneficiary is a spouse or equivalent of the Subscriber
-	case spouse
-	
 	/// The Beneficiary is a common law spouse or equivalent of the Subscriber
 	case common
+	
+	/// The Beneficiary is covered under insurance of the subscriber due to an injury.
+	case injured
 	
 	/// The Beneficiary has some other relationship the Subscriber
 	case other
 	
+	/// The Beneficiary is a parent of the Subscriber
+	case parent
+	
 	/// The Beneficiary is the Subscriber
 	case selfCase = "self"
 	
-	/// The Beneficiary is covered under insurance of the subscriber due to an injury.
-	case injured
+	/// The Beneficiary is a spouse or equivalent of the Subscriber
+	case spouse
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 1.0.2.7202
-//  Copyright 2020 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,16 +28,16 @@ import FMCore
 public enum ConditionClinicalStatusCodes: String, FHIRPrimitiveType {
 	
 	/// The subject is currently experiencing the symptoms of the condition.
-	case active = "active"
+	case active
 	
 	/// The subject is re-experiencing the symptoms of the condition after a period of remission or presumed resolution.
-	case relapse = "relapse"
+	case relapse
 	
 	/// The subject is no longer experiencing the symptoms of the condition, but there is a risk of the symptoms
 	/// returning.
-	case remission = "remission"
+	case remission
 	
 	/// The subject is no longer experiencing the symptoms of the condition and there is no perceived risk of the
 	/// symptoms returning.
-	case resolved = "resolved"
+	case resolved
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -33,9 +33,9 @@ public enum ContributorType: String, FHIRPrimitiveType {
 	/// An editor of the content of the module.
 	case editor
 	
-	/// A reviewer of the content of the module.
-	case reviewer
-	
 	/// An endorser of the content of the module.
 	case endorser
+	
+	/// A reviewer of the content of the module.
+	case reviewer
 }

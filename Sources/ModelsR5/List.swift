@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 5.0.0 (http://hl7.org/fhir/StructureDefinition/List)
-//  Copyright 2023 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,60 +25,83 @@ import FMCore
  A List is a curated collection of resources, for things such as problem lists, allergy lists, facility list,
  organization list, etc.
  */
-open class List: DomainResource {
+public struct List: DomainResource {
 	
-	override open class var resourceType: ResourceType { return .list }
+	public static let resourceType: ResourceType = .list
+	
+	/// What the purpose of this list is
+	public var code: CodeableConcept?
+	
+	/// Contained, inline Resources
+	public var contained: [ResourceProxy]?
+	
+	/// When the list was prepared
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Why list is empty
+	public var emptyReason: CodeableConcept?
+	
+	/// Context in which list created
+	public var encounter: Reference?
+	
+	/// Entries in the list
+	public var entry: [ListEntry]?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Logical id of this artifact
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// Business identifier
 	public var identifier: [Identifier]?
 	
-	/// Indicates the current state of this list.
-	public var status: FHIRPrimitive<ListStatus>
+	/// A set of rules under which this content was created
+	public var implicitRules: FHIRPrimitive<FHIRURI>?
+	
+	/// Language of the resource content
+	public var language: FHIRPrimitive<FHIRString>?
+	
+	/// Metadata about the resource
+	public var meta: Meta?
 	
 	/// How this list was prepared - whether it is a working list that is suitable for being maintained on an ongoing
 	/// basis, or if it represents a snapshot of a list of items from another source, or whether it is a prepared list
 	/// where items may be marked as added, modified or deleted.
 	public var mode: FHIRPrimitive<ListMode>
 	
-	/// Descriptive name for the list
-	public var title: FHIRPrimitive<FHIRString>?
-	
-	/// What the purpose of this list is
-	public var code: CodeableConcept?
-	
-	/// If all resources have the same subject(s)
-	public var subject: [Reference]?
-	
-	/// Context in which list created
-	public var encounter: Reference?
-	
-	/// When the list was prepared
-	public var date: FHIRPrimitive<DateTime>?
-	
-	/// Who and/or what defined the list contents (aka Author)
-	public var source: Reference?
-	
-	/// What order the list has
-	public var orderedBy: CodeableConcept?
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
 	
 	/// Comments about the list
 	public var note: [Annotation]?
 	
-	/// Entries in the list
-	public var entry: [ListEntry]?
+	/// What order the list has
+	public var orderedBy: CodeableConcept?
 	
-	/// Why list is empty
-	public var emptyReason: CodeableConcept?
+	/// Who and/or what defined the list contents (aka Author)
+	public var source: Reference?
+	
+	/// Indicates the current state of this list.
+	public var status: FHIRPrimitive<ListStatus>
+	
+	/// If all resources have the same subject(s)
+	public var subject: [Reference]?
+	
+	/// Text summary of the resource, for human interpretation
+	public var text: Narrative?
+	
+	/// Descriptive name for the list
+	public var title: FHIRPrimitive<FHIRString>?
 	
 	/// Designated initializer taking all required properties
 	public init(mode: FHIRPrimitive<ListMode>, status: FHIRPrimitive<ListStatus>) {
 		self.mode = mode
 		self.status = status
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		code: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -126,102 +149,85 @@ open class List: DomainResource {
 	// MARK: - Codable
 	
 	private enum CodingKeys: String, CodingKey {
+		case resourceType
 		case code
+		case contained
 		case date; case _date
 		case emptyReason
 		case encounter
 		case entry
+		case `extension` = "extension"
+		case id; case _id
 		case identifier
+		case implicitRules; case _implicitRules
+		case language; case _language
+		case meta
 		case mode; case _mode
+		case modifierExtension
 		case note
 		case orderedBy
 		case source
 		case status; case _status
 		case subject
+		case text
 		case title; case _title
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.emptyReason = try CodeableConcept(from: _container, forKeyIfPresent: .emptyReason)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.entry = try [ListEntry](from: _container, forKeyIfPresent: .entry)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
+		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
+		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.mode = try FHIRPrimitive<ListMode>(from: _container, forKey: .mode, auxiliaryKey: ._mode)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.orderedBy = try CodeableConcept(from: _container, forKeyIfPresent: .orderedBy)
 		self.source = try Reference(from: _container, forKeyIfPresent: .source)
 		self.status = try FHIRPrimitive<ListStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try [Reference](from: _container, forKeyIfPresent: .subject)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try emptyReason?.encode(on: &_container, forKey: .emptyReason)
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try entry?.encode(on: &_container, forKey: .entry)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
 		try mode.encode(on: &_container, forKey: .mode, auxiliaryKey: ._mode)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		try orderedBy?.encode(on: &_container, forKey: .orderedBy)
 		try source?.encode(on: &_container, forKey: .source)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
+		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? List else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return code == _other.code
-		    && date == _other.date
-		    && emptyReason == _other.emptyReason
-		    && encounter == _other.encounter
-		    && entry == _other.entry
-		    && identifier == _other.identifier
-		    && mode == _other.mode
-		    && note == _other.note
-		    && orderedBy == _other.orderedBy
-		    && source == _other.source
-		    && status == _other.status
-		    && subject == _other.subject
-		    && title == _other.title
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(code)
-		hasher.combine(date)
-		hasher.combine(emptyReason)
-		hasher.combine(encounter)
-		hasher.combine(entry)
-		hasher.combine(identifier)
-		hasher.combine(mode)
-		hasher.combine(note)
-		hasher.combine(orderedBy)
-		hasher.combine(source)
-		hasher.combine(status)
-		hasher.combine(subject)
-		hasher.combine(title)
 	}
 }
 
@@ -230,28 +236,36 @@ open class List: DomainResource {
  
  Entries in this list.
  */
-open class ListEntry: BackboneElement {
-	
-	/// Status/Workflow information about this item
-	public var flag: CodeableConcept?
-	
-	/// If this item is actually marked as deleted
-	public var deleted: FHIRPrimitive<FHIRBool>?
+public struct ListEntry: BackboneElement {
 	
 	/// When item added to list
 	public var date: FHIRPrimitive<DateTime>?
 	
+	/// If this item is actually marked as deleted
+	public var deleted: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Status/Workflow information about this item
+	public var flag: CodeableConcept?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
+	
 	/// Actual entry
 	public var item: Reference
+	
+	/// Extensions that cannot be ignored even if unrecognized
+	public var modifierExtension: [Extension]?
 	
 	/// Designated initializer taking all required properties
 	public init(item: Reference) {
 		self.item = item
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		date: FHIRPrimitive<DateTime>? = nil,
 		deleted: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -274,54 +288,37 @@ open class ListEntry: BackboneElement {
 	private enum CodingKeys: String, CodingKey {
 		case date; case _date
 		case deleted; case _deleted
+		case `extension` = "extension"
 		case flag
+		case id; case _id
 		case item
+		case modifierExtension
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.deleted = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deleted, auxiliaryKey: ._deleted)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.flag = try CodeableConcept(from: _container, forKeyIfPresent: .flag)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.item = try Reference(from: _container, forKey: .item)
-		try super.init(from: decoder)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try deleted?.encode(on: &_container, forKey: .deleted, auxiliaryKey: ._deleted)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try flag?.encode(on: &_container, forKey: .flag)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try item.encode(on: &_container, forKey: .item)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? ListEntry else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return date == _other.date
-		    && deleted == _other.deleted
-		    && flag == _other.flag
-		    && item == _other.item
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(date)
-		hasher.combine(deleted)
-		hasher.combine(flag)
-		hasher.combine(item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 	}
 }

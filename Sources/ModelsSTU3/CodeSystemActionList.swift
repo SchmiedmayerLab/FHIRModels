@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,14 +28,14 @@ import FMCore
 public enum ActionList: String, FHIRPrimitiveType {
 	
 	/// Cancel, reverse or nullify the target resource.
-	case cancel = "cancel"
+	case cancel
 	
 	/// Check for previously un-read/ not-retrieved resources.
-	case poll = "poll"
+	case poll
 	
 	/// Re-process the target resource.
-	case reprocess = "reprocess"
+	case reprocess
 	
 	/// Retrieve the processing status of the target resource.
-	case status = "status"
+	case status
 }

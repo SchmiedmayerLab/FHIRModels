@@ -2,8 +2,8 @@
 //  CodeSystems.swift
 //  HealthRecords
 //
-//  Generated from FHIR 3.0.1.11917
-//  Copyright 2020 Apple Inc.
+//  Generated from FHIR 3.0.2.11917
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,11 +28,11 @@ import FMCore
 public enum CopyNumberEvent: String, FHIRPrimitiveType {
 	
 	/// amplificaiton
-	case amp = "amp"
+	case amp
 	
 	/// deletion
-	case del = "del"
+	case del
 	
 	/// loss of function
-	case lof = "lof"
+	case lof
 }

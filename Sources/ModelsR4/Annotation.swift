@@ -3,7 +3,7 @@
 //  HealthSoftware
 //
 //  Generated from FHIR 4.0.1-9346c8cc45 (http://hl7.org/fhir/StructureDefinition/Annotation)
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import FMCore
  
  A  text note which also  contains information about who made the statement and when.
  */
-open class Annotation: Element {
+public struct Annotation: Element {
 	
 	/// All possible types for "author[x]"
-	public enum AuthorX: Hashable {
+	public enum AuthorX: Equatable, Hashable, Sendable {
 		case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
@@ -36,20 +36,25 @@ open class Annotation: Element {
 	/// One of `author[x]`
 	public var author: AuthorX?
 	
-	/// When the annotation was made
-	public var time: FHIRPrimitive<DateTime>?
+	/// Additional content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Unique id for inter-element referencing
+	public var id: FHIRPrimitive<FHIRString>?
 	
 	/// The annotation  - text content (as markdown)
 	public var text: FHIRPrimitive<FHIRString>
 	
+	/// When the annotation was made
+	public var time: FHIRPrimitive<DateTime>?
+	
 	/// Designated initializer taking all required properties
 	public init(text: FHIRPrimitive<FHIRString>) {
 		self.text = text
-		super.init()
 	}
 	
 	/// Convenience initializer
-	public convenience init(
+	public init(
 		author: AuthorX? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -68,15 +73,17 @@ open class Annotation: Element {
 	private enum CodingKeys: String, CodingKey {
 		case authorReference
 		case authorString; case _authorString
+		case `extension` = "extension"
+		case id; case _id
 		case text; case _text
 		case time; case _time
 	}
-	
+
 	/// Initializer for Decodable
-	public required init(from decoder: Decoder) throws {
+	public init(from decoder: Decoder) throws {
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Decode all our properties
+		// Decode all our properties (own and inherited)
 		var _t_author: AuthorX? = nil
 		if let authorReference = try Reference(from: _container, forKeyIfPresent: .authorReference) {
 			if _t_author != nil {
@@ -91,16 +98,16 @@ open class Annotation: Element {
 			_t_author = .string(authorString)
 		}
 		self.author = _t_author
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKey: .text, auxiliaryKey: ._text)
 		self.time = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .time, auxiliaryKey: ._time)
-		try super.init(from: decoder)
 	}
 	
 	/// Encodable
-	public override func encode(to encoder: Encoder) throws {
+	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
-		
-		// Encode all our properties
+		// Encode all our properties (own and inherited)
 		if let _enum = author {
 			switch _enum {
 			case .reference(let _value):
@@ -109,29 +116,9 @@ open class Annotation: Element {
 				try _value.encode(on: &_container, forKey: .authorString, auxiliaryKey: ._authorString)
 			}
 		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try text.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try time?.encode(on: &_container, forKey: .time, auxiliaryKey: ._time)
-		try super.encode(to: encoder)
-	}
-	
-	// MARK: - Equatable & Hashable
-	
-	public override func isEqual(to _other: Any?) -> Bool {
-		guard let _other = _other as? Annotation else {
-			return false
-		}
-		guard super.isEqual(to: _other) else {
-			return false
-		}
-		return author == _other.author
-		    && text == _other.text
-		    && time == _other.time
-	}
-	
-	public override func hash(into hasher: inout Hasher) {
-		super.hash(into: &hasher)
-		hasher.combine(author)
-		hasher.combine(text)
-		hasher.combine(time)
 	}
 }

@@ -3,7 +3,7 @@
 //  HealthRecords
 //
 //  Generated from FHIR 4.0.1-9346c8cc45
-//  Copyright 2022 Apple Inc.
+//  Copyright 2026 Apple Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ public enum ResearchStudyReasonStopped: String, FHIRPrimitiveType {
 	/// The study prematurely ended because the accrual goal was met.
 	case accrualGoalMet = "accrual-goal-met"
 	
-	/// The study prematurely ended due to toxicity.
-	case closedDueToToxicity = "closed-due-to-toxicity"
-	
 	/// The study prematurely ended due to lack of study progress.
 	case closedDueToLackOfStudyProgress = "closed-due-to-lack-of-study-progress"
+	
+	/// The study prematurely ended due to toxicity.
+	case closedDueToToxicity = "closed-due-to-toxicity"
 	
 	/// The study prematurely ended temporarily per study design.
 	case temporarilyClosedPerStudyDesign = "temporarily-closed-per-study-design"
