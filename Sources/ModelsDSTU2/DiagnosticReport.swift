@@ -35,7 +35,7 @@ public struct DiagnosticReport: DomainResource {
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Service category
@@ -304,4 +304,73 @@ public struct DiagnosticReport: DomainResource {
  A list of key images associated with this report. The images are generally created during the diagnostic process, and
  may be directly of the patient, or of treated specimens (i.e. slides of interest).
  */
-public typealias DiagnosticReportImage = BackboneElement
+public struct DiagnosticReportImage: BackboneElement {
+	
+	/// Comment about the image (e.g. explanation)
+	public var comment: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Reference to the image source
+	public var link: Reference
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(link: Reference) {
+		self.link = link
+	}
+	
+	/// Convenience initializer
+	public init(
+		comment: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		link: Reference,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(link: link)
+		self.comment = comment
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case comment; case _comment
+		case `extension` = "extension"
+		case id; case _id
+		case link
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.comment = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.link = try Reference(from: _container, forKey: .link)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try link.encode(on: &_container, forKey: .link)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

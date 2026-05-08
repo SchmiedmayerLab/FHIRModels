@@ -211,4 +211,81 @@ public struct DeviceComponent: DomainResource {
  
  Describes the production specification such as component revision, serial number, etc.
  */
-public typealias DeviceComponentProductionSpecification = BackboneElement
+public struct DeviceComponentProductionSpecification: BackboneElement {
+	
+	/// Internal component unique identification
+	public var componentId: Identifier?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// A printable string defining the component
+	public var productionSpec: FHIRPrimitive<FHIRString>?
+	
+	/// Specification type
+	public var specType: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		componentId: Identifier? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		productionSpec: FHIRPrimitive<FHIRString>? = nil,
+		specType: CodeableConcept? = nil
+	) {
+		self.init()
+		self.componentId = componentId
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.productionSpec = productionSpec
+		self.specType = specType
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case componentId
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case productionSpec; case _productionSpec
+		case specType
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.componentId = try Identifier(from: _container, forKeyIfPresent: .componentId)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.productionSpec = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .productionSpec, auxiliaryKey: ._productionSpec)
+		self.specType = try CodeableConcept(from: _container, forKeyIfPresent: .specType)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try componentId?.encode(on: &_container, forKey: .componentId)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try productionSpec?.encode(on: &_container, forKey: .productionSpec, auxiliaryKey: ._productionSpec)
+		try specType?.encode(on: &_container, forKey: .specType)
+	}
+}

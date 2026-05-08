@@ -212,11 +212,11 @@ public struct NutritionProductCharacteristic: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case base64Binary(FHIRPrimitive<Base64Binary>)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

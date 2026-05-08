@@ -400,8 +400,8 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 	
 	/// All possible types for "sequence[x]"
 	public enum SequenceX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

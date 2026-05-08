@@ -224,11 +224,174 @@ public struct DocumentManifest: DomainResource {
  
  The list of Documents included in the manifest.
  */
-public typealias DocumentManifestContent = BackboneElement
+public struct DocumentManifestContent: BackboneElement {
+	
+	/// All possible types for "p[x]"
+	public enum PX: Equatable, Hashable, Sendable {
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
+	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Contents of this set of documents
+	/// One of `p[x]`
+	public var p: PX
+	
+	/// Designated initializer taking all required properties
+	public init(p: PX) {
+		self.p = p
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		p: PX
+	) {
+		self.init(p: p)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case pAttachment
+		case pReference
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Validate that we have at least one of the mandatory properties for expanded properties
+		guard _container.contains(CodingKeys.pAttachment) || _container.contains(CodingKeys.pReference) else {
+			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.pAttachment, CodingKeys.pReference], debugDescription: "Must have at least one value for \"p\" but have none"))
+		}
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		var _t_p: PX? = nil
+		if let pAttachment = try Attachment(from: _container, forKeyIfPresent: .pAttachment) {
+			if _t_p != nil {
+				throw DecodingError.dataCorruptedError(forKey: .pAttachment, in: _container, debugDescription: "More than one value provided for \"p\"")
+			}
+			_t_p = .attachment(pAttachment)
+		}
+		if let pReference = try Reference(from: _container, forKeyIfPresent: .pReference) {
+			if _t_p != nil {
+				throw DecodingError.dataCorruptedError(forKey: .pReference, in: _container, debugDescription: "More than one value provided for \"p\"")
+			}
+			_t_p = .reference(pReference)
+		}
+		self.p = _t_p!
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		
+			switch p {
+			case .attachment(let _value):
+				try _value.encode(on: &_container, forKey: .pAttachment)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .pReference)
+			}
+		
+	}
+}
 
 /**
  Related things.
  
  Related identifiers or resources associated with the DocumentManifest.
  */
-public typealias DocumentManifestRelated = BackboneElement
+public struct DocumentManifestRelated: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Identifiers of things that are related
+	public var identifier: Identifier?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Related Resource
+	public var ref: Reference?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier? = nil,
+		modifierExtension: [Extension]? = nil,
+		ref: Reference? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.identifier = identifier
+		self.modifierExtension = modifierExtension
+		self.ref = ref
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case identifier
+		case modifierExtension
+		case ref
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.ref = try Reference(from: _container, forKeyIfPresent: .ref)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try ref?.encode(on: &_container, forKey: .ref)
+	}
+}

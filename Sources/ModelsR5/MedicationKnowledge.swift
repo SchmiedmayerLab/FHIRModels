@@ -295,8 +295,8 @@ public struct MedicationKnowledgeCost: BackboneElement {
 	
 	/// All possible types for "cost[x]"
 	public enum CostX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case money(Money)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case money(Money)
 	}
 	
 	/// The price or category of the cost of the medication
@@ -521,10 +521,10 @@ public struct MedicationKnowledgeDefinitionalDrugCharacteristic: BackboneElement
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case base64Binary(FHIRPrimitive<Base64Binary>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -655,9 +655,9 @@ public struct MedicationKnowledgeDefinitionalIngredient: BackboneElement {
 	
 	/// All possible types for "strength[x]"
 	public enum StrengthX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Additional content defined by implementations
@@ -1020,9 +1020,9 @@ public struct MedicationKnowledgeIndicationGuidelineDosingGuidelinePatientCharac
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Additional content defined by implementations
@@ -1881,9 +1881,9 @@ public struct MedicationKnowledgeStorageGuidelineEnvironmentalSetting: BackboneE
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Additional content defined by implementations

@@ -427,8 +427,8 @@ public struct CompositionRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
-		case identifier(Identifier)
-		case reference(Reference)
+		indirect case identifier(Identifier)
+		indirect case reference(Reference)
 	}
 	
 	/// The type of relationship that this composition has with anther composition or document.

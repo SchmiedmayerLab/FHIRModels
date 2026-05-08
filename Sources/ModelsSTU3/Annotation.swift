@@ -28,7 +28,7 @@ public struct Annotation: Element {
 	
 	/// All possible types for "author[x]"
 	public enum AuthorX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

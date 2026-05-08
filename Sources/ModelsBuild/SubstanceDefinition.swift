@@ -471,7 +471,7 @@ public struct SubstanceDefinitionMoiety: BackboneElement {
 	
 	/// All possible types for "amount[x]"
 	public enum AmountX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -934,12 +934,12 @@ public struct SubstanceDefinitionProperty: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case date(FHIRPrimitive<FHIRDate>)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Additional content defined by implementations
@@ -1078,15 +1078,15 @@ public struct SubstanceDefinitionRelationship: BackboneElement {
 	
 	/// All possible types for "amount[x]"
 	public enum AmountX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
 	/// All possible types for "substanceDefinition[x]"
 	public enum SubstanceDefinitionX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// A numeric factor for the relationship, e.g. that a substance salt has some percentage of active substance in

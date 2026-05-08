@@ -26,7 +26,7 @@ public struct ProductShelfLife: BackboneType {
 	
 	/// All possible types for "period[x]"
 	public enum PeriodX: Equatable, Hashable, Sendable {
-		case duration(Duration)
+		indirect case duration(Duration)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

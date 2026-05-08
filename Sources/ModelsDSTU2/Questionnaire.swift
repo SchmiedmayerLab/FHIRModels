@@ -211,11 +211,256 @@ public struct Questionnaire: DomainResource {
  
  A collection of related questions (or further groupings of questions).
  */
-public typealias QuestionnaireGroup = BackboneElement
+public struct QuestionnaireGroup: BackboneElement {
+	
+	/// Concept that represents this section in a questionnaire
+	public var concept: [Coding]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Nested questionnaire group
+	public var group: [QuestionnaireGroup]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// To link questionnaire with questionnaire response
+	public var linkId: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Questions in this group
+	public var question: [QuestionnaireGroupQuestion]?
+	
+	/// Whether the group may repeat
+	public var repeats: FHIRPrimitive<FHIRBool>?
+	
+	/// Whether the group must be included in data results
+	public var required: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional text for the group
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// Name to be displayed for group
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		concept: [Coding]? = nil,
+		`extension`: [Extension]? = nil,
+		group: [QuestionnaireGroup]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		linkId: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		question: [QuestionnaireGroupQuestion]? = nil,
+		repeats: FHIRPrimitive<FHIRBool>? = nil,
+		required: FHIRPrimitive<FHIRBool>? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil,
+		title: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init()
+		self.concept = concept
+		self.`extension` = `extension`
+		self.group = group
+		self.id = id
+		self.linkId = linkId
+		self.modifierExtension = modifierExtension
+		self.question = question
+		self.repeats = repeats
+		self.required = required
+		self.text = text
+		self.title = title
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case concept
+		case `extension` = "extension"
+		case group
+		case id; case _id
+		case linkId; case _linkId
+		case modifierExtension
+		case question
+		case repeats; case _repeats
+		case required; case _required
+		case text; case _text
+		case title; case _title
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.concept = try [Coding](from: _container, forKeyIfPresent: .concept)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.group = try [QuestionnaireGroup](from: _container, forKeyIfPresent: .group)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.linkId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .linkId, auxiliaryKey: ._linkId)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.question = try [QuestionnaireGroupQuestion](from: _container, forKeyIfPresent: .question)
+		self.repeats = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .repeats, auxiliaryKey: ._repeats)
+		self.required = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .required, auxiliaryKey: ._required)
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try concept?.encode(on: &_container, forKey: .concept)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try group?.encode(on: &_container, forKey: .group)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try linkId?.encode(on: &_container, forKey: .linkId, auxiliaryKey: ._linkId)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try question?.encode(on: &_container, forKey: .question)
+		try repeats?.encode(on: &_container, forKey: .repeats, auxiliaryKey: ._repeats)
+		try required?.encode(on: &_container, forKey: .required, auxiliaryKey: ._required)
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
+	}
+}
 
 /**
  Questions in this group.
  
  Set of questions within this group. The order of questions within the group is relevant.
  */
-public typealias QuestionnaireGroupQuestion = BackboneElement
+public struct QuestionnaireGroupQuestion: BackboneElement {
+	
+	/// Concept that represents this question on a questionnaire
+	public var concept: [Coding]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Nested questionnaire group
+	public var group: [QuestionnaireGroup]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// To link questionnaire with questionnaire response
+	public var linkId: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Permitted answer
+	public var option: [Coding]?
+	
+	/// Valueset containing permitted answers
+	public var options: Reference?
+	
+	/// Whether the question  can have multiple answers
+	public var repeats: FHIRPrimitive<FHIRBool>?
+	
+	/// Whether the question must be answered in data results
+	public var required: FHIRPrimitive<FHIRBool>?
+	
+	/// Text of the question as it is shown to the user
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// The expected format of the answer, e.g. the type of input (string, integer) or whether a (multiple) choice is
+	/// expected.
+	/// Restricted to: ['boolean', 'decimal', 'integer', 'date', 'dateTime', 'instant', 'time', 'string', 'text', 'url',
+	/// 'choice', 'open-choice', 'attachment', 'reference', 'quantity']
+	public var type: FHIRPrimitive<AnswerFormat>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		concept: [Coding]? = nil,
+		`extension`: [Extension]? = nil,
+		group: [QuestionnaireGroup]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		linkId: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		option: [Coding]? = nil,
+		options: Reference? = nil,
+		repeats: FHIRPrimitive<FHIRBool>? = nil,
+		required: FHIRPrimitive<FHIRBool>? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil,
+		type: FHIRPrimitive<AnswerFormat>? = nil
+	) {
+		self.init()
+		self.concept = concept
+		self.`extension` = `extension`
+		self.group = group
+		self.id = id
+		self.linkId = linkId
+		self.modifierExtension = modifierExtension
+		self.option = option
+		self.options = options
+		self.repeats = repeats
+		self.required = required
+		self.text = text
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case concept
+		case `extension` = "extension"
+		case group
+		case id; case _id
+		case linkId; case _linkId
+		case modifierExtension
+		case option
+		case options
+		case repeats; case _repeats
+		case required; case _required
+		case text; case _text
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.concept = try [Coding](from: _container, forKeyIfPresent: .concept)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.group = try [QuestionnaireGroup](from: _container, forKeyIfPresent: .group)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.linkId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .linkId, auxiliaryKey: ._linkId)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.option = try [Coding](from: _container, forKeyIfPresent: .option)
+		self.options = try Reference(from: _container, forKeyIfPresent: .options)
+		self.repeats = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .repeats, auxiliaryKey: ._repeats)
+		self.required = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .required, auxiliaryKey: ._required)
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+		self.type = try FHIRPrimitive<AnswerFormat>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try concept?.encode(on: &_container, forKey: .concept)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try group?.encode(on: &_container, forKey: .group)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try linkId?.encode(on: &_container, forKey: .linkId, auxiliaryKey: ._linkId)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try option?.encode(on: &_container, forKey: .option)
+		try options?.encode(on: &_container, forKey: .options)
+		try repeats?.encode(on: &_container, forKey: .repeats, auxiliaryKey: ._repeats)
+		try required?.encode(on: &_container, forKey: .required, auxiliaryKey: ._required)
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}

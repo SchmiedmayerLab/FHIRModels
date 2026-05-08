@@ -209,4 +209,163 @@ public struct RiskAssessment: DomainResource {
  
  Describes the expected outcome for the subject.
  */
-public typealias RiskAssessmentPrediction = BackboneElement
+public struct RiskAssessmentPrediction: BackboneElement {
+	
+	/// All possible types for "probability[x]"
+	public enum ProbabilityX: Equatable, Hashable, Sendable {
+		indirect case codeableConcept(CodeableConcept)
+		case decimal(FHIRPrimitive<FHIRDecimal>)
+		indirect case range(Range)
+	}
+	
+	/// All possible types for "when[x]"
+	public enum WhenX: Equatable, Hashable, Sendable {
+		indirect case period(Period)
+		indirect case range(Range)
+	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Possible outcome for the subject
+	public var outcome: CodeableConcept
+	
+	/// Likelihood of specified outcome
+	/// One of `probability[x]`
+	public var probability: ProbabilityX?
+	
+	/// Explanation of prediction
+	public var rationale: FHIRPrimitive<FHIRString>?
+	
+	/// Relative likelihood
+	public var relativeRisk: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Timeframe or age range
+	/// One of `when[x]`
+	public var when: WhenX?
+	
+	/// Designated initializer taking all required properties
+	public init(outcome: CodeableConcept) {
+		self.outcome = outcome
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		outcome: CodeableConcept,
+		probability: ProbabilityX? = nil,
+		rationale: FHIRPrimitive<FHIRString>? = nil,
+		relativeRisk: FHIRPrimitive<FHIRDecimal>? = nil,
+		when: WhenX? = nil
+	) {
+		self.init(outcome: outcome)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.probability = probability
+		self.rationale = rationale
+		self.relativeRisk = relativeRisk
+		self.when = when
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case outcome
+		case probabilityCodeableConcept
+		case probabilityDecimal; case _probabilityDecimal
+		case probabilityRange
+		case rationale; case _rationale
+		case relativeRisk; case _relativeRisk
+		case whenPeriod
+		case whenRange
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.outcome = try CodeableConcept(from: _container, forKey: .outcome)
+		var _t_probability: ProbabilityX? = nil
+		if let probabilityDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .probabilityDecimal, auxiliaryKey: ._probabilityDecimal) {
+			if _t_probability != nil {
+				throw DecodingError.dataCorruptedError(forKey: .probabilityDecimal, in: _container, debugDescription: "More than one value provided for \"probability\"")
+			}
+			_t_probability = .decimal(probabilityDecimal)
+		}
+		if let probabilityRange = try Range(from: _container, forKeyIfPresent: .probabilityRange) {
+			if _t_probability != nil {
+				throw DecodingError.dataCorruptedError(forKey: .probabilityRange, in: _container, debugDescription: "More than one value provided for \"probability\"")
+			}
+			_t_probability = .range(probabilityRange)
+		}
+		if let probabilityCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .probabilityCodeableConcept) {
+			if _t_probability != nil {
+				throw DecodingError.dataCorruptedError(forKey: .probabilityCodeableConcept, in: _container, debugDescription: "More than one value provided for \"probability\"")
+			}
+			_t_probability = .codeableConcept(probabilityCodeableConcept)
+		}
+		self.probability = _t_probability
+		self.rationale = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .rationale, auxiliaryKey: ._rationale)
+		self.relativeRisk = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .relativeRisk, auxiliaryKey: ._relativeRisk)
+		var _t_when: WhenX? = nil
+		if let whenPeriod = try Period(from: _container, forKeyIfPresent: .whenPeriod) {
+			if _t_when != nil {
+				throw DecodingError.dataCorruptedError(forKey: .whenPeriod, in: _container, debugDescription: "More than one value provided for \"when\"")
+			}
+			_t_when = .period(whenPeriod)
+		}
+		if let whenRange = try Range(from: _container, forKeyIfPresent: .whenRange) {
+			if _t_when != nil {
+				throw DecodingError.dataCorruptedError(forKey: .whenRange, in: _container, debugDescription: "More than one value provided for \"when\"")
+			}
+			_t_when = .range(whenRange)
+		}
+		self.when = _t_when
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try outcome.encode(on: &_container, forKey: .outcome)
+		if let _enum = probability {
+			switch _enum {
+			case .decimal(let _value):
+				try _value.encode(on: &_container, forKey: .probabilityDecimal, auxiliaryKey: ._probabilityDecimal)
+			case .range(let _value):
+				try _value.encode(on: &_container, forKey: .probabilityRange)
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .probabilityCodeableConcept)
+			}
+		}
+		try rationale?.encode(on: &_container, forKey: .rationale, auxiliaryKey: ._rationale)
+		try relativeRisk?.encode(on: &_container, forKey: .relativeRisk, auxiliaryKey: ._relativeRisk)
+		if let _enum = when {
+			switch _enum {
+			case .period(let _value):
+				try _value.encode(on: &_container, forKey: .whenPeriod)
+			case .range(let _value):
+				try _value.encode(on: &_container, forKey: .whenRange)
+			}
+		}
+	}
+}

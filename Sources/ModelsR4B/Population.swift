@@ -29,8 +29,8 @@ public struct Population: BackboneElement {
 	
 	/// All possible types for "age[x]"
 	public enum AgeX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case range(Range)
 	}
 	
 	/// The age of the specific population

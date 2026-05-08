@@ -33,19 +33,19 @@ public struct PlanDefinition: DomainResource {
 	/// All possible types for "asNeeded[x]"
 	public enum AsNeededX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -518,16 +518,16 @@ public struct PlanDefinitionAction: BackboneElement {
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
-		case age(Age)
-		case duration(Duration)
-		case range(Range)
-		case timing(Timing)
+		indirect case age(Age)
+		indirect case duration(Duration)
+		indirect case range(Range)
+		indirect case timing(Timing)
 	}
 	
 	/// A sub-action
@@ -1347,8 +1347,8 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 	
 	/// All possible types for "offset[x]"
 	public enum OffsetX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// The relationship of the end of this action to the related action.
@@ -1762,11 +1762,11 @@ public struct PlanDefinitionGoalTarget: BackboneElement {
 	/// All possible types for "detail[x]"
 	public enum DetailX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

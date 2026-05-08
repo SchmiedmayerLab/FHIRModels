@@ -43,7 +43,7 @@ public struct ConceptMap: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -880,8 +880,8 @@ public struct ConceptMapGroupElementTargetDependsOn: BackboneElement {
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case code(FHIRPrimitive<FHIRString>)
-		case coding(Coding)
-		case quantity(Quantity)
+		indirect case coding(Coding)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -1022,7 +1022,7 @@ public struct ConceptMapGroupElementTargetProperty: BackboneElement {
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case code(FHIRPrimitive<FHIRString>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case integer(FHIRPrimitive<FHIRInteger>)

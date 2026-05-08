@@ -274,12 +274,12 @@ public struct MeasureReportGroup: BackboneElement {
 	
 	/// All possible types for "measureScore[x]"
 	public enum MeasureScoreX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Meaning of the group
@@ -645,21 +645,21 @@ public struct MeasureReportGroupStratifierStratum: BackboneElement {
 	
 	/// All possible types for "measureScore[x]"
 	public enum MeasureScoreX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 	}
 	
 	/// Stratifier component values
@@ -864,10 +864,10 @@ public struct MeasureReportGroupStratifierStratumComponent: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 	}
 	
 	/// What stratifier component of the group

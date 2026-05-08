@@ -237,4 +237,89 @@ public struct List: DomainResource {
  
  Entries in this list.
  */
-public typealias ListEntry = BackboneElement
+public struct ListEntry: BackboneElement {
+	
+	/// When item added to list
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// If this item is actually marked as deleted
+	public var deleted: FHIRPrimitive<FHIRBool>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Status/Workflow information about this item
+	public var flag: CodeableConcept?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Actual entry
+	public var item: Reference
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(item: Reference) {
+		self.item = item
+	}
+	
+	/// Convenience initializer
+	public init(
+		date: FHIRPrimitive<DateTime>? = nil,
+		deleted: FHIRPrimitive<FHIRBool>? = nil,
+		`extension`: [Extension]? = nil,
+		flag: CodeableConcept? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: Reference,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(item: item)
+		self.date = date
+		self.deleted = deleted
+		self.`extension` = `extension`
+		self.flag = flag
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case date; case _date
+		case deleted; case _deleted
+		case `extension` = "extension"
+		case flag
+		case id; case _id
+		case item
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
+		self.deleted = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deleted, auxiliaryKey: ._deleted)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.flag = try CodeableConcept(from: _container, forKeyIfPresent: .flag)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try Reference(from: _container, forKey: .item)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try deleted?.encode(on: &_container, forKey: .deleted, auxiliaryKey: ._deleted)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try flag?.encode(on: &_container, forKey: .flag)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try item.encode(on: &_container, forKey: .item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

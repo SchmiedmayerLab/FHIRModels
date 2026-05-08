@@ -30,8 +30,8 @@ public struct VisionPrescription: DomainResource {
 	
 	/// All possible types for "reason[x]"
 	public enum ReasonX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Contained, inline Resources

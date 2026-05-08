@@ -33,18 +33,18 @@ public struct Procedure: DomainResource {
 	
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case range(Range)
+		indirect case period(Period)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
-		case timing(Timing)
+		indirect case timing(Timing)
 	}
 	
 	/// All possible types for "reported[x]"
 	public enum ReportedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// A request for this procedure

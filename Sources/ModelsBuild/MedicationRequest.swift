@@ -33,9 +33,9 @@ public struct MedicationRequest: DomainResource {
 	
 	/// All possible types for "effectiveTiming[x]"
 	public enum EffectiveTimingX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case period(Period)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case range(Range)
 	}
 	
 	/// When request was initially authored
@@ -653,7 +653,7 @@ public struct MedicationRequestSubstitution: BackboneElement {
 	/// All possible types for "allowed[x]"
 	public enum AllowedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// Whether substitution is allowed or not

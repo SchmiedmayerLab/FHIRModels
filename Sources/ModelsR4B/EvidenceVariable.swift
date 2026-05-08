@@ -326,9 +326,9 @@ public struct EvidenceVariableCategory: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Additional content defined by implementations
@@ -442,9 +442,9 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 	/// All possible types for "definition[x]"
 	public enum DefinitionX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case expression(Expression)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case expression(Expression)
+		indirect case reference(Reference)
 	}
 	
 	/// What code or expression defines members?

@@ -35,7 +35,7 @@ public struct ClinicalImpression: DomainResource {
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Change in the status/pattern of a subject's condition since previously assessed, such as worsening, improving,

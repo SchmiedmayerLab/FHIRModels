@@ -30,8 +30,8 @@ public struct EventDefinition: DomainResource {
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// When the event definition was approved by publisher

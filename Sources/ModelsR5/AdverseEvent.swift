@@ -38,8 +38,8 @@ public struct AdverseEvent: DomainResource {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// Whether the event actually happened or was a near miss. Note that this is independent of whether anyone was
@@ -372,8 +372,8 @@ public struct AdverseEventContributingFactor: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations
@@ -473,8 +473,8 @@ public struct AdverseEventMitigatingAction: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations
@@ -648,8 +648,8 @@ public struct AdverseEventPreventiveAction: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations
@@ -747,8 +747,8 @@ public struct AdverseEventSupportingInfo: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations
@@ -848,8 +848,8 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 	
 	/// All possible types for "instance[x]"
 	public enum InstanceX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Information on the possible cause of the event

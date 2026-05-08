@@ -33,8 +33,8 @@ public struct MedicationAdministration: DomainResource {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// Plan this is fulfilled by this administration
@@ -348,8 +348,8 @@ public struct MedicationAdministrationDosage: BackboneElement {
 	
 	/// All possible types for "rate[x]"
 	public enum RateX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Amount of medication per dose

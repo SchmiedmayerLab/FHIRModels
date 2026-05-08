@@ -31,20 +31,20 @@ public struct Observation: DomainResource {
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
-		case sampledData(SampledData)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+		indirect case sampledData(SampledData)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}
@@ -449,14 +449,14 @@ public struct ObservationComponent: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case codeableConcept(CodeableConcept)
+		indirect case attachment(Attachment)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
-		case sampledData(SampledData)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+		indirect case sampledData(SampledData)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}

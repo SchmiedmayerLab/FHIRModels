@@ -31,8 +31,8 @@ public struct RequestGroup: DomainResource {
 	
 	/// All possible types for "reason[x]"
 	public enum ReasonX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Proposed actions, if any
@@ -285,10 +285,10 @@ public struct RequestGroupAction: BackboneElement {
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case range(Range)
-		case timing(Timing)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case range(Range)
+		indirect case timing(Timing)
 	}
 	
 	/// Sub action
@@ -638,8 +638,8 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 	
 	/// All possible types for "offset[x]"
 	public enum OffsetX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// What action this is related to

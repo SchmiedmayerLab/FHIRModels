@@ -31,7 +31,7 @@ public struct Goal: DomainResource {
 	
 	/// All possible types for "start[x]"
 	public enum StartX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case date(FHIRPrimitive<FHIRDate>)
 	}
 	
@@ -282,15 +282,15 @@ public struct GoalTarget: BackboneElement {
 	
 	/// All possible types for "detail[x]"
 	public enum DetailX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "due[x]"
 	public enum DueX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case duration(Duration)
+		indirect case duration(Duration)
 	}
 	
 	/// The target value to be achieved

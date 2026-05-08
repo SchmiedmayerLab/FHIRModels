@@ -187,8 +187,8 @@ public struct MedicinalProductInteractionInteractant: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations

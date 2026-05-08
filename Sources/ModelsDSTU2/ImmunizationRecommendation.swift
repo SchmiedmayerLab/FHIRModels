@@ -152,18 +152,289 @@ public struct ImmunizationRecommendation: DomainResource {
 /**
  Vaccine administration recommendations.
  */
-public typealias ImmunizationRecommendationRecommendation = BackboneElement
+public struct ImmunizationRecommendationRecommendation: BackboneElement {
+	
+	/// Date recommendation created
+	public var date: FHIRPrimitive<DateTime>
+	
+	/// Dates governing proposed immunization
+	public var dateCriterion: [ImmunizationRecommendationRecommendationDateCriterion]?
+	
+	/// Recommended dose number
+	public var doseNumber: FHIRPrimitive<FHIRPositiveInteger>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Vaccine administration status
+	public var forecastStatus: CodeableConcept
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Protocol used by recommendation
+	public var `protocol`: ImmunizationRecommendationRecommendationProtocol?
+	
+	/// Past immunizations supporting recommendation
+	public var supportingImmunization: [Reference]?
+	
+	/// Patient observations supporting recommendation
+	public var supportingPatientInformation: [Reference]?
+	
+	/// Vaccine recommendation applies to
+	public var vaccineCode: CodeableConcept
+	
+	/// Designated initializer taking all required properties
+	public init(date: FHIRPrimitive<DateTime>, forecastStatus: CodeableConcept, vaccineCode: CodeableConcept) {
+		self.date = date
+		self.forecastStatus = forecastStatus
+		self.vaccineCode = vaccineCode
+	}
+	
+	/// Convenience initializer
+	public init(
+		date: FHIRPrimitive<DateTime>,
+		dateCriterion: [ImmunizationRecommendationRecommendationDateCriterion]? = nil,
+		doseNumber: FHIRPrimitive<FHIRPositiveInteger>? = nil,
+		`extension`: [Extension]? = nil,
+		forecastStatus: CodeableConcept,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		`protocol`: ImmunizationRecommendationRecommendationProtocol? = nil,
+		supportingImmunization: [Reference]? = nil,
+		supportingPatientInformation: [Reference]? = nil,
+		vaccineCode: CodeableConcept
+	) {
+		self.init(date: date, forecastStatus: forecastStatus, vaccineCode: vaccineCode)
+		self.dateCriterion = dateCriterion
+		self.doseNumber = doseNumber
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.`protocol` = `protocol`
+		self.supportingImmunization = supportingImmunization
+		self.supportingPatientInformation = supportingPatientInformation
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case date; case _date
+		case dateCriterion
+		case doseNumber; case _doseNumber
+		case `extension` = "extension"
+		case forecastStatus
+		case id; case _id
+		case modifierExtension
+		case `protocol` = "protocol"
+		case supportingImmunization
+		case supportingPatientInformation
+		case vaccineCode
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.date = try FHIRPrimitive<DateTime>(from: _container, forKey: .date, auxiliaryKey: ._date)
+		self.dateCriterion = try [ImmunizationRecommendationRecommendationDateCriterion](from: _container, forKeyIfPresent: .dateCriterion)
+		self.doseNumber = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .doseNumber, auxiliaryKey: ._doseNumber)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.forecastStatus = try CodeableConcept(from: _container, forKey: .forecastStatus)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.`protocol` = try ImmunizationRecommendationRecommendationProtocol(from: _container, forKeyIfPresent: .`protocol`)
+		self.supportingImmunization = try [Reference](from: _container, forKeyIfPresent: .supportingImmunization)
+		self.supportingPatientInformation = try [Reference](from: _container, forKeyIfPresent: .supportingPatientInformation)
+		self.vaccineCode = try CodeableConcept(from: _container, forKey: .vaccineCode)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try date.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try dateCriterion?.encode(on: &_container, forKey: .dateCriterion)
+		try doseNumber?.encode(on: &_container, forKey: .doseNumber, auxiliaryKey: ._doseNumber)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try forecastStatus.encode(on: &_container, forKey: .forecastStatus)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try `protocol`?.encode(on: &_container, forKey: .`protocol`)
+		try supportingImmunization?.encode(on: &_container, forKey: .supportingImmunization)
+		try supportingPatientInformation?.encode(on: &_container, forKey: .supportingPatientInformation)
+		try vaccineCode.encode(on: &_container, forKey: .vaccineCode)
+	}
+}
 
 /**
  Dates governing proposed immunization.
  
  Vaccine date recommendations.  For example, earliest date to administer, latest date to administer, etc.
  */
-public typealias ImmunizationRecommendationRecommendationDateCriterion = BackboneElement
+public struct ImmunizationRecommendationRecommendationDateCriterion: BackboneElement {
+	
+	/// Type of date
+	public var code: CodeableConcept
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Recommended date
+	public var value: FHIRPrimitive<DateTime>
+	
+	/// Designated initializer taking all required properties
+	public init(code: CodeableConcept, value: FHIRPrimitive<DateTime>) {
+		self.code = code
+		self.value = value
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: CodeableConcept,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		value: FHIRPrimitive<DateTime>
+	) {
+		self.init(code: code, value: value)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case value; case _value
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.value = try FHIRPrimitive<DateTime>(from: _container, forKey: .value, auxiliaryKey: ._value)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try value.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
+	}
+}
 
 /**
  Protocol used by recommendation.
  
  Contains information about the protocol under which the vaccine was administered.
  */
-public typealias ImmunizationRecommendationRecommendationProtocol = BackboneElement
+public struct ImmunizationRecommendationRecommendationProtocol: BackboneElement {
+	
+	/// Who is responsible for protocol
+	public var authority: Reference?
+	
+	/// Protocol details
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Dose number within sequence
+	public var doseSequence: FHIRPrimitive<FHIRInteger>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of vaccination series
+	public var series: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		authority: Reference? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		doseSequence: FHIRPrimitive<FHIRInteger>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		series: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init()
+		self.authority = authority
+		self.description_fhir = description_fhir
+		self.doseSequence = doseSequence
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.series = series
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case authority
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case doseSequence; case _doseSequence
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case series; case _series
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.authority = try Reference(from: _container, forKeyIfPresent: .authority)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.doseSequence = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .doseSequence, auxiliaryKey: ._doseSequence)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.series = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .series, auxiliaryKey: ._series)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try authority?.encode(on: &_container, forKey: .authority)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try doseSequence?.encode(on: &_container, forKey: .doseSequence, auxiliaryKey: ._doseSequence)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try series?.encode(on: &_container, forKey: .series, auxiliaryKey: ._series)
+	}
+}

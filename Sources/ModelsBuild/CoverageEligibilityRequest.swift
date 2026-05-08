@@ -33,7 +33,7 @@ public struct CoverageEligibilityRequest: DomainResource {
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Contained, inline Resources
@@ -294,7 +294,7 @@ public struct CoverageEligibilityRequestEvent: BackboneElement {
 	/// All possible types for "when[x]"
 	public enum WhenX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Additional content defined by implementations
@@ -627,8 +627,8 @@ public struct CoverageEligibilityRequestItemDiagnosis: BackboneElement {
 	
 	/// All possible types for "diagnosis[x]"
 	public enum DiagnosisX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Nature of illness or problem

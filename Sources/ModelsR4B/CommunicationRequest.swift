@@ -32,7 +32,7 @@ public struct CommunicationRequest: DomainResource {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Resources that pertain to this communication request
@@ -338,8 +338,8 @@ public struct CommunicationRequestPayload: BackboneElement {
 	
 	/// All possible types for "content[x]"
 	public enum ContentX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

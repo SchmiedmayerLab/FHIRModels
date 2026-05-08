@@ -229,7 +229,94 @@ public struct DiagnosticOrder: DomainResource {
  A summary of the events of interest that have occurred as the request is processed; e.g. when the order was made,
  various processing steps (specimens received), when it was completed.
  */
-public typealias DiagnosticOrderEvent = BackboneElement
+public struct DiagnosticOrderEvent: BackboneElement {
+	
+	/// Who recorded or did this
+	public var actor: Reference?
+	
+	/// The date at which the event happened
+	public var dateTime: FHIRPrimitive<DateTime>
+	
+	/// More information about the event and its context
+	public var description_fhir: CodeableConcept?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The status for the event.
+	/// Restricted to: ['proposed', 'draft', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'review',
+	/// 'completed', 'cancelled', 'suspended', 'rejected', 'failed']
+	public var status: FHIRPrimitive<DiagnosticOrderStatus>
+	
+	/// Designated initializer taking all required properties
+	public init(dateTime: FHIRPrimitive<DateTime>, status: FHIRPrimitive<DiagnosticOrderStatus>) {
+		self.dateTime = dateTime
+		self.status = status
+	}
+	
+	/// Convenience initializer
+	public init(
+		actor: Reference? = nil,
+		dateTime: FHIRPrimitive<DateTime>,
+		description_fhir: CodeableConcept? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		status: FHIRPrimitive<DiagnosticOrderStatus>
+	) {
+		self.init(dateTime: dateTime, status: status)
+		self.actor = actor
+		self.description_fhir = description_fhir
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case actor
+		case dateTime; case _dateTime
+		case description_fhir = "description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case status; case _status
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.actor = try Reference(from: _container, forKeyIfPresent: .actor)
+		self.dateTime = try FHIRPrimitive<DateTime>(from: _container, forKey: .dateTime, auxiliaryKey: ._dateTime)
+		self.description_fhir = try CodeableConcept(from: _container, forKeyIfPresent: .description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.status = try FHIRPrimitive<DiagnosticOrderStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try actor?.encode(on: &_container, forKey: .actor)
+		try dateTime.encode(on: &_container, forKey: .dateTime, auxiliaryKey: ._dateTime)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+	}
+}
 
 /**
  The items the orderer requested.
@@ -237,4 +324,99 @@ public typealias DiagnosticOrderEvent = BackboneElement
  The specific diagnostic investigations that are requested as part of this request. Sometimes, there can only be one
  item per request, but in most contexts, more than one investigation can be requested.
  */
-public typealias DiagnosticOrderItem = BackboneElement
+public struct DiagnosticOrderItem: BackboneElement {
+	
+	/// Location of requested test (if applicable)
+	public var bodySite: CodeableConcept?
+	
+	/// Code to indicate the item (test or panel) being ordered
+	public var code: CodeableConcept
+	
+	/// Events specific to this item
+	public var event: [DiagnosticOrderEvent]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// If this item relates to specific specimens
+	public var specimen: [Reference]?
+	
+	/// The status of this individual item within the order.
+	/// Restricted to: ['proposed', 'draft', 'planned', 'requested', 'received', 'accepted', 'in-progress', 'review',
+	/// 'completed', 'cancelled', 'suspended', 'rejected', 'failed']
+	public var status: FHIRPrimitive<DiagnosticOrderStatus>?
+	
+	/// Designated initializer taking all required properties
+	public init(code: CodeableConcept) {
+		self.code = code
+	}
+	
+	/// Convenience initializer
+	public init(
+		bodySite: CodeableConcept? = nil,
+		code: CodeableConcept,
+		event: [DiagnosticOrderEvent]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		specimen: [Reference]? = nil,
+		status: FHIRPrimitive<DiagnosticOrderStatus>? = nil
+	) {
+		self.init(code: code)
+		self.bodySite = bodySite
+		self.event = event
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.specimen = specimen
+		self.status = status
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case bodySite
+		case code
+		case event
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case specimen
+		case status; case _status
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
+		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.event = try [DiagnosticOrderEvent](from: _container, forKeyIfPresent: .event)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.specimen = try [Reference](from: _container, forKeyIfPresent: .specimen)
+		self.status = try FHIRPrimitive<DiagnosticOrderStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		try code.encode(on: &_container, forKey: .code)
+		try event?.encode(on: &_container, forKey: .event)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try specimen?.encode(on: &_container, forKey: .specimen)
+		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+	}
+}

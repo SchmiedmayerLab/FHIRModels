@@ -633,8 +633,8 @@ public struct MedicinalProductSpecialDesignation: BackboneElement {
 	
 	/// All possible types for "indication[x]"
 	public enum IndicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Date when the designation was granted

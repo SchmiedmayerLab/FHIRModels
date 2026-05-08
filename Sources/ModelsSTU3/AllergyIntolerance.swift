@@ -31,10 +31,10 @@ public struct AllergyIntolerance: DomainResource {
 	
 	/// All possible types for "onset[x]"
 	public enum OnsetX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case range(Range)
+		indirect case period(Period)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

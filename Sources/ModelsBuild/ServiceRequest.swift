@@ -32,15 +32,15 @@ public struct ServiceRequest: DomainResource {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// All possible types for "quantity[x]"
 	public enum QuantityX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Perform the service "as needed"
@@ -462,8 +462,8 @@ public struct ServiceRequestOrderDetail: BackboneElement {
 	/// All possible types for "parameterFocus[x]"
 	public enum ParameterFocusX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations
@@ -574,11 +574,11 @@ public struct ServiceRequestOrderDetailParameter: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -733,7 +733,7 @@ public struct ServiceRequestPatientInstruction: BackboneElement {
 	/// All possible types for "instruction[x]"
 	public enum InstructionX: Equatable, Hashable, Sendable {
 		case markdown(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations

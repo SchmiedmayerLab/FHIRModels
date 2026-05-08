@@ -239,7 +239,7 @@ public struct BiologicallyDerivedProductCollection: BackboneElement {
 	/// All possible types for "collected[x]"
 	public enum CollectedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Time of product collection
@@ -349,14 +349,14 @@ public struct BiologicallyDerivedProductProperty: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

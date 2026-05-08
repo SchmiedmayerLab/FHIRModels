@@ -30,7 +30,7 @@ public struct Signature: Element {
 	
 	/// All possible types for "who[x]"
 	public enum WhoX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

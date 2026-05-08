@@ -40,7 +40,7 @@ public struct Group: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -381,24 +381,24 @@ public struct GroupCharacteristic: BackboneElement {
 	
 	/// All possible types for "duration[x]"
 	public enum DurationX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "instances[x]"
 	public enum InstancesX: Equatable, Hashable, Sendable {
-		case range(Range)
+		indirect case range(Range)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case expression(Expression)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case expression(Expression)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

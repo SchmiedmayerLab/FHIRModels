@@ -32,7 +32,7 @@ public struct Citation: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

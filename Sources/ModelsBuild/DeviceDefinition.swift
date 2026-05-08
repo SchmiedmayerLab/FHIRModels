@@ -31,7 +31,7 @@ public struct DeviceDefinition: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -1114,7 +1114,7 @@ public struct DeviceDefinitionHasPart: BackboneElement {
 	/// All possible types for "definition[x]"
 	public enum DefinitionX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// Number of occurrences of the part
@@ -1222,7 +1222,7 @@ public struct DeviceDefinitionLink: BackboneElement {
 	/// All possible types for "relatedDevice[x]"
 	public enum RelatedDeviceX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// Additional content defined by implementations
@@ -1593,12 +1593,12 @@ public struct DeviceDefinitionProperty: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

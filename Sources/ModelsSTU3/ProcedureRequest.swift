@@ -31,14 +31,14 @@ public struct ProcedureRequest: DomainResource {
 	/// All possible types for "asNeeded[x]"
 	public enum AsNeededX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// Preconditions for procedure or diagnostic

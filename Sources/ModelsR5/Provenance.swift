@@ -37,7 +37,7 @@ public struct Provenance: DomainResource {
 	/// All possible types for "occurred[x]"
 	public enum OccurredX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Activity that occurred

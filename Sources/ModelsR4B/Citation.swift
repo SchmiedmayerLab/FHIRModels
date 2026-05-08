@@ -1824,9 +1824,9 @@ public struct CitationCitedArtifactRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case identifier(Identifier)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case identifier(Identifier)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
@@ -2345,9 +2345,9 @@ public struct CitationRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case identifier(Identifier)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case identifier(Identifier)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

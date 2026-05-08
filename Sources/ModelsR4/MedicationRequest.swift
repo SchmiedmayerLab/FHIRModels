@@ -33,14 +33,14 @@ public struct MedicationRequest: DomainResource {
 	
 	/// All possible types for "medication[x]"
 	public enum MedicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "reported[x]"
 	public enum ReportedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// When request was initially authored
@@ -651,7 +651,7 @@ public struct MedicationRequestSubstitution: BackboneElement {
 	/// All possible types for "allowed[x]"
 	public enum AllowedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// Whether substitution is allowed or not

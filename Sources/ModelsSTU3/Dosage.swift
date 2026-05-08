@@ -29,20 +29,20 @@ public struct Dosage: Element {
 	/// All possible types for "asNeeded[x]"
 	public enum AsNeededX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// All possible types for "dose[x]"
 	public enum DoseX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case range(Range)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "rate[x]"
 	public enum RateX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Supplemental instruction - e.g. "with meals"

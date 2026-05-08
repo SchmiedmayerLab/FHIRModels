@@ -32,7 +32,7 @@ public struct AuditEvent: DomainResource {
 	/// All possible types for "occurred[x]"
 	public enum OccurredX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Indicator for type of action performed during the event that generated the audit.
@@ -274,7 +274,7 @@ public struct AuditEventAgent: BackboneElement {
 	
 	/// All possible types for "network[x]"
 	public enum NetworkX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
@@ -554,13 +554,13 @@ public struct AuditEventEntityDetail: BackboneElement {
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case base64Binary(FHIRPrimitive<Base64Binary>)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}

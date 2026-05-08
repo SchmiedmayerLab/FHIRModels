@@ -30,9 +30,9 @@ public struct UsageContext: Element {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Type of context being specified

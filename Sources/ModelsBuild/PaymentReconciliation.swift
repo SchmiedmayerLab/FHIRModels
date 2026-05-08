@@ -373,7 +373,7 @@ public struct PaymentReconciliationAllocation: BackboneElement {
 	
 	/// All possible types for "targetItem[x]"
 	public enum TargetItemX: Equatable, Hashable, Sendable {
-		case identifier(Identifier)
+		indirect case identifier(Identifier)
 		case positiveInt(FHIRPrimitive<FHIRPositiveInteger>)
 		case string(FHIRPrimitive<FHIRString>)
 	}

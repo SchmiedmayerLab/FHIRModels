@@ -100,9 +100,9 @@ public struct DosageSafetyDoseLimit: Element {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case expression(Expression)
+		indirect case expression(Expression)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
+		indirect case quantity(Quantity)
 	}
 	
 	/// Additional content defined by implementations

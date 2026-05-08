@@ -29,8 +29,8 @@ public struct RelativeTime: BackboneType {
 	
 	/// All possible types for "offset[x]"
 	public enum OffsetX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// Coded representation of the event used as a base point (reference point) in time

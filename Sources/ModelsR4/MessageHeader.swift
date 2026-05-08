@@ -32,7 +32,7 @@ public struct MessageHeader: DomainResource {
 	
 	/// All possible types for "event[x]"
 	public enum EventX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

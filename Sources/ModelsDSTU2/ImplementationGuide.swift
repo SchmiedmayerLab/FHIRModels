@@ -267,7 +267,76 @@ public struct ImplementationGuide: DomainResource {
  
  Contacts to assist a user in finding and communicating with the publisher.
  */
-public typealias ImplementationGuideContact = BackboneElement
+public struct ImplementationGuideContact: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of a individual to contact
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Contact details for individual or publisher
+	public var telecom: [ContactPoint]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		telecom: [ContactPoint]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.telecom = telecom
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case telecom
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try telecom?.encode(on: &_container, forKey: .telecom)
+	}
+}
 
 /**
  Another Implementation guide this depends on.
@@ -275,21 +344,253 @@ public typealias ImplementationGuideContact = BackboneElement
  Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets,
  profiles etc.defined in other implementation guides.
  */
-public typealias ImplementationGuideDependency = BackboneElement
+public struct ImplementationGuideDependency: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// How the dependency is represented when the guide is published.
+	/// Restricted to: ['reference', 'inclusion']
+	public var type: FHIRPrimitive<GuideDependencyType>
+	
+	/// Where to find dependency
+	public var uri: FHIRPrimitive<FHIRURI>
+	
+	/// Designated initializer taking all required properties
+	public init(type: FHIRPrimitive<GuideDependencyType>, uri: FHIRPrimitive<FHIRURI>) {
+		self.type = type
+		self.uri = uri
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		type: FHIRPrimitive<GuideDependencyType>,
+		uri: FHIRPrimitive<FHIRURI>
+	) {
+		self.init(type: type, uri: uri)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case type; case _type
+		case uri; case _uri
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.type = try FHIRPrimitive<GuideDependencyType>(from: _container, forKey: .type, auxiliaryKey: ._type)
+		self.uri = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .uri, auxiliaryKey: ._uri)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		try uri.encode(on: &_container, forKey: .uri, auxiliaryKey: ._uri)
+	}
+}
 
 /**
  Profiles that apply globally.
  
  A set of profiles that all resources covered by this implementation guide must conform to.
  */
-public typealias ImplementationGuideGlobal = BackboneElement
+public struct ImplementationGuideGlobal: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Profile that all resources must conform to
+	public var profile: Reference
+	
+	/// The type of resource that all instances must conform to.
+	/// Restricted to: ['Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic',
+	/// 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication',
+	/// 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage',
+	/// 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest',
+	/// 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference',
+	/// 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest',
+	/// 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group',
+	/// 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation',
+	/// 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration',
+	/// 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem',
+	/// 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse',
+	/// 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner',
+	/// 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire',
+	/// 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule',
+	/// 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery',
+	/// 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription']
+	public var type: FHIRPrimitive<ResourceType>
+	
+	/// Designated initializer taking all required properties
+	public init(profile: Reference, type: FHIRPrimitive<ResourceType>) {
+		self.profile = profile
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		profile: Reference,
+		type: FHIRPrimitive<ResourceType>
+	) {
+		self.init(profile: profile, type: type)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case profile
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.profile = try Reference(from: _container, forKey: .profile)
+		self.type = try FHIRPrimitive<ResourceType>(from: _container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try profile.encode(on: &_container, forKey: .profile)
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}
 
 /**
  Group of resources as used in .page.package.
  
  A logical group of resources. Logical groups can be used when building pages.
  */
-public typealias ImplementationGuidePackage = BackboneElement
+public struct ImplementationGuidePackage: BackboneElement {
+	
+	/// Human readable text describing the package
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name used .page.package
+	public var name: FHIRPrimitive<FHIRString>
+	
+	/// Resource in the implementation guide
+	public var resource: [ImplementationGuidePackageResource]
+	
+	/// Designated initializer taking all required properties
+	public init(name: FHIRPrimitive<FHIRString>, resource: [ImplementationGuidePackageResource]) {
+		self.name = name
+		self.resource = resource
+	}
+	
+	/// Convenience initializer
+	public init(
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		resource: [ImplementationGuidePackageResource]
+	) {
+		self.init(name: name, resource: resource)
+		self.description_fhir = description_fhir
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case resource
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
+		self.resource = try [ImplementationGuidePackageResource](from: _container, forKey: .resource)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try resource.encode(on: &_container, forKey: .resource)
+	}
+}
 
 /**
  Resource in the implementation guide.
@@ -298,11 +599,273 @@ public typealias ImplementationGuidePackage = BackboneElement
  conformance statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an
  example resource.
  */
-public typealias ImplementationGuidePackageResource = BackboneElement
+public struct ImplementationGuidePackageResource: BackboneElement {
+	
+	/// All possible types for "source[x]"
+	public enum SourceX: Equatable, Hashable, Sendable {
+		indirect case reference(Reference)
+		case uri(FHIRPrimitive<FHIRURI>)
+	}
+	
+	/// Short code to identify the resource
+	public var acronym: FHIRPrimitive<FHIRString>?
+	
+	/// Reason why included in guide
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Resource this is an example of (if applicable)
+	public var exampleFor: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Human Name for the resource
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Why the resource is included in the guide.
+	/// Restricted to: ['example', 'terminology', 'profile', 'extension', 'dictionary', 'logical']
+	public var purpose: FHIRPrimitive<GuideResourcePurpose>
+	
+	/// Location of the resource
+	/// One of `source[x]`
+	public var source: SourceX
+	
+	/// Designated initializer taking all required properties
+	public init(purpose: FHIRPrimitive<GuideResourcePurpose>, source: SourceX) {
+		self.purpose = purpose
+		self.source = source
+	}
+	
+	/// Convenience initializer
+	public init(
+		acronym: FHIRPrimitive<FHIRString>? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		exampleFor: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		purpose: FHIRPrimitive<GuideResourcePurpose>,
+		source: SourceX
+	) {
+		self.init(purpose: purpose, source: source)
+		self.acronym = acronym
+		self.description_fhir = description_fhir
+		self.exampleFor = exampleFor
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case acronym; case _acronym
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case exampleFor
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case purpose; case _purpose
+		case sourceReference
+		case sourceUri; case _sourceUri
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Validate that we have at least one of the mandatory properties for expanded properties
+		guard _container.contains(CodingKeys.sourceReference) || _container.contains(CodingKeys.sourceUri) else {
+			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.sourceReference, CodingKeys.sourceUri], debugDescription: "Must have at least one value for \"source\" but have none"))
+		}
+		
+		// Decode all our properties (own and inherited)
+		self.acronym = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .acronym, auxiliaryKey: ._acronym)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.exampleFor = try Reference(from: _container, forKeyIfPresent: .exampleFor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.purpose = try FHIRPrimitive<GuideResourcePurpose>(from: _container, forKey: .purpose, auxiliaryKey: ._purpose)
+		var _t_source: SourceX? = nil
+		if let sourceUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .sourceUri, auxiliaryKey: ._sourceUri) {
+			if _t_source != nil {
+				throw DecodingError.dataCorruptedError(forKey: .sourceUri, in: _container, debugDescription: "More than one value provided for \"source\"")
+			}
+			_t_source = .uri(sourceUri)
+		}
+		if let sourceReference = try Reference(from: _container, forKeyIfPresent: .sourceReference) {
+			if _t_source != nil {
+				throw DecodingError.dataCorruptedError(forKey: .sourceReference, in: _container, debugDescription: "More than one value provided for \"source\"")
+			}
+			_t_source = .reference(sourceReference)
+		}
+		self.source = _t_source!
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try acronym?.encode(on: &_container, forKey: .acronym, auxiliaryKey: ._acronym)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try exampleFor?.encode(on: &_container, forKey: .exampleFor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try purpose.encode(on: &_container, forKey: .purpose, auxiliaryKey: ._purpose)
+		
+			switch source {
+			case .uri(let _value):
+				try _value.encode(on: &_container, forKey: .sourceUri, auxiliaryKey: ._sourceUri)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .sourceReference)
+			}
+		
+	}
+}
 
 /**
  Page/Section in the Guide.
  
  A page / section in the implementation guide. The root page is the implementation guide home page.
  */
-public typealias ImplementationGuidePage = BackboneElement
+public struct ImplementationGuidePage: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Format of the page (e.g. html, markdown, etc.)
+	public var format: FHIRPrimitive<FHIRString>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The kind of page that this is. Some pages are autogenerated (list, example), and other kinds are of interest so
+	/// that tools can navigate the user to the page of interest.
+	/// Restricted to: ['page', 'example', 'list', 'include', 'directory', 'toc', 'resource']
+	public var kind: FHIRPrimitive<GuidePageKind>
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Short name shown for navigational assistance
+	public var name: FHIRPrimitive<FHIRString>
+	
+	/// Name of package to include
+	public var package: [FHIRPrimitive<FHIRString>]?
+	
+	/// Nested Pages / Sections
+	public var page: [ImplementationGuidePage]?
+	
+	/// Where to find that page
+	public var source: FHIRPrimitive<FHIRURI>
+	
+	/// For constructed pages, what kind of resources to include in the list.
+	/// Restricted to: ['Account', 'AllergyIntolerance', 'Appointment', 'AppointmentResponse', 'AuditEvent', 'Basic',
+	/// 'Binary', 'BodySite', 'Bundle', 'CarePlan', 'Claim', 'ClaimResponse', 'ClinicalImpression', 'Communication',
+	/// 'CommunicationRequest', 'Composition', 'ConceptMap', 'Condition', 'Conformance', 'Contract', 'Coverage',
+	/// 'DataElement', 'DetectedIssue', 'Device', 'DeviceComponent', 'DeviceMetric', 'DeviceUseRequest',
+	/// 'DeviceUseStatement', 'DiagnosticOrder', 'DiagnosticReport', 'DocumentManifest', 'DocumentReference',
+	/// 'DomainResource', 'EligibilityRequest', 'EligibilityResponse', 'Encounter', 'EnrollmentRequest',
+	/// 'EnrollmentResponse', 'EpisodeOfCare', 'ExplanationOfBenefit', 'FamilyMemberHistory', 'Flag', 'Goal', 'Group',
+	/// 'HealthcareService', 'ImagingObjectSelection', 'ImagingStudy', 'Immunization', 'ImmunizationRecommendation',
+	/// 'ImplementationGuide', 'List', 'Location', 'Media', 'Medication', 'MedicationAdministration',
+	/// 'MedicationDispense', 'MedicationOrder', 'MedicationStatement', 'MessageHeader', 'NamingSystem',
+	/// 'NutritionOrder', 'Observation', 'OperationDefinition', 'OperationOutcome', 'Order', 'OrderResponse',
+	/// 'Organization', 'Parameters', 'Patient', 'PaymentNotice', 'PaymentReconciliation', 'Person', 'Practitioner',
+	/// 'Procedure', 'ProcedureRequest', 'ProcessRequest', 'ProcessResponse', 'Provenance', 'Questionnaire',
+	/// 'QuestionnaireResponse', 'ReferralRequest', 'RelatedPerson', 'Resource', 'RiskAssessment', 'Schedule',
+	/// 'SearchParameter', 'Slot', 'Specimen', 'StructureDefinition', 'Subscription', 'Substance', 'SupplyDelivery',
+	/// 'SupplyRequest', 'TestScript', 'ValueSet', 'VisionPrescription']
+	public var type: [FHIRPrimitive<ResourceType>]?
+	
+	/// Designated initializer taking all required properties
+	public init(kind: FHIRPrimitive<GuidePageKind>, name: FHIRPrimitive<FHIRString>, source: FHIRPrimitive<FHIRURI>) {
+		self.kind = kind
+		self.name = name
+		self.source = source
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		format: FHIRPrimitive<FHIRString>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		kind: FHIRPrimitive<GuidePageKind>,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		package: [FHIRPrimitive<FHIRString>]? = nil,
+		page: [ImplementationGuidePage]? = nil,
+		source: FHIRPrimitive<FHIRURI>,
+		type: [FHIRPrimitive<ResourceType>]? = nil
+	) {
+		self.init(kind: kind, name: name, source: source)
+		self.`extension` = `extension`
+		self.format = format
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.package = package
+		self.page = page
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case format; case _format
+		case id; case _id
+		case kind; case _kind
+		case modifierExtension
+		case name; case _name
+		case package; case _package
+		case page
+		case source; case _source
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.format = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .format, auxiliaryKey: ._format)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.kind = try FHIRPrimitive<GuidePageKind>(from: _container, forKey: .kind, auxiliaryKey: ._kind)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
+		self.package = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .package, auxiliaryKey: ._package)
+		self.page = try [ImplementationGuidePage](from: _container, forKeyIfPresent: .page)
+		self.source = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .source, auxiliaryKey: ._source)
+		self.type = try [FHIRPrimitive<ResourceType>](from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try format?.encode(on: &_container, forKey: .format, auxiliaryKey: ._format)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try kind.encode(on: &_container, forKey: .kind, auxiliaryKey: ._kind)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try package?.encode(on: &_container, forKey: .package, auxiliaryKey: ._package)
+		try page?.encode(on: &_container, forKey: .page)
+		try source.encode(on: &_container, forKey: .source, auxiliaryKey: ._source)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}

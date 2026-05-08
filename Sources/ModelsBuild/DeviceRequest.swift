@@ -32,15 +32,15 @@ public struct DeviceRequest: DomainResource {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// All possible types for "product[x]"
 	public enum ProductX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// PRN status of request
@@ -416,9 +416,9 @@ public struct DeviceRequestParameter: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Device detail

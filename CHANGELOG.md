@@ -1,9 +1,14 @@
 Changelog
 =========
 
-The changelog is in reverse chronological order, as usual.
+The changelog is in reverse chronological order.
 
-### 0.9.0
+### 0.9.1
+
+- Fix broken DSTU2 models (all `BackboneElement` types were reduced to typealiases), thanks to [Lukas Kollmer](https://github.com/lukaskollmer) for flagging
+- Memory improvements (by targeted `indirect enum` / `indirect case` use), thanks again to [Lukas Kollmer](https://github.com/lukaskollmer) for your investigations & suggestions
+
+## 0.9.0
 
 - BREAKING CHANGES, The `Sendable` Release: makes all types adopt Swift Sendable, which means:
     - All types are now structs, all abstract types protocols. Resources and elements used to be `open class` and are now `public struct`
@@ -17,13 +22,13 @@ The changelog is in reverse chronological order, as usual.
     - Bump Swift tools version to 6.2
 - Update _build_ models to 6.0.0-ballot4 (http://build.fhir.org/)
 
-### 0.8.0
+## 0.8.0
 
-- BREAKING CHANGES: update _build_ models to 6.0.0-ballot3 (http://build.fhir.org/)
+- Update _build_ models to 6.0.0-ballot3 (http://build.fhir.org/)
 - Address https://github.com/apple/FHIRModels/issues/38 (thanks to [Lukas Kollmer](https://github.com/lukaskollmer) for the idea)
 - Move some unit tests to Swift Testing; since with testing https://github.com/apple/FHIRModels/issues/39 cannot be reproduced, resolves #39
 
-### 0.7.0
+## 0.7.0
 
 - Make most primitive types (such as `FHIRBool` and `FHIRDateComponents`) `Sendable`
 - Address https://github.com/apple/FHIRModels/issues/36 (thanks to [Lukas Kollmer](https://github.com/lukaskollmer) for the report)
@@ -37,7 +42,7 @@ The changelog is in reverse chronological order, as usual.
 
 ## 0.6.0
 
-- BREAKING CHANGES: update _build_ models to 6.0.0-ballot2 (http://build.fhir.org/)
+- Update _build_ models to 6.0.0-ballot2 (http://build.fhir.org/)
 
 ## 0.5.0
 
@@ -47,7 +52,7 @@ The changelog is in reverse chronological order, as usual.
 ## 0.4.0
 
 - BREAKING CHANGES: fix duplicate code system names resulting in https://github.com/apple/FHIRModels/issues/11
-- BREAKING CHANGES: regenerate R4 models to resolve https://github.com/apple/FHIRModels/issues/15
+- Regenerate R4 models to resolve https://github.com/apple/FHIRModels/issues/15
 - Update _build_ models to 4.6.0-048af26
 - Enhancement: make dates & times conform to `Comparable` and `ExpressibleAsNSDate`
 - Fix an issue where times with milliseconds were not proper ISO formatted in certain locales

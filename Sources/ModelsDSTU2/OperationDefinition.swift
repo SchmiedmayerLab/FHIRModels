@@ -301,18 +301,317 @@ public struct OperationDefinition: DomainResource {
  
  Contacts to assist a user in finding and communicating with the publisher.
  */
-public typealias OperationDefinitionContact = BackboneElement
+public struct OperationDefinitionContact: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of a individual to contact
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Contact details for individual or publisher
+	public var telecom: [ContactPoint]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		telecom: [ContactPoint]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.telecom = telecom
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case telecom
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try telecom?.encode(on: &_container, forKey: .telecom)
+	}
+}
 
 /**
  Parameters for the operation/query.
  
  The parameters for the operation/query.
  */
-public typealias OperationDefinitionParameter = BackboneElement
+public struct OperationDefinitionParameter: BackboneElement {
+	
+	/// ValueSet details if this is coded
+	public var binding: OperationDefinitionParameterBinding?
+	
+	/// Description of meaning/use
+	public var documentation: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Maximum Cardinality (a number or *)
+	public var max: FHIRPrimitive<FHIRString>
+	
+	/// Minimum Cardinality
+	public var min: FHIRPrimitive<FHIRInteger>
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name in Parameters.parameter.name or in URL
+	public var name: FHIRPrimitive<FHIRString>
+	
+	/// Parts of a Tuple Parameter
+	public var part: [OperationDefinitionParameter]?
+	
+	/// Profile on the type
+	public var profile: Reference?
+	
+	/// What type this parameter has
+	public var type: FHIRPrimitive<FHIRString>?
+	
+	/// Whether this is an input or an output parameter.
+	/// Restricted to: ['in', 'out']
+	public var use: FHIRPrimitive<OperationParameterUse>
+	
+	/// Designated initializer taking all required properties
+	public init(max: FHIRPrimitive<FHIRString>, min: FHIRPrimitive<FHIRInteger>, name: FHIRPrimitive<FHIRString>, use: FHIRPrimitive<OperationParameterUse>) {
+		self.max = max
+		self.min = min
+		self.name = name
+		self.use = use
+	}
+	
+	/// Convenience initializer
+	public init(
+		binding: OperationDefinitionParameterBinding? = nil,
+		documentation: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		max: FHIRPrimitive<FHIRString>,
+		min: FHIRPrimitive<FHIRInteger>,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>,
+		part: [OperationDefinitionParameter]? = nil,
+		profile: Reference? = nil,
+		type: FHIRPrimitive<FHIRString>? = nil,
+		use: FHIRPrimitive<OperationParameterUse>
+	) {
+		self.init(max: max, min: min, name: name, use: use)
+		self.binding = binding
+		self.documentation = documentation
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.part = part
+		self.profile = profile
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case binding
+		case documentation; case _documentation
+		case `extension` = "extension"
+		case id; case _id
+		case max; case _max
+		case min; case _min
+		case modifierExtension
+		case name; case _name
+		case part
+		case profile
+		case type; case _type
+		case use; case _use
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.binding = try OperationDefinitionParameterBinding(from: _container, forKeyIfPresent: .binding)
+		self.documentation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .documentation, auxiliaryKey: ._documentation)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.max = try FHIRPrimitive<FHIRString>(from: _container, forKey: .max, auxiliaryKey: ._max)
+		self.min = try FHIRPrimitive<FHIRInteger>(from: _container, forKey: .min, auxiliaryKey: ._min)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
+		self.part = try [OperationDefinitionParameter](from: _container, forKeyIfPresent: .part)
+		self.profile = try Reference(from: _container, forKeyIfPresent: .profile)
+		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+		self.use = try FHIRPrimitive<OperationParameterUse>(from: _container, forKey: .use, auxiliaryKey: ._use)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try binding?.encode(on: &_container, forKey: .binding)
+		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try max.encode(on: &_container, forKey: .max, auxiliaryKey: ._max)
+		try min.encode(on: &_container, forKey: .min, auxiliaryKey: ._min)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try part?.encode(on: &_container, forKey: .part)
+		try profile?.encode(on: &_container, forKey: .profile)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		try use.encode(on: &_container, forKey: .use, auxiliaryKey: ._use)
+	}
+}
 
 /**
  ValueSet details if this is coded.
  
  Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
  */
-public typealias OperationDefinitionParameterBinding = BackboneElement
+public struct OperationDefinitionParameterBinding: BackboneElement {
+	
+	/// All possible types for "valueSet[x]"
+	public enum ValueSetX: Equatable, Hashable, Sendable {
+		indirect case reference(Reference)
+		case uri(FHIRPrimitive<FHIRURI>)
+	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the
+	/// provided value set must be adhered to in the instances.
+	/// Restricted to: ['required', 'extensible', 'preferred', 'example']
+	public var strength: FHIRPrimitive<BindingStrength>
+	
+	/// Source of value set
+	/// One of `valueSet[x]`
+	public var valueSet: ValueSetX
+	
+	/// Designated initializer taking all required properties
+	public init(strength: FHIRPrimitive<BindingStrength>, valueSet: ValueSetX) {
+		self.strength = strength
+		self.valueSet = valueSet
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		strength: FHIRPrimitive<BindingStrength>,
+		valueSet: ValueSetX
+	) {
+		self.init(strength: strength, valueSet: valueSet)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case strength; case _strength
+		case valueSetReference
+		case valueSetUri; case _valueSetUri
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Validate that we have at least one of the mandatory properties for expanded properties
+		guard _container.contains(CodingKeys.valueSetReference) || _container.contains(CodingKeys.valueSetUri) else {
+			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueSetReference, CodingKeys.valueSetUri], debugDescription: "Must have at least one value for \"valueSet\" but have none"))
+		}
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.strength = try FHIRPrimitive<BindingStrength>(from: _container, forKey: .strength, auxiliaryKey: ._strength)
+		var _t_valueSet: ValueSetX? = nil
+		if let valueSetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueSetUri, auxiliaryKey: ._valueSetUri) {
+			if _t_valueSet != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueSetUri, in: _container, debugDescription: "More than one value provided for \"valueSet\"")
+			}
+			_t_valueSet = .uri(valueSetUri)
+		}
+		if let valueSetReference = try Reference(from: _container, forKeyIfPresent: .valueSetReference) {
+			if _t_valueSet != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueSetReference, in: _container, debugDescription: "More than one value provided for \"valueSet\"")
+			}
+			_t_valueSet = .reference(valueSetReference)
+		}
+		self.valueSet = _t_valueSet!
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try strength.encode(on: &_container, forKey: .strength, auxiliaryKey: ._strength)
+		
+			switch valueSet {
+			case .uri(let _value):
+				try _value.encode(on: &_container, forKey: .valueSetUri, auxiliaryKey: ._valueSetUri)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .valueSetReference)
+			}
+		
+	}
+}

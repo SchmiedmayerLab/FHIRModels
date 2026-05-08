@@ -30,7 +30,7 @@ public struct ConditionDefinition: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -615,8 +615,8 @@ public struct ConditionDefinitionPrecondition: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
 	}
 	
 	/// Code for relevant Observation

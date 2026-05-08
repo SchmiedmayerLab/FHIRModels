@@ -30,24 +30,24 @@ public struct FamilyMemberHistory: DomainResource {
 	
 	/// All possible types for "age[x]"
 	public enum AgeX: Equatable, Hashable, Sendable {
-		case age(Age)
-		case range(Range)
+		indirect case age(Age)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
 	/// All possible types for "born[x]"
 	public enum BornX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
 	/// All possible types for "deceased[x]"
 	public enum DeceasedX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case date(FHIRPrimitive<FHIRDate>)
-		case range(Range)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -421,9 +421,9 @@ public struct FamilyMemberHistoryCondition: BackboneElement {
 	
 	/// All possible types for "onset[x]"
 	public enum OnsetX: Equatable, Hashable, Sendable {
-		case age(Age)
-		case period(Period)
-		case range(Range)
+		indirect case age(Age)
+		indirect case period(Period)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -647,10 +647,10 @@ public struct FamilyMemberHistoryProcedure: BackboneElement {
 	
 	/// All possible types for "performed[x]"
 	public enum PerformedX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case range(Range)
+		indirect case period(Period)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

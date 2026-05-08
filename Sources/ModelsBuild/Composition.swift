@@ -573,10 +573,10 @@ public struct CompositionRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case canonical(FHIRPrimitive<Canonical>)
 		case markdown(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

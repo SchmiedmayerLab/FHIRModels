@@ -26,8 +26,8 @@ public struct VirtualServiceDetail: DataType {
 	
 	/// All possible types for "address[x]"
 	public enum AddressX: Equatable, Hashable, Sendable {
-		case contactPoint(ContactPoint)
-		case extendedContactDetail(ExtendedContactDetail)
+		indirect case contactPoint(ContactPoint)
+		indirect case extendedContactDetail(ExtendedContactDetail)
 		case string(FHIRPrimitive<FHIRString>)
 		case url(FHIRPrimitive<FHIRURI>)
 	}

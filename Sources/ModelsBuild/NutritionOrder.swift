@@ -398,7 +398,7 @@ public struct NutritionOrderEnteralFormula: BackboneElement {
 	/// All possible types for "deliveryDevice[x]"
 	public enum DeliveryDeviceX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// Formula feeding instruction as structured data
@@ -551,8 +551,8 @@ public struct NutritionOrderEnteralFormulaAdministration: BackboneElement {
 	
 	/// All possible types for "rate[x]"
 	public enum RateX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Additional content defined by implementations

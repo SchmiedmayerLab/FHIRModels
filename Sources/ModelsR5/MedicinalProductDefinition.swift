@@ -370,13 +370,13 @@ public struct MedicinalProductDefinitionCharacteristic: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case date(FHIRPrimitive<FHIRDate>)
 		case integer(FHIRPrimitive<FHIRInteger>)
 		case markdown(FHIRPrimitive<FHIRString>)
-		case quantity(Quantity)
+		indirect case quantity(Quantity)
 	}
 	
 	/// Additional content defined by implementations

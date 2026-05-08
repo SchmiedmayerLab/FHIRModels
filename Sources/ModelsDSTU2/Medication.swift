@@ -170,30 +170,383 @@ public struct Medication: DomainResource {
  
  Information that only applies to packages (not products).
  */
-public typealias MedicationPackage = BackboneElement
+public struct MedicationPackage: BackboneElement {
+	
+	/// E.g. box, vial, blister-pack
+	public var container: CodeableConcept?
+	
+	/// What is  in the package
+	public var content: [MedicationPackageContent]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		container: CodeableConcept? = nil,
+		content: [MedicationPackageContent]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init()
+		self.container = container
+		self.content = content
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case container
+		case content
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.container = try CodeableConcept(from: _container, forKeyIfPresent: .container)
+		self.content = try [MedicationPackageContent](from: _container, forKeyIfPresent: .content)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try container?.encode(on: &_container, forKey: .container)
+		try content?.encode(on: &_container, forKey: .content)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  What is  in the package.
  
  A set of components that go to make up the described item.
  */
-public typealias MedicationPackageContent = BackboneElement
+public struct MedicationPackageContent: BackboneElement {
+	
+	/// Quantity present in the package
+	public var amount: Quantity?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A product in the package
+	public var item: Reference
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(item: Reference) {
+		self.item = item
+	}
+	
+	/// Convenience initializer
+	public init(
+		amount: Quantity? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: Reference,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(item: item)
+		self.amount = amount
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case amount
+		case `extension` = "extension"
+		case id; case _id
+		case item
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.amount = try Quantity(from: _container, forKeyIfPresent: .amount)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try Reference(from: _container, forKey: .item)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try amount?.encode(on: &_container, forKey: .amount)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try item.encode(on: &_container, forKey: .item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Administrable medication details.
  
  Information that only applies to products (not packages).
  */
-public typealias MedicationProduct = BackboneElement
+public struct MedicationProduct: BackboneElement {
+	
+	/// None
+	public var batch: [MedicationProductBatch]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// powder | tablets | carton +
+	public var form: CodeableConcept?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Active or inactive ingredient
+	public var ingredient: [MedicationProductIngredient]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		batch: [MedicationProductBatch]? = nil,
+		`extension`: [Extension]? = nil,
+		form: CodeableConcept? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		ingredient: [MedicationProductIngredient]? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init()
+		self.batch = batch
+		self.`extension` = `extension`
+		self.form = form
+		self.id = id
+		self.ingredient = ingredient
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case batch
+		case `extension` = "extension"
+		case form
+		case id; case _id
+		case ingredient
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.batch = try [MedicationProductBatch](from: _container, forKeyIfPresent: .batch)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.form = try CodeableConcept(from: _container, forKeyIfPresent: .form)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.ingredient = try [MedicationProductIngredient](from: _container, forKeyIfPresent: .ingredient)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try batch?.encode(on: &_container, forKey: .batch)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try form?.encode(on: &_container, forKey: .form)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try ingredient?.encode(on: &_container, forKey: .ingredient)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Information about a group of medication produced or packaged from one production run.
  */
-public typealias MedicationProductBatch = BackboneElement
+public struct MedicationProductBatch: BackboneElement {
+	
+	/// None
+	public var expirationDate: FHIRPrimitive<DateTime>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// None
+	public var lotNumber: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		expirationDate: FHIRPrimitive<DateTime>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		lotNumber: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init()
+		self.expirationDate = expirationDate
+		self.`extension` = `extension`
+		self.id = id
+		self.lotNumber = lotNumber
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case expirationDate; case _expirationDate
+		case `extension` = "extension"
+		case id; case _id
+		case lotNumber; case _lotNumber
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.expirationDate = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .expirationDate, auxiliaryKey: ._expirationDate)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.lotNumber = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .lotNumber, auxiliaryKey: ._lotNumber)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try expirationDate?.encode(on: &_container, forKey: .expirationDate, auxiliaryKey: ._expirationDate)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try lotNumber?.encode(on: &_container, forKey: .lotNumber, auxiliaryKey: ._lotNumber)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Active or inactive ingredient.
  
  Identifies a particular constituent of interest in the product.
  */
-public typealias MedicationProductIngredient = BackboneElement
+public struct MedicationProductIngredient: BackboneElement {
+	
+	/// Quantity of ingredient present
+	public var amount: Ratio?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The product contained
+	public var item: Reference
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(item: Reference) {
+		self.item = item
+	}
+	
+	/// Convenience initializer
+	public init(
+		amount: Ratio? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: Reference,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(item: item)
+		self.amount = amount
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case amount
+		case `extension` = "extension"
+		case id; case _id
+		case item
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.amount = try Ratio(from: _container, forKeyIfPresent: .amount)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try Reference(from: _container, forKey: .item)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try amount?.encode(on: &_container, forKey: .amount)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try item.encode(on: &_container, forKey: .item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

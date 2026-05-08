@@ -31,7 +31,7 @@ public struct CoverageEligibilityResponse: DomainResource {
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Contained, inline Resources
@@ -615,14 +615,14 @@ public struct CoverageEligibilityResponseInsuranceItemBenefit: BackboneElement {
 	
 	/// All possible types for "allowed[x]"
 	public enum AllowedX: Equatable, Hashable, Sendable {
-		case money(Money)
+		indirect case money(Money)
 		case string(FHIRPrimitive<FHIRString>)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
 	/// All possible types for "used[x]"
 	public enum UsedX: Equatable, Hashable, Sendable {
-		case money(Money)
+		indirect case money(Money)
 		case string(FHIRPrimitive<FHIRString>)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}

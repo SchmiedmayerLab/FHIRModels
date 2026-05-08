@@ -220,7 +220,84 @@ public struct EpisodeOfCare: DomainResource {
  
  The list of practitioners that may be facilitating this episode of care for specific purposes.
  */
-public typealias EpisodeOfCareCareTeam = BackboneElement
+public struct EpisodeOfCareCareTeam: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The practitioner (or Organization) within the team
+	public var member: Reference?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Period of time for this role
+	public var period: Period?
+	
+	/// Role taken by this team member
+	public var role: [CodeableConcept]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		member: Reference? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period? = nil,
+		role: [CodeableConcept]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.member = member
+		self.modifierExtension = modifierExtension
+		self.period = period
+		self.role = role
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case member
+		case modifierExtension
+		case period
+		case role
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.member = try Reference(from: _container, forKeyIfPresent: .member)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+		self.role = try [CodeableConcept](from: _container, forKeyIfPresent: .role)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try member?.encode(on: &_container, forKey: .member)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period?.encode(on: &_container, forKey: .period)
+		try role?.encode(on: &_container, forKey: .role)
+	}
+}
 
 /**
  Past list of status codes.
@@ -228,4 +305,74 @@ public typealias EpisodeOfCareCareTeam = BackboneElement
  The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the
  resource).
  */
-public typealias EpisodeOfCareStatusHistory = BackboneElement
+public struct EpisodeOfCareStatusHistory: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Period for the status
+	public var period: Period
+	
+	/// 
+	/// Restricted to: ['planned', 'waitlist', 'active', 'onhold', 'finished', 'cancelled']
+	public var status: FHIRPrimitive<EpisodeOfCareStatus>
+	
+	/// Designated initializer taking all required properties
+	public init(period: Period, status: FHIRPrimitive<EpisodeOfCareStatus>) {
+		self.period = period
+		self.status = status
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period,
+		status: FHIRPrimitive<EpisodeOfCareStatus>
+	) {
+		self.init(period: period, status: status)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case period
+		case status; case _status
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Period(from: _container, forKey: .period)
+		self.status = try FHIRPrimitive<EpisodeOfCareStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period.encode(on: &_container, forKey: .period)
+		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+	}
+}

@@ -236,11 +236,166 @@ public struct NamingSystem: DomainResource {
  
  Contacts to assist a user in finding and communicating with the publisher.
  */
-public typealias NamingSystemContact = BackboneElement
+public struct NamingSystemContact: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of a individual to contact
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Contact details for individual or publisher
+	public var telecom: [ContactPoint]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		telecom: [ContactPoint]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.telecom = telecom
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case telecom
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try telecom?.encode(on: &_container, forKey: .telecom)
+	}
+}
 
 /**
  Unique identifiers used for system.
  
  Indicates how the system may be identified when referenced in electronic exchange.
  */
-public typealias NamingSystemUniqueId = BackboneElement
+public struct NamingSystemUniqueId: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// When is identifier valid?
+	public var period: Period?
+	
+	/// Is this the id that should be used for this type
+	public var preferred: FHIRPrimitive<FHIRBool>?
+	
+	/// Identifies the unique identifier scheme used for this particular identifier.
+	/// Restricted to: ['oid', 'uuid', 'uri', 'other']
+	public var type: FHIRPrimitive<NamingSystemIdentifierType>
+	
+	/// The unique identifier
+	public var value: FHIRPrimitive<FHIRString>
+	
+	/// Designated initializer taking all required properties
+	public init(type: FHIRPrimitive<NamingSystemIdentifierType>, value: FHIRPrimitive<FHIRString>) {
+		self.type = type
+		self.value = value
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period? = nil,
+		preferred: FHIRPrimitive<FHIRBool>? = nil,
+		type: FHIRPrimitive<NamingSystemIdentifierType>,
+		value: FHIRPrimitive<FHIRString>
+	) {
+		self.init(type: type, value: value)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.period = period
+		self.preferred = preferred
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case period
+		case preferred; case _preferred
+		case type; case _type
+		case value; case _value
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+		self.preferred = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .preferred, auxiliaryKey: ._preferred)
+		self.type = try FHIRPrimitive<NamingSystemIdentifierType>(from: _container, forKey: .type, auxiliaryKey: ._type)
+		self.value = try FHIRPrimitive<FHIRString>(from: _container, forKey: .value, auxiliaryKey: ._value)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period?.encode(on: &_container, forKey: .period)
+		try preferred?.encode(on: &_container, forKey: .preferred, auxiliaryKey: ._preferred)
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		try value.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
+	}
+}

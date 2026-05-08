@@ -32,13 +32,13 @@ public struct Procedure: DomainResource {
 	/// All possible types for "performed[x]"
 	public enum PerformedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "reason[x]"
 	public enum ReasonX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Target body sites
@@ -356,11 +356,149 @@ public struct Procedure: DomainResource {
  A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis,
  attaching a wound-vac, etc.) as a focal portion of the Procedure.
  */
-public typealias ProcedureFocalDevice = BackboneElement
+public struct ProcedureFocalDevice: BackboneElement {
+	
+	/// Kind of change to device
+	public var action: CodeableConcept?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Device that was changed
+	public var manipulated: Reference
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(manipulated: Reference) {
+		self.manipulated = manipulated
+	}
+	
+	/// Convenience initializer
+	public init(
+		action: CodeableConcept? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		manipulated: Reference,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(manipulated: manipulated)
+		self.action = action
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case action
+		case `extension` = "extension"
+		case id; case _id
+		case manipulated
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.action = try CodeableConcept(from: _container, forKeyIfPresent: .action)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.manipulated = try Reference(from: _container, forKey: .manipulated)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try action?.encode(on: &_container, forKey: .action)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try manipulated.encode(on: &_container, forKey: .manipulated)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  The people who performed the procedure.
  
  Limited to 'real' people rather than equipment.
  */
-public typealias ProcedurePerformer = BackboneElement
+public struct ProcedurePerformer: BackboneElement {
+	
+	/// The reference to the practitioner
+	public var actor: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The role the actor was in
+	public var role: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		actor: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		role: CodeableConcept? = nil
+	) {
+		self.init()
+		self.actor = actor
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.role = role
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case actor
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case role
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.actor = try Reference(from: _container, forKeyIfPresent: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try actor?.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try role?.encode(on: &_container, forKey: .role)
+	}
+}

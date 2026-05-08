@@ -325,17 +325,17 @@ public struct InventoryItemCharacteristic: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case annotation(Annotation)
+		indirect case address(Address)
+		indirect case annotation(Annotation)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
-		case duration(Duration)
+		indirect case duration(Duration)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 		case string(FHIRPrimitive<FHIRString>)
 		case url(FHIRPrimitive<FHIRURI>)
 	}

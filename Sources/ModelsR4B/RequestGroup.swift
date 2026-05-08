@@ -278,12 +278,12 @@ public struct RequestGroupAction: BackboneElement {
 	
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case range(Range)
-		case timing(Timing)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case range(Range)
+		indirect case timing(Timing)
 	}
 	
 	/// Sub action
@@ -634,8 +634,8 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 	
 	/// All possible types for "offset[x]"
 	public enum OffsetX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// What action this is related to

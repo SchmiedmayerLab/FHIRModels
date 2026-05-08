@@ -226,4 +226,92 @@ public struct Appointment: DomainResource {
  
  List of participants involved in the appointment.
  */
-public typealias AppointmentParticipant = BackboneElement
+public struct AppointmentParticipant: BackboneElement {
+	
+	/// Person, Location/HealthcareService or Device
+	public var actor: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Is this participant required to be present at the meeting. This covers a use-case where 2 doctors need to meet
+	/// to discuss the results for a specific patient, and the patient is not required to be present.
+	/// Restricted to: ['required', 'optional', 'information-only']
+	public var required: FHIRPrimitive<ParticipantRequired>?
+	
+	/// Participation status of the Patient.
+	/// Restricted to: ['accepted', 'declined', 'tentative', 'needs-action']
+	public var status: FHIRPrimitive<ParticipationStatus>
+	
+	/// Role of participant in the appointment
+	public var type: [CodeableConcept]?
+	
+	/// Designated initializer taking all required properties
+	public init(status: FHIRPrimitive<ParticipationStatus>) {
+		self.status = status
+	}
+	
+	/// Convenience initializer
+	public init(
+		actor: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		required: FHIRPrimitive<ParticipantRequired>? = nil,
+		status: FHIRPrimitive<ParticipationStatus>,
+		type: [CodeableConcept]? = nil
+	) {
+		self.init(status: status)
+		self.actor = actor
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.required = required
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case actor
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case required; case _required
+		case status; case _status
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.actor = try Reference(from: _container, forKeyIfPresent: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.required = try FHIRPrimitive<ParticipantRequired>(from: _container, forKeyIfPresent: .required, auxiliaryKey: ._required)
+		self.status = try FHIRPrimitive<ParticipationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
+		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try actor?.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try required?.encode(on: &_container, forKey: .required, auxiliaryKey: ._required)
+		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}

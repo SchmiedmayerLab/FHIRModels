@@ -162,31 +162,630 @@ public struct AuditEvent: DomainResource {
  
  Identifies the name, action type, time, and disposition of the audited event.
  */
-public typealias AuditEventEvent = BackboneElement
+public struct AuditEventEvent: BackboneElement {
+	
+	/// Indicator for type of action performed during the event that generated the audit.
+	/// Restricted to: ['C', 'R', 'U', 'D', 'E']
+	public var action: FHIRPrimitive<AuditEventAction>?
+	
+	/// Time when the event occurred on source
+	public var dateTime: FHIRPrimitive<Instant>
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Whether the event succeeded or failed
+	public var outcome: FHIRPrimitive<FHIRString>?
+	
+	/// Description of the event outcome
+	public var outcomeDesc: FHIRPrimitive<FHIRString>?
+	
+	/// The purposeOfUse of the event
+	public var purposeOfEvent: [Coding]?
+	
+	/// More specific type/id for the event
+	public var subtype: [Coding]?
+	
+	/// Type/identifier of event
+	public var type: Coding
+	
+	/// Designated initializer taking all required properties
+	public init(dateTime: FHIRPrimitive<Instant>, type: Coding) {
+		self.dateTime = dateTime
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		action: FHIRPrimitive<AuditEventAction>? = nil,
+		dateTime: FHIRPrimitive<Instant>,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		outcome: FHIRPrimitive<FHIRString>? = nil,
+		outcomeDesc: FHIRPrimitive<FHIRString>? = nil,
+		purposeOfEvent: [Coding]? = nil,
+		subtype: [Coding]? = nil,
+		type: Coding
+	) {
+		self.init(dateTime: dateTime, type: type)
+		self.action = action
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.outcome = outcome
+		self.outcomeDesc = outcomeDesc
+		self.purposeOfEvent = purposeOfEvent
+		self.subtype = subtype
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case action; case _action
+		case dateTime; case _dateTime
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case outcome; case _outcome
+		case outcomeDesc; case _outcomeDesc
+		case purposeOfEvent
+		case subtype
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.action = try FHIRPrimitive<AuditEventAction>(from: _container, forKeyIfPresent: .action, auxiliaryKey: ._action)
+		self.dateTime = try FHIRPrimitive<Instant>(from: _container, forKey: .dateTime, auxiliaryKey: ._dateTime)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.outcome = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .outcome, auxiliaryKey: ._outcome)
+		self.outcomeDesc = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .outcomeDesc, auxiliaryKey: ._outcomeDesc)
+		self.purposeOfEvent = try [Coding](from: _container, forKeyIfPresent: .purposeOfEvent)
+		self.subtype = try [Coding](from: _container, forKeyIfPresent: .subtype)
+		self.type = try Coding(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try action?.encode(on: &_container, forKey: .action, auxiliaryKey: ._action)
+		try dateTime.encode(on: &_container, forKey: .dateTime, auxiliaryKey: ._dateTime)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try outcome?.encode(on: &_container, forKey: .outcome, auxiliaryKey: ._outcome)
+		try outcomeDesc?.encode(on: &_container, forKey: .outcomeDesc, auxiliaryKey: ._outcomeDesc)
+		try purposeOfEvent?.encode(on: &_container, forKey: .purposeOfEvent)
+		try subtype?.encode(on: &_container, forKey: .subtype)
+		try type.encode(on: &_container, forKey: .type)
+	}
+}
 
 /**
  Specific instances of data or objects that have been accessed.
  */
-public typealias AuditEventObject = BackboneElement
+public struct AuditEventObject: BackboneElement {
+	
+	/// Descriptive text
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Information about the Object
+	public var detail: [AuditEventObjectDetail]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Specific instance of object (e.g. versioned)
+	public var identifier: Identifier?
+	
+	/// Life-cycle stage for the object
+	public var lifecycle: Coding?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Instance-specific descriptor for Object
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Actual query for object
+	public var query: FHIRPrimitive<Base64Binary>?
+	
+	/// Specific instance of resource (e.g. versioned)
+	public var reference: Reference?
+	
+	/// What role the Object played
+	public var role: Coding?
+	
+	/// Security labels applied to the object
+	public var securityLabel: [Coding]?
+	
+	/// Type of object involved
+	public var type: Coding?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		detail: [AuditEventObjectDetail]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier? = nil,
+		lifecycle: Coding? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		query: FHIRPrimitive<Base64Binary>? = nil,
+		reference: Reference? = nil,
+		role: Coding? = nil,
+		securityLabel: [Coding]? = nil,
+		type: Coding? = nil
+	) {
+		self.init()
+		self.description_fhir = description_fhir
+		self.detail = detail
+		self.`extension` = `extension`
+		self.id = id
+		self.identifier = identifier
+		self.lifecycle = lifecycle
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.query = query
+		self.reference = reference
+		self.role = role
+		self.securityLabel = securityLabel
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case detail
+		case `extension` = "extension"
+		case id; case _id
+		case identifier
+		case lifecycle
+		case modifierExtension
+		case name; case _name
+		case query; case _query
+		case reference
+		case role
+		case securityLabel
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.detail = try [AuditEventObjectDetail](from: _container, forKeyIfPresent: .detail)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
+		self.lifecycle = try Coding(from: _container, forKeyIfPresent: .lifecycle)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.query = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .query, auxiliaryKey: ._query)
+		self.reference = try Reference(from: _container, forKeyIfPresent: .reference)
+		self.role = try Coding(from: _container, forKeyIfPresent: .role)
+		self.securityLabel = try [Coding](from: _container, forKeyIfPresent: .securityLabel)
+		self.type = try Coding(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try detail?.encode(on: &_container, forKey: .detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier?.encode(on: &_container, forKey: .identifier)
+		try lifecycle?.encode(on: &_container, forKey: .lifecycle)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try query?.encode(on: &_container, forKey: .query, auxiliaryKey: ._query)
+		try reference?.encode(on: &_container, forKey: .reference)
+		try role?.encode(on: &_container, forKey: .role)
+		try securityLabel?.encode(on: &_container, forKey: .securityLabel)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}
 
 /**
  Additional Information about the Object.
  */
-public typealias AuditEventObjectDetail = BackboneElement
+public struct AuditEventObjectDetail: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of the property
+	public var type: FHIRPrimitive<FHIRString>
+	
+	/// Property value
+	public var value: FHIRPrimitive<Base64Binary>
+	
+	/// Designated initializer taking all required properties
+	public init(type: FHIRPrimitive<FHIRString>, value: FHIRPrimitive<Base64Binary>) {
+		self.type = type
+		self.value = value
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		type: FHIRPrimitive<FHIRString>,
+		value: FHIRPrimitive<Base64Binary>
+	) {
+		self.init(type: type, value: value)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case type; case _type
+		case value; case _value
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKey: .type, auxiliaryKey: ._type)
+		self.value = try FHIRPrimitive<Base64Binary>(from: _container, forKey: .value, auxiliaryKey: ._value)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		try value.encode(on: &_container, forKey: .value, auxiliaryKey: ._value)
+	}
+}
 
 /**
  A person, a hardware device or software process.
  */
-public typealias AuditEventParticipant = BackboneElement
+public struct AuditEventParticipant: BackboneElement {
+	
+	/// Alternative User id e.g. authentication
+	public var altId: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Where
+	public var location: Reference?
+	
+	/// Type of media
+	public var media: Coding?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Human-meaningful name for the user
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Logical network location for application activity
+	public var network: AuditEventParticipantNetwork?
+	
+	/// Policy that authorized event
+	public var policy: [FHIRPrimitive<FHIRURI>]?
+	
+	/// Reason given for this user
+	public var purposeOfUse: [Coding]?
+	
+	/// Direct reference to resource
+	public var reference: Reference?
+	
+	/// Whether user is initiator
+	public var requestor: FHIRPrimitive<FHIRBool>
+	
+	/// User roles (e.g. local RBAC codes)
+	public var role: [CodeableConcept]?
+	
+	/// Unique identifier for the user
+	public var userId: Identifier?
+	
+	/// Designated initializer taking all required properties
+	public init(requestor: FHIRPrimitive<FHIRBool>) {
+		self.requestor = requestor
+	}
+	
+	/// Convenience initializer
+	public init(
+		altId: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		location: Reference? = nil,
+		media: Coding? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		network: AuditEventParticipantNetwork? = nil,
+		policy: [FHIRPrimitive<FHIRURI>]? = nil,
+		purposeOfUse: [Coding]? = nil,
+		reference: Reference? = nil,
+		requestor: FHIRPrimitive<FHIRBool>,
+		role: [CodeableConcept]? = nil,
+		userId: Identifier? = nil
+	) {
+		self.init(requestor: requestor)
+		self.altId = altId
+		self.`extension` = `extension`
+		self.id = id
+		self.location = location
+		self.media = media
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.network = network
+		self.policy = policy
+		self.purposeOfUse = purposeOfUse
+		self.reference = reference
+		self.role = role
+		self.userId = userId
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case altId; case _altId
+		case `extension` = "extension"
+		case id; case _id
+		case location
+		case media
+		case modifierExtension
+		case name; case _name
+		case network
+		case policy; case _policy
+		case purposeOfUse
+		case reference
+		case requestor; case _requestor
+		case role
+		case userId
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.altId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .altId, auxiliaryKey: ._altId)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.media = try Coding(from: _container, forKeyIfPresent: .media)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.network = try AuditEventParticipantNetwork(from: _container, forKeyIfPresent: .network)
+		self.policy = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .policy, auxiliaryKey: ._policy)
+		self.purposeOfUse = try [Coding](from: _container, forKeyIfPresent: .purposeOfUse)
+		self.reference = try Reference(from: _container, forKeyIfPresent: .reference)
+		self.requestor = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .requestor, auxiliaryKey: ._requestor)
+		self.role = try [CodeableConcept](from: _container, forKeyIfPresent: .role)
+		self.userId = try Identifier(from: _container, forKeyIfPresent: .userId)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try altId?.encode(on: &_container, forKey: .altId, auxiliaryKey: ._altId)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try location?.encode(on: &_container, forKey: .location)
+		try media?.encode(on: &_container, forKey: .media)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try network?.encode(on: &_container, forKey: .network)
+		try policy?.encode(on: &_container, forKey: .policy, auxiliaryKey: ._policy)
+		try purposeOfUse?.encode(on: &_container, forKey: .purposeOfUse)
+		try reference?.encode(on: &_container, forKey: .reference)
+		try requestor.encode(on: &_container, forKey: .requestor, auxiliaryKey: ._requestor)
+		try role?.encode(on: &_container, forKey: .role)
+		try userId?.encode(on: &_container, forKey: .userId)
+	}
+}
 
 /**
  Logical network location for application activity.
  
  Logical network location for application activity, if the activity has a network location.
  */
-public typealias AuditEventParticipantNetwork = BackboneElement
+public struct AuditEventParticipantNetwork: BackboneElement {
+	
+	/// Identifier for the network access point of the user device
+	public var address: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The type of network access point
+	public var type: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		address: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		type: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init()
+		self.address = address
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case address; case _address
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.address = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .address, auxiliaryKey: ._address)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try address?.encode(on: &_container, forKey: .address, auxiliaryKey: ._address)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}
 
 /**
  Application systems and processes.
  */
-public typealias AuditEventSource = BackboneElement
+public struct AuditEventSource: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The identity of source detecting the event
+	public var identifier: Identifier
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Logical source location within the enterprise
+	public var site: FHIRPrimitive<FHIRString>?
+	
+	/// The type of source where event originated
+	public var type: [Coding]?
+	
+	/// Designated initializer taking all required properties
+	public init(identifier: Identifier) {
+		self.identifier = identifier
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: Identifier,
+		modifierExtension: [Extension]? = nil,
+		site: FHIRPrimitive<FHIRString>? = nil,
+		type: [Coding]? = nil
+	) {
+		self.init(identifier: identifier)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.site = site
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case identifier
+		case modifierExtension
+		case site; case _site
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.identifier = try Identifier(from: _container, forKey: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.site = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .site, auxiliaryKey: ._site)
+		self.type = try [Coding](from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try site?.encode(on: &_container, forKey: .site, auxiliaryKey: ._site)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}

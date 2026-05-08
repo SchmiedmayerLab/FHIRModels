@@ -219,9 +219,195 @@ public struct Practitioner: DomainResource {
  
  The list of roles/organizations that the practitioner is associated with.
  */
-public typealias PractitionerPractitionerRole = BackboneElement
+public struct PractitionerPractitionerRole: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The list of healthcare services that this worker provides for this role's Organization/Location(s)
+	public var healthcareService: [Reference]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The location(s) at which this practitioner provides care
+	public var location: [Reference]?
+	
+	/// Organization where the roles are performed
+	public var managingOrganization: Reference?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The period during which the practitioner is authorized to perform in these role(s)
+	public var period: Period?
+	
+	/// Roles which this practitioner may perform
+	public var role: CodeableConcept?
+	
+	/// Specific specialty of the practitioner
+	public var specialty: [CodeableConcept]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		healthcareService: [Reference]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		location: [Reference]? = nil,
+		managingOrganization: Reference? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period? = nil,
+		role: CodeableConcept? = nil,
+		specialty: [CodeableConcept]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.healthcareService = healthcareService
+		self.id = id
+		self.location = location
+		self.managingOrganization = managingOrganization
+		self.modifierExtension = modifierExtension
+		self.period = period
+		self.role = role
+		self.specialty = specialty
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case healthcareService
+		case id; case _id
+		case location
+		case managingOrganization
+		case modifierExtension
+		case period
+		case role
+		case specialty
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.healthcareService = try [Reference](from: _container, forKeyIfPresent: .healthcareService)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.location = try [Reference](from: _container, forKeyIfPresent: .location)
+		self.managingOrganization = try Reference(from: _container, forKeyIfPresent: .managingOrganization)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
+		self.specialty = try [CodeableConcept](from: _container, forKeyIfPresent: .specialty)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try healthcareService?.encode(on: &_container, forKey: .healthcareService)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try location?.encode(on: &_container, forKey: .location)
+		try managingOrganization?.encode(on: &_container, forKey: .managingOrganization)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period?.encode(on: &_container, forKey: .period)
+		try role?.encode(on: &_container, forKey: .role)
+		try specialty?.encode(on: &_container, forKey: .specialty)
+	}
+}
 
 /**
  Qualifications obtained by training and certification.
  */
-public typealias PractitionerQualification = BackboneElement
+public struct PractitionerQualification: BackboneElement {
+	
+	/// Coded representation of the qualification
+	public var code: CodeableConcept
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// An identifier for this qualification for the practitioner
+	public var identifier: [Identifier]?
+	
+	/// Organization that regulates and issues the qualification
+	public var issuer: Reference?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Period during which the qualification is valid
+	public var period: Period?
+	
+	/// Designated initializer taking all required properties
+	public init(code: CodeableConcept) {
+		self.code = code
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: CodeableConcept,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		issuer: Reference? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period? = nil
+	) {
+		self.init(code: code)
+		self.`extension` = `extension`
+		self.id = id
+		self.identifier = identifier
+		self.issuer = issuer
+		self.modifierExtension = modifierExtension
+		self.period = period
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case `extension` = "extension"
+		case id; case _id
+		case identifier
+		case issuer
+		case modifierExtension
+		case period
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.issuer = try Reference(from: _container, forKeyIfPresent: .issuer)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier?.encode(on: &_container, forKey: .identifier)
+		try issuer?.encode(on: &_container, forKey: .issuer)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period?.encode(on: &_container, forKey: .period)
+	}
+}

@@ -214,4 +214,81 @@ public struct DetectedIssue: DomainResource {
  by the detected issue from manifesting.  Can also reflect an observation of known mitigating factors that may
  reduce/eliminate the need for any action.
  */
-public typealias DetectedIssueMitigation = BackboneElement
+public struct DetectedIssueMitigation: BackboneElement {
+	
+	/// What mitigation?
+	public var action: CodeableConcept
+	
+	/// Who is committing?
+	public var author: Reference?
+	
+	/// Date committed
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(action: CodeableConcept) {
+		self.action = action
+	}
+	
+	/// Convenience initializer
+	public init(
+		action: CodeableConcept,
+		author: Reference? = nil,
+		date: FHIRPrimitive<DateTime>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(action: action)
+		self.author = author
+		self.date = date
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case action
+		case author
+		case date; case _date
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.action = try CodeableConcept(from: _container, forKey: .action)
+		self.author = try Reference(from: _container, forKeyIfPresent: .author)
+		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try action.encode(on: &_container, forKey: .action)
+		try author?.encode(on: &_container, forKey: .author)
+		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

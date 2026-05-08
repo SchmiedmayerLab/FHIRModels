@@ -255,20 +255,20 @@ public struct SpecimenCollection: BackboneElement {
 	/// All possible types for "collected[x]"
 	public enum CollectedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "device[x]"
 	public enum DeviceX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "fastingStatus[x]"
 	public enum FastingStatusX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case duration(Duration)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case duration(Duration)
 	}
 	
 	/// Anatomical collection site
@@ -482,8 +482,8 @@ public struct SpecimenContainer: BackboneElement {
 	/// All possible types for "device[x]"
 	public enum DeviceX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Device resource for the container
@@ -679,15 +679,15 @@ public struct SpecimenProcessing: BackboneElement {
 	/// All possible types for "device[x]"
 	public enum DeviceX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "time[x]"
 	public enum TimeX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
+		indirect case duration(Duration)
+		indirect case period(Period)
 	}
 	
 	/// Material used in the processing step

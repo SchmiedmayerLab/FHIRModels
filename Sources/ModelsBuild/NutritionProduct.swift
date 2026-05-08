@@ -219,11 +219,11 @@ public struct NutritionProductCharacteristic: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case base64Binary(FHIRPrimitive<Base64Binary>)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -366,8 +366,8 @@ public struct NutritionProductIngredient: BackboneElement {
 	
 	/// All possible types for "amount[x]"
 	public enum AmountX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 	}
 	
 	/// A known or suspected allergenic and/or substance that is associated with an intolerance
@@ -594,8 +594,8 @@ public struct NutritionProductNutrient: BackboneElement {
 	
 	/// All possible types for "amount[x]"
 	public enum AmountX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 	}
 	
 	/// The amount of nutrient present in the product

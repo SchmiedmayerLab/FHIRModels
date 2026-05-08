@@ -30,7 +30,7 @@ public struct EvidenceVariable: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -399,9 +399,9 @@ public struct EvidenceVariableCategory: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Additional content defined by implementations
@@ -513,14 +513,14 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 	
 	/// All possible types for "duration[x]"
 	public enum DurationX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case range(Range)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "instances[x]"
 	public enum InstancesX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case range(Range)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// Used to specify how two or more characteristics are combined
@@ -826,11 +826,11 @@ public struct EvidenceVariableCharacteristicDefinitionByTypeAndValue: BackboneEl
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case id(FHIRPrimitive<FHIRString>)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 	}
 	
 	/// Device used for determining characteristic
@@ -996,10 +996,10 @@ public struct EvidenceVariableCharacteristicTimeFromEvent: BackboneElement {
 	
 	/// All possible types for "event[x]"
 	public enum EventX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case id(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// Human readable description

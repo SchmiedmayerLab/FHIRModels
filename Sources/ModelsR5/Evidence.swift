@@ -33,12 +33,12 @@ public struct Evidence: DomainResource {
 	/// All possible types for "citeAs[x]"
 	public enum CiteAsX: Equatable, Hashable, Sendable {
 		case markdown(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

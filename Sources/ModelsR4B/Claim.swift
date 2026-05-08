@@ -352,8 +352,8 @@ public struct ClaimAccident: BackboneElement {
 	
 	/// All possible types for "location[x]"
 	public enum LocationX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case reference(Reference)
+		indirect case address(Address)
+		indirect case reference(Reference)
 	}
 	
 	/// When the incident occurred
@@ -564,8 +564,8 @@ public struct ClaimDiagnosis: BackboneElement {
 	
 	/// All possible types for "diagnosis[x]"
 	public enum DiagnosisX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Nature of illness or problem
@@ -814,15 +814,15 @@ public struct ClaimItem: BackboneElement {
 	
 	/// All possible types for "location[x]"
 	public enum LocationX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case address(Address)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Anatomical location
@@ -1488,8 +1488,8 @@ public struct ClaimProcedure: BackboneElement {
 	
 	/// All possible types for "procedure[x]"
 	public enum ProcedureX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// When the procedure was performed
@@ -1708,15 +1708,15 @@ public struct ClaimSupportingInfo: BackboneElement {
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case quantity(Quantity)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

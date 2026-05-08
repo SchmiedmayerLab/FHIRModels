@@ -358,7 +358,7 @@ public struct MedicinalProductAuthorizationProcedure: BackboneElement {
 	/// All possible types for "date[x]"
 	public enum DateX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Applcations submitted to obtain a marketing authorization

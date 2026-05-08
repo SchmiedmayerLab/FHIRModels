@@ -310,8 +310,8 @@ public struct MedicationKnowledgeAdministrationGuidelines: BackboneElement {
 	
 	/// All possible types for "indication[x]"
 	public enum IndicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Dosage for the medication for the specific guidelines
@@ -497,8 +497,8 @@ public struct MedicationKnowledgeAdministrationGuidelinesPatientCharacteristics:
 	
 	/// All possible types for "characteristic[x]"
 	public enum CharacteristicX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
 	}
 	
 	/// Specific characteristic that is relevant to the administration guideline
@@ -691,8 +691,8 @@ public struct MedicationKnowledgeDrugCharacteristic: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case base64Binary(FHIRPrimitive<Base64Binary>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -814,8 +814,8 @@ public struct MedicationKnowledgeIngredient: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations

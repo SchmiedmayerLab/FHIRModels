@@ -31,19 +31,19 @@ public struct Observation: DomainResource {
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case codeableConcept(CodeableConcept)
+		indirect case attachment(Attachment)
+		indirect case codeableConcept(CodeableConcept)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
-		case sampledData(SampledData)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+		indirect case sampledData(SampledData)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}
@@ -428,14 +428,300 @@ public struct Observation: DomainResource {
  value pairs that share the same attributes.  Examples include systolic and diastolic component observations for blood
  pressure measurement and multiple component observations for genetics observations.
  */
-public typealias ObservationComponent = BackboneElement
+public struct ObservationComponent: BackboneElement {
+	
+	/// All possible types for "value[x]"
+	public enum ValueX: Equatable, Hashable, Sendable {
+		indirect case attachment(Attachment)
+		indirect case codeableConcept(CodeableConcept)
+		case dateTime(FHIRPrimitive<DateTime>)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+		indirect case sampledData(SampledData)
+		case string(FHIRPrimitive<FHIRString>)
+		case time(FHIRPrimitive<FHIRTime>)
+	}
+	
+	/// Type of component observation (code / type)
+	public var code: CodeableConcept
+	
+	/// Why the component result is missing
+	public var dataAbsentReason: CodeableConcept?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Provides guide for interpretation of component result
+	public var referenceRange: [ObservationReferenceRange]?
+	
+	/// Actual component result
+	/// One of `value[x]`
+	public var value: ValueX?
+	
+	/// Designated initializer taking all required properties
+	public init(code: CodeableConcept) {
+		self.code = code
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: CodeableConcept,
+		dataAbsentReason: CodeableConcept? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		referenceRange: [ObservationReferenceRange]? = nil,
+		value: ValueX? = nil
+	) {
+		self.init(code: code)
+		self.dataAbsentReason = dataAbsentReason
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.referenceRange = referenceRange
+		self.value = value
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case dataAbsentReason
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case referenceRange
+		case valueAttachment
+		case valueCodeableConcept
+		case valueDateTime; case _valueDateTime
+		case valuePeriod
+		case valueQuantity
+		case valueRange
+		case valueRatio
+		case valueSampledData
+		case valueString; case _valueString
+		case valueTime; case _valueTime
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.dataAbsentReason = try CodeableConcept(from: _container, forKeyIfPresent: .dataAbsentReason)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.referenceRange = try [ObservationReferenceRange](from: _container, forKeyIfPresent: .referenceRange)
+		var _t_value: ValueX? = nil
+		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .quantity(valueQuantity)
+		}
+		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .codeableConcept(valueCodeableConcept)
+		}
+		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .string(valueString)
+		}
+		if let valueRange = try Range(from: _container, forKeyIfPresent: .valueRange) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueRange, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .range(valueRange)
+		}
+		if let valueRatio = try Ratio(from: _container, forKeyIfPresent: .valueRatio) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueRatio, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .ratio(valueRatio)
+		}
+		if let valueSampledData = try SampledData(from: _container, forKeyIfPresent: .valueSampledData) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueSampledData, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .sampledData(valueSampledData)
+		}
+		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueAttachment, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .attachment(valueAttachment)
+		}
+		if let valueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .valueTime, auxiliaryKey: ._valueTime) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueTime, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .time(valueTime)
+		}
+		if let valueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .valueDateTime, auxiliaryKey: ._valueDateTime) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDateTime, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .dateTime(valueDateTime)
+		}
+		if let valuePeriod = try Period(from: _container, forKeyIfPresent: .valuePeriod) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valuePeriod, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .period(valuePeriod)
+		}
+		self.value = _t_value
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try dataAbsentReason?.encode(on: &_container, forKey: .dataAbsentReason)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try referenceRange?.encode(on: &_container, forKey: .referenceRange)
+		if let _enum = value {
+			switch _enum {
+			case .quantity(let _value):
+				try _value.encode(on: &_container, forKey: .valueQuantity)
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
+			case .string(let _value):
+				try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
+			case .range(let _value):
+				try _value.encode(on: &_container, forKey: .valueRange)
+			case .ratio(let _value):
+				try _value.encode(on: &_container, forKey: .valueRatio)
+			case .sampledData(let _value):
+				try _value.encode(on: &_container, forKey: .valueSampledData)
+			case .attachment(let _value):
+				try _value.encode(on: &_container, forKey: .valueAttachment)
+			case .time(let _value):
+				try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
+			case .dateTime(let _value):
+				try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+			case .period(let _value):
+				try _value.encode(on: &_container, forKey: .valuePeriod)
+			}
+		}
+	}
+}
 
 /**
  Provides guide for interpretation.
  
  Guidance on how to interpret the value by comparison to a normal or recommended range.
  */
-public typealias ObservationReferenceRange = BackboneElement
+public struct ObservationReferenceRange: BackboneElement {
+	
+	/// Applicable age range, if relevant
+	public var age: Range?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// High Range, if relevant
+	public var high: Quantity?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Low Range, if relevant
+	public var low: Quantity?
+	
+	/// Indicates the meaning/use of this range of this range
+	public var meaning: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Text based reference range in an observation
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		age: Range? = nil,
+		`extension`: [Extension]? = nil,
+		high: Quantity? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		low: Quantity? = nil,
+		meaning: CodeableConcept? = nil,
+		modifierExtension: [Extension]? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init()
+		self.age = age
+		self.`extension` = `extension`
+		self.high = high
+		self.id = id
+		self.low = low
+		self.meaning = meaning
+		self.modifierExtension = modifierExtension
+		self.text = text
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case age
+		case `extension` = "extension"
+		case high
+		case id; case _id
+		case low
+		case meaning
+		case modifierExtension
+		case text; case _text
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.age = try Range(from: _container, forKeyIfPresent: .age)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.high = try Quantity(from: _container, forKeyIfPresent: .high)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.low = try Quantity(from: _container, forKeyIfPresent: .low)
+		self.meaning = try CodeableConcept(from: _container, forKeyIfPresent: .meaning)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try age?.encode(on: &_container, forKey: .age)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try high?.encode(on: &_container, forKey: .high)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try low?.encode(on: &_container, forKey: .low)
+		try meaning?.encode(on: &_container, forKey: .meaning)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+	}
+}
 
 /**
  Resource related to this observation.
@@ -443,4 +729,74 @@ public typealias ObservationReferenceRange = BackboneElement
  A  reference to another resource (usually another Observation but could  also be a QuestionnaireAnswer) whose
  relationship is defined by the relationship type code.
  */
-public typealias ObservationRelated = BackboneElement
+public struct ObservationRelated: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Resource that is related to this one
+	public var target: Reference
+	
+	/// A code specifying the kind of relationship that exists with the target resource.
+	/// Restricted to: ['has-member', 'derived-from', 'sequel-to', 'replaces', 'qualified-by', 'interfered-by']
+	public var type: FHIRPrimitive<ObservationRelationshipType>?
+	
+	/// Designated initializer taking all required properties
+	public init(target: Reference) {
+		self.target = target
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		target: Reference,
+		type: FHIRPrimitive<ObservationRelationshipType>? = nil
+	) {
+		self.init(target: target)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case target
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.target = try Reference(from: _container, forKey: .target)
+		self.type = try FHIRPrimitive<ObservationRelationshipType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try target.encode(on: &_container, forKey: .target)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}

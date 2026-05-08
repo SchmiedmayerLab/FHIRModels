@@ -284,12 +284,12 @@ public struct RequestOrchestrationAction: BackboneElement {
 	
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case range(Range)
-		case timing(Timing)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case range(Range)
+		indirect case timing(Timing)
 	}
 	
 	/// Sub action
@@ -973,7 +973,7 @@ public struct RequestOrchestrationActionParticipant: BackboneElement {
 	/// All possible types for "actor[x]"
 	public enum ActorX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// Who/what is participating?
@@ -1108,8 +1108,8 @@ public struct RequestOrchestrationActionRelatedAction: BackboneElement {
 	
 	/// All possible types for "offset[x]"
 	public enum OffsetX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// The relationship of the end of this action to the related action.

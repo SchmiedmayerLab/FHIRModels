@@ -197,4 +197,90 @@ public struct Subscription: DomainResource {
  
  Details where to send notifications when resources are received that meet the criteria.
  */
-public typealias SubscriptionChannel = BackboneElement
+public struct SubscriptionChannel: BackboneElement {
+	
+	/// Where the channel points to
+	public var endpoint: FHIRPrimitive<FHIRURI>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Usage depends on the channel type
+	public var header: FHIRPrimitive<FHIRString>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Mimetype to send, or blank for no payload
+	public var payload: FHIRPrimitive<FHIRString>
+	
+	/// The type of channel to send notifications on.
+	/// Restricted to: ['rest-hook', 'websocket', 'email', 'sms', 'message']
+	public var type: FHIRPrimitive<SubscriptionChannelType>
+	
+	/// Designated initializer taking all required properties
+	public init(payload: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<SubscriptionChannelType>) {
+		self.payload = payload
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		endpoint: FHIRPrimitive<FHIRURI>? = nil,
+		`extension`: [Extension]? = nil,
+		header: FHIRPrimitive<FHIRString>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		payload: FHIRPrimitive<FHIRString>,
+		type: FHIRPrimitive<SubscriptionChannelType>
+	) {
+		self.init(payload: payload, type: type)
+		self.endpoint = endpoint
+		self.`extension` = `extension`
+		self.header = header
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case endpoint; case _endpoint
+		case `extension` = "extension"
+		case header; case _header
+		case id; case _id
+		case modifierExtension
+		case payload; case _payload
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.endpoint = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .endpoint, auxiliaryKey: ._endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.header = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .header, auxiliaryKey: ._header)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.payload = try FHIRPrimitive<FHIRString>(from: _container, forKey: .payload, auxiliaryKey: ._payload)
+		self.type = try FHIRPrimitive<SubscriptionChannelType>(from: _container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try endpoint?.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try header?.encode(on: &_container, forKey: .header, auxiliaryKey: ._header)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try payload.encode(on: &_container, forKey: .payload, auxiliaryKey: ._payload)
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}

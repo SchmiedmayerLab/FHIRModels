@@ -615,7 +615,7 @@ public struct MedicationRequestSubstitution: BackboneElement {
 	/// All possible types for "allowed[x]"
 	public enum AllowedX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// Whether substitution is allowed or not

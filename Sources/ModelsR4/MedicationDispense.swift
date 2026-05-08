@@ -32,14 +32,14 @@ public struct MedicationDispense: DomainResource {
 	
 	/// All possible types for "medication[x]"
 	public enum MedicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "statusReason[x]"
 	public enum StatusReasonX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Medication order that authorizes the dispense

@@ -311,9 +311,9 @@ public struct CommunicationPayload: BackboneElement {
 	
 	/// All possible types for "content[x]"
 	public enum ContentX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Message part content

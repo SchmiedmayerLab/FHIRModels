@@ -300,18 +300,281 @@ public struct Immunization: DomainResource {
  
  Reasons why a vaccine was or was not administered.
  */
-public typealias ImmunizationExplanation = BackboneElement
+public struct ImmunizationExplanation: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Why immunization occurred
+	public var reason: [CodeableConcept]?
+	
+	/// Why immunization did not occur
+	public var reasonNotGiven: [CodeableConcept]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		reason: [CodeableConcept]? = nil,
+		reasonNotGiven: [CodeableConcept]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.reason = reason
+		self.reasonNotGiven = reasonNotGiven
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case reason
+		case reasonNotGiven
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.reason = try [CodeableConcept](from: _container, forKeyIfPresent: .reason)
+		self.reasonNotGiven = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonNotGiven)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reason?.encode(on: &_container, forKey: .reason)
+		try reasonNotGiven?.encode(on: &_container, forKey: .reasonNotGiven)
+	}
+}
 
 /**
  Details of a reaction that follows immunization.
  
  Categorical data indicating that an adverse event is associated in time to an immunization.
  */
-public typealias ImmunizationReaction = BackboneElement
+public struct ImmunizationReaction: BackboneElement {
+	
+	/// When reaction started
+	public var date: FHIRPrimitive<DateTime>?
+	
+	/// Additional information on reaction
+	public var detail: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Indicates self-reported reaction
+	public var reported: FHIRPrimitive<FHIRBool>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		date: FHIRPrimitive<DateTime>? = nil,
+		detail: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		reported: FHIRPrimitive<FHIRBool>? = nil
+	) {
+		self.init()
+		self.date = date
+		self.detail = detail
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.reported = reported
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case date; case _date
+		case detail
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case reported; case _reported
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
+		self.detail = try Reference(from: _container, forKeyIfPresent: .detail)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.reported = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .reported, auxiliaryKey: ._reported)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try detail?.encode(on: &_container, forKey: .detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reported?.encode(on: &_container, forKey: .reported, auxiliaryKey: ._reported)
+	}
+}
 
 /**
  What protocol was followed.
  
  Contains information about the protocol(s) under which the vaccine was administered.
  */
-public typealias ImmunizationVaccinationProtocol = BackboneElement
+public struct ImmunizationVaccinationProtocol: BackboneElement {
+	
+	/// Who is responsible for protocol
+	public var authority: Reference?
+	
+	/// Details of vaccine protocol
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Dose number within series
+	public var doseSequence: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Indicates if dose counts towards immunity
+	public var doseStatus: CodeableConcept
+	
+	/// Why dose does (not) count
+	public var doseStatusReason: CodeableConcept?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of vaccine series
+	public var series: FHIRPrimitive<FHIRString>?
+	
+	/// Recommended number of doses for immunity
+	public var seriesDoses: FHIRPrimitive<FHIRPositiveInteger>?
+	
+	/// Disease immunized against
+	public var targetDisease: [CodeableConcept]
+	
+	/// Designated initializer taking all required properties
+	public init(doseSequence: FHIRPrimitive<FHIRPositiveInteger>, doseStatus: CodeableConcept, targetDisease: [CodeableConcept]) {
+		self.doseSequence = doseSequence
+		self.doseStatus = doseStatus
+		self.targetDisease = targetDisease
+	}
+	
+	/// Convenience initializer
+	public init(
+		authority: Reference? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		doseSequence: FHIRPrimitive<FHIRPositiveInteger>,
+		doseStatus: CodeableConcept,
+		doseStatusReason: CodeableConcept? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		series: FHIRPrimitive<FHIRString>? = nil,
+		seriesDoses: FHIRPrimitive<FHIRPositiveInteger>? = nil,
+		targetDisease: [CodeableConcept]
+	) {
+		self.init(doseSequence: doseSequence, doseStatus: doseStatus, targetDisease: targetDisease)
+		self.authority = authority
+		self.description_fhir = description_fhir
+		self.doseStatusReason = doseStatusReason
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.series = series
+		self.seriesDoses = seriesDoses
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case authority
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case doseSequence; case _doseSequence
+		case doseStatus
+		case doseStatusReason
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case series; case _series
+		case seriesDoses; case _seriesDoses
+		case targetDisease
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.authority = try Reference(from: _container, forKeyIfPresent: .authority)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.doseSequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .doseSequence, auxiliaryKey: ._doseSequence)
+		self.doseStatus = try CodeableConcept(from: _container, forKey: .doseStatus)
+		self.doseStatusReason = try CodeableConcept(from: _container, forKeyIfPresent: .doseStatusReason)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.series = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .series, auxiliaryKey: ._series)
+		self.seriesDoses = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .seriesDoses, auxiliaryKey: ._seriesDoses)
+		self.targetDisease = try [CodeableConcept](from: _container, forKey: .targetDisease)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try authority?.encode(on: &_container, forKey: .authority)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try doseSequence.encode(on: &_container, forKey: .doseSequence, auxiliaryKey: ._doseSequence)
+		try doseStatus.encode(on: &_container, forKey: .doseStatus)
+		try doseStatusReason?.encode(on: &_container, forKey: .doseStatusReason)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try series?.encode(on: &_container, forKey: .series, auxiliaryKey: ._series)
+		try seriesDoses?.encode(on: &_container, forKey: .seriesDoses, auxiliaryKey: ._seriesDoses)
+		try targetDisease.encode(on: &_container, forKey: .targetDisease)
+	}
+}

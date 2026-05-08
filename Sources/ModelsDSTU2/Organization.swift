@@ -193,4 +193,89 @@ public struct Organization: DomainResource {
 /**
  Contact for the organization for a certain purpose.
  */
-public typealias OrganizationContact = BackboneElement
+public struct OrganizationContact: BackboneElement {
+	
+	/// Visiting or postal addresses for the contact
+	public var address: Address?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// A name associated with the contact
+	public var name: HumanName?
+	
+	/// The type of contact
+	public var purpose: CodeableConcept?
+	
+	/// Contact details (telephone, email, etc.)  for a contact
+	public var telecom: [ContactPoint]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		address: Address? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: HumanName? = nil,
+		purpose: CodeableConcept? = nil,
+		telecom: [ContactPoint]? = nil
+	) {
+		self.init()
+		self.address = address
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.purpose = purpose
+		self.telecom = telecom
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case address
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name
+		case purpose
+		case telecom
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.address = try Address(from: _container, forKeyIfPresent: .address)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try HumanName(from: _container, forKeyIfPresent: .name)
+		self.purpose = try CodeableConcept(from: _container, forKeyIfPresent: .purpose)
+		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try address?.encode(on: &_container, forKey: .address)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name)
+		try purpose?.encode(on: &_container, forKey: .purpose)
+		try telecom?.encode(on: &_container, forKey: .telecom)
+	}
+}

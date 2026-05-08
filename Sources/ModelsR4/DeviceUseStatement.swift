@@ -32,8 +32,8 @@ public struct DeviceUseStatement: DomainResource {
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// Fulfills plan, proposal or order

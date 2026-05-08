@@ -255,7 +255,7 @@ public struct RegulatedAuthorizationCase: BackboneElement {
 	/// All possible types for "date[x]"
 	public enum DateX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Applications submitted to obtain a regulated authorization. Steps within the longer running case or procedure

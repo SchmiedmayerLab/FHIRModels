@@ -32,34 +32,34 @@ public struct ActivityDefinition: DomainResource {
 	/// All possible types for "asNeeded[x]"
 	public enum AsNeededX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 	}
 	
 	/// All possible types for "product[x]"
 	public enum ProductX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
-		case age(Age)
-		case duration(Duration)
-		case range(Range)
-		case relativeTime(RelativeTime)
-		case timing(Timing)
+		indirect case age(Age)
+		indirect case duration(Duration)
+		indirect case range(Range)
+		indirect case relativeTime(RelativeTime)
+		indirect case timing(Timing)
 	}
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

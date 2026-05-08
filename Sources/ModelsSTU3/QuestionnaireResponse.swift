@@ -330,15 +330,15 @@ public struct QuestionnaireResponseItemAnswer: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 		case uri(FHIRPrimitive<FHIRURI>)

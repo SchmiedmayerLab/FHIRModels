@@ -229,4 +229,81 @@ public struct Location: DomainResource {
  The absolute geographic location of the Location, expressed using the WGS84 datum (This is the same co-ordinate system
  used in KML).
  */
-public typealias LocationPosition = BackboneElement
+public struct LocationPosition: BackboneElement {
+	
+	/// Altitude with WGS84 datum
+	public var altitude: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Latitude with WGS84 datum
+	public var latitude: FHIRPrimitive<FHIRDecimal>
+	
+	/// Longitude with WGS84 datum
+	public var longitude: FHIRPrimitive<FHIRDecimal>
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(latitude: FHIRPrimitive<FHIRDecimal>, longitude: FHIRPrimitive<FHIRDecimal>) {
+		self.latitude = latitude
+		self.longitude = longitude
+	}
+	
+	/// Convenience initializer
+	public init(
+		altitude: FHIRPrimitive<FHIRDecimal>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		latitude: FHIRPrimitive<FHIRDecimal>,
+		longitude: FHIRPrimitive<FHIRDecimal>,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(latitude: latitude, longitude: longitude)
+		self.altitude = altitude
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case altitude; case _altitude
+		case `extension` = "extension"
+		case id; case _id
+		case latitude; case _latitude
+		case longitude; case _longitude
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.altitude = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .altitude, auxiliaryKey: ._altitude)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.latitude = try FHIRPrimitive<FHIRDecimal>(from: _container, forKey: .latitude, auxiliaryKey: ._latitude)
+		self.longitude = try FHIRPrimitive<FHIRDecimal>(from: _container, forKey: .longitude, auxiliaryKey: ._longitude)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try altitude?.encode(on: &_container, forKey: .altitude, auxiliaryKey: ._altitude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try latitude.encode(on: &_container, forKey: .latitude, auxiliaryKey: ._latitude)
+		try longitude.encode(on: &_container, forKey: .longitude, auxiliaryKey: ._longitude)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

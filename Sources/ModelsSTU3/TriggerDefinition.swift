@@ -30,8 +30,8 @@ public struct TriggerDefinition: Element {
 	public enum EventTimingX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case reference(Reference)
-		case timing(Timing)
+		indirect case reference(Reference)
+		indirect case timing(Timing)
 	}
 	
 	/// Triggering data of the event

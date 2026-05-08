@@ -33,13 +33,13 @@ public struct MedicationAdministration: DomainResource {
 	/// All possible types for "effectiveTime[x]"
 	public enum EffectiveTimeX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "medication[x]"
 	public enum MedicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Contained, inline Resources
@@ -310,4 +310,161 @@ public struct MedicationAdministration: DomainResource {
  
  Describes the medication dosage information details e.g. dose, rate, site, route, etc.
  */
-public typealias MedicationAdministrationDosage = BackboneElement
+public struct MedicationAdministrationDosage: BackboneElement {
+	
+	/// All possible types for "rate[x]"
+	public enum RateX: Equatable, Hashable, Sendable {
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+	}
+	
+	/// All possible types for "site[x]"
+	public enum SiteX: Equatable, Hashable, Sendable {
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
+	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// How drug was administered
+	public var method: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Amount administered in one dose
+	public var quantity: Quantity?
+	
+	/// Dose quantity per unit of time
+	/// One of `rate[x]`
+	public var rate: RateX?
+	
+	/// Path of substance into body
+	public var route: CodeableConcept?
+	
+	/// Body site administered to
+	/// One of `site[x]`
+	public var site: SiteX?
+	
+	/// Dosage Instructions
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		method: CodeableConcept? = nil,
+		modifierExtension: [Extension]? = nil,
+		quantity: Quantity? = nil,
+		rate: RateX? = nil,
+		route: CodeableConcept? = nil,
+		site: SiteX? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.method = method
+		self.modifierExtension = modifierExtension
+		self.quantity = quantity
+		self.rate = rate
+		self.route = route
+		self.site = site
+		self.text = text
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case method
+		case modifierExtension
+		case quantity
+		case rateRange
+		case rateRatio
+		case route
+		case siteCodeableConcept
+		case siteReference
+		case text; case _text
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		var _t_rate: RateX? = nil
+		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .ratio(rateRatio)
+		}
+		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRange, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .range(rateRange)
+		}
+		self.rate = _t_rate
+		self.route = try CodeableConcept(from: _container, forKeyIfPresent: .route)
+		var _t_site: SiteX? = nil
+		if let siteCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .siteCodeableConcept) {
+			if _t_site != nil {
+				throw DecodingError.dataCorruptedError(forKey: .siteCodeableConcept, in: _container, debugDescription: "More than one value provided for \"site\"")
+			}
+			_t_site = .codeableConcept(siteCodeableConcept)
+		}
+		if let siteReference = try Reference(from: _container, forKeyIfPresent: .siteReference) {
+			if _t_site != nil {
+				throw DecodingError.dataCorruptedError(forKey: .siteReference, in: _container, debugDescription: "More than one value provided for \"site\"")
+			}
+			_t_site = .reference(siteReference)
+		}
+		self.site = _t_site
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		if let _enum = rate {
+			switch _enum {
+			case .ratio(let _value):
+				try _value.encode(on: &_container, forKey: .rateRatio)
+			case .range(let _value):
+				try _value.encode(on: &_container, forKey: .rateRange)
+			}
+		}
+		try route?.encode(on: &_container, forKey: .route)
+		if let _enum = site {
+			switch _enum {
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .siteCodeableConcept)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .siteReference)
+			}
+		}
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+	}
+}

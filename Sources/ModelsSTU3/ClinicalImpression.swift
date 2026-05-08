@@ -35,7 +35,7 @@ public struct ClinicalImpression: DomainResource {
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Action taken as part of assessment procedure
@@ -317,8 +317,8 @@ public struct ClinicalImpressionFinding: BackboneElement {
 	
 	/// All possible types for "item[x]"
 	public enum ItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Which investigations support finding

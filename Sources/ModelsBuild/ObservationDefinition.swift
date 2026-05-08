@@ -32,12 +32,12 @@ public struct ObservationDefinition: DomainResource {
 	/// All possible types for "device[x]"
 	public enum DeviceX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

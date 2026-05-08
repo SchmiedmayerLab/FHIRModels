@@ -32,7 +32,7 @@ public struct GuidanceResponse: DomainResource {
 	/// All possible types for "module[x]"
 	public enum ModuleX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

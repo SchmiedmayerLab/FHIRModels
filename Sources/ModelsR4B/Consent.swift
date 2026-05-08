@@ -32,8 +32,8 @@ public struct Consent: DomainResource {
 	
 	/// All possible types for "source[x]"
 	public enum SourceX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 	}
 	
 	/// Classification of the consent statement - for indexing/retrieval

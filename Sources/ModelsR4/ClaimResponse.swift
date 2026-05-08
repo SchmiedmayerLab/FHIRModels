@@ -351,15 +351,15 @@ public struct ClaimResponseAddItem: BackboneElement {
 	
 	/// All possible types for "location[x]"
 	public enum LocationX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case address(Address)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Added items adjudication

@@ -530,8 +530,8 @@ public struct GenomicStudyAnalysisInput: BackboneElement {
 	
 	/// All possible types for "generatedBy[x]"
 	public enum GeneratedByX: Equatable, Hashable, Sendable {
-		case identifier(Identifier)
-		case reference(Reference)
+		indirect case identifier(Identifier)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations

@@ -388,8 +388,8 @@ public struct CoverageCostToBeneficiary: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case money(Money)
-		case quantity(Quantity)
+		indirect case money(Money)
+		indirect case quantity(Quantity)
 	}
 	
 	/// Benefit classification

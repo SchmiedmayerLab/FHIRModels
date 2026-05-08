@@ -32,8 +32,8 @@ public struct DetectedIssue: DomainResource {
 	/// All possible types for "identified[x]"
 	public enum IdentifiedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// The provider or device that identified the issue

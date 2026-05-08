@@ -31,13 +31,13 @@ public struct ConceptMap: DomainResource {
 	
 	/// All possible types for "source[x]"
 	public enum SourceX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
@@ -323,21 +323,270 @@ public struct ConceptMap: DomainResource {
  
  Contacts to assist a user in finding and communicating with the publisher.
  */
-public typealias ConceptMapContact = BackboneElement
+public struct ConceptMapContact: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of a individual to contact
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Contact details for individual or publisher
+	public var telecom: [ContactPoint]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		telecom: [ContactPoint]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.telecom = telecom
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case telecom
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try telecom?.encode(on: &_container, forKey: .telecom)
+	}
+}
 
 /**
  Mappings for a concept from the source set.
  
  Mappings for an individual concept in the source to one or more concepts in the target.
  */
-public typealias ConceptMapElement = BackboneElement
+public struct ConceptMapElement: BackboneElement {
+	
+	/// Identifies element being mapped
+	public var code: FHIRPrimitive<FHIRString>?
+	
+	/// Code System (if value set crosses code systems)
+	public var codeSystem: FHIRPrimitive<FHIRURI>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Concept in target system for element
+	public var target: [ConceptMapElementTarget]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: FHIRPrimitive<FHIRString>? = nil,
+		codeSystem: FHIRPrimitive<FHIRURI>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		target: [ConceptMapElementTarget]? = nil
+	) {
+		self.init()
+		self.code = code
+		self.codeSystem = codeSystem
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.target = target
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code; case _code
+		case codeSystem; case _codeSystem
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case target
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .code, auxiliaryKey: ._code)
+		self.codeSystem = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .codeSystem, auxiliaryKey: ._codeSystem)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.target = try [ConceptMapElementTarget](from: _container, forKeyIfPresent: .target)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try codeSystem?.encode(on: &_container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try target?.encode(on: &_container, forKey: .target)
+	}
+}
 
 /**
  Concept in target system for element.
  
  A concept from the target value set that this concept maps to.
  */
-public typealias ConceptMapElementTarget = BackboneElement
+public struct ConceptMapElementTarget: BackboneElement {
+	
+	/// Code that identifies the target element
+	public var code: FHIRPrimitive<FHIRString>?
+	
+	/// System of the target (if necessary)
+	public var codeSystem: FHIRPrimitive<FHIRURI>?
+	
+	/// Description of status/issues in mapping
+	public var comments: FHIRPrimitive<FHIRString>?
+	
+	/// Other elements required for this mapping (from context)
+	public var dependsOn: [ConceptMapElementTargetDependsOn]?
+	
+	/// The equivalence between the source and target concepts (counting for the dependencies and products). The
+	/// equivalence is read from target to source (e.g. the target is 'wider' than the source).
+	/// Restricted to: ['equivalent', 'wider', 'subsumes', 'narrower', 'specializes', 'inexact', 'unmatched']
+	public var equivalence: FHIRPrimitive<ConceptMapEquivalence>
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Other concepts that this mapping also produces
+	public var product: [ConceptMapElementTargetDependsOn]?
+	
+	/// Designated initializer taking all required properties
+	public init(equivalence: FHIRPrimitive<ConceptMapEquivalence>) {
+		self.equivalence = equivalence
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: FHIRPrimitive<FHIRString>? = nil,
+		codeSystem: FHIRPrimitive<FHIRURI>? = nil,
+		comments: FHIRPrimitive<FHIRString>? = nil,
+		dependsOn: [ConceptMapElementTargetDependsOn]? = nil,
+		equivalence: FHIRPrimitive<ConceptMapEquivalence>,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		product: [ConceptMapElementTargetDependsOn]? = nil
+	) {
+		self.init(equivalence: equivalence)
+		self.code = code
+		self.codeSystem = codeSystem
+		self.comments = comments
+		self.dependsOn = dependsOn
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.product = product
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code; case _code
+		case codeSystem; case _codeSystem
+		case comments; case _comments
+		case dependsOn
+		case equivalence; case _equivalence
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case product
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .code, auxiliaryKey: ._code)
+		self.codeSystem = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .codeSystem, auxiliaryKey: ._codeSystem)
+		self.comments = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comments, auxiliaryKey: ._comments)
+		self.dependsOn = try [ConceptMapElementTargetDependsOn](from: _container, forKeyIfPresent: .dependsOn)
+		self.equivalence = try FHIRPrimitive<ConceptMapEquivalence>(from: _container, forKey: .equivalence, auxiliaryKey: ._equivalence)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.product = try [ConceptMapElementTargetDependsOn](from: _container, forKeyIfPresent: .product)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try codeSystem?.encode(on: &_container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)
+		try comments?.encode(on: &_container, forKey: .comments, auxiliaryKey: ._comments)
+		try dependsOn?.encode(on: &_container, forKey: .dependsOn)
+		try equivalence.encode(on: &_container, forKey: .equivalence, auxiliaryKey: ._equivalence)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try product?.encode(on: &_container, forKey: .product)
+	}
+}
 
 /**
  Other elements required for this mapping (from context).
@@ -345,4 +594,81 @@ public typealias ConceptMapElementTarget = BackboneElement
  A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element can
  be resolved, and it has the specified value.
  */
-public typealias ConceptMapElementTargetDependsOn = BackboneElement
+public struct ConceptMapElementTargetDependsOn: BackboneElement {
+	
+	/// Value of the referenced element
+	public var code: FHIRPrimitive<FHIRString>
+	
+	/// Code System (if necessary)
+	public var codeSystem: FHIRPrimitive<FHIRURI>
+	
+	/// Reference to element/field/ValueSet mapping depends on
+	public var element: FHIRPrimitive<FHIRURI>
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(code: FHIRPrimitive<FHIRString>, codeSystem: FHIRPrimitive<FHIRURI>, element: FHIRPrimitive<FHIRURI>) {
+		self.code = code
+		self.codeSystem = codeSystem
+		self.element = element
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: FHIRPrimitive<FHIRString>,
+		codeSystem: FHIRPrimitive<FHIRURI>,
+		element: FHIRPrimitive<FHIRURI>,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(code: code, codeSystem: codeSystem, element: element)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code; case _code
+		case codeSystem; case _codeSystem
+		case element; case _element
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try FHIRPrimitive<FHIRString>(from: _container, forKey: .code, auxiliaryKey: ._code)
+		self.codeSystem = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)
+		self.element = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .element, auxiliaryKey: ._element)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try codeSystem.encode(on: &_container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)
+		try element.encode(on: &_container, forKey: .element, auxiliaryKey: ._element)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

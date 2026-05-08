@@ -30,7 +30,7 @@ public struct Media: DomainResource {
 	/// All possible types for "created[x]"
 	public enum CreatedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Procedure that caused this media to be created

@@ -34,8 +34,8 @@ public struct ClinicalImpression: DomainResource {
 	
 	/// All possible types for "trigger[x]"
 	public enum TriggerX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Actions taken during assessment
@@ -298,7 +298,76 @@ public struct ClinicalImpression: DomainResource {
  
  Specific findings or diagnoses that was considered likely or relevant to ongoing treatment.
  */
-public typealias ClinicalImpressionFinding = BackboneElement
+public struct ClinicalImpressionFinding: BackboneElement {
+	
+	/// Which investigations support finding
+	public var cause: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Specific text or code for finding
+	public var item: CodeableConcept
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(item: CodeableConcept) {
+		self.item = item
+	}
+	
+	/// Convenience initializer
+	public init(
+		cause: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: CodeableConcept,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(item: item)
+		self.cause = cause
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case cause; case _cause
+		case `extension` = "extension"
+		case id; case _id
+		case item
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.cause = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .cause, auxiliaryKey: ._cause)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try CodeableConcept(from: _container, forKey: .item)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try cause?.encode(on: &_container, forKey: .cause, auxiliaryKey: ._cause)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try item.encode(on: &_container, forKey: .item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  One or more sets of investigations (signs, symptions, etc.).
@@ -307,9 +376,147 @@ public typealias ClinicalImpressionFinding = BackboneElement
  depending on the type and context of the assessment. These investigations may include data generated during the
  assessment process, or data previously generated and recorded that is pertinent to the outcomes.
  */
-public typealias ClinicalImpressionInvestigations = BackboneElement
+public struct ClinicalImpressionInvestigations: BackboneElement {
+	
+	/// A name/code for the set
+	public var code: CodeableConcept
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Record of a specific investigation
+	public var item: [Reference]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(code: CodeableConcept) {
+		self.code = code
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: CodeableConcept,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: [Reference]? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(code: code)
+		self.`extension` = `extension`
+		self.id = id
+		self.item = item
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case `extension` = "extension"
+		case id; case _id
+		case item
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try CodeableConcept(from: _container, forKey: .code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try [Reference](from: _container, forKeyIfPresent: .item)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try item?.encode(on: &_container, forKey: .item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Diagnosis considered not possible.
  */
-public typealias ClinicalImpressionRuledOut = BackboneElement
+public struct ClinicalImpressionRuledOut: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Specific text of code for diagnosis
+	public var item: CodeableConcept
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Grounds for elimination
+	public var reason: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init(item: CodeableConcept) {
+		self.item = item
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		item: CodeableConcept,
+		modifierExtension: [Extension]? = nil,
+		reason: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init(item: item)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.reason = reason
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case item
+		case modifierExtension
+		case reason; case _reason
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try CodeableConcept(from: _container, forKey: .item)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.reason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .reason, auxiliaryKey: ._reason)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try item.encode(on: &_container, forKey: .item)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reason?.encode(on: &_container, forKey: .reason, auxiliaryKey: ._reason)
+	}
+}

@@ -33,13 +33,13 @@ public struct MedicationAdministration: DomainResource {
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// All possible types for "medication[x]"
 	public enum MedicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Type of medication usage
@@ -353,8 +353,8 @@ public struct MedicationAdministrationDosage: BackboneElement {
 	
 	/// All possible types for "rate[x]"
 	public enum RateX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
-		case ratio(Ratio)
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Amount of medication per dose

@@ -30,7 +30,7 @@ public struct EvidenceVariable: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -487,10 +487,10 @@ public struct EvidenceVariableCategory: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations
@@ -859,13 +859,13 @@ public struct EvidenceVariableDefinitionModifier: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case expression(Expression)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
-		case relativeTime(RelativeTime)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case expression(Expression)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
+		indirect case relativeTime(RelativeTime)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
@@ -1037,10 +1037,10 @@ public struct EvidenceVariableRelatesTo: BackboneElement {
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case canonical(FHIRPrimitive<Canonical>)
 		case markdown(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

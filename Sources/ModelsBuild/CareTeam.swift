@@ -222,8 +222,8 @@ public struct CareTeamParticipant: BackboneElement {
 	
 	/// All possible types for "effective[x]"
 	public enum EffectiveX: Equatable, Hashable, Sendable {
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// When the member is generally available within this care team

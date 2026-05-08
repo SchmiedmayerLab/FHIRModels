@@ -30,7 +30,7 @@ public struct TestPlan: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -688,7 +688,7 @@ public struct TestPlanTestCaseTestData: BackboneElement {
 	
 	/// All possible types for "source[x]"
 	public enum SourceX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -872,7 +872,7 @@ public struct TestPlanTestCaseTestRunScript: BackboneElement {
 	
 	/// All possible types for "source[x]"
 	public enum SourceX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

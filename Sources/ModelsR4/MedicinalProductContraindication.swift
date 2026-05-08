@@ -189,8 +189,8 @@ public struct MedicinalProductContraindicationOtherTherapy: BackboneElement {
 	
 	/// All possible types for "medication[x]"
 	public enum MedicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations

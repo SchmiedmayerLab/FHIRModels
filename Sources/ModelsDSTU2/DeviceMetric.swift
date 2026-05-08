@@ -214,4 +214,83 @@ public struct DeviceMetric: DomainResource {
 /**
  Describes the calibrations that have been performed or that are required to be performed.
  */
-public typealias DeviceMetricCalibration = BackboneElement
+public struct DeviceMetricCalibration: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Describes the state of the calibration.
+	/// Restricted to: ['not-calibrated', 'calibration-required', 'calibrated', 'unspecified']
+	public var state: FHIRPrimitive<DeviceMetricCalibrationState>?
+	
+	/// Describes the time last calibration has been performed
+	public var time: FHIRPrimitive<Instant>?
+	
+	/// Describes the type of the calibration method.
+	/// Restricted to: ['unspecified', 'offset', 'gain', 'two-point']
+	public var type: FHIRPrimitive<DeviceMetricCalibrationType>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		state: FHIRPrimitive<DeviceMetricCalibrationState>? = nil,
+		time: FHIRPrimitive<Instant>? = nil,
+		type: FHIRPrimitive<DeviceMetricCalibrationType>? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.state = state
+		self.time = time
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case state; case _state
+		case time; case _time
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.state = try FHIRPrimitive<DeviceMetricCalibrationState>(from: _container, forKeyIfPresent: .state, auxiliaryKey: ._state)
+		self.time = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .time, auxiliaryKey: ._time)
+		self.type = try FHIRPrimitive<DeviceMetricCalibrationType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try state?.encode(on: &_container, forKey: .state, auxiliaryKey: ._state)
+		try time?.encode(on: &_container, forKey: .time, auxiliaryKey: ._time)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}

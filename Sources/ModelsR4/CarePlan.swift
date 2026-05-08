@@ -423,15 +423,15 @@ public struct CarePlanActivityDetail: BackboneElement {
 	
 	/// All possible types for "product[x]"
 	public enum ProductX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "scheduled[x]"
 	public enum ScheduledX: Equatable, Hashable, Sendable {
-		case period(Period)
+		indirect case period(Period)
 		case string(FHIRPrimitive<FHIRString>)
-		case timing(Timing)
+		indirect case timing(Timing)
 	}
 	
 	/// Detail type of activity

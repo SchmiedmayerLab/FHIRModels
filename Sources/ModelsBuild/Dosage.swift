@@ -185,17 +185,17 @@ public struct DosageDoseAndRate: Element {
 	
 	/// All possible types for "dose[x]"
 	public enum DoseX: Equatable, Hashable, Sendable {
-		case expression(Expression)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case expression(Expression)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "rate[x]"
 	public enum RateX: Equatable, Hashable, Sendable {
-		case expression(Expression)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
+		indirect case expression(Expression)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
 	}
 	
 	/// Amount of medication per dose

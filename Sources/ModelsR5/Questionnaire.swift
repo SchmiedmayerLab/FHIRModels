@@ -31,7 +31,7 @@ public struct Questionnaire: DomainResource {
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -588,10 +588,10 @@ public struct QuestionnaireItemAnswerOption: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case reference(Reference)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}
@@ -739,13 +739,13 @@ public struct QuestionnaireItemEnableWhen: BackboneElement {
 	/// All possible types for "answer[x]"
 	public enum AnswerX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 	}
@@ -936,15 +936,15 @@ public struct QuestionnaireItemInitial: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 		case uri(FHIRPrimitive<FHIRURI>)

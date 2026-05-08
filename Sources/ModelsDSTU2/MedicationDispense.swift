@@ -32,8 +32,8 @@ public struct MedicationDispense: DomainResource {
 	
 	/// All possible types for "medication[x]"
 	public enum MedicationX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Medication order that authorizes the dispense
@@ -293,7 +293,252 @@ public struct MedicationDispense: DomainResource {
  
  Indicates how the medication is to be used by the patient.
  */
-public typealias MedicationDispenseDosageInstruction = BackboneElement
+public struct MedicationDispenseDosageInstruction: BackboneElement {
+	
+	/// All possible types for "asNeeded[x]"
+	public enum AsNeededX: Equatable, Hashable, Sendable {
+		case boolean(FHIRPrimitive<FHIRBool>)
+		indirect case codeableConcept(CodeableConcept)
+	}
+	
+	/// All possible types for "dose[x]"
+	public enum DoseX: Equatable, Hashable, Sendable {
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+	}
+	
+	/// All possible types for "rate[x]"
+	public enum RateX: Equatable, Hashable, Sendable {
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+	}
+	
+	/// All possible types for "site[x]"
+	public enum SiteX: Equatable, Hashable, Sendable {
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
+	}
+	
+	/// E.g. "Take with food"
+	public var additionalInstructions: CodeableConcept?
+	
+	/// Take "as needed" f(or x)
+	/// One of `asNeeded[x]`
+	public var asNeeded: AsNeededX?
+	
+	/// Amount of medication per dose
+	/// One of `dose[x]`
+	public var dose: DoseX?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Upper limit on medication per unit of time
+	public var maxDosePerPeriod: Ratio?
+	
+	/// Technique for administering medication
+	public var method: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Amount of medication per unit of time
+	/// One of `rate[x]`
+	public var rate: RateX?
+	
+	/// How drug should enter body
+	public var route: CodeableConcept?
+	
+	/// Body site to administer to
+	/// One of `site[x]`
+	public var site: SiteX?
+	
+	/// Dosage Instructions
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// When medication should be administered
+	public var timing: Timing?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		additionalInstructions: CodeableConcept? = nil,
+		asNeeded: AsNeededX? = nil,
+		dose: DoseX? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		maxDosePerPeriod: Ratio? = nil,
+		method: CodeableConcept? = nil,
+		modifierExtension: [Extension]? = nil,
+		rate: RateX? = nil,
+		route: CodeableConcept? = nil,
+		site: SiteX? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil,
+		timing: Timing? = nil
+	) {
+		self.init()
+		self.additionalInstructions = additionalInstructions
+		self.asNeeded = asNeeded
+		self.dose = dose
+		self.`extension` = `extension`
+		self.id = id
+		self.maxDosePerPeriod = maxDosePerPeriod
+		self.method = method
+		self.modifierExtension = modifierExtension
+		self.rate = rate
+		self.route = route
+		self.site = site
+		self.text = text
+		self.timing = timing
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case additionalInstructions
+		case asNeededBoolean; case _asNeededBoolean
+		case asNeededCodeableConcept
+		case doseQuantity
+		case doseRange
+		case `extension` = "extension"
+		case id; case _id
+		case maxDosePerPeriod
+		case method
+		case modifierExtension
+		case rateRange
+		case rateRatio
+		case route
+		case siteCodeableConcept
+		case siteReference
+		case text; case _text
+		case timing
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.additionalInstructions = try CodeableConcept(from: _container, forKeyIfPresent: .additionalInstructions)
+		var _t_asNeeded: AsNeededX? = nil
+		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
+			if _t_asNeeded != nil {
+				throw DecodingError.dataCorruptedError(forKey: .asNeededBoolean, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
+			}
+			_t_asNeeded = .boolean(asNeededBoolean)
+		}
+		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
+			if _t_asNeeded != nil {
+				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
+			}
+			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
+		}
+		self.asNeeded = _t_asNeeded
+		var _t_dose: DoseX? = nil
+		if let doseRange = try Range(from: _container, forKeyIfPresent: .doseRange) {
+			if _t_dose != nil {
+				throw DecodingError.dataCorruptedError(forKey: .doseRange, in: _container, debugDescription: "More than one value provided for \"dose\"")
+			}
+			_t_dose = .range(doseRange)
+		}
+		if let doseQuantity = try Quantity(from: _container, forKeyIfPresent: .doseQuantity) {
+			if _t_dose != nil {
+				throw DecodingError.dataCorruptedError(forKey: .doseQuantity, in: _container, debugDescription: "More than one value provided for \"dose\"")
+			}
+			_t_dose = .quantity(doseQuantity)
+		}
+		self.dose = _t_dose
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.maxDosePerPeriod = try Ratio(from: _container, forKeyIfPresent: .maxDosePerPeriod)
+		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		var _t_rate: RateX? = nil
+		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .ratio(rateRatio)
+		}
+		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRange, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .range(rateRange)
+		}
+		self.rate = _t_rate
+		self.route = try CodeableConcept(from: _container, forKeyIfPresent: .route)
+		var _t_site: SiteX? = nil
+		if let siteCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .siteCodeableConcept) {
+			if _t_site != nil {
+				throw DecodingError.dataCorruptedError(forKey: .siteCodeableConcept, in: _container, debugDescription: "More than one value provided for \"site\"")
+			}
+			_t_site = .codeableConcept(siteCodeableConcept)
+		}
+		if let siteReference = try Reference(from: _container, forKeyIfPresent: .siteReference) {
+			if _t_site != nil {
+				throw DecodingError.dataCorruptedError(forKey: .siteReference, in: _container, debugDescription: "More than one value provided for \"site\"")
+			}
+			_t_site = .reference(siteReference)
+		}
+		self.site = _t_site
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+		self.timing = try Timing(from: _container, forKeyIfPresent: .timing)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try additionalInstructions?.encode(on: &_container, forKey: .additionalInstructions)
+		if let _enum = asNeeded {
+			switch _enum {
+			case .boolean(let _value):
+				try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
+			}
+		}
+		if let _enum = dose {
+			switch _enum {
+			case .range(let _value):
+				try _value.encode(on: &_container, forKey: .doseRange)
+			case .quantity(let _value):
+				try _value.encode(on: &_container, forKey: .doseQuantity)
+			}
+		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try maxDosePerPeriod?.encode(on: &_container, forKey: .maxDosePerPeriod)
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = rate {
+			switch _enum {
+			case .ratio(let _value):
+				try _value.encode(on: &_container, forKey: .rateRatio)
+			case .range(let _value):
+				try _value.encode(on: &_container, forKey: .rateRange)
+			}
+		}
+		try route?.encode(on: &_container, forKey: .route)
+		if let _enum = site {
+			switch _enum {
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .siteCodeableConcept)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .siteReference)
+			}
+		}
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+		try timing?.encode(on: &_container, forKey: .timing)
+	}
+}
 
 /**
  Deals with substitution of one medicine for another.
@@ -302,4 +547,81 @@ public typealias MedicationDispenseDosageInstruction = BackboneElement
  but does not happen, in other cases substitution is not expected but does happen.  This block explains what
  substitution did or did not happen and why.
  */
-public typealias MedicationDispenseSubstitution = BackboneElement
+public struct MedicationDispenseSubstitution: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Why was substitution made
+	public var reason: [CodeableConcept]?
+	
+	/// Who is responsible for the substitution
+	public var responsibleParty: [Reference]?
+	
+	/// Type of substitution
+	public var type: CodeableConcept
+	
+	/// Designated initializer taking all required properties
+	public init(type: CodeableConcept) {
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		reason: [CodeableConcept]? = nil,
+		responsibleParty: [Reference]? = nil,
+		type: CodeableConcept
+	) {
+		self.init(type: type)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.reason = reason
+		self.responsibleParty = responsibleParty
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case reason
+		case responsibleParty
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.reason = try [CodeableConcept](from: _container, forKeyIfPresent: .reason)
+		self.responsibleParty = try [Reference](from: _container, forKeyIfPresent: .responsibleParty)
+		self.type = try CodeableConcept(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reason?.encode(on: &_container, forKey: .reason)
+		try responsibleParty?.encode(on: &_container, forKey: .responsibleParty)
+		try type.encode(on: &_container, forKey: .type)
+	}
+}

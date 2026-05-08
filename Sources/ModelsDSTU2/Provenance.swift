@@ -217,7 +217,92 @@ public struct Provenance: DomainResource {
  taking place. An agent can be a person, an organization, software, or other entities that may be ascribed
  responsibility.
  */
-public typealias ProvenanceAgent = BackboneElement
+public struct ProvenanceAgent: BackboneElement {
+	
+	/// Individual, device or organization playing role
+	public var actor: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Track delegation between agents
+	public var relatedAgent: [ProvenanceAgentRelatedAgent]?
+	
+	/// What the agents involvement was
+	public var role: Coding
+	
+	/// Authorization-system identifier for the agent
+	public var userId: Identifier?
+	
+	/// Designated initializer taking all required properties
+	public init(role: Coding) {
+		self.role = role
+	}
+	
+	/// Convenience initializer
+	public init(
+		actor: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		relatedAgent: [ProvenanceAgentRelatedAgent]? = nil,
+		role: Coding,
+		userId: Identifier? = nil
+	) {
+		self.init(role: role)
+		self.actor = actor
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.relatedAgent = relatedAgent
+		self.userId = userId
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case actor
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case relatedAgent
+		case role
+		case userId
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.actor = try Reference(from: _container, forKeyIfPresent: .actor)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.relatedAgent = try [ProvenanceAgentRelatedAgent](from: _container, forKeyIfPresent: .relatedAgent)
+		self.role = try Coding(from: _container, forKey: .role)
+		self.userId = try Identifier(from: _container, forKeyIfPresent: .userId)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try actor?.encode(on: &_container, forKey: .actor)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try relatedAgent?.encode(on: &_container, forKey: .relatedAgent)
+		try role.encode(on: &_container, forKey: .role)
+		try userId?.encode(on: &_container, forKey: .userId)
+	}
+}
 
 /**
  Track delegation between agents.
@@ -226,9 +311,172 @@ public typealias ProvenanceAgent = BackboneElement
  the delegation between agents.  For example, this human author used this device, or one person acted on another's
  behest.
  */
-public typealias ProvenanceAgentRelatedAgent = BackboneElement
+public struct ProvenanceAgentRelatedAgent: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Reference to other agent in this resource by identifier
+	public var target: FHIRPrimitive<FHIRURI>
+	
+	/// Type of relationship between agents
+	public var type: CodeableConcept
+	
+	/// Designated initializer taking all required properties
+	public init(target: FHIRPrimitive<FHIRURI>, type: CodeableConcept) {
+		self.target = target
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		target: FHIRPrimitive<FHIRURI>,
+		type: CodeableConcept
+	) {
+		self.init(target: target, type: type)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case target; case _target
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.target = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .target, auxiliaryKey: ._target)
+		self.type = try CodeableConcept(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try target.encode(on: &_container, forKey: .target, auxiliaryKey: ._target)
+		try type.encode(on: &_container, forKey: .type)
+	}
+}
 
 /**
  An entity used in this activity.
  */
-public typealias ProvenanceEntity = BackboneElement
+public struct ProvenanceEntity: BackboneElement {
+	
+	/// Entity is attributed to this agent
+	public var agent: ProvenanceAgent?
+	
+	/// Human description of entity
+	public var display: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Identity of entity
+	public var reference: FHIRPrimitive<FHIRURI>
+	
+	/// How the entity was used during the activity.
+	/// Restricted to: ['derivation']
+	public var role: FHIRPrimitive<ProvenanceEntityRole>
+	
+	/// The type of resource in this entity
+	public var type: Coding
+	
+	/// Designated initializer taking all required properties
+	public init(reference: FHIRPrimitive<FHIRURI>, role: FHIRPrimitive<ProvenanceEntityRole>, type: Coding) {
+		self.reference = reference
+		self.role = role
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		agent: ProvenanceAgent? = nil,
+		display: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		reference: FHIRPrimitive<FHIRURI>,
+		role: FHIRPrimitive<ProvenanceEntityRole>,
+		type: Coding
+	) {
+		self.init(reference: reference, role: role, type: type)
+		self.agent = agent
+		self.display = display
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case agent
+		case display; case _display
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case reference; case _reference
+		case role; case _role
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.agent = try ProvenanceAgent(from: _container, forKeyIfPresent: .agent)
+		self.display = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .display, auxiliaryKey: ._display)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.reference = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .reference, auxiliaryKey: ._reference)
+		self.role = try FHIRPrimitive<ProvenanceEntityRole>(from: _container, forKey: .role, auxiliaryKey: ._role)
+		self.type = try Coding(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try agent?.encode(on: &_container, forKey: .agent)
+		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reference.encode(on: &_container, forKey: .reference, auxiliaryKey: ._reference)
+		try role.encode(on: &_container, forKey: .role, auxiliaryKey: ._role)
+		try type.encode(on: &_container, forKey: .type)
+	}
+}

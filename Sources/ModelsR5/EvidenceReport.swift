@@ -32,7 +32,7 @@ public struct EvidenceReport: DomainResource {
 	/// All possible types for "citeAs[x]"
 	public enum CiteAsX: Equatable, Hashable, Sendable {
 		case markdown(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// Who authored the content
@@ -707,10 +707,10 @@ public struct EvidenceReportSubjectCharacteristic: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 	}
 	
 	/// Characteristic code

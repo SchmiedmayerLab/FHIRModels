@@ -30,13 +30,13 @@ public struct SpecimenDefinition: DomainResource {
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "versionAlgorithm[x]"
 	public enum VersionAlgorithmX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -551,7 +551,7 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 	
 	/// All possible types for "minimumVolume[x]"
 	public enum MinimumVolumeX: Equatable, Hashable, Sendable {
-		case quantity(Quantity)
+		indirect case quantity(Quantity)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -704,8 +704,8 @@ public struct SpecimenDefinitionTypeTestedContainerAdditive: BackboneElement {
 	
 	/// All possible types for "additive[x]"
 	public enum AdditiveX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Additive associated with container

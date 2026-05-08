@@ -221,7 +221,7 @@ public struct BiologicallyDerivedProductCollection: BackboneElement {
 	/// All possible types for "collected[x]"
 	public enum CollectedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Time of product collection
@@ -334,7 +334,7 @@ public struct BiologicallyDerivedProductManipulation: BackboneElement {
 	/// All possible types for "time[x]"
 	public enum TimeX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Description of manipulation
@@ -439,7 +439,7 @@ public struct BiologicallyDerivedProductProcessing: BackboneElement {
 	/// All possible types for "time[x]"
 	public enum TimeX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Substance added during processing

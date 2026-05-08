@@ -191,25 +191,341 @@ public struct ImagingObjectSelection: DomainResource {
  
  Study identity and locating information of the DICOM SOP instances in the selection.
  */
-public typealias ImagingObjectSelectionStudy = BackboneElement
+public struct ImagingObjectSelectionStudy: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Reference to ImagingStudy
+	public var imagingStudy: Reference?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Series identity of the selected instances
+	public var series: [ImagingObjectSelectionStudySeries]
+	
+	/// Study instance UID
+	public var uid: FHIRPrimitive<FHIRURI>
+	
+	/// Retrieve study URL
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Designated initializer taking all required properties
+	public init(series: [ImagingObjectSelectionStudySeries], uid: FHIRPrimitive<FHIRURI>) {
+		self.series = series
+		self.uid = uid
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		imagingStudy: Reference? = nil,
+		modifierExtension: [Extension]? = nil,
+		series: [ImagingObjectSelectionStudySeries],
+		uid: FHIRPrimitive<FHIRURI>,
+		url: FHIRPrimitive<FHIRURI>? = nil
+	) {
+		self.init(series: series, uid: uid)
+		self.`extension` = `extension`
+		self.id = id
+		self.imagingStudy = imagingStudy
+		self.modifierExtension = modifierExtension
+		self.url = url
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case imagingStudy
+		case modifierExtension
+		case series
+		case uid; case _uid
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.imagingStudy = try Reference(from: _container, forKeyIfPresent: .imagingStudy)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.series = try [ImagingObjectSelectionStudySeries](from: _container, forKey: .series)
+		self.uid = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .uid, auxiliaryKey: ._uid)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try imagingStudy?.encode(on: &_container, forKey: .imagingStudy)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try series.encode(on: &_container, forKey: .series)
+		try uid.encode(on: &_container, forKey: .uid, auxiliaryKey: ._uid)
+		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}
 
 /**
  Series identity of the selected instances.
  
  Series identity and locating information of the DICOM SOP instances in the selection.
  */
-public typealias ImagingObjectSelectionStudySeries = BackboneElement
+public struct ImagingObjectSelectionStudySeries: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The selected instance
+	public var instance: [ImagingObjectSelectionStudySeriesInstance]
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Series instance UID
+	public var uid: FHIRPrimitive<FHIRURI>?
+	
+	/// Retrieve series URL
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Designated initializer taking all required properties
+	public init(instance: [ImagingObjectSelectionStudySeriesInstance]) {
+		self.instance = instance
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		instance: [ImagingObjectSelectionStudySeriesInstance],
+		modifierExtension: [Extension]? = nil,
+		uid: FHIRPrimitive<FHIRURI>? = nil,
+		url: FHIRPrimitive<FHIRURI>? = nil
+	) {
+		self.init(instance: instance)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.uid = uid
+		self.url = url
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case instance
+		case modifierExtension
+		case uid; case _uid
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.instance = try [ImagingObjectSelectionStudySeriesInstance](from: _container, forKey: .instance)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.uid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .uid, auxiliaryKey: ._uid)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try instance.encode(on: &_container, forKey: .instance)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try uid?.encode(on: &_container, forKey: .uid, auxiliaryKey: ._uid)
+		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}
 
 /**
  The selected instance.
  
  Identity and locating information of the selected DICOM SOP instances.
  */
-public typealias ImagingObjectSelectionStudySeriesInstance = BackboneElement
+public struct ImagingObjectSelectionStudySeriesInstance: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The frame set
+	public var frames: [ImagingObjectSelectionStudySeriesInstanceFrames]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// SOP class UID of instance
+	public var sopClass: FHIRPrimitive<FHIRURI>
+	
+	/// Selected instance UID
+	public var uid: FHIRPrimitive<FHIRURI>
+	
+	/// Retrieve instance URL
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// Designated initializer taking all required properties
+	public init(sopClass: FHIRPrimitive<FHIRURI>, uid: FHIRPrimitive<FHIRURI>, url: FHIRPrimitive<FHIRURI>) {
+		self.sopClass = sopClass
+		self.uid = uid
+		self.url = url
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		frames: [ImagingObjectSelectionStudySeriesInstanceFrames]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		sopClass: FHIRPrimitive<FHIRURI>,
+		uid: FHIRPrimitive<FHIRURI>,
+		url: FHIRPrimitive<FHIRURI>
+	) {
+		self.init(sopClass: sopClass, uid: uid, url: url)
+		self.`extension` = `extension`
+		self.frames = frames
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case frames
+		case id; case _id
+		case modifierExtension
+		case sopClass; case _sopClass
+		case uid; case _uid
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.frames = try [ImagingObjectSelectionStudySeriesInstanceFrames](from: _container, forKeyIfPresent: .frames)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.sopClass = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .sopClass, auxiliaryKey: ._sopClass)
+		self.uid = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .uid, auxiliaryKey: ._uid)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try frames?.encode(on: &_container, forKey: .frames)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try sopClass.encode(on: &_container, forKey: .sopClass, auxiliaryKey: ._sopClass)
+		try uid.encode(on: &_container, forKey: .uid, auxiliaryKey: ._uid)
+		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}
 
 /**
  The frame set.
  
  Identity and location information of the frames in the selected instance.
  */
-public typealias ImagingObjectSelectionStudySeriesInstanceFrames = BackboneElement
+public struct ImagingObjectSelectionStudySeriesInstanceFrames: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Frame numbers
+	public var frameNumbers: [FHIRPrimitive<FHIRUnsignedInteger>]
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Retrieve frame URL
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// Designated initializer taking all required properties
+	public init(frameNumbers: [FHIRPrimitive<FHIRUnsignedInteger>], url: FHIRPrimitive<FHIRURI>) {
+		self.frameNumbers = frameNumbers
+		self.url = url
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		frameNumbers: [FHIRPrimitive<FHIRUnsignedInteger>],
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		url: FHIRPrimitive<FHIRURI>
+	) {
+		self.init(frameNumbers: frameNumbers, url: url)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case frameNumbers; case _frameNumbers
+		case id; case _id
+		case modifierExtension
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.frameNumbers = try [FHIRPrimitive<FHIRUnsignedInteger>](from: _container, forKey: .frameNumbers, auxiliaryKey: ._frameNumbers)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try frameNumbers.encode(on: &_container, forKey: .frameNumbers, auxiliaryKey: ._frameNumbers)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}

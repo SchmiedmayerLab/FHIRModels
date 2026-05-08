@@ -140,32 +140,459 @@ public struct Bundle: Resource {
  An entry in a bundle resource - will either contain a resource, or information about a resource (transactions and
  history only).
  */
-public typealias BundleEntry = BackboneElement
+public struct BundleEntry: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Absolute URL for resource (server address, or UUID/OID)
+	public var fullUrl: FHIRPrimitive<FHIRURI>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Links related to this entry
+	public var link: [BundleLink]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Transaction Related Information
+	public var request: BundleEntryRequest?
+	
+	/// A resource in the bundle
+	public var resource: ResourceProxy?
+	
+	/// Transaction Related Information
+	public var response: BundleEntryResponse?
+	
+	/// Search related information
+	public var search: BundleEntrySearch?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		fullUrl: FHIRPrimitive<FHIRURI>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		link: [BundleLink]? = nil,
+		modifierExtension: [Extension]? = nil,
+		request: BundleEntryRequest? = nil,
+		resource: ResourceProxy? = nil,
+		response: BundleEntryResponse? = nil,
+		search: BundleEntrySearch? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.fullUrl = fullUrl
+		self.id = id
+		self.link = link
+		self.modifierExtension = modifierExtension
+		self.request = request
+		self.resource = resource
+		self.response = response
+		self.search = search
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case fullUrl; case _fullUrl
+		case id; case _id
+		case link
+		case modifierExtension
+		case request
+		case resource
+		case response
+		case search
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.fullUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .fullUrl, auxiliaryKey: ._fullUrl)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.link = try [BundleLink](from: _container, forKeyIfPresent: .link)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.request = try BundleEntryRequest(from: _container, forKeyIfPresent: .request)
+		self.resource = try ResourceProxy(from: _container, forKeyIfPresent: .resource)
+		self.response = try BundleEntryResponse(from: _container, forKeyIfPresent: .response)
+		self.search = try BundleEntrySearch(from: _container, forKeyIfPresent: .search)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try fullUrl?.encode(on: &_container, forKey: .fullUrl, auxiliaryKey: ._fullUrl)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try link?.encode(on: &_container, forKey: .link)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try request?.encode(on: &_container, forKey: .request)
+		try resource?.encode(on: &_container, forKey: .resource)
+		try response?.encode(on: &_container, forKey: .response)
+		try search?.encode(on: &_container, forKey: .search)
+	}
+}
 
 /**
  Transaction Related Information.
  
  Additional information about how this entry should be processed as part of a transaction.
  */
-public typealias BundleEntryRequest = BackboneElement
+public struct BundleEntryRequest: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// For managing update contention
+	public var ifMatch: FHIRPrimitive<FHIRString>?
+	
+	/// For managing update contention
+	public var ifModifiedSince: FHIRPrimitive<Instant>?
+	
+	/// For conditional creates
+	public var ifNoneExist: FHIRPrimitive<FHIRString>?
+	
+	/// For managing cache currency
+	public var ifNoneMatch: FHIRPrimitive<FHIRString>?
+	
+	/// The HTTP verb for this entry in either a update history, or a transaction/ transaction response.
+	/// Restricted to: ['GET', 'POST', 'PUT', 'DELETE']
+	public var method: FHIRPrimitive<HTTPVerb>
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// URL for HTTP equivalent of this entry
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// Designated initializer taking all required properties
+	public init(method: FHIRPrimitive<HTTPVerb>, url: FHIRPrimitive<FHIRURI>) {
+		self.method = method
+		self.url = url
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		ifMatch: FHIRPrimitive<FHIRString>? = nil,
+		ifModifiedSince: FHIRPrimitive<Instant>? = nil,
+		ifNoneExist: FHIRPrimitive<FHIRString>? = nil,
+		ifNoneMatch: FHIRPrimitive<FHIRString>? = nil,
+		method: FHIRPrimitive<HTTPVerb>,
+		modifierExtension: [Extension]? = nil,
+		url: FHIRPrimitive<FHIRURI>
+	) {
+		self.init(method: method, url: url)
+		self.`extension` = `extension`
+		self.id = id
+		self.ifMatch = ifMatch
+		self.ifModifiedSince = ifModifiedSince
+		self.ifNoneExist = ifNoneExist
+		self.ifNoneMatch = ifNoneMatch
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case ifMatch; case _ifMatch
+		case ifModifiedSince; case _ifModifiedSince
+		case ifNoneExist; case _ifNoneExist
+		case ifNoneMatch; case _ifNoneMatch
+		case method; case _method
+		case modifierExtension
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.ifMatch = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .ifMatch, auxiliaryKey: ._ifMatch)
+		self.ifModifiedSince = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .ifModifiedSince, auxiliaryKey: ._ifModifiedSince)
+		self.ifNoneExist = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .ifNoneExist, auxiliaryKey: ._ifNoneExist)
+		self.ifNoneMatch = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .ifNoneMatch, auxiliaryKey: ._ifNoneMatch)
+		self.method = try FHIRPrimitive<HTTPVerb>(from: _container, forKey: .method, auxiliaryKey: ._method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try ifMatch?.encode(on: &_container, forKey: .ifMatch, auxiliaryKey: ._ifMatch)
+		try ifModifiedSince?.encode(on: &_container, forKey: .ifModifiedSince, auxiliaryKey: ._ifModifiedSince)
+		try ifNoneExist?.encode(on: &_container, forKey: .ifNoneExist, auxiliaryKey: ._ifNoneExist)
+		try ifNoneMatch?.encode(on: &_container, forKey: .ifNoneMatch, auxiliaryKey: ._ifNoneMatch)
+		try method.encode(on: &_container, forKey: .method, auxiliaryKey: ._method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}
 
 /**
  Transaction Related Information.
  
  Additional information about how this entry should be processed as part of a transaction.
  */
-public typealias BundleEntryResponse = BackboneElement
+public struct BundleEntryResponse: BackboneElement {
+	
+	/// The etag for the resource (if relevant)
+	public var etag: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Server's date time modified
+	public var lastModified: FHIRPrimitive<Instant>?
+	
+	/// The location, if the operation returns a location
+	public var location: FHIRPrimitive<FHIRURI>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Status return code for entry
+	public var status: FHIRPrimitive<FHIRString>
+	
+	/// Designated initializer taking all required properties
+	public init(status: FHIRPrimitive<FHIRString>) {
+		self.status = status
+	}
+	
+	/// Convenience initializer
+	public init(
+		etag: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		lastModified: FHIRPrimitive<Instant>? = nil,
+		location: FHIRPrimitive<FHIRURI>? = nil,
+		modifierExtension: [Extension]? = nil,
+		status: FHIRPrimitive<FHIRString>
+	) {
+		self.init(status: status)
+		self.etag = etag
+		self.`extension` = `extension`
+		self.id = id
+		self.lastModified = lastModified
+		self.location = location
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case etag; case _etag
+		case `extension` = "extension"
+		case id; case _id
+		case lastModified; case _lastModified
+		case location; case _location
+		case modifierExtension
+		case status; case _status
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.etag = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .etag, auxiliaryKey: ._etag)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.lastModified = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .lastModified, auxiliaryKey: ._lastModified)
+		self.location = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .location, auxiliaryKey: ._location)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKey: .status, auxiliaryKey: ._status)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try etag?.encode(on: &_container, forKey: .etag, auxiliaryKey: ._etag)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try lastModified?.encode(on: &_container, forKey: .lastModified, auxiliaryKey: ._lastModified)
+		try location?.encode(on: &_container, forKey: .location, auxiliaryKey: ._location)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+	}
+}
 
 /**
  Search related information.
  
  Information about the search process that lead to the creation of this entry.
  */
-public typealias BundleEntrySearch = BackboneElement
+public struct BundleEntrySearch: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Why this entry is in the result set - whether it's included as a match or because of an _include requirement.
+	/// Restricted to: ['match', 'include', 'outcome']
+	public var mode: FHIRPrimitive<SearchEntryMode>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Search ranking (between 0 and 1)
+	public var score: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		mode: FHIRPrimitive<SearchEntryMode>? = nil,
+		modifierExtension: [Extension]? = nil,
+		score: FHIRPrimitive<FHIRDecimal>? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.mode = mode
+		self.modifierExtension = modifierExtension
+		self.score = score
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case mode; case _mode
+		case modifierExtension
+		case score; case _score
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.mode = try FHIRPrimitive<SearchEntryMode>(from: _container, forKeyIfPresent: .mode, auxiliaryKey: ._mode)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.score = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .score, auxiliaryKey: ._score)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try mode?.encode(on: &_container, forKey: .mode, auxiliaryKey: ._mode)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try score?.encode(on: &_container, forKey: .score, auxiliaryKey: ._score)
+	}
+}
 
 /**
  Links related to this Bundle.
  
  A series of links that provide context to this bundle.
  */
-public typealias BundleLink = BackboneElement
+public struct BundleLink: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// http://www.iana.org/assignments/link-relations/link-relations.xhtml
+	public var relation: FHIRPrimitive<FHIRString>
+	
+	/// Reference details for the link
+	public var url: FHIRPrimitive<FHIRURI>
+	
+	/// Designated initializer taking all required properties
+	public init(relation: FHIRPrimitive<FHIRString>, url: FHIRPrimitive<FHIRURI>) {
+		self.relation = relation
+		self.url = url
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		relation: FHIRPrimitive<FHIRString>,
+		url: FHIRPrimitive<FHIRURI>
+	) {
+		self.init(relation: relation, url: url)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case relation; case _relation
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.relation = try FHIRPrimitive<FHIRString>(from: _container, forKey: .relation, auxiliaryKey: ._relation)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try relation.encode(on: &_container, forKey: .relation, auxiliaryKey: ._relation)
+		try url.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}

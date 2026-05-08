@@ -32,8 +32,8 @@ public struct PlanDefinition: DomainResource {
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Action defined by the plan
@@ -417,18 +417,18 @@ public struct PlanDefinitionAction: BackboneElement {
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
-		case age(Age)
+		indirect case age(Age)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case range(Range)
-		case timing(Timing)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case range(Range)
+		indirect case timing(Timing)
 	}
 	
 	/// A sub-action
@@ -1041,8 +1041,8 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 	
 	/// All possible types for "offset[x]"
 	public enum OffsetX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case range(Range)
 	}
 	
 	/// What action is this related to
@@ -1270,9 +1270,9 @@ public struct PlanDefinitionGoalTarget: BackboneElement {
 	
 	/// All possible types for "detail[x]"
 	public enum DetailX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 	}
 	
 	/// The target value to be achieved

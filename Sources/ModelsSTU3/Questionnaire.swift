@@ -302,15 +302,15 @@ public struct QuestionnaireItem: BackboneElement {
 	
 	/// All possible types for "initial[x]"
 	public enum InitialX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 		case uri(FHIRPrimitive<FHIRURI>)
@@ -612,15 +612,15 @@ public struct QuestionnaireItemEnableWhen: BackboneElement {
 	
 	/// All possible types for "answer[x]"
 	public enum AnswerX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
 		case uri(FHIRPrimitive<FHIRURI>)
@@ -824,7 +824,7 @@ public struct QuestionnaireItemOption: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case coding(Coding)
+		indirect case coding(Coding)
 		case date(FHIRPrimitive<FHIRDate>)
 		case integer(FHIRPrimitive<FHIRInteger>)
 		case string(FHIRPrimitive<FHIRString>)

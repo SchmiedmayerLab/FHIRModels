@@ -30,7 +30,7 @@ public struct DeviceDefinition: DomainResource {
 	
 	/// All possible types for "manufacturer[x]"
 	public enum ManufacturerX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

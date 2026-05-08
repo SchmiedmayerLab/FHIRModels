@@ -210,7 +210,136 @@ public struct Specimen: DomainResource {
  
  Details concerning the specimen collection.
  */
-public typealias SpecimenCollection = BackboneElement
+public struct SpecimenCollection: BackboneElement {
+	
+	/// All possible types for "collected[x]"
+	public enum CollectedX: Equatable, Hashable, Sendable {
+		case dateTime(FHIRPrimitive<DateTime>)
+		indirect case period(Period)
+	}
+	
+	/// Anatomical collection site
+	public var bodySite: CodeableConcept?
+	
+	/// Collection time
+	/// One of `collected[x]`
+	public var collected: CollectedX?
+	
+	/// Who collected the specimen
+	public var collector: Reference?
+	
+	/// Collector comments
+	public var comment: [FHIRPrimitive<FHIRString>]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Technique used to perform collection
+	public var method: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The quantity of specimen collected
+	public var quantity: Quantity?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		bodySite: CodeableConcept? = nil,
+		collected: CollectedX? = nil,
+		collector: Reference? = nil,
+		comment: [FHIRPrimitive<FHIRString>]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		method: CodeableConcept? = nil,
+		modifierExtension: [Extension]? = nil,
+		quantity: Quantity? = nil
+	) {
+		self.init()
+		self.bodySite = bodySite
+		self.collected = collected
+		self.collector = collector
+		self.comment = comment
+		self.`extension` = `extension`
+		self.id = id
+		self.method = method
+		self.modifierExtension = modifierExtension
+		self.quantity = quantity
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case bodySite
+		case collectedDateTime; case _collectedDateTime
+		case collectedPeriod
+		case collector
+		case comment; case _comment
+		case `extension` = "extension"
+		case id; case _id
+		case method
+		case modifierExtension
+		case quantity
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
+		var _t_collected: CollectedX? = nil
+		if let collectedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .collectedDateTime, auxiliaryKey: ._collectedDateTime) {
+			if _t_collected != nil {
+				throw DecodingError.dataCorruptedError(forKey: .collectedDateTime, in: _container, debugDescription: "More than one value provided for \"collected\"")
+			}
+			_t_collected = .dateTime(collectedDateTime)
+		}
+		if let collectedPeriod = try Period(from: _container, forKeyIfPresent: .collectedPeriod) {
+			if _t_collected != nil {
+				throw DecodingError.dataCorruptedError(forKey: .collectedPeriod, in: _container, debugDescription: "More than one value provided for \"collected\"")
+			}
+			_t_collected = .period(collectedPeriod)
+		}
+		self.collected = _t_collected
+		self.collector = try Reference(from: _container, forKeyIfPresent: .collector)
+		self.comment = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .comment, auxiliaryKey: ._comment)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		if let _enum = collected {
+			switch _enum {
+			case .dateTime(let _value):
+				try _value.encode(on: &_container, forKey: .collectedDateTime, auxiliaryKey: ._collectedDateTime)
+			case .period(let _value):
+				try _value.encode(on: &_container, forKey: .collectedPeriod)
+			}
+		}
+		try collector?.encode(on: &_container, forKey: .collector)
+		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+	}
+}
 
 /**
  Direct container of specimen (tube/slide, etc.).
@@ -218,11 +347,217 @@ public typealias SpecimenCollection = BackboneElement
  The container holding the specimen.  The recursive nature of containers; i.e. blood in tube in tray in rack is not
  addressed here.
  */
-public typealias SpecimenContainer = BackboneElement
+public struct SpecimenContainer: BackboneElement {
+	
+	/// All possible types for "additive[x]"
+	public enum AdditiveX: Equatable, Hashable, Sendable {
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
+	}
+	
+	/// Additive associated with container
+	/// One of `additive[x]`
+	public var additive: AdditiveX?
+	
+	/// Container volume or size
+	public var capacity: Quantity?
+	
+	/// Textual description of the container
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Id for the container
+	public var identifier: [Identifier]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Quantity of specimen within container
+	public var specimenQuantity: Quantity?
+	
+	/// Kind of container directly associated with specimen
+	public var type: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		additive: AdditiveX? = nil,
+		capacity: Quantity? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: [Identifier]? = nil,
+		modifierExtension: [Extension]? = nil,
+		specimenQuantity: Quantity? = nil,
+		type: CodeableConcept? = nil
+	) {
+		self.init()
+		self.additive = additive
+		self.capacity = capacity
+		self.description_fhir = description_fhir
+		self.`extension` = `extension`
+		self.id = id
+		self.identifier = identifier
+		self.modifierExtension = modifierExtension
+		self.specimenQuantity = specimenQuantity
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case additiveCodeableConcept
+		case additiveReference
+		case capacity
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case identifier
+		case modifierExtension
+		case specimenQuantity
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		var _t_additive: AdditiveX? = nil
+		if let additiveCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .additiveCodeableConcept) {
+			if _t_additive != nil {
+				throw DecodingError.dataCorruptedError(forKey: .additiveCodeableConcept, in: _container, debugDescription: "More than one value provided for \"additive\"")
+			}
+			_t_additive = .codeableConcept(additiveCodeableConcept)
+		}
+		if let additiveReference = try Reference(from: _container, forKeyIfPresent: .additiveReference) {
+			if _t_additive != nil {
+				throw DecodingError.dataCorruptedError(forKey: .additiveReference, in: _container, debugDescription: "More than one value provided for \"additive\"")
+			}
+			_t_additive = .reference(additiveReference)
+		}
+		self.additive = _t_additive
+		self.capacity = try Quantity(from: _container, forKeyIfPresent: .capacity)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.specimenQuantity = try Quantity(from: _container, forKeyIfPresent: .specimenQuantity)
+		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		if let _enum = additive {
+			switch _enum {
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .additiveCodeableConcept)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .additiveReference)
+			}
+		}
+		try capacity?.encode(on: &_container, forKey: .capacity)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier?.encode(on: &_container, forKey: .identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try specimenQuantity?.encode(on: &_container, forKey: .specimenQuantity)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}
 
 /**
  Treatment and processing step details.
  
  Details concerning treatment and processing steps for the specimen.
  */
-public typealias SpecimenTreatment = BackboneElement
+public struct SpecimenTreatment: BackboneElement {
+	
+	/// Material used in the processing step
+	public var additive: [Reference]?
+	
+	/// Textual description of procedure
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Indicates the treatment or processing step  applied to the specimen
+	public var procedure: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		additive: [Reference]? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		procedure: CodeableConcept? = nil
+	) {
+		self.init()
+		self.additive = additive
+		self.description_fhir = description_fhir
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.procedure = procedure
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case additive
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case procedure
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.additive = try [Reference](from: _container, forKeyIfPresent: .additive)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.procedure = try CodeableConcept(from: _container, forKeyIfPresent: .procedure)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try additive?.encode(on: &_container, forKey: .additive)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try procedure?.encode(on: &_container, forKey: .procedure)
+	}
+}

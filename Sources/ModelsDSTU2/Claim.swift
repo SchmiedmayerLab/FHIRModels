@@ -364,42 +364,752 @@ public struct Claim: DomainResource {
  
  Financial instrument by which payment information for health care.
  */
-public typealias ClaimCoverage = BackboneElement
+public struct ClaimCoverage: BackboneElement {
+	
+	/// Business agreement
+	public var businessArrangement: FHIRPrimitive<FHIRString>?
+	
+	/// Adjudication results
+	public var claimResponse: Reference?
+	
+	/// Insurance information
+	public var coverage: Reference
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The focal Coverage
+	public var focal: FHIRPrimitive<FHIRBool>
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Original version
+	public var originalRuleset: Coding?
+	
+	/// Pre-Authorization/Determination Reference
+	public var preAuthRef: [FHIRPrimitive<FHIRString>]?
+	
+	/// Patient relationship to subscriber
+	public var relationship: Coding
+	
+	/// Service instance identifier
+	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Designated initializer taking all required properties
+	public init(coverage: Reference, focal: FHIRPrimitive<FHIRBool>, relationship: Coding, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
+		self.coverage = coverage
+		self.focal = focal
+		self.relationship = relationship
+		self.sequence = sequence
+	}
+	
+	/// Convenience initializer
+	public init(
+		businessArrangement: FHIRPrimitive<FHIRString>? = nil,
+		claimResponse: Reference? = nil,
+		coverage: Reference,
+		`extension`: [Extension]? = nil,
+		focal: FHIRPrimitive<FHIRBool>,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		originalRuleset: Coding? = nil,
+		preAuthRef: [FHIRPrimitive<FHIRString>]? = nil,
+		relationship: Coding,
+		sequence: FHIRPrimitive<FHIRPositiveInteger>
+	) {
+		self.init(coverage: coverage, focal: focal, relationship: relationship, sequence: sequence)
+		self.businessArrangement = businessArrangement
+		self.claimResponse = claimResponse
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.originalRuleset = originalRuleset
+		self.preAuthRef = preAuthRef
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case businessArrangement; case _businessArrangement
+		case claimResponse
+		case coverage
+		case `extension` = "extension"
+		case focal; case _focal
+		case id; case _id
+		case modifierExtension
+		case originalRuleset
+		case preAuthRef; case _preAuthRef
+		case relationship
+		case sequence; case _sequence
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.businessArrangement = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .businessArrangement, auxiliaryKey: ._businessArrangement)
+		self.claimResponse = try Reference(from: _container, forKeyIfPresent: .claimResponse)
+		self.coverage = try Reference(from: _container, forKey: .coverage)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.focal = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .focal, auxiliaryKey: ._focal)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.originalRuleset = try Coding(from: _container, forKeyIfPresent: .originalRuleset)
+		self.preAuthRef = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .preAuthRef, auxiliaryKey: ._preAuthRef)
+		self.relationship = try Coding(from: _container, forKey: .relationship)
+		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try businessArrangement?.encode(on: &_container, forKey: .businessArrangement, auxiliaryKey: ._businessArrangement)
+		try claimResponse?.encode(on: &_container, forKey: .claimResponse)
+		try coverage.encode(on: &_container, forKey: .coverage)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try focal.encode(on: &_container, forKey: .focal, auxiliaryKey: ._focal)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try originalRuleset?.encode(on: &_container, forKey: .originalRuleset)
+		try preAuthRef?.encode(on: &_container, forKey: .preAuthRef, auxiliaryKey: ._preAuthRef)
+		try relationship.encode(on: &_container, forKey: .relationship)
+		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+	}
+}
 
 /**
  Diagnosis.
  
  Ordered list of patient diagnosis for which care is sought.
  */
-public typealias ClaimDiagnosis = BackboneElement
+public struct ClaimDiagnosis: BackboneElement {
+	
+	/// Patient's list of diagnosis
+	public var diagnosis: Coding
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Sequence of diagnosis
+	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Designated initializer taking all required properties
+	public init(diagnosis: Coding, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
+		self.diagnosis = diagnosis
+		self.sequence = sequence
+	}
+	
+	/// Convenience initializer
+	public init(
+		diagnosis: Coding,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		sequence: FHIRPrimitive<FHIRPositiveInteger>
+	) {
+		self.init(diagnosis: diagnosis, sequence: sequence)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case diagnosis
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case sequence; case _sequence
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.diagnosis = try Coding(from: _container, forKey: .diagnosis)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try diagnosis.encode(on: &_container, forKey: .diagnosis)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+	}
+}
 
 /**
  Goods and Services.
  
  First tier of goods and services.
  */
-public typealias ClaimItem = BackboneElement
+public struct ClaimItem: BackboneElement {
+	
+	/// Service Location
+	public var bodySite: Coding?
+	
+	/// Additional items
+	public var detail: [ClaimItemDetail]?
+	
+	/// Diagnosis Link
+	public var diagnosisLinkId: [FHIRPrimitive<FHIRPositiveInteger>]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Price scaling factor
+	public var factor: FHIRPrimitive<FHIRDecimal>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Service/Product billing modifiers
+	public var modifier: [Coding]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Total item cost
+	public var net: Quantity?
+	
+	/// Difficulty scaling factor
+	public var points: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Prosthetic details
+	public var prosthesis: ClaimItemProsthesis?
+	
+	/// Responsible practitioner
+	public var provider: Reference?
+	
+	/// Count of Products or Services
+	public var quantity: Quantity?
+	
+	/// Service instance
+	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Item Code
+	public var service: Coding
+	
+	/// Date of Service
+	public var serviceDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Service Sub-location
+	public var subSite: [Coding]?
+	
+	/// Group or type of product or service
+	public var type: Coding
+	
+	/// Unique Device Identifier
+	public var udi: Coding?
+	
+	/// Fee, charge or cost per point
+	public var unitPrice: Quantity?
+	
+	/// Designated initializer taking all required properties
+	public init(sequence: FHIRPrimitive<FHIRPositiveInteger>, service: Coding, type: Coding) {
+		self.sequence = sequence
+		self.service = service
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		bodySite: Coding? = nil,
+		detail: [ClaimItemDetail]? = nil,
+		diagnosisLinkId: [FHIRPrimitive<FHIRPositiveInteger>]? = nil,
+		`extension`: [Extension]? = nil,
+		factor: FHIRPrimitive<FHIRDecimal>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifier: [Coding]? = nil,
+		modifierExtension: [Extension]? = nil,
+		net: Quantity? = nil,
+		points: FHIRPrimitive<FHIRDecimal>? = nil,
+		prosthesis: ClaimItemProsthesis? = nil,
+		provider: Reference? = nil,
+		quantity: Quantity? = nil,
+		sequence: FHIRPrimitive<FHIRPositiveInteger>,
+		service: Coding,
+		serviceDate: FHIRPrimitive<FHIRDate>? = nil,
+		subSite: [Coding]? = nil,
+		type: Coding,
+		udi: Coding? = nil,
+		unitPrice: Quantity? = nil
+	) {
+		self.init(sequence: sequence, service: service, type: type)
+		self.bodySite = bodySite
+		self.detail = detail
+		self.diagnosisLinkId = diagnosisLinkId
+		self.`extension` = `extension`
+		self.factor = factor
+		self.id = id
+		self.modifier = modifier
+		self.modifierExtension = modifierExtension
+		self.net = net
+		self.points = points
+		self.prosthesis = prosthesis
+		self.provider = provider
+		self.quantity = quantity
+		self.serviceDate = serviceDate
+		self.subSite = subSite
+		self.udi = udi
+		self.unitPrice = unitPrice
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case bodySite
+		case detail
+		case diagnosisLinkId; case _diagnosisLinkId
+		case `extension` = "extension"
+		case factor; case _factor
+		case id; case _id
+		case modifier
+		case modifierExtension
+		case net
+		case points; case _points
+		case prosthesis
+		case provider
+		case quantity
+		case sequence; case _sequence
+		case service
+		case serviceDate; case _serviceDate
+		case subSite
+		case type
+		case udi
+		case unitPrice
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.bodySite = try Coding(from: _container, forKeyIfPresent: .bodySite)
+		self.detail = try [ClaimItemDetail](from: _container, forKeyIfPresent: .detail)
+		self.diagnosisLinkId = try [FHIRPrimitive<FHIRPositiveInteger>](from: _container, forKeyIfPresent: .diagnosisLinkId, auxiliaryKey: ._diagnosisLinkId)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifier = try [Coding](from: _container, forKeyIfPresent: .modifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.net = try Quantity(from: _container, forKeyIfPresent: .net)
+		self.points = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .points, auxiliaryKey: ._points)
+		self.prosthesis = try ClaimItemProsthesis(from: _container, forKeyIfPresent: .prosthesis)
+		self.provider = try Reference(from: _container, forKeyIfPresent: .provider)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
+		self.service = try Coding(from: _container, forKey: .service)
+		self.serviceDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .serviceDate, auxiliaryKey: ._serviceDate)
+		self.subSite = try [Coding](from: _container, forKeyIfPresent: .subSite)
+		self.type = try Coding(from: _container, forKey: .type)
+		self.udi = try Coding(from: _container, forKeyIfPresent: .udi)
+		self.unitPrice = try Quantity(from: _container, forKeyIfPresent: .unitPrice)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		try detail?.encode(on: &_container, forKey: .detail)
+		try diagnosisLinkId?.encode(on: &_container, forKey: .diagnosisLinkId, auxiliaryKey: ._diagnosisLinkId)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try factor?.encode(on: &_container, forKey: .factor, auxiliaryKey: ._factor)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifier?.encode(on: &_container, forKey: .modifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try net?.encode(on: &_container, forKey: .net)
+		try points?.encode(on: &_container, forKey: .points, auxiliaryKey: ._points)
+		try prosthesis?.encode(on: &_container, forKey: .prosthesis)
+		try provider?.encode(on: &_container, forKey: .provider)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+		try service.encode(on: &_container, forKey: .service)
+		try serviceDate?.encode(on: &_container, forKey: .serviceDate, auxiliaryKey: ._serviceDate)
+		try subSite?.encode(on: &_container, forKey: .subSite)
+		try type.encode(on: &_container, forKey: .type)
+		try udi?.encode(on: &_container, forKey: .udi)
+		try unitPrice?.encode(on: &_container, forKey: .unitPrice)
+	}
+}
 
 /**
  Additional items.
  
  Second tier of goods and services.
  */
-public typealias ClaimItemDetail = BackboneElement
+public struct ClaimItemDetail: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Price scaling factor
+	public var factor: FHIRPrimitive<FHIRDecimal>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Total additional item cost
+	public var net: Quantity?
+	
+	/// Difficulty scaling factor
+	public var points: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Count of Products or Services
+	public var quantity: Quantity?
+	
+	/// Service instance
+	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Additional item codes
+	public var service: Coding
+	
+	/// Additional items
+	public var subDetail: [ClaimItemDetailSubDetail]?
+	
+	/// Group or type of product or service
+	public var type: Coding
+	
+	/// Unique Device Identifier
+	public var udi: Coding?
+	
+	/// Fee, charge or cost per point
+	public var unitPrice: Quantity?
+	
+	/// Designated initializer taking all required properties
+	public init(sequence: FHIRPrimitive<FHIRPositiveInteger>, service: Coding, type: Coding) {
+		self.sequence = sequence
+		self.service = service
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		factor: FHIRPrimitive<FHIRDecimal>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		net: Quantity? = nil,
+		points: FHIRPrimitive<FHIRDecimal>? = nil,
+		quantity: Quantity? = nil,
+		sequence: FHIRPrimitive<FHIRPositiveInteger>,
+		service: Coding,
+		subDetail: [ClaimItemDetailSubDetail]? = nil,
+		type: Coding,
+		udi: Coding? = nil,
+		unitPrice: Quantity? = nil
+	) {
+		self.init(sequence: sequence, service: service, type: type)
+		self.`extension` = `extension`
+		self.factor = factor
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.net = net
+		self.points = points
+		self.quantity = quantity
+		self.subDetail = subDetail
+		self.udi = udi
+		self.unitPrice = unitPrice
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case factor; case _factor
+		case id; case _id
+		case modifierExtension
+		case net
+		case points; case _points
+		case quantity
+		case sequence; case _sequence
+		case service
+		case subDetail
+		case type
+		case udi
+		case unitPrice
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.net = try Quantity(from: _container, forKeyIfPresent: .net)
+		self.points = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .points, auxiliaryKey: ._points)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
+		self.service = try Coding(from: _container, forKey: .service)
+		self.subDetail = try [ClaimItemDetailSubDetail](from: _container, forKeyIfPresent: .subDetail)
+		self.type = try Coding(from: _container, forKey: .type)
+		self.udi = try Coding(from: _container, forKeyIfPresent: .udi)
+		self.unitPrice = try Quantity(from: _container, forKeyIfPresent: .unitPrice)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try factor?.encode(on: &_container, forKey: .factor, auxiliaryKey: ._factor)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try net?.encode(on: &_container, forKey: .net)
+		try points?.encode(on: &_container, forKey: .points, auxiliaryKey: ._points)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+		try service.encode(on: &_container, forKey: .service)
+		try subDetail?.encode(on: &_container, forKey: .subDetail)
+		try type.encode(on: &_container, forKey: .type)
+		try udi?.encode(on: &_container, forKey: .udi)
+		try unitPrice?.encode(on: &_container, forKey: .unitPrice)
+	}
+}
 
 /**
  Additional items.
  
  Third tier of goods and services.
  */
-public typealias ClaimItemDetailSubDetail = BackboneElement
+public struct ClaimItemDetailSubDetail: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Price scaling factor
+	public var factor: FHIRPrimitive<FHIRDecimal>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Net additional item cost
+	public var net: Quantity?
+	
+	/// Difficulty scaling factor
+	public var points: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Count of Products or Services
+	public var quantity: Quantity?
+	
+	/// Service instance
+	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
+	
+	/// Additional item codes
+	public var service: Coding
+	
+	/// Type of product or service
+	public var type: Coding
+	
+	/// Unique Device Identifier
+	public var udi: Coding?
+	
+	/// Fee, charge or cost per point
+	public var unitPrice: Quantity?
+	
+	/// Designated initializer taking all required properties
+	public init(sequence: FHIRPrimitive<FHIRPositiveInteger>, service: Coding, type: Coding) {
+		self.sequence = sequence
+		self.service = service
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		factor: FHIRPrimitive<FHIRDecimal>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		net: Quantity? = nil,
+		points: FHIRPrimitive<FHIRDecimal>? = nil,
+		quantity: Quantity? = nil,
+		sequence: FHIRPrimitive<FHIRPositiveInteger>,
+		service: Coding,
+		type: Coding,
+		udi: Coding? = nil,
+		unitPrice: Quantity? = nil
+	) {
+		self.init(sequence: sequence, service: service, type: type)
+		self.`extension` = `extension`
+		self.factor = factor
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.net = net
+		self.points = points
+		self.quantity = quantity
+		self.udi = udi
+		self.unitPrice = unitPrice
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case factor; case _factor
+		case id; case _id
+		case modifierExtension
+		case net
+		case points; case _points
+		case quantity
+		case sequence; case _sequence
+		case service
+		case type
+		case udi
+		case unitPrice
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.net = try Quantity(from: _container, forKeyIfPresent: .net)
+		self.points = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .points, auxiliaryKey: ._points)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
+		self.service = try Coding(from: _container, forKey: .service)
+		self.type = try Coding(from: _container, forKey: .type)
+		self.udi = try Coding(from: _container, forKeyIfPresent: .udi)
+		self.unitPrice = try Quantity(from: _container, forKeyIfPresent: .unitPrice)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try factor?.encode(on: &_container, forKey: .factor, auxiliaryKey: ._factor)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try net?.encode(on: &_container, forKey: .net)
+		try points?.encode(on: &_container, forKey: .points, auxiliaryKey: ._points)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+		try service.encode(on: &_container, forKey: .service)
+		try type.encode(on: &_container, forKey: .type)
+		try udi?.encode(on: &_container, forKey: .udi)
+		try unitPrice?.encode(on: &_container, forKey: .unitPrice)
+	}
+}
 
 /**
  Prosthetic details.
  
  The materials and placement date of prior fixed prosthesis.
  */
-public typealias ClaimItemProsthesis = BackboneElement
+public struct ClaimItemProsthesis: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Is this the initial service
+	public var initial: FHIRPrimitive<FHIRBool>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Initial service Date
+	public var priorDate: FHIRPrimitive<FHIRDate>?
+	
+	/// Prosthetic Material
+	public var priorMaterial: Coding?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		initial: FHIRPrimitive<FHIRBool>? = nil,
+		modifierExtension: [Extension]? = nil,
+		priorDate: FHIRPrimitive<FHIRDate>? = nil,
+		priorMaterial: Coding? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.initial = initial
+		self.modifierExtension = modifierExtension
+		self.priorDate = priorDate
+		self.priorMaterial = priorMaterial
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case initial; case _initial
+		case modifierExtension
+		case priorDate; case _priorDate
+		case priorMaterial
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.initial = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .initial, auxiliaryKey: ._initial)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.priorDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .priorDate, auxiliaryKey: ._priorDate)
+		self.priorMaterial = try Coding(from: _container, forKeyIfPresent: .priorMaterial)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try initial?.encode(on: &_container, forKey: .initial, auxiliaryKey: ._initial)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try priorDate?.encode(on: &_container, forKey: .priorDate, auxiliaryKey: ._priorDate)
+		try priorMaterial?.encode(on: &_container, forKey: .priorMaterial)
+	}
+}
 
 /**
  Only if type = oral.
@@ -407,11 +1117,173 @@ public typealias ClaimItemProsthesis = BackboneElement
  A list of teeth which would be expected but are not found due to having been previously  extracted or for other
  reasons.
  */
-public typealias ClaimMissingTeeth = BackboneElement
+public struct ClaimMissingTeeth: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Date of Extraction
+	public var extractionDate: FHIRPrimitive<FHIRDate>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Reason for missing
+	public var reason: Coding?
+	
+	/// Tooth Code
+	public var tooth: Coding
+	
+	/// Designated initializer taking all required properties
+	public init(tooth: Coding) {
+		self.tooth = tooth
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		extractionDate: FHIRPrimitive<FHIRDate>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		reason: Coding? = nil,
+		tooth: Coding
+	) {
+		self.init(tooth: tooth)
+		self.`extension` = `extension`
+		self.extractionDate = extractionDate
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.reason = reason
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case extractionDate; case _extractionDate
+		case id; case _id
+		case modifierExtension
+		case reason
+		case tooth
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.extractionDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .extractionDate, auxiliaryKey: ._extractionDate)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.reason = try Coding(from: _container, forKeyIfPresent: .reason)
+		self.tooth = try Coding(from: _container, forKey: .tooth)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try extractionDate?.encode(on: &_container, forKey: .extractionDate, auxiliaryKey: ._extractionDate)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reason?.encode(on: &_container, forKey: .reason)
+		try tooth.encode(on: &_container, forKey: .tooth)
+	}
+}
 
 /**
  Payee.
  
  The party to be reimbursed for the services.
  */
-public typealias ClaimPayee = BackboneElement
+public struct ClaimPayee: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Organization who is the payee
+	public var organization: Reference?
+	
+	/// Other person who is the payee
+	public var person: Reference?
+	
+	/// Provider who is the payee
+	public var provider: Reference?
+	
+	/// Party to be paid any benefits payable
+	public var type: Coding?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		organization: Reference? = nil,
+		person: Reference? = nil,
+		provider: Reference? = nil,
+		type: Coding? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.organization = organization
+		self.person = person
+		self.provider = provider
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case organization
+		case person
+		case provider
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
+		self.person = try Reference(from: _container, forKeyIfPresent: .person)
+		self.provider = try Reference(from: _container, forKeyIfPresent: .provider)
+		self.type = try Coding(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try organization?.encode(on: &_container, forKey: .organization)
+		try person?.encode(on: &_container, forKey: .person)
+		try provider?.encode(on: &_container, forKey: .provider)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}

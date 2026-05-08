@@ -352,14 +352,14 @@ public struct IngredientSubstanceStrength: BackboneElement {
 	
 	/// All possible types for "concentration[x]"
 	public enum ConcentrationX: Equatable, Hashable, Sendable {
-		case ratio(Ratio)
-		case ratioRange(RatioRange)
+		indirect case ratio(Ratio)
+		indirect case ratioRange(RatioRange)
 	}
 	
 	/// All possible types for "presentation[x]"
 	public enum PresentationX: Equatable, Hashable, Sendable {
-		case ratio(Ratio)
-		case ratioRange(RatioRange)
+		indirect case ratio(Ratio)
+		indirect case ratioRange(RatioRange)
 	}
 	
 	/// The strength per unitary volume (or mass)
@@ -528,8 +528,8 @@ public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 	
 	/// All possible types for "strength[x]"
 	public enum StrengthX: Equatable, Hashable, Sendable {
-		case ratio(Ratio)
-		case ratioRange(RatioRange)
+		indirect case ratio(Ratio)
+		indirect case ratioRange(RatioRange)
 	}
 	
 	/// Where the strength range applies

@@ -29,8 +29,8 @@ public struct DataRequirement: DataType {
 	
 	/// All possible types for "subject[x]"
 	public enum SubjectX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// What codes are expected
@@ -269,8 +269,8 @@ public struct DataRequirementDateFilter: Element {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
+		indirect case duration(Duration)
+		indirect case period(Period)
 	}
 	
 	/// Additional content defined by implementations
@@ -452,8 +452,8 @@ public struct DataRequirementValueFilter: Element {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
+		indirect case duration(Duration)
+		indirect case period(Period)
 	}
 	
 	/// The comparator to be used to determine whether the value is matching.

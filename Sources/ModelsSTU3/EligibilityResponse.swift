@@ -522,14 +522,14 @@ public struct EligibilityResponseInsuranceBenefitBalanceFinancial: BackboneEleme
 	
 	/// All possible types for "allowed[x]"
 	public enum AllowedX: Equatable, Hashable, Sendable {
-		case money(Money)
+		indirect case money(Money)
 		case string(FHIRPrimitive<FHIRString>)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
 	/// All possible types for "used[x]"
 	public enum UsedX: Equatable, Hashable, Sendable {
-		case money(Money)
+		indirect case money(Money)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	

@@ -208,4 +208,74 @@ public struct Person: DomainResource {
 /**
  Link to a resource that concerns the same actual person.
  */
-public typealias PersonLink = BackboneElement
+public struct PersonLink: BackboneElement {
+	
+	/// Level of assurance that this link is actually associated with the target resource.
+	/// Restricted to: ['level1', 'level2', 'level3', 'level4']
+	public var assurance: FHIRPrimitive<IdentityAssuranceLevel>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The resource to which this actual person is associated
+	public var target: Reference
+	
+	/// Designated initializer taking all required properties
+	public init(target: Reference) {
+		self.target = target
+	}
+	
+	/// Convenience initializer
+	public init(
+		assurance: FHIRPrimitive<IdentityAssuranceLevel>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		target: Reference
+	) {
+		self.init(target: target)
+		self.assurance = assurance
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case assurance; case _assurance
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case target
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.assurance = try FHIRPrimitive<IdentityAssuranceLevel>(from: _container, forKeyIfPresent: .assurance, auxiliaryKey: ._assurance)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.target = try Reference(from: _container, forKey: .target)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try assurance?.encode(on: &_container, forKey: .assurance, auxiliaryKey: ._assurance)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try target.encode(on: &_container, forKey: .target)
+	}
+}

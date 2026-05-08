@@ -351,19 +351,19 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 	/// All possible types for "definition[x]"
 	public enum DefinitionX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case codeableConcept(CodeableConcept)
-		case dataRequirement(DataRequirement)
-		case expression(Expression)
-		case reference(Reference)
-		case triggerDefinition(TriggerDefinition)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case dataRequirement(DataRequirement)
+		indirect case expression(Expression)
+		indirect case reference(Reference)
+		indirect case triggerDefinition(TriggerDefinition)
 	}
 	
 	/// All possible types for "participantEffective[x]"
 	public enum ParticipantEffectiveX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case duration(Duration)
-		case period(Period)
-		case timing(Timing)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// What code or expression defines members?

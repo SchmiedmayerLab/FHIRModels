@@ -324,23 +324,350 @@ public struct Patient: DomainResource {
  
  This patient is known to be an animal.
  */
-public typealias PatientAnimal = BackboneElement
+public struct PatientAnimal: BackboneElement {
+	
+	/// E.g. Poodle, Angus
+	public var breed: CodeableConcept?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// E.g. Neutered, Intact
+	public var genderStatus: CodeableConcept?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// E.g. Dog, Cow
+	public var species: CodeableConcept
+	
+	/// Designated initializer taking all required properties
+	public init(species: CodeableConcept) {
+		self.species = species
+	}
+	
+	/// Convenience initializer
+	public init(
+		breed: CodeableConcept? = nil,
+		`extension`: [Extension]? = nil,
+		genderStatus: CodeableConcept? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		species: CodeableConcept
+	) {
+		self.init(species: species)
+		self.breed = breed
+		self.`extension` = `extension`
+		self.genderStatus = genderStatus
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case breed
+		case `extension` = "extension"
+		case genderStatus
+		case id; case _id
+		case modifierExtension
+		case species
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.breed = try CodeableConcept(from: _container, forKeyIfPresent: .breed)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.genderStatus = try CodeableConcept(from: _container, forKeyIfPresent: .genderStatus)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.species = try CodeableConcept(from: _container, forKey: .species)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try breed?.encode(on: &_container, forKey: .breed)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try genderStatus?.encode(on: &_container, forKey: .genderStatus)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try species.encode(on: &_container, forKey: .species)
+	}
+}
 
 /**
  A list of Languages which may be used to communicate with the patient about his or her health.
  
  Languages which may be used to communicate with the patient about his or her health.
  */
-public typealias PatientCommunication = BackboneElement
+public struct PatientCommunication: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The language which can be used to communicate with the patient about his or her health
+	public var language: CodeableConcept
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Language preference indicator
+	public var preferred: FHIRPrimitive<FHIRBool>?
+	
+	/// Designated initializer taking all required properties
+	public init(language: CodeableConcept) {
+		self.language = language
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		language: CodeableConcept,
+		modifierExtension: [Extension]? = nil,
+		preferred: FHIRPrimitive<FHIRBool>? = nil
+	) {
+		self.init(language: language)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.preferred = preferred
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case language
+		case modifierExtension
+		case preferred; case _preferred
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.language = try CodeableConcept(from: _container, forKey: .language)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.preferred = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .preferred, auxiliaryKey: ._preferred)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try language.encode(on: &_container, forKey: .language)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try preferred?.encode(on: &_container, forKey: .preferred, auxiliaryKey: ._preferred)
+	}
+}
 
 /**
  A contact party (e.g. guardian, partner, friend) for the patient.
  */
-public typealias PatientContact = BackboneElement
+public struct PatientContact: BackboneElement {
+	
+	/// Address for the contact person
+	public var address: Address?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Administrative Gender - the gender that the contact person is considered to have for administration and record
+	/// keeping purposes.
+	/// Restricted to: ['male', 'female', 'other', 'unknown']
+	public var gender: FHIRPrimitive<AdministrativeGender>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// A name associated with the contact person
+	public var name: HumanName?
+	
+	/// Organization that is associated with the contact
+	public var organization: Reference?
+	
+	/// The period during which this contact person or organization is valid to be contacted relating to this patient
+	public var period: Period?
+	
+	/// The kind of relationship
+	public var relationship: [CodeableConcept]?
+	
+	/// A contact detail for the person
+	public var telecom: [ContactPoint]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		address: Address? = nil,
+		`extension`: [Extension]? = nil,
+		gender: FHIRPrimitive<AdministrativeGender>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: HumanName? = nil,
+		organization: Reference? = nil,
+		period: Period? = nil,
+		relationship: [CodeableConcept]? = nil,
+		telecom: [ContactPoint]? = nil
+	) {
+		self.init()
+		self.address = address
+		self.`extension` = `extension`
+		self.gender = gender
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.organization = organization
+		self.period = period
+		self.relationship = relationship
+		self.telecom = telecom
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case address
+		case `extension` = "extension"
+		case gender; case _gender
+		case id; case _id
+		case modifierExtension
+		case name
+		case organization
+		case period
+		case relationship
+		case telecom
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.address = try Address(from: _container, forKeyIfPresent: .address)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try HumanName(from: _container, forKeyIfPresent: .name)
+		self.organization = try Reference(from: _container, forKeyIfPresent: .organization)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+		self.relationship = try [CodeableConcept](from: _container, forKeyIfPresent: .relationship)
+		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try address?.encode(on: &_container, forKey: .address)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name)
+		try organization?.encode(on: &_container, forKey: .organization)
+		try period?.encode(on: &_container, forKey: .period)
+		try relationship?.encode(on: &_container, forKey: .relationship)
+		try telecom?.encode(on: &_container, forKey: .telecom)
+	}
+}
 
 /**
  Link to another patient resource that concerns the same actual person.
  
  Link to another patient resource that concerns the same actual patient.
  */
-public typealias PatientLink = BackboneElement
+public struct PatientLink: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The other patient resource that the link refers to
+	public var other: Reference
+	
+	/// The type of link between this patient resource and another patient resource.
+	/// Restricted to: ['replace', 'refer', 'seealso']
+	public var type: FHIRPrimitive<LinkType>
+	
+	/// Designated initializer taking all required properties
+	public init(other: Reference, type: FHIRPrimitive<LinkType>) {
+		self.other = other
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		other: Reference,
+		type: FHIRPrimitive<LinkType>
+	) {
+		self.init(other: other, type: type)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case other
+		case type; case _type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.other = try Reference(from: _container, forKey: .other)
+		self.type = try FHIRPrimitive<LinkType>(from: _container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try other.encode(on: &_container, forKey: .other)
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+}

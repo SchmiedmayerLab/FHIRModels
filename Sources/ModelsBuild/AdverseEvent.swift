@@ -38,7 +38,7 @@ public struct AdverseEvent: DomainResource {
 	/// All possible types for "effect[x]"
 	public enum EffectX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Whether the event actually happened or was a near miss. Note that this is independent of whether anyone was
@@ -440,7 +440,7 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Information on the possible cause of the event

@@ -229,8 +229,8 @@ public struct DocumentManifestContent: BackboneElement {
 	
 	/// All possible types for "p[x]"
 	public enum PX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional Content defined by implementations

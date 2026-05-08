@@ -471,7 +471,7 @@ public struct ImplementationGuideDefinitionPage: BackboneElement {
 	
 	/// All possible types for "name[x]"
 	public enum NameX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case url(FHIRPrimitive<FHIRURI>)
 	}
 	

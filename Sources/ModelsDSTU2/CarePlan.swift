@@ -261,7 +261,92 @@ public struct CarePlan: DomainResource {
  Identifies a planned action to occur as part of the plan.  For example, a medication to be used, lab tests to perform,
  self-monitoring, education, etc.
  */
-public typealias CarePlanActivity = BackboneElement
+public struct CarePlanActivity: BackboneElement {
+	
+	/// Appointments, orders, etc.
+	public var actionResulting: [Reference]?
+	
+	/// In-line definition of activity
+	public var detail: CarePlanActivityDetail?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Comments about the activity status/progress
+	public var progress: [Annotation]?
+	
+	/// Activity details defined in specific resource
+	public var reference: Reference?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		actionResulting: [Reference]? = nil,
+		detail: CarePlanActivityDetail? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		progress: [Annotation]? = nil,
+		reference: Reference? = nil
+	) {
+		self.init()
+		self.actionResulting = actionResulting
+		self.detail = detail
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.progress = progress
+		self.reference = reference
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case actionResulting
+		case detail
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case progress
+		case reference
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.actionResulting = try [Reference](from: _container, forKeyIfPresent: .actionResulting)
+		self.detail = try CarePlanActivityDetail(from: _container, forKeyIfPresent: .detail)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.progress = try [Annotation](from: _container, forKeyIfPresent: .progress)
+		self.reference = try Reference(from: _container, forKeyIfPresent: .reference)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try actionResulting?.encode(on: &_container, forKey: .actionResulting)
+		try detail?.encode(on: &_container, forKey: .detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try progress?.encode(on: &_container, forKey: .progress)
+		try reference?.encode(on: &_container, forKey: .reference)
+	}
+}
 
 /**
  In-line definition of activity.
@@ -269,18 +354,397 @@ public typealias CarePlanActivity = BackboneElement
  A simple summary of a planned activity suitable for a general care plan system (e.g. form driven) that doesn't know
  about specific resources such as procedure etc.
  */
-public typealias CarePlanActivityDetail = BackboneElement
+public struct CarePlanActivityDetail: BackboneElement {
+	
+	/// All possible types for "product[x]"
+	public enum ProductX: Equatable, Hashable, Sendable {
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
+	}
+	
+	/// All possible types for "scheduled[x]"
+	public enum ScheduledX: Equatable, Hashable, Sendable {
+		indirect case period(Period)
+		case string(FHIRPrimitive<FHIRString>)
+		indirect case timing(Timing)
+	}
+	
+	/// diet | drug | encounter | observation | procedure | supply | other
+	public var category: CodeableConcept?
+	
+	/// Detail type of activity
+	public var code: CodeableConcept?
+	
+	/// How to consume/day?
+	public var dailyAmount: Quantity?
+	
+	/// Extra info describing activity to perform
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Goals this activity relates to
+	public var goal: [Reference]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Where it should happen
+	public var location: Reference?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Who will be responsible?
+	public var performer: [Reference]?
+	
+	/// What is to be administered/supplied
+	/// One of `product[x]`
+	public var product: ProductX?
+	
+	/// Do NOT do
+	public var prohibited: FHIRPrimitive<FHIRBool>
+	
+	/// How much to administer/supply/consume
+	public var quantity: Quantity?
+	
+	/// Why activity should be done
+	public var reasonCode: [CodeableConcept]?
+	
+	/// Condition triggering need for activity
+	public var reasonReference: [Reference]?
+	
+	/// When activity is to occur
+	/// One of `scheduled[x]`
+	public var scheduled: ScheduledX?
+	
+	/// Identifies what progress is being made for the specific activity.
+	/// Restricted to: ['not-started', 'scheduled', 'in-progress', 'on-hold', 'completed', 'cancelled']
+	public var status: FHIRPrimitive<CarePlanActivityStatus>?
+	
+	/// Reason for current status
+	public var statusReason: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init(prohibited: FHIRPrimitive<FHIRBool>) {
+		self.prohibited = prohibited
+	}
+	
+	/// Convenience initializer
+	public init(
+		category: CodeableConcept? = nil,
+		code: CodeableConcept? = nil,
+		dailyAmount: Quantity? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		goal: [Reference]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		location: Reference? = nil,
+		modifierExtension: [Extension]? = nil,
+		performer: [Reference]? = nil,
+		product: ProductX? = nil,
+		prohibited: FHIRPrimitive<FHIRBool>,
+		quantity: Quantity? = nil,
+		reasonCode: [CodeableConcept]? = nil,
+		reasonReference: [Reference]? = nil,
+		scheduled: ScheduledX? = nil,
+		status: FHIRPrimitive<CarePlanActivityStatus>? = nil,
+		statusReason: CodeableConcept? = nil
+	) {
+		self.init(prohibited: prohibited)
+		self.category = category
+		self.code = code
+		self.dailyAmount = dailyAmount
+		self.description_fhir = description_fhir
+		self.`extension` = `extension`
+		self.goal = goal
+		self.id = id
+		self.location = location
+		self.modifierExtension = modifierExtension
+		self.performer = performer
+		self.product = product
+		self.quantity = quantity
+		self.reasonCode = reasonCode
+		self.reasonReference = reasonReference
+		self.scheduled = scheduled
+		self.status = status
+		self.statusReason = statusReason
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case category
+		case code
+		case dailyAmount
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case goal
+		case id; case _id
+		case location
+		case modifierExtension
+		case performer
+		case productCodeableConcept
+		case productReference
+		case prohibited; case _prohibited
+		case quantity
+		case reasonCode
+		case reasonReference
+		case scheduledPeriod
+		case scheduledString; case _scheduledString
+		case scheduledTiming
+		case status; case _status
+		case statusReason
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.category = try CodeableConcept(from: _container, forKeyIfPresent: .category)
+		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.dailyAmount = try Quantity(from: _container, forKeyIfPresent: .dailyAmount)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.goal = try [Reference](from: _container, forKeyIfPresent: .goal)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.location = try Reference(from: _container, forKeyIfPresent: .location)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.performer = try [Reference](from: _container, forKeyIfPresent: .performer)
+		var _t_product: ProductX? = nil
+		if let productCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .productCodeableConcept) {
+			if _t_product != nil {
+				throw DecodingError.dataCorruptedError(forKey: .productCodeableConcept, in: _container, debugDescription: "More than one value provided for \"product\"")
+			}
+			_t_product = .codeableConcept(productCodeableConcept)
+		}
+		if let productReference = try Reference(from: _container, forKeyIfPresent: .productReference) {
+			if _t_product != nil {
+				throw DecodingError.dataCorruptedError(forKey: .productReference, in: _container, debugDescription: "More than one value provided for \"product\"")
+			}
+			_t_product = .reference(productReference)
+		}
+		self.product = _t_product
+		self.prohibited = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .prohibited, auxiliaryKey: ._prohibited)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
+		self.reasonReference = try [Reference](from: _container, forKeyIfPresent: .reasonReference)
+		var _t_scheduled: ScheduledX? = nil
+		if let scheduledTiming = try Timing(from: _container, forKeyIfPresent: .scheduledTiming) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledTiming, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .timing(scheduledTiming)
+		}
+		if let scheduledPeriod = try Period(from: _container, forKeyIfPresent: .scheduledPeriod) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledPeriod, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .period(scheduledPeriod)
+		}
+		if let scheduledString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .scheduledString, auxiliaryKey: ._scheduledString) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledString, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .string(scheduledString)
+		}
+		self.scheduled = _t_scheduled
+		self.status = try FHIRPrimitive<CarePlanActivityStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
+		self.statusReason = try CodeableConcept(from: _container, forKeyIfPresent: .statusReason)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try category?.encode(on: &_container, forKey: .category)
+		try code?.encode(on: &_container, forKey: .code)
+		try dailyAmount?.encode(on: &_container, forKey: .dailyAmount)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try goal?.encode(on: &_container, forKey: .goal)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try location?.encode(on: &_container, forKey: .location)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try performer?.encode(on: &_container, forKey: .performer)
+		if let _enum = product {
+			switch _enum {
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .productCodeableConcept)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .productReference)
+			}
+		}
+		try prohibited.encode(on: &_container, forKey: .prohibited, auxiliaryKey: ._prohibited)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
+		try reasonReference?.encode(on: &_container, forKey: .reasonReference)
+		if let _enum = scheduled {
+			switch _enum {
+			case .timing(let _value):
+				try _value.encode(on: &_container, forKey: .scheduledTiming)
+			case .period(let _value):
+				try _value.encode(on: &_container, forKey: .scheduledPeriod)
+			case .string(let _value):
+				try _value.encode(on: &_container, forKey: .scheduledString, auxiliaryKey: ._scheduledString)
+			}
+		}
+		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try statusReason?.encode(on: &_container, forKey: .statusReason)
+	}
+}
 
 /**
  Who's involved in plan?.
  
  Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
  */
-public typealias CarePlanParticipant = BackboneElement
+public struct CarePlanParticipant: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Who is involved
+	public var member: Reference?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Type of involvement
+	public var role: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		member: Reference? = nil,
+		modifierExtension: [Extension]? = nil,
+		role: CodeableConcept? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.member = member
+		self.modifierExtension = modifierExtension
+		self.role = role
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case member
+		case modifierExtension
+		case role
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.member = try Reference(from: _container, forKeyIfPresent: .member)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.role = try CodeableConcept(from: _container, forKeyIfPresent: .role)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try member?.encode(on: &_container, forKey: .member)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try role?.encode(on: &_container, forKey: .role)
+	}
+}
 
 /**
  Plans related to this one.
  
  Identifies CarePlans with some sort of formal relationship to the current plan.
  */
-public typealias CarePlanRelatedPlan = BackboneElement
+public struct CarePlanRelatedPlan: BackboneElement {
+	
+	/// Identifies the type of relationship this plan has to the target plan.
+	/// Restricted to: ['includes', 'replaces', 'fulfills']
+	public var code: FHIRPrimitive<CarePlanRelationship>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Plan relationship exists with
+	public var plan: Reference
+	
+	/// Designated initializer taking all required properties
+	public init(plan: Reference) {
+		self.plan = plan
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: FHIRPrimitive<CarePlanRelationship>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		plan: Reference
+	) {
+		self.init(plan: plan)
+		self.code = code
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code; case _code
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case plan
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try FHIRPrimitive<CarePlanRelationship>(from: _container, forKeyIfPresent: .code, auxiliaryKey: ._code)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.plan = try Reference(from: _container, forKey: .plan)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try plan.encode(on: &_container, forKey: .plan)
+	}
+}

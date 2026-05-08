@@ -260,11 +260,253 @@ public struct ImagingStudy: DomainResource {
  
  Each study has one or more series of images or other content.
  */
-public typealias ImagingStudySeries = BackboneElement
+public struct ImagingStudySeries: BackboneElement {
+	
+	/// ONLINE | OFFLINE | NEARLINE | UNAVAILABLE
+	public var availability: FHIRPrimitive<FHIRString>?
+	
+	/// Body part examined
+	public var bodySite: Coding?
+	
+	/// A description of the series
+	public var description_fhir: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// A single SOP instance from the series
+	public var instance: [ImagingStudySeriesInstance]?
+	
+	/// Body part laterality
+	public var laterality: Coding?
+	
+	/// The modality of the instances in the series
+	public var modality: Coding
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Numeric identifier of this series
+	public var number: FHIRPrimitive<FHIRUnsignedInteger>?
+	
+	/// Number of Series Related Instances
+	public var numberOfInstances: FHIRPrimitive<FHIRUnsignedInteger>
+	
+	/// When the series started
+	public var started: FHIRPrimitive<DateTime>?
+	
+	/// Formal identifier for this series
+	public var uid: FHIRPrimitive<FHIRURI>
+	
+	/// Location of the referenced instance(s)
+	public var url: FHIRPrimitive<FHIRURI>?
+	
+	/// Designated initializer taking all required properties
+	public init(modality: Coding, numberOfInstances: FHIRPrimitive<FHIRUnsignedInteger>, uid: FHIRPrimitive<FHIRURI>) {
+		self.modality = modality
+		self.numberOfInstances = numberOfInstances
+		self.uid = uid
+	}
+	
+	/// Convenience initializer
+	public init(
+		availability: FHIRPrimitive<FHIRString>? = nil,
+		bodySite: Coding? = nil,
+		description_fhir: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		instance: [ImagingStudySeriesInstance]? = nil,
+		laterality: Coding? = nil,
+		modality: Coding,
+		modifierExtension: [Extension]? = nil,
+		number: FHIRPrimitive<FHIRUnsignedInteger>? = nil,
+		numberOfInstances: FHIRPrimitive<FHIRUnsignedInteger>,
+		started: FHIRPrimitive<DateTime>? = nil,
+		uid: FHIRPrimitive<FHIRURI>,
+		url: FHIRPrimitive<FHIRURI>? = nil
+	) {
+		self.init(modality: modality, numberOfInstances: numberOfInstances, uid: uid)
+		self.availability = availability
+		self.bodySite = bodySite
+		self.description_fhir = description_fhir
+		self.`extension` = `extension`
+		self.id = id
+		self.instance = instance
+		self.laterality = laterality
+		self.modifierExtension = modifierExtension
+		self.number = number
+		self.started = started
+		self.url = url
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case availability; case _availability
+		case bodySite
+		case description_fhir = "description"; case _description_fhir = "_description"
+		case `extension` = "extension"
+		case id; case _id
+		case instance
+		case laterality
+		case modality
+		case modifierExtension
+		case number; case _number
+		case numberOfInstances; case _numberOfInstances
+		case started; case _started
+		case uid; case _uid
+		case url; case _url
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.availability = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .availability, auxiliaryKey: ._availability)
+		self.bodySite = try Coding(from: _container, forKeyIfPresent: .bodySite)
+		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.instance = try [ImagingStudySeriesInstance](from: _container, forKeyIfPresent: .instance)
+		self.laterality = try Coding(from: _container, forKeyIfPresent: .laterality)
+		self.modality = try Coding(from: _container, forKey: .modality)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.number = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .number, auxiliaryKey: ._number)
+		self.numberOfInstances = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKey: .numberOfInstances, auxiliaryKey: ._numberOfInstances)
+		self.started = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .started, auxiliaryKey: ._started)
+		self.uid = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .uid, auxiliaryKey: ._uid)
+		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try availability?.encode(on: &_container, forKey: .availability, auxiliaryKey: ._availability)
+		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try instance?.encode(on: &_container, forKey: .instance)
+		try laterality?.encode(on: &_container, forKey: .laterality)
+		try modality.encode(on: &_container, forKey: .modality)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try number?.encode(on: &_container, forKey: .number, auxiliaryKey: ._number)
+		try numberOfInstances.encode(on: &_container, forKey: .numberOfInstances, auxiliaryKey: ._numberOfInstances)
+		try started?.encode(on: &_container, forKey: .started, auxiliaryKey: ._started)
+		try uid.encode(on: &_container, forKey: .uid, auxiliaryKey: ._uid)
+		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
+	}
+}
 
 /**
  A single SOP instance from the series.
  
  A single SOP Instance within the series, e.g. an image, or presentation state.
  */
-public typealias ImagingStudySeriesInstance = BackboneElement
+public struct ImagingStudySeriesInstance: BackboneElement {
+	
+	/// Content of the instance
+	public var content: [Attachment]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The number of this instance in the series
+	public var number: FHIRPrimitive<FHIRUnsignedInteger>?
+	
+	/// DICOM class type
+	public var sopClass: FHIRPrimitive<FHIRURI>
+	
+	/// Description of instance
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Type of instance (image etc.)
+	public var type: FHIRPrimitive<FHIRString>?
+	
+	/// Formal identifier for this instance
+	public var uid: FHIRPrimitive<FHIRURI>
+	
+	/// Designated initializer taking all required properties
+	public init(sopClass: FHIRPrimitive<FHIRURI>, uid: FHIRPrimitive<FHIRURI>) {
+		self.sopClass = sopClass
+		self.uid = uid
+	}
+	
+	/// Convenience initializer
+	public init(
+		content: [Attachment]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		number: FHIRPrimitive<FHIRUnsignedInteger>? = nil,
+		sopClass: FHIRPrimitive<FHIRURI>,
+		title: FHIRPrimitive<FHIRString>? = nil,
+		type: FHIRPrimitive<FHIRString>? = nil,
+		uid: FHIRPrimitive<FHIRURI>
+	) {
+		self.init(sopClass: sopClass, uid: uid)
+		self.content = content
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.number = number
+		self.title = title
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case content
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case number; case _number
+		case sopClass; case _sopClass
+		case title; case _title
+		case type; case _type
+		case uid; case _uid
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.content = try [Attachment](from: _container, forKeyIfPresent: .content)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.number = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .number, auxiliaryKey: ._number)
+		self.sopClass = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .sopClass, auxiliaryKey: ._sopClass)
+		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
+		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+		self.uid = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .uid, auxiliaryKey: ._uid)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try content?.encode(on: &_container, forKey: .content)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try number?.encode(on: &_container, forKey: .number, auxiliaryKey: ._number)
+		try sopClass.encode(on: &_container, forKey: .sopClass, auxiliaryKey: ._sopClass)
+		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		try uid.encode(on: &_container, forKey: .uid, auxiliaryKey: ._uid)
+	}
+}

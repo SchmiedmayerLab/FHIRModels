@@ -219,18 +219,267 @@ public struct MessageHeader: DomainResource {
  
  The destination application which the message is intended for.
  */
-public typealias MessageHeaderDestination = BackboneElement
+public struct MessageHeaderDestination: BackboneElement {
+	
+	/// Actual destination address or id
+	public var endpoint: FHIRPrimitive<FHIRURI>
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of system
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Particular delivery destination within the destination
+	public var target: Reference?
+	
+	/// Designated initializer taking all required properties
+	public init(endpoint: FHIRPrimitive<FHIRURI>) {
+		self.endpoint = endpoint
+	}
+	
+	/// Convenience initializer
+	public init(
+		endpoint: FHIRPrimitive<FHIRURI>,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		target: Reference? = nil
+	) {
+		self.init(endpoint: endpoint)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.target = target
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case endpoint; case _endpoint
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case target
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.endpoint = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .endpoint, auxiliaryKey: ._endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.target = try Reference(from: _container, forKeyIfPresent: .target)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try endpoint.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try target?.encode(on: &_container, forKey: .target)
+	}
+}
 
 /**
  If this is a reply to prior message.
  
  Information about the message that this message is a response to.  Only present if this message is a response.
  */
-public typealias MessageHeaderResponse = BackboneElement
+public struct MessageHeaderResponse: BackboneElement {
+	
+	/// Code that identifies the type of response to the message - whether it was successful or not, and whether it
+	/// should be resent or not.
+	/// Restricted to: ['ok', 'transient-error', 'fatal-error']
+	public var code: FHIRPrimitive<ResponseType>
+	
+	/// Specific list of hints/warnings/errors
+	public var details: Reference?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Id of original message
+	public var identifier: FHIRPrimitive<FHIRString>
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(code: FHIRPrimitive<ResponseType>, identifier: FHIRPrimitive<FHIRString>) {
+		self.code = code
+		self.identifier = identifier
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: FHIRPrimitive<ResponseType>,
+		details: Reference? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		identifier: FHIRPrimitive<FHIRString>,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(code: code, identifier: identifier)
+		self.details = details
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code; case _code
+		case details
+		case `extension` = "extension"
+		case id; case _id
+		case identifier; case _identifier
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try FHIRPrimitive<ResponseType>(from: _container, forKey: .code, auxiliaryKey: ._code)
+		self.details = try Reference(from: _container, forKeyIfPresent: .details)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.identifier = try FHIRPrimitive<FHIRString>(from: _container, forKey: .identifier, auxiliaryKey: ._identifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try details?.encode(on: &_container, forKey: .details)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier.encode(on: &_container, forKey: .identifier, auxiliaryKey: ._identifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Message Source Application.
  
  The source application from which this message originated.
  */
-public typealias MessageHeaderSource = BackboneElement
+public struct MessageHeaderSource: BackboneElement {
+	
+	/// Human contact for problems
+	public var contact: ContactPoint?
+	
+	/// Actual message source address or id
+	public var endpoint: FHIRPrimitive<FHIRURI>
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Name of system
+	public var name: FHIRPrimitive<FHIRString>?
+	
+	/// Name of software running the system
+	public var software: FHIRPrimitive<FHIRString>?
+	
+	/// Version of software running
+	public var version: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init(endpoint: FHIRPrimitive<FHIRURI>) {
+		self.endpoint = endpoint
+	}
+	
+	/// Convenience initializer
+	public init(
+		contact: ContactPoint? = nil,
+		endpoint: FHIRPrimitive<FHIRURI>,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		name: FHIRPrimitive<FHIRString>? = nil,
+		software: FHIRPrimitive<FHIRString>? = nil,
+		version: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init(endpoint: endpoint)
+		self.contact = contact
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.name = name
+		self.software = software
+		self.version = version
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case contact
+		case endpoint; case _endpoint
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case name; case _name
+		case software; case _software
+		case version; case _version
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.contact = try ContactPoint(from: _container, forKeyIfPresent: .contact)
+		self.endpoint = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .endpoint, auxiliaryKey: ._endpoint)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.software = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .software, auxiliaryKey: ._software)
+		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try contact?.encode(on: &_container, forKey: .contact)
+		try endpoint.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try software?.encode(on: &_container, forKey: .software, auxiliaryKey: ._software)
+		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
+	}
+}

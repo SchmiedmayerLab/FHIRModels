@@ -530,7 +530,7 @@ public struct CodeSystemConceptProperty: BackboneElement {
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case code(FHIRPrimitive<FHIRString>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case integer(FHIRPrimitive<FHIRInteger>)
 		case string(FHIRPrimitive<FHIRString>)

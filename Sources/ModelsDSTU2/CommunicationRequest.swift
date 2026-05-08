@@ -32,7 +32,7 @@ public struct CommunicationRequest: DomainResource {
 	/// All possible types for "scheduled[x]"
 	public enum ScheduledX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Message category
@@ -272,4 +272,108 @@ public struct CommunicationRequest: DomainResource {
  
  Text, attachment(s), or resource(s) to be communicated to the recipient.
  */
-public typealias CommunicationRequestPayload = BackboneElement
+public struct CommunicationRequestPayload: BackboneElement {
+	
+	/// All possible types for "content[x]"
+	public enum ContentX: Equatable, Hashable, Sendable {
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
+		case string(FHIRPrimitive<FHIRString>)
+	}
+	
+	/// Message part content
+	/// One of `content[x]`
+	public var content: ContentX
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init(content: ContentX) {
+		self.content = content
+	}
+	
+	/// Convenience initializer
+	public init(
+		content: ContentX,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init(content: content)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case contentAttachment
+		case contentReference
+		case contentString; case _contentString
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Validate that we have at least one of the mandatory properties for expanded properties
+		guard _container.contains(CodingKeys.contentAttachment) || _container.contains(CodingKeys.contentReference) || _container.contains(CodingKeys.contentString) else {
+			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.contentAttachment, CodingKeys.contentReference, CodingKeys.contentString], debugDescription: "Must have at least one value for \"content\" but have none"))
+		}
+		
+		// Decode all our properties (own and inherited)
+		var _t_content: ContentX? = nil
+		if let contentString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .contentString, auxiliaryKey: ._contentString) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentString, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .string(contentString)
+		}
+		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentAttachment, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .attachment(contentAttachment)
+		}
+		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .reference(contentReference)
+		}
+		self.content = _t_content!
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		
+			switch content {
+			case .string(let _value):
+				try _value.encode(on: &_container, forKey: .contentString, auxiliaryKey: ._contentString)
+			case .attachment(let _value):
+				try _value.encode(on: &_container, forKey: .contentAttachment)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .contentReference)
+			}
+		
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}

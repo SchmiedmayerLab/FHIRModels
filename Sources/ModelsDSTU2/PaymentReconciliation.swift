@@ -250,11 +250,189 @@ public struct PaymentReconciliation: DomainResource {
  
  List of individual settlement amounts and the corresponding transaction.
  */
-public typealias PaymentReconciliationDetail = BackboneElement
+public struct PaymentReconciliationDetail: BackboneElement {
+	
+	/// Detail amount
+	public var amount: Quantity?
+	
+	/// Invoice date
+	public var date: FHIRPrimitive<FHIRDate>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Payee
+	public var payee: Reference?
+	
+	/// Claim
+	public var request: Reference?
+	
+	/// Claim Response
+	public var responce: Reference?
+	
+	/// Submitter
+	public var submitter: Reference?
+	
+	/// Type code
+	public var type: Coding
+	
+	/// Designated initializer taking all required properties
+	public init(type: Coding) {
+		self.type = type
+	}
+	
+	/// Convenience initializer
+	public init(
+		amount: Quantity? = nil,
+		date: FHIRPrimitive<FHIRDate>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		payee: Reference? = nil,
+		request: Reference? = nil,
+		responce: Reference? = nil,
+		submitter: Reference? = nil,
+		type: Coding
+	) {
+		self.init(type: type)
+		self.amount = amount
+		self.date = date
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.payee = payee
+		self.request = request
+		self.responce = responce
+		self.submitter = submitter
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case amount
+		case date; case _date
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case payee
+		case request
+		case responce
+		case submitter
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.amount = try Quantity(from: _container, forKeyIfPresent: .amount)
+		self.date = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.payee = try Reference(from: _container, forKeyIfPresent: .payee)
+		self.request = try Reference(from: _container, forKeyIfPresent: .request)
+		self.responce = try Reference(from: _container, forKeyIfPresent: .responce)
+		self.submitter = try Reference(from: _container, forKeyIfPresent: .submitter)
+		self.type = try Coding(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try amount?.encode(on: &_container, forKey: .amount)
+		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try payee?.encode(on: &_container, forKey: .payee)
+		try request?.encode(on: &_container, forKey: .request)
+		try responce?.encode(on: &_container, forKey: .responce)
+		try submitter?.encode(on: &_container, forKey: .submitter)
+		try type.encode(on: &_container, forKey: .type)
+	}
+}
 
 /**
  Note text.
  
  Suite of notes.
  */
-public typealias PaymentReconciliationNote = BackboneElement
+public struct PaymentReconciliationNote: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Notes text
+	public var text: FHIRPrimitive<FHIRString>?
+	
+	/// display | print | printoper
+	public var type: Coding?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		text: FHIRPrimitive<FHIRString>? = nil,
+		type: Coding? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.text = text
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case text; case _text
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+		self.type = try Coding(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}

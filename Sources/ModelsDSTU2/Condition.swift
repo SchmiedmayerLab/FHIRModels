@@ -34,18 +34,18 @@ public struct Condition: DomainResource {
 	public enum AbatementX: Equatable, Hashable, Sendable {
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
 	/// All possible types for "onset[x]"
 	public enum OnsetX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case period(Period)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	
@@ -386,11 +386,149 @@ public struct Condition: DomainResource {
  
  Supporting Evidence / manifestations that are the basis on which this condition is suspected or confirmed.
  */
-public typealias ConditionEvidence = BackboneElement
+public struct ConditionEvidence: BackboneElement {
+	
+	/// Manifestation/symptom
+	public var code: CodeableConcept?
+	
+	/// Supporting information found elsewhere
+	public var detail: [Reference]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: CodeableConcept? = nil,
+		detail: [Reference]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init()
+		self.code = code
+		self.detail = detail
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case detail
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.detail = try [Reference](from: _container, forKeyIfPresent: .detail)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code?.encode(on: &_container, forKey: .code)
+		try detail?.encode(on: &_container, forKey: .detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Stage/grade, usually assessed formally.
  
  Clinical stage or grade of a condition. May include formal severity assessments.
  */
-public typealias ConditionStage = BackboneElement
+public struct ConditionStage: BackboneElement {
+	
+	/// Formal record of assessment
+	public var assessment: [Reference]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Simple summary (disease specific)
+	public var summary: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		assessment: [Reference]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		summary: CodeableConcept? = nil
+	) {
+		self.init()
+		self.assessment = assessment
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.summary = summary
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case assessment
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case summary
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.assessment = try [Reference](from: _container, forKeyIfPresent: .assessment)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.summary = try CodeableConcept(from: _container, forKeyIfPresent: .summary)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try assessment?.encode(on: &_container, forKey: .assessment)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try summary?.encode(on: &_container, forKey: .summary)
+	}
+}

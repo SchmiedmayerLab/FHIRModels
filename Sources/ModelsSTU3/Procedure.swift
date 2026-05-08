@@ -32,7 +32,7 @@ public struct Procedure: DomainResource {
 	/// All possible types for "performed[x]"
 	public enum PerformedX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// A request for this procedure

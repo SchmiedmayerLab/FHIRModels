@@ -294,8 +294,8 @@ public struct CommunicationPayload: BackboneElement {
 	
 	/// All possible types for "content[x]"
 	public enum ContentX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

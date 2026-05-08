@@ -485,7 +485,7 @@ public struct DocumentReferenceContentProfile: BackboneElement {
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case coding(Coding)
+		indirect case coding(Coding)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

@@ -32,14 +32,14 @@ public struct ArtifactAssessment: DomainResource {
 	/// All possible types for "artifact[x]"
 	public enum ArtifactX: Equatable, Hashable, Sendable {
 		case canonical(FHIRPrimitive<Canonical>)
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "citeAs[x]"
 	public enum CiteAsX: Equatable, Hashable, Sendable {
 		case markdown(FHIRPrimitive<FHIRString>)
-		case reference(Reference)
+		indirect case reference(Reference)
 	}
 	
 	/// When the artifact assessment was approved by publisher

@@ -30,8 +30,8 @@ public struct VisionPrescription: DomainResource {
 	
 	/// All possible types for "reason[x]"
 	public enum ReasonX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Contained, inline Resources
@@ -213,4 +213,179 @@ public struct VisionPrescription: DomainResource {
  
  Deals with details of the dispense part of the supply specification.
  */
-public typealias VisionPrescriptionDispense = BackboneElement
+public struct VisionPrescriptionDispense: BackboneElement {
+	
+	/// Lens add
+	public var add: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Lens axis
+	public var axis: FHIRPrimitive<FHIRInteger>?
+	
+	/// Contact lens back curvature
+	public var backCurve: FHIRPrimitive<FHIRDecimal>?
+	
+	/// The relative base, or reference lens edge, for the prism.
+	/// Restricted to: ['up', 'down', 'in', 'out']
+	public var base: FHIRPrimitive<VisionBase>?
+	
+	/// Lens add
+	public var brand: FHIRPrimitive<FHIRString>?
+	
+	/// Lens add
+	public var color: FHIRPrimitive<FHIRString>?
+	
+	/// Lens cylinder
+	public var cylinder: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Contact lens diameter
+	public var diameter: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Lens wear duration
+	public var duration: Quantity?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The eye for which the lens applies.
+	/// Restricted to: ['right', 'left']
+	public var eye: FHIRPrimitive<VisionEyes>?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Notes for coatings
+	public var notes: FHIRPrimitive<FHIRString>?
+	
+	/// Contact lens power
+	public var power: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Lens prism
+	public var prism: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Product to be supplied
+	public var product: Coding
+	
+	/// Lens sphere
+	public var sphere: FHIRPrimitive<FHIRDecimal>?
+	
+	/// Designated initializer taking all required properties
+	public init(product: Coding) {
+		self.product = product
+	}
+	
+	/// Convenience initializer
+	public init(
+		add: FHIRPrimitive<FHIRDecimal>? = nil,
+		axis: FHIRPrimitive<FHIRInteger>? = nil,
+		backCurve: FHIRPrimitive<FHIRDecimal>? = nil,
+		base: FHIRPrimitive<VisionBase>? = nil,
+		brand: FHIRPrimitive<FHIRString>? = nil,
+		color: FHIRPrimitive<FHIRString>? = nil,
+		cylinder: FHIRPrimitive<FHIRDecimal>? = nil,
+		diameter: FHIRPrimitive<FHIRDecimal>? = nil,
+		duration: Quantity? = nil,
+		`extension`: [Extension]? = nil,
+		eye: FHIRPrimitive<VisionEyes>? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		notes: FHIRPrimitive<FHIRString>? = nil,
+		power: FHIRPrimitive<FHIRDecimal>? = nil,
+		prism: FHIRPrimitive<FHIRDecimal>? = nil,
+		product: Coding,
+		sphere: FHIRPrimitive<FHIRDecimal>? = nil
+	) {
+		self.init(product: product)
+		self.add = add
+		self.axis = axis
+		self.backCurve = backCurve
+		self.base = base
+		self.brand = brand
+		self.color = color
+		self.cylinder = cylinder
+		self.diameter = diameter
+		self.duration = duration
+		self.`extension` = `extension`
+		self.eye = eye
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.notes = notes
+		self.power = power
+		self.prism = prism
+		self.sphere = sphere
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case add; case _add
+		case axis; case _axis
+		case backCurve; case _backCurve
+		case base; case _base
+		case brand; case _brand
+		case color; case _color
+		case cylinder; case _cylinder
+		case diameter; case _diameter
+		case duration
+		case `extension` = "extension"
+		case eye; case _eye
+		case id; case _id
+		case modifierExtension
+		case notes; case _notes
+		case power; case _power
+		case prism; case _prism
+		case product
+		case sphere; case _sphere
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.add = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .add, auxiliaryKey: ._add)
+		self.axis = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .axis, auxiliaryKey: ._axis)
+		self.backCurve = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .backCurve, auxiliaryKey: ._backCurve)
+		self.base = try FHIRPrimitive<VisionBase>(from: _container, forKeyIfPresent: .base, auxiliaryKey: ._base)
+		self.brand = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .brand, auxiliaryKey: ._brand)
+		self.color = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .color, auxiliaryKey: ._color)
+		self.cylinder = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .cylinder, auxiliaryKey: ._cylinder)
+		self.diameter = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .diameter, auxiliaryKey: ._diameter)
+		self.duration = try Quantity(from: _container, forKeyIfPresent: .duration)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.eye = try FHIRPrimitive<VisionEyes>(from: _container, forKeyIfPresent: .eye, auxiliaryKey: ._eye)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.notes = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .notes, auxiliaryKey: ._notes)
+		self.power = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .power, auxiliaryKey: ._power)
+		self.prism = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .prism, auxiliaryKey: ._prism)
+		self.product = try Coding(from: _container, forKey: .product)
+		self.sphere = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .sphere, auxiliaryKey: ._sphere)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try add?.encode(on: &_container, forKey: .add, auxiliaryKey: ._add)
+		try axis?.encode(on: &_container, forKey: .axis, auxiliaryKey: ._axis)
+		try backCurve?.encode(on: &_container, forKey: .backCurve, auxiliaryKey: ._backCurve)
+		try base?.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
+		try brand?.encode(on: &_container, forKey: .brand, auxiliaryKey: ._brand)
+		try color?.encode(on: &_container, forKey: .color, auxiliaryKey: ._color)
+		try cylinder?.encode(on: &_container, forKey: .cylinder, auxiliaryKey: ._cylinder)
+		try diameter?.encode(on: &_container, forKey: .diameter, auxiliaryKey: ._diameter)
+		try duration?.encode(on: &_container, forKey: .duration)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try eye?.encode(on: &_container, forKey: .eye, auxiliaryKey: ._eye)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try notes?.encode(on: &_container, forKey: .notes, auxiliaryKey: ._notes)
+		try power?.encode(on: &_container, forKey: .power, auxiliaryKey: ._power)
+		try prism?.encode(on: &_container, forKey: .prism, auxiliaryKey: ._prism)
+		try product.encode(on: &_container, forKey: .product)
+		try sphere?.encode(on: &_container, forKey: .sphere, auxiliaryKey: ._sphere)
+	}
+}

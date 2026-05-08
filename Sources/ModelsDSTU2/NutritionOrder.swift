@@ -227,7 +227,132 @@ public struct NutritionOrder: DomainResource {
  Feeding provided through the gastrointestinal tract via a tube, catheter, or stoma that delivers nutrition distal to
  the oral cavity.
  */
-public typealias NutritionOrderEnteralFormula = BackboneElement
+public struct NutritionOrderEnteralFormula: BackboneElement {
+	
+	/// Product or brand name of the modular additive
+	public var additiveProductName: FHIRPrimitive<FHIRString>?
+	
+	/// Type of modular component to add to the feeding
+	public var additiveType: CodeableConcept?
+	
+	/// Formula feeding instruction as structured data
+	public var administration: [NutritionOrderEnteralFormulaAdministration]?
+	
+	/// Formula feeding instructions expressed as text
+	public var administrationInstruction: FHIRPrimitive<FHIRString>?
+	
+	/// Product or brand name of the enteral or infant formula
+	public var baseFormulaProductName: FHIRPrimitive<FHIRString>?
+	
+	/// Type of enteral or infant formula
+	public var baseFormulaType: CodeableConcept?
+	
+	/// Amount of energy per specified volume that is required
+	public var caloricDensity: Quantity?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Upper limit on formula volume per unit of time
+	public var maxVolumeToDeliver: Quantity?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// How the formula should enter the patient's gastrointestinal tract
+	public var routeofAdministration: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		additiveProductName: FHIRPrimitive<FHIRString>? = nil,
+		additiveType: CodeableConcept? = nil,
+		administration: [NutritionOrderEnteralFormulaAdministration]? = nil,
+		administrationInstruction: FHIRPrimitive<FHIRString>? = nil,
+		baseFormulaProductName: FHIRPrimitive<FHIRString>? = nil,
+		baseFormulaType: CodeableConcept? = nil,
+		caloricDensity: Quantity? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		maxVolumeToDeliver: Quantity? = nil,
+		modifierExtension: [Extension]? = nil,
+		routeofAdministration: CodeableConcept? = nil
+	) {
+		self.init()
+		self.additiveProductName = additiveProductName
+		self.additiveType = additiveType
+		self.administration = administration
+		self.administrationInstruction = administrationInstruction
+		self.baseFormulaProductName = baseFormulaProductName
+		self.baseFormulaType = baseFormulaType
+		self.caloricDensity = caloricDensity
+		self.`extension` = `extension`
+		self.id = id
+		self.maxVolumeToDeliver = maxVolumeToDeliver
+		self.modifierExtension = modifierExtension
+		self.routeofAdministration = routeofAdministration
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case additiveProductName; case _additiveProductName
+		case additiveType
+		case administration
+		case administrationInstruction; case _administrationInstruction
+		case baseFormulaProductName; case _baseFormulaProductName
+		case baseFormulaType
+		case caloricDensity
+		case `extension` = "extension"
+		case id; case _id
+		case maxVolumeToDeliver
+		case modifierExtension
+		case routeofAdministration
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.additiveProductName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .additiveProductName, auxiliaryKey: ._additiveProductName)
+		self.additiveType = try CodeableConcept(from: _container, forKeyIfPresent: .additiveType)
+		self.administration = try [NutritionOrderEnteralFormulaAdministration](from: _container, forKeyIfPresent: .administration)
+		self.administrationInstruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .administrationInstruction, auxiliaryKey: ._administrationInstruction)
+		self.baseFormulaProductName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .baseFormulaProductName, auxiliaryKey: ._baseFormulaProductName)
+		self.baseFormulaType = try CodeableConcept(from: _container, forKeyIfPresent: .baseFormulaType)
+		self.caloricDensity = try Quantity(from: _container, forKeyIfPresent: .caloricDensity)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.maxVolumeToDeliver = try Quantity(from: _container, forKeyIfPresent: .maxVolumeToDeliver)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.routeofAdministration = try CodeableConcept(from: _container, forKeyIfPresent: .routeofAdministration)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try additiveProductName?.encode(on: &_container, forKey: .additiveProductName, auxiliaryKey: ._additiveProductName)
+		try additiveType?.encode(on: &_container, forKey: .additiveType)
+		try administration?.encode(on: &_container, forKey: .administration)
+		try administrationInstruction?.encode(on: &_container, forKey: .administrationInstruction, auxiliaryKey: ._administrationInstruction)
+		try baseFormulaProductName?.encode(on: &_container, forKey: .baseFormulaProductName, auxiliaryKey: ._baseFormulaProductName)
+		try baseFormulaType?.encode(on: &_container, forKey: .baseFormulaType)
+		try caloricDensity?.encode(on: &_container, forKey: .caloricDensity)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try maxVolumeToDeliver?.encode(on: &_container, forKey: .maxVolumeToDeliver)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try routeofAdministration?.encode(on: &_container, forKey: .routeofAdministration)
+	}
+}
 
 /**
  Formula feeding instruction as structured data.
@@ -236,32 +361,469 @@ public typealias NutritionOrderEnteralFormula = BackboneElement
  administration rate or volume over time for both bolus and continuous feeding.  An example of this would be an
  instruction to increase the rate of continuous feeding every 2 hours.
  */
-public typealias NutritionOrderEnteralFormulaAdministration = BackboneElement
+public struct NutritionOrderEnteralFormulaAdministration: BackboneElement {
+	
+	/// All possible types for "rate[x]"
+	public enum RateX: Equatable, Hashable, Sendable {
+		indirect case quantity(Quantity)
+		indirect case ratio(Ratio)
+	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The volume of formula to provide
+	public var quantity: Quantity?
+	
+	/// Speed with which the formula is provided per period of time
+	/// One of `rate[x]`
+	public var rate: RateX?
+	
+	/// Scheduled frequency of enteral feeding
+	public var schedule: Timing?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		quantity: Quantity? = nil,
+		rate: RateX? = nil,
+		schedule: Timing? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.quantity = quantity
+		self.rate = rate
+		self.schedule = schedule
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case quantity
+		case rateQuantity
+		case rateRatio
+		case schedule
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		var _t_rate: RateX? = nil
+		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateQuantity, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .quantity(rateQuantity)
+		}
+		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .ratio(rateRatio)
+		}
+		self.rate = _t_rate
+		self.schedule = try Timing(from: _container, forKeyIfPresent: .schedule)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		if let _enum = rate {
+			switch _enum {
+			case .quantity(let _value):
+				try _value.encode(on: &_container, forKey: .rateQuantity)
+			case .ratio(let _value):
+				try _value.encode(on: &_container, forKey: .rateRatio)
+			}
+		}
+		try schedule?.encode(on: &_container, forKey: .schedule)
+	}
+}
 
 /**
  Oral diet components.
  
  Diet given orally in contrast to enteral (tube) feeding.
  */
-public typealias NutritionOrderOralDiet = BackboneElement
+public struct NutritionOrderOralDiet: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// The required consistency of fluids and liquids provided to the patient
+	public var fluidConsistencyType: [CodeableConcept]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Instructions or additional information about the oral diet
+	public var instruction: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Required  nutrient modifications
+	public var nutrient: [NutritionOrderOralDietNutrient]?
+	
+	/// Scheduled frequency of diet
+	public var schedule: [Timing]?
+	
+	/// Required  texture modifications
+	public var texture: [NutritionOrderOralDietTexture]?
+	
+	/// Type of oral diet or diet restrictions that describe what can be consumed orally
+	public var type: [CodeableConcept]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		fluidConsistencyType: [CodeableConcept]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		instruction: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		nutrient: [NutritionOrderOralDietNutrient]? = nil,
+		schedule: [Timing]? = nil,
+		texture: [NutritionOrderOralDietTexture]? = nil,
+		type: [CodeableConcept]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.fluidConsistencyType = fluidConsistencyType
+		self.id = id
+		self.instruction = instruction
+		self.modifierExtension = modifierExtension
+		self.nutrient = nutrient
+		self.schedule = schedule
+		self.texture = texture
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case fluidConsistencyType
+		case id; case _id
+		case instruction; case _instruction
+		case modifierExtension
+		case nutrient
+		case schedule
+		case texture
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.fluidConsistencyType = try [CodeableConcept](from: _container, forKeyIfPresent: .fluidConsistencyType)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.instruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .instruction, auxiliaryKey: ._instruction)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.nutrient = try [NutritionOrderOralDietNutrient](from: _container, forKeyIfPresent: .nutrient)
+		self.schedule = try [Timing](from: _container, forKeyIfPresent: .schedule)
+		self.texture = try [NutritionOrderOralDietTexture](from: _container, forKeyIfPresent: .texture)
+		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try fluidConsistencyType?.encode(on: &_container, forKey: .fluidConsistencyType)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try instruction?.encode(on: &_container, forKey: .instruction, auxiliaryKey: ._instruction)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try nutrient?.encode(on: &_container, forKey: .nutrient)
+		try schedule?.encode(on: &_container, forKey: .schedule)
+		try texture?.encode(on: &_container, forKey: .texture)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}
 
 /**
  Required  nutrient modifications.
  
  Class that defines the quantity and type of nutrient modifications required for the oral diet.
  */
-public typealias NutritionOrderOralDietNutrient = BackboneElement
+public struct NutritionOrderOralDietNutrient: BackboneElement {
+	
+	/// Quantity of the specified nutrient
+	public var amount: Quantity?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Type of nutrient that is being modified
+	public var modifier: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		amount: Quantity? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifier: CodeableConcept? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init()
+		self.amount = amount
+		self.`extension` = `extension`
+		self.id = id
+		self.modifier = modifier
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case amount
+		case `extension` = "extension"
+		case id; case _id
+		case modifier
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.amount = try Quantity(from: _container, forKeyIfPresent: .amount)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifier = try CodeableConcept(from: _container, forKeyIfPresent: .modifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try amount?.encode(on: &_container, forKey: .amount)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifier?.encode(on: &_container, forKey: .modifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Required  texture modifications.
  
  Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
  */
-public typealias NutritionOrderOralDietTexture = BackboneElement
+public struct NutritionOrderOralDietTexture: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// Concepts that are used to identify an entity that is ingested for nutritional purposes
+	public var foodType: CodeableConcept?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Code to indicate how to alter the texture of the foods, e.g. pureed
+	public var modifier: CodeableConcept?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		foodType: CodeableConcept? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifier: CodeableConcept? = nil,
+		modifierExtension: [Extension]? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.foodType = foodType
+		self.id = id
+		self.modifier = modifier
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case foodType
+		case id; case _id
+		case modifier
+		case modifierExtension
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.foodType = try CodeableConcept(from: _container, forKeyIfPresent: .foodType)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifier = try CodeableConcept(from: _container, forKeyIfPresent: .modifier)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try foodType?.encode(on: &_container, forKey: .foodType)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifier?.encode(on: &_container, forKey: .modifier)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+}
 
 /**
  Supplement components.
  
  Oral nutritional products given in order to add further nutritional value to the patient's diet.
  */
-public typealias NutritionOrderSupplement = BackboneElement
+public struct NutritionOrderSupplement: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Instructions or additional information about the oral supplement
+	public var instruction: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Product or brand name of the nutritional supplement
+	public var productName: FHIRPrimitive<FHIRString>?
+	
+	/// Amount of the nutritional supplement
+	public var quantity: Quantity?
+	
+	/// Scheduled frequency of supplement
+	public var schedule: [Timing]?
+	
+	/// Type of supplement product requested
+	public var type: CodeableConcept?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		instruction: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		productName: FHIRPrimitive<FHIRString>? = nil,
+		quantity: Quantity? = nil,
+		schedule: [Timing]? = nil,
+		type: CodeableConcept? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.instruction = instruction
+		self.modifierExtension = modifierExtension
+		self.productName = productName
+		self.quantity = quantity
+		self.schedule = schedule
+		self.type = type
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case instruction; case _instruction
+		case modifierExtension
+		case productName; case _productName
+		case quantity
+		case schedule
+		case type
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.instruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .instruction, auxiliaryKey: ._instruction)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.productName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .productName, auxiliaryKey: ._productName)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		self.schedule = try [Timing](from: _container, forKeyIfPresent: .schedule)
+		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try instruction?.encode(on: &_container, forKey: .instruction, auxiliaryKey: ._instruction)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try productName?.encode(on: &_container, forKey: .productName, auxiliaryKey: ._productName)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		try schedule?.encode(on: &_container, forKey: .schedule)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+}

@@ -1289,12 +1289,12 @@ public struct DeviceDefinitionProperty: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case quantity(Quantity)
-		case range(Range)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
 		case string(FHIRPrimitive<FHIRString>)
 	}
 	

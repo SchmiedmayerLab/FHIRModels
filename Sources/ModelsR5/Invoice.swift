@@ -32,7 +32,7 @@ public struct Invoice: DomainResource {
 	/// All possible types for "period[x]"
 	public enum PeriodX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Account that is being balanced
@@ -307,14 +307,14 @@ public struct InvoiceLineItem: BackboneElement {
 	
 	/// All possible types for "chargeItem[x]"
 	public enum ChargeItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Reference to ChargeItem containing details of this line item or an inline billing code

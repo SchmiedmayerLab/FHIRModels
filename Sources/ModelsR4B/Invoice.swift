@@ -263,8 +263,8 @@ public struct InvoiceLineItem: BackboneElement {
 	
 	/// All possible types for "chargeItem[x]"
 	public enum ChargeItemX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Reference to ChargeItem containing details of this line item or an inline billing code

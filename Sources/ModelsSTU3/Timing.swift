@@ -107,9 +107,9 @@ public struct TimingRepeat: Element {
 	
 	/// All possible types for "bounds[x]"
 	public enum BoundsX: Equatable, Hashable, Sendable {
-		case duration(Duration)
-		case period(Period)
-		case range(Range)
+		indirect case duration(Duration)
+		indirect case period(Period)
+		indirect case range(Range)
 	}
 	
 	/// Length/Range of lengths, or (Start and/or end) limits

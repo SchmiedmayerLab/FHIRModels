@@ -137,4 +137,100 @@ public struct OperationOutcome: DomainResource {
  
  An error, warning or information message that results from a system action.
  */
-public typealias OperationOutcomeIssue = BackboneElement
+public struct OperationOutcomeIssue: BackboneElement {
+	
+	/// Describes the type of the issue. The system that creates an OperationOutcome SHALL choose the most applicable
+	/// code from the IssueType value set, and may additional provide its own code for the error in the details element.
+	/// Restricted to: ['invalid', 'security', 'processing', 'transient', 'informational']
+	public var code: FHIRPrimitive<IssueType>
+	
+	/// Additional details about the error
+	public var details: CodeableConcept?
+	
+	/// Additional diagnostic information about the issue
+	public var diagnostics: FHIRPrimitive<FHIRString>?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// XPath of element(s) related to issue
+	public var location: [FHIRPrimitive<FHIRString>]?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Indicates whether the issue indicates a variation from successful processing.
+	/// Restricted to: ['fatal', 'error', 'warning', 'information']
+	public var severity: FHIRPrimitive<IssueSeverity>
+	
+	/// Designated initializer taking all required properties
+	public init(code: FHIRPrimitive<IssueType>, severity: FHIRPrimitive<IssueSeverity>) {
+		self.code = code
+		self.severity = severity
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: FHIRPrimitive<IssueType>,
+		details: CodeableConcept? = nil,
+		diagnostics: FHIRPrimitive<FHIRString>? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		location: [FHIRPrimitive<FHIRString>]? = nil,
+		modifierExtension: [Extension]? = nil,
+		severity: FHIRPrimitive<IssueSeverity>
+	) {
+		self.init(code: code, severity: severity)
+		self.details = details
+		self.diagnostics = diagnostics
+		self.`extension` = `extension`
+		self.id = id
+		self.location = location
+		self.modifierExtension = modifierExtension
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code; case _code
+		case details
+		case diagnostics; case _diagnostics
+		case `extension` = "extension"
+		case id; case _id
+		case location; case _location
+		case modifierExtension
+		case severity; case _severity
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try FHIRPrimitive<IssueType>(from: _container, forKey: .code, auxiliaryKey: ._code)
+		self.details = try CodeableConcept(from: _container, forKeyIfPresent: .details)
+		self.diagnostics = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .diagnostics, auxiliaryKey: ._diagnostics)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.location = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .location, auxiliaryKey: ._location)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.severity = try FHIRPrimitive<IssueSeverity>(from: _container, forKey: .severity, auxiliaryKey: ._severity)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
+		try details?.encode(on: &_container, forKey: .details)
+		try diagnostics?.encode(on: &_container, forKey: .diagnostics, auxiliaryKey: ._diagnostics)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try location?.encode(on: &_container, forKey: .location, auxiliaryKey: ._location)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try severity.encode(on: &_container, forKey: .severity, auxiliaryKey: ._severity)
+	}
+}

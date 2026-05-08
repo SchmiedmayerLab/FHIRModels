@@ -541,8 +541,8 @@ public struct ExplanationOfBenefitAccident: BackboneElement {
 	
 	/// All possible types for "location[x]"
 	public enum LocationX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case reference(Reference)
+		indirect case address(Address)
+		indirect case reference(Reference)
 	}
 	
 	/// When the incident occurred
@@ -653,15 +653,15 @@ public struct ExplanationOfBenefitAddItem: BackboneElement {
 	
 	/// All possible types for "location[x]"
 	public enum LocationX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case address(Address)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Added items adjudication
@@ -1545,14 +1545,14 @@ public struct ExplanationOfBenefitBenefitBalanceFinancial: BackboneElement {
 	
 	/// All possible types for "allowed[x]"
 	public enum AllowedX: Equatable, Hashable, Sendable {
-		case money(Money)
+		indirect case money(Money)
 		case string(FHIRPrimitive<FHIRString>)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
 	/// All possible types for "used[x]"
 	public enum UsedX: Equatable, Hashable, Sendable {
-		case money(Money)
+		indirect case money(Money)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 	}
 	
@@ -1787,8 +1787,8 @@ public struct ExplanationOfBenefitDiagnosis: BackboneElement {
 	
 	/// All possible types for "diagnosis[x]"
 	public enum DiagnosisX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Nature of illness or problem
@@ -1913,7 +1913,7 @@ public struct ExplanationOfBenefitEvent: BackboneElement {
 	/// All possible types for "when[x]"
 	public enum WhenX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Additional content defined by implementations
@@ -2106,15 +2106,15 @@ public struct ExplanationOfBenefitItem: BackboneElement {
 	
 	/// All possible types for "location[x]"
 	public enum LocationX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case address(Address)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// All possible types for "serviced[x]"
 	public enum ServicedX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Adjudication details
@@ -3333,8 +3333,8 @@ public struct ExplanationOfBenefitProcedure: BackboneElement {
 	
 	/// All possible types for "procedure[x]"
 	public enum ProcedureX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// When the procedure was performed
@@ -3653,67 +3653,67 @@ public struct ExplanationOfBenefitSupportingInfo: BackboneElement {
 	/// All possible types for "timing[x]"
 	public enum TimingX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
-		case timing(Timing)
+		indirect case period(Period)
+		indirect case timing(Timing)
 	}
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case address(Address)
-		case age(Age)
-		case annotation(Annotation)
-		case attachment(Attachment)
-		case availability(Availability)
+		indirect case address(Address)
+		indirect case age(Age)
+		indirect case annotation(Annotation)
+		indirect case attachment(Attachment)
+		indirect case availability(Availability)
 		case base64Binary(FHIRPrimitive<Base64Binary>)
 		case boolean(FHIRPrimitive<FHIRBool>)
 		case canonical(FHIRPrimitive<Canonical>)
 		case code(FHIRPrimitive<FHIRString>)
-		case codeableConcept(CodeableConcept)
-		case codeableReference(CodeableReference)
-		case coding(Coding)
-		case contactDetail(ContactDetail)
-		case contactPoint(ContactPoint)
-		case count(Count)
-		case dataRequirement(DataRequirement)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case codeableReference(CodeableReference)
+		indirect case coding(Coding)
+		indirect case contactDetail(ContactDetail)
+		indirect case contactPoint(ContactPoint)
+		indirect case count(Count)
+		indirect case dataRequirement(DataRequirement)
 		case date(FHIRPrimitive<FHIRDate>)
 		case dateTime(FHIRPrimitive<DateTime>)
 		case decimal(FHIRPrimitive<FHIRDecimal>)
-		case distance(Distance)
-		case dosage(Dosage)
-		case duration(Duration)
-		case expression(Expression)
-		case extendedContactDetail(ExtendedContactDetail)
-		case humanName(HumanName)
+		indirect case distance(Distance)
+		indirect case dosage(Dosage)
+		indirect case duration(Duration)
+		indirect case expression(Expression)
+		indirect case extendedContactDetail(ExtendedContactDetail)
+		indirect case humanName(HumanName)
 		case id(FHIRPrimitive<FHIRString>)
-		case identifier(Identifier)
+		indirect case identifier(Identifier)
 		case instant(FHIRPrimitive<Instant>)
 		case integer(FHIRPrimitive<FHIRInteger>)
-		case integer64(FHIRInteger64)
+		indirect case integer64(FHIRInteger64)
 		case markdown(FHIRPrimitive<FHIRString>)
-		case meta(Meta)
-		case money(Money)
+		indirect case meta(Meta)
+		indirect case money(Money)
 		case oid(FHIRPrimitive<FHIRURI>)
-		case parameterDefinition(ParameterDefinition)
-		case period(Period)
+		indirect case parameterDefinition(ParameterDefinition)
+		indirect case period(Period)
 		case positiveInt(FHIRPrimitive<FHIRPositiveInteger>)
-		case quantity(Quantity)
-		case range(Range)
-		case ratio(Ratio)
-		case ratioRange(RatioRange)
-		case reference(Reference)
-		case relatedArtifact(RelatedArtifact)
-		case sampledData(SampledData)
-		case signature(Signature)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case ratio(Ratio)
+		indirect case ratioRange(RatioRange)
+		indirect case reference(Reference)
+		indirect case relatedArtifact(RelatedArtifact)
+		indirect case sampledData(SampledData)
+		indirect case signature(Signature)
 		case string(FHIRPrimitive<FHIRString>)
 		case time(FHIRPrimitive<FHIRTime>)
-		case timing(Timing)
-		case triggerDefinition(TriggerDefinition)
+		indirect case timing(Timing)
+		indirect case triggerDefinition(TriggerDefinition)
 		case unsignedInt(FHIRPrimitive<FHIRUnsignedInteger>)
 		case uri(FHIRPrimitive<FHIRURI>)
 		case url(FHIRPrimitive<FHIRURI>)
-		case usageContext(UsageContext)
+		indirect case usageContext(UsageContext)
 		case uuid(FHIRPrimitive<FHIRURI>)
-		case virtualServiceDetail(VirtualServiceDetail)
+		indirect case virtualServiceDetail(VirtualServiceDetail)
 	}
 	
 	/// Classification of the supplied information

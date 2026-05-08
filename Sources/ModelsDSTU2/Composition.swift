@@ -246,18 +246,293 @@ public struct Composition: DomainResource {
  
  A participant who has attested to the accuracy of the composition/document.
  */
-public typealias CompositionAttester = BackboneElement
+public struct CompositionAttester: BackboneElement {
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// The type of attestation the authenticator offers.
+	/// Restricted to: ['personal', 'professional', 'legal', 'official']
+	public var mode: [FHIRPrimitive<CompositionAttestationMode>]
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Who attested the composition
+	public var party: Reference?
+	
+	/// When composition attested
+	public var time: FHIRPrimitive<DateTime>?
+	
+	/// Designated initializer taking all required properties
+	public init(mode: [FHIRPrimitive<CompositionAttestationMode>]) {
+		self.mode = mode
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		mode: [FHIRPrimitive<CompositionAttestationMode>],
+		modifierExtension: [Extension]? = nil,
+		party: Reference? = nil,
+		time: FHIRPrimitive<DateTime>? = nil
+	) {
+		self.init(mode: mode)
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.party = party
+		self.time = time
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case mode; case _mode
+		case modifierExtension
+		case party
+		case time; case _time
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.mode = try [FHIRPrimitive<CompositionAttestationMode>](from: _container, forKey: .mode, auxiliaryKey: ._mode)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.party = try Reference(from: _container, forKeyIfPresent: .party)
+		self.time = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .time, auxiliaryKey: ._time)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try mode.encode(on: &_container, forKey: .mode, auxiliaryKey: ._mode)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try party?.encode(on: &_container, forKey: .party)
+		try time?.encode(on: &_container, forKey: .time, auxiliaryKey: ._time)
+	}
+}
 
 /**
  The clinical service(s) being documented.
  
  The clinical service, such as a colonoscopy or an appendectomy, being documented.
  */
-public typealias CompositionEvent = BackboneElement
+public struct CompositionEvent: BackboneElement {
+	
+	/// Code(s) that apply to the event being documented
+	public var code: [CodeableConcept]?
+	
+	/// The event(s) being documented
+	public var detail: [Reference]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// The period covered by the documentation
+	public var period: Period?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: [CodeableConcept]? = nil,
+		detail: [Reference]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		period: Period? = nil
+	) {
+		self.init()
+		self.code = code
+		self.detail = detail
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.period = period
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case detail
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case period
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try [CodeableConcept](from: _container, forKeyIfPresent: .code)
+		self.detail = try [Reference](from: _container, forKeyIfPresent: .detail)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code?.encode(on: &_container, forKey: .code)
+		try detail?.encode(on: &_container, forKey: .detail)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period?.encode(on: &_container, forKey: .period)
+	}
+}
 
 /**
  Composition is broken into sections.
  
  The root of the sections that make up the composition.
  */
-public typealias CompositionSection = BackboneElement
+public struct CompositionSection: BackboneElement {
+	
+	/// Classification of section (recommended)
+	public var code: CodeableConcept?
+	
+	/// Why the section is empty
+	public var emptyReason: CodeableConcept?
+	
+	/// A reference to data that supports this section
+	public var entry: [Reference]?
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// How the entry list was prepared - whether it is a working list that is suitable for being maintained on an
+	/// ongoing basis, or if it represents a snapshot of a list of items from another source, or whether it is a
+	/// prepared list where items may be marked as added, modified or deleted.
+	/// Restricted to: ['working', 'snapshot', 'changes']
+	public var mode: FHIRPrimitive<ListMode>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Order of section entries
+	public var orderedBy: CodeableConcept?
+	
+	/// Nested Section
+	public var section: [CompositionSection]?
+	
+	/// Text summary of the section, for human interpretation
+	public var text: Narrative?
+	
+	/// Label for section (e.g. for ToC)
+	public var title: FHIRPrimitive<FHIRString>?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		code: CodeableConcept? = nil,
+		emptyReason: CodeableConcept? = nil,
+		entry: [Reference]? = nil,
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		mode: FHIRPrimitive<ListMode>? = nil,
+		modifierExtension: [Extension]? = nil,
+		orderedBy: CodeableConcept? = nil,
+		section: [CompositionSection]? = nil,
+		text: Narrative? = nil,
+		title: FHIRPrimitive<FHIRString>? = nil
+	) {
+		self.init()
+		self.code = code
+		self.emptyReason = emptyReason
+		self.entry = entry
+		self.`extension` = `extension`
+		self.id = id
+		self.mode = mode
+		self.modifierExtension = modifierExtension
+		self.orderedBy = orderedBy
+		self.section = section
+		self.text = text
+		self.title = title
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case code
+		case emptyReason
+		case entry
+		case `extension` = "extension"
+		case id; case _id
+		case mode; case _mode
+		case modifierExtension
+		case orderedBy
+		case section
+		case text
+		case title; case _title
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.code = try CodeableConcept(from: _container, forKeyIfPresent: .code)
+		self.emptyReason = try CodeableConcept(from: _container, forKeyIfPresent: .emptyReason)
+		self.entry = try [Reference](from: _container, forKeyIfPresent: .entry)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.mode = try FHIRPrimitive<ListMode>(from: _container, forKeyIfPresent: .mode, auxiliaryKey: ._mode)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.orderedBy = try CodeableConcept(from: _container, forKeyIfPresent: .orderedBy)
+		self.section = try [CompositionSection](from: _container, forKeyIfPresent: .section)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
+		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try code?.encode(on: &_container, forKey: .code)
+		try emptyReason?.encode(on: &_container, forKey: .emptyReason)
+		try entry?.encode(on: &_container, forKey: .entry)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try mode?.encode(on: &_container, forKey: .mode, auxiliaryKey: ._mode)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try orderedBy?.encode(on: &_container, forKey: .orderedBy)
+		try section?.encode(on: &_container, forKey: .section)
+		try text?.encode(on: &_container, forKey: .text)
+		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
+	}
+}

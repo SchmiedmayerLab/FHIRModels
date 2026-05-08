@@ -30,8 +30,8 @@ public struct Contract: DomainResource {
 	
 	/// All possible types for "binding[x]"
 	public enum BindingX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 	}
 	
 	/// Action stipulated by this Contract
@@ -426,8 +426,8 @@ public struct ContractFriendly: BackboneElement {
 	
 	/// All possible types for "content[x]"
 	public enum ContentX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 	}
 	
 	/// Easily comprehended representation of this Contract
@@ -527,8 +527,8 @@ public struct ContractLegal: BackboneElement {
 	
 	/// All possible types for "content[x]"
 	public enum ContentX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 	}
 	
 	/// Contract Legal Text
@@ -628,8 +628,8 @@ public struct ContractRule: BackboneElement {
 	
 	/// All possible types for "content[x]"
 	public enum ContentX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
-		case reference(Reference)
+		indirect case attachment(Attachment)
+		indirect case reference(Reference)
 	}
 	
 	/// Computable Contract Rules
@@ -1056,8 +1056,8 @@ public struct ContractTermValuedItem: BackboneElement {
 	
 	/// All possible types for "entity[x]"
 	public enum EntityX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Contract Term Valued Item Effective Tiem
@@ -1206,8 +1206,8 @@ public struct ContractValuedItem: BackboneElement {
 	
 	/// All possible types for "entity[x]"
 	public enum EntityX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
-		case reference(Reference)
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
 	}
 	
 	/// Contract Valued Item Effective Tiem

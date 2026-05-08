@@ -220,13 +220,13 @@ public struct ProvenanceAgent: BackboneElement {
 	
 	/// All possible types for "onBehalfOf[x]"
 	public enum OnBehalfOfX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
 	/// All possible types for "who[x]"
 	public enum WhoX: Equatable, Hashable, Sendable {
-		case reference(Reference)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	
@@ -371,8 +371,8 @@ public struct ProvenanceEntity: BackboneElement {
 	
 	/// All possible types for "what[x]"
 	public enum WhatX: Equatable, Hashable, Sendable {
-		case identifier(Identifier)
-		case reference(Reference)
+		indirect case identifier(Identifier)
+		indirect case reference(Reference)
 		case uri(FHIRPrimitive<FHIRURI>)
 	}
 	

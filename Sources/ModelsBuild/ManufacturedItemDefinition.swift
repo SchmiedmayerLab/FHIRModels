@@ -415,14 +415,14 @@ public struct ManufacturedItemDefinitionProperty: BackboneElement {
 	
 	/// All possible types for "value[x]"
 	public enum ValueX: Equatable, Hashable, Sendable {
-		case attachment(Attachment)
+		indirect case attachment(Attachment)
 		case boolean(FHIRPrimitive<FHIRBool>)
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case date(FHIRPrimitive<FHIRDate>)
 		case markdown(FHIRPrimitive<FHIRString>)
-		case quantity(Quantity)
-		case range(Range)
-		case reference(Reference)
+		indirect case quantity(Quantity)
+		indirect case range(Range)
+		indirect case reference(Reference)
 	}
 	
 	/// Additional content defined by implementations

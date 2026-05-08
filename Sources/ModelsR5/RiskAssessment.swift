@@ -31,7 +31,7 @@ public struct RiskAssessment: DomainResource {
 	/// All possible types for "occurrence[x]"
 	public enum OccurrenceX: Equatable, Hashable, Sendable {
 		case dateTime(FHIRPrimitive<DateTime>)
-		case period(Period)
+		indirect case period(Period)
 	}
 	
 	/// Request fulfilled by this assessment
@@ -290,13 +290,13 @@ public struct RiskAssessmentPrediction: BackboneElement {
 	/// All possible types for "probability[x]"
 	public enum ProbabilityX: Equatable, Hashable, Sendable {
 		case decimal(FHIRPrimitive<FHIRDecimal>)
-		case range(Range)
+		indirect case range(Range)
 	}
 	
 	/// All possible types for "when[x]"
 	public enum WhenX: Equatable, Hashable, Sendable {
-		case period(Period)
-		case range(Range)
+		indirect case period(Period)
+		indirect case range(Range)
 	}
 	
 	/// Additional content defined by implementations

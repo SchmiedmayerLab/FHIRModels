@@ -31,14 +31,14 @@ public struct Goal: DomainResource {
 	
 	/// All possible types for "start[x]"
 	public enum StartX: Equatable, Hashable, Sendable {
-		case codeableConcept(CodeableConcept)
+		indirect case codeableConcept(CodeableConcept)
 		case date(FHIRPrimitive<FHIRDate>)
 	}
 	
 	/// All possible types for "target[x]"
 	public enum TargetX: Equatable, Hashable, Sendable {
 		case date(FHIRPrimitive<FHIRDate>)
-		case quantity(Quantity)
+		indirect case quantity(Quantity)
 	}
 	
 	/// Issues addressed by this goal
@@ -300,4 +300,93 @@ public struct Goal: DomainResource {
  
  Identifies the change (or lack of change) at the point where the goal was deepmed to be cancelled or achieved.
  */
-public typealias GoalOutcome = BackboneElement
+public struct GoalOutcome: BackboneElement {
+	
+	/// All possible types for "result[x]"
+	public enum ResultX: Equatable, Hashable, Sendable {
+		indirect case codeableConcept(CodeableConcept)
+		indirect case reference(Reference)
+	}
+	
+	/// Additional Content defined by implementations
+	public var `extension`: [Extension]?
+	
+	/// xml:id (or equivalent in JSON)
+	public var id: FHIRPrimitive<FHIRString>?
+	
+	/// Extensions that cannot be ignored
+	public var modifierExtension: [Extension]?
+	
+	/// Code or observation that resulted from goal
+	/// One of `result[x]`
+	public var result: ResultX?
+	
+	/// Designated initializer taking all required properties
+	public init() {
+	}
+	
+	/// Convenience initializer
+	public init(
+		`extension`: [Extension]? = nil,
+		id: FHIRPrimitive<FHIRString>? = nil,
+		modifierExtension: [Extension]? = nil,
+		result: ResultX? = nil
+	) {
+		self.init()
+		self.`extension` = `extension`
+		self.id = id
+		self.modifierExtension = modifierExtension
+		self.result = result
+	}
+	
+	// MARK: - Codable
+	
+	private enum CodingKeys: String, CodingKey {
+		case `extension` = "extension"
+		case id; case _id
+		case modifierExtension
+		case resultCodeableConcept
+		case resultReference
+	}
+
+	/// Initializer for Decodable
+	public init(from decoder: Decoder) throws {
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		// Decode all our properties (own and inherited)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		var _t_result: ResultX? = nil
+		if let resultCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .resultCodeableConcept) {
+			if _t_result != nil {
+				throw DecodingError.dataCorruptedError(forKey: .resultCodeableConcept, in: _container, debugDescription: "More than one value provided for \"result\"")
+			}
+			_t_result = .codeableConcept(resultCodeableConcept)
+		}
+		if let resultReference = try Reference(from: _container, forKeyIfPresent: .resultReference) {
+			if _t_result != nil {
+				throw DecodingError.dataCorruptedError(forKey: .resultReference, in: _container, debugDescription: "More than one value provided for \"result\"")
+			}
+			_t_result = .reference(resultReference)
+		}
+		self.result = _t_result
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = result {
+			switch _enum {
+			case .codeableConcept(let _value):
+				try _value.encode(on: &_container, forKey: .resultCodeableConcept)
+			case .reference(let _value):
+				try _value.encode(on: &_container, forKey: .resultReference)
+			}
+		}
+	}
+}
