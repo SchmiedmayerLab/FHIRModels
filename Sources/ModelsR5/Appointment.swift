@@ -148,13 +148,7 @@ public struct Appointment: DomainResource {
 	/// Connection details of a virtual service (e.g. conference call)
 	public var virtualService: [VirtualServiceDetail]?
 	
-	/// Designated initializer taking all required properties
-	public init(participant: [AppointmentParticipant], status: FHIRPrimitive<AppointmentStatus>) {
-		self.participant = participant
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: [Reference]? = nil,
 		appointmentType: CodeableConcept? = nil,
@@ -197,7 +191,6 @@ public struct Appointment: DomainResource {
 		text: Narrative? = nil,
 		virtualService: [VirtualServiceDetail]? = nil
 	) {
-		self.init(participant: participant, status: status)
 		self.account = account
 		self.appointmentType = appointmentType
 		self.basedOn = basedOn
@@ -219,6 +212,7 @@ public struct Appointment: DomainResource {
 		self.note = note
 		self.occurrenceChanged = occurrenceChanged
 		self.originatingAppointment = originatingAppointment
+		self.participant = participant
 		self.patientInstruction = patientInstruction
 		self.previousAppointment = previousAppointment
 		self.priority = priority
@@ -232,6 +226,7 @@ public struct Appointment: DomainResource {
 		self.slot = slot
 		self.specialty = specialty
 		self.start = start
+		self.status = status
 		self.subject = subject
 		self.supportingInformation = supportingInformation
 		self.text = text
@@ -286,6 +281,9 @@ public struct Appointment: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -334,8 +332,10 @@ public struct Appointment: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try appointmentType?.encode(on: &_container, forKey: .appointmentType)
@@ -411,12 +411,7 @@ public struct AppointmentParticipant: BackboneElement {
 	/// Role of participant in the appointment
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<ParticipationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -427,13 +422,13 @@ public struct AppointmentParticipant: BackboneElement {
 		status: FHIRPrimitive<ParticipationStatus>,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(status: status)
 		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.period = period
 		self.required = required
+		self.status = status
 		self.type = type
 	}
 	
@@ -452,6 +447,9 @@ public struct AppointmentParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -468,6 +466,7 @@ public struct AppointmentParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -526,12 +525,7 @@ public struct AppointmentRecurrenceTemplate: BackboneElement {
 	/// Information about yearly recurring appointments
 	public var yearlyTemplate: AppointmentRecurrenceTemplateYearlyTemplate?
 	
-	/// Designated initializer taking all required properties
-	public init(recurrenceType: CodeableConcept) {
-		self.recurrenceType = recurrenceType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		excludingDate: [FHIRPrimitive<FHIRDate>]? = nil,
 		excludingRecurrenceId: [FHIRPrimitive<FHIRPositiveInteger>]? = nil,
@@ -547,7 +541,6 @@ public struct AppointmentRecurrenceTemplate: BackboneElement {
 		weeklyTemplate: AppointmentRecurrenceTemplateWeeklyTemplate? = nil,
 		yearlyTemplate: AppointmentRecurrenceTemplateYearlyTemplate? = nil
 	) {
-		self.init(recurrenceType: recurrenceType)
 		self.excludingDate = excludingDate
 		self.excludingRecurrenceId = excludingRecurrenceId
 		self.`extension` = `extension`
@@ -557,6 +550,7 @@ public struct AppointmentRecurrenceTemplate: BackboneElement {
 		self.monthlyTemplate = monthlyTemplate
 		self.occurrenceCount = occurrenceCount
 		self.occurrenceDate = occurrenceDate
+		self.recurrenceType = recurrenceType
 		self.timezone = timezone
 		self.weeklyTemplate = weeklyTemplate
 		self.yearlyTemplate = yearlyTemplate
@@ -582,6 +576,9 @@ public struct AppointmentRecurrenceTemplate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -603,6 +600,7 @@ public struct AppointmentRecurrenceTemplate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try excludingDate?.encode(on: &_container, forKey: .excludingDate, auxiliaryKey: ._excludingDate)
 		try excludingRecurrenceId?.encode(on: &_container, forKey: .excludingRecurrenceId, auxiliaryKey: ._excludingRecurrenceId)
@@ -646,12 +644,7 @@ public struct AppointmentRecurrenceTemplateMonthlyTemplate: BackboneElement {
 	/// Indicates which week of the month the appointment should occur
 	public var nthWeekOfMonth: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init(monthInterval: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.monthInterval = monthInterval
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		dayOfMonth: FHIRPrimitive<FHIRPositiveInteger>? = nil,
 		dayOfWeek: Coding? = nil,
@@ -661,12 +654,12 @@ public struct AppointmentRecurrenceTemplateMonthlyTemplate: BackboneElement {
 		monthInterval: FHIRPrimitive<FHIRPositiveInteger>,
 		nthWeekOfMonth: Coding? = nil
 	) {
-		self.init(monthInterval: monthInterval)
 		self.dayOfMonth = dayOfMonth
 		self.dayOfWeek = dayOfWeek
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.monthInterval = monthInterval
 		self.nthWeekOfMonth = nthWeekOfMonth
 	}
 	
@@ -684,6 +677,9 @@ public struct AppointmentRecurrenceTemplateMonthlyTemplate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -699,6 +695,7 @@ public struct AppointmentRecurrenceTemplateMonthlyTemplate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try dayOfMonth?.encode(on: &_container, forKey: .dayOfMonth, auxiliaryKey: ._dayOfMonth)
 		try dayOfWeek?.encode(on: &_container, forKey: .dayOfWeek)
@@ -748,11 +745,7 @@ public struct AppointmentRecurrenceTemplateWeeklyTemplate: BackboneElement {
 	/// Recurs every nth week
 	public var weekInterval: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		friday: FHIRPrimitive<FHIRBool>? = nil,
@@ -766,7 +759,6 @@ public struct AppointmentRecurrenceTemplateWeeklyTemplate: BackboneElement {
 		wednesday: FHIRPrimitive<FHIRBool>? = nil,
 		weekInterval: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.friday = friday
 		self.id = id
@@ -798,6 +790,9 @@ public struct AppointmentRecurrenceTemplateWeeklyTemplate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -817,6 +812,7 @@ public struct AppointmentRecurrenceTemplateWeeklyTemplate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try friday?.encode(on: &_container, forKey: .friday, auxiliaryKey: ._friday)
@@ -849,22 +845,17 @@ public struct AppointmentRecurrenceTemplateYearlyTemplate: BackboneElement {
 	/// Recurs every nth year
 	public var yearInterval: FHIRPrimitive<FHIRPositiveInteger>
 	
-	/// Designated initializer taking all required properties
-	public init(yearInterval: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.yearInterval = yearInterval
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
 		yearInterval: FHIRPrimitive<FHIRPositiveInteger>
 	) {
-		self.init(yearInterval: yearInterval)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.yearInterval = yearInterval
 	}
 	
 	// MARK: - Codable
@@ -878,6 +869,9 @@ public struct AppointmentRecurrenceTemplateYearlyTemplate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -890,6 +884,7 @@ public struct AppointmentRecurrenceTemplateYearlyTemplate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

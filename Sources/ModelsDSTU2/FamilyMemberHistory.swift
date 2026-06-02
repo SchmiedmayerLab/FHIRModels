@@ -118,14 +118,7 @@ public struct FamilyMemberHistory: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference, relationship: CodeableConcept, status: FHIRPrimitive<FamilyHistoryStatus>) {
-		self.patient = patient
-		self.relationship = relationship
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		age: AgeX? = nil,
 		born: BornX? = nil,
@@ -148,7 +141,6 @@ public struct FamilyMemberHistory: DomainResource {
 		status: FHIRPrimitive<FamilyHistoryStatus>,
 		text: Narrative? = nil
 	) {
-		self.init(patient: patient, relationship: relationship, status: status)
 		self.age = age
 		self.born = born
 		self.condition = condition
@@ -165,6 +157,9 @@ public struct FamilyMemberHistory: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.note = note
+		self.patient = patient
+		self.relationship = relationship
+		self.status = status
 		self.text = text
 	}
 	
@@ -204,84 +199,18 @@ public struct FamilyMemberHistory: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_age: AgeX? = nil
-		if let ageQuantity = try Quantity(from: _container, forKeyIfPresent: .ageQuantity) {
-			if _t_age != nil {
-				throw DecodingError.dataCorruptedError(forKey: .ageQuantity, in: _container, debugDescription: "More than one value provided for \"age\"")
-			}
-			_t_age = .quantity(ageQuantity)
-		}
-		if let ageRange = try Range(from: _container, forKeyIfPresent: .ageRange) {
-			if _t_age != nil {
-				throw DecodingError.dataCorruptedError(forKey: .ageRange, in: _container, debugDescription: "More than one value provided for \"age\"")
-			}
-			_t_age = .range(ageRange)
-		}
-		if let ageString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .ageString, auxiliaryKey: ._ageString) {
-			if _t_age != nil {
-				throw DecodingError.dataCorruptedError(forKey: .ageString, in: _container, debugDescription: "More than one value provided for \"age\"")
-			}
-			_t_age = .string(ageString)
-		}
-		self.age = _t_age
-		var _t_born: BornX? = nil
-		if let bornPeriod = try Period(from: _container, forKeyIfPresent: .bornPeriod) {
-			if _t_born != nil {
-				throw DecodingError.dataCorruptedError(forKey: .bornPeriod, in: _container, debugDescription: "More than one value provided for \"born\"")
-			}
-			_t_born = .period(bornPeriod)
-		}
-		if let bornDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .bornDate, auxiliaryKey: ._bornDate) {
-			if _t_born != nil {
-				throw DecodingError.dataCorruptedError(forKey: .bornDate, in: _container, debugDescription: "More than one value provided for \"born\"")
-			}
-			_t_born = .date(bornDate)
-		}
-		if let bornString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .bornString, auxiliaryKey: ._bornString) {
-			if _t_born != nil {
-				throw DecodingError.dataCorruptedError(forKey: .bornString, in: _container, debugDescription: "More than one value provided for \"born\"")
-			}
-			_t_born = .string(bornString)
-		}
-		self.born = _t_born
+		self.age = try Self._decodeAge(from: _container)
+		self.born = try Self._decodeBorn(from: _container)
 		self.condition = try [FamilyMemberHistoryCondition](from: _container, forKeyIfPresent: .condition)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
-		var _t_deceased: DeceasedX? = nil
-		if let deceasedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedBoolean, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .boolean(deceasedBoolean)
-		}
-		if let deceasedQuantity = try Quantity(from: _container, forKeyIfPresent: .deceasedQuantity) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedQuantity, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .quantity(deceasedQuantity)
-		}
-		if let deceasedRange = try Range(from: _container, forKeyIfPresent: .deceasedRange) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedRange, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .range(deceasedRange)
-		}
-		if let deceasedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .deceasedDate, auxiliaryKey: ._deceasedDate) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedDate, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .date(deceasedDate)
-		}
-		if let deceasedString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .deceasedString, auxiliaryKey: ._deceasedString) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedString, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .string(deceasedString)
-		}
-		self.deceased = _t_deceased
+		self.deceased = try Self._decodeDeceased(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -301,45 +230,47 @@ public struct FamilyMemberHistory: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = age {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .ageQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .ageRange)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .ageString, auxiliaryKey: ._ageString)
-			}
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .ageQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .ageRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .ageString, auxiliaryKey: ._ageString)
+		}
 		}
 		if let _enum = born {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .bornPeriod)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .bornDate, auxiliaryKey: ._bornDate)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .bornString, auxiliaryKey: ._bornString)
-			}
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .bornDate, auxiliaryKey: ._bornDate)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .bornPeriod)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .bornString, auxiliaryKey: ._bornString)
+		}
 		}
 		try condition?.encode(on: &_container, forKey: .condition)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		if let _enum = deceased {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedRange)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedDate, auxiliaryKey: ._deceasedDate)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedString, auxiliaryKey: ._deceasedString)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedDate, auxiliaryKey: ._deceasedDate)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedString, auxiliaryKey: ._deceasedString)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
@@ -355,6 +286,86 @@ public struct FamilyMemberHistory: DomainResource {
 		try relationship.encode(on: &_container, forKey: .relationship)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAge(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AgeX? {
+		var _t_age: AgeX? = nil
+		if let ageQuantity = try Quantity(from: _container, forKeyIfPresent: .ageQuantity) {
+			_t_age = .quantity(ageQuantity)
+		}
+		if let ageRange = try Range(from: _container, forKeyIfPresent: .ageRange) {
+			if _t_age != nil {
+				throw DecodingError.dataCorruptedError(forKey: .ageRange, in: _container, debugDescription: "More than one value provided for \"age\"")
+			}
+			_t_age = .range(ageRange)
+		}
+		if let ageString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .ageString, auxiliaryKey: ._ageString) {
+			if _t_age != nil {
+				throw DecodingError.dataCorruptedError(forKey: .ageString, in: _container, debugDescription: "More than one value provided for \"age\"")
+			}
+			_t_age = .string(ageString)
+		}
+		return _t_age
+	}
+	
+	private static func _decodeBorn(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> BornX? {
+		var _t_born: BornX? = nil
+		if let bornDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .bornDate, auxiliaryKey: ._bornDate) {
+			_t_born = .date(bornDate)
+		}
+		if let bornPeriod = try Period(from: _container, forKeyIfPresent: .bornPeriod) {
+			if _t_born != nil {
+				throw DecodingError.dataCorruptedError(forKey: .bornPeriod, in: _container, debugDescription: "More than one value provided for \"born\"")
+			}
+			_t_born = .period(bornPeriod)
+		}
+		if let bornString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .bornString, auxiliaryKey: ._bornString) {
+			if _t_born != nil {
+				throw DecodingError.dataCorruptedError(forKey: .bornString, in: _container, debugDescription: "More than one value provided for \"born\"")
+			}
+			_t_born = .string(bornString)
+		}
+		return _t_born
+	}
+	
+	private static func _decodeDeceased(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DeceasedX? {
+		var _t_deceased: DeceasedX? = nil
+		if let deceasedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean) {
+			_t_deceased = .boolean(deceasedBoolean)
+		}
+		if let deceasedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .deceasedDate, auxiliaryKey: ._deceasedDate) {
+			if _t_deceased != nil {
+				throw DecodingError.dataCorruptedError(forKey: .deceasedDate, in: _container, debugDescription: "More than one value provided for \"deceased\"")
+			}
+			_t_deceased = .date(deceasedDate)
+		}
+		if let deceasedQuantity = try Quantity(from: _container, forKeyIfPresent: .deceasedQuantity) {
+			if _t_deceased != nil {
+				throw DecodingError.dataCorruptedError(forKey: .deceasedQuantity, in: _container, debugDescription: "More than one value provided for \"deceased\"")
+			}
+			_t_deceased = .quantity(deceasedQuantity)
+		}
+		if let deceasedRange = try Range(from: _container, forKeyIfPresent: .deceasedRange) {
+			if _t_deceased != nil {
+				throw DecodingError.dataCorruptedError(forKey: .deceasedRange, in: _container, debugDescription: "More than one value provided for \"deceased\"")
+			}
+			_t_deceased = .range(deceasedRange)
+		}
+		if let deceasedString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .deceasedString, auxiliaryKey: ._deceasedString) {
+			if _t_deceased != nil {
+				throw DecodingError.dataCorruptedError(forKey: .deceasedString, in: _container, debugDescription: "More than one value provided for \"deceased\"")
+			}
+			_t_deceased = .string(deceasedString)
+		}
+		return _t_deceased
 	}
 }
 
@@ -397,12 +408,7 @@ public struct FamilyMemberHistoryCondition: BackboneElement {
 	/// deceased | permanent disability | etc.
 	public var outcome: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -412,7 +418,7 @@ public struct FamilyMemberHistoryCondition: BackboneElement {
 		onset: OnsetX? = nil,
 		outcome: CodeableConcept? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -438,6 +444,9 @@ public struct FamilyMemberHistoryCondition: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -446,7 +455,44 @@ public struct FamilyMemberHistoryCondition: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try Annotation(from: _container, forKeyIfPresent: .note)
+		self.onset = try Self._decodeOnset(from: _container)
+		self.outcome = try CodeableConcept(from: _container, forKeyIfPresent: .outcome)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try note?.encode(on: &_container, forKey: .note)
+		if let _enum = onset {
+		switch _enum {
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .onsetPeriod)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .onsetQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .onsetRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .onsetString, auxiliaryKey: ._onsetString)
+		}
+		}
+		try outcome?.encode(on: &_container, forKey: .outcome)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOnset(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OnsetX? {
 		var _t_onset: OnsetX? = nil
+		if let onsetPeriod = try Period(from: _container, forKeyIfPresent: .onsetPeriod) {
+			_t_onset = .period(onsetPeriod)
+		}
 		if let onsetQuantity = try Quantity(from: _container, forKeyIfPresent: .onsetQuantity) {
 			if _t_onset != nil {
 				throw DecodingError.dataCorruptedError(forKey: .onsetQuantity, in: _container, debugDescription: "More than one value provided for \"onset\"")
@@ -459,43 +505,12 @@ public struct FamilyMemberHistoryCondition: BackboneElement {
 			}
 			_t_onset = .range(onsetRange)
 		}
-		if let onsetPeriod = try Period(from: _container, forKeyIfPresent: .onsetPeriod) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetPeriod, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .period(onsetPeriod)
-		}
 		if let onsetString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .onsetString, auxiliaryKey: ._onsetString) {
 			if _t_onset != nil {
 				throw DecodingError.dataCorruptedError(forKey: .onsetString, in: _container, debugDescription: "More than one value provided for \"onset\"")
 			}
 			_t_onset = .string(onsetString)
 		}
-		self.onset = _t_onset
-		self.outcome = try CodeableConcept(from: _container, forKeyIfPresent: .outcome)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try code.encode(on: &_container, forKey: .code)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try note?.encode(on: &_container, forKey: .note)
-		if let _enum = onset {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .onsetQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .onsetRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .onsetPeriod)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .onsetString, auxiliaryKey: ._onsetString)
-			}
-		}
-		try outcome?.encode(on: &_container, forKey: .outcome)
+		return _t_onset
 	}
 }

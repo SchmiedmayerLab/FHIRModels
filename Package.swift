@@ -4,10 +4,10 @@ import PackageDescription
 let package = Package(
 	name: "FHIRModels",
 	platforms: [
-		.macOS(.v10_14),
-		.iOS(.v12),
-		.watchOS(.v5),
-		.tvOS(.v12),
+		.macOS(.v13),
+		.iOS(.v16),
+		.watchOS(.v9),
+		.tvOS(.v16),
 	],
 	products: [
         .library(name: "FMCore", targets: ["FMCore"]),
@@ -26,7 +26,7 @@ let package = Package(
 		.target(name: "ModelsR4B", dependencies: ["FMCore"]),
 		.target(name: "ModelsR5", dependencies: ["FMCore"]),
 		.target(name: "ModelsBuild", dependencies: ["FMCore"]),
-		.testTarget(name: "CoreTests", dependencies: ["FMCore"]),
+		.testTarget(name: "CoreTests", dependencies: ["FMCore", "ModelsR5"]),
 		.testTarget(name: "DateTimeTests", dependencies: ["ModelsR5"]),
 		.testTarget(name: "ModelTests",
 					dependencies: [

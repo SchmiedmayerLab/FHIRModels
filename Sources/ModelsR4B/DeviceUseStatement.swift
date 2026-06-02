@@ -101,14 +101,7 @@ public struct DeviceUseStatement: DomainResource {
 	/// One of `timing[x]`
 	public var timing: TimingX?
 	
-	/// Designated initializer taking all required properties
-	public init(device: Reference, status: FHIRPrimitive<DeviceUseStatementStatus>, subject: Reference) {
-		self.device = device
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: CodeableConcept? = nil,
@@ -132,11 +125,11 @@ public struct DeviceUseStatement: DomainResource {
 		text: Narrative? = nil,
 		timing: TimingX? = nil
 	) {
-		self.init(device: device, status: status, subject: subject)
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.contained = contained
 		self.derivedFrom = derivedFrom
+		self.device = device
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -149,6 +142,8 @@ public struct DeviceUseStatement: DomainResource {
 		self.reasonReference = reasonReference
 		self.recordedOn = recordedOn
 		self.source = source
+		self.status = status
+		self.subject = subject
 		self.text = text
 		self.timing = timing
 	}
@@ -184,6 +179,9 @@ public struct DeviceUseStatement: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -207,33 +205,16 @@ public struct DeviceUseStatement: DomainResource {
 		self.status = try FHIRPrimitive<DeviceUseStatementStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
-		var _t_timing: TimingX? = nil
-		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .timing(timingTiming)
-		}
-		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .period(timingPeriod)
-		}
-		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDateTime, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .dateTime(timingDateTime)
-		}
-		self.timing = _t_timing
+		self.timing = try Self._decodeTiming(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -256,14 +237,38 @@ public struct DeviceUseStatement: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = timing {
-			switch _enum {
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timingPeriod)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timingPeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
+		var _t_timing: TimingX? = nil
+		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
+			_t_timing = .dateTime(timingDateTime)
+		}
+		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .period(timingPeriod)
+		}
+		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .timing(timingTiming)
+		}
+		return _t_timing
 	}
 }

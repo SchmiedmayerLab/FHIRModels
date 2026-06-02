@@ -101,12 +101,7 @@ public struct ArtifactAssessment: DomainResource {
 	/// Indicates the workflow status of the comment or change request.
 	public var workflowStatus: FHIRPrimitive<ArtifactAssessmentWorkflowStatus>?
 	
-	/// Designated initializer taking all required properties
-	public init(artifact: ArtifactX) {
-		self.artifact = artifact
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		artifact: ArtifactX,
@@ -128,8 +123,8 @@ public struct ArtifactAssessment: DomainResource {
 		title: FHIRPrimitive<FHIRString>? = nil,
 		workflowStatus: FHIRPrimitive<ArtifactAssessmentWorkflowStatus>? = nil
 	) {
-		self.init(artifact: artifact)
 		self.approvalDate = approvalDate
+		self.artifact = artifact
 		self.citeAs = citeAs
 		self.contained = contained
 		self.content = content
@@ -179,49 +174,15 @@ public struct ArtifactAssessment: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.artifactCanonical) || _container.contains(CodingKeys.artifactReference) || _container.contains(CodingKeys.artifactUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.artifactCanonical, CodingKeys.artifactReference, CodingKeys.artifactUri], debugDescription: "Must have at least one value for \"artifact\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.approvalDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .approvalDate, auxiliaryKey: ._approvalDate)
-		var _t_artifact: ArtifactX? = nil
-		if let artifactReference = try Reference(from: _container, forKeyIfPresent: .artifactReference) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactReference, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .reference(artifactReference)
-		}
-		if let artifactCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .artifactCanonical, auxiliaryKey: ._artifactCanonical) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactCanonical, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .canonical(artifactCanonical)
-		}
-		if let artifactUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .artifactUri, auxiliaryKey: ._artifactUri) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactUri, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .uri(artifactUri)
-		}
-		self.artifact = _t_artifact!
-		var _t_citeAs: CiteAsX? = nil
-		if let citeAsReference = try Reference(from: _container, forKeyIfPresent: .citeAsReference) {
-			if _t_citeAs != nil {
-				throw DecodingError.dataCorruptedError(forKey: .citeAsReference, in: _container, debugDescription: "More than one value provided for \"citeAs\"")
-			}
-			_t_citeAs = .reference(citeAsReference)
-		}
-		if let citeAsMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .citeAsMarkdown, auxiliaryKey: ._citeAsMarkdown) {
-			if _t_citeAs != nil {
-				throw DecodingError.dataCorruptedError(forKey: .citeAsMarkdown, in: _container, debugDescription: "More than one value provided for \"citeAs\"")
-			}
-			_t_citeAs = .markdown(citeAsMarkdown)
-		}
-		self.citeAs = _t_citeAs
+		self.artifact = try Self._decodeArtifact(from: _container)
+		self.citeAs = try Self._decodeCiteAs(from: _container)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.content = try [ArtifactAssessmentContent](from: _container, forKeyIfPresent: .content)
 		self.copyright = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .copyright, auxiliaryKey: ._copyright)
@@ -243,27 +204,29 @@ public struct ArtifactAssessment: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		
-			switch artifact {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .artifactReference)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .artifactCanonical, auxiliaryKey: ._artifactCanonical)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .artifactUri, auxiliaryKey: ._artifactUri)
-			}
+		switch artifact {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .artifactCanonical, auxiliaryKey: ._artifactCanonical)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .artifactReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .artifactUri, auxiliaryKey: ._artifactUri)
+		}
 		
 		if let _enum = citeAs {
-			switch _enum {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .citeAsReference)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .citeAsMarkdown, auxiliaryKey: ._citeAsMarkdown)
-			}
+		switch _enum {
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .citeAsMarkdown, auxiliaryKey: ._citeAsMarkdown)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .citeAsReference)
+		}
 		}
 		try contained?.encode(on: &_container, forKey: .contained)
 		try content?.encode(on: &_container, forKey: .content)
@@ -281,6 +244,51 @@ public struct ArtifactAssessment: DomainResource {
 		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try workflowStatus?.encode(on: &_container, forKey: .workflowStatus, auxiliaryKey: ._workflowStatus)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeArtifact(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ArtifactX {
+		var _t_artifact: ArtifactX? = nil
+		if let artifactCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .artifactCanonical, auxiliaryKey: ._artifactCanonical) {
+			_t_artifact = .canonical(artifactCanonical)
+		}
+		if let artifactReference = try Reference(from: _container, forKeyIfPresent: .artifactReference) {
+			if _t_artifact != nil {
+				throw DecodingError.dataCorruptedError(forKey: .artifactReference, in: _container, debugDescription: "More than one value provided for \"artifact\"")
+			}
+			_t_artifact = .reference(artifactReference)
+		}
+		if let artifactUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .artifactUri, auxiliaryKey: ._artifactUri) {
+			if _t_artifact != nil {
+				throw DecodingError.dataCorruptedError(forKey: .artifactUri, in: _container, debugDescription: "More than one value provided for \"artifact\"")
+			}
+			_t_artifact = .uri(artifactUri)
+		}
+		guard let _t_artifact else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.artifactUri)
+			throw DecodingError.valueNotFound(ArtifactX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"artifact\" but have none"))
+		}
+		return _t_artifact
+	}
+	
+	private static func _decodeCiteAs(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> CiteAsX? {
+		var _t_citeAs: CiteAsX? = nil
+		if let citeAsMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .citeAsMarkdown, auxiliaryKey: ._citeAsMarkdown) {
+			_t_citeAs = .markdown(citeAsMarkdown)
+		}
+		if let citeAsReference = try Reference(from: _container, forKeyIfPresent: .citeAsReference) {
+			if _t_citeAs != nil {
+				throw DecodingError.dataCorruptedError(forKey: .citeAsReference, in: _container, debugDescription: "More than one value provided for \"citeAs\"")
+			}
+			_t_citeAs = .reference(citeAsReference)
+		}
+		return _t_citeAs
 	}
 }
 
@@ -330,11 +338,7 @@ public struct ArtifactAssessmentContent: BackboneElement {
 	/// What type of content
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: Reference? = nil,
 		classifier: [CodeableConcept]? = nil,
@@ -350,7 +354,6 @@ public struct ArtifactAssessmentContent: BackboneElement {
 		summary: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.author = author
 		self.classifier = classifier
 		self.component = component
@@ -386,6 +389,9 @@ public struct ArtifactAssessmentContent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -407,6 +413,7 @@ public struct ArtifactAssessmentContent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try classifier?.encode(on: &_container, forKey: .classifier)

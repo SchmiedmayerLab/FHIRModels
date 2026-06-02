@@ -75,11 +75,7 @@ public struct SubstanceProtein: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		disulfideLinkage: [FHIRPrimitive<FHIRString>]? = nil,
@@ -94,7 +90,6 @@ public struct SubstanceProtein: DomainResource {
 		subunit: [SubstanceProteinSubunit]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.disulfideLinkage = disulfideLinkage
 		self.`extension` = `extension`
@@ -129,6 +124,9 @@ public struct SubstanceProtein: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -149,8 +147,10 @@ public struct SubstanceProtein: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try disulfideLinkage?.encode(on: &_container, forKey: .disulfideLinkage, auxiliaryKey: ._disulfideLinkage)
@@ -219,11 +219,7 @@ public struct SubstanceProteinSubunit: BackboneElement {
 	/// and have sequential subscripts
 	public var subunit: FHIRPrimitive<FHIRInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		cTerminalModification: FHIRPrimitive<FHIRString>? = nil,
 		cTerminalModificationId: Identifier? = nil,
@@ -237,7 +233,6 @@ public struct SubstanceProteinSubunit: BackboneElement {
 		sequenceAttachment: Attachment? = nil,
 		subunit: FHIRPrimitive<FHIRInteger>? = nil
 	) {
-		self.init()
 		self.cTerminalModification = cTerminalModification
 		self.cTerminalModificationId = cTerminalModificationId
 		self.`extension` = `extension`
@@ -269,6 +264,9 @@ public struct SubstanceProteinSubunit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -288,6 +286,7 @@ public struct SubstanceProteinSubunit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try cTerminalModification?.encode(on: &_container, forKey: .cTerminalModification, auxiliaryKey: ._cTerminalModification)
 		try cTerminalModificationId?.encode(on: &_container, forKey: .cTerminalModificationId)

@@ -36,18 +36,13 @@ public struct Availability: DataType {
 	/// Not available during this time due to provided reason
 	public var notAvailableTime: [AvailabilityNotAvailableTime]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		availableTime: [AvailabilityAvailableTime]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		notAvailableTime: [AvailabilityNotAvailableTime]? = nil
 	) {
-		self.init()
 		self.availableTime = availableTime
 		self.`extension` = `extension`
 		self.id = id
@@ -65,6 +60,9 @@ public struct Availability: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -77,6 +75,7 @@ public struct Availability: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try availableTime?.encode(on: &_container, forKey: .availableTime)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -108,11 +107,7 @@ public struct AvailabilityAvailableTime: Element {
 	/// Unique id for inter-element referencing
 	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		allDay: FHIRPrimitive<FHIRBool>? = nil,
 		availableEndTime: FHIRPrimitive<FHIRTime>? = nil,
@@ -121,7 +116,6 @@ public struct AvailabilityAvailableTime: Element {
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.allDay = allDay
 		self.availableEndTime = availableEndTime
 		self.availableStartTime = availableStartTime
@@ -143,6 +137,9 @@ public struct AvailabilityAvailableTime: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -157,6 +154,7 @@ public struct AvailabilityAvailableTime: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try allDay?.encode(on: &_container, forKey: .allDay, auxiliaryKey: ._allDay)
 		try availableEndTime?.encode(on: &_container, forKey: .availableEndTime, auxiliaryKey: ._availableEndTime)
@@ -184,18 +182,13 @@ public struct AvailabilityNotAvailableTime: Element {
 	/// Unique id for inter-element referencing
 	public var id: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		during: Period? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.during = during
 		self.`extension` = `extension`
@@ -213,6 +206,9 @@ public struct AvailabilityNotAvailableTime: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -225,6 +221,7 @@ public struct AvailabilityNotAvailableTime: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try during?.encode(on: &_container, forKey: .during)

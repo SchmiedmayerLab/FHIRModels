@@ -66,12 +66,7 @@ public struct RelatedArtifact: DataType {
 	/// The type of relationship to the related artifact.
 	public var type: FHIRPrimitive<RelatedArtifactType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<RelatedArtifactType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		artifact: ArtifactX? = nil,
 		citation: FHIRPrimitive<FHIRString>? = nil,
@@ -84,7 +79,6 @@ public struct RelatedArtifact: DataType {
 		resourceReference: Reference? = nil,
 		type: FHIRPrimitive<RelatedArtifactType>
 	) {
-		self.init(type: type)
 		self.artifact = artifact
 		self.citation = citation
 		self.display = display
@@ -94,6 +88,7 @@ public struct RelatedArtifact: DataType {
 		self.label = label
 		self.resource = resource
 		self.resourceReference = resourceReference
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -116,35 +111,13 @@ public struct RelatedArtifact: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_artifact: ArtifactX? = nil
-		if let artifactMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .artifactMarkdown, auxiliaryKey: ._artifactMarkdown) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactMarkdown, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .markdown(artifactMarkdown)
-		}
-		if let artifactAttachment = try Attachment(from: _container, forKeyIfPresent: .artifactAttachment) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactAttachment, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .attachment(artifactAttachment)
-		}
-		if let artifactCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .artifactCanonical, auxiliaryKey: ._artifactCanonical) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactCanonical, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .canonical(artifactCanonical)
-		}
-		if let artifactReference = try Reference(from: _container, forKeyIfPresent: .artifactReference) {
-			if _t_artifact != nil {
-				throw DecodingError.dataCorruptedError(forKey: .artifactReference, in: _container, debugDescription: "More than one value provided for \"artifact\"")
-			}
-			_t_artifact = .reference(artifactReference)
-		}
-		self.artifact = _t_artifact
+		self.artifact = try Self._decodeArtifact(from: _container)
 		self.citation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .citation, auxiliaryKey: ._citation)
 		self.display = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .display, auxiliaryKey: ._display)
 		self.document = try Attachment(from: _container, forKeyIfPresent: .document)
@@ -159,18 +132,19 @@ public struct RelatedArtifact: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = artifact {
-			switch _enum {
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .artifactMarkdown, auxiliaryKey: ._artifactMarkdown)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .artifactAttachment)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .artifactCanonical, auxiliaryKey: ._artifactCanonical)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .artifactReference)
-			}
+		switch _enum {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .artifactAttachment)
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .artifactCanonical, auxiliaryKey: ._artifactCanonical)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .artifactMarkdown, auxiliaryKey: ._artifactMarkdown)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .artifactReference)
+		}
 		}
 		try citation?.encode(on: &_container, forKey: .citation, auxiliaryKey: ._citation)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
@@ -181,5 +155,35 @@ public struct RelatedArtifact: DataType {
 		try resource?.encode(on: &_container, forKey: .resource, auxiliaryKey: ._resource)
 		try resourceReference?.encode(on: &_container, forKey: .resourceReference)
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeArtifact(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ArtifactX? {
+		var _t_artifact: ArtifactX? = nil
+		if let artifactAttachment = try Attachment(from: _container, forKeyIfPresent: .artifactAttachment) {
+			_t_artifact = .attachment(artifactAttachment)
+		}
+		if let artifactCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .artifactCanonical, auxiliaryKey: ._artifactCanonical) {
+			if _t_artifact != nil {
+				throw DecodingError.dataCorruptedError(forKey: .artifactCanonical, in: _container, debugDescription: "More than one value provided for \"artifact\"")
+			}
+			_t_artifact = .canonical(artifactCanonical)
+		}
+		if let artifactMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .artifactMarkdown, auxiliaryKey: ._artifactMarkdown) {
+			if _t_artifact != nil {
+				throw DecodingError.dataCorruptedError(forKey: .artifactMarkdown, in: _container, debugDescription: "More than one value provided for \"artifact\"")
+			}
+			_t_artifact = .markdown(artifactMarkdown)
+		}
+		if let artifactReference = try Reference(from: _container, forKeyIfPresent: .artifactReference) {
+			if _t_artifact != nil {
+				throw DecodingError.dataCorruptedError(forKey: .artifactReference, in: _container, debugDescription: "More than one value provided for \"artifact\"")
+			}
+			_t_artifact = .reference(artifactReference)
+		}
+		return _t_artifact
 	}
 }

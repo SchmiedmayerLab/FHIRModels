@@ -57,7 +57,7 @@ guard let data = string.data(using: .utf8) else {
     throw ...
 }
 
-let decoder = JSONDecoder()
+let decoder = JSONDecoder.fhirModelsReadyDecoder()
 let patient = try decoder.decode(Patient.self, from: data)
 for name in patient.name ?? [] {
     print("family: \(name.family?.value?.string ?? "{nil}"), mother's family: \(name.family?.mothersFamilyName ?? "{nil}")")

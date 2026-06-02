@@ -56,11 +56,7 @@ public struct Attachment: Element {
 	/// Uri where the data can be found
 	public var url: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contentType: FHIRPrimitive<FHIRString>? = nil,
 		creation: FHIRPrimitive<DateTime>? = nil,
@@ -73,7 +69,6 @@ public struct Attachment: Element {
 		title: FHIRPrimitive<FHIRString>? = nil,
 		url: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init()
 		self.contentType = contentType
 		self.creation = creation
 		self.data = data
@@ -103,6 +98,9 @@ public struct Attachment: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -121,6 +119,7 @@ public struct Attachment: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contentType?.encode(on: &_container, forKey: .contentType, auxiliaryKey: ._contentType)
 		try creation?.encode(on: &_container, forKey: .creation, auxiliaryKey: ._creation)

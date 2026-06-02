@@ -135,13 +135,7 @@ public struct SubscriptionTopic: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>, url: FHIRPrimitive<FHIRURI>) {
-		self.status = status
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		canFilterBy: [SubscriptionTopicCanFilterBy]? = nil,
@@ -177,7 +171,6 @@ public struct SubscriptionTopic: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(status: status, url: url)
 		self.approvalDate = approvalDate
 		self.canFilterBy = canFilterBy
 		self.contact = contact
@@ -204,8 +197,10 @@ public struct SubscriptionTopic: DomainResource {
 		self.publisher = publisher
 		self.purpose = purpose
 		self.resourceTrigger = resourceTrigger
+		self.status = status
 		self.text = text
 		self.title = title
+		self.url = url
 		self.useContext = useContext
 		self.version = version
 		self.versionAlgorithm = versionAlgorithm
@@ -253,6 +248,9 @@ public struct SubscriptionTopic: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -288,27 +286,16 @@ public struct SubscriptionTopic: DomainResource {
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKey: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try canFilterBy?.encode(on: &_container, forKey: .canFilterBy)
@@ -343,13 +330,31 @@ public struct SubscriptionTopic: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }
 
@@ -389,12 +394,7 @@ public struct SubscriptionTopicCanFilterBy: BackboneElement {
 	/// URL of the triggering Resource that this filter applies to
 	public var resource: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init(filterParameter: FHIRPrimitive<FHIRString>) {
-		self.filterParameter = filterParameter
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comparator: [FHIRPrimitive<SearchComparator>]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -406,11 +406,11 @@ public struct SubscriptionTopicCanFilterBy: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		resource: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init(filterParameter: filterParameter)
 		self.comparator = comparator
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.filterDefinition = filterDefinition
+		self.filterParameter = filterParameter
 		self.id = id
 		self.modifier = modifier
 		self.modifierExtension = modifierExtension
@@ -433,6 +433,9 @@ public struct SubscriptionTopicCanFilterBy: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -450,6 +453,7 @@ public struct SubscriptionTopicCanFilterBy: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try comparator?.encode(on: &_container, forKey: .comparator, auxiliaryKey: ._comparator)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -488,13 +492,7 @@ public struct SubscriptionTopicEventTrigger: BackboneElement {
 	/// Data Type or Resource (reference to definition) for this trigger definition
 	public var resource: FHIRPrimitive<FHIRURI>
 	
-	/// Designated initializer taking all required properties
-	public init(event: CodeableConcept, resource: FHIRPrimitive<FHIRURI>) {
-		self.event = event
-		self.resource = resource
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		event: CodeableConcept,
@@ -503,11 +501,12 @@ public struct SubscriptionTopicEventTrigger: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		resource: FHIRPrimitive<FHIRURI>
 	) {
-		self.init(event: event, resource: resource)
 		self.description_fhir = description_fhir
+		self.event = event
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.resource = resource
 	}
 	
 	// MARK: - Codable
@@ -523,6 +522,9 @@ public struct SubscriptionTopicEventTrigger: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -537,6 +539,7 @@ public struct SubscriptionTopicEventTrigger: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try event.encode(on: &_container, forKey: .event)
@@ -572,12 +575,7 @@ public struct SubscriptionTopicNotificationShape: BackboneElement {
 	/// Reverse include directives, rooted in the resource for this shape
 	public var revInclude: [FHIRPrimitive<FHIRString>]?
 	
-	/// Designated initializer taking all required properties
-	public init(resource: FHIRPrimitive<FHIRURI>) {
-		self.resource = resource
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -586,11 +584,11 @@ public struct SubscriptionTopicNotificationShape: BackboneElement {
 		resource: FHIRPrimitive<FHIRURI>,
 		revInclude: [FHIRPrimitive<FHIRString>]? = nil
 	) {
-		self.init(resource: resource)
 		self.`extension` = `extension`
 		self.id = id
 		self.include = include
 		self.modifierExtension = modifierExtension
+		self.resource = resource
 		self.revInclude = revInclude
 	}
 	
@@ -607,6 +605,9 @@ public struct SubscriptionTopicNotificationShape: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -621,6 +622,7 @@ public struct SubscriptionTopicNotificationShape: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -667,12 +669,7 @@ public struct SubscriptionTopicResourceTrigger: BackboneElement {
 	/// Restricted to: ['create', 'update', 'delete']
 	public var supportedInteraction: [FHIRPrimitive<FHIRRestfulInteractions>]?
 	
-	/// Designated initializer taking all required properties
-	public init(resource: FHIRPrimitive<FHIRURI>) {
-		self.resource = resource
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -683,13 +680,13 @@ public struct SubscriptionTopicResourceTrigger: BackboneElement {
 		resource: FHIRPrimitive<FHIRURI>,
 		supportedInteraction: [FHIRPrimitive<FHIRRestfulInteractions>]? = nil
 	) {
-		self.init(resource: resource)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.fhirPathCriteria = fhirPathCriteria
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.queryCriteria = queryCriteria
+		self.resource = resource
 		self.supportedInteraction = supportedInteraction
 	}
 	
@@ -708,6 +705,9 @@ public struct SubscriptionTopicResourceTrigger: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -724,6 +724,7 @@ public struct SubscriptionTopicResourceTrigger: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -770,11 +771,7 @@ public struct SubscriptionTopicResourceTriggerQueryCriteria: BackboneElement {
 	/// If not present, the testing behavior during `delete` interactions is unspecified (server discretion).
 	public var resultForDelete: FHIRPrimitive<CriteriaNotExistsBehavior>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		current: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -785,7 +782,6 @@ public struct SubscriptionTopicResourceTriggerQueryCriteria: BackboneElement {
 		resultForCreate: FHIRPrimitive<CriteriaNotExistsBehavior>? = nil,
 		resultForDelete: FHIRPrimitive<CriteriaNotExistsBehavior>? = nil
 	) {
-		self.init()
 		self.current = current
 		self.`extension` = `extension`
 		self.id = id
@@ -811,6 +807,9 @@ public struct SubscriptionTopicResourceTriggerQueryCriteria: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -827,6 +826,7 @@ public struct SubscriptionTopicResourceTriggerQueryCriteria: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try current?.encode(on: &_container, forKey: .current, auxiliaryKey: ._current)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

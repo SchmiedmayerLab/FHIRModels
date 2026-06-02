@@ -39,18 +39,13 @@ public struct CodeableReference: DataType {
 	/// Reference to a resource (by instance)
 	public var reference: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		concept: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		reference: Reference? = nil
 	) {
-		self.init()
 		self.concept = concept
 		self.`extension` = `extension`
 		self.id = id
@@ -68,6 +63,9 @@ public struct CodeableReference: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -80,6 +78,7 @@ public struct CodeableReference: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try concept?.encode(on: &_container, forKey: .concept)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

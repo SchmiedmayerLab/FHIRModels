@@ -119,14 +119,7 @@ public struct CarePlan: DomainResource {
 	/// Human-friendly name for the care plan
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(intent: FHIRPrimitive<RequestIntent>, status: FHIRPrimitive<RequestStatus>, subject: Reference) {
-		self.intent = intent
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: [CarePlanActivity]? = nil,
 		addresses: [CodeableReference]? = nil,
@@ -158,7 +151,6 @@ public struct CarePlan: DomainResource {
 		text: Narrative? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(intent: intent, status: status, subject: subject)
 		self.activity = activity
 		self.addresses = addresses
 		self.basedOn = basedOn
@@ -175,6 +167,7 @@ public struct CarePlan: DomainResource {
 		self.id = id
 		self.identifier = identifier
 		self.implicitRules = implicitRules
+		self.intent = intent
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -182,6 +175,8 @@ public struct CarePlan: DomainResource {
 		self.partOf = partOf
 		self.period = period
 		self.replaces = replaces
+		self.status = status
+		self.subject = subject
 		self.supportingInfo = supportingInfo
 		self.text = text
 		self.title = title
@@ -224,6 +219,9 @@ public struct CarePlan: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -261,8 +259,10 @@ public struct CarePlan: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try addresses?.encode(on: &_container, forKey: .addresses)
@@ -322,11 +322,7 @@ public struct CarePlanActivity: BackboneElement {
 	/// Comments about the activity status/progress
 	public var progress: [Annotation]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -335,7 +331,6 @@ public struct CarePlanActivity: BackboneElement {
 		plannedActivityReference: Reference? = nil,
 		progress: [Annotation]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -357,6 +352,9 @@ public struct CarePlanActivity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -371,6 +369,7 @@ public struct CarePlanActivity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

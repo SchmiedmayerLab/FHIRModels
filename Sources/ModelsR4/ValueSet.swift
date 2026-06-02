@@ -110,12 +110,7 @@ public struct ValueSet: DomainResource {
 	/// Business version of the value set
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		compose: ValueSetCompose? = nil,
 		contact: [ContactDetail]? = nil,
@@ -144,7 +139,6 @@ public struct ValueSet: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(status: status)
 		self.compose = compose
 		self.contact = contact
 		self.contained = contained
@@ -165,6 +159,7 @@ public struct ValueSet: DomainResource {
 		self.name = name
 		self.publisher = publisher
 		self.purpose = purpose
+		self.status = status
 		self.text = text
 		self.title = title
 		self.url = url
@@ -206,6 +201,9 @@ public struct ValueSet: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -240,8 +238,10 @@ public struct ValueSet: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try compose?.encode(on: &_container, forKey: .compose)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -301,12 +301,7 @@ public struct ValueSetCompose: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(include: [ValueSetComposeInclude]) {
-		self.include = include
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		exclude: [ValueSetComposeInclude]? = nil,
 		`extension`: [Extension]? = nil,
@@ -316,11 +311,11 @@ public struct ValueSetCompose: BackboneElement {
 		lockedDate: FHIRPrimitive<FHIRDate>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(include: include)
 		self.exclude = exclude
 		self.`extension` = `extension`
 		self.id = id
 		self.inactive = inactive
+		self.include = include
 		self.lockedDate = lockedDate
 		self.modifierExtension = modifierExtension
 	}
@@ -339,6 +334,9 @@ public struct ValueSetCompose: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -354,6 +352,7 @@ public struct ValueSetCompose: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try exclude?.encode(on: &_container, forKey: .exclude)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -394,11 +393,7 @@ public struct ValueSetComposeInclude: BackboneElement {
 	/// Specific version of the code system referred to
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		concept: [ValueSetComposeIncludeConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -409,7 +404,6 @@ public struct ValueSetComposeInclude: BackboneElement {
 		valueSet: [FHIRPrimitive<Canonical>]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.concept = concept
 		self.`extension` = `extension`
 		self.filter = filter
@@ -435,6 +429,9 @@ public struct ValueSetComposeInclude: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -451,6 +448,7 @@ public struct ValueSetComposeInclude: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try concept?.encode(on: &_container, forKey: .concept)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -488,12 +486,7 @@ public struct ValueSetComposeIncludeConcept: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<FHIRString>) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRString>,
 		designation: [ValueSetComposeIncludeConceptDesignation]? = nil,
@@ -502,7 +495,7 @@ public struct ValueSetComposeIncludeConcept: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.designation = designation
 		self.display = display
 		self.`extension` = `extension`
@@ -523,6 +516,9 @@ public struct ValueSetComposeIncludeConcept: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -537,6 +533,7 @@ public struct ValueSetComposeIncludeConcept: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try designation?.encode(on: &_container, forKey: .designation)
@@ -573,12 +570,7 @@ public struct ValueSetComposeIncludeConceptDesignation: BackboneElement {
 	/// The text value for this designation
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(value: FHIRPrimitive<FHIRString>) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -587,12 +579,12 @@ public struct ValueSetComposeIncludeConceptDesignation: BackboneElement {
 		use: Coding? = nil,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.language = language
 		self.modifierExtension = modifierExtension
 		self.use = use
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -608,6 +600,9 @@ public struct ValueSetComposeIncludeConceptDesignation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -622,6 +617,7 @@ public struct ValueSetComposeIncludeConceptDesignation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -658,14 +654,7 @@ public struct ValueSetComposeIncludeFilter: BackboneElement {
 	/// Code from the system, or regex criteria, or boolean value for exists
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(op: FHIRPrimitive<FilterOperator>, property: FHIRPrimitive<FHIRString>, value: FHIRPrimitive<FHIRString>) {
-		self.op = op
-		self.property = property
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -674,10 +663,12 @@ public struct ValueSetComposeIncludeFilter: BackboneElement {
 		property: FHIRPrimitive<FHIRString>,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(op: op, property: property, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.op = op
+		self.property = property
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -693,6 +684,9 @@ public struct ValueSetComposeIncludeFilter: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -707,6 +701,7 @@ public struct ValueSetComposeIncludeFilter: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -752,12 +747,7 @@ public struct ValueSetExpansion: BackboneElement {
 	/// Total number of codes in the expansion
 	public var total: FHIRPrimitive<FHIRInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(timestamp: FHIRPrimitive<DateTime>) {
-		self.timestamp = timestamp
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contains: [ValueSetExpansionContains]? = nil,
 		`extension`: [Extension]? = nil,
@@ -769,7 +759,6 @@ public struct ValueSetExpansion: BackboneElement {
 		timestamp: FHIRPrimitive<DateTime>,
 		total: FHIRPrimitive<FHIRInteger>? = nil
 	) {
-		self.init(timestamp: timestamp)
 		self.contains = contains
 		self.`extension` = `extension`
 		self.id = id
@@ -777,6 +766,7 @@ public struct ValueSetExpansion: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.offset = offset
 		self.parameter = parameter
+		self.timestamp = timestamp
 		self.total = total
 	}
 	
@@ -796,6 +786,9 @@ public struct ValueSetExpansion: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -813,6 +806,7 @@ public struct ValueSetExpansion: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contains?.encode(on: &_container, forKey: .contains)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -866,11 +860,7 @@ public struct ValueSetExpansionContains: BackboneElement {
 	/// Version in which this code/display is defined
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		abstract: FHIRPrimitive<FHIRBool>? = nil,
 		code: FHIRPrimitive<FHIRString>? = nil,
@@ -884,7 +874,6 @@ public struct ValueSetExpansionContains: BackboneElement {
 		system: FHIRPrimitive<FHIRURI>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.abstract = abstract
 		self.code = code
 		self.contains = contains
@@ -916,6 +905,9 @@ public struct ValueSetExpansionContains: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -935,6 +927,7 @@ public struct ValueSetExpansionContains: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try abstract?.encode(on: &_container, forKey: .abstract, auxiliaryKey: ._abstract)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
@@ -985,12 +978,7 @@ public struct ValueSetExpansionParameter: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX?
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>) {
-		self.name = name
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -998,10 +986,10 @@ public struct ValueSetExpansionParameter: BackboneElement {
 		name: FHIRPrimitive<FHIRString>,
 		value: ValueX? = nil
 	) {
-		self.init(name: name)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.value = value
 	}
 	
@@ -1023,6 +1011,9 @@ public struct ValueSetExpansionParameter: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1030,36 +1021,46 @@ public struct ValueSetExpansionParameter: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKey: .name, auxiliaryKey: ._name)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		if let _enum = value {
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .valueCode, auxiliaryKey: ._valueCode)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .valueDecimal, auxiliaryKey: ._valueDecimal)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX? {
 		var _t_value: ValueX? = nil
-		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .string(valueString)
-		}
 		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueBoolean, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
 			_t_value = .boolean(valueBoolean)
-		}
-		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueInteger, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .integer(valueInteger)
-		}
-		if let valueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .valueDecimal, auxiliaryKey: ._valueDecimal) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDecimal, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .decimal(valueDecimal)
-		}
-		if let valueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUri, auxiliaryKey: ._valueUri) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueUri, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .uri(valueUri)
 		}
 		if let valueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueCode, auxiliaryKey: ._valueCode) {
 			if _t_value != nil {
@@ -1073,34 +1074,30 @@ public struct ValueSetExpansionParameter: BackboneElement {
 			}
 			_t_value = .dateTime(valueDateTime)
 		}
-		self.value = _t_value
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try name.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		if let _enum = value {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .valueDecimal, auxiliaryKey: ._valueDecimal)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .valueCode, auxiliaryKey: ._valueCode)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+		if let valueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .valueDecimal, auxiliaryKey: ._valueDecimal) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDecimal, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
+			_t_value = .decimal(valueDecimal)
 		}
+		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueInteger, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .integer(valueInteger)
+		}
+		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .string(valueString)
+		}
+		if let valueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUri, auxiliaryKey: ._valueUri) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueUri, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .uri(valueUri)
+		}
+		return _t_value
 	}
 }

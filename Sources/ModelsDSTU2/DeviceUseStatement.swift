@@ -93,13 +93,7 @@ public struct DeviceUseStatement: DomainResource {
 	/// None
 	public var whenUsed: Period?
 	
-	/// Designated initializer taking all required properties
-	public init(device: Reference, subject: Reference) {
-		self.device = device
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodySite: BodySiteX? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -119,9 +113,9 @@ public struct DeviceUseStatement: DomainResource {
 		timing: TimingX? = nil,
 		whenUsed: Period? = nil
 	) {
-		self.init(device: device, subject: subject)
 		self.bodySite = bodySite
 		self.contained = contained
+		self.device = device
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -132,6 +126,7 @@ public struct DeviceUseStatement: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.notes = notes
 		self.recordedOn = recordedOn
+		self.subject = subject
 		self.text = text
 		self.timing = timing
 		self.whenUsed = whenUsed
@@ -165,23 +160,13 @@ public struct DeviceUseStatement: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_bodySite: BodySiteX? = nil
-		if let bodySiteCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .bodySiteCodeableConcept) {
-			if _t_bodySite != nil {
-				throw DecodingError.dataCorruptedError(forKey: .bodySiteCodeableConcept, in: _container, debugDescription: "More than one value provided for \"bodySite\"")
-			}
-			_t_bodySite = .codeableConcept(bodySiteCodeableConcept)
-		}
-		if let bodySiteReference = try Reference(from: _container, forKeyIfPresent: .bodySiteReference) {
-			if _t_bodySite != nil {
-				throw DecodingError.dataCorruptedError(forKey: .bodySiteReference, in: _container, debugDescription: "More than one value provided for \"bodySite\"")
-			}
-			_t_bodySite = .reference(bodySiteReference)
-		}
-		self.bodySite = _t_bodySite
+		self.bodySite = try Self._decodeBodySite(from: _container)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.device = try Reference(from: _container, forKey: .device)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
@@ -196,42 +181,25 @@ public struct DeviceUseStatement: DomainResource {
 		self.recordedOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .recordedOn, auxiliaryKey: ._recordedOn)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
-		var _t_timing: TimingX? = nil
-		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .timing(timingTiming)
-		}
-		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .period(timingPeriod)
-		}
-		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDateTime, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .dateTime(timingDateTime)
-		}
-		self.timing = _t_timing
+		self.timing = try Self._decodeTiming(from: _container)
 		self.whenUsed = try Period(from: _container, forKeyIfPresent: .whenUsed)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = bodySite {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .bodySiteCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .bodySiteReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .bodySiteCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .bodySiteReference)
+		}
 		}
 		try contained?.encode(on: &_container, forKey: .contained)
 		try device.encode(on: &_container, forKey: .device)
@@ -248,15 +216,55 @@ public struct DeviceUseStatement: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = timing {
-			switch _enum {
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timingPeriod)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timingPeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
+		}
 		}
 		try whenUsed?.encode(on: &_container, forKey: .whenUsed)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeBodySite(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> BodySiteX? {
+		var _t_bodySite: BodySiteX? = nil
+		if let bodySiteCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .bodySiteCodeableConcept) {
+			_t_bodySite = .codeableConcept(bodySiteCodeableConcept)
+		}
+		if let bodySiteReference = try Reference(from: _container, forKeyIfPresent: .bodySiteReference) {
+			if _t_bodySite != nil {
+				throw DecodingError.dataCorruptedError(forKey: .bodySiteReference, in: _container, debugDescription: "More than one value provided for \"bodySite\"")
+			}
+			_t_bodySite = .reference(bodySiteReference)
+		}
+		return _t_bodySite
+	}
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
+		var _t_timing: TimingX? = nil
+		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
+			_t_timing = .dateTime(timingDateTime)
+		}
+		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .period(timingPeriod)
+		}
+		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .timing(timingTiming)
+		}
+		return _t_timing
 	}
 }

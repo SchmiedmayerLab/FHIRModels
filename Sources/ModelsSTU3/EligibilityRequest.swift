@@ -106,11 +106,7 @@ public struct EligibilityRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		benefitCategory: CodeableConcept? = nil,
 		benefitSubCategory: CodeableConcept? = nil,
@@ -136,7 +132,6 @@ public struct EligibilityRequest: DomainResource {
 		status: FHIRPrimitive<FHIRString>? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.benefitCategory = benefitCategory
 		self.benefitSubCategory = benefitSubCategory
 		self.businessArrangement = businessArrangement
@@ -194,6 +189,9 @@ public struct EligibilityRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -217,20 +215,7 @@ public struct EligibilityRequest: DomainResource {
 		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
 		self.priority = try CodeableConcept(from: _container, forKeyIfPresent: .priority)
 		self.provider = try Reference(from: _container, forKeyIfPresent: .provider)
-		var _t_serviced: ServicedX? = nil
-		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedDate, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
-			_t_serviced = .date(servicedDate)
-		}
-		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedPeriod, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
-			_t_serviced = .period(servicedPeriod)
-		}
-		self.serviced = _t_serviced
+		self.serviced = try Self._decodeServiced(from: _container)
 		self.status = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
@@ -238,8 +223,10 @@ public struct EligibilityRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try benefitCategory?.encode(on: &_container, forKey: .benefitCategory)
 		try benefitSubCategory?.encode(on: &_container, forKey: .benefitSubCategory)
@@ -262,14 +249,32 @@ public struct EligibilityRequest: DomainResource {
 		try priority?.encode(on: &_container, forKey: .priority)
 		try provider?.encode(on: &_container, forKey: .provider)
 		if let _enum = serviced {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .servicedPeriod)
-			}
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .servicedPeriod)
+		}
 		}
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeServiced(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ServicedX? {
+		var _t_serviced: ServicedX? = nil
+		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
+			_t_serviced = .date(servicedDate)
+		}
+		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
+			if _t_serviced != nil {
+				throw DecodingError.dataCorruptedError(forKey: .servicedPeriod, in: _container, debugDescription: "More than one value provided for \"serviced\"")
+			}
+			_t_serviced = .period(servicedPeriod)
+		}
+		return _t_serviced
 	}
 }

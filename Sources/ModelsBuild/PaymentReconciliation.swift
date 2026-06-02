@@ -142,15 +142,7 @@ public struct PaymentReconciliation: DomainResource {
 	/// Category of payment
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(created: FHIRPrimitive<DateTime>, date: FHIRPrimitive<FHIRDate>, status: FHIRPrimitive<FinancialResourceStatusCodes>, type: CodeableConcept) {
-		self.created = created
-		self.date = date
-		self.status = status
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		accountNumber: FHIRPrimitive<FHIRString>? = nil,
 		allocation: [PaymentReconciliationAllocation]? = nil,
@@ -191,13 +183,14 @@ public struct PaymentReconciliation: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept
 	) {
-		self.init(created: created, date: date, status: status, type: type)
 		self.accountNumber = accountNumber
 		self.allocation = allocation
 		self.amount = amount
 		self.authorization = authorization
 		self.cardBrand = cardBrand
 		self.contained = contained
+		self.created = created
+		self.date = date
 		self.disposition = disposition
 		self.enterer = enterer
 		self.expirationDate = expirationDate
@@ -223,9 +216,11 @@ public struct PaymentReconciliation: DomainResource {
 		self.request = request
 		self.requestor = requestor
 		self.returnedAmount = returnedAmount
+		self.status = status
 		self.statusReason = statusReason
 		self.tenderedAmount = tenderedAmount
 		self.text = text
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -274,6 +269,9 @@ public struct PaymentReconciliation: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -320,8 +318,10 @@ public struct PaymentReconciliation: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try accountNumber?.encode(on: &_container, forKey: .accountNumber, auxiliaryKey: ._accountNumber)
 		try allocation?.encode(on: &_container, forKey: .allocation)
@@ -430,11 +430,7 @@ public struct PaymentReconciliationAllocation: BackboneElement {
 	/// Category of payment
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: Reference? = nil,
 		amount: Money? = nil,
@@ -454,7 +450,6 @@ public struct PaymentReconciliationAllocation: BackboneElement {
 		targetItem: TargetItemX? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.account = account
 		self.amount = amount
 		self.date = date
@@ -500,6 +495,9 @@ public struct PaymentReconciliationAllocation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -518,32 +516,14 @@ public struct PaymentReconciliationAllocation: BackboneElement {
 		self.responsible = try Reference(from: _container, forKeyIfPresent: .responsible)
 		self.submitter = try Reference(from: _container, forKeyIfPresent: .submitter)
 		self.target = try Reference(from: _container, forKeyIfPresent: .target)
-		var _t_targetItem: TargetItemX? = nil
-		if let targetItemString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .targetItemString, auxiliaryKey: ._targetItemString) {
-			if _t_targetItem != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetItemString, in: _container, debugDescription: "More than one value provided for \"targetItem\"")
-			}
-			_t_targetItem = .string(targetItemString)
-		}
-		if let targetItemIdentifier = try Identifier(from: _container, forKeyIfPresent: .targetItemIdentifier) {
-			if _t_targetItem != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetItemIdentifier, in: _container, debugDescription: "More than one value provided for \"targetItem\"")
-			}
-			_t_targetItem = .identifier(targetItemIdentifier)
-		}
-		if let targetItemPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .targetItemPositiveInt, auxiliaryKey: ._targetItemPositiveInt) {
-			if _t_targetItem != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetItemPositiveInt, in: _container, debugDescription: "More than one value provided for \"targetItem\"")
-			}
-			_t_targetItem = .positiveInt(targetItemPositiveInt)
-		}
-		self.targetItem = _t_targetItem
+		self.targetItem = try Self._decodeTargetItem(from: _container)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try amount?.encode(on: &_container, forKey: .amount)
@@ -561,16 +541,40 @@ public struct PaymentReconciliationAllocation: BackboneElement {
 		try submitter?.encode(on: &_container, forKey: .submitter)
 		try target?.encode(on: &_container, forKey: .target)
 		if let _enum = targetItem {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .targetItemString, auxiliaryKey: ._targetItemString)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .targetItemIdentifier)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .targetItemPositiveInt, auxiliaryKey: ._targetItemPositiveInt)
-			}
+		switch _enum {
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .targetItemIdentifier)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .targetItemPositiveInt, auxiliaryKey: ._targetItemPositiveInt)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .targetItemString, auxiliaryKey: ._targetItemString)
+		}
 		}
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTargetItem(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TargetItemX? {
+		var _t_targetItem: TargetItemX? = nil
+		if let targetItemIdentifier = try Identifier(from: _container, forKeyIfPresent: .targetItemIdentifier) {
+			_t_targetItem = .identifier(targetItemIdentifier)
+		}
+		if let targetItemPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .targetItemPositiveInt, auxiliaryKey: ._targetItemPositiveInt) {
+			if _t_targetItem != nil {
+				throw DecodingError.dataCorruptedError(forKey: .targetItemPositiveInt, in: _container, debugDescription: "More than one value provided for \"targetItem\"")
+			}
+			_t_targetItem = .positiveInt(targetItemPositiveInt)
+		}
+		if let targetItemString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .targetItemString, auxiliaryKey: ._targetItemString) {
+			if _t_targetItem != nil {
+				throw DecodingError.dataCorruptedError(forKey: .targetItemString, in: _container, debugDescription: "More than one value provided for \"targetItem\"")
+			}
+			_t_targetItem = .string(targetItemString)
+		}
+		return _t_targetItem
 	}
 }
 
@@ -602,11 +606,7 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 	/// The business purpose of the note text.
 	public var type: FHIRPrimitive<NoteType>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`class`: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -616,7 +616,6 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		type: FHIRPrimitive<NoteType>? = nil
 	) {
-		self.init()
 		self.`class` = `class`
 		self.`extension` = `extension`
 		self.id = id
@@ -640,6 +639,9 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -655,6 +657,7 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `class`?.encode(on: &_container, forKey: .`class`)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

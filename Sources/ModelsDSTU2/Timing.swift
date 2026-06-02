@@ -43,11 +43,7 @@ public struct Timing: Element {
 	/// When the event is to occur
 	public var `repeat`: TimingRepeat?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		event: [FHIRPrimitive<DateTime>]? = nil,
@@ -55,7 +51,6 @@ public struct Timing: Element {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		`repeat`: TimingRepeat? = nil
 	) {
-		self.init()
 		self.code = code
 		self.event = event
 		self.`extension` = `extension`
@@ -75,6 +70,9 @@ public struct Timing: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -88,6 +86,7 @@ public struct Timing: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try event?.encode(on: &_container, forKey: .event, auxiliaryKey: ._event)
@@ -151,11 +150,7 @@ public struct TimingRepeat: Element {
 	/// Regular life events the event is tied to
 	public var when: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bounds: BoundsX? = nil,
 		count: FHIRPrimitive<FHIRInteger>? = nil,
@@ -171,7 +166,6 @@ public struct TimingRepeat: Element {
 		periodUnits: FHIRPrimitive<FHIRString>? = nil,
 		when: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.bounds = bounds
 		self.count = count
 		self.duration = duration
@@ -209,29 +203,13 @@ public struct TimingRepeat: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_bounds: BoundsX? = nil
-		if let boundsQuantity = try Quantity(from: _container, forKeyIfPresent: .boundsQuantity) {
-			if _t_bounds != nil {
-				throw DecodingError.dataCorruptedError(forKey: .boundsQuantity, in: _container, debugDescription: "More than one value provided for \"bounds\"")
-			}
-			_t_bounds = .quantity(boundsQuantity)
-		}
-		if let boundsRange = try Range(from: _container, forKeyIfPresent: .boundsRange) {
-			if _t_bounds != nil {
-				throw DecodingError.dataCorruptedError(forKey: .boundsRange, in: _container, debugDescription: "More than one value provided for \"bounds\"")
-			}
-			_t_bounds = .range(boundsRange)
-		}
-		if let boundsPeriod = try Period(from: _container, forKeyIfPresent: .boundsPeriod) {
-			if _t_bounds != nil {
-				throw DecodingError.dataCorruptedError(forKey: .boundsPeriod, in: _container, debugDescription: "More than one value provided for \"bounds\"")
-			}
-			_t_bounds = .period(boundsPeriod)
-		}
-		self.bounds = _t_bounds
+		self.bounds = try Self._decodeBounds(from: _container)
 		self.count = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .count, auxiliaryKey: ._count)
 		self.duration = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .duration, auxiliaryKey: ._duration)
 		self.durationMax = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .durationMax, auxiliaryKey: ._durationMax)
@@ -249,16 +227,17 @@ public struct TimingRepeat: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = bounds {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .boundsQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .boundsRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .boundsPeriod)
-			}
+		switch _enum {
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .boundsPeriod)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .boundsQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .boundsRange)
+		}
 		}
 		try count?.encode(on: &_container, forKey: .count, auxiliaryKey: ._count)
 		try duration?.encode(on: &_container, forKey: .duration, auxiliaryKey: ._duration)
@@ -272,5 +251,29 @@ public struct TimingRepeat: Element {
 		try periodMax?.encode(on: &_container, forKey: .periodMax, auxiliaryKey: ._periodMax)
 		try periodUnits?.encode(on: &_container, forKey: .periodUnits, auxiliaryKey: ._periodUnits)
 		try when?.encode(on: &_container, forKey: .when, auxiliaryKey: ._when)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeBounds(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> BoundsX? {
+		var _t_bounds: BoundsX? = nil
+		if let boundsPeriod = try Period(from: _container, forKeyIfPresent: .boundsPeriod) {
+			_t_bounds = .period(boundsPeriod)
+		}
+		if let boundsQuantity = try Quantity(from: _container, forKeyIfPresent: .boundsQuantity) {
+			if _t_bounds != nil {
+				throw DecodingError.dataCorruptedError(forKey: .boundsQuantity, in: _container, debugDescription: "More than one value provided for \"bounds\"")
+			}
+			_t_bounds = .quantity(boundsQuantity)
+		}
+		if let boundsRange = try Range(from: _container, forKeyIfPresent: .boundsRange) {
+			if _t_bounds != nil {
+				throw DecodingError.dataCorruptedError(forKey: .boundsRange, in: _container, debugDescription: "More than one value provided for \"bounds\"")
+			}
+			_t_bounds = .range(boundsRange)
+		}
+		return _t_bounds
 	}
 }

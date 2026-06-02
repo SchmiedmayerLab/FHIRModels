@@ -118,13 +118,7 @@ public struct Appointment: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(participant: [AppointmentParticipant], status: FHIRPrimitive<AppointmentStatus>) {
-		self.participant = participant
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		appointmentType: CodeableConcept? = nil,
 		basedOn: [Reference]? = nil,
@@ -157,7 +151,6 @@ public struct Appointment: DomainResource {
 		supportingInformation: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(participant: participant, status: status)
 		self.appointmentType = appointmentType
 		self.basedOn = basedOn
 		self.cancelationReason = cancelationReason
@@ -174,6 +167,7 @@ public struct Appointment: DomainResource {
 		self.meta = meta
 		self.minutesDuration = minutesDuration
 		self.modifierExtension = modifierExtension
+		self.participant = participant
 		self.patientInstruction = patientInstruction
 		self.priority = priority
 		self.reasonCode = reasonCode
@@ -184,6 +178,7 @@ public struct Appointment: DomainResource {
 		self.slot = slot
 		self.specialty = specialty
 		self.start = start
+		self.status = status
 		self.supportingInformation = supportingInformation
 		self.text = text
 	}
@@ -226,6 +221,9 @@ public struct Appointment: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -264,8 +262,10 @@ public struct Appointment: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try appointmentType?.encode(on: &_container, forKey: .appointmentType)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
@@ -332,12 +332,7 @@ public struct AppointmentParticipant: BackboneElement {
 	/// Role of participant in the appointment
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<ParticipationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -348,13 +343,13 @@ public struct AppointmentParticipant: BackboneElement {
 		status: FHIRPrimitive<ParticipationStatus>,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(status: status)
 		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.period = period
 		self.required = required
+		self.status = status
 		self.type = type
 	}
 	
@@ -373,6 +368,9 @@ public struct AppointmentParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -389,6 +387,7 @@ public struct AppointmentParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

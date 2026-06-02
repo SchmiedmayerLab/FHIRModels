@@ -131,14 +131,7 @@ public struct Procedure: DomainResource {
 	/// Items used during procedure
 	public var used: [Reference]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, status: FHIRPrimitive<ProcedureStatus>, subject: Reference) {
-		self.code = code
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodySite: [CodeableConcept]? = nil,
 		category: CodeableConcept? = nil,
@@ -170,9 +163,9 @@ public struct Procedure: DomainResource {
 		text: Narrative? = nil,
 		used: [Reference]? = nil
 	) {
-		self.init(code: code, status: status, subject: subject)
 		self.bodySite = bodySite
 		self.category = category
+		self.code = code
 		self.complication = complication
 		self.contained = contained
 		self.encounter = encounter
@@ -195,6 +188,8 @@ public struct Procedure: DomainResource {
 		self.reasonNotPerformed = reasonNotPerformed
 		self.report = report
 		self.request = request
+		self.status = status
+		self.subject = subject
 		self.text = text
 		self.used = used
 	}
@@ -238,6 +233,9 @@ public struct Procedure: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -260,35 +258,9 @@ public struct Procedure: DomainResource {
 		self.notPerformed = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .notPerformed, auxiliaryKey: ._notPerformed)
 		self.notes = try [Annotation](from: _container, forKeyIfPresent: .notes)
 		self.outcome = try CodeableConcept(from: _container, forKeyIfPresent: .outcome)
-		var _t_performed: PerformedX? = nil
-		if let performedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .performedDateTime, auxiliaryKey: ._performedDateTime) {
-			if _t_performed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .performedDateTime, in: _container, debugDescription: "More than one value provided for \"performed\"")
-			}
-			_t_performed = .dateTime(performedDateTime)
-		}
-		if let performedPeriod = try Period(from: _container, forKeyIfPresent: .performedPeriod) {
-			if _t_performed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .performedPeriod, in: _container, debugDescription: "More than one value provided for \"performed\"")
-			}
-			_t_performed = .period(performedPeriod)
-		}
-		self.performed = _t_performed
+		self.performed = try Self._decodePerformed(from: _container)
 		self.performer = try [ProcedurePerformer](from: _container, forKeyIfPresent: .performer)
-		var _t_reason: ReasonX? = nil
-		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .codeableConcept(reasonCodeableConcept)
-		}
-		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .reference(reasonReference)
-		}
-		self.reason = _t_reason
+		self.reason = try Self._decodeReason(from: _container)
 		self.reasonNotPerformed = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonNotPerformed)
 		self.report = try [Reference](from: _container, forKeyIfPresent: .report)
 		self.request = try Reference(from: _container, forKeyIfPresent: .request)
@@ -301,8 +273,10 @@ public struct Procedure: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try category?.encode(on: &_container, forKey: .category)
@@ -324,21 +298,21 @@ public struct Procedure: DomainResource {
 		try notes?.encode(on: &_container, forKey: .notes)
 		try outcome?.encode(on: &_container, forKey: .outcome)
 		if let _enum = performed {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .performedDateTime, auxiliaryKey: ._performedDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .performedPeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .performedDateTime, auxiliaryKey: ._performedDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .performedPeriod)
+		}
 		}
 		try performer?.encode(on: &_container, forKey: .performer)
 		if let _enum = reason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reasonReference)
+		}
 		}
 		try reasonNotPerformed?.encode(on: &_container, forKey: .reasonNotPerformed)
 		try report?.encode(on: &_container, forKey: .report)
@@ -347,6 +321,40 @@ public struct Procedure: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
 		try used?.encode(on: &_container, forKey: .used)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodePerformed(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> PerformedX? {
+		var _t_performed: PerformedX? = nil
+		if let performedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .performedDateTime, auxiliaryKey: ._performedDateTime) {
+			_t_performed = .dateTime(performedDateTime)
+		}
+		if let performedPeriod = try Period(from: _container, forKeyIfPresent: .performedPeriod) {
+			if _t_performed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .performedPeriod, in: _container, debugDescription: "More than one value provided for \"performed\"")
+			}
+			_t_performed = .period(performedPeriod)
+		}
+		return _t_performed
+	}
+	
+	private static func _decodeReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReasonX? {
+		var _t_reason: ReasonX? = nil
+		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
+			_t_reason = .codeableConcept(reasonCodeableConcept)
+		}
+		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
+			if _t_reason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
+			}
+			_t_reason = .reference(reasonReference)
+		}
+		return _t_reason
 	}
 }
 
@@ -373,12 +381,7 @@ public struct ProcedureFocalDevice: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(manipulated: Reference) {
-		self.manipulated = manipulated
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -386,10 +389,10 @@ public struct ProcedureFocalDevice: BackboneElement {
 		manipulated: Reference,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(manipulated: manipulated)
 		self.action = action
 		self.`extension` = `extension`
 		self.id = id
+		self.manipulated = manipulated
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -405,6 +408,9 @@ public struct ProcedureFocalDevice: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -418,6 +424,7 @@ public struct ProcedureFocalDevice: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -449,11 +456,7 @@ public struct ProcedurePerformer: BackboneElement {
 	/// The role the actor was in
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -461,7 +464,6 @@ public struct ProcedurePerformer: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init()
 		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
@@ -481,6 +483,9 @@ public struct ProcedurePerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -494,6 +499,7 @@ public struct ProcedurePerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

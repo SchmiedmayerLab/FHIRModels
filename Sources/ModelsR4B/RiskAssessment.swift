@@ -110,13 +110,7 @@ public struct RiskAssessment: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<ObservationStatus>, subject: Reference) {
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: Reference? = nil,
 		basis: [Reference]? = nil,
@@ -144,7 +138,6 @@ public struct RiskAssessment: DomainResource {
 		subject: Reference,
 		text: Narrative? = nil
 	) {
-		self.init(status: status, subject: subject)
 		self.basedOn = basedOn
 		self.basis = basis
 		self.code = code
@@ -167,6 +160,8 @@ public struct RiskAssessment: DomainResource {
 		self.prediction = prediction
 		self.reasonCode = reasonCode
 		self.reasonReference = reasonReference
+		self.status = status
+		self.subject = subject
 		self.text = text
 	}
 	
@@ -204,6 +199,9 @@ public struct RiskAssessment: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -223,20 +221,7 @@ public struct RiskAssessment: DomainResource {
 		self.mitigation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .mitigation, auxiliaryKey: ._mitigation)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.parent = try Reference(from: _container, forKeyIfPresent: .parent)
 		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
 		self.prediction = try [RiskAssessmentPrediction](from: _container, forKeyIfPresent: .prediction)
@@ -250,8 +235,10 @@ public struct RiskAssessment: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try basis?.encode(on: &_container, forKey: .basis)
@@ -270,12 +257,12 @@ public struct RiskAssessment: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		}
 		}
 		try parent?.encode(on: &_container, forKey: .parent)
 		try performer?.encode(on: &_container, forKey: .performer)
@@ -285,6 +272,24 @@ public struct RiskAssessment: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		return _t_occurrence
 	}
 }
 
@@ -336,11 +341,7 @@ public struct RiskAssessmentPrediction: BackboneElement {
 	/// One of `when[x]`
 	public var when: WhenX?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -352,7 +353,6 @@ public struct RiskAssessmentPrediction: BackboneElement {
 		relativeRisk: FHIRPrimitive<FHIRDecimal>? = nil,
 		when: WhenX? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -382,6 +382,9 @@ public struct RiskAssessmentPrediction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -389,11 +392,50 @@ public struct RiskAssessmentPrediction: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.outcome = try CodeableConcept(from: _container, forKeyIfPresent: .outcome)
+		self.probability = try Self._decodeProbability(from: _container)
+		self.qualitativeRisk = try CodeableConcept(from: _container, forKeyIfPresent: .qualitativeRisk)
+		self.rationale = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .rationale, auxiliaryKey: ._rationale)
+		self.relativeRisk = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .relativeRisk, auxiliaryKey: ._relativeRisk)
+		self.when = try Self._decodeWhen(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try outcome?.encode(on: &_container, forKey: .outcome)
+		if let _enum = probability {
+		switch _enum {
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .probabilityDecimal, auxiliaryKey: ._probabilityDecimal)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .probabilityRange)
+		}
+		}
+		try qualitativeRisk?.encode(on: &_container, forKey: .qualitativeRisk)
+		try rationale?.encode(on: &_container, forKey: .rationale, auxiliaryKey: ._rationale)
+		try relativeRisk?.encode(on: &_container, forKey: .relativeRisk, auxiliaryKey: ._relativeRisk)
+		if let _enum = when {
+		switch _enum {
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .whenPeriod)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .whenRange)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeProbability(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ProbabilityX? {
 		var _t_probability: ProbabilityX? = nil
 		if let probabilityDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .probabilityDecimal, auxiliaryKey: ._probabilityDecimal) {
-			if _t_probability != nil {
-				throw DecodingError.dataCorruptedError(forKey: .probabilityDecimal, in: _container, debugDescription: "More than one value provided for \"probability\"")
-			}
 			_t_probability = .decimal(probabilityDecimal)
 		}
 		if let probabilityRange = try Range(from: _container, forKeyIfPresent: .probabilityRange) {
@@ -402,15 +444,14 @@ public struct RiskAssessmentPrediction: BackboneElement {
 			}
 			_t_probability = .range(probabilityRange)
 		}
-		self.probability = _t_probability
-		self.qualitativeRisk = try CodeableConcept(from: _container, forKeyIfPresent: .qualitativeRisk)
-		self.rationale = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .rationale, auxiliaryKey: ._rationale)
-		self.relativeRisk = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .relativeRisk, auxiliaryKey: ._relativeRisk)
+		return _t_probability
+	}
+	
+	private static func _decodeWhen(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> WhenX? {
 		var _t_when: WhenX? = nil
 		if let whenPeriod = try Period(from: _container, forKeyIfPresent: .whenPeriod) {
-			if _t_when != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whenPeriod, in: _container, debugDescription: "More than one value provided for \"when\"")
-			}
 			_t_when = .period(whenPeriod)
 		}
 		if let whenRange = try Range(from: _container, forKeyIfPresent: .whenRange) {
@@ -419,35 +460,6 @@ public struct RiskAssessmentPrediction: BackboneElement {
 			}
 			_t_when = .range(whenRange)
 		}
-		self.when = _t_when
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try outcome?.encode(on: &_container, forKey: .outcome)
-		if let _enum = probability {
-			switch _enum {
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .probabilityDecimal, auxiliaryKey: ._probabilityDecimal)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .probabilityRange)
-			}
-		}
-		try qualitativeRisk?.encode(on: &_container, forKey: .qualitativeRisk)
-		try rationale?.encode(on: &_container, forKey: .rationale, auxiliaryKey: ._rationale)
-		try relativeRisk?.encode(on: &_container, forKey: .relativeRisk, auxiliaryKey: ._relativeRisk)
-		if let _enum = when {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .whenPeriod)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .whenRange)
-			}
-		}
+		return _t_when
 	}
 }

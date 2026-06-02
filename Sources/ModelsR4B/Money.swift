@@ -36,18 +36,13 @@ public struct Money: Element {
 	/// Numerical value (with implicit precision)
 	public var value: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		currency: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		value: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init()
 		self.currency = currency
 		self.`extension` = `extension`
 		self.id = id
@@ -65,6 +60,9 @@ public struct Money: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -77,6 +75,7 @@ public struct Money: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try currency?.encode(on: &_container, forKey: .currency, auxiliaryKey: ._currency)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

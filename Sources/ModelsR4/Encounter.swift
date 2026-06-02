@@ -122,13 +122,7 @@ public struct Encounter: DomainResource {
 	/// Specific type of encounter
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(`class`: Coding, status: FHIRPrimitive<EncounterStatus>) {
-		self.`class` = `class`
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: [Reference]? = nil,
 		appointment: [Reference]? = nil,
@@ -162,10 +156,10 @@ public struct Encounter: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(class: `class`, status: status)
 		self.account = account
 		self.appointment = appointment
 		self.basedOn = basedOn
+		self.`class` = `class`
 		self.classHistory = classHistory
 		self.contained = contained
 		self.diagnosis = diagnosis
@@ -188,6 +182,7 @@ public struct Encounter: DomainResource {
 		self.reasonReference = reasonReference
 		self.serviceProvider = serviceProvider
 		self.serviceType = serviceType
+		self.status = status
 		self.statusHistory = statusHistory
 		self.subject = subject
 		self.text = text
@@ -233,6 +228,9 @@ public struct Encounter: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -272,8 +270,10 @@ public struct Encounter: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try appointment?.encode(on: &_container, forKey: .appointment)
@@ -335,13 +335,7 @@ public struct EncounterClassHistory: BackboneElement {
 	/// The time that the episode was in the specified class
 	public var period: Period
 	
-	/// Designated initializer taking all required properties
-	public init(`class`: Coding, period: Period) {
-		self.`class` = `class`
-		self.period = period
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`class`: Coding,
 		`extension`: [Extension]? = nil,
@@ -349,10 +343,11 @@ public struct EncounterClassHistory: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period
 	) {
-		self.init(class: `class`, period: period)
+		self.`class` = `class`
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.period = period
 	}
 	
 	// MARK: - Codable
@@ -367,6 +362,9 @@ public struct EncounterClassHistory: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -380,6 +378,7 @@ public struct EncounterClassHistory: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `class`.encode(on: &_container, forKey: .`class`)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -412,12 +411,7 @@ public struct EncounterDiagnosis: BackboneElement {
 	/// Role that this diagnosis has within the encounter (e.g. admission, billing, discharge …)
 	public var use: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(condition: Reference) {
-		self.condition = condition
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		condition: Reference,
 		`extension`: [Extension]? = nil,
@@ -426,7 +420,7 @@ public struct EncounterDiagnosis: BackboneElement {
 		rank: FHIRPrimitive<FHIRPositiveInteger>? = nil,
 		use: CodeableConcept? = nil
 	) {
-		self.init(condition: condition)
+		self.condition = condition
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -447,6 +441,9 @@ public struct EncounterDiagnosis: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -461,6 +458,7 @@ public struct EncounterDiagnosis: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try condition.encode(on: &_container, forKey: .condition)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -513,11 +511,7 @@ public struct EncounterHospitalization: BackboneElement {
 	/// Special courtesies (VIP, board member)
 	public var specialCourtesy: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		admitSource: CodeableConcept? = nil,
 		destination: Reference? = nil,
@@ -532,7 +526,6 @@ public struct EncounterHospitalization: BackboneElement {
 		specialArrangement: [CodeableConcept]? = nil,
 		specialCourtesy: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.admitSource = admitSource
 		self.destination = destination
 		self.dietPreference = dietPreference
@@ -566,6 +559,9 @@ public struct EncounterHospitalization: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -586,6 +582,7 @@ public struct EncounterHospitalization: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try admitSource?.encode(on: &_container, forKey: .admitSource)
 		try destination?.encode(on: &_container, forKey: .destination)
@@ -631,12 +628,7 @@ public struct EncounterLocation: BackboneElement {
 	/// participant is no longer at the location, then the period will have an end date/time.
 	public var status: FHIRPrimitive<EncounterLocationStatus>?
 	
-	/// Designated initializer taking all required properties
-	public init(location: Reference) {
-		self.location = location
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -646,9 +638,9 @@ public struct EncounterLocation: BackboneElement {
 		physicalType: CodeableConcept? = nil,
 		status: FHIRPrimitive<EncounterLocationStatus>? = nil
 	) {
-		self.init(location: location)
 		self.`extension` = `extension`
 		self.id = id
+		self.location = location
 		self.modifierExtension = modifierExtension
 		self.period = period
 		self.physicalType = physicalType
@@ -669,6 +661,9 @@ public struct EncounterLocation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -684,6 +679,7 @@ public struct EncounterLocation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -720,11 +716,7 @@ public struct EncounterParticipant: BackboneElement {
 	/// Role of participant in encounter
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -733,7 +725,6 @@ public struct EncounterParticipant: BackboneElement {
 		period: Period? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.individual = individual
@@ -755,6 +746,9 @@ public struct EncounterParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -769,6 +763,7 @@ public struct EncounterParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -802,13 +797,7 @@ public struct EncounterStatusHistory: BackboneElement {
 	/// None
 	public var status: FHIRPrimitive<EncounterStatus>
 	
-	/// Designated initializer taking all required properties
-	public init(period: Period, status: FHIRPrimitive<EncounterStatus>) {
-		self.period = period
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -816,10 +805,11 @@ public struct EncounterStatusHistory: BackboneElement {
 		period: Period,
 		status: FHIRPrimitive<EncounterStatus>
 	) {
-		self.init(period: period, status: status)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.period = period
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -834,6 +824,9 @@ public struct EncounterStatusHistory: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -847,6 +840,7 @@ public struct EncounterStatusHistory: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

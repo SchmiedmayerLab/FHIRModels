@@ -93,13 +93,7 @@ public struct List: DomainResource {
 	/// Descriptive name for the list
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(mode: FHIRPrimitive<ListMode>, status: FHIRPrimitive<ListStatus>) {
-		self.mode = mode
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -123,7 +117,6 @@ public struct List: DomainResource {
 		text: Narrative? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(mode: mode, status: status)
 		self.code = code
 		self.contained = contained
 		self.date = date
@@ -136,10 +129,12 @@ public struct List: DomainResource {
 		self.implicitRules = implicitRules
 		self.language = language
 		self.meta = meta
+		self.mode = mode
 		self.modifierExtension = modifierExtension
 		self.note = note
 		self.orderedBy = orderedBy
 		self.source = source
+		self.status = status
 		self.subject = subject
 		self.text = text
 		self.title = title
@@ -174,6 +169,9 @@ public struct List: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -203,8 +201,10 @@ public struct List: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -258,12 +258,7 @@ public struct ListEntry: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(item: Reference) {
-		self.item = item
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		date: FHIRPrimitive<DateTime>? = nil,
 		deleted: FHIRPrimitive<FHIRBool>? = nil,
@@ -273,12 +268,12 @@ public struct ListEntry: BackboneElement {
 		item: Reference,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(item: item)
 		self.date = date
 		self.deleted = deleted
 		self.`extension` = `extension`
 		self.flag = flag
 		self.id = id
+		self.item = item
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -296,6 +291,9 @@ public struct ListEntry: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -311,6 +309,7 @@ public struct ListEntry: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try deleted?.encode(on: &_container, forKey: .deleted, auxiliaryKey: ._deleted)

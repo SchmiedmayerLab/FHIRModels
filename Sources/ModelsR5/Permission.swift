@@ -73,13 +73,7 @@ public struct Permission: DomainResource {
 	/// The period in which the permission is active
 	public var validity: Period?
 	
-	/// Designated initializer taking all required properties
-	public init(combining: FHIRPrimitive<PermissionRuleCombining>, status: FHIRPrimitive<PermissionStatus>) {
-		self.combining = combining
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		asserter: Reference? = nil,
 		combining: FHIRPrimitive<PermissionRuleCombining>,
@@ -97,8 +91,8 @@ public struct Permission: DomainResource {
 		text: Narrative? = nil,
 		validity: Period? = nil
 	) {
-		self.init(combining: combining, status: status)
 		self.asserter = asserter
+		self.combining = combining
 		self.contained = contained
 		self.date = date
 		self.`extension` = `extension`
@@ -109,6 +103,7 @@ public struct Permission: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.rule = rule
+		self.status = status
 		self.text = text
 		self.validity = validity
 	}
@@ -136,6 +131,9 @@ public struct Permission: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -159,8 +157,10 @@ public struct Permission: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try asserter?.encode(on: &_container, forKey: .asserter)
 		try combining.encode(on: &_container, forKey: .combining, auxiliaryKey: ._combining)
@@ -200,11 +200,7 @@ public struct PermissionJustification: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basis: [CodeableConcept]? = nil,
 		evidence: [Reference]? = nil,
@@ -212,7 +208,6 @@ public struct PermissionJustification: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.basis = basis
 		self.evidence = evidence
 		self.`extension` = `extension`
@@ -232,6 +227,9 @@ public struct PermissionJustification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -245,6 +243,7 @@ public struct PermissionJustification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try basis?.encode(on: &_container, forKey: .basis)
 		try evidence?.encode(on: &_container, forKey: .evidence)
@@ -282,11 +281,7 @@ public struct PermissionRule: BackboneElement {
 	/// None
 	public var type: FHIRPrimitive<ConsentProvisionType>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: [PermissionRuleActivity]? = nil,
 		data: [PermissionRuleData]? = nil,
@@ -296,7 +291,6 @@ public struct PermissionRule: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: FHIRPrimitive<ConsentProvisionType>? = nil
 	) {
-		self.init()
 		self.activity = activity
 		self.data = data
 		self.`extension` = `extension`
@@ -320,6 +314,9 @@ public struct PermissionRule: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -335,6 +332,7 @@ public struct PermissionRule: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try data?.encode(on: &_container, forKey: .data)
@@ -369,11 +367,7 @@ public struct PermissionRuleActivity: BackboneElement {
 	/// The purpose for which the permission is given
 	public var purpose: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [CodeableConcept]? = nil,
 		actor: [Reference]? = nil,
@@ -382,7 +376,6 @@ public struct PermissionRuleActivity: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		purpose: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.action = action
 		self.actor = actor
 		self.`extension` = `extension`
@@ -404,6 +397,9 @@ public struct PermissionRuleActivity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -418,6 +414,7 @@ public struct PermissionRuleActivity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try actor?.encode(on: &_container, forKey: .actor)
@@ -456,11 +453,7 @@ public struct PermissionRuleData: BackboneElement {
 	/// Security tag code on .meta.security
 	public var security: [Coding]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		expression: Expression? = nil,
 		`extension`: [Extension]? = nil,
@@ -470,7 +463,6 @@ public struct PermissionRuleData: BackboneElement {
 		resource: [PermissionRuleDataResource]? = nil,
 		security: [Coding]? = nil
 	) {
-		self.init()
 		self.expression = expression
 		self.`extension` = `extension`
 		self.id = id
@@ -494,6 +486,9 @@ public struct PermissionRuleData: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -509,6 +504,7 @@ public struct PermissionRuleData: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try expression?.encode(on: &_container, forKey: .expression)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -540,13 +536,7 @@ public struct PermissionRuleDataResource: BackboneElement {
 	/// The actual data reference
 	public var reference: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(meaning: FHIRPrimitive<ConsentDataMeaning>, reference: Reference) {
-		self.meaning = meaning
-		self.reference = reference
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -554,10 +544,11 @@ public struct PermissionRuleDataResource: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		reference: Reference
 	) {
-		self.init(meaning: meaning, reference: reference)
 		self.`extension` = `extension`
 		self.id = id
+		self.meaning = meaning
 		self.modifierExtension = modifierExtension
+		self.reference = reference
 	}
 	
 	// MARK: - Codable
@@ -572,6 +563,9 @@ public struct PermissionRuleDataResource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -585,6 +579,7 @@ public struct PermissionRuleDataResource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

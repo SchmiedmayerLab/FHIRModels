@@ -123,13 +123,7 @@ public struct ChargeItemDefinition: DomainResource {
 	/// Business version of the charge item definition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>, url: FHIRPrimitive<FHIRURI>) {
-		self.status = status
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		applicability: [ChargeItemDefinitionApplicability]? = nil,
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
@@ -163,7 +157,6 @@ public struct ChargeItemDefinition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(status: status, url: url)
 		self.applicability = applicability
 		self.approvalDate = approvalDate
 		self.code = code
@@ -189,8 +182,10 @@ public struct ChargeItemDefinition: DomainResource {
 		self.propertyGroup = propertyGroup
 		self.publisher = publisher
 		self.replaces = replaces
+		self.status = status
 		self.text = text
 		self.title = title
+		self.url = url
 		self.useContext = useContext
 		self.version = version
 	}
@@ -234,6 +229,9 @@ public struct ChargeItemDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -273,8 +271,10 @@ public struct ChargeItemDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try applicability?.encode(on: &_container, forKey: .applicability)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
@@ -335,11 +335,7 @@ public struct ChargeItemDefinitionApplicability: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		expression: FHIRPrimitive<FHIRString>? = nil,
@@ -348,7 +344,6 @@ public struct ChargeItemDefinitionApplicability: BackboneElement {
 		language: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.expression = expression
 		self.`extension` = `extension`
@@ -370,6 +365,9 @@ public struct ChargeItemDefinitionApplicability: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -384,6 +382,7 @@ public struct ChargeItemDefinitionApplicability: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
@@ -417,11 +416,7 @@ public struct ChargeItemDefinitionPropertyGroup: BackboneElement {
 	/// Components of total line item price
 	public var priceComponent: [ChargeItemDefinitionPropertyGroupPriceComponent]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		applicability: [ChargeItemDefinitionApplicability]? = nil,
 		`extension`: [Extension]? = nil,
@@ -429,7 +424,6 @@ public struct ChargeItemDefinitionPropertyGroup: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		priceComponent: [ChargeItemDefinitionPropertyGroupPriceComponent]? = nil
 	) {
-		self.init()
 		self.applicability = applicability
 		self.`extension` = `extension`
 		self.id = id
@@ -449,6 +443,9 @@ public struct ChargeItemDefinitionPropertyGroup: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -462,6 +459,7 @@ public struct ChargeItemDefinitionPropertyGroup: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try applicability?.encode(on: &_container, forKey: .applicability)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -502,12 +500,7 @@ public struct ChargeItemDefinitionPropertyGroupPriceComponent: BackboneElement {
 	/// This code identifies the type of the component.
 	public var type: FHIRPrimitive<InvoicePriceComponentType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<InvoicePriceComponentType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money? = nil,
 		code: CodeableConcept? = nil,
@@ -517,13 +510,13 @@ public struct ChargeItemDefinitionPropertyGroupPriceComponent: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: FHIRPrimitive<InvoicePriceComponentType>
 	) {
-		self.init(type: type)
 		self.amount = amount
 		self.code = code
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -540,6 +533,9 @@ public struct ChargeItemDefinitionPropertyGroupPriceComponent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -555,6 +551,7 @@ public struct ChargeItemDefinitionPropertyGroupPriceComponent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try code?.encode(on: &_container, forKey: .code)

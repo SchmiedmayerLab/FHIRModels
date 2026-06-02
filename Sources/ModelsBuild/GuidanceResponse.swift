@@ -111,13 +111,7 @@ public struct GuidanceResponse: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(module: ModuleX, status: FHIRPrimitive<GuidanceResponseStatus>) {
-		self.module = module
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		dataRequirement: [DataRequirement]? = nil,
@@ -143,7 +137,6 @@ public struct GuidanceResponse: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(module: module, status: status)
 		self.contained = contained
 		self.dataRequirement = dataRequirement
 		self.encounter = encounter
@@ -156,6 +149,7 @@ public struct GuidanceResponse: DomainResource {
 		self.location = location
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.module = module
 		self.note = note
 		self.occurrenceDateTime = occurrenceDateTime
 		self.outputParameters = outputParameters
@@ -163,6 +157,7 @@ public struct GuidanceResponse: DomainResource {
 		self.reason = reason
 		self.requestIdentifier = requestIdentifier
 		self.result = result
+		self.status = status
 		self.subject = subject
 		self.text = text
 	}
@@ -200,12 +195,10 @@ public struct GuidanceResponse: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.moduleCanonical) || _container.contains(CodingKeys.moduleCodeableConcept) || _container.contains(CodingKeys.moduleUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.moduleCanonical, CodingKeys.moduleCodeableConcept, CodingKeys.moduleUri], debugDescription: "Must have at least one value for \"module\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
@@ -220,26 +213,7 @@ public struct GuidanceResponse: DomainResource {
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_module: ModuleX? = nil
-		if let moduleUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .moduleUri, auxiliaryKey: ._moduleUri) {
-			if _t_module != nil {
-				throw DecodingError.dataCorruptedError(forKey: .moduleUri, in: _container, debugDescription: "More than one value provided for \"module\"")
-			}
-			_t_module = .uri(moduleUri)
-		}
-		if let moduleCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .moduleCanonical, auxiliaryKey: ._moduleCanonical) {
-			if _t_module != nil {
-				throw DecodingError.dataCorruptedError(forKey: .moduleCanonical, in: _container, debugDescription: "More than one value provided for \"module\"")
-			}
-			_t_module = .canonical(moduleCanonical)
-		}
-		if let moduleCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .moduleCodeableConcept) {
-			if _t_module != nil {
-				throw DecodingError.dataCorruptedError(forKey: .moduleCodeableConcept, in: _container, debugDescription: "More than one value provided for \"module\"")
-			}
-			_t_module = .codeableConcept(moduleCodeableConcept)
-		}
-		self.module = _t_module!
+		self.module = try Self._decodeModule(from: _container)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
 		self.outputParameters = try Reference(from: _container, forKeyIfPresent: .outputParameters)
@@ -255,8 +229,10 @@ public struct GuidanceResponse: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try dataRequirement?.encode(on: &_container, forKey: .dataRequirement)
@@ -271,14 +247,14 @@ public struct GuidanceResponse: DomainResource {
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
-			switch module {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .moduleUri, auxiliaryKey: ._moduleUri)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .moduleCanonical, auxiliaryKey: ._moduleCanonical)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .moduleCodeableConcept)
-			}
+		switch module {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .moduleCanonical, auxiliaryKey: ._moduleCanonical)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .moduleCodeableConcept)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .moduleUri, auxiliaryKey: ._moduleUri)
+		}
 		
 		try note?.encode(on: &_container, forKey: .note)
 		try occurrenceDateTime?.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
@@ -290,5 +266,34 @@ public struct GuidanceResponse: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeModule(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ModuleX {
+		var _t_module: ModuleX? = nil
+		if let moduleCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .moduleCanonical, auxiliaryKey: ._moduleCanonical) {
+			_t_module = .canonical(moduleCanonical)
+		}
+		if let moduleCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .moduleCodeableConcept) {
+			if _t_module != nil {
+				throw DecodingError.dataCorruptedError(forKey: .moduleCodeableConcept, in: _container, debugDescription: "More than one value provided for \"module\"")
+			}
+			_t_module = .codeableConcept(moduleCodeableConcept)
+		}
+		if let moduleUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .moduleUri, auxiliaryKey: ._moduleUri) {
+			if _t_module != nil {
+				throw DecodingError.dataCorruptedError(forKey: .moduleUri, in: _container, debugDescription: "More than one value provided for \"module\"")
+			}
+			_t_module = .uri(moduleUri)
+		}
+		guard let _t_module else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.moduleUri)
+			throw DecodingError.valueNotFound(ModuleX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"module\" but have none"))
+		}
+		return _t_module
 	}
 }

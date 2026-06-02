@@ -53,12 +53,7 @@ public struct RelatedArtifact: Element {
 	/// Where the artifact can be accessed
 	public var url: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<RelatedArtifactType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		citation: FHIRPrimitive<FHIRString>? = nil,
 		display: FHIRPrimitive<FHIRString>? = nil,
@@ -70,7 +65,6 @@ public struct RelatedArtifact: Element {
 		type: FHIRPrimitive<RelatedArtifactType>,
 		url: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init(type: type)
 		self.citation = citation
 		self.display = display
 		self.document = document
@@ -78,6 +72,7 @@ public struct RelatedArtifact: Element {
 		self.id = id
 		self.label = label
 		self.resource = resource
+		self.type = type
 		self.url = url
 	}
 	
@@ -97,6 +92,9 @@ public struct RelatedArtifact: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -114,6 +112,7 @@ public struct RelatedArtifact: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try citation?.encode(on: &_container, forKey: .citation, auxiliaryKey: ._citation)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)

@@ -85,15 +85,7 @@ public struct Slot: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(end: FHIRPrimitive<Instant>, schedule: Reference, start: FHIRPrimitive<Instant>, status: FHIRPrimitive<SlotStatus>) {
-		self.end = end
-		self.schedule = schedule
-		self.start = start
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		appointmentType: CodeableConcept? = nil,
 		comment: FHIRPrimitive<FHIRString>? = nil,
@@ -115,10 +107,10 @@ public struct Slot: DomainResource {
 		status: FHIRPrimitive<SlotStatus>,
 		text: Narrative? = nil
 	) {
-		self.init(end: end, schedule: schedule, start: start, status: status)
 		self.appointmentType = appointmentType
 		self.comment = comment
 		self.contained = contained
+		self.end = end
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -127,9 +119,12 @@ public struct Slot: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.overbooked = overbooked
+		self.schedule = schedule
 		self.serviceCategory = serviceCategory
 		self.serviceType = serviceType
 		self.specialty = specialty
+		self.start = start
+		self.status = status
 		self.text = text
 	}
 	
@@ -160,6 +155,9 @@ public struct Slot: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -187,8 +185,10 @@ public struct Slot: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try appointmentType?.encode(on: &_container, forKey: .appointmentType)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)

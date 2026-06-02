@@ -63,14 +63,7 @@ public struct SampledData: DataType {
 	/// Upper limit of detection
 	public var upperLimit: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init(dimensions: FHIRPrimitive<FHIRPositiveInteger>, intervalUnit: FHIRPrimitive<FHIRString>, origin: Quantity) {
-		self.dimensions = dimensions
-		self.intervalUnit = intervalUnit
-		self.origin = origin
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		codeMap: FHIRPrimitive<Canonical>? = nil,
 		data: FHIRPrimitive<FHIRString>? = nil,
@@ -85,15 +78,17 @@ public struct SampledData: DataType {
 		origin: Quantity,
 		upperLimit: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init(dimensions: dimensions, intervalUnit: intervalUnit, origin: origin)
 		self.codeMap = codeMap
 		self.data = data
+		self.dimensions = dimensions
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
 		self.interval = interval
+		self.intervalUnit = intervalUnit
 		self.lowerLimit = lowerLimit
 		self.offsets = offsets
+		self.origin = origin
 		self.upperLimit = upperLimit
 	}
 	
@@ -116,6 +111,9 @@ public struct SampledData: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -136,6 +134,7 @@ public struct SampledData: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try codeMap?.encode(on: &_container, forKey: .codeMap, auxiliaryKey: ._codeMap)
 		try data?.encode(on: &_container, forKey: .data, auxiliaryKey: ._data)

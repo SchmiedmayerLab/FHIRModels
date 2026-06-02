@@ -57,12 +57,7 @@ public struct TriggerDefinition: Element {
 	/// The type of triggering event.
 	public var type: FHIRPrimitive<TriggerType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<TriggerType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		condition: Expression? = nil,
 		data: [DataRequirement]? = nil,
@@ -72,13 +67,13 @@ public struct TriggerDefinition: Element {
 		timing: TimingX? = nil,
 		type: FHIRPrimitive<TriggerType>
 	) {
-		self.init(type: type)
 		self.condition = condition
 		self.data = data
 		self.`extension` = `extension`
 		self.id = id
 		self.name = name
 		self.timing = timing
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -98,6 +93,9 @@ public struct TriggerDefinition: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -106,23 +104,42 @@ public struct TriggerDefinition: Element {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.timing = try Self._decodeTiming(from: _container)
+		self.type = try FHIRPrimitive<TriggerType>(from: _container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try condition?.encode(on: &_container, forKey: .condition)
+		try data?.encode(on: &_container, forKey: .data)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		if let _enum = timing {
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .timingDate, auxiliaryKey: ._timingDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .timingReference)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
+		}
+		}
+		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
 		var _t_timing: TimingX? = nil
-		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .timing(timingTiming)
-		}
-		if let timingReference = try Reference(from: _container, forKeyIfPresent: .timingReference) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingReference, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .reference(timingReference)
-		}
 		if let timingDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .timingDate, auxiliaryKey: ._timingDate) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDate, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
 			_t_timing = .date(timingDate)
 		}
 		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
@@ -131,31 +148,18 @@ public struct TriggerDefinition: Element {
 			}
 			_t_timing = .dateTime(timingDateTime)
 		}
-		self.timing = _t_timing
-		self.type = try FHIRPrimitive<TriggerType>(from: _container, forKey: .type, auxiliaryKey: ._type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try condition?.encode(on: &_container, forKey: .condition)
-		try data?.encode(on: &_container, forKey: .data)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		if let _enum = timing {
-			switch _enum {
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .timingReference)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .timingDate, auxiliaryKey: ._timingDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		if let timingReference = try Reference(from: _container, forKeyIfPresent: .timingReference) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingReference, in: _container, debugDescription: "More than one value provided for \"timing\"")
 			}
+			_t_timing = .reference(timingReference)
 		}
-		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .timing(timingTiming)
+		}
+		return _t_timing
 	}
 }

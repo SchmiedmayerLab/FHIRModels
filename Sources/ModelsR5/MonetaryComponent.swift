@@ -42,12 +42,7 @@ public struct MonetaryComponent: DataType {
 	/// None
 	public var type: FHIRPrimitive<PriceComponentType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<PriceComponentType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money? = nil,
 		code: CodeableConcept? = nil,
@@ -56,12 +51,12 @@ public struct MonetaryComponent: DataType {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		type: FHIRPrimitive<PriceComponentType>
 	) {
-		self.init(type: type)
 		self.amount = amount
 		self.code = code
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -77,6 +72,9 @@ public struct MonetaryComponent: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -91,6 +89,7 @@ public struct MonetaryComponent: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try code?.encode(on: &_container, forKey: .code)

@@ -23,7 +23,7 @@ import XCTest
 final class DeserializationPerformanceTests: XCTestCase {
 
     func testDeserializationMemoryFootprint() {
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         measure(metrics: [XCTMemoryMetric()]) {
             for _ in 0..<1000 {
                 autoreleasepool {
@@ -36,7 +36,7 @@ final class DeserializationPerformanceTests: XCTestCase {
     }
 
     func testDeserializationThroughput() {
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         measure {
             for _ in 0..<1000 {
                 autoreleasepool {
@@ -62,7 +62,7 @@ final class DeserializationPerformanceTests: XCTestCase {
                 group.enter()
                 let thread = Thread {
                     defer { limit.signal(); group.leave() }
-                    let decoder = JSONDecoder()
+                    let decoder = JSONDecoder.fhirModelsReadyDecoder()
                     autoreleasepool {
                         _ = try? decoder.decode(Patient.self, from: patientData)
                         _ = try? decoder.decode(Observation.self, from: observationData)
@@ -77,7 +77,7 @@ final class DeserializationPerformanceTests: XCTestCase {
     }
 
     func testSerializationMemoryFootprint() throws {
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         let patient = try decoder.decode(Patient.self, from: Self.patientJSONData)
         let observation = try decoder.decode(Observation.self, from: Self.observationJSONData)
         let bundle = try decoder.decode(ModelsR5.Bundle.self, from: Self.bundleLipidsJSONData)

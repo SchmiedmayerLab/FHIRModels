@@ -91,12 +91,7 @@ public struct DiagnosticOrder: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(subject: Reference) {
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		encounter: Reference? = nil,
@@ -119,7 +114,6 @@ public struct DiagnosticOrder: DomainResource {
 		supportingInformation: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(subject: subject)
 		self.contained = contained
 		self.encounter = encounter
 		self.event = event
@@ -137,6 +131,7 @@ public struct DiagnosticOrder: DomainResource {
 		self.reason = reason
 		self.specimen = specimen
 		self.status = status
+		self.subject = subject
 		self.supportingInformation = supportingInformation
 		self.text = text
 	}
@@ -169,6 +164,9 @@ public struct DiagnosticOrder: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -197,8 +195,10 @@ public struct DiagnosticOrder: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try encounter?.encode(on: &_container, forKey: .encounter)
@@ -254,13 +254,7 @@ public struct DiagnosticOrderEvent: BackboneElement {
 	/// 'completed', 'cancelled', 'suspended', 'rejected', 'failed']
 	public var status: FHIRPrimitive<DiagnosticOrderStatus>
 	
-	/// Designated initializer taking all required properties
-	public init(dateTime: FHIRPrimitive<DateTime>, status: FHIRPrimitive<DiagnosticOrderStatus>) {
-		self.dateTime = dateTime
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		dateTime: FHIRPrimitive<DateTime>,
@@ -270,12 +264,13 @@ public struct DiagnosticOrderEvent: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		status: FHIRPrimitive<DiagnosticOrderStatus>
 	) {
-		self.init(dateTime: dateTime, status: status)
 		self.actor = actor
+		self.dateTime = dateTime
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -292,6 +287,9 @@ public struct DiagnosticOrderEvent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -307,6 +305,7 @@ public struct DiagnosticOrderEvent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try dateTime.encode(on: &_container, forKey: .dateTime, auxiliaryKey: ._dateTime)
@@ -352,12 +351,7 @@ public struct DiagnosticOrderItem: BackboneElement {
 	/// 'completed', 'cancelled', 'suspended', 'rejected', 'failed']
 	public var status: FHIRPrimitive<DiagnosticOrderStatus>?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodySite: CodeableConcept? = nil,
 		code: CodeableConcept,
@@ -368,8 +362,8 @@ public struct DiagnosticOrderItem: BackboneElement {
 		specimen: [Reference]? = nil,
 		status: FHIRPrimitive<DiagnosticOrderStatus>? = nil
 	) {
-		self.init(code: code)
 		self.bodySite = bodySite
+		self.code = code
 		self.event = event
 		self.`extension` = `extension`
 		self.id = id
@@ -393,6 +387,9 @@ public struct DiagnosticOrderItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -409,6 +406,7 @@ public struct DiagnosticOrderItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try code.encode(on: &_container, forKey: .code)

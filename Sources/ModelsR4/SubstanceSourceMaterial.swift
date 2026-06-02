@@ -110,11 +110,7 @@ public struct SubstanceSourceMaterial: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		countryOfOrigin: [CodeableConcept]? = nil,
@@ -138,7 +134,6 @@ public struct SubstanceSourceMaterial: DomainResource {
 		sourceMaterialType: CodeableConcept? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.countryOfOrigin = countryOfOrigin
 		self.developmentStage = developmentStage
@@ -191,6 +186,9 @@ public struct SubstanceSourceMaterial: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -220,8 +218,10 @@ public struct SubstanceSourceMaterial: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try countryOfOrigin?.encode(on: &_container, forKey: .countryOfOrigin)
@@ -273,11 +273,7 @@ public struct SubstanceSourceMaterialFractionDescription: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		fraction: FHIRPrimitive<FHIRString>? = nil,
@@ -285,7 +281,6 @@ public struct SubstanceSourceMaterialFractionDescription: BackboneElement {
 		materialType: CodeableConcept? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.fraction = fraction
 		self.id = id
@@ -305,6 +300,9 @@ public struct SubstanceSourceMaterialFractionDescription: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -318,6 +316,7 @@ public struct SubstanceSourceMaterialFractionDescription: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fraction?.encode(on: &_container, forKey: .fraction, auxiliaryKey: ._fraction)
@@ -370,11 +369,7 @@ public struct SubstanceSourceMaterialOrganism: BackboneElement {
 	/// it is present in names for species and infraspecies
 	public var species: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: [SubstanceSourceMaterialOrganismAuthor]? = nil,
 		`extension`: [Extension]? = nil,
@@ -388,7 +383,6 @@ public struct SubstanceSourceMaterialOrganism: BackboneElement {
 		organismGeneral: SubstanceSourceMaterialOrganismOrganismGeneral? = nil,
 		species: CodeableConcept? = nil
 	) {
-		self.init()
 		self.author = author
 		self.`extension` = `extension`
 		self.family = family
@@ -420,6 +414,9 @@ public struct SubstanceSourceMaterialOrganism: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -439,6 +436,7 @@ public struct SubstanceSourceMaterialOrganism: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -478,11 +476,7 @@ public struct SubstanceSourceMaterialOrganismAuthor: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authorDescription: FHIRPrimitive<FHIRString>? = nil,
 		authorType: CodeableConcept? = nil,
@@ -490,7 +484,6 @@ public struct SubstanceSourceMaterialOrganismAuthor: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.authorDescription = authorDescription
 		self.authorType = authorType
 		self.`extension` = `extension`
@@ -510,6 +503,9 @@ public struct SubstanceSourceMaterialOrganismAuthor: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -523,6 +519,7 @@ public struct SubstanceSourceMaterialOrganismAuthor: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authorDescription?.encode(on: &_container, forKey: .authorDescription, auxiliaryKey: ._authorDescription)
 		try authorType?.encode(on: &_container, forKey: .authorType)
@@ -565,11 +562,7 @@ public struct SubstanceSourceMaterialOrganismHybrid: BackboneElement {
 	/// The name of the paternal species constituting the hybrid organism shall be specified
 	public var paternalOrganismName: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		hybridType: CodeableConcept? = nil,
@@ -580,7 +573,6 @@ public struct SubstanceSourceMaterialOrganismHybrid: BackboneElement {
 		paternalOrganismId: FHIRPrimitive<FHIRString>? = nil,
 		paternalOrganismName: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.hybridType = hybridType
 		self.id = id
@@ -606,6 +598,9 @@ public struct SubstanceSourceMaterialOrganismHybrid: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -622,6 +617,7 @@ public struct SubstanceSourceMaterialOrganismHybrid: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try hybridType?.encode(on: &_container, forKey: .hybridType)
@@ -660,11 +656,7 @@ public struct SubstanceSourceMaterialOrganismOrganismGeneral: BackboneElement {
 	/// The phylum of an organism shall be specified
 	public var phylum: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`class`: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -674,7 +666,6 @@ public struct SubstanceSourceMaterialOrganismOrganismGeneral: BackboneElement {
 		order: CodeableConcept? = nil,
 		phylum: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`class` = `class`
 		self.`extension` = `extension`
 		self.id = id
@@ -698,6 +689,9 @@ public struct SubstanceSourceMaterialOrganismOrganismGeneral: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -713,6 +707,7 @@ public struct SubstanceSourceMaterialOrganismOrganismGeneral: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `class`?.encode(on: &_container, forKey: .`class`)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -745,11 +740,7 @@ public struct SubstanceSourceMaterialPartDescription: BackboneElement {
 	/// organism. Multiple alternative locations may apply
 	public var partLocation: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -757,7 +748,6 @@ public struct SubstanceSourceMaterialPartDescription: BackboneElement {
 		part: CodeableConcept? = nil,
 		partLocation: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -777,6 +767,9 @@ public struct SubstanceSourceMaterialPartDescription: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -790,6 +783,7 @@ public struct SubstanceSourceMaterialPartDescription: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

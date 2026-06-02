@@ -50,11 +50,7 @@ public struct Quantity: Element {
 	/// Numerical value (with implicit precision)
 	public var value: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRString>? = nil,
 		comparator: FHIRPrimitive<QuantityComparator>? = nil,
@@ -64,7 +60,6 @@ public struct Quantity: Element {
 		unit: FHIRPrimitive<FHIRString>? = nil,
 		value: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init()
 		self.code = code
 		self.comparator = comparator
 		self.`extension` = `extension`
@@ -88,6 +83,9 @@ public struct Quantity: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -103,6 +101,7 @@ public struct Quantity: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try comparator?.encode(on: &_container, forKey: .comparator, auxiliaryKey: ._comparator)

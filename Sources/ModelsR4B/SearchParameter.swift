@@ -130,18 +130,7 @@ public struct SearchParameter: DomainResource {
 	/// How the search parameter relates to the set of elements returned by evaluating the xpath query.
 	public var xpathUsage: FHIRPrimitive<XPathUsageType>?
 	
-	/// Designated initializer taking all required properties
-	public init(base: [FHIRPrimitive<ResourceType>], code: FHIRPrimitive<FHIRString>, description_fhir: FHIRPrimitive<FHIRString>, name: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<PublicationStatus>, type: FHIRPrimitive<SearchParamType>, url: FHIRPrimitive<FHIRURI>) {
-		self.base = base
-		self.code = code
-		self.description_fhir = description_fhir
-		self.name = name
-		self.status = status
-		self.type = type
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		base: [FHIRPrimitive<ResourceType>],
 		chain: [FHIRPrimitive<FHIRString>]? = nil,
@@ -178,14 +167,16 @@ public struct SearchParameter: DomainResource {
 		xpath: FHIRPrimitive<FHIRString>? = nil,
 		xpathUsage: FHIRPrimitive<XPathUsageType>? = nil
 	) {
-		self.init(base: base, code: code, description_fhir: description_fhir, name: name, status: status, type: type, url: url)
+		self.base = base
 		self.chain = chain
+		self.code = code
 		self.comparator = comparator
 		self.component = component
 		self.contact = contact
 		self.contained = contained
 		self.date = date
 		self.derivedFrom = derivedFrom
+		self.description_fhir = description_fhir
 		self.experimental = experimental
 		self.expression = expression
 		self.`extension` = `extension`
@@ -198,10 +189,14 @@ public struct SearchParameter: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.multipleAnd = multipleAnd
 		self.multipleOr = multipleOr
+		self.name = name
 		self.publisher = publisher
 		self.purpose = purpose
+		self.status = status
 		self.target = target
 		self.text = text
+		self.type = type
+		self.url = url
 		self.useContext = useContext
 		self.version = version
 		self.xpath = xpath
@@ -250,6 +245,9 @@ public struct SearchParameter: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -292,8 +290,10 @@ public struct SearchParameter: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try base.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
 		try chain?.encode(on: &_container, forKey: .chain, auxiliaryKey: ._chain)
@@ -354,13 +354,7 @@ public struct SearchParameterComponent: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(definition: FHIRPrimitive<Canonical>, expression: FHIRPrimitive<FHIRString>) {
-		self.definition = definition
-		self.expression = expression
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		definition: FHIRPrimitive<Canonical>,
 		expression: FHIRPrimitive<FHIRString>,
@@ -368,7 +362,8 @@ public struct SearchParameterComponent: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(definition: definition, expression: expression)
+		self.definition = definition
+		self.expression = expression
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -386,6 +381,9 @@ public struct SearchParameterComponent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -399,6 +397,7 @@ public struct SearchParameterComponent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try definition.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
 		try expression.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)

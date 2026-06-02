@@ -85,12 +85,7 @@ public struct RelatedPerson: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference) {
-		self.patient = patient
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: [Address]? = nil,
 		birthDate: FHIRPrimitive<FHIRDate>? = nil,
@@ -111,7 +106,6 @@ public struct RelatedPerson: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(patient: patient)
 		self.address = address
 		self.birthDate = birthDate
 		self.contained = contained
@@ -124,6 +118,7 @@ public struct RelatedPerson: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.name = name
+		self.patient = patient
 		self.period = period
 		self.photo = photo
 		self.relationship = relationship
@@ -157,6 +152,9 @@ public struct RelatedPerson: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -183,8 +181,10 @@ public struct RelatedPerson: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try birthDate?.encode(on: &_container, forKey: .birthDate, auxiliaryKey: ._birthDate)

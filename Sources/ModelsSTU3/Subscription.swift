@@ -79,15 +79,7 @@ public struct Subscription: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(channel: SubscriptionChannel, criteria: FHIRPrimitive<FHIRString>, reason: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<SubscriptionStatus>) {
-		self.channel = channel
-		self.criteria = criteria
-		self.reason = reason
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		channel: SubscriptionChannel,
 		contact: [ContactPoint]? = nil,
@@ -106,9 +98,10 @@ public struct Subscription: DomainResource {
 		tag: [Coding]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(channel: channel, criteria: criteria, reason: reason, status: status)
+		self.channel = channel
 		self.contact = contact
 		self.contained = contained
+		self.criteria = criteria
 		self.end = end
 		self.error = error
 		self.`extension` = `extension`
@@ -117,6 +110,8 @@ public struct Subscription: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.reason = reason
+		self.status = status
 		self.tag = tag
 		self.text = text
 	}
@@ -145,6 +140,9 @@ public struct Subscription: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -169,8 +167,10 @@ public struct Subscription: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try channel.encode(on: &_container, forKey: .channel)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -219,12 +219,7 @@ public struct SubscriptionChannel: BackboneElement {
 	/// The type of channel to send notifications on.
 	public var type: FHIRPrimitive<SubscriptionChannelType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<SubscriptionChannelType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		endpoint: FHIRPrimitive<FHIRURI>? = nil,
 		`extension`: [Extension]? = nil,
@@ -234,13 +229,13 @@ public struct SubscriptionChannel: BackboneElement {
 		payload: FHIRPrimitive<FHIRString>? = nil,
 		type: FHIRPrimitive<SubscriptionChannelType>
 	) {
-		self.init(type: type)
 		self.endpoint = endpoint
 		self.`extension` = `extension`
 		self.header = header
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.payload = payload
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -257,6 +252,9 @@ public struct SubscriptionChannel: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -272,6 +270,7 @@ public struct SubscriptionChannel: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try endpoint?.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

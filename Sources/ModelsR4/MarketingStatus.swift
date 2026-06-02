@@ -59,14 +59,7 @@ public struct MarketingStatus: BackboneElement {
 	/// more information and examples
 	public var status: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(country: CodeableConcept, dateRange: Period, status: CodeableConcept) {
-		self.country = country
-		self.dateRange = dateRange
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		country: CodeableConcept,
 		dateRange: Period,
@@ -77,12 +70,14 @@ public struct MarketingStatus: BackboneElement {
 		restoreDate: FHIRPrimitive<DateTime>? = nil,
 		status: CodeableConcept
 	) {
-		self.init(country: country, dateRange: dateRange, status: status)
+		self.country = country
+		self.dateRange = dateRange
 		self.`extension` = `extension`
 		self.id = id
 		self.jurisdiction = jurisdiction
 		self.modifierExtension = modifierExtension
 		self.restoreDate = restoreDate
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -100,6 +95,9 @@ public struct MarketingStatus: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -116,6 +114,7 @@ public struct MarketingStatus: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try country.encode(on: &_container, forKey: .country)
 		try dateRange.encode(on: &_container, forKey: .dateRange)

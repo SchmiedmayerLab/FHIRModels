@@ -74,12 +74,7 @@ public struct BodySite: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference) {
-		self.patient = patient
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		code: CodeableConcept? = nil,
@@ -97,7 +92,6 @@ public struct BodySite: DomainResource {
 		qualifier: [CodeableConcept]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(patient: patient)
 		self.active = active
 		self.code = code
 		self.contained = contained
@@ -110,6 +104,7 @@ public struct BodySite: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.patient = patient
 		self.qualifier = qualifier
 		self.text = text
 	}
@@ -137,6 +132,9 @@ public struct BodySite: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -160,8 +158,10 @@ public struct BodySite: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try code?.encode(on: &_container, forKey: .code)

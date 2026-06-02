@@ -95,11 +95,7 @@ public struct PractitionerRole: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		availabilityExceptions: FHIRPrimitive<FHIRString>? = nil,
@@ -124,7 +120,6 @@ public struct PractitionerRole: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.active = active
 		self.availabilityExceptions = availabilityExceptions
 		self.availableTime = availableTime
@@ -179,6 +174,9 @@ public struct PractitionerRole: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -209,8 +207,10 @@ public struct PractitionerRole: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try availabilityExceptions?.encode(on: &_container, forKey: .availabilityExceptions, auxiliaryKey: ._availabilityExceptions)
@@ -265,11 +265,7 @@ public struct PractitionerRoleAvailableTime: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		allDay: FHIRPrimitive<FHIRBool>? = nil,
 		availableEndTime: FHIRPrimitive<FHIRTime>? = nil,
@@ -279,7 +275,6 @@ public struct PractitionerRoleAvailableTime: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.allDay = allDay
 		self.availableEndTime = availableEndTime
 		self.availableStartTime = availableStartTime
@@ -303,6 +298,9 @@ public struct PractitionerRoleAvailableTime: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -318,6 +316,7 @@ public struct PractitionerRoleAvailableTime: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try allDay?.encode(on: &_container, forKey: .allDay, auxiliaryKey: ._allDay)
 		try availableEndTime?.encode(on: &_container, forKey: .availableEndTime, auxiliaryKey: ._availableEndTime)
@@ -351,12 +350,7 @@ public struct PractitionerRoleNotAvailable: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(description_fhir: FHIRPrimitive<FHIRString>) {
-		self.description_fhir = description_fhir
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>,
 		during: Period? = nil,
@@ -364,7 +358,7 @@ public struct PractitionerRoleNotAvailable: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(description_fhir: description_fhir)
+		self.description_fhir = description_fhir
 		self.during = during
 		self.`extension` = `extension`
 		self.id = id
@@ -383,6 +377,9 @@ public struct PractitionerRoleNotAvailable: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -396,6 +393,7 @@ public struct PractitionerRoleNotAvailable: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try during?.encode(on: &_container, forKey: .during)

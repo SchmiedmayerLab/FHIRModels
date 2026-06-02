@@ -51,13 +51,7 @@ public struct ProductShelfLife: BackboneElement {
 	/// controlled term and the controlled term identifier shall be specified
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(period: Quantity, type: CodeableConcept) {
-		self.period = period
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -67,12 +61,13 @@ public struct ProductShelfLife: BackboneElement {
 		specialPrecautionsForStorage: [CodeableConcept]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(period: period, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
 		self.modifierExtension = modifierExtension
+		self.period = period
 		self.specialPrecautionsForStorage = specialPrecautionsForStorage
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -89,6 +84,9 @@ public struct ProductShelfLife: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -104,6 +102,7 @@ public struct ProductShelfLife: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

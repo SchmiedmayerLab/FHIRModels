@@ -64,12 +64,7 @@ public struct DataRequirement: Element {
 	/// The type of the required data
 	public var type: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<FHIRString>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		codeFilter: [DataRequirementCodeFilter]? = nil,
 		dateFilter: [DataRequirementDateFilter]? = nil,
@@ -82,7 +77,6 @@ public struct DataRequirement: Element {
 		subject: SubjectX? = nil,
 		type: FHIRPrimitive<FHIRString>
 	) {
-		self.init(type: type)
 		self.codeFilter = codeFilter
 		self.dateFilter = dateFilter
 		self.`extension` = `extension`
@@ -92,6 +86,7 @@ public struct DataRequirement: Element {
 		self.profile = profile
 		self.sort = sort
 		self.subject = subject
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -112,6 +107,9 @@ public struct DataRequirement: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -123,26 +121,14 @@ public struct DataRequirement: Element {
 		self.mustSupport = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .mustSupport, auxiliaryKey: ._mustSupport)
 		self.profile = try [FHIRPrimitive<Canonical>](from: _container, forKeyIfPresent: .profile, auxiliaryKey: ._profile)
 		self.sort = try [DataRequirementSort](from: _container, forKeyIfPresent: .sort)
-		var _t_subject: SubjectX? = nil
-		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectCodeableConcept, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .codeableConcept(subjectCodeableConcept)
-		}
-		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .reference(subjectReference)
-		}
-		self.subject = _t_subject
+		self.subject = try Self._decodeSubject(from: _container)
 		self.type = try FHIRPrimitive<FHIRString>(from: _container, forKey: .type, auxiliaryKey: ._type)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try codeFilter?.encode(on: &_container, forKey: .codeFilter)
 		try dateFilter?.encode(on: &_container, forKey: .dateFilter)
@@ -153,14 +139,32 @@ public struct DataRequirement: Element {
 		try profile?.encode(on: &_container, forKey: .profile, auxiliaryKey: ._profile)
 		try sort?.encode(on: &_container, forKey: .sort)
 		if let _enum = subject {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .subjectReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .subjectReference)
+		}
 		}
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSubject(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SubjectX? {
+		var _t_subject: SubjectX? = nil
+		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
+			_t_subject = .codeableConcept(subjectCodeableConcept)
+		}
+		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
+			if _t_subject != nil {
+				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
+			}
+			_t_subject = .reference(subjectReference)
+		}
+		return _t_subject
 	}
 }
 
@@ -190,11 +194,7 @@ public struct DataRequirementCodeFilter: Element {
 	/// Valueset for the filter
 	public var valueSet: FHIRPrimitive<Canonical>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: [Coding]? = nil,
 		`extension`: [Extension]? = nil,
@@ -203,7 +203,6 @@ public struct DataRequirementCodeFilter: Element {
 		searchParam: FHIRPrimitive<FHIRString>? = nil,
 		valueSet: FHIRPrimitive<Canonical>? = nil
 	) {
-		self.init()
 		self.code = code
 		self.`extension` = `extension`
 		self.id = id
@@ -225,6 +224,9 @@ public struct DataRequirementCodeFilter: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -239,6 +241,7 @@ public struct DataRequirementCodeFilter: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -280,11 +283,7 @@ public struct DataRequirementDateFilter: Element {
 	/// One of `value[x]`
 	public var value: ValueX?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -292,7 +291,6 @@ public struct DataRequirementDateFilter: Element {
 		searchParam: FHIRPrimitive<FHIRString>? = nil,
 		value: ValueX? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.path = path
@@ -314,6 +312,9 @@ public struct DataRequirementDateFilter: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -321,18 +322,38 @@ public struct DataRequirementDateFilter: Element {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .path, auxiliaryKey: ._path)
 		self.searchParam = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .searchParam, auxiliaryKey: ._searchParam)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try path?.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
+		try searchParam?.encode(on: &_container, forKey: .searchParam, auxiliaryKey: ._searchParam)
+		if let _enum = value {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .valueDuration)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .valuePeriod)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX? {
 		var _t_value: ValueX? = nil
 		if let valueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .valueDateTime, auxiliaryKey: ._valueDateTime) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDateTime, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
 			_t_value = .dateTime(valueDateTime)
-		}
-		if let valuePeriod = try Period(from: _container, forKeyIfPresent: .valuePeriod) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valuePeriod, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .period(valuePeriod)
 		}
 		if let valueDuration = try Duration(from: _container, forKeyIfPresent: .valueDuration) {
 			if _t_value != nil {
@@ -340,27 +361,13 @@ public struct DataRequirementDateFilter: Element {
 			}
 			_t_value = .duration(valueDuration)
 		}
-		self.value = _t_value
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try path?.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
-		try searchParam?.encode(on: &_container, forKey: .searchParam, auxiliaryKey: ._searchParam)
-		if let _enum = value {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .valuePeriod)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .valueDuration)
+		if let valuePeriod = try Period(from: _container, forKeyIfPresent: .valuePeriod) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valuePeriod, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
+			_t_value = .period(valuePeriod)
 		}
+		return _t_value
 	}
 }
 
@@ -383,22 +390,17 @@ public struct DataRequirementSort: Element {
 	/// The name of the attribute to perform the sort
 	public var path: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(direction: FHIRPrimitive<SortDirection>, path: FHIRPrimitive<FHIRString>) {
-		self.direction = direction
-		self.path = path
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		direction: FHIRPrimitive<SortDirection>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		path: FHIRPrimitive<FHIRString>
 	) {
-		self.init(direction: direction, path: path)
+		self.direction = direction
 		self.`extension` = `extension`
 		self.id = id
+		self.path = path
 	}
 	
 	// MARK: - Codable
@@ -412,6 +414,9 @@ public struct DataRequirementSort: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -424,6 +429,7 @@ public struct DataRequirementSort: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try direction.encode(on: &_container, forKey: .direction, auxiliaryKey: ._direction)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

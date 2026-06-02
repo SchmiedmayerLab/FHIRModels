@@ -22,7 +22,7 @@ import ModelsR4
 class ExtensionTests: XCTestCase {
 	
 	func testPrimitiveGetter() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -69,7 +69,7 @@ class ExtensionTests: XCTestCase {
 	}
 	
 	func testElementGetter() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -108,7 +108,7 @@ class ExtensionTests: XCTestCase {
 	}
 	
 	func testResourceGetter() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",

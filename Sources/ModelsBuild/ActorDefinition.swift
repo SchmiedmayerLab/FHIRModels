@@ -126,13 +126,7 @@ public struct ActorDefinition: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>, type: FHIRPrimitive<ActorDefinitionActorType>) {
-		self.status = status
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		baseDefinition: [FHIRPrimitive<Canonical>]? = nil,
 		category: [CodeableConcept]? = nil,
@@ -165,7 +159,6 @@ public struct ActorDefinition: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(status: status, type: type)
 		self.baseDefinition = baseDefinition
 		self.category = category
 		self.contact = contact
@@ -188,8 +181,10 @@ public struct ActorDefinition: DomainResource {
 		self.publisher = publisher
 		self.purpose = purpose
 		self.reference = reference
+		self.status = status
 		self.text = text
 		self.title = title
+		self.type = type
 		self.url = url
 		self.useContext = useContext
 		self.version = version
@@ -235,6 +230,9 @@ public struct ActorDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -267,27 +265,16 @@ public struct ActorDefinition: DomainResource {
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try baseDefinition?.encode(on: &_container, forKey: .baseDefinition, auxiliaryKey: ._baseDefinition)
 		try category?.encode(on: &_container, forKey: .category)
@@ -319,12 +306,30 @@ public struct ActorDefinition: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }

@@ -153,16 +153,7 @@ public struct NamingSystem: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(date: FHIRPrimitive<DateTime>, kind: FHIRPrimitive<NamingSystemType>, name: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<PublicationStatus>, uniqueId: [NamingSystemUniqueId]) {
-		self.date = date
-		self.kind = kind
-		self.name = name
-		self.status = status
-		self.uniqueId = uniqueId
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -204,13 +195,13 @@ public struct NamingSystem: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(date: date, kind: kind, name: name, status: status, uniqueId: uniqueId)
 		self.approvalDate = approvalDate
 		self.author = author
 		self.contact = contact
 		self.contained = contained
 		self.copyright = copyright
 		self.copyrightLabel = copyrightLabel
+		self.date = date
 		self.description_fhir = description_fhir
 		self.editor = editor
 		self.effectivePeriod = effectivePeriod
@@ -221,19 +212,23 @@ public struct NamingSystem: DomainResource {
 		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.jurisdiction = jurisdiction
+		self.kind = kind
 		self.language = language
 		self.lastReviewDate = lastReviewDate
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.publisher = publisher
 		self.purpose = purpose
 		self.relatedArtifact = relatedArtifact
 		self.responsible = responsible
 		self.reviewer = reviewer
+		self.status = status
 		self.text = text
 		self.title = title
 		self.topic = topic
 		self.type = type
+		self.uniqueId = uniqueId
 		self.url = url
 		self.usage = usage
 		self.useContext = useContext
@@ -289,6 +284,9 @@ public struct NamingSystem: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -330,27 +328,16 @@ public struct NamingSystem: DomainResource {
 		self.usage = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .usage, auxiliaryKey: ._usage)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
@@ -391,13 +378,31 @@ public struct NamingSystem: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }
 
@@ -435,13 +440,7 @@ public struct NamingSystemUniqueId: BackboneElement {
 	/// The unique identifier
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<NamingSystemIdentifierType>, value: FHIRPrimitive<FHIRString>) {
-		self.type = type
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authoritative: FHIRPrimitive<FHIRBool>? = nil,
 		comment: FHIRPrimitive<FHIRString>? = nil,
@@ -453,7 +452,6 @@ public struct NamingSystemUniqueId: BackboneElement {
 		type: FHIRPrimitive<NamingSystemIdentifierType>,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(type: type, value: value)
 		self.authoritative = authoritative
 		self.comment = comment
 		self.`extension` = `extension`
@@ -461,6 +459,8 @@ public struct NamingSystemUniqueId: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.period = period
 		self.preferred = preferred
+		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -479,6 +479,9 @@ public struct NamingSystemUniqueId: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -496,6 +499,7 @@ public struct NamingSystemUniqueId: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authoritative?.encode(on: &_container, forKey: .authoritative, auxiliaryKey: ._authoritative)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)

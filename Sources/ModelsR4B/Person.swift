@@ -82,11 +82,7 @@ public struct Person: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		address: [Address]? = nil,
@@ -107,7 +103,6 @@ public struct Person: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.active = active
 		self.address = address
 		self.birthDate = birthDate
@@ -154,6 +149,9 @@ public struct Person: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -180,8 +178,10 @@ public struct Person: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
@@ -224,12 +224,7 @@ public struct PersonLink: BackboneElement {
 	/// The resource to which this actual person is associated
 	public var target: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(target: Reference) {
-		self.target = target
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assurance: FHIRPrimitive<IdentityAssuranceLevel>? = nil,
 		`extension`: [Extension]? = nil,
@@ -237,11 +232,11 @@ public struct PersonLink: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		target: Reference
 	) {
-		self.init(target: target)
 		self.assurance = assurance
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.target = target
 	}
 	
 	// MARK: - Codable
@@ -256,6 +251,9 @@ public struct PersonLink: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -269,6 +267,7 @@ public struct PersonLink: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assurance?.encode(on: &_container, forKey: .assurance, auxiliaryKey: ._assurance)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

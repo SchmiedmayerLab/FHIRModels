@@ -68,11 +68,7 @@ public struct SubstancePolymer: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`class`: CodeableConcept? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -89,7 +85,6 @@ public struct SubstancePolymer: DomainResource {
 		`repeat`: [SubstancePolymerRepeat]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.`class` = `class`
 		self.contained = contained
 		self.copolymerConnectivity = copolymerConnectivity
@@ -128,6 +123,9 @@ public struct SubstancePolymer: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -150,8 +148,10 @@ public struct SubstancePolymer: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try `class`?.encode(on: &_container, forKey: .`class`)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -190,11 +190,7 @@ public struct SubstancePolymerMonomerSet: BackboneElement {
 	/// Todo
 	public var startingMaterial: [SubstancePolymerMonomerSetStartingMaterial]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -202,7 +198,6 @@ public struct SubstancePolymerMonomerSet: BackboneElement {
 		ratioType: CodeableConcept? = nil,
 		startingMaterial: [SubstancePolymerMonomerSetStartingMaterial]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -222,6 +217,9 @@ public struct SubstancePolymerMonomerSet: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -235,6 +233,7 @@ public struct SubstancePolymerMonomerSet: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -270,11 +269,7 @@ public struct SubstancePolymerMonomerSetStartingMaterial: BackboneElement {
 	/// Todo
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: SubstanceAmount? = nil,
 		`extension`: [Extension]? = nil,
@@ -284,7 +279,6 @@ public struct SubstancePolymerMonomerSetStartingMaterial: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.`extension` = `extension`
 		self.id = id
@@ -308,6 +302,9 @@ public struct SubstancePolymerMonomerSetStartingMaterial: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -323,6 +320,7 @@ public struct SubstancePolymerMonomerSetStartingMaterial: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -360,11 +358,7 @@ public struct SubstancePolymerRepeat: BackboneElement {
 	/// Todo
 	public var repeatUnitAmountType: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		averageMolecularFormula: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -374,7 +368,6 @@ public struct SubstancePolymerRepeat: BackboneElement {
 		repeatUnit: [SubstancePolymerRepeatRepeatUnit]? = nil,
 		repeatUnitAmountType: CodeableConcept? = nil
 	) {
-		self.init()
 		self.averageMolecularFormula = averageMolecularFormula
 		self.`extension` = `extension`
 		self.id = id
@@ -398,6 +391,9 @@ public struct SubstancePolymerRepeat: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -413,6 +409,7 @@ public struct SubstancePolymerRepeat: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try averageMolecularFormula?.encode(on: &_container, forKey: .averageMolecularFormula, auxiliaryKey: ._averageMolecularFormula)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -453,11 +450,7 @@ public struct SubstancePolymerRepeatRepeatUnit: BackboneElement {
 	/// Todo
 	public var structuralRepresentation: [SubstancePolymerRepeatRepeatUnitStructuralRepresentation]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: SubstanceAmount? = nil,
 		degreeOfPolymerisation: [SubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation]? = nil,
@@ -468,7 +461,6 @@ public struct SubstancePolymerRepeatRepeatUnit: BackboneElement {
 		repeatUnit: FHIRPrimitive<FHIRString>? = nil,
 		structuralRepresentation: [SubstancePolymerRepeatRepeatUnitStructuralRepresentation]? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.degreeOfPolymerisation = degreeOfPolymerisation
 		self.`extension` = `extension`
@@ -494,6 +486,9 @@ public struct SubstancePolymerRepeatRepeatUnit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -510,6 +505,7 @@ public struct SubstancePolymerRepeatRepeatUnit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try degreeOfPolymerisation?.encode(on: &_container, forKey: .degreeOfPolymerisation)
@@ -542,11 +538,7 @@ public struct SubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation: BackboneEl
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: SubstanceAmount? = nil,
 		degree: CodeableConcept? = nil,
@@ -554,7 +546,6 @@ public struct SubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation: BackboneEl
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.degree = degree
 		self.`extension` = `extension`
@@ -574,6 +565,9 @@ public struct SubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation: BackboneEl
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -587,6 +581,7 @@ public struct SubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation: BackboneEl
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try degree?.encode(on: &_container, forKey: .degree)
@@ -619,11 +614,7 @@ public struct SubstancePolymerRepeatRepeatUnitStructuralRepresentation: Backbone
 	/// Todo
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attachment: Attachment? = nil,
 		`extension`: [Extension]? = nil,
@@ -632,7 +623,6 @@ public struct SubstancePolymerRepeatRepeatUnitStructuralRepresentation: Backbone
 		representation: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.attachment = attachment
 		self.`extension` = `extension`
 		self.id = id
@@ -654,6 +644,9 @@ public struct SubstancePolymerRepeatRepeatUnitStructuralRepresentation: Backbone
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -668,6 +661,7 @@ public struct SubstancePolymerRepeatRepeatUnitStructuralRepresentation: Backbone
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try attachment?.encode(on: &_container, forKey: .attachment)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

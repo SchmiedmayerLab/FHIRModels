@@ -81,13 +81,7 @@ public struct Group: DomainResource {
 	/// Identifies the broad classification of the kind of resources the group includes.
 	public var type: FHIRPrimitive<GroupType>
 	
-	/// Designated initializer taking all required properties
-	public init(actual: FHIRPrimitive<FHIRBool>, type: FHIRPrimitive<GroupType>) {
-		self.actual = actual
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		actual: FHIRPrimitive<FHIRBool>,
@@ -107,8 +101,8 @@ public struct Group: DomainResource {
 		text: Narrative? = nil,
 		type: FHIRPrimitive<GroupType>
 	) {
-		self.init(actual: actual, type: type)
 		self.active = active
+		self.actual = actual
 		self.characteristic = characteristic
 		self.code = code
 		self.contained = contained
@@ -123,6 +117,7 @@ public struct Group: DomainResource {
 		self.name = name
 		self.quantity = quantity
 		self.text = text
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -150,6 +145,9 @@ public struct Group: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -175,8 +173,10 @@ public struct Group: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try actual.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
@@ -235,14 +235,7 @@ public struct GroupCharacteristic: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, exclude: FHIRPrimitive<FHIRBool>, value: ValueX) {
-		self.code = code
-		self.exclude = exclude
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		exclude: FHIRPrimitive<FHIRBool>,
@@ -252,11 +245,13 @@ public struct GroupCharacteristic: BackboneElement {
 		period: Period? = nil,
 		value: ValueX
 	) {
-		self.init(code: code, exclude: exclude, value: value)
+		self.code = code
+		self.exclude = exclude
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.period = period
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -276,12 +271,10 @@ public struct GroupCharacteristic: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueBoolean) || _container.contains(CodingKeys.valueCodeableConcept) || _container.contains(CodingKeys.valueQuantity) || _container.contains(CodingKeys.valueRange) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueBoolean, CodingKeys.valueCodeableConcept, CodingKeys.valueQuantity, CodingKeys.valueRange], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
@@ -290,18 +283,48 @@ public struct GroupCharacteristic: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.period = try Period(from: _container, forKeyIfPresent: .period)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try exclude.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try period?.encode(on: &_container, forKey: .period)
+		
+		switch value {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .valueCodeableConcept)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .valueRange)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
 		var _t_value: ValueX? = nil
+		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
+			_t_value = .boolean(valueBoolean)
+		}
 		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .codeableConcept(valueCodeableConcept)
-		}
-		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueBoolean, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .boolean(valueBoolean)
 		}
 		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
 			if _t_value != nil {
@@ -315,31 +338,12 @@ public struct GroupCharacteristic: BackboneElement {
 			}
 			_t_value = .range(valueRange)
 		}
-		self.value = _t_value!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try code.encode(on: &_container, forKey: .code)
-		try exclude.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try period?.encode(on: &_container, forKey: .period)
-		
-			switch value {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .valueRange)
-			}
-		
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueRange)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
+		}
+		return _t_value
 	}
 }
 
@@ -368,12 +372,7 @@ public struct GroupMember: BackboneElement {
 	/// Period member belonged to the group
 	public var period: Period?
 	
-	/// Designated initializer taking all required properties
-	public init(entity: Reference) {
-		self.entity = entity
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		entity: Reference,
 		`extension`: [Extension]? = nil,
@@ -382,7 +381,7 @@ public struct GroupMember: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period? = nil
 	) {
-		self.init(entity: entity)
+		self.entity = entity
 		self.`extension` = `extension`
 		self.id = id
 		self.inactive = inactive
@@ -403,6 +402,9 @@ public struct GroupMember: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -417,6 +419,7 @@ public struct GroupMember: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try entity.encode(on: &_container, forKey: .entity)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

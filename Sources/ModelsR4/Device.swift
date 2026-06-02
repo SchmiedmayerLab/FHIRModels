@@ -132,11 +132,7 @@ public struct Device: DomainResource {
 	/// The actual design of the device or software version running on the device
 	public var version: [DeviceVersion]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [ContactPoint]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -173,7 +169,6 @@ public struct Device: DomainResource {
 		url: FHIRPrimitive<FHIRURI>? = nil,
 		version: [DeviceVersion]? = nil
 	) {
-		self.init()
 		self.contact = contact
 		self.contained = contained
 		self.definition = definition
@@ -252,6 +247,9 @@ public struct Device: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -294,8 +292,10 @@ public struct Device: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -359,13 +359,7 @@ public struct DeviceDeviceName: BackboneElement {
 	/// UDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.
 	public var type: FHIRPrimitive<DeviceNameType>
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<DeviceNameType>) {
-		self.name = name
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -373,10 +367,11 @@ public struct DeviceDeviceName: BackboneElement {
 		name: FHIRPrimitive<FHIRString>,
 		type: FHIRPrimitive<DeviceNameType>
 	) {
-		self.init(name: name, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.name = name
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -391,6 +386,9 @@ public struct DeviceDeviceName: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -404,6 +402,7 @@ public struct DeviceDeviceName: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -436,12 +435,7 @@ public struct DeviceProperty: BackboneElement {
 	/// Property value as a quantity
 	public var valueQuantity: [Quantity]?
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -450,10 +444,10 @@ public struct DeviceProperty: BackboneElement {
 		valueCode: [CodeableConcept]? = nil,
 		valueQuantity: [Quantity]? = nil
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
 		self.valueCode = valueCode
 		self.valueQuantity = valueQuantity
 	}
@@ -471,6 +465,9 @@ public struct DeviceProperty: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -485,6 +482,7 @@ public struct DeviceProperty: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -516,12 +514,7 @@ public struct DeviceSpecialization: BackboneElement {
 	/// The version of the standard that is used to operate and communicate
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(systemType: CodeableConcept) {
-		self.systemType = systemType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -529,10 +522,10 @@ public struct DeviceSpecialization: BackboneElement {
 		systemType: CodeableConcept,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(systemType: systemType)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.systemType = systemType
 		self.version = version
 	}
 	
@@ -548,6 +541,9 @@ public struct DeviceSpecialization: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -561,6 +557,7 @@ public struct DeviceSpecialization: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -606,11 +603,7 @@ public struct DeviceUdiCarrier: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		carrierAIDC: FHIRPrimitive<Base64Binary>? = nil,
 		carrierHRF: FHIRPrimitive<FHIRString>? = nil,
@@ -622,7 +615,6 @@ public struct DeviceUdiCarrier: BackboneElement {
 		jurisdiction: FHIRPrimitive<FHIRURI>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.carrierAIDC = carrierAIDC
 		self.carrierHRF = carrierHRF
 		self.deviceIdentifier = deviceIdentifier
@@ -650,6 +642,9 @@ public struct DeviceUdiCarrier: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -667,6 +662,7 @@ public struct DeviceUdiCarrier: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try carrierAIDC?.encode(on: &_container, forKey: .carrierAIDC, auxiliaryKey: ._carrierAIDC)
 		try carrierHRF?.encode(on: &_container, forKey: .carrierHRF, auxiliaryKey: ._carrierHRF)
@@ -703,12 +699,7 @@ public struct DeviceVersion: BackboneElement {
 	/// The version text
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(value: FHIRPrimitive<FHIRString>) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		component: Identifier? = nil,
 		`extension`: [Extension]? = nil,
@@ -717,12 +708,12 @@ public struct DeviceVersion: BackboneElement {
 		type: CodeableConcept? = nil,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(value: value)
 		self.component = component
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -738,6 +729,9 @@ public struct DeviceVersion: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -752,6 +746,7 @@ public struct DeviceVersion: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try component?.encode(on: &_container, forKey: .component)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

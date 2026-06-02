@@ -78,11 +78,7 @@ public struct Organization: DomainResource {
 	/// Kind of organization
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		address: [Address]? = nil,
@@ -101,7 +97,6 @@ public struct Organization: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.active = active
 		self.address = address
 		self.contact = contact
@@ -144,6 +139,9 @@ public struct Organization: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -168,8 +166,10 @@ public struct Organization: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
@@ -216,11 +216,7 @@ public struct OrganizationContact: BackboneElement {
 	/// Contact details (telephone, email, etc.)  for a contact
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: Address? = nil,
 		`extension`: [Extension]? = nil,
@@ -230,7 +226,6 @@ public struct OrganizationContact: BackboneElement {
 		purpose: CodeableConcept? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.address = address
 		self.`extension` = `extension`
 		self.id = id
@@ -254,6 +249,9 @@ public struct OrganizationContact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -269,6 +267,7 @@ public struct OrganizationContact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

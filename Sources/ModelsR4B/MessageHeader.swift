@@ -94,13 +94,7 @@ public struct MessageHeader: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(event: EventX, source: MessageHeaderSource) {
-		self.event = event
-		self.source = source
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: Reference? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -122,12 +116,12 @@ public struct MessageHeader: DomainResource {
 		source: MessageHeaderSource,
 		text: Narrative? = nil
 	) {
-		self.init(event: event, source: source)
 		self.author = author
 		self.contained = contained
 		self.definition = definition
 		self.destination = destination
 		self.enterer = enterer
+		self.event = event
 		self.`extension` = `extension`
 		self.focus = focus
 		self.id = id
@@ -139,6 +133,7 @@ public struct MessageHeader: DomainResource {
 		self.response = response
 		self.responsible = responsible
 		self.sender = sender
+		self.source = source
 		self.text = text
 	}
 	
@@ -170,12 +165,10 @@ public struct MessageHeader: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.eventCoding) || _container.contains(CodingKeys.eventUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.eventCoding, CodingKeys.eventUri], debugDescription: "Must have at least one value for \"event\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.author = try Reference(from: _container, forKeyIfPresent: .author)
@@ -183,20 +176,7 @@ public struct MessageHeader: DomainResource {
 		self.definition = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
 		self.destination = try [MessageHeaderDestination](from: _container, forKeyIfPresent: .destination)
 		self.enterer = try Reference(from: _container, forKeyIfPresent: .enterer)
-		var _t_event: EventX? = nil
-		if let eventCoding = try Coding(from: _container, forKeyIfPresent: .eventCoding) {
-			if _t_event != nil {
-				throw DecodingError.dataCorruptedError(forKey: .eventCoding, in: _container, debugDescription: "More than one value provided for \"event\"")
-			}
-			_t_event = .coding(eventCoding)
-		}
-		if let eventUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .eventUri, auxiliaryKey: ._eventUri) {
-			if _t_event != nil {
-				throw DecodingError.dataCorruptedError(forKey: .eventUri, in: _container, debugDescription: "More than one value provided for \"event\"")
-			}
-			_t_event = .uri(eventUri)
-		}
-		self.event = _t_event!
+		self.event = try Self._decodeEvent(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.focus = try [Reference](from: _container, forKeyIfPresent: .focus)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -215,8 +195,10 @@ public struct MessageHeader: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -224,12 +206,12 @@ public struct MessageHeader: DomainResource {
 		try destination?.encode(on: &_container, forKey: .destination)
 		try enterer?.encode(on: &_container, forKey: .enterer)
 		
-			switch event {
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .eventCoding)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .eventUri, auxiliaryKey: ._eventUri)
-			}
+		switch event {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .eventCoding)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .eventUri, auxiliaryKey: ._eventUri)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try focus?.encode(on: &_container, forKey: .focus)
@@ -244,6 +226,29 @@ public struct MessageHeader: DomainResource {
 		try sender?.encode(on: &_container, forKey: .sender)
 		try source.encode(on: &_container, forKey: .source)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeEvent(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> EventX {
+		var _t_event: EventX? = nil
+		if let eventCoding = try Coding(from: _container, forKeyIfPresent: .eventCoding) {
+			_t_event = .coding(eventCoding)
+		}
+		if let eventUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .eventUri, auxiliaryKey: ._eventUri) {
+			if _t_event != nil {
+				throw DecodingError.dataCorruptedError(forKey: .eventUri, in: _container, debugDescription: "More than one value provided for \"event\"")
+			}
+			_t_event = .uri(eventUri)
+		}
+		guard let _t_event else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.eventUri)
+			throw DecodingError.valueNotFound(EventX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"event\" but have none"))
+		}
+		return _t_event
 	}
 }
 
@@ -275,12 +280,7 @@ public struct MessageHeaderDestination: BackboneElement {
 	/// Particular delivery destination within the destination
 	public var target: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(endpoint: FHIRPrimitive<FHIRURI>) {
-		self.endpoint = endpoint
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		endpoint: FHIRPrimitive<FHIRURI>,
 		`extension`: [Extension]? = nil,
@@ -290,7 +290,7 @@ public struct MessageHeaderDestination: BackboneElement {
 		receiver: Reference? = nil,
 		target: Reference? = nil
 	) {
-		self.init(endpoint: endpoint)
+		self.endpoint = endpoint
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -313,6 +313,9 @@ public struct MessageHeaderDestination: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -328,6 +331,7 @@ public struct MessageHeaderDestination: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try endpoint.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -365,13 +369,7 @@ public struct MessageHeaderResponse: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<ResponseType>, identifier: FHIRPrimitive<FHIRString>) {
-		self.code = code
-		self.identifier = identifier
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<ResponseType>,
 		details: Reference? = nil,
@@ -380,10 +378,11 @@ public struct MessageHeaderResponse: BackboneElement {
 		identifier: FHIRPrimitive<FHIRString>,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code, identifier: identifier)
+		self.code = code
 		self.details = details
 		self.`extension` = `extension`
 		self.id = id
+		self.identifier = identifier
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -400,6 +399,9 @@ public struct MessageHeaderResponse: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -414,6 +416,7 @@ public struct MessageHeaderResponse: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try details?.encode(on: &_container, forKey: .details)
@@ -455,12 +458,7 @@ public struct MessageHeaderSource: BackboneElement {
 	/// Version of software running
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(endpoint: FHIRPrimitive<FHIRURI>) {
-		self.endpoint = endpoint
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: ContactPoint? = nil,
 		endpoint: FHIRPrimitive<FHIRURI>,
@@ -471,8 +469,8 @@ public struct MessageHeaderSource: BackboneElement {
 		software: FHIRPrimitive<FHIRString>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(endpoint: endpoint)
 		self.contact = contact
+		self.endpoint = endpoint
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -496,6 +494,9 @@ public struct MessageHeaderSource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -512,6 +513,7 @@ public struct MessageHeaderSource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try endpoint.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)

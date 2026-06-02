@@ -102,15 +102,7 @@ public struct AuditEvent: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(agent: [AuditEventAgent], code: CodeableConcept, recorded: FHIRPrimitive<Instant>, source: AuditEventSource) {
-		self.agent = agent
-		self.code = code
-		self.recorded = recorded
-		self.source = source
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: FHIRPrimitive<AuditEventAction>? = nil,
 		agent: [AuditEventAgent],
@@ -135,11 +127,12 @@ public struct AuditEvent: DomainResource {
 		source: AuditEventSource,
 		text: Narrative? = nil
 	) {
-		self.init(agent: agent, code: code, recorded: recorded, source: source)
 		self.action = action
+		self.agent = agent
 		self.authorization = authorization
 		self.basedOn = basedOn
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.encounter = encounter
 		self.entity = entity
@@ -152,7 +145,9 @@ public struct AuditEvent: DomainResource {
 		self.occurred = occurred
 		self.outcome = outcome
 		self.patient = patient
+		self.recorded = recorded
 		self.severity = severity
+		self.source = source
 		self.text = text
 	}
 	
@@ -187,6 +182,9 @@ public struct AuditEvent: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -205,20 +203,7 @@ public struct AuditEvent: DomainResource {
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_occurred: OccurredX? = nil
-		if let occurredPeriod = try Period(from: _container, forKeyIfPresent: .occurredPeriod) {
-			if _t_occurred != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurredPeriod, in: _container, debugDescription: "More than one value provided for \"occurred\"")
-			}
-			_t_occurred = .period(occurredPeriod)
-		}
-		if let occurredDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurredDateTime, auxiliaryKey: ._occurredDateTime) {
-			if _t_occurred != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurredDateTime, in: _container, debugDescription: "More than one value provided for \"occurred\"")
-			}
-			_t_occurred = .dateTime(occurredDateTime)
-		}
-		self.occurred = _t_occurred
+		self.occurred = try Self._decodeOccurred(from: _container)
 		self.outcome = try AuditEventOutcome(from: _container, forKeyIfPresent: .outcome)
 		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
 		self.recorded = try FHIRPrimitive<Instant>(from: _container, forKey: .recorded, auxiliaryKey: ._recorded)
@@ -230,8 +215,10 @@ public struct AuditEvent: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action, auxiliaryKey: ._action)
 		try agent.encode(on: &_container, forKey: .agent)
@@ -249,12 +236,12 @@ public struct AuditEvent: DomainResource {
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = occurred {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurredPeriod)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurredDateTime, auxiliaryKey: ._occurredDateTime)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurredDateTime, auxiliaryKey: ._occurredDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurredPeriod)
+		}
 		}
 		try outcome?.encode(on: &_container, forKey: .outcome)
 		try patient?.encode(on: &_container, forKey: .patient)
@@ -262,6 +249,24 @@ public struct AuditEvent: DomainResource {
 		try severity?.encode(on: &_container, forKey: .severity, auxiliaryKey: ._severity)
 		try source.encode(on: &_container, forKey: .source)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurred(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurredX? {
+		var _t_occurred: OccurredX? = nil
+		if let occurredDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurredDateTime, auxiliaryKey: ._occurredDateTime) {
+			_t_occurred = .dateTime(occurredDateTime)
+		}
+		if let occurredPeriod = try Period(from: _container, forKeyIfPresent: .occurredPeriod) {
+			if _t_occurred != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurredPeriod, in: _container, debugDescription: "More than one value provided for \"occurred\"")
+			}
+			_t_occurred = .period(occurredPeriod)
+		}
+		return _t_occurred
 	}
 }
 
@@ -313,12 +318,7 @@ public struct AuditEventAgent: BackboneElement {
 	/// Identifier of who
 	public var who: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(who: Reference) {
-		self.who = who
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authorization: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -332,7 +332,6 @@ public struct AuditEventAgent: BackboneElement {
 		type: CodeableConcept? = nil,
 		who: Reference
 	) {
-		self.init(who: who)
 		self.authorization = authorization
 		self.`extension` = `extension`
 		self.id = id
@@ -343,6 +342,7 @@ public struct AuditEventAgent: BackboneElement {
 		self.requestor = requestor
 		self.role = role
 		self.type = type
+		self.who = who
 	}
 	
 	// MARK: - Codable
@@ -365,6 +365,9 @@ public struct AuditEventAgent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -373,26 +376,7 @@ public struct AuditEventAgent: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_network: NetworkX? = nil
-		if let networkReference = try Reference(from: _container, forKeyIfPresent: .networkReference) {
-			if _t_network != nil {
-				throw DecodingError.dataCorruptedError(forKey: .networkReference, in: _container, debugDescription: "More than one value provided for \"network\"")
-			}
-			_t_network = .reference(networkReference)
-		}
-		if let networkUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .networkUri, auxiliaryKey: ._networkUri) {
-			if _t_network != nil {
-				throw DecodingError.dataCorruptedError(forKey: .networkUri, in: _container, debugDescription: "More than one value provided for \"network\"")
-			}
-			_t_network = .uri(networkUri)
-		}
-		if let networkString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .networkString, auxiliaryKey: ._networkString) {
-			if _t_network != nil {
-				throw DecodingError.dataCorruptedError(forKey: .networkString, in: _container, debugDescription: "More than one value provided for \"network\"")
-			}
-			_t_network = .string(networkString)
-		}
-		self.network = _t_network
+		self.network = try Self._decodeNetwork(from: _container)
 		self.policy = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .policy, auxiliaryKey: ._policy)
 		self.requestor = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .requestor, auxiliaryKey: ._requestor)
 		self.role = try [CodeableConcept](from: _container, forKeyIfPresent: .role)
@@ -403,6 +387,7 @@ public struct AuditEventAgent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authorization?.encode(on: &_container, forKey: .authorization)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -410,20 +395,44 @@ public struct AuditEventAgent: BackboneElement {
 		try location?.encode(on: &_container, forKey: .location)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = network {
-			switch _enum {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .networkReference)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .networkUri, auxiliaryKey: ._networkUri)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .networkString, auxiliaryKey: ._networkString)
-			}
+		switch _enum {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .networkReference)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .networkString, auxiliaryKey: ._networkString)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .networkUri, auxiliaryKey: ._networkUri)
+		}
 		}
 		try policy?.encode(on: &_container, forKey: .policy, auxiliaryKey: ._policy)
 		try requestor?.encode(on: &_container, forKey: .requestor, auxiliaryKey: ._requestor)
 		try role?.encode(on: &_container, forKey: .role)
 		try type?.encode(on: &_container, forKey: .type)
 		try who.encode(on: &_container, forKey: .who)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeNetwork(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> NetworkX? {
+		var _t_network: NetworkX? = nil
+		if let networkReference = try Reference(from: _container, forKeyIfPresent: .networkReference) {
+			_t_network = .reference(networkReference)
+		}
+		if let networkString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .networkString, auxiliaryKey: ._networkString) {
+			if _t_network != nil {
+				throw DecodingError.dataCorruptedError(forKey: .networkString, in: _container, debugDescription: "More than one value provided for \"network\"")
+			}
+			_t_network = .string(networkString)
+		}
+		if let networkUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .networkUri, auxiliaryKey: ._networkUri) {
+			if _t_network != nil {
+				throw DecodingError.dataCorruptedError(forKey: .networkUri, in: _container, debugDescription: "More than one value provided for \"network\"")
+			}
+			_t_network = .uri(networkUri)
+		}
+		return _t_network
 	}
 }
 
@@ -461,11 +470,7 @@ public struct AuditEventEntity: BackboneElement {
 	/// Specific instance of resource
 	public var what: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		agent: [AuditEventAgent]? = nil,
 		detail: [AuditEventEntityDetail]? = nil,
@@ -477,7 +482,6 @@ public struct AuditEventEntity: BackboneElement {
 		securityLabel: [CodeableConcept]? = nil,
 		what: Reference? = nil
 	) {
-		self.init()
 		self.agent = agent
 		self.detail = detail
 		self.`extension` = `extension`
@@ -505,6 +509,9 @@ public struct AuditEventEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -522,6 +529,7 @@ public struct AuditEventEntity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try agent?.encode(on: &_container, forKey: .agent)
 		try detail?.encode(on: &_container, forKey: .detail)
@@ -573,13 +581,7 @@ public struct AuditEventEntityDetail: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept, value: ValueX) {
-		self.type = type
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -587,10 +589,11 @@ public struct AuditEventEntityDetail: BackboneElement {
 		type: CodeableConcept,
 		value: ValueX
 	) {
-		self.init(type: type, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -615,36 +618,64 @@ public struct AuditEventEntityDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueBase64Binary) || _container.contains(CodingKeys.valueBoolean) || _container.contains(CodingKeys.valueCodeableConcept) || _container.contains(CodingKeys.valueDateTime) || _container.contains(CodingKeys.valueInteger) || _container.contains(CodingKeys.valuePeriod) || _container.contains(CodingKeys.valueQuantity) || _container.contains(CodingKeys.valueRange) || _container.contains(CodingKeys.valueRatio) || _container.contains(CodingKeys.valueString) || _container.contains(CodingKeys.valueTime) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueBase64Binary, CodingKeys.valueBoolean, CodingKeys.valueCodeableConcept, CodingKeys.valueDateTime, CodingKeys.valueInteger, CodingKeys.valuePeriod, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueRatio, CodingKeys.valueString, CodingKeys.valueTime], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type.encode(on: &_container, forKey: .type)
+		
+		switch value {
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .valueCodeableConcept)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .valuePeriod)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .valueRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .valueRatio)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
 		var _t_value: ValueX? = nil
-		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .quantity(valueQuantity)
-		}
-		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .codeableConcept(valueCodeableConcept)
-		}
-		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .string(valueString)
+		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
+			_t_value = .base64Binary(valueBase64Binary)
 		}
 		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
 			if _t_value != nil {
@@ -652,11 +683,35 @@ public struct AuditEventEntityDetail: BackboneElement {
 			}
 			_t_value = .boolean(valueBoolean)
 		}
+		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .codeableConcept(valueCodeableConcept)
+		}
+		if let valueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .valueDateTime, auxiliaryKey: ._valueDateTime) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDateTime, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .dateTime(valueDateTime)
+		}
 		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueInteger, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .integer(valueInteger)
+		}
+		if let valuePeriod = try Period(from: _container, forKeyIfPresent: .valuePeriod) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valuePeriod, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .period(valuePeriod)
+		}
+		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .quantity(valueQuantity)
 		}
 		if let valueRange = try Range(from: _container, forKeyIfPresent: .valueRange) {
 			if _t_value != nil {
@@ -670,67 +725,24 @@ public struct AuditEventEntityDetail: BackboneElement {
 			}
 			_t_value = .ratio(valueRatio)
 		}
+		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .string(valueString)
+		}
 		if let valueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .valueTime, auxiliaryKey: ._valueTime) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueTime, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .time(valueTime)
 		}
-		if let valueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .valueDateTime, auxiliaryKey: ._valueDateTime) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDateTime, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .dateTime(valueDateTime)
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueTime)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
-		if let valuePeriod = try Period(from: _container, forKeyIfPresent: .valuePeriod) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valuePeriod, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .period(valuePeriod)
-		}
-		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueBase64Binary, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .base64Binary(valueBase64Binary)
-		}
-		self.value = _t_value!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try type.encode(on: &_container, forKey: .type)
-		
-			switch value {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .valueRange)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .valueRatio)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .valuePeriod)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary)
-			}
-		
+		return _t_value
 	}
 }
 
@@ -756,12 +768,7 @@ public struct AuditEventOutcome: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: Coding) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: Coding,
 		detail: [CodeableConcept]? = nil,
@@ -769,7 +776,7 @@ public struct AuditEventOutcome: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
@@ -788,6 +795,9 @@ public struct AuditEventOutcome: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -801,6 +811,7 @@ public struct AuditEventOutcome: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try detail?.encode(on: &_container, forKey: .detail)
@@ -835,12 +846,7 @@ public struct AuditEventSource: BackboneElement {
 	/// The type of source where event originated
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(observer: Reference) {
-		self.observer = observer
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -849,10 +855,10 @@ public struct AuditEventSource: BackboneElement {
 		site: Reference? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(observer: observer)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.observer = observer
 		self.site = site
 		self.type = type
 	}
@@ -870,6 +876,9 @@ public struct AuditEventSource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -884,6 +893,7 @@ public struct AuditEventSource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

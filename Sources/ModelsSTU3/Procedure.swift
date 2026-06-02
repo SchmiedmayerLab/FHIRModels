@@ -138,13 +138,7 @@ public struct Procedure: DomainResource {
 	/// Items used during procedure
 	public var usedReference: [Reference]?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<EventStatus>, subject: Reference) {
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: [CodeableConcept]? = nil,
@@ -181,7 +175,6 @@ public struct Procedure: DomainResource {
 		usedCode: [CodeableConcept]? = nil,
 		usedReference: [Reference]? = nil
 	) {
-		self.init(status: status, subject: subject)
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.category = category
@@ -211,6 +204,8 @@ public struct Procedure: DomainResource {
 		self.reasonCode = reasonCode
 		self.reasonReference = reasonReference
 		self.report = report
+		self.status = status
+		self.subject = subject
 		self.text = text
 		self.usedCode = usedCode
 		self.usedReference = usedReference
@@ -259,6 +254,9 @@ public struct Procedure: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -286,20 +284,7 @@ public struct Procedure: DomainResource {
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.outcome = try CodeableConcept(from: _container, forKeyIfPresent: .outcome)
 		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
-		var _t_performed: PerformedX? = nil
-		if let performedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .performedDateTime, auxiliaryKey: ._performedDateTime) {
-			if _t_performed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .performedDateTime, in: _container, debugDescription: "More than one value provided for \"performed\"")
-			}
-			_t_performed = .dateTime(performedDateTime)
-		}
-		if let performedPeriod = try Period(from: _container, forKeyIfPresent: .performedPeriod) {
-			if _t_performed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .performedPeriod, in: _container, debugDescription: "More than one value provided for \"performed\"")
-			}
-			_t_performed = .period(performedPeriod)
-		}
-		self.performed = _t_performed
+		self.performed = try Self._decodePerformed(from: _container)
 		self.performer = try [ProcedurePerformer](from: _container, forKeyIfPresent: .performer)
 		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
 		self.reasonReference = try [Reference](from: _container, forKeyIfPresent: .reasonReference)
@@ -314,8 +299,10 @@ public struct Procedure: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -342,12 +329,12 @@ public struct Procedure: DomainResource {
 		try outcome?.encode(on: &_container, forKey: .outcome)
 		try partOf?.encode(on: &_container, forKey: .partOf)
 		if let _enum = performed {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .performedDateTime, auxiliaryKey: ._performedDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .performedPeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .performedDateTime, auxiliaryKey: ._performedDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .performedPeriod)
+		}
 		}
 		try performer?.encode(on: &_container, forKey: .performer)
 		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
@@ -358,6 +345,24 @@ public struct Procedure: DomainResource {
 		try text?.encode(on: &_container, forKey: .text)
 		try usedCode?.encode(on: &_container, forKey: .usedCode)
 		try usedReference?.encode(on: &_container, forKey: .usedReference)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodePerformed(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> PerformedX? {
+		var _t_performed: PerformedX? = nil
+		if let performedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .performedDateTime, auxiliaryKey: ._performedDateTime) {
+			_t_performed = .dateTime(performedDateTime)
+		}
+		if let performedPeriod = try Period(from: _container, forKeyIfPresent: .performedPeriod) {
+			if _t_performed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .performedPeriod, in: _container, debugDescription: "More than one value provided for \"performed\"")
+			}
+			_t_performed = .period(performedPeriod)
+		}
+		return _t_performed
 	}
 }
 
@@ -384,12 +389,7 @@ public struct ProcedureFocalDevice: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(manipulated: Reference) {
-		self.manipulated = manipulated
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -397,10 +397,10 @@ public struct ProcedureFocalDevice: BackboneElement {
 		manipulated: Reference,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(manipulated: manipulated)
 		self.action = action
 		self.`extension` = `extension`
 		self.id = id
+		self.manipulated = manipulated
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -416,6 +416,9 @@ public struct ProcedureFocalDevice: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -429,6 +432,7 @@ public struct ProcedureFocalDevice: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -463,12 +467,7 @@ public struct ProcedurePerformer: BackboneElement {
 	/// The role the actor was in
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -477,7 +476,7 @@ public struct ProcedurePerformer: BackboneElement {
 		onBehalfOf: Reference? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -498,6 +497,9 @@ public struct ProcedurePerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -512,6 +514,7 @@ public struct ProcedurePerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

@@ -45,11 +45,7 @@ public struct Coding: DataType {
 	/// Version of the system - if relevant
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRString>? = nil,
 		display: FHIRPrimitive<FHIRString>? = nil,
@@ -59,7 +55,6 @@ public struct Coding: DataType {
 		userSelected: FHIRPrimitive<FHIRBool>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.code = code
 		self.display = display
 		self.`extension` = `extension`
@@ -83,6 +78,9 @@ public struct Coding: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -98,6 +96,7 @@ public struct Coding: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)

@@ -98,14 +98,7 @@ public struct GraphDefinition: DomainResource {
 	/// Business version of the graph definition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>, start: FHIRPrimitive<ResourceType>, status: FHIRPrimitive<PublicationStatus>) {
-		self.name = name
-		self.start = start
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [ContactDetail]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -131,7 +124,6 @@ public struct GraphDefinition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(name: name, start: start, status: status)
 		self.contact = contact
 		self.contained = contained
 		self.date = date
@@ -145,9 +137,12 @@ public struct GraphDefinition: DomainResource {
 		self.link = link
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.profile = profile
 		self.publisher = publisher
 		self.purpose = purpose
+		self.start = start
+		self.status = status
 		self.text = text
 		self.url = url
 		self.useContext = useContext
@@ -185,6 +180,9 @@ public struct GraphDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -216,8 +214,10 @@ public struct GraphDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -277,11 +277,7 @@ public struct GraphDefinitionLink: BackboneElement {
 	/// Potential target for the link
 	public var target: [GraphDefinitionLinkTarget]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -293,7 +289,6 @@ public struct GraphDefinitionLink: BackboneElement {
 		sliceName: FHIRPrimitive<FHIRString>? = nil,
 		target: [GraphDefinitionLinkTarget]? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -321,6 +316,9 @@ public struct GraphDefinitionLink: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -338,6 +336,7 @@ public struct GraphDefinitionLink: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -380,12 +379,7 @@ public struct GraphDefinitionLinkTarget: BackboneElement {
 	/// None
 	public var type: FHIRPrimitive<ResourceType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<ResourceType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		compartment: [GraphDefinitionLinkTargetCompartment]? = nil,
 		`extension`: [Extension]? = nil,
@@ -396,7 +390,6 @@ public struct GraphDefinitionLinkTarget: BackboneElement {
 		profile: FHIRPrimitive<Canonical>? = nil,
 		type: FHIRPrimitive<ResourceType>
 	) {
-		self.init(type: type)
 		self.compartment = compartment
 		self.`extension` = `extension`
 		self.id = id
@@ -404,6 +397,7 @@ public struct GraphDefinitionLinkTarget: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.params = params
 		self.profile = profile
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -421,6 +415,9 @@ public struct GraphDefinitionLinkTarget: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -437,6 +434,7 @@ public struct GraphDefinitionLinkTarget: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try compartment?.encode(on: &_container, forKey: .compartment)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -479,14 +477,7 @@ public struct GraphDefinitionLinkTargetCompartment: BackboneElement {
 	/// rule, or whether it is a rule that must be followed.
 	public var use: FHIRPrimitive<GraphCompartmentUse>
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<CompartmentType>, rule: FHIRPrimitive<GraphCompartmentRule>, use: FHIRPrimitive<GraphCompartmentUse>) {
-		self.code = code
-		self.rule = rule
-		self.use = use
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<CompartmentType>,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -497,12 +488,14 @@ public struct GraphDefinitionLinkTargetCompartment: BackboneElement {
 		rule: FHIRPrimitive<GraphCompartmentRule>,
 		use: FHIRPrimitive<GraphCompartmentUse>
 	) {
-		self.init(code: code, rule: rule, use: use)
+		self.code = code
 		self.description_fhir = description_fhir
 		self.expression = expression
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.rule = rule
+		self.use = use
 	}
 	
 	// MARK: - Codable
@@ -520,6 +513,9 @@ public struct GraphDefinitionLinkTargetCompartment: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -536,6 +532,7 @@ public struct GraphDefinitionLinkTargetCompartment: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)

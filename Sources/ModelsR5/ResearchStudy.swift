@@ -153,12 +153,7 @@ public struct ResearchStudy: DomainResource {
 	/// design
 	public var whyStopped: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		associatedParty: [ResearchStudyAssociatedParty]? = nil,
 		classifier: [CodeableConcept]? = nil,
@@ -201,7 +196,6 @@ public struct ResearchStudy: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		whyStopped: CodeableConcept? = nil
 	) {
-		self.init(status: status)
 		self.associatedParty = associatedParty
 		self.classifier = classifier
 		self.comparisonGroup = comparisonGroup
@@ -235,6 +229,7 @@ public struct ResearchStudy: DomainResource {
 		self.relatedArtifact = relatedArtifact
 		self.result = result
 		self.site = site
+		self.status = status
 		self.studyDesign = studyDesign
 		self.text = text
 		self.title = title
@@ -291,6 +286,9 @@ public struct ResearchStudy: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -339,8 +337,10 @@ public struct ResearchStudy: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try associatedParty?.encode(on: &_container, forKey: .associatedParty)
 		try classifier?.encode(on: &_container, forKey: .classifier)
@@ -415,12 +415,7 @@ public struct ResearchStudyAssociatedParty: BackboneElement {
 	/// contact | recruitment-contact | sub-investigator | study-director | study-chair
 	public var role: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(role: CodeableConcept) {
-		self.role = role
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		classifier: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -431,7 +426,6 @@ public struct ResearchStudyAssociatedParty: BackboneElement {
 		period: [Period]? = nil,
 		role: CodeableConcept
 	) {
-		self.init(role: role)
 		self.classifier = classifier
 		self.`extension` = `extension`
 		self.id = id
@@ -439,6 +433,7 @@ public struct ResearchStudyAssociatedParty: BackboneElement {
 		self.name = name
 		self.party = party
 		self.period = period
+		self.role = role
 	}
 	
 	// MARK: - Codable
@@ -456,6 +451,9 @@ public struct ResearchStudyAssociatedParty: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -472,6 +470,7 @@ public struct ResearchStudyAssociatedParty: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try classifier?.encode(on: &_container, forKey: .classifier)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -520,12 +519,7 @@ public struct ResearchStudyComparisonGroup: BackboneElement {
 	/// Categorization of study comparisonGroup
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>) {
-		self.name = name
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -537,13 +531,13 @@ public struct ResearchStudyComparisonGroup: BackboneElement {
 		observedGroup: Reference? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(name: name)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
 		self.intendedExposure = intendedExposure
 		self.linkId = linkId
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.observedGroup = observedGroup
 		self.type = type
 	}
@@ -564,6 +558,9 @@ public struct ResearchStudyComparisonGroup: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -581,6 +578,7 @@ public struct ResearchStudyComparisonGroup: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -615,11 +613,7 @@ public struct ResearchStudyLabel: BackboneElement {
 	/// The name
 	public var value: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -627,7 +621,6 @@ public struct ResearchStudyLabel: BackboneElement {
 		type: CodeableConcept? = nil,
 		value: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -647,6 +640,9 @@ public struct ResearchStudyLabel: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -660,6 +656,7 @@ public struct ResearchStudyLabel: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -695,11 +692,7 @@ public struct ResearchStudyObjective: BackboneElement {
 	/// primary | secondary | exploratory
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -708,7 +701,6 @@ public struct ResearchStudyObjective: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -730,6 +722,9 @@ public struct ResearchStudyObjective: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -744,6 +739,7 @@ public struct ResearchStudyObjective: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -784,11 +780,7 @@ public struct ResearchStudyOutcomeMeasure: BackboneElement {
 	/// primary | secondary | exploratory
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -798,7 +790,6 @@ public struct ResearchStudyOutcomeMeasure: BackboneElement {
 		reference: Reference? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -822,6 +813,9 @@ public struct ResearchStudyOutcomeMeasure: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -837,6 +831,7 @@ public struct ResearchStudyOutcomeMeasure: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -871,12 +866,7 @@ public struct ResearchStudyProgressStatus: BackboneElement {
 	/// Label for status or state (e.g. recruitment status)
 	public var state: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(state: CodeableConcept) {
-		self.state = state
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actual: FHIRPrimitive<FHIRBool>? = nil,
 		`extension`: [Extension]? = nil,
@@ -885,12 +875,12 @@ public struct ResearchStudyProgressStatus: BackboneElement {
 		period: Period? = nil,
 		state: CodeableConcept
 	) {
-		self.init(state: state)
 		self.actual = actual
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.period = period
+		self.state = state
 	}
 	
 	// MARK: - Codable
@@ -906,6 +896,9 @@ public struct ResearchStudyProgressStatus: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -920,6 +913,7 @@ public struct ResearchStudyProgressStatus: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actual?.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -956,11 +950,7 @@ public struct ResearchStudyRecruitment: BackboneElement {
 	/// Estimated total number of participants to be enrolled
 	public var targetNumber: FHIRPrimitive<FHIRUnsignedInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actualGroup: Reference? = nil,
 		actualNumber: FHIRPrimitive<FHIRUnsignedInteger>? = nil,
@@ -970,7 +960,6 @@ public struct ResearchStudyRecruitment: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		targetNumber: FHIRPrimitive<FHIRUnsignedInteger>? = nil
 	) {
-		self.init()
 		self.actualGroup = actualGroup
 		self.actualNumber = actualNumber
 		self.eligibility = eligibility
@@ -994,6 +983,9 @@ public struct ResearchStudyRecruitment: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1009,6 +1001,7 @@ public struct ResearchStudyRecruitment: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actualGroup?.encode(on: &_container, forKey: .actualGroup)
 		try actualNumber?.encode(on: &_container, forKey: .actualNumber, auxiliaryKey: ._actualNumber)

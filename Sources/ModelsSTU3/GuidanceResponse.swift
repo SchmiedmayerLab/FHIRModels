@@ -107,13 +107,7 @@ public struct GuidanceResponse: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(module: Reference, status: FHIRPrimitive<GuidanceResponseStatus>) {
-		self.module = module
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		context: Reference? = nil,
@@ -138,7 +132,6 @@ public struct GuidanceResponse: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(module: module, status: status)
 		self.contained = contained
 		self.context = context
 		self.dataRequirement = dataRequirement
@@ -150,6 +143,7 @@ public struct GuidanceResponse: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.module = module
 		self.note = note
 		self.occurrenceDateTime = occurrenceDateTime
 		self.outputParameters = outputParameters
@@ -157,6 +151,7 @@ public struct GuidanceResponse: DomainResource {
 		self.reason = reason
 		self.requestId = requestId
 		self.result = result
+		self.status = status
 		self.subject = subject
 		self.text = text
 	}
@@ -192,6 +187,9 @@ public struct GuidanceResponse: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -211,20 +209,7 @@ public struct GuidanceResponse: DomainResource {
 		self.occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
 		self.outputParameters = try Reference(from: _container, forKeyIfPresent: .outputParameters)
 		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
-		var _t_reason: ReasonX? = nil
-		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .codeableConcept(reasonCodeableConcept)
-		}
-		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .reference(reasonReference)
-		}
-		self.reason = _t_reason
+		self.reason = try Self._decodeReason(from: _container)
 		self.requestId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .requestId, auxiliaryKey: ._requestId)
 		self.result = try Reference(from: _container, forKeyIfPresent: .result)
 		self.status = try FHIRPrimitive<GuidanceResponseStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
@@ -235,8 +220,10 @@ public struct GuidanceResponse: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try context?.encode(on: &_container, forKey: .context)
@@ -255,17 +242,35 @@ public struct GuidanceResponse: DomainResource {
 		try outputParameters?.encode(on: &_container, forKey: .outputParameters)
 		try performer?.encode(on: &_container, forKey: .performer)
 		if let _enum = reason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reasonReference)
+		}
 		}
 		try requestId?.encode(on: &_container, forKey: .requestId, auxiliaryKey: ._requestId)
 		try result?.encode(on: &_container, forKey: .result)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReasonX? {
+		var _t_reason: ReasonX? = nil
+		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
+			_t_reason = .codeableConcept(reasonCodeableConcept)
+		}
+		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
+			if _t_reason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
+			}
+			_t_reason = .reference(reasonReference)
+		}
+		return _t_reason
 	}
 }

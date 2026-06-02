@@ -117,12 +117,7 @@ public struct ExampleScenario: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: [ExampleScenarioActor]? = nil,
 		contact: [ContactDetail]? = nil,
@@ -153,7 +148,6 @@ public struct ExampleScenario: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(status: status)
 		self.actor = actor
 		self.contact = contact
 		self.contained = contained
@@ -175,6 +169,7 @@ public struct ExampleScenario: DomainResource {
 		self.process = process
 		self.publisher = publisher
 		self.purpose = purpose
+		self.status = status
 		self.text = text
 		self.title = title
 		self.url = url
@@ -220,6 +215,9 @@ public struct ExampleScenario: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -250,27 +248,16 @@ public struct ExampleScenario: DomainResource {
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -300,13 +287,31 @@ public struct ExampleScenario: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }
 
@@ -338,14 +343,7 @@ public struct ExampleScenarioActor: BackboneElement {
 	/// The category of actor - person or system.
 	public var type: FHIRPrimitive<ExampleScenarioActorType>
 	
-	/// Designated initializer taking all required properties
-	public init(key: FHIRPrimitive<FHIRString>, title: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<ExampleScenarioActorType>) {
-		self.key = key
-		self.title = title
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -355,11 +353,13 @@ public struct ExampleScenarioActor: BackboneElement {
 		title: FHIRPrimitive<FHIRString>,
 		type: FHIRPrimitive<ExampleScenarioActorType>
 	) {
-		self.init(key: key, title: title, type: type)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
+		self.key = key
 		self.modifierExtension = modifierExtension
+		self.title = title
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -376,6 +376,9 @@ public struct ExampleScenarioActor: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -391,6 +394,7 @@ public struct ExampleScenarioActor: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -452,14 +456,7 @@ public struct ExampleScenarioInstance: BackboneElement {
 	/// Snapshot of instance that changes
 	public var version: [ExampleScenarioInstanceVersion]?
 	
-	/// Designated initializer taking all required properties
-	public init(key: FHIRPrimitive<FHIRString>, structureType: Coding, title: FHIRPrimitive<FHIRString>) {
-		self.key = key
-		self.structureType = structureType
-		self.title = title
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		containedInstance: [ExampleScenarioInstanceContainedInstance]? = nil,
 		content: Reference? = nil,
@@ -474,15 +471,17 @@ public struct ExampleScenarioInstance: BackboneElement {
 		title: FHIRPrimitive<FHIRString>,
 		version: [ExampleScenarioInstanceVersion]? = nil
 	) {
-		self.init(key: key, structureType: structureType, title: title)
 		self.containedInstance = containedInstance
 		self.content = content
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
+		self.key = key
 		self.modifierExtension = modifierExtension
 		self.structureProfile = structureProfile
+		self.structureType = structureType
 		self.structureVersion = structureVersion
+		self.title = title
 		self.version = version
 	}
 	
@@ -506,6 +505,9 @@ public struct ExampleScenarioInstance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -516,20 +518,7 @@ public struct ExampleScenarioInstance: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.key = try FHIRPrimitive<FHIRString>(from: _container, forKey: .key, auxiliaryKey: ._key)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_structureProfile: StructureProfileX? = nil
-		if let structureProfileCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .structureProfileCanonical, auxiliaryKey: ._structureProfileCanonical) {
-			if _t_structureProfile != nil {
-				throw DecodingError.dataCorruptedError(forKey: .structureProfileCanonical, in: _container, debugDescription: "More than one value provided for \"structureProfile\"")
-			}
-			_t_structureProfile = .canonical(structureProfileCanonical)
-		}
-		if let structureProfileUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .structureProfileUri, auxiliaryKey: ._structureProfileUri) {
-			if _t_structureProfile != nil {
-				throw DecodingError.dataCorruptedError(forKey: .structureProfileUri, in: _container, debugDescription: "More than one value provided for \"structureProfile\"")
-			}
-			_t_structureProfile = .uri(structureProfileUri)
-		}
-		self.structureProfile = _t_structureProfile
+		self.structureProfile = try Self._decodeStructureProfile(from: _container)
 		self.structureType = try Coding(from: _container, forKey: .structureType)
 		self.structureVersion = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .structureVersion, auxiliaryKey: ._structureVersion)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKey: .title, auxiliaryKey: ._title)
@@ -539,6 +528,7 @@ public struct ExampleScenarioInstance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try containedInstance?.encode(on: &_container, forKey: .containedInstance)
 		try content?.encode(on: &_container, forKey: .content)
@@ -548,17 +538,35 @@ public struct ExampleScenarioInstance: BackboneElement {
 		try key.encode(on: &_container, forKey: .key, auxiliaryKey: ._key)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = structureProfile {
-			switch _enum {
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .structureProfileCanonical, auxiliaryKey: ._structureProfileCanonical)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .structureProfileUri, auxiliaryKey: ._structureProfileUri)
-			}
+		switch _enum {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .structureProfileCanonical, auxiliaryKey: ._structureProfileCanonical)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .structureProfileUri, auxiliaryKey: ._structureProfileUri)
+		}
 		}
 		try structureType.encode(on: &_container, forKey: .structureType)
 		try structureVersion?.encode(on: &_container, forKey: .structureVersion, auxiliaryKey: ._structureVersion)
 		try title.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try version?.encode(on: &_container, forKey: .version)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeStructureProfile(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> StructureProfileX? {
+		var _t_structureProfile: StructureProfileX? = nil
+		if let structureProfileCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .structureProfileCanonical, auxiliaryKey: ._structureProfileCanonical) {
+			_t_structureProfile = .canonical(structureProfileCanonical)
+		}
+		if let structureProfileUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .structureProfileUri, auxiliaryKey: ._structureProfileUri) {
+			if _t_structureProfile != nil {
+				throw DecodingError.dataCorruptedError(forKey: .structureProfileUri, in: _container, debugDescription: "More than one value provided for \"structureProfile\"")
+			}
+			_t_structureProfile = .uri(structureProfileUri)
+		}
+		return _t_structureProfile
 	}
 }
 
@@ -584,12 +592,7 @@ public struct ExampleScenarioInstanceContainedInstance: BackboneElement {
 	/// Key of contained instance version
 	public var versionReference: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(instanceReference: FHIRPrimitive<FHIRString>) {
-		self.instanceReference = instanceReference
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -597,9 +600,9 @@ public struct ExampleScenarioInstanceContainedInstance: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		versionReference: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(instanceReference: instanceReference)
 		self.`extension` = `extension`
 		self.id = id
+		self.instanceReference = instanceReference
 		self.modifierExtension = modifierExtension
 		self.versionReference = versionReference
 	}
@@ -616,6 +619,9 @@ public struct ExampleScenarioInstanceContainedInstance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -629,6 +635,7 @@ public struct ExampleScenarioInstanceContainedInstance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -666,13 +673,7 @@ public struct ExampleScenarioInstanceVersion: BackboneElement {
 	/// Label for instance version
 	public var title: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(key: FHIRPrimitive<FHIRString>, title: FHIRPrimitive<FHIRString>) {
-		self.key = key
-		self.title = title
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: Reference? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -682,12 +683,13 @@ public struct ExampleScenarioInstanceVersion: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		title: FHIRPrimitive<FHIRString>
 	) {
-		self.init(key: key, title: title)
 		self.content = content
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
+		self.key = key
 		self.modifierExtension = modifierExtension
+		self.title = title
 	}
 	
 	// MARK: - Codable
@@ -704,6 +706,9 @@ public struct ExampleScenarioInstanceVersion: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -719,6 +724,7 @@ public struct ExampleScenarioInstanceVersion: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try content?.encode(on: &_container, forKey: .content)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -761,12 +767,7 @@ public struct ExampleScenarioProcess: BackboneElement {
 	/// Label for procss
 	public var title: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(title: FHIRPrimitive<FHIRString>) {
-		self.title = title
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -777,7 +778,6 @@ public struct ExampleScenarioProcess: BackboneElement {
 		step: [ExampleScenarioProcessStep]? = nil,
 		title: FHIRPrimitive<FHIRString>
 	) {
-		self.init(title: title)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -785,6 +785,7 @@ public struct ExampleScenarioProcess: BackboneElement {
 		self.postConditions = postConditions
 		self.preConditions = preConditions
 		self.step = step
+		self.title = title
 	}
 	
 	// MARK: - Codable
@@ -802,6 +803,9 @@ public struct ExampleScenarioProcess: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -818,6 +822,7 @@ public struct ExampleScenarioProcess: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -864,11 +869,7 @@ public struct ExampleScenarioProcessStep: BackboneElement {
 	/// Step is nested workflow
 	public var workflow: FHIRPrimitive<Canonical>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		alternative: [ExampleScenarioProcessStepAlternative]? = nil,
 		`extension`: [Extension]? = nil,
@@ -880,7 +881,6 @@ public struct ExampleScenarioProcessStep: BackboneElement {
 		process: ExampleScenarioProcess? = nil,
 		workflow: FHIRPrimitive<Canonical>? = nil
 	) {
-		self.init()
 		self.alternative = alternative
 		self.`extension` = `extension`
 		self.id = id
@@ -908,6 +908,9 @@ public struct ExampleScenarioProcessStep: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -925,6 +928,7 @@ public struct ExampleScenarioProcessStep: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try alternative?.encode(on: &_container, forKey: .alternative)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -964,12 +968,7 @@ public struct ExampleScenarioProcessStepAlternative: BackboneElement {
 	/// Label for alternative
 	public var title: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(title: FHIRPrimitive<FHIRString>) {
-		self.title = title
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -978,12 +977,12 @@ public struct ExampleScenarioProcessStepAlternative: BackboneElement {
 		step: [ExampleScenarioProcessStep]? = nil,
 		title: FHIRPrimitive<FHIRString>
 	) {
-		self.init(title: title)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.step = step
+		self.title = title
 	}
 	
 	// MARK: - Codable
@@ -999,6 +998,9 @@ public struct ExampleScenarioProcessStepAlternative: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1013,6 +1015,7 @@ public struct ExampleScenarioProcessStepAlternative: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1066,12 +1069,7 @@ public struct ExampleScenarioProcessStepOperation: BackboneElement {
 	/// Kind of action
 	public var type: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init(title: FHIRPrimitive<FHIRString>) {
-		self.title = title
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -1086,7 +1084,6 @@ public struct ExampleScenarioProcessStepOperation: BackboneElement {
 		title: FHIRPrimitive<FHIRString>,
 		type: Coding? = nil
 	) {
-		self.init(title: title)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -1097,6 +1094,7 @@ public struct ExampleScenarioProcessStepOperation: BackboneElement {
 		self.receiverActive = receiverActive
 		self.request = request
 		self.response = response
+		self.title = title
 		self.type = type
 	}
 	
@@ -1119,6 +1117,9 @@ public struct ExampleScenarioProcessStepOperation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1139,6 +1140,7 @@ public struct ExampleScenarioProcessStepOperation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

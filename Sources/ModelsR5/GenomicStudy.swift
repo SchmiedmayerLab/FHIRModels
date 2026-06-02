@@ -98,13 +98,7 @@ public struct GenomicStudy: DomainResource {
 	/// profiling)
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<FHIRString>, subject: Reference) {
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		analysis: [GenomicStudyAnalysis]? = nil,
 		basedOn: [Reference]? = nil,
@@ -130,7 +124,6 @@ public struct GenomicStudy: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(status: status, subject: subject)
 		self.analysis = analysis
 		self.basedOn = basedOn
 		self.contained = contained
@@ -150,6 +143,8 @@ public struct GenomicStudy: DomainResource {
 		self.reason = reason
 		self.referrer = referrer
 		self.startDate = startDate
+		self.status = status
+		self.subject = subject
 		self.text = text
 		self.type = type
 	}
@@ -185,6 +180,9 @@ public struct GenomicStudy: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -216,8 +214,10 @@ public struct GenomicStudy: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try analysis?.encode(on: &_container, forKey: .analysis)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
@@ -315,11 +315,7 @@ public struct GenomicStudyAnalysis: BackboneElement {
 	/// Name of the analysis event (human friendly)
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		changeType: [CodeableConcept]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -343,7 +339,6 @@ public struct GenomicStudyAnalysis: BackboneElement {
 		specimen: [Reference]? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.changeType = changeType
 		self.date = date
 		self.device = device
@@ -395,6 +390,9 @@ public struct GenomicStudyAnalysis: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -424,6 +422,7 @@ public struct GenomicStudyAnalysis: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try changeType?.encode(on: &_container, forKey: .changeType)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -469,11 +468,7 @@ public struct GenomicStudyAnalysisDevice: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		device: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -481,7 +476,6 @@ public struct GenomicStudyAnalysisDevice: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.device = device
 		self.`extension` = `extension`
 		self.function = function
@@ -501,6 +495,9 @@ public struct GenomicStudyAnalysisDevice: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -514,6 +511,7 @@ public struct GenomicStudyAnalysisDevice: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try device?.encode(on: &_container, forKey: .device)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -553,11 +551,7 @@ public struct GenomicStudyAnalysisInput: BackboneElement {
 	/// Type of input data (e.g., BAM, CRAM, or FASTA)
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		file: Reference? = nil,
@@ -566,7 +560,6 @@ public struct GenomicStudyAnalysisInput: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.file = file
 		self.generatedBy = generatedBy
@@ -589,25 +582,15 @@ public struct GenomicStudyAnalysisInput: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.file = try Reference(from: _container, forKeyIfPresent: .file)
-		var _t_generatedBy: GeneratedByX? = nil
-		if let generatedByIdentifier = try Identifier(from: _container, forKeyIfPresent: .generatedByIdentifier) {
-			if _t_generatedBy != nil {
-				throw DecodingError.dataCorruptedError(forKey: .generatedByIdentifier, in: _container, debugDescription: "More than one value provided for \"generatedBy\"")
-			}
-			_t_generatedBy = .identifier(generatedByIdentifier)
-		}
-		if let generatedByReference = try Reference(from: _container, forKeyIfPresent: .generatedByReference) {
-			if _t_generatedBy != nil {
-				throw DecodingError.dataCorruptedError(forKey: .generatedByReference, in: _container, debugDescription: "More than one value provided for \"generatedBy\"")
-			}
-			_t_generatedBy = .reference(generatedByReference)
-		}
-		self.generatedBy = _t_generatedBy
+		self.generatedBy = try Self._decodeGeneratedBy(from: _container)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
@@ -616,20 +599,39 @@ public struct GenomicStudyAnalysisInput: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try file?.encode(on: &_container, forKey: .file)
 		if let _enum = generatedBy {
-			switch _enum {
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .generatedByIdentifier)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .generatedByReference)
-			}
+		switch _enum {
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .generatedByIdentifier)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .generatedByReference)
+		}
 		}
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeGeneratedBy(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> GeneratedByX? {
+		var _t_generatedBy: GeneratedByX? = nil
+		if let generatedByIdentifier = try Identifier(from: _container, forKeyIfPresent: .generatedByIdentifier) {
+			_t_generatedBy = .identifier(generatedByIdentifier)
+		}
+		if let generatedByReference = try Reference(from: _container, forKeyIfPresent: .generatedByReference) {
+			if _t_generatedBy != nil {
+				throw DecodingError.dataCorruptedError(forKey: .generatedByReference, in: _container, debugDescription: "More than one value provided for \"generatedBy\"")
+			}
+			_t_generatedBy = .reference(generatedByReference)
+		}
+		return _t_generatedBy
 	}
 }
 
@@ -653,11 +655,7 @@ public struct GenomicStudyAnalysisOutput: BackboneElement {
 	/// Type of output data (e.g., VCF, MAF, or BAM)
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		file: Reference? = nil,
@@ -665,7 +663,6 @@ public struct GenomicStudyAnalysisOutput: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.file = file
 		self.id = id
@@ -685,6 +682,9 @@ public struct GenomicStudyAnalysisOutput: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -698,6 +698,7 @@ public struct GenomicStudyAnalysisOutput: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try file?.encode(on: &_container, forKey: .file)
@@ -727,11 +728,7 @@ public struct GenomicStudyAnalysisPerformer: BackboneElement {
 	/// Role of the actor for this analysis
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -739,7 +736,6 @@ public struct GenomicStudyAnalysisPerformer: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init()
 		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
@@ -759,6 +755,9 @@ public struct GenomicStudyAnalysisPerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -772,6 +771,7 @@ public struct GenomicStudyAnalysisPerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

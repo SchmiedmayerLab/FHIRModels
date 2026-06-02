@@ -84,11 +84,7 @@ public struct Account: DomainResource {
 	/// E.g. patient, expense, depreciation
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activePeriod: Period? = nil,
 		balance: Quantity? = nil,
@@ -110,7 +106,6 @@ public struct Account: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.activePeriod = activePeriod
 		self.balance = balance
 		self.contained = contained
@@ -159,6 +154,9 @@ public struct Account: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -186,8 +184,10 @@ public struct Account: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activePeriod?.encode(on: &_container, forKey: .activePeriod)
 		try balance?.encode(on: &_container, forKey: .balance)

@@ -115,14 +115,7 @@ public struct DeviceDispense: DomainResource {
 	/// When product was given out
 	public var whenHandedOver: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init(device: CodeableReference, status: FHIRPrimitive<DeviceDispenseStatusCodes>, subject: Reference) {
-		self.device = device
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		category: [CodeableConcept]? = nil,
@@ -154,11 +147,11 @@ public struct DeviceDispense: DomainResource {
 		usageInstruction: FHIRPrimitive<FHIRString>? = nil,
 		whenHandedOver: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init(device: device, status: status, subject: subject)
 		self.basedOn = basedOn
 		self.category = category
 		self.contained = contained
 		self.destination = destination
+		self.device = device
 		self.encounter = encounter
 		self.eventHistory = eventHistory
 		self.`extension` = `extension`
@@ -175,7 +168,9 @@ public struct DeviceDispense: DomainResource {
 		self.preparedDate = preparedDate
 		self.quantity = quantity
 		self.receiver = receiver
+		self.status = status
 		self.statusReason = statusReason
+		self.subject = subject
 		self.supportingInformation = supportingInformation
 		self.text = text
 		self.type = type
@@ -220,6 +215,9 @@ public struct DeviceDispense: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -257,8 +255,10 @@ public struct DeviceDispense: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try category?.encode(on: &_container, forKey: .category)
@@ -314,12 +314,7 @@ public struct DeviceDispensePerformer: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -327,7 +322,7 @@ public struct DeviceDispensePerformer: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.function = function
 		self.id = id
@@ -346,6 +341,9 @@ public struct DeviceDispensePerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -359,6 +357,7 @@ public struct DeviceDispensePerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

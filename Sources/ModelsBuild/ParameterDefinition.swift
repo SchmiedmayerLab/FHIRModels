@@ -54,13 +54,7 @@ public struct ParameterDefinition: DataType {
 	/// Whether the parameter is input or output for the module.
 	public var use: FHIRPrimitive<OperationParameterUse>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<ResourceType>, use: FHIRPrimitive<OperationParameterUse>) {
-		self.type = type
-		self.use = use
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		documentation: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -72,7 +66,6 @@ public struct ParameterDefinition: DataType {
 		type: FHIRPrimitive<ResourceType>,
 		use: FHIRPrimitive<OperationParameterUse>
 	) {
-		self.init(type: type, use: use)
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
@@ -80,6 +73,8 @@ public struct ParameterDefinition: DataType {
 		self.min = min
 		self.name = name
 		self.profile = profile
+		self.type = type
+		self.use = use
 	}
 	
 	// MARK: - Codable
@@ -98,6 +93,9 @@ public struct ParameterDefinition: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -115,6 +113,7 @@ public struct ParameterDefinition: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

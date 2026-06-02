@@ -55,11 +55,7 @@ public struct Population: BackboneElement {
 	/// Race of the specific population
 	public var race: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		age: AgeX? = nil,
 		`extension`: [Extension]? = nil,
@@ -69,7 +65,6 @@ public struct Population: BackboneElement {
 		physiologicalCondition: CodeableConcept? = nil,
 		race: CodeableConcept? = nil
 	) {
-		self.init()
 		self.age = age
 		self.`extension` = `extension`
 		self.gender = gender
@@ -94,23 +89,13 @@ public struct Population: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_age: AgeX? = nil
-		if let ageRange = try Range(from: _container, forKeyIfPresent: .ageRange) {
-			if _t_age != nil {
-				throw DecodingError.dataCorruptedError(forKey: .ageRange, in: _container, debugDescription: "More than one value provided for \"age\"")
-			}
-			_t_age = .range(ageRange)
-		}
-		if let ageCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .ageCodeableConcept) {
-			if _t_age != nil {
-				throw DecodingError.dataCorruptedError(forKey: .ageCodeableConcept, in: _container, debugDescription: "More than one value provided for \"age\"")
-			}
-			_t_age = .codeableConcept(ageCodeableConcept)
-		}
-		self.age = _t_age
+		self.age = try Self._decodeAge(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try CodeableConcept(from: _container, forKeyIfPresent: .gender)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -122,14 +107,15 @@ public struct Population: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = age {
-			switch _enum {
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .ageRange)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .ageCodeableConcept)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .ageCodeableConcept)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .ageRange)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender)
@@ -137,5 +123,23 @@ public struct Population: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try physiologicalCondition?.encode(on: &_container, forKey: .physiologicalCondition)
 		try race?.encode(on: &_container, forKey: .race)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAge(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AgeX? {
+		var _t_age: AgeX? = nil
+		if let ageCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .ageCodeableConcept) {
+			_t_age = .codeableConcept(ageCodeableConcept)
+		}
+		if let ageRange = try Range(from: _container, forKeyIfPresent: .ageRange) {
+			if _t_age != nil {
+				throw DecodingError.dataCorruptedError(forKey: .ageRange, in: _container, debugDescription: "More than one value provided for \"age\"")
+			}
+			_t_age = .range(ageRange)
+		}
+		return _t_age
 	}
 }

@@ -159,16 +159,7 @@ public struct Claim: DomainResource {
 	/// payable would be had the services actually been provided.
 	public var use: FHIRPrimitive<Use>
 	
-	/// Designated initializer taking all required properties
-	public init(created: FHIRPrimitive<DateTime>, status: FHIRPrimitive<FinancialResourceStatusCodes>, subject: Reference, type: CodeableConcept, use: FHIRPrimitive<Use>) {
-		self.created = created
-		self.status = status
-		self.subject = subject
-		self.type = type
-		self.use = use
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		accident: ClaimAccident? = nil,
 		billablePeriod: Period? = nil,
@@ -212,11 +203,11 @@ public struct Claim: DomainResource {
 		type: CodeableConcept,
 		use: FHIRPrimitive<Use>
 	) {
-		self.init(created: created, status: status, subject: subject, type: type, use: use)
 		self.accident = accident
 		self.billablePeriod = billablePeriod
 		self.careTeam = careTeam
 		self.contained = contained
+		self.created = created
 		self.diagnosis = diagnosis
 		self.diagnosisRelatedGroup = diagnosisRelatedGroup
 		self.encounter = encounter
@@ -243,12 +234,16 @@ public struct Claim: DomainResource {
 		self.provider = provider
 		self.referral = referral
 		self.related = related
+		self.status = status
 		self.statusReason = statusReason
 		self.subType = subType
+		self.subject = subject
 		self.supportingInfo = supportingInfo
 		self.text = text
 		self.total = total
 		self.traceNumber = traceNumber
+		self.type = type
+		self.use = use
 	}
 	
 	// MARK: - Codable
@@ -300,6 +295,9 @@ public struct Claim: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -349,8 +347,10 @@ public struct Claim: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try accident?.encode(on: &_container, forKey: .accident)
 		try billablePeriod?.encode(on: &_container, forKey: .billablePeriod)
@@ -428,12 +428,7 @@ public struct ClaimAccident: BackboneElement {
 	/// The nature of the accident
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(date: FHIRPrimitive<FHIRDate>) {
-		self.date = date
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		date: FHIRPrimitive<FHIRDate>,
 		`extension`: [Extension]? = nil,
@@ -442,7 +437,7 @@ public struct ClaimAccident: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(date: date)
+		self.date = date
 		self.`extension` = `extension`
 		self.id = id
 		self.location = location
@@ -464,17 +459,47 @@ public struct ClaimAccident: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.date = try FHIRPrimitive<FHIRDate>(from: _container, forKey: .date, auxiliaryKey: ._date)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.location = try Self._decodeLocation(from: _container)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try date.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		if let _enum = location {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .locationAddress)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .locationReference)
+		}
+		}
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeLocation(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> LocationX? {
 		var _t_location: LocationX? = nil
 		if let locationAddress = try Address(from: _container, forKeyIfPresent: .locationAddress) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationAddress, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
 			_t_location = .address(locationAddress)
 		}
 		if let locationReference = try Reference(from: _container, forKeyIfPresent: .locationReference) {
@@ -483,28 +508,7 @@ public struct ClaimAccident: BackboneElement {
 			}
 			_t_location = .reference(locationReference)
 		}
-		self.location = _t_location
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try date.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		if let _enum = location {
-			switch _enum {
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .locationAddress)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .locationReference)
-			}
-		}
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try type?.encode(on: &_container, forKey: .type)
+		return _t_location
 	}
 }
 
@@ -536,13 +540,7 @@ public struct ClaimCareTeam: BackboneElement {
 	/// Practitioner or provider specialization
 	public var specialty: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(provider: Reference, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.provider = provider
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -552,11 +550,12 @@ public struct ClaimCareTeam: BackboneElement {
 		sequence: FHIRPrimitive<FHIRPositiveInteger>,
 		specialty: CodeableConcept? = nil
 	) {
-		self.init(provider: provider, sequence: sequence)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.provider = provider
 		self.role = role
+		self.sequence = sequence
 		self.specialty = specialty
 	}
 	
@@ -574,6 +573,9 @@ public struct ClaimCareTeam: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -589,6 +591,7 @@ public struct ClaimCareTeam: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -635,13 +638,7 @@ public struct ClaimDiagnosis: BackboneElement {
 	/// Timing or nature of the diagnosis
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(diagnosis: DiagnosisX, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.diagnosis = diagnosis
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		diagnosis: DiagnosisX,
 		`extension`: [Extension]? = nil,
@@ -651,11 +648,12 @@ public struct ClaimDiagnosis: BackboneElement {
 		sequence: FHIRPrimitive<FHIRPositiveInteger>,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(diagnosis: diagnosis, sequence: sequence)
+		self.diagnosis = diagnosis
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.onAdmission = onAdmission
+		self.sequence = sequence
 		self.type = type
 	}
 	
@@ -674,28 +672,13 @@ public struct ClaimDiagnosis: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.diagnosisCodeableConcept) || _container.contains(CodingKeys.diagnosisReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.diagnosisCodeableConcept, CodingKeys.diagnosisReference], debugDescription: "Must have at least one value for \"diagnosis\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_diagnosis: DiagnosisX? = nil
-		if let diagnosisCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .diagnosisCodeableConcept) {
-			if _t_diagnosis != nil {
-				throw DecodingError.dataCorruptedError(forKey: .diagnosisCodeableConcept, in: _container, debugDescription: "More than one value provided for \"diagnosis\"")
-			}
-			_t_diagnosis = .codeableConcept(diagnosisCodeableConcept)
-		}
-		if let diagnosisReference = try Reference(from: _container, forKeyIfPresent: .diagnosisReference) {
-			if _t_diagnosis != nil {
-				throw DecodingError.dataCorruptedError(forKey: .diagnosisReference, in: _container, debugDescription: "More than one value provided for \"diagnosis\"")
-			}
-			_t_diagnosis = .reference(diagnosisReference)
-		}
-		self.diagnosis = _t_diagnosis!
+		self.diagnosis = try Self._decodeDiagnosis(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -707,14 +690,15 @@ public struct ClaimDiagnosis: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch diagnosis {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .diagnosisCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .diagnosisReference)
-			}
+		switch diagnosis {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .diagnosisCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .diagnosisReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -722,6 +706,29 @@ public struct ClaimDiagnosis: BackboneElement {
 		try onAdmission?.encode(on: &_container, forKey: .onAdmission)
 		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDiagnosis(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DiagnosisX {
+		var _t_diagnosis: DiagnosisX? = nil
+		if let diagnosisCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .diagnosisCodeableConcept) {
+			_t_diagnosis = .codeableConcept(diagnosisCodeableConcept)
+		}
+		if let diagnosisReference = try Reference(from: _container, forKeyIfPresent: .diagnosisReference) {
+			if _t_diagnosis != nil {
+				throw DecodingError.dataCorruptedError(forKey: .diagnosisReference, in: _container, debugDescription: "More than one value provided for \"diagnosis\"")
+			}
+			_t_diagnosis = .reference(diagnosisReference)
+		}
+		guard let _t_diagnosis else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.diagnosisReference)
+			throw DecodingError.valueNotFound(DiagnosisX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"diagnosis\" but have none"))
+		}
+		return _t_diagnosis
 	}
 }
 
@@ -754,13 +761,7 @@ public struct ClaimEvent: BackboneElement {
 	/// One of `when[x]`
 	public var when: WhenX
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept, when: WhenX) {
-		self.type = type
-		self.when = when
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -768,10 +769,11 @@ public struct ClaimEvent: BackboneElement {
 		type: CodeableConcept,
 		when: WhenX
 	) {
-		self.init(type: type, when: when)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
+		self.when = when
 	}
 	
 	// MARK: - Codable
@@ -787,23 +789,45 @@ public struct ClaimEvent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.whenDateTime) || _container.contains(CodingKeys.whenPeriod) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whenDateTime, CodingKeys.whenPeriod], debugDescription: "Must have at least one value for \"when\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
+		self.when = try Self._decodeWhen(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type.encode(on: &_container, forKey: .type)
+		
+		switch when {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .whenDateTime, auxiliaryKey: ._whenDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .whenPeriod)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeWhen(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> WhenX {
 		var _t_when: WhenX? = nil
 		if let whenDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .whenDateTime, auxiliaryKey: ._whenDateTime) {
-			if _t_when != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whenDateTime, in: _container, debugDescription: "More than one value provided for \"when\"")
-			}
 			_t_when = .dateTime(whenDateTime)
 		}
 		if let whenPeriod = try Period(from: _container, forKeyIfPresent: .whenPeriod) {
@@ -812,25 +836,12 @@ public struct ClaimEvent: BackboneElement {
 			}
 			_t_when = .period(whenPeriod)
 		}
-		self.when = _t_when!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try type.encode(on: &_container, forKey: .type)
-		
-			switch when {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .whenDateTime, auxiliaryKey: ._whenDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .whenPeriod)
-			}
-		
+		guard let _t_when else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.whenPeriod)
+			throw DecodingError.valueNotFound(WhenX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"when\" but have none"))
+		}
+		return _t_when
 	}
 }
 
@@ -871,14 +882,7 @@ public struct ClaimInsurance: BackboneElement {
 	/// Insurance instance identifier
 	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
 	
-	/// Designated initializer taking all required properties
-	public init(coverage: Reference, focal: FHIRPrimitive<FHIRBool>, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.coverage = coverage
-		self.focal = focal
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		businessArrangement: FHIRPrimitive<FHIRString>? = nil,
 		claimResponse: Reference? = nil,
@@ -891,14 +895,16 @@ public struct ClaimInsurance: BackboneElement {
 		preAuthRef: [FHIRPrimitive<FHIRString>]? = nil,
 		sequence: FHIRPrimitive<FHIRPositiveInteger>
 	) {
-		self.init(coverage: coverage, focal: focal, sequence: sequence)
 		self.businessArrangement = businessArrangement
 		self.claimResponse = claimResponse
+		self.coverage = coverage
 		self.`extension` = `extension`
+		self.focal = focal
 		self.id = id
 		self.identifier = identifier
 		self.modifierExtension = modifierExtension
 		self.preAuthRef = preAuthRef
+		self.sequence = sequence
 	}
 	
 	// MARK: - Codable
@@ -918,6 +924,9 @@ public struct ClaimInsurance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -936,6 +945,7 @@ public struct ClaimInsurance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try businessArrangement?.encode(on: &_container, forKey: .businessArrangement, auxiliaryKey: ._businessArrangement)
 		try claimResponse?.encode(on: &_container, forKey: .claimResponse)
@@ -1060,12 +1070,7 @@ public struct ClaimItem: BackboneElement {
 	/// Fee, charge or cost per item
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init(sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodySite: [ClaimItemBodySite]? = nil,
 		careTeamSequence: [FHIRPrimitive<FHIRPositiveInteger>]? = nil,
@@ -1097,7 +1102,6 @@ public struct ClaimItem: BackboneElement {
 		udi: [Reference]? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init(sequence: sequence)
 		self.bodySite = bodySite
 		self.careTeamSequence = careTeamSequence
 		self.category = category
@@ -1120,6 +1124,7 @@ public struct ClaimItem: BackboneElement {
 		self.quantity = quantity
 		self.request = request
 		self.revenue = revenue
+		self.sequence = sequence
 		self.serviced = serviced
 		self.subject = subject
 		self.tax = tax
@@ -1167,6 +1172,9 @@ public struct ClaimItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1180,26 +1188,7 @@ public struct ClaimItem: BackboneElement {
 		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.informationSequence = try [FHIRPrimitive<FHIRPositiveInteger>](from: _container, forKeyIfPresent: .informationSequence, auxiliaryKey: ._informationSequence)
-		var _t_location: LocationX? = nil
-		if let locationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .locationCodeableConcept) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
-			_t_location = .codeableConcept(locationCodeableConcept)
-		}
-		if let locationAddress = try Address(from: _container, forKeyIfPresent: .locationAddress) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationAddress, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
-			_t_location = .address(locationAddress)
-		}
-		if let locationReference = try Reference(from: _container, forKeyIfPresent: .locationReference) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationReference, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
-			_t_location = .reference(locationReference)
-		}
-		self.location = _t_location
+		self.location = try Self._decodeLocation(from: _container)
 		self.modifier = try [CodeableConcept](from: _container, forKeyIfPresent: .modifier)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.net = try Money(from: _container, forKeyIfPresent: .net)
@@ -1212,20 +1201,7 @@ public struct ClaimItem: BackboneElement {
 		self.request = try [Reference](from: _container, forKeyIfPresent: .request)
 		self.revenue = try CodeableConcept(from: _container, forKeyIfPresent: .revenue)
 		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
-		var _t_serviced: ServicedX? = nil
-		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedDate, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
-			_t_serviced = .date(servicedDate)
-		}
-		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedPeriod, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
-			_t_serviced = .period(servicedPeriod)
-		}
-		self.serviced = _t_serviced
+		self.serviced = try Self._decodeServiced(from: _container)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
 		self.tax = try Money(from: _container, forKeyIfPresent: .tax)
 		self.traceNumber = try [Identifier](from: _container, forKeyIfPresent: .traceNumber)
@@ -1236,6 +1212,7 @@ public struct ClaimItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try careTeamSequence?.encode(on: &_container, forKey: .careTeamSequence, auxiliaryKey: ._careTeamSequence)
@@ -1248,14 +1225,14 @@ public struct ClaimItem: BackboneElement {
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try informationSequence?.encode(on: &_container, forKey: .informationSequence, auxiliaryKey: ._informationSequence)
 		if let _enum = location {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .locationCodeableConcept)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .locationAddress)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .locationReference)
-			}
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .locationAddress)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .locationCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .locationReference)
+		}
 		}
 		try modifier?.encode(on: &_container, forKey: .modifier)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
@@ -1270,18 +1247,58 @@ public struct ClaimItem: BackboneElement {
 		try revenue?.encode(on: &_container, forKey: .revenue)
 		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
 		if let _enum = serviced {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .servicedPeriod)
-			}
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .servicedPeriod)
+		}
 		}
 		try subject?.encode(on: &_container, forKey: .subject)
 		try tax?.encode(on: &_container, forKey: .tax)
 		try traceNumber?.encode(on: &_container, forKey: .traceNumber)
 		try udi?.encode(on: &_container, forKey: .udi)
 		try unitPrice?.encode(on: &_container, forKey: .unitPrice)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeLocation(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> LocationX? {
+		var _t_location: LocationX? = nil
+		if let locationAddress = try Address(from: _container, forKeyIfPresent: .locationAddress) {
+			_t_location = .address(locationAddress)
+		}
+		if let locationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .locationCodeableConcept) {
+			if _t_location != nil {
+				throw DecodingError.dataCorruptedError(forKey: .locationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"location\"")
+			}
+			_t_location = .codeableConcept(locationCodeableConcept)
+		}
+		if let locationReference = try Reference(from: _container, forKeyIfPresent: .locationReference) {
+			if _t_location != nil {
+				throw DecodingError.dataCorruptedError(forKey: .locationReference, in: _container, debugDescription: "More than one value provided for \"location\"")
+			}
+			_t_location = .reference(locationReference)
+		}
+		return _t_location
+	}
+	
+	private static func _decodeServiced(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ServicedX? {
+		var _t_serviced: ServicedX? = nil
+		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
+			_t_serviced = .date(servicedDate)
+		}
+		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
+			if _t_serviced != nil {
+				throw DecodingError.dataCorruptedError(forKey: .servicedPeriod, in: _container, debugDescription: "More than one value provided for \"serviced\"")
+			}
+			_t_serviced = .period(servicedPeriod)
+		}
+		return _t_serviced
 	}
 }
 
@@ -1307,12 +1324,7 @@ public struct ClaimItemBodySite: BackboneElement {
 	/// Sub-location
 	public var subSite: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(site: [CodeableReference]) {
-		self.site = site
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1320,10 +1332,10 @@ public struct ClaimItemBodySite: BackboneElement {
 		site: [CodeableReference],
 		subSite: [CodeableConcept]? = nil
 	) {
-		self.init(site: site)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.site = site
 		self.subSite = subSite
 	}
 	
@@ -1339,6 +1351,9 @@ public struct ClaimItemBodySite: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1352,6 +1367,7 @@ public struct ClaimItemBodySite: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1425,12 +1441,7 @@ public struct ClaimItemDetail: BackboneElement {
 	/// Fee, charge or cost per item
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init(sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -1452,7 +1463,6 @@ public struct ClaimItemDetail: BackboneElement {
 		udi: [Reference]? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init(sequence: sequence)
 		self.category = category
 		self.`extension` = `extension`
 		self.factor = factor
@@ -1466,6 +1476,7 @@ public struct ClaimItemDetail: BackboneElement {
 		self.programCode = programCode
 		self.quantity = quantity
 		self.revenue = revenue
+		self.sequence = sequence
 		self.subDetail = subDetail
 		self.tax = tax
 		self.traceNumber = traceNumber
@@ -1499,6 +1510,9 @@ public struct ClaimItemDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1526,6 +1540,7 @@ public struct ClaimItemDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1610,12 +1625,7 @@ public struct ClaimItemDetailSubDetail: BackboneElement {
 	/// Fee, charge or cost per item
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init(sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -1636,7 +1646,6 @@ public struct ClaimItemDetailSubDetail: BackboneElement {
 		udi: [Reference]? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init(sequence: sequence)
 		self.category = category
 		self.`extension` = `extension`
 		self.factor = factor
@@ -1650,6 +1659,7 @@ public struct ClaimItemDetailSubDetail: BackboneElement {
 		self.programCode = programCode
 		self.quantity = quantity
 		self.revenue = revenue
+		self.sequence = sequence
 		self.tax = tax
 		self.traceNumber = traceNumber
 		self.udi = udi
@@ -1681,6 +1691,9 @@ public struct ClaimItemDetailSubDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1707,6 +1720,7 @@ public struct ClaimItemDetailSubDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1751,12 +1765,7 @@ public struct ClaimPayee: BackboneElement {
 	/// Category of recipient
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1764,11 +1773,11 @@ public struct ClaimPayee: BackboneElement {
 		party: Reference? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.party = party
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1783,6 +1792,9 @@ public struct ClaimPayee: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1796,6 +1808,7 @@ public struct ClaimPayee: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1843,13 +1856,7 @@ public struct ClaimProcedure: BackboneElement {
 	/// Unique device identifier
 	public var udi: [Reference]?
 	
-	/// Designated initializer taking all required properties
-	public init(procedure: ProcedureX, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.procedure = procedure
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		date: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
@@ -1860,11 +1867,12 @@ public struct ClaimProcedure: BackboneElement {
 		type: [CodeableConcept]? = nil,
 		udi: [Reference]? = nil
 	) {
-		self.init(procedure: procedure, sequence: sequence)
 		self.date = date
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.procedure = procedure
+		self.sequence = sequence
 		self.type = type
 		self.udi = udi
 	}
@@ -1885,32 +1893,17 @@ public struct ClaimProcedure: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.procedureCodeableConcept) || _container.contains(CodingKeys.procedureReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.procedureCodeableConcept, CodingKeys.procedureReference], debugDescription: "Must have at least one value for \"procedure\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_procedure: ProcedureX? = nil
-		if let procedureCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .procedureCodeableConcept) {
-			if _t_procedure != nil {
-				throw DecodingError.dataCorruptedError(forKey: .procedureCodeableConcept, in: _container, debugDescription: "More than one value provided for \"procedure\"")
-			}
-			_t_procedure = .codeableConcept(procedureCodeableConcept)
-		}
-		if let procedureReference = try Reference(from: _container, forKeyIfPresent: .procedureReference) {
-			if _t_procedure != nil {
-				throw DecodingError.dataCorruptedError(forKey: .procedureReference, in: _container, debugDescription: "More than one value provided for \"procedure\"")
-			}
-			_t_procedure = .reference(procedureReference)
-		}
-		self.procedure = _t_procedure!
+		self.procedure = try Self._decodeProcedure(from: _container)
 		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
 		self.udi = try [Reference](from: _container, forKeyIfPresent: .udi)
@@ -1919,22 +1912,46 @@ public struct ClaimProcedure: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		
-			switch procedure {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .procedureCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .procedureReference)
-			}
+		switch procedure {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .procedureCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .procedureReference)
+		}
 		
 		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
 		try type?.encode(on: &_container, forKey: .type)
 		try udi?.encode(on: &_container, forKey: .udi)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeProcedure(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ProcedureX {
+		var _t_procedure: ProcedureX? = nil
+		if let procedureCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .procedureCodeableConcept) {
+			_t_procedure = .codeableConcept(procedureCodeableConcept)
+		}
+		if let procedureReference = try Reference(from: _container, forKeyIfPresent: .procedureReference) {
+			if _t_procedure != nil {
+				throw DecodingError.dataCorruptedError(forKey: .procedureReference, in: _container, debugDescription: "More than one value provided for \"procedure\"")
+			}
+			_t_procedure = .reference(procedureReference)
+		}
+		guard let _t_procedure else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.procedureReference)
+			throw DecodingError.valueNotFound(ProcedureX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"procedure\" but have none"))
+		}
+		return _t_procedure
 	}
 }
 
@@ -1964,11 +1981,7 @@ public struct ClaimRelated: BackboneElement {
 	/// How the reference claim is related
 	public var relationship: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		claim: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -1977,7 +1990,6 @@ public struct ClaimRelated: BackboneElement {
 		reference: Identifier? = nil,
 		relationship: CodeableConcept? = nil
 	) {
-		self.init()
 		self.claim = claim
 		self.`extension` = `extension`
 		self.id = id
@@ -1999,6 +2011,9 @@ public struct ClaimRelated: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2013,6 +2028,7 @@ public struct ClaimRelated: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try claim?.encode(on: &_container, forKey: .claim)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -2129,13 +2145,7 @@ public struct ClaimSupportingInfo: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX?
 	
-	/// Designated initializer taking all required properties
-	public init(category: CodeableConcept, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.category = category
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: CodeableConcept,
 		code: CodeableConcept? = nil,
@@ -2148,12 +2158,13 @@ public struct ClaimSupportingInfo: BackboneElement {
 		timing: TimingX? = nil,
 		value: ValueX? = nil
 	) {
-		self.init(category: category, sequence: sequence)
+		self.category = category
 		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.reason = reason
+		self.sequence = sequence
 		self.subCategory = subCategory
 		self.timing = timing
 		self.value = value
@@ -2232,6 +2243,9 @@ public struct ClaimSupportingInfo: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2243,11 +2257,156 @@ public struct ClaimSupportingInfo: BackboneElement {
 		self.reason = try CodeableConcept(from: _container, forKeyIfPresent: .reason)
 		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKey: .sequence, auxiliaryKey: ._sequence)
 		self.subCategory = try CodeableConcept(from: _container, forKeyIfPresent: .subCategory)
+		self.timing = try Self._decodeTiming(from: _container)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try category.encode(on: &_container, forKey: .category)
+		try code?.encode(on: &_container, forKey: .code)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try reason?.encode(on: &_container, forKey: .reason)
+		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+		try subCategory?.encode(on: &_container, forKey: .subCategory)
+		if let _enum = timing {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timingPeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
+		}
+		}
+		if let _enum = value {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .valueAddress)
+		case .age(let _value):
+			try _value.encode(on: &_container, forKey: .valueAge)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .valueAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .valueAttachment)
+		case .availability(let _value):
+			try _value.encode(on: &_container, forKey: .valueAvailability)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .valueCanonical, auxiliaryKey: ._valueCanonical)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .valueCode, auxiliaryKey: ._valueCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .valueCodeableConcept)
+		case .codeableReference(let _value):
+			try _value.encode(on: &_container, forKey: .valueCodeableReference)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .valueCoding)
+		case .contactDetail(let _value):
+			try _value.encode(on: &_container, forKey: .valueContactDetail)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .valueContactPoint)
+		case .count(let _value):
+			try _value.encode(on: &_container, forKey: .valueCount)
+		case .dataRequirement(let _value):
+			try _value.encode(on: &_container, forKey: .valueDataRequirement)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .valueDate, auxiliaryKey: ._valueDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .valueDecimal, auxiliaryKey: ._valueDecimal)
+		case .distance(let _value):
+			try _value.encode(on: &_container, forKey: .valueDistance)
+		case .dosage(let _value):
+			try _value.encode(on: &_container, forKey: .valueDosage)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .valueDuration)
+		case .expression(let _value):
+			try _value.encode(on: &_container, forKey: .valueExpression)
+		case .extendedContactDetail(let _value):
+			try _value.encode(on: &_container, forKey: .valueExtendedContactDetail)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .valueHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .valueId, auxiliaryKey: ._valueId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .valueIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .valueInstant, auxiliaryKey: ._valueInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
+		case .integer64(let _value):
+			try _value.encode(on: &_container, forKey: .valueInteger64)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .valueMarkdown, auxiliaryKey: ._valueMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .valueMeta)
+		case .money(let _value):
+			try _value.encode(on: &_container, forKey: .valueMoney)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .valueOid, auxiliaryKey: ._valueOid)
+		case .parameterDefinition(let _value):
+			try _value.encode(on: &_container, forKey: .valueParameterDefinition)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .valuePeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .valuePositiveInt, auxiliaryKey: ._valuePositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .valueRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .valueRatio)
+		case .ratioRange(let _value):
+			try _value.encode(on: &_container, forKey: .valueRatioRange)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .valueReference)
+		case .relatedArtifact(let _value):
+			try _value.encode(on: &_container, forKey: .valueRelatedArtifact)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .valueSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .valueSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .valueTiming)
+		case .triggerDefinition(let _value):
+			try _value.encode(on: &_container, forKey: .valueTriggerDefinition)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .valueUnsignedInt, auxiliaryKey: ._valueUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
+		case .url(let _value):
+			try _value.encode(on: &_container, forKey: .valueUrl, auxiliaryKey: ._valueUrl)
+		case .usageContext(let _value):
+			try _value.encode(on: &_container, forKey: .valueUsageContext)
+		case .uuid(let _value):
+			try _value.encode(on: &_container, forKey: .valueUuid, auxiliaryKey: ._valueUuid)
+		case .virtualServiceDetail(let _value):
+			try _value.encode(on: &_container, forKey: .valueVirtualServiceDetail)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
 		var _t_timing: TimingX? = nil
 		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDateTime, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
 			_t_timing = .dateTime(timingDateTime)
 		}
 		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
@@ -2262,8 +2421,40 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_timing = .timing(timingTiming)
 		}
-		self.timing = _t_timing
+		return _t_timing
+	}
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX? {
 		var _t_value: ValueX? = nil
+		if let valueAddress = try Address(from: _container, forKeyIfPresent: .valueAddress) {
+			_t_value = .address(valueAddress)
+		}
+		if let valueAge = try Age(from: _container, forKeyIfPresent: .valueAge) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueAge, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .age(valueAge)
+		}
+		if let valueAnnotation = try Annotation(from: _container, forKeyIfPresent: .valueAnnotation) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueAnnotation, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .annotation(valueAnnotation)
+		}
+		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueAttachment, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .attachment(valueAttachment)
+		}
+		if let valueAvailability = try Availability(from: _container, forKeyIfPresent: .valueAvailability) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueAvailability, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .availability(valueAvailability)
+		}
 		if let valueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueBase64Binary, in: _container, debugDescription: "More than one value provided for \"value\"")
@@ -2288,6 +2479,48 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .code(valueCode)
 		}
+		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .codeableConcept(valueCodeableConcept)
+		}
+		if let valueCodeableReference = try CodeableReference(from: _container, forKeyIfPresent: .valueCodeableReference) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueCodeableReference, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .codeableReference(valueCodeableReference)
+		}
+		if let valueCoding = try Coding(from: _container, forKeyIfPresent: .valueCoding) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueCoding, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .coding(valueCoding)
+		}
+		if let valueContactDetail = try ContactDetail(from: _container, forKeyIfPresent: .valueContactDetail) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueContactDetail, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .contactDetail(valueContactDetail)
+		}
+		if let valueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .valueContactPoint) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueContactPoint, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .contactPoint(valueContactPoint)
+		}
+		if let valueCount = try Count(from: _container, forKeyIfPresent: .valueCount) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueCount, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .count(valueCount)
+		}
+		if let valueDataRequirement = try DataRequirement(from: _container, forKeyIfPresent: .valueDataRequirement) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDataRequirement, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .dataRequirement(valueDataRequirement)
+		}
 		if let valueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .valueDate, auxiliaryKey: ._valueDate) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueDate, in: _container, debugDescription: "More than one value provided for \"value\"")
@@ -2306,11 +2539,53 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .decimal(valueDecimal)
 		}
+		if let valueDistance = try Distance(from: _container, forKeyIfPresent: .valueDistance) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDistance, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .distance(valueDistance)
+		}
+		if let valueDosage = try Dosage(from: _container, forKeyIfPresent: .valueDosage) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDosage, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .dosage(valueDosage)
+		}
+		if let valueDuration = try Duration(from: _container, forKeyIfPresent: .valueDuration) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDuration, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .duration(valueDuration)
+		}
+		if let valueExpression = try Expression(from: _container, forKeyIfPresent: .valueExpression) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueExpression, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .expression(valueExpression)
+		}
+		if let valueExtendedContactDetail = try ExtendedContactDetail(from: _container, forKeyIfPresent: .valueExtendedContactDetail) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueExtendedContactDetail, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .extendedContactDetail(valueExtendedContactDetail)
+		}
+		if let valueHumanName = try HumanName(from: _container, forKeyIfPresent: .valueHumanName) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueHumanName, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .humanName(valueHumanName)
+		}
 		if let valueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueId, auxiliaryKey: ._valueId) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueId, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .id(valueId)
+		}
+		if let valueIdentifier = try Identifier(from: _container, forKeyIfPresent: .valueIdentifier) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueIdentifier, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .identifier(valueIdentifier)
 		}
 		if let valueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .valueInstant, auxiliaryKey: ._valueInstant) {
 			if _t_value != nil {
@@ -2336,131 +2611,11 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .markdown(valueMarkdown)
 		}
-		if let valueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueOid, auxiliaryKey: ._valueOid) {
+		if let valueMeta = try Meta(from: _container, forKeyIfPresent: .valueMeta) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueOid, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueMeta, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .oid(valueOid)
-		}
-		if let valuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .valuePositiveInt, auxiliaryKey: ._valuePositiveInt) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valuePositiveInt, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .positiveInt(valuePositiveInt)
-		}
-		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .string(valueString)
-		}
-		if let valueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .valueTime, auxiliaryKey: ._valueTime) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueTime, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .time(valueTime)
-		}
-		if let valueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .valueUnsignedInt, auxiliaryKey: ._valueUnsignedInt) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .unsignedInt(valueUnsignedInt)
-		}
-		if let valueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUri, auxiliaryKey: ._valueUri) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueUri, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .uri(valueUri)
-		}
-		if let valueUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUrl, auxiliaryKey: ._valueUrl) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueUrl, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .url(valueUrl)
-		}
-		if let valueUuid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUuid, auxiliaryKey: ._valueUuid) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueUuid, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .uuid(valueUuid)
-		}
-		if let valueAddress = try Address(from: _container, forKeyIfPresent: .valueAddress) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAddress, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .address(valueAddress)
-		}
-		if let valueAge = try Age(from: _container, forKeyIfPresent: .valueAge) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAge, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .age(valueAge)
-		}
-		if let valueAnnotation = try Annotation(from: _container, forKeyIfPresent: .valueAnnotation) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAnnotation, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .annotation(valueAnnotation)
-		}
-		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAttachment, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .attachment(valueAttachment)
-		}
-		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .codeableConcept(valueCodeableConcept)
-		}
-		if let valueCodeableReference = try CodeableReference(from: _container, forKeyIfPresent: .valueCodeableReference) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCodeableReference, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .codeableReference(valueCodeableReference)
-		}
-		if let valueCoding = try Coding(from: _container, forKeyIfPresent: .valueCoding) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCoding, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .coding(valueCoding)
-		}
-		if let valueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .valueContactPoint) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueContactPoint, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .contactPoint(valueContactPoint)
-		}
-		if let valueCount = try Count(from: _container, forKeyIfPresent: .valueCount) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCount, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .count(valueCount)
-		}
-		if let valueDistance = try Distance(from: _container, forKeyIfPresent: .valueDistance) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDistance, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .distance(valueDistance)
-		}
-		if let valueDuration = try Duration(from: _container, forKeyIfPresent: .valueDuration) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDuration, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .duration(valueDuration)
-		}
-		if let valueHumanName = try HumanName(from: _container, forKeyIfPresent: .valueHumanName) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueHumanName, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .humanName(valueHumanName)
-		}
-		if let valueIdentifier = try Identifier(from: _container, forKeyIfPresent: .valueIdentifier) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueIdentifier, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .identifier(valueIdentifier)
+			_t_value = .meta(valueMeta)
 		}
 		if let valueMoney = try Money(from: _container, forKeyIfPresent: .valueMoney) {
 			if _t_value != nil {
@@ -2468,11 +2623,29 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .money(valueMoney)
 		}
+		if let valueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueOid, auxiliaryKey: ._valueOid) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueOid, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .oid(valueOid)
+		}
+		if let valueParameterDefinition = try ParameterDefinition(from: _container, forKeyIfPresent: .valueParameterDefinition) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueParameterDefinition, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .parameterDefinition(valueParameterDefinition)
+		}
 		if let valuePeriod = try Period(from: _container, forKeyIfPresent: .valuePeriod) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valuePeriod, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .period(valuePeriod)
+		}
+		if let valuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .valuePositiveInt, auxiliaryKey: ._valuePositiveInt) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valuePositiveInt, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .positiveInt(valuePositiveInt)
 		}
 		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
 			if _t_value != nil {
@@ -2504,6 +2677,12 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .reference(valueReference)
 		}
+		if let valueRelatedArtifact = try RelatedArtifact(from: _container, forKeyIfPresent: .valueRelatedArtifact) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueRelatedArtifact, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .relatedArtifact(valueRelatedArtifact)
+		}
 		if let valueSampledData = try SampledData(from: _container, forKeyIfPresent: .valueSampledData) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueSampledData, in: _container, debugDescription: "More than one value provided for \"value\"")
@@ -2516,41 +2695,23 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .signature(valueSignature)
 		}
+		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .string(valueString)
+		}
+		if let valueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .valueTime, auxiliaryKey: ._valueTime) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueTime, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .time(valueTime)
+		}
 		if let valueTiming = try Timing(from: _container, forKeyIfPresent: .valueTiming) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueTiming, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .timing(valueTiming)
-		}
-		if let valueContactDetail = try ContactDetail(from: _container, forKeyIfPresent: .valueContactDetail) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueContactDetail, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .contactDetail(valueContactDetail)
-		}
-		if let valueDataRequirement = try DataRequirement(from: _container, forKeyIfPresent: .valueDataRequirement) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDataRequirement, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .dataRequirement(valueDataRequirement)
-		}
-		if let valueExpression = try Expression(from: _container, forKeyIfPresent: .valueExpression) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueExpression, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .expression(valueExpression)
-		}
-		if let valueParameterDefinition = try ParameterDefinition(from: _container, forKeyIfPresent: .valueParameterDefinition) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueParameterDefinition, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .parameterDefinition(valueParameterDefinition)
-		}
-		if let valueRelatedArtifact = try RelatedArtifact(from: _container, forKeyIfPresent: .valueRelatedArtifact) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueRelatedArtifact, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .relatedArtifact(valueRelatedArtifact)
 		}
 		if let valueTriggerDefinition = try TriggerDefinition(from: _container, forKeyIfPresent: .valueTriggerDefinition) {
 			if _t_value != nil {
@@ -2558,23 +2719,35 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .triggerDefinition(valueTriggerDefinition)
 		}
+		if let valueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .valueUnsignedInt, auxiliaryKey: ._valueUnsignedInt) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .unsignedInt(valueUnsignedInt)
+		}
+		if let valueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUri, auxiliaryKey: ._valueUri) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueUri, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .uri(valueUri)
+		}
+		if let valueUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUrl, auxiliaryKey: ._valueUrl) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueUrl, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .url(valueUrl)
+		}
 		if let valueUsageContext = try UsageContext(from: _container, forKeyIfPresent: .valueUsageContext) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueUsageContext, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .usageContext(valueUsageContext)
 		}
-		if let valueAvailability = try Availability(from: _container, forKeyIfPresent: .valueAvailability) {
+		if let valueUuid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUuid, auxiliaryKey: ._valueUuid) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAvailability, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueUuid, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .availability(valueAvailability)
-		}
-		if let valueExtendedContactDetail = try ExtendedContactDetail(from: _container, forKeyIfPresent: .valueExtendedContactDetail) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueExtendedContactDetail, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .extendedContactDetail(valueExtendedContactDetail)
+			_t_value = .uuid(valueUuid)
 		}
 		if let valueVirtualServiceDetail = try VirtualServiceDetail(from: _container, forKeyIfPresent: .valueVirtualServiceDetail) {
 			if _t_value != nil {
@@ -2582,156 +2755,6 @@ public struct ClaimSupportingInfo: BackboneElement {
 			}
 			_t_value = .virtualServiceDetail(valueVirtualServiceDetail)
 		}
-		if let valueDosage = try Dosage(from: _container, forKeyIfPresent: .valueDosage) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDosage, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .dosage(valueDosage)
-		}
-		if let valueMeta = try Meta(from: _container, forKeyIfPresent: .valueMeta) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueMeta, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .meta(valueMeta)
-		}
-		self.value = _t_value
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try category.encode(on: &_container, forKey: .category)
-		try code?.encode(on: &_container, forKey: .code)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try reason?.encode(on: &_container, forKey: .reason)
-		try sequence.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
-		try subCategory?.encode(on: &_container, forKey: .subCategory)
-		if let _enum = timing {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timingPeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			}
-		}
-		if let _enum = value {
-			switch _enum {
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .valueBase64Binary, auxiliaryKey: ._valueBase64Binary)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .valueCanonical, auxiliaryKey: ._valueCanonical)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .valueCode, auxiliaryKey: ._valueCode)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .valueDate, auxiliaryKey: ._valueDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .valueDecimal, auxiliaryKey: ._valueDecimal)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .valueId, auxiliaryKey: ._valueId)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .valueInstant, auxiliaryKey: ._valueInstant)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
-			case .integer64(let _value):
-				try _value.encode(on: &_container, forKey: .valueInteger64)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .valueMarkdown, auxiliaryKey: ._valueMarkdown)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .valueOid, auxiliaryKey: ._valueOid)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .valuePositiveInt, auxiliaryKey: ._valuePositiveInt)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .valueUnsignedInt, auxiliaryKey: ._valueUnsignedInt)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
-			case .url(let _value):
-				try _value.encode(on: &_container, forKey: .valueUrl, auxiliaryKey: ._valueUrl)
-			case .uuid(let _value):
-				try _value.encode(on: &_container, forKey: .valueUuid, auxiliaryKey: ._valueUuid)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .valueAddress)
-			case .age(let _value):
-				try _value.encode(on: &_container, forKey: .valueAge)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .valueAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .valueAttachment)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
-			case .codeableReference(let _value):
-				try _value.encode(on: &_container, forKey: .valueCodeableReference)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .valueCoding)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .valueContactPoint)
-			case .count(let _value):
-				try _value.encode(on: &_container, forKey: .valueCount)
-			case .distance(let _value):
-				try _value.encode(on: &_container, forKey: .valueDistance)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .valueDuration)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .valueHumanName)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .valueIdentifier)
-			case .money(let _value):
-				try _value.encode(on: &_container, forKey: .valueMoney)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .valuePeriod)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .valueRange)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .valueRatio)
-			case .ratioRange(let _value):
-				try _value.encode(on: &_container, forKey: .valueRatioRange)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .valueReference)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .valueSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .valueSignature)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .valueTiming)
-			case .contactDetail(let _value):
-				try _value.encode(on: &_container, forKey: .valueContactDetail)
-			case .dataRequirement(let _value):
-				try _value.encode(on: &_container, forKey: .valueDataRequirement)
-			case .expression(let _value):
-				try _value.encode(on: &_container, forKey: .valueExpression)
-			case .parameterDefinition(let _value):
-				try _value.encode(on: &_container, forKey: .valueParameterDefinition)
-			case .relatedArtifact(let _value):
-				try _value.encode(on: &_container, forKey: .valueRelatedArtifact)
-			case .triggerDefinition(let _value):
-				try _value.encode(on: &_container, forKey: .valueTriggerDefinition)
-			case .usageContext(let _value):
-				try _value.encode(on: &_container, forKey: .valueUsageContext)
-			case .availability(let _value):
-				try _value.encode(on: &_container, forKey: .valueAvailability)
-			case .extendedContactDetail(let _value):
-				try _value.encode(on: &_container, forKey: .valueExtendedContactDetail)
-			case .virtualServiceDetail(let _value):
-				try _value.encode(on: &_container, forKey: .valueVirtualServiceDetail)
-			case .dosage(let _value):
-				try _value.encode(on: &_container, forKey: .valueDosage)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .valueMeta)
-			}
-		}
+		return _t_value
 	}
 }

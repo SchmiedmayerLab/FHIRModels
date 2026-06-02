@@ -104,14 +104,7 @@ public struct Subscription: DomainResource {
 	/// Reference to the subscription topic being subscribed to
 	public var topic: FHIRPrimitive<Canonical>
 	
-	/// Designated initializer taking all required properties
-	public init(channelType: Coding, status: FHIRPrimitive<SubscriptionStatusCodes>, topic: FHIRPrimitive<Canonical>) {
-		self.channelType = channelType
-		self.status = status
-		self.topic = topic
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		channelType: Coding,
 		contact: [ContactPoint]? = nil,
@@ -139,7 +132,7 @@ public struct Subscription: DomainResource {
 		timeout: FHIRPrimitive<FHIRUnsignedInteger>? = nil,
 		topic: FHIRPrimitive<Canonical>
 	) {
-		self.init(channelType: channelType, status: status, topic: topic)
+		self.channelType = channelType
 		self.contact = contact
 		self.contained = contained
 		self.content = content
@@ -160,8 +153,10 @@ public struct Subscription: DomainResource {
 		self.name = name
 		self.parameter = parameter
 		self.reason = reason
+		self.status = status
 		self.text = text
 		self.timeout = timeout
+		self.topic = topic
 	}
 	
 	// MARK: - Codable
@@ -197,6 +192,9 @@ public struct Subscription: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -230,8 +228,10 @@ public struct Subscription: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try channelType.encode(on: &_container, forKey: .channelType)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -297,13 +297,7 @@ public struct SubscriptionFilterBy: BackboneElement {
 	/// Literal value or resource path
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(filterParameter: FHIRPrimitive<FHIRString>, value: FHIRPrimitive<FHIRString>) {
-		self.filterParameter = filterParameter
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comparator: FHIRPrimitive<SearchComparator>? = nil,
 		event: [CodeableConcept]? = nil,
@@ -315,14 +309,15 @@ public struct SubscriptionFilterBy: BackboneElement {
 		resource: FHIRPrimitive<FHIRURI>? = nil,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(filterParameter: filterParameter, value: value)
 		self.comparator = comparator
 		self.event = event
 		self.`extension` = `extension`
+		self.filterParameter = filterParameter
 		self.id = id
 		self.modifier = modifier
 		self.modifierExtension = modifierExtension
 		self.resource = resource
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -341,6 +336,9 @@ public struct SubscriptionFilterBy: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -358,6 +356,7 @@ public struct SubscriptionFilterBy: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try comparator?.encode(on: &_container, forKey: .comparator, auxiliaryKey: ._comparator)
 		try event?.encode(on: &_container, forKey: .event)
@@ -393,13 +392,7 @@ public struct SubscriptionParameter: BackboneElement {
 	/// Value of the parameter to use or pass through
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>, value: FHIRPrimitive<FHIRString>) {
-		self.name = name
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -407,10 +400,11 @@ public struct SubscriptionParameter: BackboneElement {
 		name: FHIRPrimitive<FHIRString>,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(name: name, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.name = name
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -425,6 +419,9 @@ public struct SubscriptionParameter: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -438,6 +435,7 @@ public struct SubscriptionParameter: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

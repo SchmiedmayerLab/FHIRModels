@@ -54,11 +54,7 @@ public struct VirtualServiceDetail: DataType {
 	/// Session Key required by the virtual service
 	public var sessionKey: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additionalInfo: [FHIRPrimitive<FHIRURI>]? = nil,
 		address: AddressX? = nil,
@@ -68,7 +64,6 @@ public struct VirtualServiceDetail: DataType {
 		maxParticipants: FHIRPrimitive<FHIRPositiveInteger>? = nil,
 		sessionKey: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.additionalInfo = additionalInfo
 		self.address = address
 		self.channelType = channelType
@@ -95,36 +90,14 @@ public struct VirtualServiceDetail: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.additionalInfo = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .additionalInfo, auxiliaryKey: ._additionalInfo)
-		var _t_address: AddressX? = nil
-		if let addressUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .addressUrl, auxiliaryKey: ._addressUrl) {
-			if _t_address != nil {
-				throw DecodingError.dataCorruptedError(forKey: .addressUrl, in: _container, debugDescription: "More than one value provided for \"address\"")
-			}
-			_t_address = .url(addressUrl)
-		}
-		if let addressString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .addressString, auxiliaryKey: ._addressString) {
-			if _t_address != nil {
-				throw DecodingError.dataCorruptedError(forKey: .addressString, in: _container, debugDescription: "More than one value provided for \"address\"")
-			}
-			_t_address = .string(addressString)
-		}
-		if let addressContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .addressContactPoint) {
-			if _t_address != nil {
-				throw DecodingError.dataCorruptedError(forKey: .addressContactPoint, in: _container, debugDescription: "More than one value provided for \"address\"")
-			}
-			_t_address = .contactPoint(addressContactPoint)
-		}
-		if let addressExtendedContactDetail = try ExtendedContactDetail(from: _container, forKeyIfPresent: .addressExtendedContactDetail) {
-			if _t_address != nil {
-				throw DecodingError.dataCorruptedError(forKey: .addressExtendedContactDetail, in: _container, debugDescription: "More than one value provided for \"address\"")
-			}
-			_t_address = .extendedContactDetail(addressExtendedContactDetail)
-		}
-		self.address = _t_address
+		self.address = try Self._decodeAddress(from: _container)
 		self.channelType = try Coding(from: _container, forKeyIfPresent: .channelType)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -135,24 +108,55 @@ public struct VirtualServiceDetail: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try additionalInfo?.encode(on: &_container, forKey: .additionalInfo, auxiliaryKey: ._additionalInfo)
 		if let _enum = address {
-			switch _enum {
-			case .url(let _value):
-				try _value.encode(on: &_container, forKey: .addressUrl, auxiliaryKey: ._addressUrl)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .addressString, auxiliaryKey: ._addressString)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .addressContactPoint)
-			case .extendedContactDetail(let _value):
-				try _value.encode(on: &_container, forKey: .addressExtendedContactDetail)
-			}
+		switch _enum {
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .addressContactPoint)
+		case .extendedContactDetail(let _value):
+			try _value.encode(on: &_container, forKey: .addressExtendedContactDetail)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .addressString, auxiliaryKey: ._addressString)
+		case .url(let _value):
+			try _value.encode(on: &_container, forKey: .addressUrl, auxiliaryKey: ._addressUrl)
+		}
 		}
 		try channelType?.encode(on: &_container, forKey: .channelType)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try maxParticipants?.encode(on: &_container, forKey: .maxParticipants, auxiliaryKey: ._maxParticipants)
 		try sessionKey?.encode(on: &_container, forKey: .sessionKey, auxiliaryKey: ._sessionKey)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAddress(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AddressX? {
+		var _t_address: AddressX? = nil
+		if let addressContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .addressContactPoint) {
+			_t_address = .contactPoint(addressContactPoint)
+		}
+		if let addressExtendedContactDetail = try ExtendedContactDetail(from: _container, forKeyIfPresent: .addressExtendedContactDetail) {
+			if _t_address != nil {
+				throw DecodingError.dataCorruptedError(forKey: .addressExtendedContactDetail, in: _container, debugDescription: "More than one value provided for \"address\"")
+			}
+			_t_address = .extendedContactDetail(addressExtendedContactDetail)
+		}
+		if let addressString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .addressString, auxiliaryKey: ._addressString) {
+			if _t_address != nil {
+				throw DecodingError.dataCorruptedError(forKey: .addressString, in: _container, debugDescription: "More than one value provided for \"address\"")
+			}
+			_t_address = .string(addressString)
+		}
+		if let addressUrl = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .addressUrl, auxiliaryKey: ._addressUrl) {
+			if _t_address != nil {
+				throw DecodingError.dataCorruptedError(forKey: .addressUrl, in: _container, debugDescription: "More than one value provided for \"address\"")
+			}
+			_t_address = .url(addressUrl)
+		}
+		return _t_address
 	}
 }

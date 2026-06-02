@@ -165,11 +165,7 @@ public struct Contract: DomainResource {
 	/// Business edition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
 		applies: Period? = nil,
@@ -213,7 +209,6 @@ public struct Contract: DomainResource {
 		url: FHIRPrimitive<FHIRURI>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.alias = alias
 		self.applies = applies
 		self.author = author
@@ -308,6 +303,9 @@ public struct Contract: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -331,20 +329,7 @@ public struct Contract: DomainResource {
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.legal = try [ContractLegal](from: _container, forKeyIfPresent: .legal)
 		self.legalState = try CodeableConcept(from: _container, forKeyIfPresent: .legalState)
-		var _t_legallyBinding: LegallyBindingX? = nil
-		if let legallyBindingAttachment = try Attachment(from: _container, forKeyIfPresent: .legallyBindingAttachment) {
-			if _t_legallyBinding != nil {
-				throw DecodingError.dataCorruptedError(forKey: .legallyBindingAttachment, in: _container, debugDescription: "More than one value provided for \"legallyBinding\"")
-			}
-			_t_legallyBinding = .attachment(legallyBindingAttachment)
-		}
-		if let legallyBindingReference = try Reference(from: _container, forKeyIfPresent: .legallyBindingReference) {
-			if _t_legallyBinding != nil {
-				throw DecodingError.dataCorruptedError(forKey: .legallyBindingReference, in: _container, debugDescription: "More than one value provided for \"legallyBinding\"")
-			}
-			_t_legallyBinding = .reference(legallyBindingReference)
-		}
-		self.legallyBinding = _t_legallyBinding
+		self.legallyBinding = try Self._decodeLegallyBinding(from: _container)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
@@ -361,20 +346,7 @@ public struct Contract: DomainResource {
 		self.term = try [ContractTerm](from: _container, forKeyIfPresent: .term)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
-		var _t_topic: TopicX? = nil
-		if let topicCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .topicCodeableConcept) {
-			if _t_topic != nil {
-				throw DecodingError.dataCorruptedError(forKey: .topicCodeableConcept, in: _container, debugDescription: "More than one value provided for \"topic\"")
-			}
-			_t_topic = .codeableConcept(topicCodeableConcept)
-		}
-		if let topicReference = try Reference(from: _container, forKeyIfPresent: .topicReference) {
-			if _t_topic != nil {
-				throw DecodingError.dataCorruptedError(forKey: .topicReference, in: _container, debugDescription: "More than one value provided for \"topic\"")
-			}
-			_t_topic = .reference(topicReference)
-		}
-		self.topic = _t_topic
+		self.topic = try Self._decodeTopic(from: _container)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
@@ -383,8 +355,10 @@ public struct Contract: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
 		try applies?.encode(on: &_container, forKey: .applies)
@@ -407,12 +381,12 @@ public struct Contract: DomainResource {
 		try legal?.encode(on: &_container, forKey: .legal)
 		try legalState?.encode(on: &_container, forKey: .legalState)
 		if let _enum = legallyBinding {
-			switch _enum {
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .legallyBindingAttachment)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .legallyBindingReference)
-			}
+		switch _enum {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .legallyBindingAttachment)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .legallyBindingReference)
+		}
 		}
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
@@ -431,16 +405,50 @@ public struct Contract: DomainResource {
 		try text?.encode(on: &_container, forKey: .text)
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		if let _enum = topic {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .topicCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .topicReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .topicCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .topicReference)
+		}
 		}
 		try type?.encode(on: &_container, forKey: .type)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeLegallyBinding(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> LegallyBindingX? {
+		var _t_legallyBinding: LegallyBindingX? = nil
+		if let legallyBindingAttachment = try Attachment(from: _container, forKeyIfPresent: .legallyBindingAttachment) {
+			_t_legallyBinding = .attachment(legallyBindingAttachment)
+		}
+		if let legallyBindingReference = try Reference(from: _container, forKeyIfPresent: .legallyBindingReference) {
+			if _t_legallyBinding != nil {
+				throw DecodingError.dataCorruptedError(forKey: .legallyBindingReference, in: _container, debugDescription: "More than one value provided for \"legallyBinding\"")
+			}
+			_t_legallyBinding = .reference(legallyBindingReference)
+		}
+		return _t_legallyBinding
+	}
+	
+	private static func _decodeTopic(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TopicX? {
+		var _t_topic: TopicX? = nil
+		if let topicCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .topicCodeableConcept) {
+			_t_topic = .codeableConcept(topicCodeableConcept)
+		}
+		if let topicReference = try Reference(from: _container, forKeyIfPresent: .topicReference) {
+			if _t_topic != nil {
+				throw DecodingError.dataCorruptedError(forKey: .topicReference, in: _container, debugDescription: "More than one value provided for \"topic\"")
+			}
+			_t_topic = .reference(topicReference)
+		}
+		return _t_topic
 	}
 }
 
@@ -479,13 +487,7 @@ public struct ContractContentDefinition: BackboneElement {
 	/// Content structure and use
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(publicationStatus: FHIRPrimitive<ContractResourcePublicationStatusCodes>, type: CodeableConcept) {
-		self.publicationStatus = publicationStatus
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		copyright: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -497,14 +499,15 @@ public struct ContractContentDefinition: BackboneElement {
 		subType: CodeableConcept? = nil,
 		type: CodeableConcept
 	) {
-		self.init(publicationStatus: publicationStatus, type: type)
 		self.copyright = copyright
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.publicationDate = publicationDate
+		self.publicationStatus = publicationStatus
 		self.publisher = publisher
 		self.subType = subType
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -523,6 +526,9 @@ public struct ContractContentDefinition: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -540,6 +546,7 @@ public struct ContractContentDefinition: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -582,19 +589,14 @@ public struct ContractFriendly: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(content: ContentX) {
-		self.content = content
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: ContentX,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(content: content)
+		self.content = content
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -612,28 +614,13 @@ public struct ContractFriendly: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.contentAttachment) || _container.contains(CodingKeys.contentReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.contentAttachment, CodingKeys.contentReference], debugDescription: "Must have at least one value for \"content\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_content: ContentX? = nil
-		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentAttachment, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .attachment(contentAttachment)
-		}
-		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .reference(contentReference)
-		}
-		self.content = _t_content!
+		self.content = try Self._decodeContent(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -642,18 +629,42 @@ public struct ContractFriendly: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch content {
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .contentAttachment)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .contentReference)
-			}
+		switch content {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .contentAttachment)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .contentReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeContent(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ContentX {
+		var _t_content: ContentX? = nil
+		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
+			_t_content = .attachment(contentAttachment)
+		}
+		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .reference(contentReference)
+		}
+		guard let _t_content else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.contentReference)
+			throw DecodingError.valueNotFound(ContentX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"content\" but have none"))
+		}
+		return _t_content
 	}
 }
 
@@ -683,19 +694,14 @@ public struct ContractLegal: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(content: ContentX) {
-		self.content = content
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: ContentX,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(content: content)
+		self.content = content
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -713,28 +719,13 @@ public struct ContractLegal: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.contentAttachment) || _container.contains(CodingKeys.contentReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.contentAttachment, CodingKeys.contentReference], debugDescription: "Must have at least one value for \"content\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_content: ContentX? = nil
-		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentAttachment, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .attachment(contentAttachment)
-		}
-		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .reference(contentReference)
-		}
-		self.content = _t_content!
+		self.content = try Self._decodeContent(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -743,18 +734,42 @@ public struct ContractLegal: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch content {
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .contentAttachment)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .contentReference)
-			}
+		switch content {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .contentAttachment)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .contentReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeContent(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ContentX {
+		var _t_content: ContentX? = nil
+		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
+			_t_content = .attachment(contentAttachment)
+		}
+		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .reference(contentReference)
+		}
+		guard let _t_content else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.contentReference)
+			throw DecodingError.valueNotFound(ContentX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"content\" but have none"))
+		}
+		return _t_content
 	}
 }
 
@@ -784,19 +799,14 @@ public struct ContractRule: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(content: ContentX) {
-		self.content = content
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: ContentX,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(content: content)
+		self.content = content
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -814,28 +824,13 @@ public struct ContractRule: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.contentAttachment) || _container.contains(CodingKeys.contentReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.contentAttachment, CodingKeys.contentReference], debugDescription: "Must have at least one value for \"content\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_content: ContentX? = nil
-		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentAttachment, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .attachment(contentAttachment)
-		}
-		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .reference(contentReference)
-		}
-		self.content = _t_content!
+		self.content = try Self._decodeContent(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -844,18 +839,42 @@ public struct ContractRule: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch content {
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .contentAttachment)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .contentReference)
-			}
+		switch content {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .contentAttachment)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .contentReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeContent(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ContentX {
+		var _t_content: ContentX? = nil
+		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
+			_t_content = .attachment(contentAttachment)
+		}
+		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .reference(contentReference)
+		}
+		guard let _t_content else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.contentReference)
+			throw DecodingError.valueNotFound(ContentX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"content\" but have none"))
+		}
+		return _t_content
 	}
 }
 
@@ -886,14 +905,7 @@ public struct ContractSigner: BackboneElement {
 	/// Contract Signatory Role
 	public var type: Coding
 	
-	/// Designated initializer taking all required properties
-	public init(party: Reference, signature: [Signature], type: Coding) {
-		self.party = party
-		self.signature = signature
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -902,10 +914,12 @@ public struct ContractSigner: BackboneElement {
 		signature: [Signature],
 		type: Coding
 	) {
-		self.init(party: party, signature: signature, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.party = party
+		self.signature = signature
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -921,6 +935,9 @@ public struct ContractSigner: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -935,6 +952,7 @@ public struct ContractSigner: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1004,12 +1022,7 @@ public struct ContractTerm: BackboneElement {
 	/// Contract Term Type or Form
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(offer: ContractTermOffer) {
-		self.offer = offer
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [ContractTermAction]? = nil,
 		applies: Period? = nil,
@@ -1027,7 +1040,6 @@ public struct ContractTerm: BackboneElement {
 		topic: TopicX? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(offer: offer)
 		self.action = action
 		self.applies = applies
 		self.asset = asset
@@ -1037,6 +1049,7 @@ public struct ContractTerm: BackboneElement {
 		self.identifier = identifier
 		self.issued = issued
 		self.modifierExtension = modifierExtension
+		self.offer = offer
 		self.securityLabel = securityLabel
 		self.subType = subType
 		self.text = text
@@ -1067,6 +1080,9 @@ public struct ContractTerm: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1083,26 +1099,14 @@ public struct ContractTerm: BackboneElement {
 		self.securityLabel = try [ContractTermSecurityLabel](from: _container, forKeyIfPresent: .securityLabel)
 		self.subType = try CodeableConcept(from: _container, forKeyIfPresent: .subType)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
-		var _t_topic: TopicX? = nil
-		if let topicCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .topicCodeableConcept) {
-			if _t_topic != nil {
-				throw DecodingError.dataCorruptedError(forKey: .topicCodeableConcept, in: _container, debugDescription: "More than one value provided for \"topic\"")
-			}
-			_t_topic = .codeableConcept(topicCodeableConcept)
-		}
-		if let topicReference = try Reference(from: _container, forKeyIfPresent: .topicReference) {
-			if _t_topic != nil {
-				throw DecodingError.dataCorruptedError(forKey: .topicReference, in: _container, debugDescription: "More than one value provided for \"topic\"")
-			}
-			_t_topic = .reference(topicReference)
-		}
-		self.topic = _t_topic
+		self.topic = try Self._decodeTopic(from: _container)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try applies?.encode(on: &_container, forKey: .applies)
@@ -1118,14 +1122,32 @@ public struct ContractTerm: BackboneElement {
 		try subType?.encode(on: &_container, forKey: .subType)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		if let _enum = topic {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .topicCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .topicReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .topicCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .topicReference)
+		}
 		}
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTopic(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TopicX? {
+		var _t_topic: TopicX? = nil
+		if let topicCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .topicCodeableConcept) {
+			_t_topic = .codeableConcept(topicCodeableConcept)
+		}
+		if let topicReference = try Reference(from: _container, forKeyIfPresent: .topicReference) {
+			if _t_topic != nil {
+				throw DecodingError.dataCorruptedError(forKey: .topicReference, in: _container, debugDescription: "More than one value provided for \"topic\"")
+			}
+			_t_topic = .reference(topicReference)
+		}
+		return _t_topic
 	}
 }
 
@@ -1217,14 +1239,7 @@ public struct ContractTermAction: BackboneElement {
 	/// Type or form of the action
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(intent: CodeableConcept, status: CodeableConcept, type: CodeableConcept) {
-		self.intent = intent
-		self.status = status
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		context: Reference? = nil,
 		contextLinkId: [FHIRPrimitive<FHIRString>]? = nil,
@@ -1251,12 +1266,12 @@ public struct ContractTermAction: BackboneElement {
 		subject: [ContractTermActionSubject]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(intent: intent, status: status, type: type)
 		self.context = context
 		self.contextLinkId = contextLinkId
 		self.doNotPerform = doNotPerform
 		self.`extension` = `extension`
 		self.id = id
+		self.intent = intent
 		self.linkId = linkId
 		self.modifierExtension = modifierExtension
 		self.note = note
@@ -1272,7 +1287,9 @@ public struct ContractTermAction: BackboneElement {
 		self.requester = requester
 		self.requesterLinkId = requesterLinkId
 		self.securityLabelNumber = securityLabelNumber
+		self.status = status
 		self.subject = subject
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1308,6 +1325,9 @@ public struct ContractTermAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1320,26 +1340,7 @@ public struct ContractTermAction: BackboneElement {
 		self.linkId = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .linkId, auxiliaryKey: ._linkId)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .timing(occurrenceTiming)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
 		self.performerLinkId = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .performerLinkId, auxiliaryKey: ._performerLinkId)
 		self.performerRole = try CodeableConcept(from: _container, forKeyIfPresent: .performerRole)
@@ -1359,6 +1360,7 @@ public struct ContractTermAction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try context?.encode(on: &_container, forKey: .context)
 		try contextLinkId?.encode(on: &_container, forKey: .contextLinkId, auxiliaryKey: ._contextLinkId)
@@ -1370,14 +1372,14 @@ public struct ContractTermAction: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceTiming)
+		}
 		}
 		try performer?.encode(on: &_container, forKey: .performer)
 		try performerLinkId?.encode(on: &_container, forKey: .performerLinkId, auxiliaryKey: ._performerLinkId)
@@ -1393,6 +1395,30 @@ public struct ContractTermAction: BackboneElement {
 		try status.encode(on: &_container, forKey: .status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try type.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .timing(occurrenceTiming)
+		}
+		return _t_occurrence
 	}
 }
 
@@ -1416,12 +1442,7 @@ public struct ContractTermActionSubject: BackboneElement {
 	/// Role type of the agent
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(reference: [Reference]) {
-		self.reference = reference
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1429,10 +1450,10 @@ public struct ContractTermActionSubject: BackboneElement {
 		reference: [Reference],
 		role: CodeableConcept? = nil
 	) {
-		self.init(reference: reference)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.reference = reference
 		self.role = role
 	}
 	
@@ -1448,6 +1469,9 @@ public struct ContractTermActionSubject: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1461,6 +1485,7 @@ public struct ContractTermActionSubject: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1529,11 +1554,7 @@ public struct ContractTermAsset: BackboneElement {
 	/// Contract Valued Item List
 	public var valuedItem: [ContractTermAssetValuedItem]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		answer: [ContractTermOfferAnswer]? = nil,
 		condition: FHIRPrimitive<FHIRString>? = nil,
@@ -1554,7 +1575,6 @@ public struct ContractTermAsset: BackboneElement {
 		usePeriod: [Period]? = nil,
 		valuedItem: [ContractTermAssetValuedItem]? = nil
 	) {
-		self.init()
 		self.answer = answer
 		self.condition = condition
 		self.context = context
@@ -1600,6 +1620,9 @@ public struct ContractTermAsset: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1626,6 +1649,7 @@ public struct ContractTermAsset: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try answer?.encode(on: &_container, forKey: .answer)
 		try condition?.encode(on: &_container, forKey: .condition, auxiliaryKey: ._condition)
@@ -1671,11 +1695,7 @@ public struct ContractTermAssetContext: BackboneElement {
 	/// Context description
 	public var text: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -1684,7 +1704,6 @@ public struct ContractTermAssetContext: BackboneElement {
 		reference: Reference? = nil,
 		text: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.code = code
 		self.`extension` = `extension`
 		self.id = id
@@ -1706,6 +1725,9 @@ public struct ContractTermAssetContext: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1720,6 +1742,7 @@ public struct ContractTermAssetContext: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1793,11 +1816,7 @@ public struct ContractTermAssetValuedItem: BackboneElement {
 	/// Contract Valued Item fee, charge, or cost
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		effectiveTime: FHIRPrimitive<DateTime>? = nil,
 		entity: EntityX? = nil,
@@ -1817,7 +1836,6 @@ public struct ContractTermAssetValuedItem: BackboneElement {
 		securityLabelNumber: [FHIRPrimitive<FHIRUnsignedInteger>]? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init()
 		self.effectiveTime = effectiveTime
 		self.entity = entity
 		self.`extension` = `extension`
@@ -1862,24 +1880,14 @@ public struct ContractTermAssetValuedItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.effectiveTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectiveTime, auxiliaryKey: ._effectiveTime)
-		var _t_entity: EntityX? = nil
-		if let entityCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .entityCodeableConcept) {
-			if _t_entity != nil {
-				throw DecodingError.dataCorruptedError(forKey: .entityCodeableConcept, in: _container, debugDescription: "More than one value provided for \"entity\"")
-			}
-			_t_entity = .codeableConcept(entityCodeableConcept)
-		}
-		if let entityReference = try Reference(from: _container, forKeyIfPresent: .entityReference) {
-			if _t_entity != nil {
-				throw DecodingError.dataCorruptedError(forKey: .entityReference, in: _container, debugDescription: "More than one value provided for \"entity\"")
-			}
-			_t_entity = .reference(entityReference)
-		}
-		self.entity = _t_entity
+		self.entity = try Self._decodeEntity(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -1900,15 +1908,16 @@ public struct ContractTermAssetValuedItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try effectiveTime?.encode(on: &_container, forKey: .effectiveTime, auxiliaryKey: ._effectiveTime)
 		if let _enum = entity {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .entityCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .entityReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .entityCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .entityReference)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try factor?.encode(on: &_container, forKey: .factor, auxiliaryKey: ._factor)
@@ -1925,6 +1934,24 @@ public struct ContractTermAssetValuedItem: BackboneElement {
 		try responsible?.encode(on: &_container, forKey: .responsible)
 		try securityLabelNumber?.encode(on: &_container, forKey: .securityLabelNumber, auxiliaryKey: ._securityLabelNumber)
 		try unitPrice?.encode(on: &_container, forKey: .unitPrice)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeEntity(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> EntityX? {
+		var _t_entity: EntityX? = nil
+		if let entityCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .entityCodeableConcept) {
+			_t_entity = .codeableConcept(entityCodeableConcept)
+		}
+		if let entityReference = try Reference(from: _container, forKeyIfPresent: .entityReference) {
+			if _t_entity != nil {
+				throw DecodingError.dataCorruptedError(forKey: .entityReference, in: _container, debugDescription: "More than one value provided for \"entity\"")
+			}
+			_t_entity = .reference(entityReference)
+		}
+		return _t_entity
 	}
 }
 
@@ -1974,11 +2001,7 @@ public struct ContractTermOffer: BackboneElement {
 	/// Contract Offer Type or Form
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		answer: [ContractTermOfferAnswer]? = nil,
 		decision: CodeableConcept? = nil,
@@ -1994,7 +2017,6 @@ public struct ContractTermOffer: BackboneElement {
 		topic: Reference? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.answer = answer
 		self.decision = decision
 		self.decisionMode = decisionMode
@@ -2030,6 +2052,9 @@ public struct ContractTermOffer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2051,6 +2076,7 @@ public struct ContractTermOffer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try answer?.encode(on: &_container, forKey: .answer)
 		try decision?.encode(on: &_container, forKey: .decision)
@@ -2102,22 +2128,17 @@ public struct ContractTermOfferAnswer: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(value: ValueX) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
 		value: ValueX
 	) {
-		self.init(value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -2142,35 +2163,76 @@ public struct ContractTermOfferAnswer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueAttachment) || _container.contains(CodingKeys.valueBoolean) || _container.contains(CodingKeys.valueCoding) || _container.contains(CodingKeys.valueDate) || _container.contains(CodingKeys.valueDateTime) || _container.contains(CodingKeys.valueDecimal) || _container.contains(CodingKeys.valueInteger) || _container.contains(CodingKeys.valueQuantity) || _container.contains(CodingKeys.valueReference) || _container.contains(CodingKeys.valueString) || _container.contains(CodingKeys.valueTime) || _container.contains(CodingKeys.valueUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueAttachment, CodingKeys.valueBoolean, CodingKeys.valueCoding, CodingKeys.valueDate, CodingKeys.valueDateTime, CodingKeys.valueDecimal, CodingKeys.valueInteger, CodingKeys.valueQuantity, CodingKeys.valueReference, CodingKeys.valueString, CodingKeys.valueTime, CodingKeys.valueUri], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		
+		switch value {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .valueAttachment)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .valueCoding)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .valueDate, auxiliaryKey: ._valueDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .valueDecimal, auxiliaryKey: ._valueDecimal)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .valueReference)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
 		var _t_value: ValueX? = nil
+		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
+			_t_value = .attachment(valueAttachment)
+		}
 		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueBoolean, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .boolean(valueBoolean)
 		}
-		if let valueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .valueDecimal, auxiliaryKey: ._valueDecimal) {
+		if let valueCoding = try Coding(from: _container, forKeyIfPresent: .valueCoding) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDecimal, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueCoding, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .decimal(valueDecimal)
-		}
-		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueInteger, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .integer(valueInteger)
+			_t_value = .coding(valueCoding)
 		}
 		if let valueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .valueDate, auxiliaryKey: ._valueDate) {
 			if _t_value != nil {
@@ -2184,35 +2246,17 @@ public struct ContractTermOfferAnswer: BackboneElement {
 			}
 			_t_value = .dateTime(valueDateTime)
 		}
-		if let valueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .valueTime, auxiliaryKey: ._valueTime) {
+		if let valueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .valueDecimal, auxiliaryKey: ._valueDecimal) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueTime, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueDecimal, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .time(valueTime)
+			_t_value = .decimal(valueDecimal)
 		}
-		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
+		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueInteger, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .string(valueString)
-		}
-		if let valueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUri, auxiliaryKey: ._valueUri) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueUri, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .uri(valueUri)
-		}
-		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAttachment, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .attachment(valueAttachment)
-		}
-		if let valueCoding = try Coding(from: _container, forKeyIfPresent: .valueCoding) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCoding, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .coding(valueCoding)
+			_t_value = .integer(valueInteger)
 		}
 		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
 			if _t_value != nil {
@@ -2226,44 +2270,30 @@ public struct ContractTermOfferAnswer: BackboneElement {
 			}
 			_t_value = .reference(valueReference)
 		}
-		self.value = _t_value!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		
-			switch value {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .valueDecimal, auxiliaryKey: ._valueDecimal)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .valueDate, auxiliaryKey: ._valueDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .valueDateTime, auxiliaryKey: ._valueDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .valueTime, auxiliaryKey: ._valueTime)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .valueString, auxiliaryKey: ._valueString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .valueAttachment)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .valueCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .valueReference)
+		if let valueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .valueString, auxiliaryKey: ._valueString) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueString, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-		
+			_t_value = .string(valueString)
+		}
+		if let valueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .valueTime, auxiliaryKey: ._valueTime) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueTime, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .time(valueTime)
+		}
+		if let valueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueUri, auxiliaryKey: ._valueUri) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueUri, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .uri(valueUri)
+		}
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueUri)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
+		}
+		return _t_value
 	}
 }
 
@@ -2287,13 +2317,7 @@ public struct ContractTermOfferParty: BackboneElement {
 	/// Participant engagement type
 	public var role: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(reference: [Reference], role: CodeableConcept) {
-		self.reference = reference
-		self.role = role
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -2301,10 +2325,11 @@ public struct ContractTermOfferParty: BackboneElement {
 		reference: [Reference],
 		role: CodeableConcept
 	) {
-		self.init(reference: reference, role: role)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.reference = reference
+		self.role = role
 	}
 	
 	// MARK: - Codable
@@ -2319,6 +2344,9 @@ public struct ContractTermOfferParty: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2332,6 +2360,7 @@ public struct ContractTermOfferParty: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -2370,12 +2399,7 @@ public struct ContractTermSecurityLabel: BackboneElement {
 	/// Link to Security Labels
 	public var number: [FHIRPrimitive<FHIRUnsignedInteger>]?
 	
-	/// Designated initializer taking all required properties
-	public init(classification: Coding) {
-		self.classification = classification
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: [Coding]? = nil,
 		classification: Coding,
@@ -2385,8 +2409,8 @@ public struct ContractTermSecurityLabel: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		number: [FHIRPrimitive<FHIRUnsignedInteger>]? = nil
 	) {
-		self.init(classification: classification)
 		self.category = category
+		self.classification = classification
 		self.control = control
 		self.`extension` = `extension`
 		self.id = id
@@ -2408,6 +2432,9 @@ public struct ContractTermSecurityLabel: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2423,6 +2450,7 @@ public struct ContractTermSecurityLabel: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try classification.encode(on: &_container, forKey: .classification)

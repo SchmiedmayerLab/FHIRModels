@@ -80,11 +80,7 @@ public struct VisionPrescription: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		dateWritten: FHIRPrimitive<DateTime>? = nil,
@@ -102,7 +98,6 @@ public struct VisionPrescription: DomainResource {
 		reason: ReasonX? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.dateWritten = dateWritten
 		self.dispense = dispense
@@ -144,6 +139,9 @@ public struct VisionPrescription: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -160,28 +158,17 @@ public struct VisionPrescription: DomainResource {
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
 		self.prescriber = try Reference(from: _container, forKeyIfPresent: .prescriber)
-		var _t_reason: ReasonX? = nil
-		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .codeableConcept(reasonCodeableConcept)
-		}
-		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .reference(reasonReference)
-		}
-		self.reason = _t_reason
+		self.reason = try Self._decodeReason(from: _container)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try dateWritten?.encode(on: &_container, forKey: .dateWritten, auxiliaryKey: ._dateWritten)
@@ -197,14 +184,32 @@ public struct VisionPrescription: DomainResource {
 		try patient?.encode(on: &_container, forKey: .patient)
 		try prescriber?.encode(on: &_container, forKey: .prescriber)
 		if let _enum = reason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reasonReference)
+		}
 		}
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReasonX? {
+		var _t_reason: ReasonX? = nil
+		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
+			_t_reason = .codeableConcept(reasonCodeableConcept)
+		}
+		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
+			if _t_reason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
+			}
+			_t_reason = .reference(reasonReference)
+		}
+		return _t_reason
 	}
 }
 
@@ -271,12 +276,7 @@ public struct VisionPrescriptionDispense: BackboneElement {
 	/// Lens sphere
 	public var sphere: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init(product: Coding) {
-		self.product = product
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		add: FHIRPrimitive<FHIRDecimal>? = nil,
 		axis: FHIRPrimitive<FHIRInteger>? = nil,
@@ -297,7 +297,6 @@ public struct VisionPrescriptionDispense: BackboneElement {
 		product: Coding,
 		sphere: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init(product: product)
 		self.add = add
 		self.axis = axis
 		self.backCurve = backCurve
@@ -314,6 +313,7 @@ public struct VisionPrescriptionDispense: BackboneElement {
 		self.notes = notes
 		self.power = power
 		self.prism = prism
+		self.product = product
 		self.sphere = sphere
 	}
 	
@@ -342,6 +342,9 @@ public struct VisionPrescriptionDispense: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -368,6 +371,7 @@ public struct VisionPrescriptionDispense: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try add?.encode(on: &_container, forKey: .add, auxiliaryKey: ._add)
 		try axis?.encode(on: &_container, forKey: .axis, auxiliaryKey: ._axis)

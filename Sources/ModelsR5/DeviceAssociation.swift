@@ -77,13 +77,7 @@ public struct DeviceAssociation: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(device: Reference, status: CodeableConcept) {
-		self.device = device
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodyStructure: Reference? = nil,
 		category: [CodeableConcept]? = nil,
@@ -103,10 +97,10 @@ public struct DeviceAssociation: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(device: device, status: status)
 		self.bodyStructure = bodyStructure
 		self.category = category
 		self.contained = contained
+		self.device = device
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -116,6 +110,7 @@ public struct DeviceAssociation: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.operation = operation
 		self.period = period
+		self.status = status
 		self.statusReason = statusReason
 		self.subject = subject
 		self.text = text
@@ -146,6 +141,9 @@ public struct DeviceAssociation: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -171,8 +169,10 @@ public struct DeviceAssociation: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try bodyStructure?.encode(on: &_container, forKey: .bodyStructure)
 		try category?.encode(on: &_container, forKey: .category)
@@ -217,12 +217,7 @@ public struct DeviceAssociationOperation: BackboneElement {
 	/// Device operational condition
 	public var status: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(status: CodeableConcept) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -231,12 +226,12 @@ public struct DeviceAssociationOperation: BackboneElement {
 		period: Period? = nil,
 		status: CodeableConcept
 	) {
-		self.init(status: status)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.`operator` = `operator`
 		self.period = period
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -252,6 +247,9 @@ public struct DeviceAssociationOperation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -266,6 +264,7 @@ public struct DeviceAssociationOperation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

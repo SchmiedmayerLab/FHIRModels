@@ -100,13 +100,7 @@ public struct AllergyIntolerance: DomainResource {
 	/// Restricted to: ['allergy', 'intolerance']
 	public var type: FHIRPrimitive<AllergyIntoleranceType>?
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference, substance: CodeableConcept) {
-		self.patient = patient
-		self.substance = substance
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: FHIRPrimitive<AllergyIntoleranceCategory>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -131,7 +125,6 @@ public struct AllergyIntolerance: DomainResource {
 		text: Narrative? = nil,
 		type: FHIRPrimitive<AllergyIntoleranceType>? = nil
 	) {
-		self.init(patient: patient, substance: substance)
 		self.category = category
 		self.contained = contained
 		self.criticality = criticality
@@ -145,11 +138,13 @@ public struct AllergyIntolerance: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.note = note
 		self.onset = onset
+		self.patient = patient
 		self.reaction = reaction
 		self.recordedDate = recordedDate
 		self.recorder = recorder
 		self.reporter = reporter
 		self.status = status
+		self.substance = substance
 		self.text = text
 		self.type = type
 	}
@@ -184,6 +179,9 @@ public struct AllergyIntolerance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -214,8 +212,10 @@ public struct AllergyIntolerance: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category, auxiliaryKey: ._category)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -286,12 +286,7 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 	/// Specific substance considered to be responsible for event
 	public var substance: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(manifestation: [CodeableConcept]) {
-		self.manifestation = manifestation
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		certainty: FHIRPrimitive<AllergyIntoleranceCertainty>? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -305,12 +300,12 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 		severity: FHIRPrimitive<AllergyIntoleranceSeverity>? = nil,
 		substance: CodeableConcept? = nil
 	) {
-		self.init(manifestation: manifestation)
 		self.certainty = certainty
 		self.description_fhir = description_fhir
 		self.exposureRoute = exposureRoute
 		self.`extension` = `extension`
 		self.id = id
+		self.manifestation = manifestation
 		self.modifierExtension = modifierExtension
 		self.note = note
 		self.onset = onset
@@ -336,6 +331,9 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -355,6 +353,7 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try certainty?.encode(on: &_container, forKey: .certainty, auxiliaryKey: ._certainty)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)

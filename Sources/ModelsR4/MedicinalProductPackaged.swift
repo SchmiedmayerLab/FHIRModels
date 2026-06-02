@@ -77,12 +77,7 @@ public struct MedicinalProductPackaged: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(packageItem: [MedicinalProductPackagedPackageItem]) {
-		self.packageItem = packageItem
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		batchIdentifier: [MedicinalProductPackagedBatchIdentifier]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -102,7 +97,6 @@ public struct MedicinalProductPackaged: DomainResource {
 		subject: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(packageItem: packageItem)
 		self.batchIdentifier = batchIdentifier
 		self.contained = contained
 		self.description_fhir = description_fhir
@@ -117,6 +111,7 @@ public struct MedicinalProductPackaged: DomainResource {
 		self.marketingStatus = marketingStatus
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.packageItem = packageItem
 		self.subject = subject
 		self.text = text
 	}
@@ -146,6 +141,9 @@ public struct MedicinalProductPackaged: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -171,8 +169,10 @@ public struct MedicinalProductPackaged: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try batchIdentifier?.encode(on: &_container, forKey: .batchIdentifier)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -214,12 +214,7 @@ public struct MedicinalProductPackagedBatchIdentifier: BackboneElement {
 	/// A number appearing on the outer packaging of a specific batch
 	public var outerPackaging: Identifier
 	
-	/// Designated initializer taking all required properties
-	public init(outerPackaging: Identifier) {
-		self.outerPackaging = outerPackaging
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -227,11 +222,11 @@ public struct MedicinalProductPackagedBatchIdentifier: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		outerPackaging: Identifier
 	) {
-		self.init(outerPackaging: outerPackaging)
 		self.`extension` = `extension`
 		self.id = id
 		self.immediatePackaging = immediatePackaging
 		self.modifierExtension = modifierExtension
+		self.outerPackaging = outerPackaging
 	}
 	
 	// MARK: - Codable
@@ -246,6 +241,9 @@ public struct MedicinalProductPackagedBatchIdentifier: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -259,6 +257,7 @@ public struct MedicinalProductPackagedBatchIdentifier: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -319,13 +318,7 @@ public struct MedicinalProductPackagedPackageItem: BackboneElement {
 	/// The physical type of the container of the medicine
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(quantity: Quantity, type: CodeableConcept) {
-		self.quantity = quantity
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		alternateMaterial: [CodeableConcept]? = nil,
 		device: [Reference]? = nil,
@@ -343,7 +336,6 @@ public struct MedicinalProductPackagedPackageItem: BackboneElement {
 		shelfLifeStorage: [ProductShelfLife]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(quantity: quantity, type: type)
 		self.alternateMaterial = alternateMaterial
 		self.device = device
 		self.`extension` = `extension`
@@ -356,7 +348,9 @@ public struct MedicinalProductPackagedPackageItem: BackboneElement {
 		self.otherCharacteristics = otherCharacteristics
 		self.packageItem = packageItem
 		self.physicalCharacteristics = physicalCharacteristics
+		self.quantity = quantity
 		self.shelfLifeStorage = shelfLifeStorage
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -381,6 +375,9 @@ public struct MedicinalProductPackagedPackageItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -404,6 +401,7 @@ public struct MedicinalProductPackagedPackageItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try alternateMaterial?.encode(on: &_container, forKey: .alternateMaterial)
 		try device?.encode(on: &_container, forKey: .device)

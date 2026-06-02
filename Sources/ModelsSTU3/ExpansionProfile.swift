@@ -121,12 +121,7 @@ public struct ExpansionProfile: DomainResource {
 	/// Business version of the expansion profile
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activeOnly: FHIRPrimitive<FHIRBool>? = nil,
 		contact: [ContactDetail]? = nil,
@@ -160,7 +155,6 @@ public struct ExpansionProfile: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(status: status)
 		self.activeOnly = activeOnly
 		self.contact = contact
 		self.contained = contained
@@ -187,6 +181,7 @@ public struct ExpansionProfile: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.publisher = publisher
+		self.status = status
 		self.text = text
 		self.url = url
 		self.useContext = useContext
@@ -232,6 +227,9 @@ public struct ExpansionProfile: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -271,8 +269,10 @@ public struct ExpansionProfile: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activeOnly?.encode(on: &_container, forKey: .activeOnly, auxiliaryKey: ._activeOnly)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -331,11 +331,7 @@ public struct ExpansionProfileDesignation: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		exclude: ExpansionProfileDesignationExclude? = nil,
 		`extension`: [Extension]? = nil,
@@ -343,7 +339,6 @@ public struct ExpansionProfileDesignation: BackboneElement {
 		include: ExpansionProfileDesignationInclude? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.exclude = exclude
 		self.`extension` = `extension`
 		self.id = id
@@ -363,6 +358,9 @@ public struct ExpansionProfileDesignation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -376,6 +374,7 @@ public struct ExpansionProfileDesignation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try exclude?.encode(on: &_container, forKey: .exclude)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -402,18 +401,13 @@ public struct ExpansionProfileDesignationExclude: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		designation: [ExpansionProfileDesignationExcludeDesignation]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.designation = designation
 		self.`extension` = `extension`
 		self.id = id
@@ -431,6 +425,9 @@ public struct ExpansionProfileDesignationExclude: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -443,6 +440,7 @@ public struct ExpansionProfileDesignationExclude: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try designation?.encode(on: &_container, forKey: .designation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -473,11 +471,7 @@ public struct ExpansionProfileDesignationExcludeDesignation: BackboneElement {
 	/// What kind of Designation to exclude
 	public var use: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -485,7 +479,6 @@ public struct ExpansionProfileDesignationExcludeDesignation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		use: Coding? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.language = language
@@ -505,6 +498,9 @@ public struct ExpansionProfileDesignationExcludeDesignation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -518,6 +514,7 @@ public struct ExpansionProfileDesignationExcludeDesignation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -544,18 +541,13 @@ public struct ExpansionProfileDesignationInclude: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		designation: [ExpansionProfileDesignationIncludeDesignation]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.designation = designation
 		self.`extension` = `extension`
 		self.id = id
@@ -573,6 +565,9 @@ public struct ExpansionProfileDesignationInclude: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -585,6 +580,7 @@ public struct ExpansionProfileDesignationInclude: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try designation?.encode(on: &_container, forKey: .designation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -615,11 +611,7 @@ public struct ExpansionProfileDesignationIncludeDesignation: BackboneElement {
 	/// What kind of Designation to include
 	public var use: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -627,7 +619,6 @@ public struct ExpansionProfileDesignationIncludeDesignation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		use: Coding? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.language = language
@@ -647,6 +638,9 @@ public struct ExpansionProfileDesignationIncludeDesignation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -660,6 +654,7 @@ public struct ExpansionProfileDesignationIncludeDesignation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -691,12 +686,7 @@ public struct ExpansionProfileExcludedSystem: BackboneElement {
 	/// Specific version of the code system referred to
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(system: FHIRPrimitive<FHIRURI>) {
-		self.system = system
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -704,10 +694,10 @@ public struct ExpansionProfileExcludedSystem: BackboneElement {
 		system: FHIRPrimitive<FHIRURI>,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(system: system)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.system = system
 		self.version = version
 	}
 	
@@ -723,6 +713,9 @@ public struct ExpansionProfileExcludedSystem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -736,6 +729,7 @@ public struct ExpansionProfileExcludedSystem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -771,14 +765,7 @@ public struct ExpansionProfileFixedVersion: BackboneElement {
 	/// Specific version of the code system referred to
 	public var version: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(mode: FHIRPrimitive<SystemVersionProcessingMode>, system: FHIRPrimitive<FHIRURI>, version: FHIRPrimitive<FHIRString>) {
-		self.mode = mode
-		self.system = system
-		self.version = version
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -787,10 +774,12 @@ public struct ExpansionProfileFixedVersion: BackboneElement {
 		system: FHIRPrimitive<FHIRURI>,
 		version: FHIRPrimitive<FHIRString>
 	) {
-		self.init(mode: mode, system: system, version: version)
 		self.`extension` = `extension`
 		self.id = id
+		self.mode = mode
 		self.modifierExtension = modifierExtension
+		self.system = system
+		self.version = version
 	}
 	
 	// MARK: - Codable
@@ -806,6 +795,9 @@ public struct ExpansionProfileFixedVersion: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -820,6 +812,7 @@ public struct ExpansionProfileFixedVersion: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

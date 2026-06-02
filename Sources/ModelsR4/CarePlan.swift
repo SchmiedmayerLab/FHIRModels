@@ -125,14 +125,7 @@ public struct CarePlan: DomainResource {
 	/// Human-friendly name for the care plan
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(intent: FHIRPrimitive<RequestIntent>, status: FHIRPrimitive<RequestStatus>, subject: Reference) {
-		self.intent = intent
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: [CarePlanActivity]? = nil,
 		addresses: [Reference]? = nil,
@@ -166,7 +159,6 @@ public struct CarePlan: DomainResource {
 		text: Narrative? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(intent: intent, status: status, subject: subject)
 		self.activity = activity
 		self.addresses = addresses
 		self.author = author
@@ -185,6 +177,7 @@ public struct CarePlan: DomainResource {
 		self.implicitRules = implicitRules
 		self.instantiatesCanonical = instantiatesCanonical
 		self.instantiatesUri = instantiatesUri
+		self.intent = intent
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -192,6 +185,8 @@ public struct CarePlan: DomainResource {
 		self.partOf = partOf
 		self.period = period
 		self.replaces = replaces
+		self.status = status
+		self.subject = subject
 		self.supportingInfo = supportingInfo
 		self.text = text
 		self.title = title
@@ -236,6 +231,9 @@ public struct CarePlan: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -275,8 +273,10 @@ public struct CarePlan: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try addresses?.encode(on: &_container, forKey: .addresses)
@@ -344,11 +344,7 @@ public struct CarePlanActivity: BackboneElement {
 	/// Activity details defined in specific resource
 	public var reference: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: CarePlanActivityDetail? = nil,
 		`extension`: [Extension]? = nil,
@@ -359,7 +355,6 @@ public struct CarePlanActivity: BackboneElement {
 		progress: [Annotation]? = nil,
 		reference: Reference? = nil
 	) {
-		self.init()
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
@@ -385,6 +380,9 @@ public struct CarePlanActivity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -401,6 +399,7 @@ public struct CarePlanActivity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try detail?.encode(on: &_container, forKey: .detail)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -500,12 +499,7 @@ public struct CarePlanActivityDetail: BackboneElement {
 	/// Reason for current status
 	public var statusReason: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<CarePlanActivityStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		dailyAmount: Quantity? = nil,
@@ -528,7 +522,6 @@ public struct CarePlanActivityDetail: BackboneElement {
 		status: FHIRPrimitive<CarePlanActivityStatus>,
 		statusReason: CodeableConcept? = nil
 	) {
-		self.init(status: status)
 		self.code = code
 		self.dailyAmount = dailyAmount
 		self.description_fhir = description_fhir
@@ -547,6 +540,7 @@ public struct CarePlanActivityDetail: BackboneElement {
 		self.reasonCode = reasonCode
 		self.reasonReference = reasonReference
 		self.scheduled = scheduled
+		self.status = status
 		self.statusReason = statusReason
 	}
 	
@@ -580,6 +574,9 @@ public struct CarePlanActivityDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -596,43 +593,11 @@ public struct CarePlanActivityDetail: BackboneElement {
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.performer = try [Reference](from: _container, forKeyIfPresent: .performer)
-		var _t_product: ProductX? = nil
-		if let productCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .productCodeableConcept) {
-			if _t_product != nil {
-				throw DecodingError.dataCorruptedError(forKey: .productCodeableConcept, in: _container, debugDescription: "More than one value provided for \"product\"")
-			}
-			_t_product = .codeableConcept(productCodeableConcept)
-		}
-		if let productReference = try Reference(from: _container, forKeyIfPresent: .productReference) {
-			if _t_product != nil {
-				throw DecodingError.dataCorruptedError(forKey: .productReference, in: _container, debugDescription: "More than one value provided for \"product\"")
-			}
-			_t_product = .reference(productReference)
-		}
-		self.product = _t_product
+		self.product = try Self._decodeProduct(from: _container)
 		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
 		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
 		self.reasonReference = try [Reference](from: _container, forKeyIfPresent: .reasonReference)
-		var _t_scheduled: ScheduledX? = nil
-		if let scheduledTiming = try Timing(from: _container, forKeyIfPresent: .scheduledTiming) {
-			if _t_scheduled != nil {
-				throw DecodingError.dataCorruptedError(forKey: .scheduledTiming, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
-			}
-			_t_scheduled = .timing(scheduledTiming)
-		}
-		if let scheduledPeriod = try Period(from: _container, forKeyIfPresent: .scheduledPeriod) {
-			if _t_scheduled != nil {
-				throw DecodingError.dataCorruptedError(forKey: .scheduledPeriod, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
-			}
-			_t_scheduled = .period(scheduledPeriod)
-		}
-		if let scheduledString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .scheduledString, auxiliaryKey: ._scheduledString) {
-			if _t_scheduled != nil {
-				throw DecodingError.dataCorruptedError(forKey: .scheduledString, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
-			}
-			_t_scheduled = .string(scheduledString)
-		}
-		self.scheduled = _t_scheduled
+		self.scheduled = try Self._decodeScheduled(from: _container)
 		self.status = try FHIRPrimitive<CarePlanActivityStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusReason = try CodeableConcept(from: _container, forKeyIfPresent: .statusReason)
 	}
@@ -640,6 +605,7 @@ public struct CarePlanActivityDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try dailyAmount?.encode(on: &_container, forKey: .dailyAmount)
@@ -655,27 +621,67 @@ public struct CarePlanActivityDetail: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try performer?.encode(on: &_container, forKey: .performer)
 		if let _enum = product {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .productCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .productReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .productCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .productReference)
+		}
 		}
 		try quantity?.encode(on: &_container, forKey: .quantity)
 		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
 		try reasonReference?.encode(on: &_container, forKey: .reasonReference)
 		if let _enum = scheduled {
-			switch _enum {
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .scheduledTiming)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .scheduledPeriod)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .scheduledString, auxiliaryKey: ._scheduledString)
-			}
+		switch _enum {
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .scheduledPeriod)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .scheduledString, auxiliaryKey: ._scheduledString)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .scheduledTiming)
+		}
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeProduct(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ProductX? {
+		var _t_product: ProductX? = nil
+		if let productCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .productCodeableConcept) {
+			_t_product = .codeableConcept(productCodeableConcept)
+		}
+		if let productReference = try Reference(from: _container, forKeyIfPresent: .productReference) {
+			if _t_product != nil {
+				throw DecodingError.dataCorruptedError(forKey: .productReference, in: _container, debugDescription: "More than one value provided for \"product\"")
+			}
+			_t_product = .reference(productReference)
+		}
+		return _t_product
+	}
+	
+	private static func _decodeScheduled(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ScheduledX? {
+		var _t_scheduled: ScheduledX? = nil
+		if let scheduledPeriod = try Period(from: _container, forKeyIfPresent: .scheduledPeriod) {
+			_t_scheduled = .period(scheduledPeriod)
+		}
+		if let scheduledString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .scheduledString, auxiliaryKey: ._scheduledString) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledString, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .string(scheduledString)
+		}
+		if let scheduledTiming = try Timing(from: _container, forKeyIfPresent: .scheduledTiming) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledTiming, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .timing(scheduledTiming)
+		}
+		return _t_scheduled
 	}
 }

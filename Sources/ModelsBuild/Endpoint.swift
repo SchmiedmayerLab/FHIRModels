@@ -95,14 +95,7 @@ public struct Endpoint: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(address: FHIRPrimitive<FHIRURI>, connectionType: [CodeableConcept], status: FHIRPrimitive<EndpointStatus>) {
-		self.address = address
-		self.connectionType = connectionType
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: FHIRPrimitive<FHIRURI>,
 		availability: Availability? = nil,
@@ -126,8 +119,9 @@ public struct Endpoint: DomainResource {
 		status: FHIRPrimitive<EndpointStatus>,
 		text: Narrative? = nil
 	) {
-		self.init(address: address, connectionType: connectionType, status: status)
+		self.address = address
 		self.availability = availability
+		self.connectionType = connectionType
 		self.contact = contact
 		self.contained = contained
 		self.description_fhir = description_fhir
@@ -144,6 +138,7 @@ public struct Endpoint: DomainResource {
 		self.name = name
 		self.payload = payload
 		self.period = period
+		self.status = status
 		self.text = text
 	}
 	
@@ -176,6 +171,9 @@ public struct Endpoint: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -205,8 +203,10 @@ public struct Endpoint: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try address.encode(on: &_container, forKey: .address, auxiliaryKey: ._address)
 		try availability?.encode(on: &_container, forKey: .availability)
@@ -261,11 +261,7 @@ public struct EndpointPayload: BackboneElement {
 	/// The type of content that may be used at this endpoint (e.g. XDS Discharge summaries)
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -275,7 +271,6 @@ public struct EndpointPayload: BackboneElement {
 		profileUri: [FHIRPrimitive<FHIRURI>]? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.mimeType = mimeType
@@ -299,6 +294,9 @@ public struct EndpointPayload: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -314,6 +312,7 @@ public struct EndpointPayload: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

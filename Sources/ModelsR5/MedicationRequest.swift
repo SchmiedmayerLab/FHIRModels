@@ -155,15 +155,7 @@ public struct MedicationRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(intent: FHIRPrimitive<MedicationRequestIntentCodes>, medication: CodeableReference, status: FHIRPrimitive<MedicationRequestStatusCodes>, subject: Reference) {
-		self.intent = intent
-		self.medication = medication
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
 		basedOn: [Reference]? = nil,
@@ -207,7 +199,6 @@ public struct MedicationRequest: DomainResource {
 		supportingInformation: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(intent: intent, medication: medication, status: status, subject: subject)
 		self.authoredOn = authoredOn
 		self.basedOn = basedOn
 		self.category = category
@@ -227,7 +218,9 @@ public struct MedicationRequest: DomainResource {
 		self.implicitRules = implicitRules
 		self.informationSource = informationSource
 		self.insurance = insurance
+		self.intent = intent
 		self.language = language
+		self.medication = medication
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.note = note
@@ -240,8 +233,10 @@ public struct MedicationRequest: DomainResource {
 		self.renderedDosageInstruction = renderedDosageInstruction
 		self.reported = reported
 		self.requester = requester
+		self.status = status
 		self.statusChanged = statusChanged
 		self.statusReason = statusReason
+		self.subject = subject
 		self.substitution = substitution
 		self.supportingInformation = supportingInformation
 		self.text = text
@@ -296,6 +291,9 @@ public struct MedicationRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -345,8 +343,10 @@ public struct MedicationRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
@@ -438,11 +438,7 @@ public struct MedicationRequestDispenseRequest: BackboneElement {
 	/// Time period supply is authorized for
 	public var validityPeriod: Period?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		dispenseInterval: Duration? = nil,
 		dispenser: Reference? = nil,
@@ -457,7 +453,6 @@ public struct MedicationRequestDispenseRequest: BackboneElement {
 		quantity: Quantity? = nil,
 		validityPeriod: Period? = nil
 	) {
-		self.init()
 		self.dispenseInterval = dispenseInterval
 		self.dispenser = dispenser
 		self.dispenserInstruction = dispenserInstruction
@@ -491,6 +486,9 @@ public struct MedicationRequestDispenseRequest: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -511,6 +509,7 @@ public struct MedicationRequestDispenseRequest: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try dispenseInterval?.encode(on: &_container, forKey: .dispenseInterval)
 		try dispenser?.encode(on: &_container, forKey: .dispenser)
@@ -549,11 +548,7 @@ public struct MedicationRequestDispenseRequestInitialFill: BackboneElement {
 	/// First fill quantity
 	public var quantity: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		duration: Duration? = nil,
 		`extension`: [Extension]? = nil,
@@ -561,7 +556,6 @@ public struct MedicationRequestDispenseRequestInitialFill: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		quantity: Quantity? = nil
 	) {
-		self.init()
 		self.duration = duration
 		self.`extension` = `extension`
 		self.id = id
@@ -581,6 +575,9 @@ public struct MedicationRequestDispenseRequestInitialFill: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -594,6 +591,7 @@ public struct MedicationRequestDispenseRequestInitialFill: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try duration?.encode(on: &_container, forKey: .duration)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -634,12 +632,7 @@ public struct MedicationRequestSubstitution: BackboneElement {
 	/// Why should (not) substitution be made
 	public var reason: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(allowed: AllowedX) {
-		self.allowed = allowed
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		allowed: AllowedX,
 		`extension`: [Extension]? = nil,
@@ -647,7 +640,7 @@ public struct MedicationRequestSubstitution: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		reason: CodeableConcept? = nil
 	) {
-		self.init(allowed: allowed)
+		self.allowed = allowed
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -667,28 +660,13 @@ public struct MedicationRequestSubstitution: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.allowedBoolean) || _container.contains(CodingKeys.allowedCodeableConcept) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.allowedBoolean, CodingKeys.allowedCodeableConcept], debugDescription: "Must have at least one value for \"allowed\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_allowed: AllowedX? = nil
-		if let allowedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .allowedBoolean, auxiliaryKey: ._allowedBoolean) {
-			if _t_allowed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .allowedBoolean, in: _container, debugDescription: "More than one value provided for \"allowed\"")
-			}
-			_t_allowed = .boolean(allowedBoolean)
-		}
-		if let allowedCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .allowedCodeableConcept) {
-			if _t_allowed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .allowedCodeableConcept, in: _container, debugDescription: "More than one value provided for \"allowed\"")
-			}
-			_t_allowed = .codeableConcept(allowedCodeableConcept)
-		}
-		self.allowed = _t_allowed!
+		self.allowed = try Self._decodeAllowed(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -698,18 +676,42 @@ public struct MedicationRequestSubstitution: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch allowed {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .allowedBoolean, auxiliaryKey: ._allowedBoolean)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .allowedCodeableConcept)
-			}
+		switch allowed {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .allowedBoolean, auxiliaryKey: ._allowedBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .allowedCodeableConcept)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try reason?.encode(on: &_container, forKey: .reason)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAllowed(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AllowedX {
+		var _t_allowed: AllowedX? = nil
+		if let allowedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .allowedBoolean, auxiliaryKey: ._allowedBoolean) {
+			_t_allowed = .boolean(allowedBoolean)
+		}
+		if let allowedCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .allowedCodeableConcept) {
+			if _t_allowed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .allowedCodeableConcept, in: _container, debugDescription: "More than one value provided for \"allowed\"")
+			}
+			_t_allowed = .codeableConcept(allowedCodeableConcept)
+		}
+		guard let _t_allowed else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.allowedCodeableConcept)
+			throw DecodingError.valueNotFound(AllowedX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"allowed\" but have none"))
+		}
+		return _t_allowed
 	}
 }

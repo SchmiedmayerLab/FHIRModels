@@ -72,13 +72,7 @@ public struct OrderResponse: DomainResource {
 	/// Who made the response
 	public var who: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(orderStatus: FHIRPrimitive<OrderStatus>, request: Reference) {
-		self.orderStatus = orderStatus
-		self.request = request
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -96,7 +90,6 @@ public struct OrderResponse: DomainResource {
 		text: Narrative? = nil,
 		who: Reference? = nil
 	) {
-		self.init(orderStatus: orderStatus, request: request)
 		self.contained = contained
 		self.date = date
 		self.description_fhir = description_fhir
@@ -108,6 +101,8 @@ public struct OrderResponse: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.orderStatus = orderStatus
+		self.request = request
 		self.text = text
 		self.who = who
 	}
@@ -135,6 +130,9 @@ public struct OrderResponse: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -158,8 +156,10 @@ public struct OrderResponse: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)

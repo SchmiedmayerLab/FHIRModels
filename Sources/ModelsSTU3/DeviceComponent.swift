@@ -82,13 +82,7 @@ public struct DeviceComponent: DomainResource {
 	/// What kind of component it is
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(identifier: Identifier, type: CodeableConcept) {
-		self.identifier = identifier
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -109,10 +103,10 @@ public struct DeviceComponent: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept
 	) {
-		self.init(identifier: identifier, type: type)
 		self.contained = contained
 		self.`extension` = `extension`
 		self.id = id
+		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.language = language
 		self.languageCode = languageCode
@@ -126,6 +120,7 @@ public struct DeviceComponent: DomainResource {
 		self.productionSpecification = productionSpecification
 		self.source = source
 		self.text = text
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -154,6 +149,9 @@ public struct DeviceComponent: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -180,8 +178,10 @@ public struct DeviceComponent: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -229,11 +229,7 @@ public struct DeviceComponentProductionSpecification: BackboneElement {
 	/// Type or kind of production specification, for example serial number or software revision
 	public var specType: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		componentId: Identifier? = nil,
 		`extension`: [Extension]? = nil,
@@ -242,7 +238,6 @@ public struct DeviceComponentProductionSpecification: BackboneElement {
 		productionSpec: FHIRPrimitive<FHIRString>? = nil,
 		specType: CodeableConcept? = nil
 	) {
-		self.init()
 		self.componentId = componentId
 		self.`extension` = `extension`
 		self.id = id
@@ -264,6 +259,9 @@ public struct DeviceComponentProductionSpecification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -278,6 +276,7 @@ public struct DeviceComponentProductionSpecification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try componentId?.encode(on: &_container, forKey: .componentId)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

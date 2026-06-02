@@ -206,12 +206,7 @@ public struct Measure: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -267,7 +262,6 @@ public struct Measure: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(status: status)
 		self.approvalDate = approvalDate
 		self.author = author
 		self.basis = basis
@@ -307,6 +301,7 @@ public struct Measure: DomainResource {
 		self.riskAdjustment = riskAdjustment
 		self.scoring = scoring
 		self.scoringUnit = scoringUnit
+		self.status = status
 		self.subject = subject
 		self.subtitle = subtitle
 		self.supplementalData = supplementalData
@@ -385,6 +380,9 @@ public struct Measure: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -428,20 +426,7 @@ public struct Measure: DomainResource {
 		self.scoring = try CodeableConcept(from: _container, forKeyIfPresent: .scoring)
 		self.scoringUnit = try CodeableConcept(from: _container, forKeyIfPresent: .scoringUnit)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		var _t_subject: SubjectX? = nil
-		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectCodeableConcept, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .codeableConcept(subjectCodeableConcept)
-		}
-		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .reference(subjectReference)
-		}
-		self.subject = _t_subject
+		self.subject = try Self._decodeSubject(from: _container)
 		self.subtitle = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .subtitle, auxiliaryKey: ._subtitle)
 		self.supplementalData = try [MeasureSupplementalData](from: _container, forKeyIfPresent: .supplementalData)
 		self.term = try [MeasureTerm](from: _container, forKeyIfPresent: .term)
@@ -453,27 +438,16 @@ public struct Measure: DomainResource {
 		self.usage = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .usage, auxiliaryKey: ._usage)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
@@ -516,12 +490,12 @@ public struct Measure: DomainResource {
 		try scoringUnit?.encode(on: &_container, forKey: .scoringUnit)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		if let _enum = subject {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .subjectReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .subjectReference)
+		}
 		}
 		try subtitle?.encode(on: &_container, forKey: .subtitle, auxiliaryKey: ._subtitle)
 		try supplementalData?.encode(on: &_container, forKey: .supplementalData)
@@ -535,13 +509,47 @@ public struct Measure: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSubject(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SubjectX? {
+		var _t_subject: SubjectX? = nil
+		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
+			_t_subject = .codeableConcept(subjectCodeableConcept)
+		}
+		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
+			if _t_subject != nil {
+				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
+			}
+			_t_subject = .reference(subjectReference)
+		}
+		return _t_subject
+	}
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }
 
@@ -612,11 +620,7 @@ public struct MeasureGroup: BackboneElement {
 	/// process | outcome | structure | patient-reported-outcome | composite
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basis: FHIRPrimitive<ResourceType>? = nil,
 		code: CodeableConcept? = nil,
@@ -635,7 +639,6 @@ public struct MeasureGroup: BackboneElement {
 		subject: SubjectX? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.basis = basis
 		self.code = code
 		self.description_fhir = description_fhir
@@ -678,6 +681,9 @@ public struct MeasureGroup: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -695,26 +701,14 @@ public struct MeasureGroup: BackboneElement {
 		self.scoring = try CodeableConcept(from: _container, forKeyIfPresent: .scoring)
 		self.scoringUnit = try CodeableConcept(from: _container, forKeyIfPresent: .scoringUnit)
 		self.stratifier = try [MeasureGroupStratifier](from: _container, forKeyIfPresent: .stratifier)
-		var _t_subject: SubjectX? = nil
-		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectCodeableConcept, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .codeableConcept(subjectCodeableConcept)
-		}
-		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .reference(subjectReference)
-		}
-		self.subject = _t_subject
+		self.subject = try Self._decodeSubject(from: _container)
 		self.type = try [CodeableConcept](from: _container, forKeyIfPresent: .type)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try basis?.encode(on: &_container, forKey: .basis, auxiliaryKey: ._basis)
 		try code?.encode(on: &_container, forKey: .code)
@@ -731,14 +725,32 @@ public struct MeasureGroup: BackboneElement {
 		try scoringUnit?.encode(on: &_container, forKey: .scoringUnit)
 		try stratifier?.encode(on: &_container, forKey: .stratifier)
 		if let _enum = subject {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .subjectReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .subjectReference)
+		}
 		}
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSubject(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SubjectX? {
+		var _t_subject: SubjectX? = nil
+		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
+			_t_subject = .codeableConcept(subjectCodeableConcept)
+		}
+		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
+			if _t_subject != nil {
+				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
+			}
+			_t_subject = .reference(subjectReference)
+		}
+		return _t_subject
 	}
 }
 
@@ -780,11 +792,7 @@ public struct MeasureGroupPopulation: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		aggregateMethod: CodeableConcept? = nil,
 		code: CodeableConcept? = nil,
@@ -797,7 +805,6 @@ public struct MeasureGroupPopulation: BackboneElement {
 		linkId: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.aggregateMethod = aggregateMethod
 		self.code = code
 		self.criteria = criteria
@@ -827,6 +834,9 @@ public struct MeasureGroupPopulation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -845,6 +855,7 @@ public struct MeasureGroupPopulation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try aggregateMethod?.encode(on: &_container, forKey: .aggregateMethod)
 		try code?.encode(on: &_container, forKey: .code)
@@ -894,11 +905,7 @@ public struct MeasureGroupStratifier: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		component: [MeasureGroupStratifierComponent]? = nil,
@@ -910,7 +917,6 @@ public struct MeasureGroupStratifier: BackboneElement {
 		linkId: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.code = code
 		self.component = component
 		self.criteria = criteria
@@ -938,6 +944,9 @@ public struct MeasureGroupStratifier: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -955,6 +964,7 @@ public struct MeasureGroupStratifier: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try component?.encode(on: &_container, forKey: .component)
@@ -1000,11 +1010,7 @@ public struct MeasureGroupStratifierComponent: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		criteria: Expression? = nil,
@@ -1015,7 +1021,6 @@ public struct MeasureGroupStratifierComponent: BackboneElement {
 		linkId: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.code = code
 		self.criteria = criteria
 		self.description_fhir = description_fhir
@@ -1041,6 +1046,9 @@ public struct MeasureGroupStratifierComponent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1057,6 +1065,7 @@ public struct MeasureGroupStratifierComponent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try criteria?.encode(on: &_container, forKey: .criteria)
@@ -1101,12 +1110,7 @@ public struct MeasureSupplementalData: BackboneElement {
 	/// supplemental-data | risk-adjustment-factor
 	public var usage: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(criteria: Expression) {
-		self.criteria = criteria
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		criteria: Expression,
@@ -1117,8 +1121,8 @@ public struct MeasureSupplementalData: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		usage: [CodeableConcept]? = nil
 	) {
-		self.init(criteria: criteria)
 		self.code = code
+		self.criteria = criteria
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -1142,6 +1146,9 @@ public struct MeasureSupplementalData: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1158,6 +1165,7 @@ public struct MeasureSupplementalData: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try criteria.encode(on: &_container, forKey: .criteria)
@@ -1192,11 +1200,7 @@ public struct MeasureTerm: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		definition: FHIRPrimitive<FHIRString>? = nil,
@@ -1204,7 +1208,6 @@ public struct MeasureTerm: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.code = code
 		self.definition = definition
 		self.`extension` = `extension`
@@ -1224,6 +1227,9 @@ public struct MeasureTerm: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1237,6 +1243,7 @@ public struct MeasureTerm: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)

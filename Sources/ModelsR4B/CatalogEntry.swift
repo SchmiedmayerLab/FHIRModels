@@ -92,13 +92,7 @@ public struct CatalogEntry: DomainResource {
 	/// The time period in which this catalog entry is expected to be active
 	public var validityPeriod: Period?
 	
-	/// Designated initializer taking all required properties
-	public init(orderable: FHIRPrimitive<FHIRBool>, referencedItem: Reference) {
-		self.orderable = orderable
-		self.referencedItem = referencedItem
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additionalCharacteristic: [CodeableConcept]? = nil,
 		additionalClassification: [CodeableConcept]? = nil,
@@ -122,7 +116,6 @@ public struct CatalogEntry: DomainResource {
 		validTo: FHIRPrimitive<DateTime>? = nil,
 		validityPeriod: Period? = nil
 	) {
-		self.init(orderable: orderable, referencedItem: referencedItem)
 		self.additionalCharacteristic = additionalCharacteristic
 		self.additionalClassification = additionalClassification
 		self.additionalIdentifier = additionalIdentifier
@@ -136,6 +129,8 @@ public struct CatalogEntry: DomainResource {
 		self.lastUpdated = lastUpdated
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.orderable = orderable
+		self.referencedItem = referencedItem
 		self.relatedEntry = relatedEntry
 		self.status = status
 		self.text = text
@@ -173,6 +168,9 @@ public struct CatalogEntry: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -202,8 +200,10 @@ public struct CatalogEntry: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try additionalCharacteristic?.encode(on: &_container, forKey: .additionalCharacteristic)
 		try additionalClassification?.encode(on: &_container, forKey: .additionalClassification)
@@ -252,13 +252,7 @@ public struct CatalogEntryRelatedEntry: BackboneElement {
 	/// requires, etc.
 	public var relationtype: FHIRPrimitive<CatalogEntryRelationType>
 	
-	/// Designated initializer taking all required properties
-	public init(item: Reference, relationtype: FHIRPrimitive<CatalogEntryRelationType>) {
-		self.item = item
-		self.relationtype = relationtype
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -266,10 +260,11 @@ public struct CatalogEntryRelatedEntry: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		relationtype: FHIRPrimitive<CatalogEntryRelationType>
 	) {
-		self.init(item: item, relationtype: relationtype)
 		self.`extension` = `extension`
 		self.id = id
+		self.item = item
 		self.modifierExtension = modifierExtension
+		self.relationtype = relationtype
 	}
 	
 	// MARK: - Codable
@@ -284,6 +279,9 @@ public struct CatalogEntryRelatedEntry: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -297,6 +295,7 @@ public struct CatalogEntryRelatedEntry: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

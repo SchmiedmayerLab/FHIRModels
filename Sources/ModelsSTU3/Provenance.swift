@@ -88,14 +88,7 @@ public struct Provenance: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(agent: [ProvenanceAgent], recorded: FHIRPrimitive<Instant>, target: [Reference]) {
-		self.agent = agent
-		self.recorded = recorded
-		self.target = target
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: Coding? = nil,
 		agent: [ProvenanceAgent],
@@ -116,8 +109,8 @@ public struct Provenance: DomainResource {
 		target: [Reference],
 		text: Narrative? = nil
 	) {
-		self.init(agent: agent, recorded: recorded, target: target)
 		self.activity = activity
+		self.agent = agent
 		self.contained = contained
 		self.entity = entity
 		self.`extension` = `extension`
@@ -130,7 +123,9 @@ public struct Provenance: DomainResource {
 		self.period = period
 		self.policy = policy
 		self.reason = reason
+		self.recorded = recorded
 		self.signature = signature
+		self.target = target
 		self.text = text
 	}
 	
@@ -160,6 +155,9 @@ public struct Provenance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -186,8 +184,10 @@ public struct Provenance: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try agent.encode(on: &_container, forKey: .agent)
@@ -253,12 +253,7 @@ public struct ProvenanceAgent: BackboneElement {
 	/// One of `who[x]`
 	public var who: WhoX
 	
-	/// Designated initializer taking all required properties
-	public init(who: WhoX) {
-		self.who = who
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -268,13 +263,13 @@ public struct ProvenanceAgent: BackboneElement {
 		role: [CodeableConcept]? = nil,
 		who: WhoX
 	) {
-		self.init(who: who)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.onBehalfOf = onBehalfOf
 		self.relatedAgentType = relatedAgentType
 		self.role = role
+		self.who = who
 	}
 	
 	// MARK: - Codable
@@ -293,74 +288,86 @@ public struct ProvenanceAgent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.whoReference) || _container.contains(CodingKeys.whoUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whoReference, CodingKeys.whoUri], debugDescription: "Must have at least one value for \"who\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.onBehalfOf = try Self._decodeOnBehalfOf(from: _container)
+		self.relatedAgentType = try CodeableConcept(from: _container, forKeyIfPresent: .relatedAgentType)
+		self.role = try [CodeableConcept](from: _container, forKeyIfPresent: .role)
+		self.who = try Self._decodeWho(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = onBehalfOf {
+		switch _enum {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .onBehalfOfReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri)
+		}
+		}
+		try relatedAgentType?.encode(on: &_container, forKey: .relatedAgentType)
+		try role?.encode(on: &_container, forKey: .role)
+		
+		switch who {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .whoReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .whoUri, auxiliaryKey: ._whoUri)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOnBehalfOf(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OnBehalfOfX? {
 		var _t_onBehalfOf: OnBehalfOfX? = nil
+		if let onBehalfOfReference = try Reference(from: _container, forKeyIfPresent: .onBehalfOfReference) {
+			_t_onBehalfOf = .reference(onBehalfOfReference)
+		}
 		if let onBehalfOfUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri) {
 			if _t_onBehalfOf != nil {
 				throw DecodingError.dataCorruptedError(forKey: .onBehalfOfUri, in: _container, debugDescription: "More than one value provided for \"onBehalfOf\"")
 			}
 			_t_onBehalfOf = .uri(onBehalfOfUri)
 		}
-		if let onBehalfOfReference = try Reference(from: _container, forKeyIfPresent: .onBehalfOfReference) {
-			if _t_onBehalfOf != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onBehalfOfReference, in: _container, debugDescription: "More than one value provided for \"onBehalfOf\"")
-			}
-			_t_onBehalfOf = .reference(onBehalfOfReference)
-		}
-		self.onBehalfOf = _t_onBehalfOf
-		self.relatedAgentType = try CodeableConcept(from: _container, forKeyIfPresent: .relatedAgentType)
-		self.role = try [CodeableConcept](from: _container, forKeyIfPresent: .role)
+		return _t_onBehalfOf
+	}
+	
+	private static func _decodeWho(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> WhoX {
 		var _t_who: WhoX? = nil
+		if let whoReference = try Reference(from: _container, forKeyIfPresent: .whoReference) {
+			_t_who = .reference(whoReference)
+		}
 		if let whoUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .whoUri, auxiliaryKey: ._whoUri) {
 			if _t_who != nil {
 				throw DecodingError.dataCorruptedError(forKey: .whoUri, in: _container, debugDescription: "More than one value provided for \"who\"")
 			}
 			_t_who = .uri(whoUri)
 		}
-		if let whoReference = try Reference(from: _container, forKeyIfPresent: .whoReference) {
-			if _t_who != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whoReference, in: _container, debugDescription: "More than one value provided for \"who\"")
-			}
-			_t_who = .reference(whoReference)
+		guard let _t_who else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.whoUri)
+			throw DecodingError.valueNotFound(WhoX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"who\" but have none"))
 		}
-		self.who = _t_who!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = onBehalfOf {
-			switch _enum {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .onBehalfOfReference)
-			}
-		}
-		try relatedAgentType?.encode(on: &_container, forKey: .relatedAgentType)
-		try role?.encode(on: &_container, forKey: .role)
-		
-			switch who {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .whoUri, auxiliaryKey: ._whoUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .whoReference)
-			}
-		
+		return _t_who
 	}
 }
 
@@ -395,13 +402,7 @@ public struct ProvenanceEntity: BackboneElement {
 	/// One of `what[x]`
 	public var what: WhatX
 	
-	/// Designated initializer taking all required properties
-	public init(role: FHIRPrimitive<ProvenanceEntityRole>, what: WhatX) {
-		self.role = role
-		self.what = what
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		agent: [ProvenanceAgent]? = nil,
 		`extension`: [Extension]? = nil,
@@ -410,11 +411,12 @@ public struct ProvenanceEntity: BackboneElement {
 		role: FHIRPrimitive<ProvenanceEntityRole>,
 		what: WhatX
 	) {
-		self.init(role: role, what: what)
 		self.agent = agent
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.role = role
+		self.what = what
 	}
 	
 	// MARK: - Codable
@@ -432,12 +434,10 @@ public struct ProvenanceEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.whatIdentifier) || _container.contains(CodingKeys.whatReference) || _container.contains(CodingKeys.whatUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whatIdentifier, CodingKeys.whatReference, CodingKeys.whatUri], debugDescription: "Must have at least one value for \"what\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.agent = try [ProvenanceAgent](from: _container, forKeyIfPresent: .agent)
@@ -445,31 +445,13 @@ public struct ProvenanceEntity: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.role = try FHIRPrimitive<ProvenanceEntityRole>(from: _container, forKey: .role, auxiliaryKey: ._role)
-		var _t_what: WhatX? = nil
-		if let whatUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .whatUri, auxiliaryKey: ._whatUri) {
-			if _t_what != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whatUri, in: _container, debugDescription: "More than one value provided for \"what\"")
-			}
-			_t_what = .uri(whatUri)
-		}
-		if let whatReference = try Reference(from: _container, forKeyIfPresent: .whatReference) {
-			if _t_what != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whatReference, in: _container, debugDescription: "More than one value provided for \"what\"")
-			}
-			_t_what = .reference(whatReference)
-		}
-		if let whatIdentifier = try Identifier(from: _container, forKeyIfPresent: .whatIdentifier) {
-			if _t_what != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whatIdentifier, in: _container, debugDescription: "More than one value provided for \"what\"")
-			}
-			_t_what = .identifier(whatIdentifier)
-		}
-		self.what = _t_what!
+		self.what = try Self._decodeWhat(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try agent?.encode(on: &_container, forKey: .agent)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -477,14 +459,43 @@ public struct ProvenanceEntity: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try role.encode(on: &_container, forKey: .role, auxiliaryKey: ._role)
 		
-			switch what {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .whatUri, auxiliaryKey: ._whatUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .whatReference)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .whatIdentifier)
-			}
+		switch what {
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .whatIdentifier)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .whatReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .whatUri, auxiliaryKey: ._whatUri)
+		}
 		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeWhat(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> WhatX {
+		var _t_what: WhatX? = nil
+		if let whatIdentifier = try Identifier(from: _container, forKeyIfPresent: .whatIdentifier) {
+			_t_what = .identifier(whatIdentifier)
+		}
+		if let whatReference = try Reference(from: _container, forKeyIfPresent: .whatReference) {
+			if _t_what != nil {
+				throw DecodingError.dataCorruptedError(forKey: .whatReference, in: _container, debugDescription: "More than one value provided for \"what\"")
+			}
+			_t_what = .reference(whatReference)
+		}
+		if let whatUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .whatUri, auxiliaryKey: ._whatUri) {
+			if _t_what != nil {
+				throw DecodingError.dataCorruptedError(forKey: .whatUri, in: _container, debugDescription: "More than one value provided for \"what\"")
+			}
+			_t_what = .uri(whatUri)
+		}
+		guard let _t_what else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.whatUri)
+			throw DecodingError.valueNotFound(WhatX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"what\" but have none"))
+		}
+		return _t_what
 	}
 }

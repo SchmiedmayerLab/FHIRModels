@@ -133,13 +133,7 @@ public struct EvidenceVariable: DomainResource {
 	/// Business version of the evidence variable
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(characteristic: [EvidenceVariableCharacteristic], status: FHIRPrimitive<PublicationStatus>) {
-		self.characteristic = characteristic
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -177,9 +171,9 @@ public struct EvidenceVariable: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(characteristic: characteristic, status: status)
 		self.approvalDate = approvalDate
 		self.author = author
+		self.characteristic = characteristic
 		self.contact = contact
 		self.contained = contained
 		self.copyright = copyright
@@ -203,6 +197,7 @@ public struct EvidenceVariable: DomainResource {
 		self.relatedArtifact = relatedArtifact
 		self.reviewer = reviewer
 		self.shortTitle = shortTitle
+		self.status = status
 		self.subtitle = subtitle
 		self.text = text
 		self.title = title
@@ -256,6 +251,9 @@ public struct EvidenceVariable: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -299,8 +297,10 @@ public struct EvidenceVariable: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
@@ -398,12 +398,7 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 	/// What code/value pairs define members?
 	public var usageContext: [UsageContext]?
 	
-	/// Designated initializer taking all required properties
-	public init(definition: DefinitionX) {
-		self.definition = definition
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		definition: DefinitionX,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -416,7 +411,7 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 		timeFromStart: Duration? = nil,
 		usageContext: [UsageContext]? = nil
 	) {
-		self.init(definition: definition)
+		self.definition = definition
 		self.description_fhir = description_fhir
 		self.exclude = exclude
 		self.`extension` = `extension`
@@ -453,84 +448,20 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.definitionCanonical) || _container.contains(CodingKeys.definitionCodeableConcept) || _container.contains(CodingKeys.definitionDataRequirement) || _container.contains(CodingKeys.definitionExpression) || _container.contains(CodingKeys.definitionReference) || _container.contains(CodingKeys.definitionTriggerDefinition) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.definitionCanonical, CodingKeys.definitionCodeableConcept, CodingKeys.definitionDataRequirement, CodingKeys.definitionExpression, CodingKeys.definitionReference, CodingKeys.definitionTriggerDefinition], debugDescription: "Must have at least one value for \"definition\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_definition: DefinitionX? = nil
-		if let definitionReference = try Reference(from: _container, forKeyIfPresent: .definitionReference) {
-			if _t_definition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .definitionReference, in: _container, debugDescription: "More than one value provided for \"definition\"")
-			}
-			_t_definition = .reference(definitionReference)
-		}
-		if let definitionCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .definitionCanonical, auxiliaryKey: ._definitionCanonical) {
-			if _t_definition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .definitionCanonical, in: _container, debugDescription: "More than one value provided for \"definition\"")
-			}
-			_t_definition = .canonical(definitionCanonical)
-		}
-		if let definitionCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .definitionCodeableConcept) {
-			if _t_definition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .definitionCodeableConcept, in: _container, debugDescription: "More than one value provided for \"definition\"")
-			}
-			_t_definition = .codeableConcept(definitionCodeableConcept)
-		}
-		if let definitionExpression = try Expression(from: _container, forKeyIfPresent: .definitionExpression) {
-			if _t_definition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .definitionExpression, in: _container, debugDescription: "More than one value provided for \"definition\"")
-			}
-			_t_definition = .expression(definitionExpression)
-		}
-		if let definitionDataRequirement = try DataRequirement(from: _container, forKeyIfPresent: .definitionDataRequirement) {
-			if _t_definition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .definitionDataRequirement, in: _container, debugDescription: "More than one value provided for \"definition\"")
-			}
-			_t_definition = .dataRequirement(definitionDataRequirement)
-		}
-		if let definitionTriggerDefinition = try TriggerDefinition(from: _container, forKeyIfPresent: .definitionTriggerDefinition) {
-			if _t_definition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .definitionTriggerDefinition, in: _container, debugDescription: "More than one value provided for \"definition\"")
-			}
-			_t_definition = .triggerDefinition(definitionTriggerDefinition)
-		}
-		self.definition = _t_definition!
+		self.definition = try Self._decodeDefinition(from: _container)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.exclude = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .exclude, auxiliaryKey: ._exclude)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.groupMeasure = try FHIRPrimitive<GroupMeasure>(from: _container, forKeyIfPresent: .groupMeasure, auxiliaryKey: ._groupMeasure)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_participantEffective: ParticipantEffectiveX? = nil
-		if let participantEffectiveDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .participantEffectiveDateTime, auxiliaryKey: ._participantEffectiveDateTime) {
-			if _t_participantEffective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .participantEffectiveDateTime, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
-			}
-			_t_participantEffective = .dateTime(participantEffectiveDateTime)
-		}
-		if let participantEffectivePeriod = try Period(from: _container, forKeyIfPresent: .participantEffectivePeriod) {
-			if _t_participantEffective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .participantEffectivePeriod, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
-			}
-			_t_participantEffective = .period(participantEffectivePeriod)
-		}
-		if let participantEffectiveDuration = try Duration(from: _container, forKeyIfPresent: .participantEffectiveDuration) {
-			if _t_participantEffective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .participantEffectiveDuration, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
-			}
-			_t_participantEffective = .duration(participantEffectiveDuration)
-		}
-		if let participantEffectiveTiming = try Timing(from: _container, forKeyIfPresent: .participantEffectiveTiming) {
-			if _t_participantEffective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .participantEffectiveTiming, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
-			}
-			_t_participantEffective = .timing(participantEffectiveTiming)
-		}
-		self.participantEffective = _t_participantEffective
+		self.participantEffective = try Self._decodeParticipantEffective(from: _container)
 		self.timeFromStart = try Duration(from: _container, forKeyIfPresent: .timeFromStart)
 		self.usageContext = try [UsageContext](from: _container, forKeyIfPresent: .usageContext)
 	}
@@ -538,22 +469,23 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch definition {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .definitionReference)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .definitionCanonical, auxiliaryKey: ._definitionCanonical)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .definitionCodeableConcept)
-			case .expression(let _value):
-				try _value.encode(on: &_container, forKey: .definitionExpression)
-			case .dataRequirement(let _value):
-				try _value.encode(on: &_container, forKey: .definitionDataRequirement)
-			case .triggerDefinition(let _value):
-				try _value.encode(on: &_container, forKey: .definitionTriggerDefinition)
-			}
+		switch definition {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .definitionCanonical, auxiliaryKey: ._definitionCanonical)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .definitionCodeableConcept)
+		case .dataRequirement(let _value):
+			try _value.encode(on: &_container, forKey: .definitionDataRequirement)
+		case .expression(let _value):
+			try _value.encode(on: &_container, forKey: .definitionExpression)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .definitionReference)
+		case .triggerDefinition(let _value):
+			try _value.encode(on: &_container, forKey: .definitionTriggerDefinition)
+		}
 		
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try exclude?.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
@@ -562,18 +494,93 @@ public struct EvidenceVariableCharacteristic: BackboneElement {
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = participantEffective {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .participantEffectiveDateTime, auxiliaryKey: ._participantEffectiveDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .participantEffectivePeriod)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .participantEffectiveDuration)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .participantEffectiveTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .participantEffectiveDateTime, auxiliaryKey: ._participantEffectiveDateTime)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .participantEffectiveDuration)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .participantEffectivePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .participantEffectiveTiming)
+		}
 		}
 		try timeFromStart?.encode(on: &_container, forKey: .timeFromStart)
 		try usageContext?.encode(on: &_container, forKey: .usageContext)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDefinition(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DefinitionX {
+		var _t_definition: DefinitionX? = nil
+		if let definitionCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .definitionCanonical, auxiliaryKey: ._definitionCanonical) {
+			_t_definition = .canonical(definitionCanonical)
+		}
+		if let definitionCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .definitionCodeableConcept) {
+			if _t_definition != nil {
+				throw DecodingError.dataCorruptedError(forKey: .definitionCodeableConcept, in: _container, debugDescription: "More than one value provided for \"definition\"")
+			}
+			_t_definition = .codeableConcept(definitionCodeableConcept)
+		}
+		if let definitionDataRequirement = try DataRequirement(from: _container, forKeyIfPresent: .definitionDataRequirement) {
+			if _t_definition != nil {
+				throw DecodingError.dataCorruptedError(forKey: .definitionDataRequirement, in: _container, debugDescription: "More than one value provided for \"definition\"")
+			}
+			_t_definition = .dataRequirement(definitionDataRequirement)
+		}
+		if let definitionExpression = try Expression(from: _container, forKeyIfPresent: .definitionExpression) {
+			if _t_definition != nil {
+				throw DecodingError.dataCorruptedError(forKey: .definitionExpression, in: _container, debugDescription: "More than one value provided for \"definition\"")
+			}
+			_t_definition = .expression(definitionExpression)
+		}
+		if let definitionReference = try Reference(from: _container, forKeyIfPresent: .definitionReference) {
+			if _t_definition != nil {
+				throw DecodingError.dataCorruptedError(forKey: .definitionReference, in: _container, debugDescription: "More than one value provided for \"definition\"")
+			}
+			_t_definition = .reference(definitionReference)
+		}
+		if let definitionTriggerDefinition = try TriggerDefinition(from: _container, forKeyIfPresent: .definitionTriggerDefinition) {
+			if _t_definition != nil {
+				throw DecodingError.dataCorruptedError(forKey: .definitionTriggerDefinition, in: _container, debugDescription: "More than one value provided for \"definition\"")
+			}
+			_t_definition = .triggerDefinition(definitionTriggerDefinition)
+		}
+		guard let _t_definition else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.definitionTriggerDefinition)
+			throw DecodingError.valueNotFound(DefinitionX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"definition\" but have none"))
+		}
+		return _t_definition
+	}
+	
+	private static func _decodeParticipantEffective(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ParticipantEffectiveX? {
+		var _t_participantEffective: ParticipantEffectiveX? = nil
+		if let participantEffectiveDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .participantEffectiveDateTime, auxiliaryKey: ._participantEffectiveDateTime) {
+			_t_participantEffective = .dateTime(participantEffectiveDateTime)
+		}
+		if let participantEffectiveDuration = try Duration(from: _container, forKeyIfPresent: .participantEffectiveDuration) {
+			if _t_participantEffective != nil {
+				throw DecodingError.dataCorruptedError(forKey: .participantEffectiveDuration, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
+			}
+			_t_participantEffective = .duration(participantEffectiveDuration)
+		}
+		if let participantEffectivePeriod = try Period(from: _container, forKeyIfPresent: .participantEffectivePeriod) {
+			if _t_participantEffective != nil {
+				throw DecodingError.dataCorruptedError(forKey: .participantEffectivePeriod, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
+			}
+			_t_participantEffective = .period(participantEffectivePeriod)
+		}
+		if let participantEffectiveTiming = try Timing(from: _container, forKeyIfPresent: .participantEffectiveTiming) {
+			if _t_participantEffective != nil {
+				throw DecodingError.dataCorruptedError(forKey: .participantEffectiveTiming, in: _container, debugDescription: "More than one value provided for \"participantEffective\"")
+			}
+			_t_participantEffective = .timing(participantEffectiveTiming)
+		}
+		return _t_participantEffective
 	}
 }

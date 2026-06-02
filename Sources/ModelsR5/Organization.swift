@@ -85,11 +85,7 @@ public struct Organization: DomainResource {
 	/// Kind of organization
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
@@ -110,7 +106,6 @@ public struct Organization: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.active = active
 		self.alias = alias
 		self.contact = contact
@@ -157,6 +152,9 @@ public struct Organization: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -183,8 +181,10 @@ public struct Organization: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
@@ -239,12 +239,7 @@ public struct OrganizationQualification: BackboneElement {
 	/// Period during which the qualification is valid
 	public var period: Period?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -254,7 +249,7 @@ public struct OrganizationQualification: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -277,6 +272,9 @@ public struct OrganizationQualification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -292,6 +290,7 @@ public struct OrganizationQualification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

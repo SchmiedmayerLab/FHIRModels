@@ -48,11 +48,7 @@ public struct ContactPoint: Element {
 	/// The actual contact point details
 	public var value: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -62,7 +58,6 @@ public struct ContactPoint: Element {
 		use: FHIRPrimitive<ContactPointUse>? = nil,
 		value: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.period = period
@@ -86,6 +81,9 @@ public struct ContactPoint: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -101,6 +99,7 @@ public struct ContactPoint: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

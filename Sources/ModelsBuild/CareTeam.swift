@@ -86,11 +86,7 @@ public struct CareTeam: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: [CodeableConcept]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -112,7 +108,6 @@ public struct CareTeam: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.category = category
 		self.contained = contained
 		self.`extension` = `extension`
@@ -161,6 +156,9 @@ public struct CareTeam: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -188,8 +186,10 @@ public struct CareTeam: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -252,11 +252,7 @@ public struct CareTeamParticipant: BackboneElement {
 	/// Basis for the member's participation
 	public var supportingInfo: [Reference]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		effective: EffectiveX? = nil,
 		`extension`: [Extension]? = nil,
@@ -267,7 +263,6 @@ public struct CareTeamParticipant: BackboneElement {
 		role: CodeableConcept? = nil,
 		supportingInfo: [Reference]? = nil
 	) {
-		self.init()
 		self.effective = effective
 		self.`extension` = `extension`
 		self.id = id
@@ -294,23 +289,13 @@ public struct CareTeamParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_effective: EffectiveX? = nil
-		if let effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod) {
-			if _t_effective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectivePeriod, in: _container, debugDescription: "More than one value provided for \"effective\"")
-			}
-			_t_effective = .period(effectivePeriod)
-		}
-		if let effectiveTiming = try Timing(from: _container, forKeyIfPresent: .effectiveTiming) {
-			if _t_effective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectiveTiming, in: _container, debugDescription: "More than one value provided for \"effective\"")
-			}
-			_t_effective = .timing(effectiveTiming)
-		}
-		self.effective = _t_effective
+		self.effective = try Self._decodeEffective(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.member = try Reference(from: _container, forKeyIfPresent: .member)
@@ -323,14 +308,15 @@ public struct CareTeamParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = effective {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .effectivePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .effectiveTiming)
-			}
+		switch _enum {
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .effectivePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .effectiveTiming)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -339,5 +325,23 @@ public struct CareTeamParticipant: BackboneElement {
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
 		try role?.encode(on: &_container, forKey: .role)
 		try supportingInfo?.encode(on: &_container, forKey: .supportingInfo)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeEffective(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> EffectiveX? {
+		var _t_effective: EffectiveX? = nil
+		if let effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod) {
+			_t_effective = .period(effectivePeriod)
+		}
+		if let effectiveTiming = try Timing(from: _container, forKeyIfPresent: .effectiveTiming) {
+			if _t_effective != nil {
+				throw DecodingError.dataCorruptedError(forKey: .effectiveTiming, in: _container, debugDescription: "More than one value provided for \"effective\"")
+			}
+			_t_effective = .timing(effectiveTiming)
+		}
+		return _t_effective
 	}
 }

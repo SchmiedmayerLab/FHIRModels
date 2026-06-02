@@ -75,7 +75,7 @@ struct ModelsBuildTests {
 			throw TestError.failed("encoding string to UTF8 data")
 		}
 		
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let group = try decoder.decode(Group.self, from: data)
 		#expect(type(of: group).resourceType == .group)
 		#expect(group.id == "herd1")
@@ -190,7 +190,7 @@ struct ModelsBuildTests {
             throw TestError.failed("encoding string to UTF8 data")
         }
         
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         let allergy = try decoder.decode(AllergyIntolerance.self, from: data)
         #expect(allergy.id == "example")
         #expect(allergy.criticality == AllergyIntoleranceCriticality.high.asPrimitive())

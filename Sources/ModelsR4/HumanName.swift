@@ -53,11 +53,7 @@ public struct HumanName: Element {
 	/// Identifies the purpose for this name.
 	public var use: FHIRPrimitive<NameUse>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		family: FHIRPrimitive<FHIRString>? = nil,
@@ -69,7 +65,6 @@ public struct HumanName: Element {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		use: FHIRPrimitive<NameUse>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.family = family
 		self.given = given
@@ -97,6 +92,9 @@ public struct HumanName: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -114,6 +112,7 @@ public struct HumanName: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try family?.encode(on: &_container, forKey: .family, auxiliaryKey: ._family)

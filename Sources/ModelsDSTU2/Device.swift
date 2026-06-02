@@ -105,12 +105,7 @@ public struct Device: DomainResource {
 	/// Version number (i.e. software)
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [ContactPoint]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -137,7 +132,6 @@ public struct Device: DomainResource {
 		url: FHIRPrimitive<FHIRURI>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(type: type)
 		self.contact = contact
 		self.contained = contained
 		self.expiry = expiry
@@ -158,6 +152,7 @@ public struct Device: DomainResource {
 		self.patient = patient
 		self.status = status
 		self.text = text
+		self.type = type
 		self.udi = udi
 		self.url = url
 		self.version = version
@@ -195,6 +190,9 @@ public struct Device: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -227,8 +225,10 @@ public struct Device: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)

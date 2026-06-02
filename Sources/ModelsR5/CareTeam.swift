@@ -86,11 +86,7 @@ public struct CareTeam: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: [CodeableConcept]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -112,7 +108,6 @@ public struct CareTeam: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.category = category
 		self.contained = contained
 		self.`extension` = `extension`
@@ -161,6 +156,9 @@ public struct CareTeam: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -188,8 +186,10 @@ public struct CareTeam: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -248,11 +248,7 @@ public struct CareTeamParticipant: BackboneElement {
 	/// Type of involvement
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		coverage: CoverageX? = nil,
 		`extension`: [Extension]? = nil,
@@ -262,7 +258,6 @@ public struct CareTeamParticipant: BackboneElement {
 		onBehalfOf: Reference? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init()
 		self.coverage = coverage
 		self.`extension` = `extension`
 		self.id = id
@@ -287,23 +282,13 @@ public struct CareTeamParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_coverage: CoverageX? = nil
-		if let coveragePeriod = try Period(from: _container, forKeyIfPresent: .coveragePeriod) {
-			if _t_coverage != nil {
-				throw DecodingError.dataCorruptedError(forKey: .coveragePeriod, in: _container, debugDescription: "More than one value provided for \"coverage\"")
-			}
-			_t_coverage = .period(coveragePeriod)
-		}
-		if let coverageTiming = try Timing(from: _container, forKeyIfPresent: .coverageTiming) {
-			if _t_coverage != nil {
-				throw DecodingError.dataCorruptedError(forKey: .coverageTiming, in: _container, debugDescription: "More than one value provided for \"coverage\"")
-			}
-			_t_coverage = .timing(coverageTiming)
-		}
-		self.coverage = _t_coverage
+		self.coverage = try Self._decodeCoverage(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.member = try Reference(from: _container, forKeyIfPresent: .member)
@@ -315,14 +300,15 @@ public struct CareTeamParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = coverage {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .coveragePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .coverageTiming)
-			}
+		switch _enum {
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .coveragePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .coverageTiming)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -330,5 +316,23 @@ public struct CareTeamParticipant: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try onBehalfOf?.encode(on: &_container, forKey: .onBehalfOf)
 		try role?.encode(on: &_container, forKey: .role)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeCoverage(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> CoverageX? {
+		var _t_coverage: CoverageX? = nil
+		if let coveragePeriod = try Period(from: _container, forKeyIfPresent: .coveragePeriod) {
+			_t_coverage = .period(coveragePeriod)
+		}
+		if let coverageTiming = try Timing(from: _container, forKeyIfPresent: .coverageTiming) {
+			if _t_coverage != nil {
+				throw DecodingError.dataCorruptedError(forKey: .coverageTiming, in: _container, debugDescription: "More than one value provided for \"coverage\"")
+			}
+			_t_coverage = .timing(coverageTiming)
+		}
+		return _t_coverage
 	}
 }

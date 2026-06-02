@@ -93,12 +93,7 @@ public struct ObservationDefinition: DomainResource {
 	/// Value set of valid coded values for the observations conforming to this ObservationDefinition
 	public var validCodedValueSet: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		abnormalCodedValueSet: Reference? = nil,
 		category: [CodeableConcept]? = nil,
@@ -122,9 +117,9 @@ public struct ObservationDefinition: DomainResource {
 		text: Narrative? = nil,
 		validCodedValueSet: Reference? = nil
 	) {
-		self.init(code: code)
 		self.abnormalCodedValueSet = abnormalCodedValueSet
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.criticalCodedValueSet = criticalCodedValueSet
 		self.`extension` = `extension`
@@ -174,6 +169,9 @@ public struct ObservationDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -203,8 +201,10 @@ public struct ObservationDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try abnormalCodedValueSet?.encode(on: &_container, forKey: .abnormalCodedValueSet)
 		try category?.encode(on: &_container, forKey: .category)
@@ -272,11 +272,7 @@ public struct ObservationDefinitionQualifiedInterval: BackboneElement {
 	/// The interval itself, for continuous or ordinal observations
 	public var range: Range?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		age: Range? = nil,
 		appliesTo: [CodeableConcept]? = nil,
@@ -290,7 +286,6 @@ public struct ObservationDefinitionQualifiedInterval: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		range: Range? = nil
 	) {
-		self.init()
 		self.age = age
 		self.appliesTo = appliesTo
 		self.category = category
@@ -322,6 +317,9 @@ public struct ObservationDefinitionQualifiedInterval: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -341,6 +339,7 @@ public struct ObservationDefinitionQualifiedInterval: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try age?.encode(on: &_container, forKey: .age)
 		try appliesTo?.encode(on: &_container, forKey: .appliesTo)
@@ -384,11 +383,7 @@ public struct ObservationDefinitionQuantitativeDetails: BackboneElement {
 	/// SI unit for quantitative results
 	public var unit: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		conversionFactor: FHIRPrimitive<FHIRDecimal>? = nil,
 		customaryUnit: CodeableConcept? = nil,
@@ -398,7 +393,6 @@ public struct ObservationDefinitionQuantitativeDetails: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		unit: CodeableConcept? = nil
 	) {
-		self.init()
 		self.conversionFactor = conversionFactor
 		self.customaryUnit = customaryUnit
 		self.decimalPrecision = decimalPrecision
@@ -422,6 +416,9 @@ public struct ObservationDefinitionQuantitativeDetails: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -437,6 +434,7 @@ public struct ObservationDefinitionQuantitativeDetails: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try conversionFactor?.encode(on: &_container, forKey: .conversionFactor, auxiliaryKey: ._conversionFactor)
 		try customaryUnit?.encode(on: &_container, forKey: .customaryUnit)

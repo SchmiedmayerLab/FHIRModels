@@ -154,12 +154,7 @@ public struct Citation: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -201,7 +196,6 @@ public struct Citation: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(status: status)
 		self.approvalDate = approvalDate
 		self.author = author
 		self.citedArtifact = citedArtifact
@@ -232,6 +226,7 @@ public struct Citation: DomainResource {
 		self.purpose = purpose
 		self.relatedArtifact = relatedArtifact
 		self.reviewer = reviewer
+		self.status = status
 		self.statusDate = statusDate
 		self.summary = summary
 		self.text = text
@@ -290,6 +285,9 @@ public struct Citation: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -331,27 +329,16 @@ public struct Citation: DomainResource {
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
@@ -392,13 +379,31 @@ public struct Citation: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }
 
@@ -461,11 +466,7 @@ public struct CitationCitedArtifact: BackboneElement {
 	/// Used for any URL for the article or artifact cited
 	public var webLocation: [CitationCitedArtifactWebLocation]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		abstract: [CitationCitedArtifactAbstract]? = nil,
 		classification: [CitationCitedArtifactClassification]? = nil,
@@ -486,7 +487,6 @@ public struct CitationCitedArtifact: BackboneElement {
 		version: CitationCitedArtifactVersion? = nil,
 		webLocation: [CitationCitedArtifactWebLocation]? = nil
 	) {
-		self.init()
 		self.abstract = abstract
 		self.classification = classification
 		self.contributorship = contributorship
@@ -532,6 +532,9 @@ public struct CitationCitedArtifact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -558,6 +561,7 @@ public struct CitationCitedArtifact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try abstract?.encode(on: &_container, forKey: .abstract)
 		try classification?.encode(on: &_container, forKey: .classification)
@@ -609,12 +613,7 @@ public struct CitationCitedArtifactAbstract: BackboneElement {
 	/// The kind of abstract
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(text: FHIRPrimitive<FHIRString>) {
-		self.text = text
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		copyright: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -624,12 +623,12 @@ public struct CitationCitedArtifactAbstract: BackboneElement {
 		text: FHIRPrimitive<FHIRString>,
 		type: CodeableConcept? = nil
 	) {
-		self.init(text: text)
 		self.copyright = copyright
 		self.`extension` = `extension`
 		self.id = id
 		self.language = language
 		self.modifierExtension = modifierExtension
+		self.text = text
 		self.type = type
 	}
 	
@@ -647,6 +646,9 @@ public struct CitationCitedArtifactAbstract: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -662,6 +664,7 @@ public struct CitationCitedArtifactAbstract: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try copyright?.encode(on: &_container, forKey: .copyright, auxiliaryKey: ._copyright)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -696,11 +699,7 @@ public struct CitationCitedArtifactClassification: BackboneElement {
 	/// The kind of classifier (e.g. publication type, keyword)
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		artifactAssessment: [Reference]? = nil,
 		classifier: [CodeableConcept]? = nil,
@@ -709,7 +708,6 @@ public struct CitationCitedArtifactClassification: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.artifactAssessment = artifactAssessment
 		self.classifier = classifier
 		self.`extension` = `extension`
@@ -731,6 +729,9 @@ public struct CitationCitedArtifactClassification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -745,6 +746,7 @@ public struct CitationCitedArtifactClassification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try artifactAssessment?.encode(on: &_container, forKey: .artifactAssessment)
 		try classifier?.encode(on: &_container, forKey: .classifier)
@@ -781,11 +783,7 @@ public struct CitationCitedArtifactContributorship: BackboneElement {
 	/// Used to record a display of the author/contributor list without separate data element for each list member
 	public var summary: [CitationCitedArtifactContributorshipSummary]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		complete: FHIRPrimitive<FHIRBool>? = nil,
 		entry: [CitationCitedArtifactContributorshipEntry]? = nil,
@@ -794,7 +792,6 @@ public struct CitationCitedArtifactContributorship: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		summary: [CitationCitedArtifactContributorshipSummary]? = nil
 	) {
-		self.init()
 		self.complete = complete
 		self.entry = entry
 		self.`extension` = `extension`
@@ -816,6 +813,9 @@ public struct CitationCitedArtifactContributorship: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -830,6 +830,7 @@ public struct CitationCitedArtifactContributorship: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try complete?.encode(on: &_container, forKey: .complete, auxiliaryKey: ._complete)
 		try entry?.encode(on: &_container, forKey: .entry)
@@ -880,12 +881,7 @@ public struct CitationCitedArtifactContributorshipEntry: BackboneElement {
 	/// The role of the contributor (e.g. author, editor, reviewer, funder)
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(contributor: Reference) {
-		self.contributor = contributor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		affiliation: [Reference]? = nil,
 		contributionInstance: [CitationCitedArtifactContributorshipEntryContributionInstance]? = nil,
@@ -899,10 +895,10 @@ public struct CitationCitedArtifactContributorshipEntry: BackboneElement {
 		rankingOrder: FHIRPrimitive<FHIRPositiveInteger>? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init(contributor: contributor)
 		self.affiliation = affiliation
 		self.contributionInstance = contributionInstance
 		self.contributionType = contributionType
+		self.contributor = contributor
 		self.correspondingContact = correspondingContact
 		self.`extension` = `extension`
 		self.forenameInitials = forenameInitials
@@ -930,6 +926,9 @@ public struct CitationCitedArtifactContributorshipEntry: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -949,6 +948,7 @@ public struct CitationCitedArtifactContributorshipEntry: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try affiliation?.encode(on: &_container, forKey: .affiliation)
 		try contributionInstance?.encode(on: &_container, forKey: .contributionInstance)
@@ -984,12 +984,7 @@ public struct CitationCitedArtifactContributorshipEntryContributionInstance: Bac
 	/// The specific contribution
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -997,11 +992,11 @@ public struct CitationCitedArtifactContributorshipEntryContributionInstance: Bac
 		time: FHIRPrimitive<DateTime>? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.time = time
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1016,6 +1011,9 @@ public struct CitationCitedArtifactContributorshipEntryContributionInstance: Bac
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1029,6 +1027,7 @@ public struct CitationCitedArtifactContributorshipEntryContributionInstance: Bac
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1065,12 +1064,7 @@ public struct CitationCitedArtifactContributorshipSummary: BackboneElement {
 	/// The display string for the author list, contributor list, or contributorship statement
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(value: FHIRPrimitive<FHIRString>) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1080,13 +1074,13 @@ public struct CitationCitedArtifactContributorshipSummary: BackboneElement {
 		type: CodeableConcept? = nil,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.source = source
 		self.style = style
 		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -1103,6 +1097,9 @@ public struct CitationCitedArtifactContributorshipSummary: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1118,6 +1115,7 @@ public struct CitationCitedArtifactContributorshipSummary: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1152,11 +1150,7 @@ public struct CitationCitedArtifactPart: BackboneElement {
 	/// The specification of the component
 	public var value: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		baseCitation: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -1165,7 +1159,6 @@ public struct CitationCitedArtifactPart: BackboneElement {
 		type: CodeableConcept? = nil,
 		value: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.baseCitation = baseCitation
 		self.`extension` = `extension`
 		self.id = id
@@ -1187,6 +1180,9 @@ public struct CitationCitedArtifactPart: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1201,6 +1197,7 @@ public struct CitationCitedArtifactPart: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try baseCitation?.encode(on: &_container, forKey: .baseCitation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1270,11 +1267,7 @@ public struct CitationCitedArtifactPublicationForm: BackboneElement {
 	/// Volume number of journal or other collection in which the article is published
 	public var volume: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		accessionNumber: FHIRPrimitive<FHIRString>? = nil,
 		articleDate: FHIRPrimitive<DateTime>? = nil,
@@ -1295,7 +1288,6 @@ public struct CitationCitedArtifactPublicationForm: BackboneElement {
 		publishedIn: CitationCitedArtifactPublicationFormPublishedIn? = nil,
 		volume: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.accessionNumber = accessionNumber
 		self.articleDate = articleDate
 		self.citedMedium = citedMedium
@@ -1341,6 +1333,9 @@ public struct CitationCitedArtifactPublicationForm: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1367,6 +1362,7 @@ public struct CitationCitedArtifactPublicationForm: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try accessionNumber?.encode(on: &_container, forKey: .accessionNumber, auxiliaryKey: ._accessionNumber)
 		try articleDate?.encode(on: &_container, forKey: .articleDate, auxiliaryKey: ._articleDate)
@@ -1418,11 +1414,7 @@ public struct CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 	/// Kind of container (e.g. Periodical, database, or book)
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1433,7 +1425,6 @@ public struct CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 		title: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -1459,6 +1450,9 @@ public struct CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1475,6 +1469,7 @@ public struct CitationCitedArtifactPublicationFormPublishedIn: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1529,12 +1524,7 @@ public struct CitationCitedArtifactRelatesTo: BackboneElement {
 	/// specification-of | created-with | cite-as | reprint | reprint-of
 	public var type: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<FHIRString>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		citation: FHIRPrimitive<FHIRString>? = nil,
 		classifier: [CodeableConcept]? = nil,
@@ -1548,7 +1538,6 @@ public struct CitationCitedArtifactRelatesTo: BackboneElement {
 		resourceReference: Reference? = nil,
 		type: FHIRPrimitive<FHIRString>
 	) {
-		self.init(type: type)
 		self.citation = citation
 		self.classifier = classifier
 		self.display = display
@@ -1559,6 +1548,7 @@ public struct CitationCitedArtifactRelatesTo: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.resource = resource
 		self.resourceReference = resourceReference
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1579,6 +1569,9 @@ public struct CitationCitedArtifactRelatesTo: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1598,6 +1591,7 @@ public struct CitationCitedArtifactRelatesTo: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try citation?.encode(on: &_container, forKey: .citation, auxiliaryKey: ._citation)
 		try classifier?.encode(on: &_container, forKey: .classifier)
@@ -1638,13 +1632,7 @@ public struct CitationCitedArtifactStatusDate: BackboneElement {
 	/// When the status started and/or ended
 	public var period: Period
 	
-	/// Designated initializer taking all required properties
-	public init(activity: CodeableConcept, period: Period) {
-		self.activity = activity
-		self.period = period
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: CodeableConcept,
 		actual: FHIRPrimitive<FHIRBool>? = nil,
@@ -1653,11 +1641,12 @@ public struct CitationCitedArtifactStatusDate: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period
 	) {
-		self.init(activity: activity, period: period)
+		self.activity = activity
 		self.actual = actual
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.period = period
 	}
 	
 	// MARK: - Codable
@@ -1673,6 +1662,9 @@ public struct CitationCitedArtifactStatusDate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1687,6 +1679,7 @@ public struct CitationCitedArtifactStatusDate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try activity.encode(on: &_container, forKey: .activity)
 		try actual?.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
@@ -1720,12 +1713,7 @@ public struct CitationCitedArtifactTitle: BackboneElement {
 	/// The kind of title
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(text: FHIRPrimitive<FHIRString>) {
-		self.text = text
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1734,11 +1722,11 @@ public struct CitationCitedArtifactTitle: BackboneElement {
 		text: FHIRPrimitive<FHIRString>,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(text: text)
 		self.`extension` = `extension`
 		self.id = id
 		self.language = language
 		self.modifierExtension = modifierExtension
+		self.text = text
 		self.type = type
 	}
 	
@@ -1755,6 +1743,9 @@ public struct CitationCitedArtifactTitle: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1769,6 +1760,7 @@ public struct CitationCitedArtifactTitle: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1799,12 +1791,7 @@ public struct CitationCitedArtifactVersion: BackboneElement {
 	/// The version number or other version identifier
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(value: FHIRPrimitive<FHIRString>) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		baseCitation: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -1812,11 +1799,11 @@ public struct CitationCitedArtifactVersion: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(value: value)
 		self.baseCitation = baseCitation
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -1831,6 +1818,9 @@ public struct CitationCitedArtifactVersion: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1844,6 +1834,7 @@ public struct CitationCitedArtifactVersion: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try baseCitation?.encode(on: &_container, forKey: .baseCitation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1873,11 +1864,7 @@ public struct CitationCitedArtifactWebLocation: BackboneElement {
 	/// The specific URL
 	public var url: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		classifier: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -1885,7 +1872,6 @@ public struct CitationCitedArtifactWebLocation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		url: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init()
 		self.classifier = classifier
 		self.`extension` = `extension`
 		self.id = id
@@ -1905,6 +1891,9 @@ public struct CitationCitedArtifactWebLocation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1918,6 +1907,7 @@ public struct CitationCitedArtifactWebLocation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try classifier?.encode(on: &_container, forKey: .classifier)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1947,11 +1937,7 @@ public struct CitationClassification: BackboneElement {
 	/// The kind of classifier (e.g. publication type, keyword)
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		classifier: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -1959,7 +1945,6 @@ public struct CitationClassification: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.classifier = classifier
 		self.`extension` = `extension`
 		self.id = id
@@ -1979,6 +1964,9 @@ public struct CitationClassification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1992,6 +1980,7 @@ public struct CitationClassification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try classifier?.encode(on: &_container, forKey: .classifier)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -2026,13 +2015,7 @@ public struct CitationStatusDate: BackboneElement {
 	/// When the status started and/or ended
 	public var period: Period
 	
-	/// Designated initializer taking all required properties
-	public init(activity: CodeableConcept, period: Period) {
-		self.activity = activity
-		self.period = period
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: CodeableConcept,
 		actual: FHIRPrimitive<FHIRBool>? = nil,
@@ -2041,11 +2024,12 @@ public struct CitationStatusDate: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period
 	) {
-		self.init(activity: activity, period: period)
+		self.activity = activity
 		self.actual = actual
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.period = period
 	}
 	
 	// MARK: - Codable
@@ -2061,6 +2045,9 @@ public struct CitationStatusDate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2075,6 +2062,7 @@ public struct CitationStatusDate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try activity.encode(on: &_container, forKey: .activity)
 		try actual?.encode(on: &_container, forKey: .actual, auxiliaryKey: ._actual)
@@ -2105,12 +2093,7 @@ public struct CitationSummary: BackboneElement {
 	/// The human-readable display of the citation summary
 	public var text: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(text: FHIRPrimitive<FHIRString>) {
-		self.text = text
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -2118,11 +2101,11 @@ public struct CitationSummary: BackboneElement {
 		style: CodeableConcept? = nil,
 		text: FHIRPrimitive<FHIRString>
 	) {
-		self.init(text: text)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.style = style
+		self.text = text
 	}
 	
 	// MARK: - Codable
@@ -2137,6 +2120,9 @@ public struct CitationSummary: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2150,6 +2136,7 @@ public struct CitationSummary: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

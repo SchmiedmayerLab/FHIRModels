@@ -154,12 +154,7 @@ public struct Group: DomainResource {
 	/// One of `versionAlgorithm[x]`
 	public var versionAlgorithm: VersionAlgorithmX?
 	
-	/// Designated initializer taking all required properties
-	public init(membership: FHIRPrimitive<GroupMembershipBasis>) {
-		self.membership = membership
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		characteristic: [GroupCharacteristic]? = nil,
 		code: CodeableConcept? = nil,
@@ -195,7 +190,6 @@ public struct Group: DomainResource {
 		version: FHIRPrimitive<FHIRString>? = nil,
 		versionAlgorithm: VersionAlgorithmX? = nil
 	) {
-		self.init(membership: membership)
 		self.characteristic = characteristic
 		self.code = code
 		self.combinationMethod = combinationMethod
@@ -214,6 +208,7 @@ public struct Group: DomainResource {
 		self.language = language
 		self.managingEntity = managingEntity
 		self.member = member
+		self.membership = membership
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.name = name
@@ -272,6 +267,9 @@ public struct Group: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -307,27 +305,16 @@ public struct Group: DomainResource {
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [UsageContext](from: _container, forKeyIfPresent: .useContext)
 		self.version = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .version, auxiliaryKey: ._version)
-		var _t_versionAlgorithm: VersionAlgorithmX? = nil
-		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .string(versionAlgorithmString)
-		}
-		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
-			if _t_versionAlgorithm != nil {
-				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmCoding, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
-			}
-			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
-		}
-		self.versionAlgorithm = _t_versionAlgorithm
+		self.versionAlgorithm = try Self._decodeVersionAlgorithm(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try characteristic?.encode(on: &_container, forKey: .characteristic)
 		try code?.encode(on: &_container, forKey: .code)
@@ -362,13 +349,31 @@ public struct Group: DomainResource {
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
 		if let _enum = versionAlgorithm {
-			switch _enum {
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
-			}
+		switch _enum {
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmCoding)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeVersionAlgorithm(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> VersionAlgorithmX? {
+		var _t_versionAlgorithm: VersionAlgorithmX? = nil
+		if let versionAlgorithmCoding = try Coding(from: _container, forKeyIfPresent: .versionAlgorithmCoding) {
+			_t_versionAlgorithm = .coding(versionAlgorithmCoding)
+		}
+		if let versionAlgorithmString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .versionAlgorithmString, auxiliaryKey: ._versionAlgorithmString) {
+			if _t_versionAlgorithm != nil {
+				throw DecodingError.dataCorruptedError(forKey: .versionAlgorithmString, in: _container, debugDescription: "More than one value provided for \"versionAlgorithm\"")
+			}
+			_t_versionAlgorithm = .string(versionAlgorithmString)
+		}
+		return _t_versionAlgorithm
 	}
 }
 
@@ -450,14 +455,7 @@ public struct GroupCharacteristic: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, exclude: FHIRPrimitive<FHIRBool>, value: ValueX) {
-		self.code = code
-		self.exclude = exclude
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -475,10 +473,11 @@ public struct GroupCharacteristic: BackboneElement {
 		timing: [RelativeTime]? = nil,
 		value: ValueX
 	) {
-		self.init(code: code, exclude: exclude, value: value)
+		self.code = code
 		self.description_fhir = description_fhir
 		self.determiner = determiner
 		self.duration = duration
+		self.exclude = exclude
 		self.`extension` = `extension`
 		self.formula = formula
 		self.id = id
@@ -488,6 +487,7 @@ public struct GroupCharacteristic: BackboneElement {
 		self.offset = offset
 		self.period = period
 		self.timing = timing
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -520,22 +520,89 @@ public struct GroupCharacteristic: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueBoolean) || _container.contains(CodingKeys.valueCodeableConcept) || _container.contains(CodingKeys.valueExpression) || _container.contains(CodingKeys.valueQuantity) || _container.contains(CodingKeys.valueRange) || _container.contains(CodingKeys.valueReference) || _container.contains(CodingKeys.valueUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueBoolean, CodingKeys.valueCodeableConcept, CodingKeys.valueExpression, CodingKeys.valueQuantity, CodingKeys.valueRange, CodingKeys.valueReference, CodingKeys.valueUri], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
 		self.determiner = try Reference(from: _container, forKeyIfPresent: .determiner)
+		self.duration = try Self._decodeDuration(from: _container)
+		self.exclude = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .exclude, auxiliaryKey: ._exclude)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.formula = try Expression(from: _container, forKeyIfPresent: .formula)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.instances = try Self._decodeInstances(from: _container)
+		self.method = try [CodeableConcept](from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.offset = try CodeableConcept(from: _container, forKeyIfPresent: .offset)
+		self.period = try Period(from: _container, forKeyIfPresent: .period)
+		self.timing = try [RelativeTime](from: _container, forKeyIfPresent: .timing)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try code.encode(on: &_container, forKey: .code)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try determiner?.encode(on: &_container, forKey: .determiner)
+		if let _enum = duration {
+		switch _enum {
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .durationDuration)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .durationRange)
+		}
+		}
+		try exclude.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try formula?.encode(on: &_container, forKey: .formula)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		if let _enum = instances {
+		switch _enum {
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .instancesRange)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .instancesUnsignedInt, auxiliaryKey: ._instancesUnsignedInt)
+		}
+		}
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try offset?.encode(on: &_container, forKey: .offset)
+		try period?.encode(on: &_container, forKey: .period)
+		try timing?.encode(on: &_container, forKey: .timing)
+		
+		switch value {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .valueCodeableConcept)
+		case .expression(let _value):
+			try _value.encode(on: &_container, forKey: .valueExpression)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .valueRange)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .valueReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDuration(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DurationX? {
 		var _t_duration: DurationX? = nil
 		if let durationDuration = try Duration(from: _container, forKeyIfPresent: .durationDuration) {
-			if _t_duration != nil {
-				throw DecodingError.dataCorruptedError(forKey: .durationDuration, in: _container, debugDescription: "More than one value provided for \"duration\"")
-			}
 			_t_duration = .duration(durationDuration)
 		}
 		if let durationRange = try Range(from: _container, forKeyIfPresent: .durationRange) {
@@ -544,42 +611,43 @@ public struct GroupCharacteristic: BackboneElement {
 			}
 			_t_duration = .range(durationRange)
 		}
-		self.duration = _t_duration
-		self.exclude = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .exclude, auxiliaryKey: ._exclude)
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.formula = try Expression(from: _container, forKeyIfPresent: .formula)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		return _t_duration
+	}
+	
+	private static func _decodeInstances(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> InstancesX? {
 		var _t_instances: InstancesX? = nil
+		if let instancesRange = try Range(from: _container, forKeyIfPresent: .instancesRange) {
+			_t_instances = .range(instancesRange)
+		}
 		if let instancesUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .instancesUnsignedInt, auxiliaryKey: ._instancesUnsignedInt) {
 			if _t_instances != nil {
 				throw DecodingError.dataCorruptedError(forKey: .instancesUnsignedInt, in: _container, debugDescription: "More than one value provided for \"instances\"")
 			}
 			_t_instances = .unsignedInt(instancesUnsignedInt)
 		}
-		if let instancesRange = try Range(from: _container, forKeyIfPresent: .instancesRange) {
-			if _t_instances != nil {
-				throw DecodingError.dataCorruptedError(forKey: .instancesRange, in: _container, debugDescription: "More than one value provided for \"instances\"")
-			}
-			_t_instances = .range(instancesRange)
-		}
-		self.instances = _t_instances
-		self.method = try [CodeableConcept](from: _container, forKeyIfPresent: .method)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.offset = try CodeableConcept(from: _container, forKeyIfPresent: .offset)
-		self.period = try Period(from: _container, forKeyIfPresent: .period)
-		self.timing = try [RelativeTime](from: _container, forKeyIfPresent: .timing)
+		return _t_instances
+	}
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
 		var _t_value: ValueX? = nil
+		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
+			_t_value = .boolean(valueBoolean)
+		}
 		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
 			_t_value = .codeableConcept(valueCodeableConcept)
 		}
-		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
+		if let valueExpression = try Expression(from: _container, forKeyIfPresent: .valueExpression) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueBoolean, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueExpression, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .boolean(valueBoolean)
+			_t_value = .expression(valueExpression)
 		}
 		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
 			if _t_value != nil {
@@ -605,65 +673,12 @@ public struct GroupCharacteristic: BackboneElement {
 			}
 			_t_value = .uri(valueUri)
 		}
-		if let valueExpression = try Expression(from: _container, forKeyIfPresent: .valueExpression) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueExpression, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .expression(valueExpression)
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueUri)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
-		self.value = _t_value!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try code.encode(on: &_container, forKey: .code)
-		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
-		try determiner?.encode(on: &_container, forKey: .determiner)
-		if let _enum = duration {
-			switch _enum {
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .durationDuration)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .durationRange)
-			}
-		}
-		try exclude.encode(on: &_container, forKey: .exclude, auxiliaryKey: ._exclude)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try formula?.encode(on: &_container, forKey: .formula)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		if let _enum = instances {
-			switch _enum {
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .instancesUnsignedInt, auxiliaryKey: ._instancesUnsignedInt)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .instancesRange)
-			}
-		}
-		try method?.encode(on: &_container, forKey: .method)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try offset?.encode(on: &_container, forKey: .offset)
-		try period?.encode(on: &_container, forKey: .period)
-		try timing?.encode(on: &_container, forKey: .timing)
-		
-			switch value {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .valueRange)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .valueReference)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
-			case .expression(let _value):
-				try _value.encode(on: &_container, forKey: .valueExpression)
-			}
-		
+		return _t_value
 	}
 }
 
@@ -695,12 +710,7 @@ public struct GroupMember: BackboneElement {
 	/// Period member belonged to the group
 	public var period: Period?
 	
-	/// Designated initializer taking all required properties
-	public init(entity: Reference) {
-		self.entity = entity
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		entity: Reference,
 		`extension`: [Extension]? = nil,
@@ -710,7 +720,7 @@ public struct GroupMember: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period? = nil
 	) {
-		self.init(entity: entity)
+		self.entity = entity
 		self.`extension` = `extension`
 		self.id = id
 		self.inactive = inactive
@@ -733,6 +743,9 @@ public struct GroupMember: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -748,6 +761,7 @@ public struct GroupMember: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try entity.encode(on: &_container, forKey: .entity)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

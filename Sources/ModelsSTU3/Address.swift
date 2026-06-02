@@ -65,11 +65,7 @@ public struct Address: Element {
 	/// The purpose of this address.
 	public var use: FHIRPrimitive<AddressUse>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		city: FHIRPrimitive<FHIRString>? = nil,
 		country: FHIRPrimitive<FHIRString>? = nil,
@@ -84,7 +80,6 @@ public struct Address: Element {
 		type: FHIRPrimitive<AddressType>? = nil,
 		use: FHIRPrimitive<AddressUse>? = nil
 	) {
-		self.init()
 		self.city = city
 		self.country = country
 		self.district = district
@@ -118,6 +113,9 @@ public struct Address: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -138,6 +136,7 @@ public struct Address: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try city?.encode(on: &_container, forKey: .city, auxiliaryKey: ._city)
 		try country?.encode(on: &_container, forKey: .country, auxiliaryKey: ._country)

@@ -120,16 +120,7 @@ public struct Conformance: DomainResource {
 	/// Logical id for this version of the statement
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(acceptUnknown: FHIRPrimitive<UnknownContentCode>, date: FHIRPrimitive<DateTime>, fhirVersion: FHIRPrimitive<FHIRString>, format: [FHIRPrimitive<FHIRString>], kind: FHIRPrimitive<ConformanceStatementKind>) {
-		self.acceptUnknown = acceptUnknown
-		self.date = date
-		self.fhirVersion = fhirVersion
-		self.format = format
-		self.kind = kind
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		acceptUnknown: FHIRPrimitive<UnknownContentCode>,
 		contact: [ConformanceContact]? = nil,
@@ -161,17 +152,21 @@ public struct Conformance: DomainResource {
 		url: FHIRPrimitive<FHIRURI>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(acceptUnknown: acceptUnknown, date: date, fhirVersion: fhirVersion, format: format, kind: kind)
+		self.acceptUnknown = acceptUnknown
 		self.contact = contact
 		self.contained = contained
 		self.copyright = copyright
+		self.date = date
 		self.description_fhir = description_fhir
 		self.document = document
 		self.experimental = experimental
 		self.`extension` = `extension`
+		self.fhirVersion = fhirVersion
+		self.format = format
 		self.id = id
 		self.implementation = implementation
 		self.implicitRules = implicitRules
+		self.kind = kind
 		self.language = language
 		self.messaging = messaging
 		self.meta = meta
@@ -225,6 +220,9 @@ public struct Conformance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -262,8 +260,10 @@ public struct Conformance: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try acceptUnknown.encode(on: &_container, forKey: .acceptUnknown, auxiliaryKey: ._acceptUnknown)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -319,11 +319,7 @@ public struct ConformanceContact: BackboneElement {
 	/// Contact details for individual or publisher
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -331,7 +327,6 @@ public struct ConformanceContact: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -351,6 +346,9 @@ public struct ConformanceContact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -364,6 +362,7 @@ public struct ConformanceContact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -399,13 +398,7 @@ public struct ConformanceDocument: BackboneElement {
 	/// Constraint on a resource used in the document
 	public var profile: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(mode: FHIRPrimitive<DocumentMode>, profile: Reference) {
-		self.mode = mode
-		self.profile = profile
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		documentation: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -414,11 +407,12 @@ public struct ConformanceDocument: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		profile: Reference
 	) {
-		self.init(mode: mode, profile: profile)
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
+		self.mode = mode
 		self.modifierExtension = modifierExtension
+		self.profile = profile
 	}
 	
 	// MARK: - Codable
@@ -434,6 +428,9 @@ public struct ConformanceDocument: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -448,6 +445,7 @@ public struct ConformanceDocument: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -481,12 +479,7 @@ public struct ConformanceImplementation: BackboneElement {
 	/// Base URL for the installation
 	public var url: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init(description_fhir: FHIRPrimitive<FHIRString>) {
-		self.description_fhir = description_fhir
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
@@ -494,7 +487,7 @@ public struct ConformanceImplementation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		url: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init(description_fhir: description_fhir)
+		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -513,6 +506,9 @@ public struct ConformanceImplementation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -526,6 +522,7 @@ public struct ConformanceImplementation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -563,12 +560,7 @@ public struct ConformanceMessaging: BackboneElement {
 	/// Reliable Message Cache Length (min)
 	public var reliableCache: FHIRPrimitive<FHIRUnsignedInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(event: [ConformanceMessagingEvent]) {
-		self.event = event
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		documentation: FHIRPrimitive<FHIRString>? = nil,
 		endpoint: [ConformanceMessagingEndpoint]? = nil,
@@ -578,9 +570,9 @@ public struct ConformanceMessaging: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		reliableCache: FHIRPrimitive<FHIRUnsignedInteger>? = nil
 	) {
-		self.init(event: event)
 		self.documentation = documentation
 		self.endpoint = endpoint
+		self.event = event
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -601,6 +593,9 @@ public struct ConformanceMessaging: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -616,6 +611,7 @@ public struct ConformanceMessaging: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
 		try endpoint?.encode(on: &_container, forKey: .endpoint)
@@ -649,13 +645,7 @@ public struct ConformanceMessagingEndpoint: BackboneElement {
 	/// http | ftp | mllp +
 	public var `protocol`: Coding
 	
-	/// Designated initializer taking all required properties
-	public init(address: FHIRPrimitive<FHIRURI>, `protocol`: Coding) {
-		self.address = address
-		self.`protocol` = `protocol`
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: FHIRPrimitive<FHIRURI>,
 		`extension`: [Extension]? = nil,
@@ -663,10 +653,11 @@ public struct ConformanceMessagingEndpoint: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		`protocol`: Coding
 	) {
-		self.init(address: address, protocol: `protocol`)
+		self.address = address
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.`protocol` = `protocol`
 	}
 	
 	// MARK: - Codable
@@ -681,6 +672,9 @@ public struct ConformanceMessagingEndpoint: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -694,6 +688,7 @@ public struct ConformanceMessagingEndpoint: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try address.encode(on: &_container, forKey: .address, auxiliaryKey: ._address)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -758,16 +753,7 @@ public struct ConformanceMessagingEvent: BackboneElement {
 	/// Profile that describes the response
 	public var response: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(code: Coding, focus: FHIRPrimitive<ResourceType>, mode: FHIRPrimitive<ConformanceEventMode>, request: Reference, response: Reference) {
-		self.code = code
-		self.focus = focus
-		self.mode = mode
-		self.request = request
-		self.response = response
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: FHIRPrimitive<MessageSignificanceCategory>? = nil,
 		code: Coding,
@@ -780,12 +766,16 @@ public struct ConformanceMessagingEvent: BackboneElement {
 		request: Reference,
 		response: Reference
 	) {
-		self.init(code: code, focus: focus, mode: mode, request: request, response: response)
 		self.category = category
+		self.code = code
 		self.documentation = documentation
 		self.`extension` = `extension`
+		self.focus = focus
 		self.id = id
+		self.mode = mode
 		self.modifierExtension = modifierExtension
+		self.request = request
+		self.response = response
 	}
 	
 	// MARK: - Codable
@@ -805,6 +795,9 @@ public struct ConformanceMessagingEvent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -823,6 +816,7 @@ public struct ConformanceMessagingEvent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category, auxiliaryKey: ._category)
 		try code.encode(on: &_container, forKey: .code)
@@ -883,13 +877,7 @@ public struct ConformanceRest: BackboneElement {
 	/// Restricted to: ['not-supported', 'batch', 'transaction', 'both']
 	public var transactionMode: FHIRPrimitive<TransactionMode>?
 	
-	/// Designated initializer taking all required properties
-	public init(mode: FHIRPrimitive<RestfulConformanceMode>, resource: [ConformanceRestResource]) {
-		self.mode = mode
-		self.resource = resource
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		compartment: [FHIRPrimitive<FHIRURI>]? = nil,
 		documentation: FHIRPrimitive<FHIRString>? = nil,
@@ -904,14 +892,15 @@ public struct ConformanceRest: BackboneElement {
 		security: ConformanceRestSecurity? = nil,
 		transactionMode: FHIRPrimitive<TransactionMode>? = nil
 	) {
-		self.init(mode: mode, resource: resource)
 		self.compartment = compartment
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
 		self.interaction = interaction
+		self.mode = mode
 		self.modifierExtension = modifierExtension
 		self.operation = operation
+		self.resource = resource
 		self.searchParam = searchParam
 		self.security = security
 		self.transactionMode = transactionMode
@@ -936,6 +925,9 @@ public struct ConformanceRest: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -956,6 +948,7 @@ public struct ConformanceRest: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try compartment?.encode(on: &_container, forKey: .compartment, auxiliaryKey: ._compartment)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
@@ -995,12 +988,7 @@ public struct ConformanceRestInteraction: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<FHIRRestfulInteractions>) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRRestfulInteractions>,
 		documentation: FHIRPrimitive<FHIRString>? = nil,
@@ -1008,7 +996,7 @@ public struct ConformanceRestInteraction: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
@@ -1027,6 +1015,9 @@ public struct ConformanceRestInteraction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1040,6 +1031,7 @@ public struct ConformanceRestInteraction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
@@ -1071,13 +1063,7 @@ public struct ConformanceRestOperation: BackboneElement {
 	/// Name by which the operation/query is invoked
 	public var name: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(definition: Reference, name: FHIRPrimitive<FHIRString>) {
-		self.definition = definition
-		self.name = name
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		definition: Reference,
 		`extension`: [Extension]? = nil,
@@ -1085,10 +1071,11 @@ public struct ConformanceRestOperation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		name: FHIRPrimitive<FHIRString>
 	) {
-		self.init(definition: definition, name: name)
+		self.definition = definition
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.name = name
 	}
 	
 	// MARK: - Codable
@@ -1103,6 +1090,9 @@ public struct ConformanceRestOperation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1116,6 +1106,7 @@ public struct ConformanceRestOperation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try definition.encode(on: &_container, forKey: .definition)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1198,13 +1189,7 @@ public struct ConformanceRestResource: BackboneElement {
 	/// Restricted to: ['no-version', 'versioned', 'versioned-update']
 	public var versioning: FHIRPrimitive<ResourceVersionPolicy>?
 	
-	/// Designated initializer taking all required properties
-	public init(interaction: [ConformanceRestResourceInteraction], type: FHIRPrimitive<ResourceType>) {
-		self.interaction = interaction
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		conditionalCreate: FHIRPrimitive<FHIRBool>? = nil,
 		conditionalDelete: FHIRPrimitive<ConditionalDeleteStatus>? = nil,
@@ -1222,18 +1207,19 @@ public struct ConformanceRestResource: BackboneElement {
 		updateCreate: FHIRPrimitive<FHIRBool>? = nil,
 		versioning: FHIRPrimitive<ResourceVersionPolicy>? = nil
 	) {
-		self.init(interaction: interaction, type: type)
 		self.conditionalCreate = conditionalCreate
 		self.conditionalDelete = conditionalDelete
 		self.conditionalUpdate = conditionalUpdate
 		self.`extension` = `extension`
 		self.id = id
+		self.interaction = interaction
 		self.modifierExtension = modifierExtension
 		self.profile = profile
 		self.readHistory = readHistory
 		self.searchInclude = searchInclude
 		self.searchParam = searchParam
 		self.searchRevInclude = searchRevInclude
+		self.type = type
 		self.updateCreate = updateCreate
 		self.versioning = versioning
 	}
@@ -1260,6 +1246,9 @@ public struct ConformanceRestResource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1283,6 +1272,7 @@ public struct ConformanceRestResource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try conditionalCreate?.encode(on: &_container, forKey: .conditionalCreate, auxiliaryKey: ._conditionalCreate)
 		try conditionalDelete?.encode(on: &_container, forKey: .conditionalDelete, auxiliaryKey: ._conditionalDelete)
@@ -1326,12 +1316,7 @@ public struct ConformanceRestResourceInteraction: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<FHIRRestfulInteractions>) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRRestfulInteractions>,
 		documentation: FHIRPrimitive<FHIRString>? = nil,
@@ -1339,7 +1324,7 @@ public struct ConformanceRestResourceInteraction: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
@@ -1358,6 +1343,9 @@ public struct ConformanceRestResourceInteraction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1371,6 +1359,7 @@ public struct ConformanceRestResourceInteraction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)
@@ -1436,13 +1425,7 @@ public struct ConformanceRestResourceSearchParam: BackboneElement {
 	/// Restricted to: ['number', 'date', 'string', 'token', 'reference', 'composite', 'quantity', 'uri']
 	public var type: FHIRPrimitive<SearchParamType>
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<SearchParamType>) {
-		self.name = name
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		chain: [FHIRPrimitive<FHIRString>]? = nil,
 		definition: FHIRPrimitive<FHIRURI>? = nil,
@@ -1455,7 +1438,6 @@ public struct ConformanceRestResourceSearchParam: BackboneElement {
 		target: [FHIRPrimitive<ResourceType>]? = nil,
 		type: FHIRPrimitive<SearchParamType>
 	) {
-		self.init(name: name, type: type)
 		self.chain = chain
 		self.definition = definition
 		self.documentation = documentation
@@ -1463,7 +1445,9 @@ public struct ConformanceRestResourceSearchParam: BackboneElement {
 		self.id = id
 		self.modifier = modifier
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.target = target
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1483,6 +1467,9 @@ public struct ConformanceRestResourceSearchParam: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1501,6 +1488,7 @@ public struct ConformanceRestResourceSearchParam: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try chain?.encode(on: &_container, forKey: .chain, auxiliaryKey: ._chain)
 		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
@@ -1543,11 +1531,7 @@ public struct ConformanceRestSecurity: BackboneElement {
 	/// OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
 	public var service: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		certificate: [ConformanceRestSecurityCertificate]? = nil,
 		cors: FHIRPrimitive<FHIRBool>? = nil,
@@ -1557,7 +1541,6 @@ public struct ConformanceRestSecurity: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		service: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.certificate = certificate
 		self.cors = cors
 		self.description_fhir = description_fhir
@@ -1581,6 +1564,9 @@ public struct ConformanceRestSecurity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1596,6 +1582,7 @@ public struct ConformanceRestSecurity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try certificate?.encode(on: &_container, forKey: .certificate)
 		try cors?.encode(on: &_container, forKey: .cors, auxiliaryKey: ._cors)
@@ -1627,11 +1614,7 @@ public struct ConformanceRestSecurityCertificate: BackboneElement {
 	/// Mime type for certificate
 	public var type: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		blob: FHIRPrimitive<Base64Binary>? = nil,
 		`extension`: [Extension]? = nil,
@@ -1639,7 +1622,6 @@ public struct ConformanceRestSecurityCertificate: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.blob = blob
 		self.`extension` = `extension`
 		self.id = id
@@ -1659,6 +1641,9 @@ public struct ConformanceRestSecurityCertificate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1672,6 +1657,7 @@ public struct ConformanceRestSecurityCertificate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try blob?.encode(on: &_container, forKey: .blob, auxiliaryKey: ._blob)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1707,12 +1693,7 @@ public struct ConformanceSoftware: BackboneElement {
 	/// Version covered by this statement
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>) {
-		self.name = name
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1721,10 +1702,10 @@ public struct ConformanceSoftware: BackboneElement {
 		releaseDate: FHIRPrimitive<DateTime>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(name: name)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.releaseDate = releaseDate
 		self.version = version
 	}
@@ -1742,6 +1723,9 @@ public struct ConformanceSoftware: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1756,6 +1740,7 @@ public struct ConformanceSoftware: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

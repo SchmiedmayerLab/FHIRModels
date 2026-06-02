@@ -61,11 +61,7 @@ public struct RelativeTime: BackboneType {
 	/// Free-text description
 	public var text: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contextCode: CodeableConcept? = nil,
 		contextDefinition: FHIRPrimitive<Canonical>? = nil,
@@ -77,7 +73,6 @@ public struct RelativeTime: BackboneType {
 		offset: OffsetX? = nil,
 		text: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.contextCode = contextCode
 		self.contextDefinition = contextDefinition
 		self.contextPath = contextPath
@@ -106,6 +101,9 @@ public struct RelativeTime: BackboneType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -116,26 +114,14 @@ public struct RelativeTime: BackboneType {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_offset: OffsetX? = nil
-		if let offsetDuration = try Duration(from: _container, forKeyIfPresent: .offsetDuration) {
-			if _t_offset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .offsetDuration, in: _container, debugDescription: "More than one value provided for \"offset\"")
-			}
-			_t_offset = .duration(offsetDuration)
-		}
-		if let offsetRange = try Range(from: _container, forKeyIfPresent: .offsetRange) {
-			if _t_offset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .offsetRange, in: _container, debugDescription: "More than one value provided for \"offset\"")
-			}
-			_t_offset = .range(offsetRange)
-		}
-		self.offset = _t_offset
+		self.offset = try Self._decodeOffset(from: _container)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contextCode?.encode(on: &_container, forKey: .contextCode)
 		try contextDefinition?.encode(on: &_container, forKey: .contextDefinition, auxiliaryKey: ._contextDefinition)
@@ -145,13 +131,31 @@ public struct RelativeTime: BackboneType {
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = offset {
-			switch _enum {
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .offsetDuration)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .offsetRange)
-			}
+		switch _enum {
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .offsetDuration)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .offsetRange)
+		}
 		}
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOffset(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OffsetX? {
+		var _t_offset: OffsetX? = nil
+		if let offsetDuration = try Duration(from: _container, forKeyIfPresent: .offsetDuration) {
+			_t_offset = .duration(offsetDuration)
+		}
+		if let offsetRange = try Range(from: _container, forKeyIfPresent: .offsetRange) {
+			if _t_offset != nil {
+				throw DecodingError.dataCorruptedError(forKey: .offsetRange, in: _container, debugDescription: "More than one value provided for \"offset\"")
+			}
+			_t_offset = .range(offsetRange)
+		}
+		return _t_offset
 	}
 }

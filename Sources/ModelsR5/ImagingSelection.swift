@@ -106,13 +106,7 @@ public struct ImagingSelection: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, status: FHIRPrimitive<ImagingSelectionStatus>) {
-		self.code = code
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: CodeableReference? = nil,
@@ -140,10 +134,10 @@ public struct ImagingSelection: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(code: code, status: status)
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.derivedFrom = derivedFrom
 		self.endpoint = endpoint
@@ -161,6 +155,7 @@ public struct ImagingSelection: DomainResource {
 		self.performer = performer
 		self.seriesNumber = seriesNumber
 		self.seriesUid = seriesUid
+		self.status = status
 		self.studyUid = studyUid
 		self.subject = subject
 		self.text = text
@@ -199,6 +194,9 @@ public struct ImagingSelection: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -232,8 +230,10 @@ public struct ImagingSelection: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -297,12 +297,7 @@ public struct ImagingSelectionInstance: BackboneElement {
 	/// DICOM SOP Instance UID
 	public var uid: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(uid: FHIRPrimitive<FHIRString>) {
-		self.uid = uid
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -314,7 +309,6 @@ public struct ImagingSelectionInstance: BackboneElement {
 		subset: [FHIRPrimitive<FHIRString>]? = nil,
 		uid: FHIRPrimitive<FHIRString>
 	) {
-		self.init(uid: uid)
 		self.`extension` = `extension`
 		self.id = id
 		self.imageRegion2D = imageRegion2D
@@ -323,6 +317,7 @@ public struct ImagingSelectionInstance: BackboneElement {
 		self.number = number
 		self.sopClass = sopClass
 		self.subset = subset
+		self.uid = uid
 	}
 	
 	// MARK: - Codable
@@ -341,6 +336,9 @@ public struct ImagingSelectionInstance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -358,6 +356,7 @@ public struct ImagingSelectionInstance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -396,13 +395,7 @@ public struct ImagingSelectionInstanceImageRegion2D: BackboneElement {
 	/// Specifies the type of image region.
 	public var regionType: FHIRPrimitive<ImagingSelection2DGraphicType>
 	
-	/// Designated initializer taking all required properties
-	public init(coordinate: [FHIRPrimitive<FHIRDecimal>], regionType: FHIRPrimitive<ImagingSelection2DGraphicType>) {
-		self.coordinate = coordinate
-		self.regionType = regionType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		coordinate: [FHIRPrimitive<FHIRDecimal>],
 		`extension`: [Extension]? = nil,
@@ -410,10 +403,11 @@ public struct ImagingSelectionInstanceImageRegion2D: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		regionType: FHIRPrimitive<ImagingSelection2DGraphicType>
 	) {
-		self.init(coordinate: coordinate, regionType: regionType)
+		self.coordinate = coordinate
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.regionType = regionType
 	}
 	
 	// MARK: - Codable
@@ -428,6 +422,9 @@ public struct ImagingSelectionInstanceImageRegion2D: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -441,6 +438,7 @@ public struct ImagingSelectionInstanceImageRegion2D: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try coordinate.encode(on: &_container, forKey: .coordinate, auxiliaryKey: ._coordinate)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -472,13 +470,7 @@ public struct ImagingSelectionInstanceImageRegion3D: BackboneElement {
 	/// Specifies the type of image region.
 	public var regionType: FHIRPrimitive<ImagingSelection3DGraphicType>
 	
-	/// Designated initializer taking all required properties
-	public init(coordinate: [FHIRPrimitive<FHIRDecimal>], regionType: FHIRPrimitive<ImagingSelection3DGraphicType>) {
-		self.coordinate = coordinate
-		self.regionType = regionType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		coordinate: [FHIRPrimitive<FHIRDecimal>],
 		`extension`: [Extension]? = nil,
@@ -486,10 +478,11 @@ public struct ImagingSelectionInstanceImageRegion3D: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		regionType: FHIRPrimitive<ImagingSelection3DGraphicType>
 	) {
-		self.init(coordinate: coordinate, regionType: regionType)
+		self.coordinate = coordinate
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.regionType = regionType
 	}
 	
 	// MARK: - Codable
@@ -504,6 +497,9 @@ public struct ImagingSelectionInstanceImageRegion3D: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -517,6 +513,7 @@ public struct ImagingSelectionInstanceImageRegion3D: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try coordinate.encode(on: &_container, forKey: .coordinate, auxiliaryKey: ._coordinate)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -548,11 +545,7 @@ public struct ImagingSelectionPerformer: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -560,7 +553,6 @@ public struct ImagingSelectionPerformer: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.actor = actor
 		self.`extension` = `extension`
 		self.function = function
@@ -580,6 +572,9 @@ public struct ImagingSelectionPerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -593,6 +588,7 @@ public struct ImagingSelectionPerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

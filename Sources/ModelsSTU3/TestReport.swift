@@ -88,14 +88,7 @@ public struct TestReport: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(result: FHIRPrimitive<TestReportResult>, status: FHIRPrimitive<TestReportStatus>, testScript: Reference) {
-		self.result = result
-		self.status = status
-		self.testScript = testScript
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -118,7 +111,6 @@ public struct TestReport: DomainResource {
 		tester: FHIRPrimitive<FHIRString>? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(result: result, status: status, testScript: testScript)
 		self.contained = contained
 		self.`extension` = `extension`
 		self.id = id
@@ -130,10 +122,13 @@ public struct TestReport: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.participant = participant
+		self.result = result
 		self.score = score
 		self.setup = setup
+		self.status = status
 		self.teardown = teardown
 		self.test = test
+		self.testScript = testScript
 		self.tester = tester
 		self.text = text
 	}
@@ -166,6 +161,9 @@ public struct TestReport: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -194,8 +192,10 @@ public struct TestReport: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -243,13 +243,7 @@ public struct TestReportParticipant: BackboneElement {
 	/// The uri of the participant. An absolute URL is preferred
 	public var uri: FHIRPrimitive<FHIRURI>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<TestReportParticipantType>, uri: FHIRPrimitive<FHIRURI>) {
-		self.type = type
-		self.uri = uri
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		display: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -258,11 +252,12 @@ public struct TestReportParticipant: BackboneElement {
 		type: FHIRPrimitive<TestReportParticipantType>,
 		uri: FHIRPrimitive<FHIRURI>
 	) {
-		self.init(type: type, uri: uri)
 		self.display = display
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
+		self.uri = uri
 	}
 	
 	// MARK: - Codable
@@ -278,6 +273,9 @@ public struct TestReportParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -292,6 +290,7 @@ public struct TestReportParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -319,19 +318,14 @@ public struct TestReportSetup: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(action: [TestReportSetupAction]) {
-		self.action = action
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [TestReportSetupAction],
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(action: action)
+		self.action = action
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -348,6 +342,9 @@ public struct TestReportSetup: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -360,6 +357,7 @@ public struct TestReportSetup: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action.encode(on: &_container, forKey: .action)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -390,11 +388,7 @@ public struct TestReportSetupAction: BackboneElement {
 	/// The operation to perform
 	public var operation: TestReportSetupActionOperation?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assert: TestReportSetupActionAssert? = nil,
 		`extension`: [Extension]? = nil,
@@ -402,7 +396,6 @@ public struct TestReportSetupAction: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		operation: TestReportSetupActionOperation? = nil
 	) {
-		self.init()
 		self.assert = assert
 		self.`extension` = `extension`
 		self.id = id
@@ -422,6 +415,9 @@ public struct TestReportSetupAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -435,6 +431,7 @@ public struct TestReportSetupAction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assert?.encode(on: &_container, forKey: .assert)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -469,12 +466,7 @@ public struct TestReportSetupActionAssert: BackboneElement {
 	/// The result of this assertion.
 	public var result: FHIRPrimitive<TestReportActionResult>
 	
-	/// Designated initializer taking all required properties
-	public init(result: FHIRPrimitive<TestReportActionResult>) {
-		self.result = result
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -483,12 +475,12 @@ public struct TestReportSetupActionAssert: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		result: FHIRPrimitive<TestReportActionResult>
 	) {
-		self.init(result: result)
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
 		self.message = message
 		self.modifierExtension = modifierExtension
+		self.result = result
 	}
 	
 	// MARK: - Codable
@@ -504,6 +496,9 @@ public struct TestReportSetupActionAssert: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -518,6 +513,7 @@ public struct TestReportSetupActionAssert: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try detail?.encode(on: &_container, forKey: .detail, auxiliaryKey: ._detail)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -553,12 +549,7 @@ public struct TestReportSetupActionOperation: BackboneElement {
 	/// The result of this operation.
 	public var result: FHIRPrimitive<TestReportActionResult>
 	
-	/// Designated initializer taking all required properties
-	public init(result: FHIRPrimitive<TestReportActionResult>) {
-		self.result = result
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: FHIRPrimitive<FHIRURI>? = nil,
 		`extension`: [Extension]? = nil,
@@ -567,12 +558,12 @@ public struct TestReportSetupActionOperation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		result: FHIRPrimitive<TestReportActionResult>
 	) {
-		self.init(result: result)
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
 		self.message = message
 		self.modifierExtension = modifierExtension
+		self.result = result
 	}
 	
 	// MARK: - Codable
@@ -588,6 +579,9 @@ public struct TestReportSetupActionOperation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -602,6 +596,7 @@ public struct TestReportSetupActionOperation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try detail?.encode(on: &_container, forKey: .detail, auxiliaryKey: ._detail)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -632,19 +627,14 @@ public struct TestReportTeardown: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(action: [TestReportTeardownAction]) {
-		self.action = action
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [TestReportTeardownAction],
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(action: action)
+		self.action = action
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -661,6 +651,9 @@ public struct TestReportTeardown: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -673,6 +666,7 @@ public struct TestReportTeardown: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action.encode(on: &_container, forKey: .action)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -700,22 +694,17 @@ public struct TestReportTeardownAction: BackboneElement {
 	/// The teardown operation performed
 	public var operation: TestReportSetupActionOperation
 	
-	/// Designated initializer taking all required properties
-	public init(operation: TestReportSetupActionOperation) {
-		self.operation = operation
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
 		operation: TestReportSetupActionOperation
 	) {
-		self.init(operation: operation)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.operation = operation
 	}
 	
 	// MARK: - Codable
@@ -729,6 +718,9 @@ public struct TestReportTeardownAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -741,6 +733,7 @@ public struct TestReportTeardownAction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -772,12 +765,7 @@ public struct TestReportTest: BackboneElement {
 	/// Tracking/logging name of this test
 	public var name: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(action: [TestReportTestAction]) {
-		self.action = action
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [TestReportTestAction],
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -786,7 +774,7 @@ public struct TestReportTest: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		name: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(action: action)
+		self.action = action
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -807,6 +795,9 @@ public struct TestReportTest: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -821,6 +812,7 @@ public struct TestReportTest: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action.encode(on: &_container, forKey: .action)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -853,11 +845,7 @@ public struct TestReportTestAction: BackboneElement {
 	/// The operation performed
 	public var operation: TestReportSetupActionOperation?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assert: TestReportSetupActionAssert? = nil,
 		`extension`: [Extension]? = nil,
@@ -865,7 +853,6 @@ public struct TestReportTestAction: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		operation: TestReportSetupActionOperation? = nil
 	) {
-		self.init()
 		self.assert = assert
 		self.`extension` = `extension`
 		self.id = id
@@ -885,6 +872,9 @@ public struct TestReportTestAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -898,6 +888,7 @@ public struct TestReportTestAction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assert?.encode(on: &_container, forKey: .assert)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

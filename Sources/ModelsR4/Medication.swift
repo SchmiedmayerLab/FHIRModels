@@ -77,11 +77,7 @@ public struct Medication: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Ratio? = nil,
 		batch: MedicationBatch? = nil,
@@ -100,7 +96,6 @@ public struct Medication: DomainResource {
 		status: FHIRPrimitive<MedicationStatusCodes>? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.batch = batch
 		self.code = code
@@ -143,6 +138,9 @@ public struct Medication: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -167,8 +165,10 @@ public struct Medication: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try batch?.encode(on: &_container, forKey: .batch)
@@ -211,11 +211,7 @@ public struct MedicationBatch: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		expirationDate: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
@@ -223,7 +219,6 @@ public struct MedicationBatch: BackboneElement {
 		lotNumber: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.expirationDate = expirationDate
 		self.`extension` = `extension`
 		self.id = id
@@ -243,6 +238,9 @@ public struct MedicationBatch: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -256,6 +254,7 @@ public struct MedicationBatch: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try expirationDate?.encode(on: &_container, forKey: .expirationDate, auxiliaryKey: ._expirationDate)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -297,12 +296,7 @@ public struct MedicationIngredient: BackboneElement {
 	/// Quantity of ingredient present
 	public var strength: Ratio?
 	
-	/// Designated initializer taking all required properties
-	public init(item: ItemX) {
-		self.item = item
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -311,10 +305,10 @@ public struct MedicationIngredient: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		strength: Ratio? = nil
 	) {
-		self.init(item: item)
 		self.`extension` = `extension`
 		self.id = id
 		self.isActive = isActive
+		self.item = item
 		self.modifierExtension = modifierExtension
 		self.strength = strength
 	}
@@ -333,22 +327,47 @@ public struct MedicationIngredient: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.itemCodeableConcept) || _container.contains(CodingKeys.itemReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.itemCodeableConcept, CodingKeys.itemReference], debugDescription: "Must have at least one value for \"item\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.isActive = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isActive, auxiliaryKey: ._isActive)
+		self.item = try Self._decodeItem(from: _container)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.strength = try Ratio(from: _container, forKeyIfPresent: .strength)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try isActive?.encode(on: &_container, forKey: .isActive, auxiliaryKey: ._isActive)
+		
+		switch item {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .itemCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .itemReference)
+		}
+		
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try strength?.encode(on: &_container, forKey: .strength)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeItem(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ItemX {
 		var _t_item: ItemX? = nil
 		if let itemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .itemCodeableConcept) {
-			if _t_item != nil {
-				throw DecodingError.dataCorruptedError(forKey: .itemCodeableConcept, in: _container, debugDescription: "More than one value provided for \"item\"")
-			}
 			_t_item = .codeableConcept(itemCodeableConcept)
 		}
 		if let itemReference = try Reference(from: _container, forKeyIfPresent: .itemReference) {
@@ -357,27 +376,11 @@ public struct MedicationIngredient: BackboneElement {
 			}
 			_t_item = .reference(itemReference)
 		}
-		self.item = _t_item!
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.strength = try Ratio(from: _container, forKeyIfPresent: .strength)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try isActive?.encode(on: &_container, forKey: .isActive, auxiliaryKey: ._isActive)
-		
-			switch item {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .itemCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .itemReference)
-			}
-		
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try strength?.encode(on: &_container, forKey: .strength)
+		guard let _t_item else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.itemReference)
+			throw DecodingError.valueNotFound(ItemX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"item\" but have none"))
+		}
+		return _t_item
 	}
 }

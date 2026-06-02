@@ -105,13 +105,7 @@ public struct Goal: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(description_fhir: CodeableConcept, status: FHIRPrimitive<GoalStatus>) {
-		self.description_fhir = description_fhir
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		addresses: [Reference]? = nil,
 		category: [CodeableConcept]? = nil,
@@ -137,10 +131,10 @@ public struct Goal: DomainResource {
 		target: GoalTarget? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(description_fhir: description_fhir, status: status)
 		self.addresses = addresses
 		self.category = category
 		self.contained = contained
+		self.description_fhir = description_fhir
 		self.expressedBy = expressedBy
 		self.`extension` = `extension`
 		self.id = id
@@ -154,6 +148,7 @@ public struct Goal: DomainResource {
 		self.outcomeReference = outcomeReference
 		self.priority = priority
 		self.start = start
+		self.status = status
 		self.statusDate = statusDate
 		self.statusReason = statusReason
 		self.subject = subject
@@ -193,6 +188,9 @@ public struct Goal: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -212,20 +210,7 @@ public struct Goal: DomainResource {
 		self.outcomeCode = try [CodeableConcept](from: _container, forKeyIfPresent: .outcomeCode)
 		self.outcomeReference = try [Reference](from: _container, forKeyIfPresent: .outcomeReference)
 		self.priority = try CodeableConcept(from: _container, forKeyIfPresent: .priority)
-		var _t_start: StartX? = nil
-		if let startDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .startDate, auxiliaryKey: ._startDate) {
-			if _t_start != nil {
-				throw DecodingError.dataCorruptedError(forKey: .startDate, in: _container, debugDescription: "More than one value provided for \"start\"")
-			}
-			_t_start = .date(startDate)
-		}
-		if let startCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .startCodeableConcept) {
-			if _t_start != nil {
-				throw DecodingError.dataCorruptedError(forKey: .startCodeableConcept, in: _container, debugDescription: "More than one value provided for \"start\"")
-			}
-			_t_start = .codeableConcept(startCodeableConcept)
-		}
-		self.start = _t_start
+		self.start = try Self._decodeStart(from: _container)
 		self.status = try FHIRPrimitive<GoalStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .statusDate, auxiliaryKey: ._statusDate)
 		self.statusReason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .statusReason, auxiliaryKey: ._statusReason)
@@ -237,8 +222,10 @@ public struct Goal: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try addresses?.encode(on: &_container, forKey: .addresses)
 		try category?.encode(on: &_container, forKey: .category)
@@ -257,12 +244,12 @@ public struct Goal: DomainResource {
 		try outcomeReference?.encode(on: &_container, forKey: .outcomeReference)
 		try priority?.encode(on: &_container, forKey: .priority)
 		if let _enum = start {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .startDate, auxiliaryKey: ._startDate)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .startCodeableConcept)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .startCodeableConcept)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .startDate, auxiliaryKey: ._startDate)
+		}
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusDate?.encode(on: &_container, forKey: .statusDate, auxiliaryKey: ._statusDate)
@@ -270,6 +257,24 @@ public struct Goal: DomainResource {
 		try subject?.encode(on: &_container, forKey: .subject)
 		try target?.encode(on: &_container, forKey: .target)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeStart(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> StartX? {
+		var _t_start: StartX? = nil
+		if let startCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .startCodeableConcept) {
+			_t_start = .codeableConcept(startCodeableConcept)
+		}
+		if let startDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .startDate, auxiliaryKey: ._startDate) {
+			if _t_start != nil {
+				throw DecodingError.dataCorruptedError(forKey: .startDate, in: _container, debugDescription: "More than one value provided for \"start\"")
+			}
+			_t_start = .date(startDate)
+		}
+		return _t_start
 	}
 }
 
@@ -313,11 +318,7 @@ public struct GoalTarget: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: DetailX? = nil,
 		due: DueX? = nil,
@@ -326,7 +327,6 @@ public struct GoalTarget: BackboneElement {
 		measure: CodeableConcept? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.detail = detail
 		self.due = due
 		self.`extension` = `extension`
@@ -351,10 +351,58 @@ public struct GoalTarget: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
+		self.detail = try Self._decodeDetail(from: _container)
+		self.due = try Self._decodeDue(from: _container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.measure = try CodeableConcept(from: _container, forKeyIfPresent: .measure)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		if let _enum = detail {
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .detailCodeableConcept)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .detailQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .detailRange)
+		}
+		}
+		if let _enum = due {
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .dueDate, auxiliaryKey: ._dueDate)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .dueDuration)
+		}
+		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try measure?.encode(on: &_container, forKey: .measure)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDetail(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DetailX? {
 		var _t_detail: DetailX? = nil
+		if let detailCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .detailCodeableConcept) {
+			_t_detail = .codeableConcept(detailCodeableConcept)
+		}
 		if let detailQuantity = try Quantity(from: _container, forKeyIfPresent: .detailQuantity) {
 			if _t_detail != nil {
 				throw DecodingError.dataCorruptedError(forKey: .detailQuantity, in: _container, debugDescription: "More than one value provided for \"detail\"")
@@ -367,18 +415,14 @@ public struct GoalTarget: BackboneElement {
 			}
 			_t_detail = .range(detailRange)
 		}
-		if let detailCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .detailCodeableConcept) {
-			if _t_detail != nil {
-				throw DecodingError.dataCorruptedError(forKey: .detailCodeableConcept, in: _container, debugDescription: "More than one value provided for \"detail\"")
-			}
-			_t_detail = .codeableConcept(detailCodeableConcept)
-		}
-		self.detail = _t_detail
+		return _t_detail
+	}
+	
+	private static func _decodeDue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DueX? {
 		var _t_due: DueX? = nil
 		if let dueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .dueDate, auxiliaryKey: ._dueDate) {
-			if _t_due != nil {
-				throw DecodingError.dataCorruptedError(forKey: .dueDate, in: _container, debugDescription: "More than one value provided for \"due\"")
-			}
 			_t_due = .date(dueDate)
 		}
 		if let dueDuration = try Duration(from: _container, forKeyIfPresent: .dueDuration) {
@@ -387,38 +431,6 @@ public struct GoalTarget: BackboneElement {
 			}
 			_t_due = .duration(dueDuration)
 		}
-		self.due = _t_due
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.measure = try CodeableConcept(from: _container, forKeyIfPresent: .measure)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		if let _enum = detail {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .detailQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .detailRange)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .detailCodeableConcept)
-			}
-		}
-		if let _enum = due {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .dueDate, auxiliaryKey: ._dueDate)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .dueDuration)
-			}
-		}
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try measure?.encode(on: &_container, forKey: .measure)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		return _t_due
 	}
 }

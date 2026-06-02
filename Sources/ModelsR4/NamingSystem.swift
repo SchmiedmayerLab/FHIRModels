@@ -92,16 +92,7 @@ public struct NamingSystem: DomainResource {
 	/// The context that the content is intended to support
 	public var useContext: [UsageContext]?
 	
-	/// Designated initializer taking all required properties
-	public init(date: FHIRPrimitive<DateTime>, kind: FHIRPrimitive<NamingSystemType>, name: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<PublicationStatus>, uniqueId: [NamingSystemUniqueId]) {
-		self.date = date
-		self.kind = kind
-		self.name = name
-		self.status = status
-		self.uniqueId = uniqueId
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [ContactDetail]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -125,21 +116,25 @@ public struct NamingSystem: DomainResource {
 		usage: FHIRPrimitive<FHIRString>? = nil,
 		useContext: [UsageContext]? = nil
 	) {
-		self.init(date: date, kind: kind, name: name, status: status, uniqueId: uniqueId)
 		self.contact = contact
 		self.contained = contained
+		self.date = date
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
 		self.implicitRules = implicitRules
 		self.jurisdiction = jurisdiction
+		self.kind = kind
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.publisher = publisher
 		self.responsible = responsible
+		self.status = status
 		self.text = text
 		self.type = type
+		self.uniqueId = uniqueId
 		self.usage = usage
 		self.useContext = useContext
 	}
@@ -173,6 +168,9 @@ public struct NamingSystem: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -202,8 +200,10 @@ public struct NamingSystem: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -260,13 +260,7 @@ public struct NamingSystemUniqueId: BackboneElement {
 	/// The unique identifier
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<NamingSystemIdentifierType>, value: FHIRPrimitive<FHIRString>) {
-		self.type = type
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comment: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -277,13 +271,14 @@ public struct NamingSystemUniqueId: BackboneElement {
 		type: FHIRPrimitive<NamingSystemIdentifierType>,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(type: type, value: value)
 		self.comment = comment
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.period = period
 		self.preferred = preferred
+		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -301,6 +296,9 @@ public struct NamingSystemUniqueId: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -317,6 +315,7 @@ public struct NamingSystemUniqueId: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

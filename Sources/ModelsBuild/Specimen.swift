@@ -98,11 +98,7 @@ public struct Specimen: DomainResource {
 	/// Kind of material that forms the specimen
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		collection: SpecimenCollection? = nil,
 		combined: FHIRPrimitive<SpecimenCombined>? = nil,
@@ -128,7 +124,6 @@ public struct Specimen: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.collection = collection
 		self.combined = combined
 		self.condition = condition
@@ -185,6 +180,9 @@ public struct Specimen: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -216,8 +214,10 @@ public struct Specimen: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try collection?.encode(on: &_container, forKey: .collection)
 		try combined?.encode(on: &_container, forKey: .combined, auxiliaryKey: ._combined)
@@ -310,11 +310,7 @@ public struct SpecimenCollection: BackboneElement {
 	/// The quantity of specimen collected
 	public var quantity: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodySite: CodeableReference? = nil,
 		collected: CollectedX? = nil,
@@ -329,7 +325,6 @@ public struct SpecimenCollection: BackboneElement {
 		procedure: Reference? = nil,
 		quantity: Quantity? = nil
 	) {
-		self.init()
 		self.bodySite = bodySite
 		self.collected = collected
 		self.collector = collector
@@ -367,15 +362,75 @@ public struct SpecimenCollection: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.bodySite = try CodeableReference(from: _container, forKeyIfPresent: .bodySite)
+		self.collected = try Self._decodeCollected(from: _container)
+		self.collector = try Reference(from: _container, forKeyIfPresent: .collector)
+		self.device = try Self._decodeDevice(from: _container)
+		self.duration = try Duration(from: _container, forKeyIfPresent: .duration)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.fastingStatus = try Self._decodeFastingStatus(from: _container)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.procedure = try Reference(from: _container, forKeyIfPresent: .procedure)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try bodySite?.encode(on: &_container, forKey: .bodySite)
+		if let _enum = collected {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .collectedDateTime, auxiliaryKey: ._collectedDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .collectedPeriod)
+		}
+		}
+		try collector?.encode(on: &_container, forKey: .collector)
+		if let _enum = device {
+		switch _enum {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .deviceCanonical, auxiliaryKey: ._deviceCanonical)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .deviceCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .deviceReference)
+		}
+		}
+		try duration?.encode(on: &_container, forKey: .duration)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		if let _enum = fastingStatus {
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .fastingStatusCodeableConcept)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .fastingStatusDuration)
+		}
+		}
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try procedure?.encode(on: &_container, forKey: .procedure)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeCollected(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> CollectedX? {
 		var _t_collected: CollectedX? = nil
 		if let collectedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .collectedDateTime, auxiliaryKey: ._collectedDateTime) {
-			if _t_collected != nil {
-				throw DecodingError.dataCorruptedError(forKey: .collectedDateTime, in: _container, debugDescription: "More than one value provided for \"collected\"")
-			}
 			_t_collected = .dateTime(collectedDateTime)
 		}
 		if let collectedPeriod = try Period(from: _container, forKeyIfPresent: .collectedPeriod) {
@@ -384,9 +439,16 @@ public struct SpecimenCollection: BackboneElement {
 			}
 			_t_collected = .period(collectedPeriod)
 		}
-		self.collected = _t_collected
-		self.collector = try Reference(from: _container, forKeyIfPresent: .collector)
+		return _t_collected
+	}
+	
+	private static func _decodeDevice(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DeviceX? {
 		var _t_device: DeviceX? = nil
+		if let deviceCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .deviceCanonical, auxiliaryKey: ._deviceCanonical) {
+			_t_device = .canonical(deviceCanonical)
+		}
 		if let deviceCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .deviceCodeableConcept) {
 			if _t_device != nil {
 				throw DecodingError.dataCorruptedError(forKey: .deviceCodeableConcept, in: _container, debugDescription: "More than one value provided for \"device\"")
@@ -399,20 +461,14 @@ public struct SpecimenCollection: BackboneElement {
 			}
 			_t_device = .reference(deviceReference)
 		}
-		if let deviceCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .deviceCanonical, auxiliaryKey: ._deviceCanonical) {
-			if _t_device != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deviceCanonical, in: _container, debugDescription: "More than one value provided for \"device\"")
-			}
-			_t_device = .canonical(deviceCanonical)
-		}
-		self.device = _t_device
-		self.duration = try Duration(from: _container, forKeyIfPresent: .duration)
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		return _t_device
+	}
+	
+	private static func _decodeFastingStatus(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> FastingStatusX? {
 		var _t_fastingStatus: FastingStatusX? = nil
 		if let fastingStatusCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .fastingStatusCodeableConcept) {
-			if _t_fastingStatus != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fastingStatusCodeableConcept, in: _container, debugDescription: "More than one value provided for \"fastingStatus\"")
-			}
 			_t_fastingStatus = .codeableConcept(fastingStatusCodeableConcept)
 		}
 		if let fastingStatusDuration = try Duration(from: _container, forKeyIfPresent: .fastingStatusDuration) {
@@ -421,53 +477,7 @@ public struct SpecimenCollection: BackboneElement {
 			}
 			_t_fastingStatus = .duration(fastingStatusDuration)
 		}
-		self.fastingStatus = _t_fastingStatus
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.procedure = try Reference(from: _container, forKeyIfPresent: .procedure)
-		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try bodySite?.encode(on: &_container, forKey: .bodySite)
-		if let _enum = collected {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .collectedDateTime, auxiliaryKey: ._collectedDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .collectedPeriod)
-			}
-		}
-		try collector?.encode(on: &_container, forKey: .collector)
-		if let _enum = device {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .deviceCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .deviceReference)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .deviceCanonical, auxiliaryKey: ._deviceCanonical)
-			}
-		}
-		try duration?.encode(on: &_container, forKey: .duration)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		if let _enum = fastingStatus {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .fastingStatusCodeableConcept)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .fastingStatusDuration)
-			}
-		}
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try method?.encode(on: &_container, forKey: .method)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try procedure?.encode(on: &_container, forKey: .procedure)
-		try quantity?.encode(on: &_container, forKey: .quantity)
+		return _t_fastingStatus
 	}
 }
 
@@ -502,12 +512,7 @@ public struct SpecimenContainer: BackboneElement {
 	/// Quantity of specimen within container
 	public var specimenQuantity: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init(device: DeviceX) {
-		self.device = device
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		device: DeviceX,
 		`extension`: [Extension]? = nil,
@@ -515,7 +520,7 @@ public struct SpecimenContainer: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		specimenQuantity: Quantity? = nil
 	) {
-		self.init(device: device)
+		self.device = device
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -536,15 +541,49 @@ public struct SpecimenContainer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.deviceCanonical) || _container.contains(CodingKeys.deviceCodeableConcept) || _container.contains(CodingKeys.deviceReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.deviceCanonical, CodingKeys.deviceCodeableConcept, CodingKeys.deviceReference], debugDescription: "Must have at least one value for \"device\" but have none"))
+		// Decode all our properties (own and inherited)
+		self.device = try Self._decodeDevice(from: _container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.specimenQuantity = try Quantity(from: _container, forKeyIfPresent: .specimenQuantity)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		
+		switch device {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .deviceCanonical, auxiliaryKey: ._deviceCanonical)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .deviceCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .deviceReference)
 		}
 		
-		// Decode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try specimenQuantity?.encode(on: &_container, forKey: .specimenQuantity)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDevice(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DeviceX {
 		var _t_device: DeviceX? = nil
+		if let deviceCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .deviceCanonical, auxiliaryKey: ._deviceCanonical) {
+			_t_device = .canonical(deviceCanonical)
+		}
 		if let deviceCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .deviceCodeableConcept) {
 			if _t_device != nil {
 				throw DecodingError.dataCorruptedError(forKey: .deviceCodeableConcept, in: _container, debugDescription: "More than one value provided for \"device\"")
@@ -557,37 +596,12 @@ public struct SpecimenContainer: BackboneElement {
 			}
 			_t_device = .reference(deviceReference)
 		}
-		if let deviceCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .deviceCanonical, auxiliaryKey: ._deviceCanonical) {
-			if _t_device != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deviceCanonical, in: _container, debugDescription: "More than one value provided for \"device\"")
-			}
-			_t_device = .canonical(deviceCanonical)
+		guard let _t_device else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.deviceReference)
+			throw DecodingError.valueNotFound(DeviceX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"device\" but have none"))
 		}
-		self.device = _t_device!
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.specimenQuantity = try Quantity(from: _container, forKeyIfPresent: .specimenQuantity)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		
-			switch device {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .deviceCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .deviceReference)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .deviceCanonical, auxiliaryKey: ._deviceCanonical)
-			}
-		
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try specimenQuantity?.encode(on: &_container, forKey: .specimenQuantity)
+		return _t_device
 	}
 }
 
@@ -615,13 +629,7 @@ public struct SpecimenFeature: BackboneElement {
 	/// Highlighted feature
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(description_fhir: FHIRPrimitive<FHIRString>, type: CodeableConcept) {
-		self.description_fhir = description_fhir
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
@@ -629,10 +637,11 @@ public struct SpecimenFeature: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(description_fhir: description_fhir, type: type)
+		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -647,6 +656,9 @@ public struct SpecimenFeature: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -660,6 +672,7 @@ public struct SpecimenFeature: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -719,11 +732,7 @@ public struct SpecimenProcessing: BackboneElement {
 	/// One of `time[x]`
 	public var time: TimeX?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additive: [CodeableReference]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -735,7 +744,6 @@ public struct SpecimenProcessing: BackboneElement {
 		performer: Reference? = nil,
 		time: TimeX? = nil
 	) {
-		self.init()
 		self.additive = additive
 		self.description_fhir = description_fhir
 		self.device = device
@@ -767,12 +775,66 @@ public struct SpecimenProcessing: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.additive = try [CodeableReference](from: _container, forKeyIfPresent: .additive)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
+		self.device = try Self._decodeDevice(from: _container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
+		self.time = try Self._decodeTime(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try additive?.encode(on: &_container, forKey: .additive)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		if let _enum = device {
+		switch _enum {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .deviceCanonical, auxiliaryKey: ._deviceCanonical)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .deviceCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .deviceReference)
+		}
+		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try performer?.encode(on: &_container, forKey: .performer)
+		if let _enum = time {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timeDateTime, auxiliaryKey: ._timeDateTime)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .timeDuration)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timePeriod)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDevice(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DeviceX? {
 		var _t_device: DeviceX? = nil
+		if let deviceCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .deviceCanonical, auxiliaryKey: ._deviceCanonical) {
+			_t_device = .canonical(deviceCanonical)
+		}
 		if let deviceCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .deviceCodeableConcept) {
 			if _t_device != nil {
 				throw DecodingError.dataCorruptedError(forKey: .deviceCodeableConcept, in: _container, debugDescription: "More than one value provided for \"device\"")
@@ -785,30 +847,15 @@ public struct SpecimenProcessing: BackboneElement {
 			}
 			_t_device = .reference(deviceReference)
 		}
-		if let deviceCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .deviceCanonical, auxiliaryKey: ._deviceCanonical) {
-			if _t_device != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deviceCanonical, in: _container, debugDescription: "More than one value provided for \"device\"")
-			}
-			_t_device = .canonical(deviceCanonical)
-		}
-		self.device = _t_device
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
+		return _t_device
+	}
+	
+	private static func _decodeTime(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimeX? {
 		var _t_time: TimeX? = nil
 		if let timeDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timeDateTime, auxiliaryKey: ._timeDateTime) {
-			if _t_time != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timeDateTime, in: _container, debugDescription: "More than one value provided for \"time\"")
-			}
 			_t_time = .dateTime(timeDateTime)
-		}
-		if let timePeriod = try Period(from: _container, forKeyIfPresent: .timePeriod) {
-			if _t_time != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timePeriod, in: _container, debugDescription: "More than one value provided for \"time\"")
-			}
-			_t_time = .period(timePeriod)
 		}
 		if let timeDuration = try Duration(from: _container, forKeyIfPresent: .timeDuration) {
 			if _t_time != nil {
@@ -816,39 +863,12 @@ public struct SpecimenProcessing: BackboneElement {
 			}
 			_t_time = .duration(timeDuration)
 		}
-		self.time = _t_time
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try additive?.encode(on: &_container, forKey: .additive)
-		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
-		if let _enum = device {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .deviceCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .deviceReference)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .deviceCanonical, auxiliaryKey: ._deviceCanonical)
+		if let timePeriod = try Period(from: _container, forKeyIfPresent: .timePeriod) {
+			if _t_time != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timePeriod, in: _container, debugDescription: "More than one value provided for \"time\"")
 			}
+			_t_time = .period(timePeriod)
 		}
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try method?.encode(on: &_container, forKey: .method)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try performer?.encode(on: &_container, forKey: .performer)
-		if let _enum = time {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timeDateTime, auxiliaryKey: ._timeDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timePeriod)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .timeDuration)
-			}
-		}
+		return _t_time
 	}
 }

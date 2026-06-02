@@ -132,12 +132,7 @@ public struct PlanDefinition: DomainResource {
 	/// Business version of the plan definition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [PlanDefinitionAction]? = nil,
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
@@ -174,7 +169,6 @@ public struct PlanDefinition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(status: status)
 		self.action = action
 		self.approvalDate = approvalDate
 		self.contact = contact
@@ -200,6 +194,7 @@ public struct PlanDefinition: DomainResource {
 		self.publisher = publisher
 		self.purpose = purpose
 		self.relatedArtifact = relatedArtifact
+		self.status = status
 		self.text = text
 		self.title = title
 		self.topic = topic
@@ -252,6 +247,9 @@ public struct PlanDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -294,8 +292,10 @@ public struct PlanDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
@@ -435,11 +435,7 @@ public struct PlanDefinitionAction: BackboneElement {
 	/// create | update | remove | fire-event
 	public var type: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [PlanDefinitionAction]? = nil,
 		cardinalityBehavior: FHIRPrimitive<ActionCardinalityBehavior>? = nil,
@@ -470,7 +466,6 @@ public struct PlanDefinitionAction: BackboneElement {
 		triggerDefinition: [TriggerDefinition]? = nil,
 		type: Coding? = nil
 	) {
-		self.init()
 		self.action = action
 		self.cardinalityBehavior = cardinalityBehavior
 		self.code = code
@@ -540,6 +535,9 @@ public struct PlanDefinitionAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -566,38 +564,7 @@ public struct PlanDefinitionAction: BackboneElement {
 		self.requiredBehavior = try FHIRPrimitive<ActionRequiredBehavior>(from: _container, forKeyIfPresent: .requiredBehavior, auxiliaryKey: ._requiredBehavior)
 		self.selectionBehavior = try FHIRPrimitive<ActionSelectionBehavior>(from: _container, forKeyIfPresent: .selectionBehavior, auxiliaryKey: ._selectionBehavior)
 		self.textEquivalent = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textEquivalent, auxiliaryKey: ._textEquivalent)
-		var _t_timing: TimingX? = nil
-		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDateTime, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .dateTime(timingDateTime)
-		}
-		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .period(timingPeriod)
-		}
-		if let timingDuration = try Duration(from: _container, forKeyIfPresent: .timingDuration) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDuration, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .duration(timingDuration)
-		}
-		if let timingRange = try Range(from: _container, forKeyIfPresent: .timingRange) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingRange, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .range(timingRange)
-		}
-		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .timing(timingTiming)
-		}
-		self.timing = _t_timing
+		self.timing = try Self._decodeTiming(from: _container)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.transform = try Reference(from: _container, forKeyIfPresent: .transform)
 		self.triggerDefinition = try [TriggerDefinition](from: _container, forKeyIfPresent: .triggerDefinition)
@@ -607,6 +574,7 @@ public struct PlanDefinitionAction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try cardinalityBehavior?.encode(on: &_container, forKey: .cardinalityBehavior, auxiliaryKey: ._cardinalityBehavior)
@@ -632,23 +600,59 @@ public struct PlanDefinitionAction: BackboneElement {
 		try selectionBehavior?.encode(on: &_container, forKey: .selectionBehavior, auxiliaryKey: ._selectionBehavior)
 		try textEquivalent?.encode(on: &_container, forKey: .textEquivalent, auxiliaryKey: ._textEquivalent)
 		if let _enum = timing {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timingPeriod)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .timingDuration)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .timingRange)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .timingDuration)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timingPeriod)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .timingRange)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
+		}
 		}
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try transform?.encode(on: &_container, forKey: .transform)
 		try triggerDefinition?.encode(on: &_container, forKey: .triggerDefinition)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
+		var _t_timing: TimingX? = nil
+		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
+			_t_timing = .dateTime(timingDateTime)
+		}
+		if let timingDuration = try Duration(from: _container, forKeyIfPresent: .timingDuration) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingDuration, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .duration(timingDuration)
+		}
+		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .period(timingPeriod)
+		}
+		if let timingRange = try Range(from: _container, forKeyIfPresent: .timingRange) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingRange, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .range(timingRange)
+		}
+		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .timing(timingTiming)
+		}
+		return _t_timing
 	}
 }
 
@@ -680,12 +684,7 @@ public struct PlanDefinitionActionCondition: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(kind: FHIRPrimitive<ActionConditionKind>) {
-		self.kind = kind
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		expression: FHIRPrimitive<FHIRString>? = nil,
@@ -695,11 +694,11 @@ public struct PlanDefinitionActionCondition: BackboneElement {
 		language: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(kind: kind)
 		self.description_fhir = description_fhir
 		self.expression = expression
 		self.`extension` = `extension`
 		self.id = id
+		self.kind = kind
 		self.language = language
 		self.modifierExtension = modifierExtension
 	}
@@ -718,6 +717,9 @@ public struct PlanDefinitionActionCondition: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -733,6 +735,7 @@ public struct PlanDefinitionActionCondition: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
@@ -774,11 +777,7 @@ public struct PlanDefinitionActionDynamicValue: BackboneElement {
 	/// The path to the element to be set dynamically
 	public var path: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		expression: FHIRPrimitive<FHIRString>? = nil,
@@ -788,7 +787,6 @@ public struct PlanDefinitionActionDynamicValue: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		path: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.expression = expression
 		self.`extension` = `extension`
@@ -812,6 +810,9 @@ public struct PlanDefinitionActionDynamicValue: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -827,6 +828,7 @@ public struct PlanDefinitionActionDynamicValue: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
@@ -860,12 +862,7 @@ public struct PlanDefinitionActionParticipant: BackboneElement {
 	/// The type of participant in the action.
 	public var type: FHIRPrimitive<ActionParticipantType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<ActionParticipantType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -873,11 +870,11 @@ public struct PlanDefinitionActionParticipant: BackboneElement {
 		role: CodeableConcept? = nil,
 		type: FHIRPrimitive<ActionParticipantType>
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.role = role
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -892,6 +889,9 @@ public struct PlanDefinitionActionParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -905,6 +905,7 @@ public struct PlanDefinitionActionParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -946,13 +947,7 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 	/// The relationship of this action to the related action.
 	public var relationship: FHIRPrimitive<ActionRelationshipType>
 	
-	/// Designated initializer taking all required properties
-	public init(actionId: FHIRPrimitive<FHIRString>, relationship: FHIRPrimitive<ActionRelationshipType>) {
-		self.actionId = actionId
-		self.relationship = relationship
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actionId: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
@@ -961,11 +956,12 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 		offset: OffsetX? = nil,
 		relationship: FHIRPrimitive<ActionRelationshipType>
 	) {
-		self.init(actionId: actionId, relationship: relationship)
+		self.actionId = actionId
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.offset = offset
+		self.relationship = relationship
 	}
 	
 	// MARK: - Codable
@@ -982,6 +978,9 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -989,11 +988,37 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.offset = try Self._decodeOffset(from: _container)
+		self.relationship = try FHIRPrimitive<ActionRelationshipType>(from: _container, forKey: .relationship, auxiliaryKey: ._relationship)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try actionId.encode(on: &_container, forKey: .actionId, auxiliaryKey: ._actionId)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = offset {
+		switch _enum {
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .offsetDuration)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .offsetRange)
+		}
+		}
+		try relationship.encode(on: &_container, forKey: .relationship, auxiliaryKey: ._relationship)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOffset(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OffsetX? {
 		var _t_offset: OffsetX? = nil
 		if let offsetDuration = try Duration(from: _container, forKeyIfPresent: .offsetDuration) {
-			if _t_offset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .offsetDuration, in: _container, debugDescription: "More than one value provided for \"offset\"")
-			}
 			_t_offset = .duration(offsetDuration)
 		}
 		if let offsetRange = try Range(from: _container, forKeyIfPresent: .offsetRange) {
@@ -1002,27 +1027,7 @@ public struct PlanDefinitionActionRelatedAction: BackboneElement {
 			}
 			_t_offset = .range(offsetRange)
 		}
-		self.offset = _t_offset
-		self.relationship = try FHIRPrimitive<ActionRelationshipType>(from: _container, forKey: .relationship, auxiliaryKey: ._relationship)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try actionId.encode(on: &_container, forKey: .actionId, auxiliaryKey: ._actionId)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = offset {
-			switch _enum {
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .offsetDuration)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .offsetRange)
-			}
-		}
-		try relationship.encode(on: &_container, forKey: .relationship, auxiliaryKey: ._relationship)
+		return _t_offset
 	}
 }
 
@@ -1064,12 +1069,7 @@ public struct PlanDefinitionGoal: BackboneElement {
 	/// Target outcome for the goal
 	public var target: [PlanDefinitionGoalTarget]?
 	
-	/// Designated initializer taking all required properties
-	public init(description_fhir: CodeableConcept) {
-		self.description_fhir = description_fhir
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		addresses: [CodeableConcept]? = nil,
 		category: CodeableConcept? = nil,
@@ -1082,9 +1082,9 @@ public struct PlanDefinitionGoal: BackboneElement {
 		start: CodeableConcept? = nil,
 		target: [PlanDefinitionGoalTarget]? = nil
 	) {
-		self.init(description_fhir: description_fhir)
 		self.addresses = addresses
 		self.category = category
+		self.description_fhir = description_fhir
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
@@ -1111,6 +1111,9 @@ public struct PlanDefinitionGoal: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1129,6 +1132,7 @@ public struct PlanDefinitionGoal: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try addresses?.encode(on: &_container, forKey: .addresses)
 		try category?.encode(on: &_container, forKey: .category)
@@ -1176,11 +1180,7 @@ public struct PlanDefinitionGoalTarget: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: DetailX? = nil,
 		due: Duration? = nil,
@@ -1189,7 +1189,6 @@ public struct PlanDefinitionGoalTarget: BackboneElement {
 		measure: CodeableConcept? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.detail = detail
 		self.due = due
 		self.`extension` = `extension`
@@ -1213,10 +1212,51 @@ public struct PlanDefinitionGoalTarget: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
+		self.detail = try Self._decodeDetail(from: _container)
+		self.due = try Duration(from: _container, forKeyIfPresent: .due)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.measure = try CodeableConcept(from: _container, forKeyIfPresent: .measure)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		if let _enum = detail {
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .detailCodeableConcept)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .detailQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .detailRange)
+		}
+		}
+		try due?.encode(on: &_container, forKey: .due)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try measure?.encode(on: &_container, forKey: .measure)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDetail(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DetailX? {
 		var _t_detail: DetailX? = nil
+		if let detailCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .detailCodeableConcept) {
+			_t_detail = .codeableConcept(detailCodeableConcept)
+		}
 		if let detailQuantity = try Quantity(from: _container, forKeyIfPresent: .detailQuantity) {
 			if _t_detail != nil {
 				throw DecodingError.dataCorruptedError(forKey: .detailQuantity, in: _container, debugDescription: "More than one value provided for \"detail\"")
@@ -1229,38 +1269,6 @@ public struct PlanDefinitionGoalTarget: BackboneElement {
 			}
 			_t_detail = .range(detailRange)
 		}
-		if let detailCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .detailCodeableConcept) {
-			if _t_detail != nil {
-				throw DecodingError.dataCorruptedError(forKey: .detailCodeableConcept, in: _container, debugDescription: "More than one value provided for \"detail\"")
-			}
-			_t_detail = .codeableConcept(detailCodeableConcept)
-		}
-		self.detail = _t_detail
-		self.due = try Duration(from: _container, forKeyIfPresent: .due)
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.measure = try CodeableConcept(from: _container, forKeyIfPresent: .measure)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		if let _enum = detail {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .detailQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .detailRange)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .detailCodeableConcept)
-			}
-		}
-		try due?.encode(on: &_container, forKey: .due)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try measure?.encode(on: &_container, forKey: .measure)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		return _t_detail
 	}
 }

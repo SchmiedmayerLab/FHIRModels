@@ -132,17 +132,7 @@ public struct SearchParameter: DomainResource {
 	/// Restricted to: ['normal', 'phonetic', 'nearby', 'distance', 'other']
 	public var xpathUsage: FHIRPrimitive<XPathUsageType>?
 	
-	/// Designated initializer taking all required properties
-	public init(base: FHIRPrimitive<ResourceType>, code: FHIRPrimitive<FHIRString>, description_fhir: FHIRPrimitive<FHIRString>, name: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<SearchParamType>, url: FHIRPrimitive<FHIRURI>) {
-		self.base = base
-		self.code = code
-		self.description_fhir = description_fhir
-		self.name = name
-		self.type = type
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		base: FHIRPrimitive<ResourceType>,
 		code: FHIRPrimitive<FHIRString>,
@@ -168,10 +158,12 @@ public struct SearchParameter: DomainResource {
 		xpath: FHIRPrimitive<FHIRString>? = nil,
 		xpathUsage: FHIRPrimitive<XPathUsageType>? = nil
 	) {
-		self.init(base: base, code: code, description_fhir: description_fhir, name: name, type: type, url: url)
+		self.base = base
+		self.code = code
 		self.contact = contact
 		self.contained = contained
 		self.date = date
+		self.description_fhir = description_fhir
 		self.experimental = experimental
 		self.`extension` = `extension`
 		self.id = id
@@ -179,11 +171,14 @@ public struct SearchParameter: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.publisher = publisher
 		self.requirements = requirements
 		self.status = status
 		self.target = target
 		self.text = text
+		self.type = type
+		self.url = url
 		self.xpath = xpath
 		self.xpathUsage = xpathUsage
 	}
@@ -219,6 +214,9 @@ public struct SearchParameter: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -250,8 +248,10 @@ public struct SearchParameter: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try base.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
@@ -301,11 +301,7 @@ public struct SearchParameterContact: BackboneElement {
 	/// Contact details for individual or publisher
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -313,7 +309,6 @@ public struct SearchParameterContact: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -333,6 +328,9 @@ public struct SearchParameterContact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -346,6 +344,7 @@ public struct SearchParameterContact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

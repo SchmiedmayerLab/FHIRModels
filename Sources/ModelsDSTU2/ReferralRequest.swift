@@ -102,12 +102,7 @@ public struct ReferralRequest: DomainResource {
 	/// Referral/Transition of care request type
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<ReferralStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -134,7 +129,6 @@ public struct ReferralRequest: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(status: status)
 		self.contained = contained
 		self.date = date
 		self.dateSent = dateSent
@@ -155,6 +149,7 @@ public struct ReferralRequest: DomainResource {
 		self.requester = requester
 		self.serviceRequested = serviceRequested
 		self.specialty = specialty
+		self.status = status
 		self.supportingInformation = supportingInformation
 		self.text = text
 		self.type = type
@@ -192,6 +187,9 @@ public struct ReferralRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -224,8 +222,10 @@ public struct ReferralRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)

@@ -109,13 +109,7 @@ public struct AllergyIntolerance: DomainResource {
 	/// substance (including pharmaceutical product).
 	public var verificationStatus: FHIRPrimitive<AllergyIntoleranceVerificationStatus>
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference, verificationStatus: FHIRPrimitive<AllergyIntoleranceVerificationStatus>) {
-		self.patient = patient
-		self.verificationStatus = verificationStatus
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assertedDate: FHIRPrimitive<DateTime>? = nil,
 		asserter: Reference? = nil,
@@ -141,7 +135,6 @@ public struct AllergyIntolerance: DomainResource {
 		type: FHIRPrimitive<AllergyIntoleranceType>? = nil,
 		verificationStatus: FHIRPrimitive<AllergyIntoleranceVerificationStatus>
 	) {
-		self.init(patient: patient, verificationStatus: verificationStatus)
 		self.assertedDate = assertedDate
 		self.asserter = asserter
 		self.category = category
@@ -159,10 +152,12 @@ public struct AllergyIntolerance: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.note = note
 		self.onset = onset
+		self.patient = patient
 		self.reaction = reaction
 		self.recorder = recorder
 		self.text = text
 		self.type = type
+		self.verificationStatus = verificationStatus
 	}
 	
 	// MARK: - Codable
@@ -200,6 +195,9 @@ public struct AllergyIntolerance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -219,18 +217,75 @@ public struct AllergyIntolerance: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
+		self.onset = try Self._decodeOnset(from: _container)
+		self.patient = try Reference(from: _container, forKey: .patient)
+		self.reaction = try [AllergyIntoleranceReaction](from: _container, forKeyIfPresent: .reaction)
+		self.recorder = try Reference(from: _container, forKeyIfPresent: .recorder)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
+		self.type = try FHIRPrimitive<AllergyIntoleranceType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
+		self.verificationStatus = try FHIRPrimitive<AllergyIntoleranceVerificationStatus>(from: _container, forKey: .verificationStatus, auxiliaryKey: ._verificationStatus)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
+		// Encode all our properties (own and inherited)
+		try assertedDate?.encode(on: &_container, forKey: .assertedDate, auxiliaryKey: ._assertedDate)
+		try asserter?.encode(on: &_container, forKey: .asserter)
+		try category?.encode(on: &_container, forKey: .category, auxiliaryKey: ._category)
+		try clinicalStatus?.encode(on: &_container, forKey: .clinicalStatus, auxiliaryKey: ._clinicalStatus)
+		try code?.encode(on: &_container, forKey: .code)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try criticality?.encode(on: &_container, forKey: .criticality, auxiliaryKey: ._criticality)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try lastOccurrence?.encode(on: &_container, forKey: .lastOccurrence, auxiliaryKey: ._lastOccurrence)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try note?.encode(on: &_container, forKey: .note)
+		if let _enum = onset {
+		switch _enum {
+		case .age(let _value):
+			try _value.encode(on: &_container, forKey: .onsetAge)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .onsetDateTime, auxiliaryKey: ._onsetDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .onsetPeriod)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .onsetRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .onsetString, auxiliaryKey: ._onsetString)
+		}
+		}
+		try patient.encode(on: &_container, forKey: .patient)
+		try reaction?.encode(on: &_container, forKey: .reaction)
+		try recorder?.encode(on: &_container, forKey: .recorder)
+		try text?.encode(on: &_container, forKey: .text)
+		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
+		try verificationStatus.encode(on: &_container, forKey: .verificationStatus, auxiliaryKey: ._verificationStatus)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOnset(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OnsetX? {
 		var _t_onset: OnsetX? = nil
+		if let onsetAge = try Age(from: _container, forKeyIfPresent: .onsetAge) {
+			_t_onset = .age(onsetAge)
+		}
 		if let onsetDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .onsetDateTime, auxiliaryKey: ._onsetDateTime) {
 			if _t_onset != nil {
 				throw DecodingError.dataCorruptedError(forKey: .onsetDateTime, in: _container, debugDescription: "More than one value provided for \"onset\"")
 			}
 			_t_onset = .dateTime(onsetDateTime)
-		}
-		if let onsetAge = try Age(from: _container, forKeyIfPresent: .onsetAge) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetAge, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .age(onsetAge)
 		}
 		if let onsetPeriod = try Period(from: _container, forKeyIfPresent: .onsetPeriod) {
 			if _t_onset != nil {
@@ -250,57 +305,7 @@ public struct AllergyIntolerance: DomainResource {
 			}
 			_t_onset = .string(onsetString)
 		}
-		self.onset = _t_onset
-		self.patient = try Reference(from: _container, forKey: .patient)
-		self.reaction = try [AllergyIntoleranceReaction](from: _container, forKeyIfPresent: .reaction)
-		self.recorder = try Reference(from: _container, forKeyIfPresent: .recorder)
-		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
-		self.type = try FHIRPrimitive<AllergyIntoleranceType>(from: _container, forKeyIfPresent: .type, auxiliaryKey: ._type)
-		self.verificationStatus = try FHIRPrimitive<AllergyIntoleranceVerificationStatus>(from: _container, forKey: .verificationStatus, auxiliaryKey: ._verificationStatus)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode resourceType
-		try _container.encode(Self.resourceType, forKey: .resourceType)
-		// Encode all our properties (own and inherited)
-		try assertedDate?.encode(on: &_container, forKey: .assertedDate, auxiliaryKey: ._assertedDate)
-		try asserter?.encode(on: &_container, forKey: .asserter)
-		try category?.encode(on: &_container, forKey: .category, auxiliaryKey: ._category)
-		try clinicalStatus?.encode(on: &_container, forKey: .clinicalStatus, auxiliaryKey: ._clinicalStatus)
-		try code?.encode(on: &_container, forKey: .code)
-		try contained?.encode(on: &_container, forKey: .contained)
-		try criticality?.encode(on: &_container, forKey: .criticality, auxiliaryKey: ._criticality)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try identifier?.encode(on: &_container, forKey: .identifier)
-		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
-		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
-		try lastOccurrence?.encode(on: &_container, forKey: .lastOccurrence, auxiliaryKey: ._lastOccurrence)
-		try meta?.encode(on: &_container, forKey: .meta)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try note?.encode(on: &_container, forKey: .note)
-		if let _enum = onset {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .onsetDateTime, auxiliaryKey: ._onsetDateTime)
-			case .age(let _value):
-				try _value.encode(on: &_container, forKey: .onsetAge)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .onsetPeriod)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .onsetRange)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .onsetString, auxiliaryKey: ._onsetString)
-			}
-		}
-		try patient.encode(on: &_container, forKey: .patient)
-		try reaction?.encode(on: &_container, forKey: .reaction)
-		try recorder?.encode(on: &_container, forKey: .recorder)
-		try text?.encode(on: &_container, forKey: .text)
-		try type?.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
-		try verificationStatus.encode(on: &_container, forKey: .verificationStatus, auxiliaryKey: ._verificationStatus)
+		return _t_onset
 	}
 }
 
@@ -342,12 +347,7 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 	/// Specific substance or pharmaceutical product considered to be responsible for event
 	public var substance: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(manifestation: [CodeableConcept]) {
-		self.manifestation = manifestation
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		exposureRoute: CodeableConcept? = nil,
@@ -360,11 +360,11 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 		severity: FHIRPrimitive<AllergyIntoleranceSeverity>? = nil,
 		substance: CodeableConcept? = nil
 	) {
-		self.init(manifestation: manifestation)
 		self.description_fhir = description_fhir
 		self.exposureRoute = exposureRoute
 		self.`extension` = `extension`
 		self.id = id
+		self.manifestation = manifestation
 		self.modifierExtension = modifierExtension
 		self.note = note
 		self.onset = onset
@@ -389,6 +389,9 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -407,6 +410,7 @@ public struct AllergyIntoleranceReaction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try exposureRoute?.encode(on: &_container, forKey: .exposureRoute)

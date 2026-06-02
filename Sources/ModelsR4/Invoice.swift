@@ -101,12 +101,7 @@ public struct Invoice: DomainResource {
 	/// Type of Invoice
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<InvoiceStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: Reference? = nil,
 		cancelledReason: FHIRPrimitive<FHIRString>? = nil,
@@ -133,7 +128,6 @@ public struct Invoice: DomainResource {
 		totalPriceComponent: [InvoiceLineItemPriceComponent]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(status: status)
 		self.account = account
 		self.cancelledReason = cancelledReason
 		self.contained = contained
@@ -151,6 +145,7 @@ public struct Invoice: DomainResource {
 		self.participant = participant
 		self.paymentTerms = paymentTerms
 		self.recipient = recipient
+		self.status = status
 		self.subject = subject
 		self.text = text
 		self.totalGross = totalGross
@@ -191,6 +186,9 @@ public struct Invoice: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -223,8 +221,10 @@ public struct Invoice: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try cancelledReason?.encode(on: &_container, forKey: .cancelledReason, auxiliaryKey: ._cancelledReason)
@@ -286,12 +286,7 @@ public struct InvoiceLineItem: BackboneElement {
 	/// Sequence number of line item
 	public var sequence: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(chargeItem: ChargeItemX) {
-		self.chargeItem = chargeItem
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		chargeItem: ChargeItemX,
 		`extension`: [Extension]? = nil,
@@ -300,7 +295,7 @@ public struct InvoiceLineItem: BackboneElement {
 		priceComponent: [InvoiceLineItemPriceComponent]? = nil,
 		sequence: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init(chargeItem: chargeItem)
+		self.chargeItem = chargeItem
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -322,28 +317,13 @@ public struct InvoiceLineItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.chargeItemCodeableConcept) || _container.contains(CodingKeys.chargeItemReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.chargeItemCodeableConcept, CodingKeys.chargeItemReference], debugDescription: "Must have at least one value for \"chargeItem\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_chargeItem: ChargeItemX? = nil
-		if let chargeItemReference = try Reference(from: _container, forKeyIfPresent: .chargeItemReference) {
-			if _t_chargeItem != nil {
-				throw DecodingError.dataCorruptedError(forKey: .chargeItemReference, in: _container, debugDescription: "More than one value provided for \"chargeItem\"")
-			}
-			_t_chargeItem = .reference(chargeItemReference)
-		}
-		if let chargeItemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .chargeItemCodeableConcept) {
-			if _t_chargeItem != nil {
-				throw DecodingError.dataCorruptedError(forKey: .chargeItemCodeableConcept, in: _container, debugDescription: "More than one value provided for \"chargeItem\"")
-			}
-			_t_chargeItem = .codeableConcept(chargeItemCodeableConcept)
-		}
-		self.chargeItem = _t_chargeItem!
+		self.chargeItem = try Self._decodeChargeItem(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -354,20 +334,44 @@ public struct InvoiceLineItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch chargeItem {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .chargeItemReference)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .chargeItemCodeableConcept)
-			}
+		switch chargeItem {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .chargeItemCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .chargeItemReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try priceComponent?.encode(on: &_container, forKey: .priceComponent)
 		try sequence?.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeChargeItem(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ChargeItemX {
+		var _t_chargeItem: ChargeItemX? = nil
+		if let chargeItemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .chargeItemCodeableConcept) {
+			_t_chargeItem = .codeableConcept(chargeItemCodeableConcept)
+		}
+		if let chargeItemReference = try Reference(from: _container, forKeyIfPresent: .chargeItemReference) {
+			if _t_chargeItem != nil {
+				throw DecodingError.dataCorruptedError(forKey: .chargeItemReference, in: _container, debugDescription: "More than one value provided for \"chargeItem\"")
+			}
+			_t_chargeItem = .reference(chargeItemReference)
+		}
+		guard let _t_chargeItem else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.chargeItemReference)
+			throw DecodingError.valueNotFound(ChargeItemX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"chargeItem\" but have none"))
+		}
+		return _t_chargeItem
 	}
 }
 
@@ -402,12 +406,7 @@ public struct InvoiceLineItemPriceComponent: BackboneElement {
 	/// This code identifies the type of the component.
 	public var type: FHIRPrimitive<InvoicePriceComponentType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<InvoicePriceComponentType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money? = nil,
 		code: CodeableConcept? = nil,
@@ -417,13 +416,13 @@ public struct InvoiceLineItemPriceComponent: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: FHIRPrimitive<InvoicePriceComponentType>
 	) {
-		self.init(type: type)
 		self.amount = amount
 		self.code = code
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -440,6 +439,9 @@ public struct InvoiceLineItemPriceComponent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -455,6 +457,7 @@ public struct InvoiceLineItemPriceComponent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try code?.encode(on: &_container, forKey: .code)
@@ -488,12 +491,7 @@ public struct InvoiceParticipant: BackboneElement {
 	/// Type of involvement in creation of this Invoice
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -501,7 +499,7 @@ public struct InvoiceParticipant: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -520,6 +518,9 @@ public struct InvoiceParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -533,6 +534,7 @@ public struct InvoiceParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

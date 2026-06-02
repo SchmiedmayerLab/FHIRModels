@@ -74,14 +74,7 @@ public struct Ingredient: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(role: CodeableConcept, status: FHIRPrimitive<PublicationStatus>, substance: IngredientSubstance) {
-		self.role = role
-		self.status = status
-		self.substance = substance
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		allergenicIndicator: FHIRPrimitive<FHIRBool>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -100,7 +93,6 @@ public struct Ingredient: DomainResource {
 		substance: IngredientSubstance,
 		text: Narrative? = nil
 	) {
-		self.init(role: role, status: status, substance: substance)
 		self.allergenicIndicator = allergenicIndicator
 		self.contained = contained
 		self.`extension` = `extension`
@@ -113,6 +105,9 @@ public struct Ingredient: DomainResource {
 		self.manufacturer = manufacturer
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.role = role
+		self.status = status
+		self.substance = substance
 		self.text = text
 	}
 	
@@ -140,6 +135,9 @@ public struct Ingredient: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -164,8 +162,10 @@ public struct Ingredient: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try allergenicIndicator?.encode(on: &_container, forKey: .allergenicIndicator, auxiliaryKey: ._allergenicIndicator)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -213,12 +213,7 @@ public struct IngredientManufacturer: BackboneElement {
 	/// process role.
 	public var role: FHIRPrimitive<IngredientManufacturerRole>?
 	
-	/// Designated initializer taking all required properties
-	public init(manufacturer: Reference) {
-		self.manufacturer = manufacturer
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -226,9 +221,9 @@ public struct IngredientManufacturer: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		role: FHIRPrimitive<IngredientManufacturerRole>? = nil
 	) {
-		self.init(manufacturer: manufacturer)
 		self.`extension` = `extension`
 		self.id = id
+		self.manufacturer = manufacturer
 		self.modifierExtension = modifierExtension
 		self.role = role
 	}
@@ -245,6 +240,9 @@ public struct IngredientManufacturer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -258,6 +256,7 @@ public struct IngredientManufacturer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -287,12 +286,7 @@ public struct IngredientSubstance: BackboneElement {
 	/// The quantity of substance, per presentation, or per volume or mass, and type of quantity
 	public var strength: [IngredientSubstanceStrength]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableReference) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableReference,
 		`extension`: [Extension]? = nil,
@@ -300,7 +294,7 @@ public struct IngredientSubstance: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		strength: [IngredientSubstanceStrength]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -319,6 +313,9 @@ public struct IngredientSubstance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -332,6 +329,7 @@ public struct IngredientSubstance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -395,11 +393,7 @@ public struct IngredientSubstanceStrength: BackboneElement {
 	/// Text of either the whole presentation strength or a part of it (rest being in Strength.presentation as a ratio)
 	public var textPresentation: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		concentration: ConcentrationX? = nil,
 		country: [CodeableConcept]? = nil,
@@ -412,7 +406,6 @@ public struct IngredientSubstanceStrength: BackboneElement {
 		textConcentration: FHIRPrimitive<FHIRString>? = nil,
 		textPresentation: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.concentration = concentration
 		self.country = country
 		self.`extension` = `extension`
@@ -444,42 +437,19 @@ public struct IngredientSubstanceStrength: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_concentration: ConcentrationX? = nil
-		if let concentrationRatio = try Ratio(from: _container, forKeyIfPresent: .concentrationRatio) {
-			if _t_concentration != nil {
-				throw DecodingError.dataCorruptedError(forKey: .concentrationRatio, in: _container, debugDescription: "More than one value provided for \"concentration\"")
-			}
-			_t_concentration = .ratio(concentrationRatio)
-		}
-		if let concentrationRatioRange = try RatioRange(from: _container, forKeyIfPresent: .concentrationRatioRange) {
-			if _t_concentration != nil {
-				throw DecodingError.dataCorruptedError(forKey: .concentrationRatioRange, in: _container, debugDescription: "More than one value provided for \"concentration\"")
-			}
-			_t_concentration = .ratioRange(concentrationRatioRange)
-		}
-		self.concentration = _t_concentration
+		self.concentration = try Self._decodeConcentration(from: _container)
 		self.country = try [CodeableConcept](from: _container, forKeyIfPresent: .country)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measurementPoint = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .measurementPoint, auxiliaryKey: ._measurementPoint)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_presentation: PresentationX? = nil
-		if let presentationRatio = try Ratio(from: _container, forKeyIfPresent: .presentationRatio) {
-			if _t_presentation != nil {
-				throw DecodingError.dataCorruptedError(forKey: .presentationRatio, in: _container, debugDescription: "More than one value provided for \"presentation\"")
-			}
-			_t_presentation = .ratio(presentationRatio)
-		}
-		if let presentationRatioRange = try RatioRange(from: _container, forKeyIfPresent: .presentationRatioRange) {
-			if _t_presentation != nil {
-				throw DecodingError.dataCorruptedError(forKey: .presentationRatioRange, in: _container, debugDescription: "More than one value provided for \"presentation\"")
-			}
-			_t_presentation = .ratioRange(presentationRatioRange)
-		}
-		self.presentation = _t_presentation
+		self.presentation = try Self._decodePresentation(from: _container)
 		self.referenceStrength = try [IngredientSubstanceStrengthReferenceStrength](from: _container, forKeyIfPresent: .referenceStrength)
 		self.textConcentration = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textConcentration, auxiliaryKey: ._textConcentration)
 		self.textPresentation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textPresentation, auxiliaryKey: ._textPresentation)
@@ -488,14 +458,15 @@ public struct IngredientSubstanceStrength: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = concentration {
-			switch _enum {
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .concentrationRatio)
-			case .ratioRange(let _value):
-				try _value.encode(on: &_container, forKey: .concentrationRatioRange)
-			}
+		switch _enum {
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .concentrationRatio)
+		case .ratioRange(let _value):
+			try _value.encode(on: &_container, forKey: .concentrationRatioRange)
+		}
 		}
 		try country?.encode(on: &_container, forKey: .country)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -503,16 +474,50 @@ public struct IngredientSubstanceStrength: BackboneElement {
 		try measurementPoint?.encode(on: &_container, forKey: .measurementPoint, auxiliaryKey: ._measurementPoint)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = presentation {
-			switch _enum {
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .presentationRatio)
-			case .ratioRange(let _value):
-				try _value.encode(on: &_container, forKey: .presentationRatioRange)
-			}
+		switch _enum {
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .presentationRatio)
+		case .ratioRange(let _value):
+			try _value.encode(on: &_container, forKey: .presentationRatioRange)
+		}
 		}
 		try referenceStrength?.encode(on: &_container, forKey: .referenceStrength)
 		try textConcentration?.encode(on: &_container, forKey: .textConcentration, auxiliaryKey: ._textConcentration)
 		try textPresentation?.encode(on: &_container, forKey: .textPresentation, auxiliaryKey: ._textPresentation)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeConcentration(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ConcentrationX? {
+		var _t_concentration: ConcentrationX? = nil
+		if let concentrationRatio = try Ratio(from: _container, forKeyIfPresent: .concentrationRatio) {
+			_t_concentration = .ratio(concentrationRatio)
+		}
+		if let concentrationRatioRange = try RatioRange(from: _container, forKeyIfPresent: .concentrationRatioRange) {
+			if _t_concentration != nil {
+				throw DecodingError.dataCorruptedError(forKey: .concentrationRatioRange, in: _container, debugDescription: "More than one value provided for \"concentration\"")
+			}
+			_t_concentration = .ratioRange(concentrationRatioRange)
+		}
+		return _t_concentration
+	}
+	
+	private static func _decodePresentation(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> PresentationX? {
+		var _t_presentation: PresentationX? = nil
+		if let presentationRatio = try Ratio(from: _container, forKeyIfPresent: .presentationRatio) {
+			_t_presentation = .ratio(presentationRatio)
+		}
+		if let presentationRatioRange = try RatioRange(from: _container, forKeyIfPresent: .presentationRatioRange) {
+			if _t_presentation != nil {
+				throw DecodingError.dataCorruptedError(forKey: .presentationRatioRange, in: _container, debugDescription: "More than one value provided for \"presentation\"")
+			}
+			_t_presentation = .ratioRange(presentationRatioRange)
+		}
+		return _t_presentation
 	}
 }
 
@@ -554,12 +559,7 @@ public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 	/// Relevant reference substance
 	public var substance: CodeableReference?
 	
-	/// Designated initializer taking all required properties
-	public init(strength: StrengthX) {
-		self.strength = strength
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		country: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -569,12 +569,12 @@ public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 		strength: StrengthX,
 		substance: CodeableReference? = nil
 	) {
-		self.init(strength: strength)
 		self.country = country
 		self.`extension` = `extension`
 		self.id = id
 		self.measurementPoint = measurementPoint
 		self.modifierExtension = modifierExtension
+		self.strength = strength
 		self.substance = substance
 	}
 	
@@ -593,12 +593,10 @@ public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.strengthRatio) || _container.contains(CodingKeys.strengthRatioRange) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.strengthRatio, CodingKeys.strengthRatioRange], debugDescription: "Must have at least one value for \"strength\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.country = try [CodeableConcept](from: _container, forKeyIfPresent: .country)
@@ -606,11 +604,38 @@ public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.measurementPoint = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .measurementPoint, auxiliaryKey: ._measurementPoint)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.strength = try Self._decodeStrength(from: _container)
+		self.substance = try CodeableReference(from: _container, forKeyIfPresent: .substance)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try country?.encode(on: &_container, forKey: .country)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try measurementPoint?.encode(on: &_container, forKey: .measurementPoint, auxiliaryKey: ._measurementPoint)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		
+		switch strength {
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .strengthRatio)
+		case .ratioRange(let _value):
+			try _value.encode(on: &_container, forKey: .strengthRatioRange)
+		}
+		
+		try substance?.encode(on: &_container, forKey: .substance)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeStrength(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> StrengthX {
 		var _t_strength: StrengthX? = nil
 		if let strengthRatio = try Ratio(from: _container, forKeyIfPresent: .strengthRatio) {
-			if _t_strength != nil {
-				throw DecodingError.dataCorruptedError(forKey: .strengthRatio, in: _container, debugDescription: "More than one value provided for \"strength\"")
-			}
 			_t_strength = .ratio(strengthRatio)
 		}
 		if let strengthRatioRange = try RatioRange(from: _container, forKeyIfPresent: .strengthRatioRange) {
@@ -619,27 +644,11 @@ public struct IngredientSubstanceStrengthReferenceStrength: BackboneElement {
 			}
 			_t_strength = .ratioRange(strengthRatioRange)
 		}
-		self.strength = _t_strength!
-		self.substance = try CodeableReference(from: _container, forKeyIfPresent: .substance)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try country?.encode(on: &_container, forKey: .country)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try measurementPoint?.encode(on: &_container, forKey: .measurementPoint, auxiliaryKey: ._measurementPoint)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		
-			switch strength {
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .strengthRatio)
-			case .ratioRange(let _value):
-				try _value.encode(on: &_container, forKey: .strengthRatioRange)
-			}
-		
-		try substance?.encode(on: &_container, forKey: .substance)
+		guard let _t_strength else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.strengthRatioRange)
+			throw DecodingError.valueNotFound(StrengthX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"strength\" but have none"))
+		}
+		return _t_strength
 	}
 }

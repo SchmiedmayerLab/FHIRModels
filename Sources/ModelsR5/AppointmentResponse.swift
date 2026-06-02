@@ -86,13 +86,7 @@ public struct AppointmentResponse: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(appointment: Reference, participantStatus: FHIRPrimitive<FHIRString>) {
-		self.appointment = appointment
-		self.participantStatus = participantStatus
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		appointment: Reference,
@@ -115,8 +109,8 @@ public struct AppointmentResponse: DomainResource {
 		start: FHIRPrimitive<Instant>? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(appointment: appointment, participantStatus: participantStatus)
 		self.actor = actor
+		self.appointment = appointment
 		self.comment = comment
 		self.contained = contained
 		self.end = end
@@ -128,6 +122,7 @@ public struct AppointmentResponse: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.occurrenceDate = occurrenceDate
+		self.participantStatus = participantStatus
 		self.participantType = participantType
 		self.proposedNewTime = proposedNewTime
 		self.recurrenceId = recurrenceId
@@ -164,6 +159,9 @@ public struct AppointmentResponse: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -192,8 +190,10 @@ public struct AppointmentResponse: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try appointment.encode(on: &_container, forKey: .appointment)

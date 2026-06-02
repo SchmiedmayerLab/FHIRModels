@@ -114,14 +114,7 @@ public struct DeviceUsage: DomainResource {
 	/// statement
 	public var usageStatus: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(device: CodeableReference, patient: Reference, status: FHIRPrimitive<DeviceUsageStatus>) {
-		self.device = device
-		self.patient = patient
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adherence: DeviceUsageAdherence? = nil,
 		basedOn: [Reference]? = nil,
@@ -149,7 +142,6 @@ public struct DeviceUsage: DomainResource {
 		usageReason: [CodeableConcept]? = nil,
 		usageStatus: CodeableConcept? = nil
 	) {
-		self.init(device: device, patient: patient, status: status)
 		self.adherence = adherence
 		self.basedOn = basedOn
 		self.bodySite = bodySite
@@ -158,6 +150,7 @@ public struct DeviceUsage: DomainResource {
 		self.context = context
 		self.dateAsserted = dateAsserted
 		self.derivedFrom = derivedFrom
+		self.device = device
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -167,7 +160,9 @@ public struct DeviceUsage: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.note = note
+		self.patient = patient
 		self.reason = reason
+		self.status = status
 		self.text = text
 		self.timing = timing
 		self.usageReason = usageReason
@@ -209,6 +204,9 @@ public struct DeviceUsage: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -234,26 +232,7 @@ public struct DeviceUsage: DomainResource {
 		self.reason = try [CodeableReference](from: _container, forKeyIfPresent: .reason)
 		self.status = try FHIRPrimitive<DeviceUsageStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
-		var _t_timing: TimingX? = nil
-		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .timing(timingTiming)
-		}
-		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .period(timingPeriod)
-		}
-		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDateTime, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .dateTime(timingDateTime)
-		}
-		self.timing = _t_timing
+		self.timing = try Self._decodeTiming(from: _container)
 		self.usageReason = try [CodeableConcept](from: _container, forKeyIfPresent: .usageReason)
 		self.usageStatus = try CodeableConcept(from: _container, forKeyIfPresent: .usageStatus)
 	}
@@ -261,8 +240,10 @@ public struct DeviceUsage: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try adherence?.encode(on: &_container, forKey: .adherence)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
@@ -287,17 +268,41 @@ public struct DeviceUsage: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try text?.encode(on: &_container, forKey: .text)
 		if let _enum = timing {
-			switch _enum {
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timingPeriod)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timingPeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
+		}
 		}
 		try usageReason?.encode(on: &_container, forKey: .usageReason)
 		try usageStatus?.encode(on: &_container, forKey: .usageStatus)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
+		var _t_timing: TimingX? = nil
+		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
+			_t_timing = .dateTime(timingDateTime)
+		}
+		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .period(timingPeriod)
+		}
+		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .timing(timingTiming)
+		}
+		return _t_timing
 	}
 }
 
@@ -323,13 +328,7 @@ public struct DeviceUsageAdherence: BackboneElement {
 	/// lost | stolen | prescribed | broken | burned | forgot
 	public var reason: [CodeableConcept]
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, reason: [CodeableConcept]) {
-		self.code = code
-		self.reason = reason
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -337,10 +336,11 @@ public struct DeviceUsageAdherence: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		reason: [CodeableConcept]
 	) {
-		self.init(code: code, reason: reason)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.reason = reason
 	}
 	
 	// MARK: - Codable
@@ -355,6 +355,9 @@ public struct DeviceUsageAdherence: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -368,6 +371,7 @@ public struct DeviceUsageAdherence: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

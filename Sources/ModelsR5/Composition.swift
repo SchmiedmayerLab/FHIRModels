@@ -115,16 +115,7 @@ public struct Composition: DomainResource {
 	/// An explicitly assigned identifer of a variation of the content in the Composition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(author: [Reference], date: FHIRPrimitive<DateTime>, status: FHIRPrimitive<CompositionStatus>, title: FHIRPrimitive<FHIRString>, type: CodeableConcept) {
-		self.author = author
-		self.date = date
-		self.status = status
-		self.title = title
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attester: [CompositionAttester]? = nil,
 		author: [Reference],
@@ -154,11 +145,12 @@ public struct Composition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(author: author, date: date, status: status, title: title, type: type)
 		self.attester = attester
+		self.author = author
 		self.category = category
 		self.contained = contained
 		self.custodian = custodian
+		self.date = date
 		self.encounter = encounter
 		self.event = event
 		self.`extension` = `extension`
@@ -172,8 +164,11 @@ public struct Composition: DomainResource {
 		self.note = note
 		self.relatesTo = relatesTo
 		self.section = section
+		self.status = status
 		self.subject = subject
 		self.text = text
+		self.title = title
+		self.type = type
 		self.url = url
 		self.useContext = useContext
 		self.version = version
@@ -214,6 +209,9 @@ public struct Composition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -249,8 +247,10 @@ public struct Composition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try attester?.encode(on: &_container, forKey: .attester)
 		try author.encode(on: &_container, forKey: .author)
@@ -307,12 +307,7 @@ public struct CompositionAttester: BackboneElement {
 	/// When the composition was attested
 	public var time: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init(mode: CodeableConcept) {
-		self.mode = mode
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -321,9 +316,9 @@ public struct CompositionAttester: BackboneElement {
 		party: Reference? = nil,
 		time: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init(mode: mode)
 		self.`extension` = `extension`
 		self.id = id
+		self.mode = mode
 		self.modifierExtension = modifierExtension
 		self.party = party
 		self.time = time
@@ -342,6 +337,9 @@ public struct CompositionAttester: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -356,6 +354,7 @@ public struct CompositionAttester: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -388,11 +387,7 @@ public struct CompositionEvent: BackboneElement {
 	/// The period covered by the documentation
 	public var period: Period?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: [CodeableReference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -400,7 +395,6 @@ public struct CompositionEvent: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period? = nil
 	) {
-		self.init()
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
@@ -420,6 +414,9 @@ public struct CompositionEvent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -433,6 +430,7 @@ public struct CompositionEvent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try detail?.encode(on: &_container, forKey: .detail)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -485,11 +483,7 @@ public struct CompositionSection: BackboneElement {
 	/// Label for section (e.g. for ToC)
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: [Reference]? = nil,
 		code: CodeableConcept? = nil,
@@ -504,7 +498,6 @@ public struct CompositionSection: BackboneElement {
 		text: Narrative? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.author = author
 		self.code = code
 		self.emptyReason = emptyReason
@@ -538,6 +531,9 @@ public struct CompositionSection: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -558,6 +554,7 @@ public struct CompositionSection: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try code?.encode(on: &_container, forKey: .code)

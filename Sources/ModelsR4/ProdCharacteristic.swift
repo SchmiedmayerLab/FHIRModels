@@ -83,11 +83,7 @@ public struct ProdCharacteristic: BackboneElement {
 	/// symbol identifier shall be used
 	public var width: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		color: [FHIRPrimitive<FHIRString>]? = nil,
 		depth: Quantity? = nil,
@@ -104,7 +100,6 @@ public struct ProdCharacteristic: BackboneElement {
 		weight: Quantity? = nil,
 		width: Quantity? = nil
 	) {
-		self.init()
 		self.color = color
 		self.depth = depth
 		self.`extension` = `extension`
@@ -142,6 +137,9 @@ public struct ProdCharacteristic: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -164,6 +162,7 @@ public struct ProdCharacteristic: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try color?.encode(on: &_container, forKey: .color, auxiliaryKey: ._color)
 		try depth?.encode(on: &_container, forKey: .depth)

@@ -145,15 +145,7 @@ public struct ProcedureRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, intent: FHIRPrimitive<RequestIntent>, status: FHIRPrimitive<RequestStatus>, subject: Reference) {
-		self.code = code
-		self.intent = intent
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		asNeeded: AsNeededX? = nil,
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
@@ -190,12 +182,12 @@ public struct ProcedureRequest: DomainResource {
 		supportingInfo: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(code: code, intent: intent, status: status, subject: subject)
 		self.asNeeded = asNeeded
 		self.authoredOn = authoredOn
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.context = context
 		self.definition = definition
@@ -204,6 +196,7 @@ public struct ProcedureRequest: DomainResource {
 		self.id = id
 		self.identifier = identifier
 		self.implicitRules = implicitRules
+		self.intent = intent
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -219,6 +212,8 @@ public struct ProcedureRequest: DomainResource {
 		self.requester = requester
 		self.requisition = requisition
 		self.specimen = specimen
+		self.status = status
+		self.subject = subject
 		self.supportingInfo = supportingInfo
 		self.text = text
 	}
@@ -268,23 +263,13 @@ public struct ProcedureRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_asNeeded: AsNeededX? = nil
-		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededBoolean, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .boolean(asNeededBoolean)
-		}
-		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
-		}
-		self.asNeeded = _t_asNeeded
+		self.asNeeded = try Self._decodeAsNeeded(from: _container)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
@@ -303,26 +288,7 @@ public struct ProcedureRequest: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .timing(occurrenceTiming)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
 		self.performerType = try CodeableConcept(from: _container, forKeyIfPresent: .performerType)
 		self.priority = try FHIRPrimitive<RequestPriority>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
@@ -342,16 +308,18 @@ public struct ProcedureRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = asNeeded {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
+		}
 		}
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
@@ -372,14 +340,14 @@ public struct ProcedureRequest: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceTiming)
+		}
 		}
 		try performer?.encode(on: &_container, forKey: .performer)
 		try performerType?.encode(on: &_container, forKey: .performerType)
@@ -395,6 +363,46 @@ public struct ProcedureRequest: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try supportingInfo?.encode(on: &_container, forKey: .supportingInfo)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAsNeeded(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AsNeededX? {
+		var _t_asNeeded: AsNeededX? = nil
+		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
+			_t_asNeeded = .boolean(asNeededBoolean)
+		}
+		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
+			if _t_asNeeded != nil {
+				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
+			}
+			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
+		}
+		return _t_asNeeded
+	}
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .timing(occurrenceTiming)
+		}
+		return _t_occurrence
 	}
 }
 
@@ -420,12 +428,7 @@ public struct ProcedureRequestRequester: BackboneElement {
 	/// Organization agent is acting for
 	public var onBehalfOf: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(agent: Reference) {
-		self.agent = agent
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		agent: Reference,
 		`extension`: [Extension]? = nil,
@@ -433,7 +436,7 @@ public struct ProcedureRequestRequester: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		onBehalfOf: Reference? = nil
 	) {
-		self.init(agent: agent)
+		self.agent = agent
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -452,6 +455,9 @@ public struct ProcedureRequestRequester: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -465,6 +471,7 @@ public struct ProcedureRequestRequester: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try agent.encode(on: &_container, forKey: .agent)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

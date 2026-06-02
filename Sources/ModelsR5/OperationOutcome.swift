@@ -55,12 +55,7 @@ public struct OperationOutcome: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(issue: [OperationOutcomeIssue]) {
-		self.issue = issue
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -72,11 +67,11 @@ public struct OperationOutcome: DomainResource {
 		modifierExtension: [Extension]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(issue: issue)
 		self.contained = contained
 		self.`extension` = `extension`
 		self.id = id
 		self.implicitRules = implicitRules
+		self.issue = issue
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -100,6 +95,9 @@ public struct OperationOutcome: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -117,8 +115,10 @@ public struct OperationOutcome: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -167,13 +167,7 @@ public struct OperationOutcomeIssue: BackboneElement {
 	/// Indicates whether the issue indicates a variation from successful processing.
 	public var severity: FHIRPrimitive<IssueSeverity>
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<IssueType>, severity: FHIRPrimitive<IssueSeverity>) {
-		self.code = code
-		self.severity = severity
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<IssueType>,
 		details: CodeableConcept? = nil,
@@ -185,7 +179,7 @@ public struct OperationOutcomeIssue: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		severity: FHIRPrimitive<IssueSeverity>
 	) {
-		self.init(code: code, severity: severity)
+		self.code = code
 		self.details = details
 		self.diagnostics = diagnostics
 		self.expression = expression
@@ -193,6 +187,7 @@ public struct OperationOutcomeIssue: BackboneElement {
 		self.id = id
 		self.location = location
 		self.modifierExtension = modifierExtension
+		self.severity = severity
 	}
 	
 	// MARK: - Codable
@@ -211,6 +206,9 @@ public struct OperationOutcomeIssue: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -228,6 +226,7 @@ public struct OperationOutcomeIssue: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try details?.encode(on: &_container, forKey: .details)

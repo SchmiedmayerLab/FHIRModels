@@ -97,16 +97,7 @@ public struct CompartmentDefinition: DomainResource {
 	/// Context the content is intended to support
 	public var useContext: [UsageContext]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<CompartmentType>, name: FHIRPrimitive<FHIRString>, search: FHIRPrimitive<FHIRBool>, status: FHIRPrimitive<PublicationStatus>, url: FHIRPrimitive<FHIRURI>) {
-		self.code = code
-		self.name = name
-		self.search = search
-		self.status = status
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<CompartmentType>,
 		contact: [ContactDetail]? = nil,
@@ -132,7 +123,7 @@ public struct CompartmentDefinition: DomainResource {
 		url: FHIRPrimitive<FHIRURI>,
 		useContext: [UsageContext]? = nil
 	) {
-		self.init(code: code, name: name, search: search, status: status, url: url)
+		self.code = code
 		self.contact = contact
 		self.contained = contained
 		self.date = date
@@ -145,11 +136,15 @@ public struct CompartmentDefinition: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.publisher = publisher
 		self.purpose = purpose
 		self.resource = resource
+		self.search = search
+		self.status = status
 		self.text = text
 		self.title = title
+		self.url = url
 		self.useContext = useContext
 	}
 	
@@ -184,6 +179,9 @@ public struct CompartmentDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -215,8 +213,10 @@ public struct CompartmentDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try contact?.encode(on: &_container, forKey: .contact)
@@ -269,12 +269,7 @@ public struct CompartmentDefinitionResource: BackboneElement {
 	/// Search Parameter Name, or chained parameters
 	public var param: [FHIRPrimitive<FHIRString>]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<ResourceType>) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<ResourceType>,
 		documentation: FHIRPrimitive<FHIRString>? = nil,
@@ -283,7 +278,7 @@ public struct CompartmentDefinitionResource: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		param: [FHIRPrimitive<FHIRString>]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.documentation = documentation
 		self.`extension` = `extension`
 		self.id = id
@@ -304,6 +299,9 @@ public struct CompartmentDefinitionResource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -318,6 +316,7 @@ public struct CompartmentDefinitionResource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try documentation?.encode(on: &_container, forKey: .documentation, auxiliaryKey: ._documentation)

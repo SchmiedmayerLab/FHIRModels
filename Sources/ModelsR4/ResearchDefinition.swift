@@ -162,13 +162,7 @@ public struct ResearchDefinition: DomainResource {
 	/// Business version of the research definition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(population: Reference, status: FHIRPrimitive<PublicationStatus>) {
-		self.population = population
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -213,7 +207,6 @@ public struct ResearchDefinition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(population: population, status: status)
 		self.approvalDate = approvalDate
 		self.author = author
 		self.comment = comment
@@ -240,11 +233,13 @@ public struct ResearchDefinition: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.outcome = outcome
+		self.population = population
 		self.publisher = publisher
 		self.purpose = purpose
 		self.relatedArtifact = relatedArtifact
 		self.reviewer = reviewer
 		self.shortTitle = shortTitle
+		self.status = status
 		self.subject = subject
 		self.subtitle = subtitle
 		self.text = text
@@ -307,6 +302,9 @@ public struct ResearchDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -343,20 +341,7 @@ public struct ResearchDefinition: DomainResource {
 		self.reviewer = try [ContactDetail](from: _container, forKeyIfPresent: .reviewer)
 		self.shortTitle = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .shortTitle, auxiliaryKey: ._shortTitle)
 		self.status = try FHIRPrimitive<PublicationStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		var _t_subject: SubjectX? = nil
-		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectCodeableConcept, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .codeableConcept(subjectCodeableConcept)
-		}
-		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
-			if _t_subject != nil {
-				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
-			}
-			_t_subject = .reference(subjectReference)
-		}
-		self.subject = _t_subject
+		self.subject = try Self._decodeSubject(from: _container)
 		self.subtitle = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .subtitle, auxiliaryKey: ._subtitle)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
@@ -370,8 +355,10 @@ public struct ResearchDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
@@ -407,12 +394,12 @@ public struct ResearchDefinition: DomainResource {
 		try shortTitle?.encode(on: &_container, forKey: .shortTitle, auxiliaryKey: ._shortTitle)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		if let _enum = subject {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .subjectReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .subjectCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .subjectReference)
+		}
 		}
 		try subtitle?.encode(on: &_container, forKey: .subtitle, auxiliaryKey: ._subtitle)
 		try text?.encode(on: &_container, forKey: .text)
@@ -422,5 +409,23 @@ public struct ResearchDefinition: DomainResource {
 		try usage?.encode(on: &_container, forKey: .usage, auxiliaryKey: ._usage)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSubject(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SubjectX? {
+		var _t_subject: SubjectX? = nil
+		if let subjectCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .subjectCodeableConcept) {
+			_t_subject = .codeableConcept(subjectCodeableConcept)
+		}
+		if let subjectReference = try Reference(from: _container, forKeyIfPresent: .subjectReference) {
+			if _t_subject != nil {
+				throw DecodingError.dataCorruptedError(forKey: .subjectReference, in: _container, debugDescription: "More than one value provided for \"subject\"")
+			}
+			_t_subject = .reference(subjectReference)
+		}
+		return _t_subject
 	}
 }

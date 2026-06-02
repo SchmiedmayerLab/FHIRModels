@@ -124,13 +124,7 @@ public struct Media: DomainResource {
 	/// Width of the image in pixels (photo/video)
 	public var width: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(content: Attachment, status: FHIRPrimitive<FHIRString>) {
-		self.content = content
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: CodeableConcept? = nil,
@@ -163,10 +157,10 @@ public struct Media: DomainResource {
 		view: CodeableConcept? = nil,
 		width: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init(content: content, status: status)
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.contained = contained
+		self.content = content
 		self.created = created
 		self.device = device
 		self.deviceName = deviceName
@@ -187,6 +181,7 @@ public struct Media: DomainResource {
 		self.`operator` = `operator`
 		self.partOf = partOf
 		self.reasonCode = reasonCode
+		self.status = status
 		self.subject = subject
 		self.text = text
 		self.type = type
@@ -233,6 +228,9 @@ public struct Media: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -240,20 +238,7 @@ public struct Media: DomainResource {
 		self.bodySite = try CodeableConcept(from: _container, forKeyIfPresent: .bodySite)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.content = try Attachment(from: _container, forKey: .content)
-		var _t_created: CreatedX? = nil
-		if let createdDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .createdDateTime, auxiliaryKey: ._createdDateTime) {
-			if _t_created != nil {
-				throw DecodingError.dataCorruptedError(forKey: .createdDateTime, in: _container, debugDescription: "More than one value provided for \"created\"")
-			}
-			_t_created = .dateTime(createdDateTime)
-		}
-		if let createdPeriod = try Period(from: _container, forKeyIfPresent: .createdPeriod) {
-			if _t_created != nil {
-				throw DecodingError.dataCorruptedError(forKey: .createdPeriod, in: _container, debugDescription: "More than one value provided for \"created\"")
-			}
-			_t_created = .period(createdPeriod)
-		}
-		self.created = _t_created
+		self.created = try Self._decodeCreated(from: _container)
 		self.device = try Reference(from: _container, forKeyIfPresent: .device)
 		self.deviceName = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .deviceName, auxiliaryKey: ._deviceName)
 		self.duration = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .duration, auxiliaryKey: ._duration)
@@ -284,20 +269,22 @@ public struct Media: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try content.encode(on: &_container, forKey: .content)
 		if let _enum = created {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .createdDateTime, auxiliaryKey: ._createdDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .createdPeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .createdDateTime, auxiliaryKey: ._createdDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .createdPeriod)
+		}
 		}
 		try device?.encode(on: &_container, forKey: .device)
 		try deviceName?.encode(on: &_container, forKey: .deviceName, auxiliaryKey: ._deviceName)
@@ -324,5 +311,23 @@ public struct Media: DomainResource {
 		try type?.encode(on: &_container, forKey: .type)
 		try view?.encode(on: &_container, forKey: .view)
 		try width?.encode(on: &_container, forKey: .width, auxiliaryKey: ._width)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeCreated(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> CreatedX? {
+		var _t_created: CreatedX? = nil
+		if let createdDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .createdDateTime, auxiliaryKey: ._createdDateTime) {
+			_t_created = .dateTime(createdDateTime)
+		}
+		if let createdPeriod = try Period(from: _container, forKeyIfPresent: .createdPeriod) {
+			if _t_created != nil {
+				throw DecodingError.dataCorruptedError(forKey: .createdPeriod, in: _container, debugDescription: "More than one value provided for \"created\"")
+			}
+			_t_created = .period(createdPeriod)
+		}
+		return _t_created
 	}
 }

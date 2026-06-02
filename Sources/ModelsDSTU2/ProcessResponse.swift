@@ -91,11 +91,7 @@ public struct ProcessResponse: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		created: FHIRPrimitive<DateTime>? = nil,
@@ -119,7 +115,6 @@ public struct ProcessResponse: DomainResource {
 		ruleset: Coding? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.created = created
 		self.disposition = disposition
@@ -172,6 +167,9 @@ public struct ProcessResponse: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -201,8 +199,10 @@ public struct ProcessResponse: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try created?.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
@@ -250,11 +250,7 @@ public struct ProcessResponseNotes: BackboneElement {
 	/// display | print | printoper
 	public var type: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -262,7 +258,6 @@ public struct ProcessResponseNotes: BackboneElement {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		type: Coding? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -282,6 +277,9 @@ public struct ProcessResponseNotes: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -295,6 +293,7 @@ public struct ProcessResponseNotes: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

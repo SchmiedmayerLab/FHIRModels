@@ -148,14 +148,7 @@ public struct ChargeItem: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, status: FHIRPrimitive<ChargeItemStatus>, subject: Reference) {
-		self.code = code
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: [Reference]? = nil,
 		bodysite: [CodeableConcept]? = nil,
@@ -192,9 +185,9 @@ public struct ChargeItem: DomainResource {
 		supportingInformation: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(code: code, status: status, subject: subject)
 		self.account = account
 		self.bodysite = bodysite
+		self.code = code
 		self.contained = contained
 		self.context = context
 		self.costCenter = costCenter
@@ -222,6 +215,8 @@ public struct ChargeItem: DomainResource {
 		self.reason = reason
 		self.requestingOrganization = requestingOrganization
 		self.service = service
+		self.status = status
+		self.subject = subject
 		self.supportingInformation = supportingInformation
 		self.text = text
 	}
@@ -271,6 +266,9 @@ public struct ChargeItem: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -293,45 +291,13 @@ public struct ChargeItem: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .timing(occurrenceTiming)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.overrideReason = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .overrideReason, auxiliaryKey: ._overrideReason)
 		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
 		self.performer = try [ChargeItemPerformer](from: _container, forKeyIfPresent: .performer)
 		self.performingOrganization = try Reference(from: _container, forKeyIfPresent: .performingOrganization)
 		self.priceOverride = try Money(from: _container, forKeyIfPresent: .priceOverride)
-		var _t_product: ProductX? = nil
-		if let productReference = try Reference(from: _container, forKeyIfPresent: .productReference) {
-			if _t_product != nil {
-				throw DecodingError.dataCorruptedError(forKey: .productReference, in: _container, debugDescription: "More than one value provided for \"product\"")
-			}
-			_t_product = .reference(productReference)
-		}
-		if let productCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .productCodeableConcept) {
-			if _t_product != nil {
-				throw DecodingError.dataCorruptedError(forKey: .productCodeableConcept, in: _container, debugDescription: "More than one value provided for \"product\"")
-			}
-			_t_product = .codeableConcept(productCodeableConcept)
-		}
-		self.product = _t_product
+		self.product = try Self._decodeProduct(from: _container)
 		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
 		self.reason = try [CodeableConcept](from: _container, forKeyIfPresent: .reason)
 		self.requestingOrganization = try Reference(from: _container, forKeyIfPresent: .requestingOrganization)
@@ -345,8 +311,10 @@ public struct ChargeItem: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try bodysite?.encode(on: &_container, forKey: .bodysite)
@@ -368,14 +336,14 @@ public struct ChargeItem: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceTiming)
+		}
 		}
 		try overrideReason?.encode(on: &_container, forKey: .overrideReason, auxiliaryKey: ._overrideReason)
 		try partOf?.encode(on: &_container, forKey: .partOf)
@@ -383,12 +351,12 @@ public struct ChargeItem: DomainResource {
 		try performingOrganization?.encode(on: &_container, forKey: .performingOrganization)
 		try priceOverride?.encode(on: &_container, forKey: .priceOverride)
 		if let _enum = product {
-			switch _enum {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .productReference)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .productCodeableConcept)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .productCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .productReference)
+		}
 		}
 		try quantity?.encode(on: &_container, forKey: .quantity)
 		try reason?.encode(on: &_container, forKey: .reason)
@@ -398,6 +366,46 @@ public struct ChargeItem: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try supportingInformation?.encode(on: &_container, forKey: .supportingInformation)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .timing(occurrenceTiming)
+		}
+		return _t_occurrence
+	}
+	
+	private static func _decodeProduct(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ProductX? {
+		var _t_product: ProductX? = nil
+		if let productCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .productCodeableConcept) {
+			_t_product = .codeableConcept(productCodeableConcept)
+		}
+		if let productReference = try Reference(from: _container, forKeyIfPresent: .productReference) {
+			if _t_product != nil {
+				throw DecodingError.dataCorruptedError(forKey: .productReference, in: _container, debugDescription: "More than one value provided for \"product\"")
+			}
+			_t_product = .reference(productReference)
+		}
+		return _t_product
 	}
 }
 
@@ -423,12 +431,7 @@ public struct ChargeItemPerformer: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -436,7 +439,7 @@ public struct ChargeItemPerformer: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.function = function
 		self.id = id
@@ -455,6 +458,9 @@ public struct ChargeItemPerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -468,6 +474,7 @@ public struct ChargeItemPerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

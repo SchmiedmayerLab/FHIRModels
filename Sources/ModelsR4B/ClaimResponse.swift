@@ -135,18 +135,7 @@ public struct ClaimResponse: DomainResource {
 	/// non-binding adjudication of the listed products and services which could be provided in the future.
 	public var use: FHIRPrimitive<Use>
 	
-	/// Designated initializer taking all required properties
-	public init(created: FHIRPrimitive<DateTime>, insurer: Reference, outcome: FHIRPrimitive<FHIRString>, patient: Reference, status: FHIRPrimitive<FinancialResourceStatusCodes>, type: CodeableConcept, use: FHIRPrimitive<Use>) {
-		self.created = created
-		self.insurer = insurer
-		self.outcome = outcome
-		self.patient = patient
-		self.status = status
-		self.type = type
-		self.use = use
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		addItem: [ClaimResponseAddItem]? = nil,
 		adjudication: [ClaimResponseItemAdjudication]? = nil,
@@ -184,11 +173,11 @@ public struct ClaimResponse: DomainResource {
 		type: CodeableConcept,
 		use: FHIRPrimitive<Use>
 	) {
-		self.init(created: created, insurer: insurer, outcome: outcome, patient: patient, status: status, type: type, use: use)
 		self.addItem = addItem
 		self.adjudication = adjudication
 		self.communicationRequest = communicationRequest
 		self.contained = contained
+		self.created = created
 		self.disposition = disposition
 		self.error = error
 		self.`extension` = `extension`
@@ -199,10 +188,13 @@ public struct ClaimResponse: DomainResource {
 		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.insurance = insurance
+		self.insurer = insurer
 		self.item = item
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.outcome = outcome
+		self.patient = patient
 		self.payeeType = payeeType
 		self.payment = payment
 		self.preAuthPeriod = preAuthPeriod
@@ -210,9 +202,12 @@ public struct ClaimResponse: DomainResource {
 		self.processNote = processNote
 		self.request = request
 		self.requestor = requestor
+		self.status = status
 		self.subType = subType
 		self.text = text
 		self.total = total
+		self.type = type
+		self.use = use
 	}
 	
 	// MARK: - Codable
@@ -258,6 +253,9 @@ public struct ClaimResponse: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -301,8 +299,10 @@ public struct ClaimResponse: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try addItem?.encode(on: &_container, forKey: .addItem)
 		try adjudication?.encode(on: &_container, forKey: .adjudication)
@@ -427,13 +427,7 @@ public struct ClaimResponseAddItem: BackboneElement {
 	/// Fee, charge or cost per item
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init(adjudication: [ClaimResponseItemAdjudication], productOrService: CodeableConcept) {
-		self.adjudication = adjudication
-		self.productOrService = productOrService
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjudication: [ClaimResponseItemAdjudication],
 		bodySite: CodeableConcept? = nil,
@@ -457,7 +451,7 @@ public struct ClaimResponseAddItem: BackboneElement {
 		subdetailSequence: [FHIRPrimitive<FHIRPositiveInteger>]? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init(adjudication: adjudication, productOrService: productOrService)
+		self.adjudication = adjudication
 		self.bodySite = bodySite
 		self.detail = detail
 		self.detailSequence = detailSequence
@@ -470,6 +464,7 @@ public struct ClaimResponseAddItem: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.net = net
 		self.noteNumber = noteNumber
+		self.productOrService = productOrService
 		self.programCode = programCode
 		self.provider = provider
 		self.quantity = quantity
@@ -510,6 +505,9 @@ public struct ClaimResponseAddItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -521,26 +519,7 @@ public struct ClaimResponseAddItem: BackboneElement {
 		self.factor = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .factor, auxiliaryKey: ._factor)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.itemSequence = try [FHIRPrimitive<FHIRPositiveInteger>](from: _container, forKeyIfPresent: .itemSequence, auxiliaryKey: ._itemSequence)
-		var _t_location: LocationX? = nil
-		if let locationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .locationCodeableConcept) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
-			_t_location = .codeableConcept(locationCodeableConcept)
-		}
-		if let locationAddress = try Address(from: _container, forKeyIfPresent: .locationAddress) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationAddress, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
-			_t_location = .address(locationAddress)
-		}
-		if let locationReference = try Reference(from: _container, forKeyIfPresent: .locationReference) {
-			if _t_location != nil {
-				throw DecodingError.dataCorruptedError(forKey: .locationReference, in: _container, debugDescription: "More than one value provided for \"location\"")
-			}
-			_t_location = .reference(locationReference)
-		}
-		self.location = _t_location
+		self.location = try Self._decodeLocation(from: _container)
 		self.modifier = try [CodeableConcept](from: _container, forKeyIfPresent: .modifier)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.net = try Money(from: _container, forKeyIfPresent: .net)
@@ -549,20 +528,7 @@ public struct ClaimResponseAddItem: BackboneElement {
 		self.programCode = try [CodeableConcept](from: _container, forKeyIfPresent: .programCode)
 		self.provider = try [Reference](from: _container, forKeyIfPresent: .provider)
 		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
-		var _t_serviced: ServicedX? = nil
-		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedDate, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
-			_t_serviced = .date(servicedDate)
-		}
-		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedPeriod, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
-			_t_serviced = .period(servicedPeriod)
-		}
-		self.serviced = _t_serviced
+		self.serviced = try Self._decodeServiced(from: _container)
 		self.subSite = try [CodeableConcept](from: _container, forKeyIfPresent: .subSite)
 		self.subdetailSequence = try [FHIRPrimitive<FHIRPositiveInteger>](from: _container, forKeyIfPresent: .subdetailSequence, auxiliaryKey: ._subdetailSequence)
 		self.unitPrice = try Money(from: _container, forKeyIfPresent: .unitPrice)
@@ -571,6 +537,7 @@ public struct ClaimResponseAddItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjudication.encode(on: &_container, forKey: .adjudication)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -581,14 +548,14 @@ public struct ClaimResponseAddItem: BackboneElement {
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try itemSequence?.encode(on: &_container, forKey: .itemSequence, auxiliaryKey: ._itemSequence)
 		if let _enum = location {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .locationCodeableConcept)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .locationAddress)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .locationReference)
-			}
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .locationAddress)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .locationCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .locationReference)
+		}
 		}
 		try modifier?.encode(on: &_container, forKey: .modifier)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
@@ -599,16 +566,56 @@ public struct ClaimResponseAddItem: BackboneElement {
 		try provider?.encode(on: &_container, forKey: .provider)
 		try quantity?.encode(on: &_container, forKey: .quantity)
 		if let _enum = serviced {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .servicedPeriod)
-			}
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .servicedPeriod)
+		}
 		}
 		try subSite?.encode(on: &_container, forKey: .subSite)
 		try subdetailSequence?.encode(on: &_container, forKey: .subdetailSequence, auxiliaryKey: ._subdetailSequence)
 		try unitPrice?.encode(on: &_container, forKey: .unitPrice)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeLocation(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> LocationX? {
+		var _t_location: LocationX? = nil
+		if let locationAddress = try Address(from: _container, forKeyIfPresent: .locationAddress) {
+			_t_location = .address(locationAddress)
+		}
+		if let locationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .locationCodeableConcept) {
+			if _t_location != nil {
+				throw DecodingError.dataCorruptedError(forKey: .locationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"location\"")
+			}
+			_t_location = .codeableConcept(locationCodeableConcept)
+		}
+		if let locationReference = try Reference(from: _container, forKeyIfPresent: .locationReference) {
+			if _t_location != nil {
+				throw DecodingError.dataCorruptedError(forKey: .locationReference, in: _container, debugDescription: "More than one value provided for \"location\"")
+			}
+			_t_location = .reference(locationReference)
+		}
+		return _t_location
+	}
+	
+	private static func _decodeServiced(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ServicedX? {
+		var _t_serviced: ServicedX? = nil
+		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
+			_t_serviced = .date(servicedDate)
+		}
+		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
+			if _t_serviced != nil {
+				throw DecodingError.dataCorruptedError(forKey: .servicedPeriod, in: _container, debugDescription: "More than one value provided for \"serviced\"")
+			}
+			_t_serviced = .period(servicedPeriod)
+		}
+		return _t_serviced
 	}
 }
 
@@ -655,13 +662,7 @@ public struct ClaimResponseAddItemDetail: BackboneElement {
 	/// Fee, charge or cost per item
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init(adjudication: [ClaimResponseItemAdjudication], productOrService: CodeableConcept) {
-		self.adjudication = adjudication
-		self.productOrService = productOrService
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjudication: [ClaimResponseItemAdjudication],
 		`extension`: [Extension]? = nil,
@@ -676,7 +677,7 @@ public struct ClaimResponseAddItemDetail: BackboneElement {
 		subDetail: [ClaimResponseAddItemDetailSubDetail]? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init(adjudication: adjudication, productOrService: productOrService)
+		self.adjudication = adjudication
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
@@ -684,6 +685,7 @@ public struct ClaimResponseAddItemDetail: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.net = net
 		self.noteNumber = noteNumber
+		self.productOrService = productOrService
 		self.quantity = quantity
 		self.subDetail = subDetail
 		self.unitPrice = unitPrice
@@ -708,6 +710,9 @@ public struct ClaimResponseAddItemDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -728,6 +733,7 @@ public struct ClaimResponseAddItemDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjudication.encode(on: &_container, forKey: .adjudication)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -784,13 +790,7 @@ public struct ClaimResponseAddItemDetailSubDetail: BackboneElement {
 	/// Fee, charge or cost per item
 	public var unitPrice: Money?
 	
-	/// Designated initializer taking all required properties
-	public init(adjudication: [ClaimResponseItemAdjudication], productOrService: CodeableConcept) {
-		self.adjudication = adjudication
-		self.productOrService = productOrService
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjudication: [ClaimResponseItemAdjudication],
 		`extension`: [Extension]? = nil,
@@ -804,7 +804,7 @@ public struct ClaimResponseAddItemDetailSubDetail: BackboneElement {
 		quantity: Quantity? = nil,
 		unitPrice: Money? = nil
 	) {
-		self.init(adjudication: adjudication, productOrService: productOrService)
+		self.adjudication = adjudication
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
@@ -812,6 +812,7 @@ public struct ClaimResponseAddItemDetailSubDetail: BackboneElement {
 		self.modifierExtension = modifierExtension
 		self.net = net
 		self.noteNumber = noteNumber
+		self.productOrService = productOrService
 		self.quantity = quantity
 		self.unitPrice = unitPrice
 	}
@@ -834,6 +835,9 @@ public struct ClaimResponseAddItemDetailSubDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -853,6 +857,7 @@ public struct ClaimResponseAddItemDetailSubDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjudication.encode(on: &_container, forKey: .adjudication)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -896,12 +901,7 @@ public struct ClaimResponseError: BackboneElement {
 	/// Subdetail sequence number
 	public var subDetailSequence: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		detailSequence: FHIRPrimitive<FHIRPositiveInteger>? = nil,
@@ -911,7 +911,7 @@ public struct ClaimResponseError: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		subDetailSequence: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.detailSequence = detailSequence
 		self.`extension` = `extension`
 		self.id = id
@@ -934,6 +934,9 @@ public struct ClaimResponseError: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -949,6 +952,7 @@ public struct ClaimResponseError: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try detailSequence?.encode(on: &_container, forKey: .detailSequence, auxiliaryKey: ._detailSequence)
@@ -991,14 +995,7 @@ public struct ClaimResponseInsurance: BackboneElement {
 	/// Insurance instance identifier
 	public var sequence: FHIRPrimitive<FHIRPositiveInteger>
 	
-	/// Designated initializer taking all required properties
-	public init(coverage: Reference, focal: FHIRPrimitive<FHIRBool>, sequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.coverage = coverage
-		self.focal = focal
-		self.sequence = sequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		businessArrangement: FHIRPrimitive<FHIRString>? = nil,
 		claimResponse: Reference? = nil,
@@ -1009,12 +1006,14 @@ public struct ClaimResponseInsurance: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		sequence: FHIRPrimitive<FHIRPositiveInteger>
 	) {
-		self.init(coverage: coverage, focal: focal, sequence: sequence)
 		self.businessArrangement = businessArrangement
 		self.claimResponse = claimResponse
+		self.coverage = coverage
 		self.`extension` = `extension`
+		self.focal = focal
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.sequence = sequence
 	}
 	
 	// MARK: - Codable
@@ -1032,6 +1031,9 @@ public struct ClaimResponseInsurance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1048,6 +1050,7 @@ public struct ClaimResponseInsurance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try businessArrangement?.encode(on: &_container, forKey: .businessArrangement, auxiliaryKey: ._businessArrangement)
 		try claimResponse?.encode(on: &_container, forKey: .claimResponse)
@@ -1089,13 +1092,7 @@ public struct ClaimResponseItem: BackboneElement {
 	/// Applicable note numbers
 	public var noteNumber: [FHIRPrimitive<FHIRPositiveInteger>]?
 	
-	/// Designated initializer taking all required properties
-	public init(adjudication: [ClaimResponseItemAdjudication], itemSequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.adjudication = adjudication
-		self.itemSequence = itemSequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjudication: [ClaimResponseItemAdjudication],
 		detail: [ClaimResponseItemDetail]? = nil,
@@ -1105,10 +1102,11 @@ public struct ClaimResponseItem: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		noteNumber: [FHIRPrimitive<FHIRPositiveInteger>]? = nil
 	) {
-		self.init(adjudication: adjudication, itemSequence: itemSequence)
+		self.adjudication = adjudication
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
+		self.itemSequence = itemSequence
 		self.modifierExtension = modifierExtension
 		self.noteNumber = noteNumber
 	}
@@ -1127,6 +1125,9 @@ public struct ClaimResponseItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1142,6 +1143,7 @@ public struct ClaimResponseItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjudication.encode(on: &_container, forKey: .adjudication)
 		try detail?.encode(on: &_container, forKey: .detail)
@@ -1182,12 +1184,7 @@ public struct ClaimResponseItemAdjudication: BackboneElement {
 	/// Non-monetary value
 	public var value: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init(category: CodeableConcept) {
-		self.category = category
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money? = nil,
 		category: CodeableConcept,
@@ -1197,8 +1194,8 @@ public struct ClaimResponseItemAdjudication: BackboneElement {
 		reason: CodeableConcept? = nil,
 		value: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init(category: category)
 		self.amount = amount
+		self.category = category
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -1220,6 +1217,9 @@ public struct ClaimResponseItemAdjudication: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1235,6 +1235,7 @@ public struct ClaimResponseItemAdjudication: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try category.encode(on: &_container, forKey: .category)
@@ -1274,13 +1275,7 @@ public struct ClaimResponseItemDetail: BackboneElement {
 	/// Adjudication for claim sub-details
 	public var subDetail: [ClaimResponseItemDetailSubDetail]?
 	
-	/// Designated initializer taking all required properties
-	public init(adjudication: [ClaimResponseItemAdjudication], detailSequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.adjudication = adjudication
-		self.detailSequence = detailSequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjudication: [ClaimResponseItemAdjudication],
 		detailSequence: FHIRPrimitive<FHIRPositiveInteger>,
@@ -1290,7 +1285,8 @@ public struct ClaimResponseItemDetail: BackboneElement {
 		noteNumber: [FHIRPrimitive<FHIRPositiveInteger>]? = nil,
 		subDetail: [ClaimResponseItemDetailSubDetail]? = nil
 	) {
-		self.init(adjudication: adjudication, detailSequence: detailSequence)
+		self.adjudication = adjudication
+		self.detailSequence = detailSequence
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -1312,6 +1308,9 @@ public struct ClaimResponseItemDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1327,6 +1326,7 @@ public struct ClaimResponseItemDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjudication.encode(on: &_container, forKey: .adjudication)
 		try detailSequence.encode(on: &_container, forKey: .detailSequence, auxiliaryKey: ._detailSequence)
@@ -1363,12 +1363,7 @@ public struct ClaimResponseItemDetailSubDetail: BackboneElement {
 	/// Claim sub-detail instance identifier
 	public var subDetailSequence: FHIRPrimitive<FHIRPositiveInteger>
 	
-	/// Designated initializer taking all required properties
-	public init(subDetailSequence: FHIRPrimitive<FHIRPositiveInteger>) {
-		self.subDetailSequence = subDetailSequence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjudication: [ClaimResponseItemAdjudication]? = nil,
 		`extension`: [Extension]? = nil,
@@ -1377,12 +1372,12 @@ public struct ClaimResponseItemDetailSubDetail: BackboneElement {
 		noteNumber: [FHIRPrimitive<FHIRPositiveInteger>]? = nil,
 		subDetailSequence: FHIRPrimitive<FHIRPositiveInteger>
 	) {
-		self.init(subDetailSequence: subDetailSequence)
 		self.adjudication = adjudication
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.noteNumber = noteNumber
+		self.subDetailSequence = subDetailSequence
 	}
 	
 	// MARK: - Codable
@@ -1398,6 +1393,9 @@ public struct ClaimResponseItemDetailSubDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1412,6 +1410,7 @@ public struct ClaimResponseItemDetailSubDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjudication?.encode(on: &_container, forKey: .adjudication)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1456,13 +1455,7 @@ public struct ClaimResponsePayment: BackboneElement {
 	/// Partial or complete payment
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(amount: Money, type: CodeableConcept) {
-		self.amount = amount
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		adjustment: Money? = nil,
 		adjustmentReason: CodeableConcept? = nil,
@@ -1474,14 +1467,15 @@ public struct ClaimResponsePayment: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(amount: amount, type: type)
 		self.adjustment = adjustment
 		self.adjustmentReason = adjustmentReason
+		self.amount = amount
 		self.date = date
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
 		self.modifierExtension = modifierExtension
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1500,6 +1494,9 @@ public struct ClaimResponsePayment: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1517,6 +1514,7 @@ public struct ClaimResponsePayment: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try adjustment?.encode(on: &_container, forKey: .adjustment)
 		try adjustmentReason?.encode(on: &_container, forKey: .adjustmentReason)
@@ -1558,12 +1556,7 @@ public struct ClaimResponseProcessNote: BackboneElement {
 	/// The business purpose of the note text.
 	public var type: FHIRPrimitive<NoteType>?
 	
-	/// Designated initializer taking all required properties
-	public init(text: FHIRPrimitive<FHIRString>) {
-		self.text = text
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1573,12 +1566,12 @@ public struct ClaimResponseProcessNote: BackboneElement {
 		text: FHIRPrimitive<FHIRString>,
 		type: FHIRPrimitive<NoteType>? = nil
 	) {
-		self.init(text: text)
 		self.`extension` = `extension`
 		self.id = id
 		self.language = language
 		self.modifierExtension = modifierExtension
 		self.number = number
+		self.text = text
 		self.type = type
 	}
 	
@@ -1596,6 +1589,9 @@ public struct ClaimResponseProcessNote: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1611,6 +1607,7 @@ public struct ClaimResponseProcessNote: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1644,13 +1641,7 @@ public struct ClaimResponseTotal: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(amount: Money, category: CodeableConcept) {
-		self.amount = amount
-		self.category = category
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money,
 		category: CodeableConcept,
@@ -1658,7 +1649,8 @@ public struct ClaimResponseTotal: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(amount: amount, category: category)
+		self.amount = amount
+		self.category = category
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -1676,6 +1668,9 @@ public struct ClaimResponseTotal: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1689,6 +1684,7 @@ public struct ClaimResponseTotal: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount)
 		try category.encode(on: &_container, forKey: .category)

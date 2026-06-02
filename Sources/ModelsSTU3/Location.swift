@@ -100,11 +100,7 @@ public struct Location: DomainResource {
 	/// Type of function performed
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: Address? = nil,
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
@@ -130,7 +126,6 @@ public struct Location: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.address = address
 		self.alias = alias
 		self.contained = contained
@@ -187,6 +182,9 @@ public struct Location: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -218,8 +216,10 @@ public struct Location: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
@@ -273,13 +273,7 @@ public struct LocationPosition: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(latitude: FHIRPrimitive<FHIRDecimal>, longitude: FHIRPrimitive<FHIRDecimal>) {
-		self.latitude = latitude
-		self.longitude = longitude
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		altitude: FHIRPrimitive<FHIRDecimal>? = nil,
 		`extension`: [Extension]? = nil,
@@ -288,10 +282,11 @@ public struct LocationPosition: BackboneElement {
 		longitude: FHIRPrimitive<FHIRDecimal>,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(latitude: latitude, longitude: longitude)
 		self.altitude = altitude
 		self.`extension` = `extension`
 		self.id = id
+		self.latitude = latitude
+		self.longitude = longitude
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -308,6 +303,9 @@ public struct LocationPosition: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -322,6 +320,7 @@ public struct LocationPosition: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try altitude?.encode(on: &_container, forKey: .altitude, auxiliaryKey: ._altitude)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

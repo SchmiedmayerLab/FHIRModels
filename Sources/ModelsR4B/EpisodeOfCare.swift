@@ -90,13 +90,7 @@ public struct EpisodeOfCare: DomainResource {
 	/// Type/class  - e.g. specialist referral, disease management
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference, status: FHIRPrimitive<EpisodeOfCareStatus>) {
-		self.patient = patient
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: [Reference]? = nil,
 		careManager: Reference? = nil,
@@ -119,7 +113,6 @@ public struct EpisodeOfCare: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(patient: patient, status: status)
 		self.account = account
 		self.careManager = careManager
 		self.contained = contained
@@ -132,8 +125,10 @@ public struct EpisodeOfCare: DomainResource {
 		self.managingOrganization = managingOrganization
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.patient = patient
 		self.period = period
 		self.referralRequest = referralRequest
+		self.status = status
 		self.statusHistory = statusHistory
 		self.team = team
 		self.text = text
@@ -168,6 +163,9 @@ public struct EpisodeOfCare: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -196,8 +194,10 @@ public struct EpisodeOfCare: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try careManager?.encode(on: &_container, forKey: .careManager)
@@ -245,12 +245,7 @@ public struct EpisodeOfCareDiagnosis: BackboneElement {
 	/// Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …)
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(condition: Reference) {
-		self.condition = condition
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		condition: Reference,
 		`extension`: [Extension]? = nil,
@@ -259,7 +254,7 @@ public struct EpisodeOfCareDiagnosis: BackboneElement {
 		rank: FHIRPrimitive<FHIRPositiveInteger>? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init(condition: condition)
+		self.condition = condition
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -280,6 +275,9 @@ public struct EpisodeOfCareDiagnosis: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -294,6 +292,7 @@ public struct EpisodeOfCareDiagnosis: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try condition.encode(on: &_container, forKey: .condition)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -327,13 +326,7 @@ public struct EpisodeOfCareStatusHistory: BackboneElement {
 	/// planned | waitlist | active | onhold | finished | cancelled.
 	public var status: FHIRPrimitive<EpisodeOfCareStatus>
 	
-	/// Designated initializer taking all required properties
-	public init(period: Period, status: FHIRPrimitive<EpisodeOfCareStatus>) {
-		self.period = period
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -341,10 +334,11 @@ public struct EpisodeOfCareStatusHistory: BackboneElement {
 		period: Period,
 		status: FHIRPrimitive<EpisodeOfCareStatus>
 	) {
-		self.init(period: period, status: status)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.period = period
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -359,6 +353,9 @@ public struct EpisodeOfCareStatusHistory: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -372,6 +369,7 @@ public struct EpisodeOfCareStatusHistory: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

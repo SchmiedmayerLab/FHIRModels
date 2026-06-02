@@ -85,17 +85,7 @@ public struct VisionPrescription: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(created: FHIRPrimitive<DateTime>, dateWritten: FHIRPrimitive<DateTime>, lensSpecification: [VisionPrescriptionLensSpecification], patient: Reference, prescriber: Reference, status: FHIRPrimitive<FinancialResourceStatusCodes>) {
-		self.created = created
-		self.dateWritten = dateWritten
-		self.lensSpecification = lensSpecification
-		self.patient = patient
-		self.prescriber = prescriber
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -117,9 +107,10 @@ public struct VisionPrescription: DomainResource {
 		status: FHIRPrimitive<FinancialResourceStatusCodes>,
 		text: Narrative? = nil
 	) {
-		self.init(created: created, dateWritten: dateWritten, lensSpecification: lensSpecification, patient: patient, prescriber: prescriber, status: status)
 		self.basedOn = basedOn
 		self.contained = contained
+		self.created = created
+		self.dateWritten = dateWritten
 		self.encounter = encounter
 		self.`extension` = `extension`
 		self.groupIdentifier = groupIdentifier
@@ -127,9 +118,13 @@ public struct VisionPrescription: DomainResource {
 		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.language = language
+		self.lensSpecification = lensSpecification
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.patient = patient
+		self.prescriber = prescriber
 		self.priority = priority
+		self.status = status
 		self.text = text
 	}
 	
@@ -160,6 +155,9 @@ public struct VisionPrescription: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -187,8 +185,10 @@ public struct VisionPrescription: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -271,13 +271,7 @@ public struct VisionPrescriptionLensSpecification: BackboneElement {
 	/// Power of the lens
 	public var sphere: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init(eye: FHIRPrimitive<VisionEyes>, product: CodeableConcept) {
-		self.eye = eye
-		self.product = product
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		add: FHIRPrimitive<FHIRDecimal>? = nil,
 		axis: FHIRPrimitive<FHIRInteger>? = nil,
@@ -297,7 +291,6 @@ public struct VisionPrescriptionLensSpecification: BackboneElement {
 		product: CodeableConcept,
 		sphere: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init(eye: eye, product: product)
 		self.add = add
 		self.axis = axis
 		self.backCurve = backCurve
@@ -307,11 +300,13 @@ public struct VisionPrescriptionLensSpecification: BackboneElement {
 		self.diameter = diameter
 		self.duration = duration
 		self.`extension` = `extension`
+		self.eye = eye
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.note = note
 		self.power = power
 		self.prism = prism
+		self.product = product
 		self.sphere = sphere
 	}
 	
@@ -339,6 +334,9 @@ public struct VisionPrescriptionLensSpecification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -364,6 +362,7 @@ public struct VisionPrescriptionLensSpecification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try add?.encode(on: &_container, forKey: .add, auxiliaryKey: ._add)
 		try axis?.encode(on: &_container, forKey: .axis, auxiliaryKey: ._axis)
@@ -407,13 +406,7 @@ public struct VisionPrescriptionLensSpecificationPrism: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(amount: FHIRPrimitive<FHIRDecimal>, base: FHIRPrimitive<VisionBase>) {
-		self.amount = amount
-		self.base = base
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: FHIRPrimitive<FHIRDecimal>,
 		base: FHIRPrimitive<VisionBase>,
@@ -421,7 +414,8 @@ public struct VisionPrescriptionLensSpecificationPrism: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(amount: amount, base: base)
+		self.amount = amount
+		self.base = base
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -439,6 +433,9 @@ public struct VisionPrescriptionLensSpecificationPrism: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -452,6 +449,7 @@ public struct VisionPrescriptionLensSpecificationPrism: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount, auxiliaryKey: ._amount)
 		try base.encode(on: &_container, forKey: .base, auxiliaryKey: ._base)

@@ -113,15 +113,7 @@ public struct DeviceAlert: DomainResource {
 	/// physiological | technical
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, presence: FHIRPrimitive<FHIRBool>, status: FHIRPrimitive<DeviceAlertStatus>, subject: Reference) {
-		self.code = code
-		self.presence = presence
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		acknowledged: FHIRPrimitive<FHIRBool>? = nil,
 		acknowledgedBy: Reference? = nil,
@@ -150,10 +142,10 @@ public struct DeviceAlert: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(code: code, presence: presence, status: status, subject: subject)
 		self.acknowledged = acknowledged
 		self.acknowledgedBy = acknowledgedBy
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.derivedFrom = derivedFrom
 		self.device = device
@@ -168,9 +160,12 @@ public struct DeviceAlert: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.occurrence = occurrence
+		self.presence = presence
 		self.priority = priority
 		self.procedure = procedure
 		self.signal = signal
+		self.status = status
+		self.subject = subject
 		self.text = text
 		self.type = type
 	}
@@ -210,6 +205,9 @@ public struct DeviceAlert: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -230,20 +228,7 @@ public struct DeviceAlert: DomainResource {
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.presence = try FHIRPrimitive<FHIRBool>(from: _container, forKey: .presence, auxiliaryKey: ._presence)
 		self.priority = try CodeableConcept(from: _container, forKeyIfPresent: .priority)
 		self.procedure = try [Reference](from: _container, forKeyIfPresent: .procedure)
@@ -257,8 +242,10 @@ public struct DeviceAlert: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try acknowledged?.encode(on: &_container, forKey: .acknowledged, auxiliaryKey: ._acknowledged)
 		try acknowledgedBy?.encode(on: &_container, forKey: .acknowledgedBy)
@@ -278,12 +265,12 @@ public struct DeviceAlert: DomainResource {
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		}
 		}
 		try presence.encode(on: &_container, forKey: .presence, auxiliaryKey: ._presence)
 		try priority?.encode(on: &_container, forKey: .priority)
@@ -293,6 +280,24 @@ public struct DeviceAlert: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		return _t_occurrence
 	}
 }
 
@@ -319,12 +324,7 @@ public struct DeviceAlertDerivedFrom: BackboneElement {
 	/// The Observation having a value causing the alert condition
 	public var observation: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(observation: Reference) {
-		self.observation = observation
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		component: Coding? = nil,
 		`extension`: [Extension]? = nil,
@@ -333,12 +333,12 @@ public struct DeviceAlertDerivedFrom: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		observation: Reference
 	) {
-		self.init(observation: observation)
 		self.component = component
 		self.`extension` = `extension`
 		self.id = id
 		self.limit = limit
 		self.modifierExtension = modifierExtension
+		self.observation = observation
 	}
 	
 	// MARK: - Codable
@@ -354,6 +354,9 @@ public struct DeviceAlertDerivedFrom: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -368,6 +371,7 @@ public struct DeviceAlertDerivedFrom: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try component?.encode(on: &_container, forKey: .component)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -410,12 +414,7 @@ public struct DeviceAlertSignal: BackboneElement {
 	/// Characteristics of the signal manifestation
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(activationState: CodeableConcept) {
-		self.activationState = activationState
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activationState: CodeableConcept,
 		annunciator: CodeableReference? = nil,
@@ -427,7 +426,7 @@ public struct DeviceAlertSignal: BackboneElement {
 		presence: CodeableConcept? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(activationState: activationState)
+		self.activationState = activationState
 		self.annunciator = annunciator
 		self.`extension` = `extension`
 		self.id = id
@@ -454,6 +453,9 @@ public struct DeviceAlertSignal: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -471,6 +473,7 @@ public struct DeviceAlertSignal: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try activationState.encode(on: &_container, forKey: .activationState)
 		try annunciator?.encode(on: &_container, forKey: .annunciator)

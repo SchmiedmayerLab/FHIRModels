@@ -125,14 +125,7 @@ public struct Composition: DomainResource {
 	/// An explicitly assigned identifier of a variation of the content in the Composition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(date: FHIRPrimitive<DateTime>, status: FHIRPrimitive<CompositionStatus>, type: CodeableConcept) {
-		self.date = date
-		self.status = status
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attester: [CompositionAttester]? = nil,
 		author: [Reference]? = nil,
@@ -165,7 +158,6 @@ public struct Composition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(date: date, status: status, type: type)
 		self.attester = attester
 		self.author = author
 		self.basedOn = basedOn
@@ -173,6 +165,7 @@ public struct Composition: DomainResource {
 		self.consent = consent
 		self.contained = contained
 		self.custodian = custodian
+		self.date = date
 		self.encounter = encounter
 		self.event = event
 		self.`extension` = `extension`
@@ -187,9 +180,11 @@ public struct Composition: DomainResource {
 		self.participant = participant
 		self.relatesTo = relatesTo
 		self.section = section
+		self.status = status
 		self.subject = subject
 		self.text = text
 		self.title = title
+		self.type = type
 		self.url = url
 		self.useContext = useContext
 		self.version = version
@@ -233,6 +228,9 @@ public struct Composition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -271,8 +269,10 @@ public struct Composition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try attester?.encode(on: &_container, forKey: .attester)
 		try author?.encode(on: &_container, forKey: .author)
@@ -332,12 +332,7 @@ public struct CompositionAttester: BackboneElement {
 	/// When the composition was attested
 	public var time: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init(mode: CodeableConcept) {
-		self.mode = mode
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -346,9 +341,9 @@ public struct CompositionAttester: BackboneElement {
 		party: Reference? = nil,
 		time: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init(mode: mode)
 		self.`extension` = `extension`
 		self.id = id
+		self.mode = mode
 		self.modifierExtension = modifierExtension
 		self.party = party
 		self.time = time
@@ -367,6 +362,9 @@ public struct CompositionAttester: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -381,6 +379,7 @@ public struct CompositionAttester: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -413,11 +412,7 @@ public struct CompositionEvent: BackboneElement {
 	/// The period covered by the documentation
 	public var period: Period?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		detail: [CodeableReference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -425,7 +420,6 @@ public struct CompositionEvent: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		period: Period? = nil
 	) {
-		self.init()
 		self.detail = detail
 		self.`extension` = `extension`
 		self.id = id
@@ -445,6 +439,9 @@ public struct CompositionEvent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -458,6 +455,7 @@ public struct CompositionEvent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try detail?.encode(on: &_container, forKey: .detail)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -499,13 +497,7 @@ public struct CompositionParticipant: BackboneElement {
 	/// AUT | AUTHEN | CST | LA | RCT | SBJ
 	public var type: [CodeableConcept]
 	
-	/// Designated initializer taking all required properties
-	public init(party: Reference, type: [CodeableConcept]) {
-		self.party = party
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		function: [CodeableConcept]? = nil,
@@ -515,12 +507,13 @@ public struct CompositionParticipant: BackboneElement {
 		time: Period? = nil,
 		type: [CodeableConcept]
 	) {
-		self.init(party: party, type: type)
 		self.`extension` = `extension`
 		self.function = function
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.party = party
 		self.time = time
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -537,6 +530,9 @@ public struct CompositionParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -552,6 +548,7 @@ public struct CompositionParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try function?.encode(on: &_container, forKey: .function)
@@ -600,13 +597,7 @@ public struct CompositionRelatesTo: BackboneElement {
 	/// specification-of | created-with | cite-as | reprint | reprint-of | summarizes
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(target: TargetX, type: CodeableConcept) {
-		self.target = target
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -614,10 +605,11 @@ public struct CompositionRelatesTo: BackboneElement {
 		target: TargetX,
 		type: CodeableConcept
 	) {
-		self.init(target: target, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.target = target
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -636,28 +628,51 @@ public struct CompositionRelatesTo: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.targetAttachment) || _container.contains(CodingKeys.targetCanonical) || _container.contains(CodingKeys.targetMarkdown) || _container.contains(CodingKeys.targetReference) || _container.contains(CodingKeys.targetUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.targetAttachment, CodingKeys.targetCanonical, CodingKeys.targetMarkdown, CodingKeys.targetReference, CodingKeys.targetUri], debugDescription: "Must have at least one value for \"target\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_target: TargetX? = nil
-		if let targetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .targetUri, auxiliaryKey: ._targetUri) {
-			if _t_target != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetUri, in: _container, debugDescription: "More than one value provided for \"target\"")
-			}
-			_t_target = .uri(targetUri)
+		self.target = try Self._decodeTarget(from: _container)
+		self.type = try CodeableConcept(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		
+		switch target {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .targetAttachment)
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .targetCanonical, auxiliaryKey: ._targetCanonical)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .targetMarkdown, auxiliaryKey: ._targetMarkdown)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .targetReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .targetUri, auxiliaryKey: ._targetUri)
 		}
+		
+		try type.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTarget(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TargetX {
+		var _t_target: TargetX? = nil
 		if let targetAttachment = try Attachment(from: _container, forKeyIfPresent: .targetAttachment) {
-			if _t_target != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetAttachment, in: _container, debugDescription: "More than one value provided for \"target\"")
-			}
 			_t_target = .attachment(targetAttachment)
 		}
 		if let targetCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .targetCanonical, auxiliaryKey: ._targetCanonical) {
@@ -666,44 +681,30 @@ public struct CompositionRelatesTo: BackboneElement {
 			}
 			_t_target = .canonical(targetCanonical)
 		}
-		if let targetReference = try Reference(from: _container, forKeyIfPresent: .targetReference) {
-			if _t_target != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetReference, in: _container, debugDescription: "More than one value provided for \"target\"")
-			}
-			_t_target = .reference(targetReference)
-		}
 		if let targetMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .targetMarkdown, auxiliaryKey: ._targetMarkdown) {
 			if _t_target != nil {
 				throw DecodingError.dataCorruptedError(forKey: .targetMarkdown, in: _container, debugDescription: "More than one value provided for \"target\"")
 			}
 			_t_target = .markdown(targetMarkdown)
 		}
-		self.target = _t_target!
-		self.type = try CodeableConcept(from: _container, forKey: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		
-			switch target {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .targetUri, auxiliaryKey: ._targetUri)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .targetAttachment)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .targetCanonical, auxiliaryKey: ._targetCanonical)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .targetReference)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .targetMarkdown, auxiliaryKey: ._targetMarkdown)
+		if let targetReference = try Reference(from: _container, forKeyIfPresent: .targetReference) {
+			if _t_target != nil {
+				throw DecodingError.dataCorruptedError(forKey: .targetReference, in: _container, debugDescription: "More than one value provided for \"target\"")
 			}
-		
-		try type.encode(on: &_container, forKey: .type)
+			_t_target = .reference(targetReference)
+		}
+		if let targetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .targetUri, auxiliaryKey: ._targetUri) {
+			if _t_target != nil {
+				throw DecodingError.dataCorruptedError(forKey: .targetUri, in: _container, debugDescription: "More than one value provided for \"target\"")
+			}
+			_t_target = .uri(targetUri)
+		}
+		guard let _t_target else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.targetUri)
+			throw DecodingError.valueNotFound(TargetX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"target\" but have none"))
+		}
+		return _t_target
 	}
 }
 
@@ -753,11 +754,7 @@ public struct CompositionSection: BackboneElement {
 	/// Label for section (e.g. for ToC)
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: [Reference]? = nil,
 		code: CodeableConcept? = nil,
@@ -773,7 +770,6 @@ public struct CompositionSection: BackboneElement {
 		text: Narrative? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.author = author
 		self.code = code
 		self.emptyReason = emptyReason
@@ -809,6 +805,9 @@ public struct CompositionSection: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -830,6 +829,7 @@ public struct CompositionSection: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try code?.encode(on: &_container, forKey: .code)

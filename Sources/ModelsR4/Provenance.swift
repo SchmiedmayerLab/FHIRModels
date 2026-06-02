@@ -95,14 +95,7 @@ public struct Provenance: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(agent: [ProvenanceAgent], recorded: FHIRPrimitive<Instant>, target: [Reference]) {
-		self.agent = agent
-		self.recorded = recorded
-		self.target = target
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: CodeableConcept? = nil,
 		agent: [ProvenanceAgent],
@@ -123,8 +116,8 @@ public struct Provenance: DomainResource {
 		target: [Reference],
 		text: Narrative? = nil
 	) {
-		self.init(agent: agent, recorded: recorded, target: target)
 		self.activity = activity
+		self.agent = agent
 		self.contained = contained
 		self.entity = entity
 		self.`extension` = `extension`
@@ -137,7 +130,9 @@ public struct Provenance: DomainResource {
 		self.occurred = occurred
 		self.policy = policy
 		self.reason = reason
+		self.recorded = recorded
 		self.signature = signature
+		self.target = target
 		self.text = text
 	}
 	
@@ -168,6 +163,9 @@ public struct Provenance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -182,20 +180,7 @@ public struct Provenance: DomainResource {
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_occurred: OccurredX? = nil
-		if let occurredPeriod = try Period(from: _container, forKeyIfPresent: .occurredPeriod) {
-			if _t_occurred != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurredPeriod, in: _container, debugDescription: "More than one value provided for \"occurred\"")
-			}
-			_t_occurred = .period(occurredPeriod)
-		}
-		if let occurredDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurredDateTime, auxiliaryKey: ._occurredDateTime) {
-			if _t_occurred != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurredDateTime, in: _container, debugDescription: "More than one value provided for \"occurred\"")
-			}
-			_t_occurred = .dateTime(occurredDateTime)
-		}
-		self.occurred = _t_occurred
+		self.occurred = try Self._decodeOccurred(from: _container)
 		self.policy = try [FHIRPrimitive<FHIRURI>](from: _container, forKeyIfPresent: .policy, auxiliaryKey: ._policy)
 		self.reason = try [CodeableConcept](from: _container, forKeyIfPresent: .reason)
 		self.recorded = try FHIRPrimitive<Instant>(from: _container, forKey: .recorded, auxiliaryKey: ._recorded)
@@ -207,8 +192,10 @@ public struct Provenance: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try agent.encode(on: &_container, forKey: .agent)
@@ -222,12 +209,12 @@ public struct Provenance: DomainResource {
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = occurred {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurredPeriod)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurredDateTime, auxiliaryKey: ._occurredDateTime)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurredDateTime, auxiliaryKey: ._occurredDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurredPeriod)
+		}
 		}
 		try policy?.encode(on: &_container, forKey: .policy, auxiliaryKey: ._policy)
 		try reason?.encode(on: &_container, forKey: .reason)
@@ -235,6 +222,24 @@ public struct Provenance: DomainResource {
 		try signature?.encode(on: &_container, forKey: .signature)
 		try target.encode(on: &_container, forKey: .target)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurred(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurredX? {
+		var _t_occurred: OccurredX? = nil
+		if let occurredDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurredDateTime, auxiliaryKey: ._occurredDateTime) {
+			_t_occurred = .dateTime(occurredDateTime)
+		}
+		if let occurredPeriod = try Period(from: _container, forKeyIfPresent: .occurredPeriod) {
+			if _t_occurred != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurredPeriod, in: _container, debugDescription: "More than one value provided for \"occurred\"")
+			}
+			_t_occurred = .period(occurredPeriod)
+		}
+		return _t_occurred
 	}
 }
 
@@ -267,12 +272,7 @@ public struct ProvenanceAgent: BackboneElement {
 	/// Who participated
 	public var who: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(who: Reference) {
-		self.who = who
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -282,13 +282,13 @@ public struct ProvenanceAgent: BackboneElement {
 		type: CodeableConcept? = nil,
 		who: Reference
 	) {
-		self.init(who: who)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.onBehalfOf = onBehalfOf
 		self.role = role
 		self.type = type
+		self.who = who
 	}
 	
 	// MARK: - Codable
@@ -305,6 +305,9 @@ public struct ProvenanceAgent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -320,6 +323,7 @@ public struct ProvenanceAgent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -354,13 +358,7 @@ public struct ProvenanceEntity: BackboneElement {
 	/// Identity of entity
 	public var what: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(role: FHIRPrimitive<ProvenanceEntityRole>, what: Reference) {
-		self.role = role
-		self.what = what
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		agent: [ProvenanceAgent]? = nil,
 		`extension`: [Extension]? = nil,
@@ -369,11 +367,12 @@ public struct ProvenanceEntity: BackboneElement {
 		role: FHIRPrimitive<ProvenanceEntityRole>,
 		what: Reference
 	) {
-		self.init(role: role, what: what)
 		self.agent = agent
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.role = role
+		self.what = what
 	}
 	
 	// MARK: - Codable
@@ -389,6 +388,9 @@ public struct ProvenanceEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -403,6 +405,7 @@ public struct ProvenanceEntity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try agent?.encode(on: &_container, forKey: .agent)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

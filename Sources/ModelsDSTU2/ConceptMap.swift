@@ -116,14 +116,7 @@ public struct ConceptMap: DomainResource {
 	/// Logical id for this version of the concept map
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(source: SourceX, status: FHIRPrimitive<ConformanceResourceStatus>, target: TargetX) {
-		self.source = source
-		self.status = status
-		self.target = target
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [ConceptMapContact]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -150,7 +143,6 @@ public struct ConceptMap: DomainResource {
 		useContext: [CodeableConcept]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(source: source, status: status, target: target)
 		self.contact = contact
 		self.contained = contained
 		self.copyright = copyright
@@ -168,6 +160,9 @@ public struct ConceptMap: DomainResource {
 		self.name = name
 		self.publisher = publisher
 		self.requirements = requirements
+		self.source = source
+		self.status = status
+		self.target = target
 		self.text = text
 		self.url = url
 		self.useContext = useContext
@@ -208,15 +203,10 @@ public struct ConceptMap: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.sourceReference) || _container.contains(CodingKeys.sourceUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.sourceReference, CodingKeys.sourceUri], debugDescription: "Must have at least one value for \"source\" but have none"))
-		}
-		guard _container.contains(CodingKeys.targetReference) || _container.contains(CodingKeys.targetUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.targetReference, CodingKeys.targetUri], debugDescription: "Must have at least one value for \"target\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.contact = try [ConceptMapContact](from: _container, forKeyIfPresent: .contact)
@@ -236,35 +226,9 @@ public struct ConceptMap: DomainResource {
 		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
 		self.publisher = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .publisher, auxiliaryKey: ._publisher)
 		self.requirements = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .requirements, auxiliaryKey: ._requirements)
-		var _t_source: SourceX? = nil
-		if let sourceUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .sourceUri, auxiliaryKey: ._sourceUri) {
-			if _t_source != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sourceUri, in: _container, debugDescription: "More than one value provided for \"source\"")
-			}
-			_t_source = .uri(sourceUri)
-		}
-		if let sourceReference = try Reference(from: _container, forKeyIfPresent: .sourceReference) {
-			if _t_source != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sourceReference, in: _container, debugDescription: "More than one value provided for \"source\"")
-			}
-			_t_source = .reference(sourceReference)
-		}
-		self.source = _t_source!
+		self.source = try Self._decodeSource(from: _container)
 		self.status = try FHIRPrimitive<ConformanceResourceStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		var _t_target: TargetX? = nil
-		if let targetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .targetUri, auxiliaryKey: ._targetUri) {
-			if _t_target != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetUri, in: _container, debugDescription: "More than one value provided for \"target\"")
-			}
-			_t_target = .uri(targetUri)
-		}
-		if let targetReference = try Reference(from: _container, forKeyIfPresent: .targetReference) {
-			if _t_target != nil {
-				throw DecodingError.dataCorruptedError(forKey: .targetReference, in: _container, debugDescription: "More than one value provided for \"target\"")
-			}
-			_t_target = .reference(targetReference)
-		}
-		self.target = _t_target!
+		self.target = try Self._decodeTarget(from: _container)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.url = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .url, auxiliaryKey: ._url)
 		self.useContext = try [CodeableConcept](from: _container, forKeyIfPresent: .useContext)
@@ -274,8 +238,10 @@ public struct ConceptMap: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -295,26 +261,70 @@ public struct ConceptMap: DomainResource {
 		try publisher?.encode(on: &_container, forKey: .publisher, auxiliaryKey: ._publisher)
 		try requirements?.encode(on: &_container, forKey: .requirements, auxiliaryKey: ._requirements)
 		
-			switch source {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .sourceUri, auxiliaryKey: ._sourceUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .sourceReference)
-			}
+		switch source {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .sourceReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .sourceUri, auxiliaryKey: ._sourceUri)
+		}
 		
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		
-			switch target {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .targetUri, auxiliaryKey: ._targetUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .targetReference)
-			}
+		switch target {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .targetReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .targetUri, auxiliaryKey: ._targetUri)
+		}
 		
 		try text?.encode(on: &_container, forKey: .text)
 		try url?.encode(on: &_container, forKey: .url, auxiliaryKey: ._url)
 		try useContext?.encode(on: &_container, forKey: .useContext)
 		try version?.encode(on: &_container, forKey: .version, auxiliaryKey: ._version)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSource(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SourceX {
+		var _t_source: SourceX? = nil
+		if let sourceReference = try Reference(from: _container, forKeyIfPresent: .sourceReference) {
+			_t_source = .reference(sourceReference)
+		}
+		if let sourceUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .sourceUri, auxiliaryKey: ._sourceUri) {
+			if _t_source != nil {
+				throw DecodingError.dataCorruptedError(forKey: .sourceUri, in: _container, debugDescription: "More than one value provided for \"source\"")
+			}
+			_t_source = .uri(sourceUri)
+		}
+		guard let _t_source else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.sourceUri)
+			throw DecodingError.valueNotFound(SourceX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"source\" but have none"))
+		}
+		return _t_source
+	}
+	
+	private static func _decodeTarget(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TargetX {
+		var _t_target: TargetX? = nil
+		if let targetReference = try Reference(from: _container, forKeyIfPresent: .targetReference) {
+			_t_target = .reference(targetReference)
+		}
+		if let targetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .targetUri, auxiliaryKey: ._targetUri) {
+			if _t_target != nil {
+				throw DecodingError.dataCorruptedError(forKey: .targetUri, in: _container, debugDescription: "More than one value provided for \"target\"")
+			}
+			_t_target = .uri(targetUri)
+		}
+		guard let _t_target else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.targetUri)
+			throw DecodingError.valueNotFound(TargetX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"target\" but have none"))
+		}
+		return _t_target
 	}
 }
 
@@ -340,11 +350,7 @@ public struct ConceptMapContact: BackboneElement {
 	/// Contact details for individual or publisher
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -352,7 +358,6 @@ public struct ConceptMapContact: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -372,6 +377,9 @@ public struct ConceptMapContact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -385,6 +393,7 @@ public struct ConceptMapContact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -419,11 +428,7 @@ public struct ConceptMapElement: BackboneElement {
 	/// Concept in target system for element
 	public var target: [ConceptMapElementTarget]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRString>? = nil,
 		codeSystem: FHIRPrimitive<FHIRURI>? = nil,
@@ -432,7 +437,6 @@ public struct ConceptMapElement: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		target: [ConceptMapElementTarget]? = nil
 	) {
-		self.init()
 		self.code = code
 		self.codeSystem = codeSystem
 		self.`extension` = `extension`
@@ -454,6 +458,9 @@ public struct ConceptMapElement: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -468,6 +475,7 @@ public struct ConceptMapElement: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try codeSystem?.encode(on: &_container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)
@@ -514,12 +522,7 @@ public struct ConceptMapElementTarget: BackboneElement {
 	/// Other concepts that this mapping also produces
 	public var product: [ConceptMapElementTargetDependsOn]?
 	
-	/// Designated initializer taking all required properties
-	public init(equivalence: FHIRPrimitive<ConceptMapEquivalence>) {
-		self.equivalence = equivalence
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRString>? = nil,
 		codeSystem: FHIRPrimitive<FHIRURI>? = nil,
@@ -531,11 +534,11 @@ public struct ConceptMapElementTarget: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		product: [ConceptMapElementTargetDependsOn]? = nil
 	) {
-		self.init(equivalence: equivalence)
 		self.code = code
 		self.codeSystem = codeSystem
 		self.comments = comments
 		self.dependsOn = dependsOn
+		self.equivalence = equivalence
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -558,6 +561,9 @@ public struct ConceptMapElementTarget: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -575,6 +581,7 @@ public struct ConceptMapElementTarget: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try codeSystem?.encode(on: &_container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)
@@ -614,14 +621,7 @@ public struct ConceptMapElementTargetDependsOn: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<FHIRString>, codeSystem: FHIRPrimitive<FHIRURI>, element: FHIRPrimitive<FHIRURI>) {
-		self.code = code
-		self.codeSystem = codeSystem
-		self.element = element
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<FHIRString>,
 		codeSystem: FHIRPrimitive<FHIRURI>,
@@ -630,7 +630,9 @@ public struct ConceptMapElementTargetDependsOn: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code, codeSystem: codeSystem, element: element)
+		self.code = code
+		self.codeSystem = codeSystem
+		self.element = element
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -649,6 +651,9 @@ public struct ConceptMapElementTargetDependsOn: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -663,6 +668,7 @@ public struct ConceptMapElementTargetDependsOn: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try codeSystem.encode(on: &_container, forKey: .codeSystem, auxiliaryKey: ._codeSystem)

@@ -92,13 +92,7 @@ public struct EncounterHistory: DomainResource {
 	/// Specific type of encounter
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(`class`: CodeableConcept, status: FHIRPrimitive<EncounterStatus>) {
-		self.`class` = `class`
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actualPeriod: Period? = nil,
 		`class`: CodeableConcept,
@@ -122,8 +116,8 @@ public struct EncounterHistory: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(class: `class`, status: status)
 		self.actualPeriod = actualPeriod
+		self.`class` = `class`
 		self.contained = contained
 		self.encounter = encounter
 		self.`extension` = `extension`
@@ -138,6 +132,7 @@ public struct EncounterHistory: DomainResource {
 		self.plannedEndDate = plannedEndDate
 		self.plannedStartDate = plannedStartDate
 		self.serviceType = serviceType
+		self.status = status
 		self.subject = subject
 		self.subjectStatus = subjectStatus
 		self.text = text
@@ -173,6 +168,9 @@ public struct EncounterHistory: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -202,8 +200,10 @@ public struct EncounterHistory: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actualPeriod?.encode(on: &_container, forKey: .actualPeriod)
 		try `class`.encode(on: &_container, forKey: .`class`)
@@ -252,12 +252,7 @@ public struct EncounterHistoryLocation: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(location: Reference) {
-		self.location = location
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		form: CodeableConcept? = nil,
@@ -265,10 +260,10 @@ public struct EncounterHistoryLocation: BackboneElement {
 		location: Reference,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(location: location)
 		self.`extension` = `extension`
 		self.form = form
 		self.id = id
+		self.location = location
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -284,6 +279,9 @@ public struct EncounterHistoryLocation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -297,6 +295,7 @@ public struct EncounterHistoryLocation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try form?.encode(on: &_container, forKey: .form)

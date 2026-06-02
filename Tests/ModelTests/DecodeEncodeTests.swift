@@ -26,7 +26,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEncodePrimitive() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -58,7 +58,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEncodePrimitiveWithID() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -92,7 +92,7 @@ struct DecodeEncodeTests {
     func decodeEncodePrimitiveWithOnlyExtension() throws {
 		let extURL = "http:\\/\\/hl7.org\\/fhir\\/StructureDefinition\\/data-absent-reason"
 		let extVal = "unable to determine"
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -133,7 +133,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEncodeArrays() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		
 		// "name" is an array of Elements and its "given" array is an array of primitives
 		let str = """
@@ -174,7 +174,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEncodeArrayWithID() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		
 		// In the "given" array of 3 strings, only the first and last have an id!
 		let str = """
@@ -231,7 +231,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEncodeArrayWithOnlyExtension() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -305,7 +305,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEncodeNestedExtensionOnPrimitiveInPolymorphousExtension() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -400,7 +400,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEnum() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -417,7 +417,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeUnknownEnumFails() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -435,7 +435,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func decodeEnumWithID() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"resourceType": "Patient",
@@ -458,7 +458,7 @@ struct DecodeEncodeTests {
 	@Test
     func polymorphousPropertyDecodesPrimitive() throws {
 		// Annotation has either `authorReference` as a Reference or `authorString` as a string. Use it for tests.
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"authorString": "Author 1",
@@ -480,7 +480,7 @@ struct DecodeEncodeTests {
 	@Test
     func polymorphousPropertyDecodesElement() throws {
 		// Annotation has either `authorReference` as a Reference or `authorString` as a string. Use it for tests.
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"authorReference": {
@@ -510,7 +510,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func polymorphousPropertyFailsOnMultipleValues() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"authorReference": {
@@ -531,7 +531,7 @@ struct DecodeEncodeTests {
     
     @Test
     func polymorphousPropertyFailsOnValueOfWrongType() throws {
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         
         let str = """
         {
@@ -550,7 +550,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func polymorphousPropertySucceedsWhenMissingValue() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let str = """
 		{
 			"text": "Annotation with authorString"
@@ -564,7 +564,7 @@ struct DecodeEncodeTests {
 	
 	@Test
     func polymorphousPropertyFailsOnMissingMandatoryValue() throws {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		
 		// Use `AuditEventEntityDetail` to test non-nullable value[x] fails decoding if it's missing
 		let str = """
@@ -577,13 +577,13 @@ struct DecodeEncodeTests {
 			let audit = try decoder.decode(AuditEventEntityDetail.self, from: data)
 			#expect(Bool(false), "Should have bailed out decoding AuditEventEntityDetail but produced \(audit)")
 		} catch let error as DecodingError {
-			#expect(error.errorDescription == "valueBase64Binary.valueString [not found; Any]")
+			#expect(error.errorDescription == "valueString [not found; ValueX]")
 		}
 	}
     
     @Test
     func polymorphousPropertyFailsOnValueOfWrongTypeForMandatoryValue() throws {
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         
         let str = """
         {

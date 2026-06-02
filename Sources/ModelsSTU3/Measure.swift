@@ -163,12 +163,7 @@ public struct Measure: DomainResource {
 	/// Business version of the measure
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		clinicalRecommendationStatement: FHIRPrimitive<FHIRString>? = nil,
@@ -216,7 +211,6 @@ public struct Measure: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(status: status)
 		self.approvalDate = approvalDate
 		self.clinicalRecommendationStatement = clinicalRecommendationStatement
 		self.compositeScoring = compositeScoring
@@ -252,6 +246,7 @@ public struct Measure: DomainResource {
 		self.riskAdjustment = riskAdjustment
 		self.scoring = scoring
 		self.set = set
+		self.status = status
 		self.supplementalData = supplementalData
 		self.text = text
 		self.title = title
@@ -316,6 +311,9 @@ public struct Measure: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -369,8 +367,10 @@ public struct Measure: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try clinicalRecommendationStatement?.encode(on: &_container, forKey: .clinicalRecommendationStatement, auxiliaryKey: ._clinicalRecommendationStatement)
@@ -451,12 +451,7 @@ public struct MeasureGroup: BackboneElement {
 	/// Stratifier criteria for the measure
 	public var stratifier: [MeasureGroupStratifier]?
 	
-	/// Designated initializer taking all required properties
-	public init(identifier: Identifier) {
-		self.identifier = identifier
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -467,10 +462,10 @@ public struct MeasureGroup: BackboneElement {
 		population: [MeasureGroupPopulation]? = nil,
 		stratifier: [MeasureGroupStratifier]? = nil
 	) {
-		self.init(identifier: identifier)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
+		self.identifier = identifier
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.population = population
@@ -492,6 +487,9 @@ public struct MeasureGroup: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -508,6 +506,7 @@ public struct MeasureGroup: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -552,12 +551,7 @@ public struct MeasureGroupPopulation: BackboneElement {
 	/// Short name
 	public var name: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(criteria: FHIRPrimitive<FHIRString>) {
-		self.criteria = criteria
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		criteria: FHIRPrimitive<FHIRString>,
@@ -568,8 +562,8 @@ public struct MeasureGroupPopulation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		name: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(criteria: criteria)
 		self.code = code
+		self.criteria = criteria
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -593,6 +587,9 @@ public struct MeasureGroupPopulation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -609,6 +606,7 @@ public struct MeasureGroupPopulation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try criteria.encode(on: &_container, forKey: .criteria, auxiliaryKey: ._criteria)
@@ -647,11 +645,7 @@ public struct MeasureGroupStratifier: BackboneElement {
 	/// Path to the stratifier
 	public var path: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		criteria: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -660,7 +654,6 @@ public struct MeasureGroupStratifier: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		path: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.criteria = criteria
 		self.`extension` = `extension`
 		self.id = id
@@ -682,6 +675,9 @@ public struct MeasureGroupStratifier: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -696,6 +692,7 @@ public struct MeasureGroupStratifier: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try criteria?.encode(on: &_container, forKey: .criteria, auxiliaryKey: ._criteria)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -735,11 +732,7 @@ public struct MeasureSupplementalData: BackboneElement {
 	/// supplemental-data | risk-adjustment-factor
 	public var usage: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		criteria: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -749,7 +742,6 @@ public struct MeasureSupplementalData: BackboneElement {
 		path: FHIRPrimitive<FHIRString>? = nil,
 		usage: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.criteria = criteria
 		self.`extension` = `extension`
 		self.id = id
@@ -773,6 +765,9 @@ public struct MeasureSupplementalData: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -788,6 +783,7 @@ public struct MeasureSupplementalData: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try criteria?.encode(on: &_container, forKey: .criteria, auxiliaryKey: ._criteria)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

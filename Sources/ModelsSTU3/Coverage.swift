@@ -100,11 +100,7 @@ public struct Coverage: DomainResource {
 	/// Type of coverage such as medical or accident
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		beneficiary: Reference? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -131,7 +127,6 @@ public struct Coverage: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.beneficiary = beneficiary
 		self.contained = contained
 		self.contract = contract
@@ -190,6 +185,9 @@ public struct Coverage: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -222,8 +220,10 @@ public struct Coverage: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try beneficiary?.encode(on: &_container, forKey: .beneficiary)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -305,11 +305,7 @@ public struct CoverageGrouping: BackboneElement {
 	/// Display text for the subsection of the plan
 	public var subPlanDisplay: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`class`: FHIRPrimitive<FHIRString>? = nil,
 		classDisplay: FHIRPrimitive<FHIRString>? = nil,
@@ -327,7 +323,6 @@ public struct CoverageGrouping: BackboneElement {
 		subPlan: FHIRPrimitive<FHIRString>? = nil,
 		subPlanDisplay: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.`class` = `class`
 		self.classDisplay = classDisplay
 		self.`extension` = `extension`
@@ -367,6 +362,9 @@ public struct CoverageGrouping: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -390,6 +388,7 @@ public struct CoverageGrouping: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `class`?.encode(on: &_container, forKey: .`class`, auxiliaryKey: ._class)
 		try classDisplay?.encode(on: &_container, forKey: .classDisplay, auxiliaryKey: ._classDisplay)

@@ -69,12 +69,7 @@ public struct Schedule: DomainResource {
 	/// The schedule type can be used for the categorization of healthcare services or other appointment types
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		comment: FHIRPrimitive<FHIRString>? = nil,
@@ -90,7 +85,7 @@ public struct Schedule: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.comment = comment
 		self.contained = contained
 		self.`extension` = `extension`
@@ -126,6 +121,9 @@ public struct Schedule: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -147,8 +145,10 @@ public struct Schedule: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)

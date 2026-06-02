@@ -141,14 +141,7 @@ public struct AdverseEvent: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(actuality: FHIRPrimitive<AdverseEventActuality>, status: FHIRPrimitive<EventStatus>, subject: Reference) {
-		self.actuality = actuality
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actuality: FHIRPrimitive<AdverseEventActuality>,
 		category: [CodeableConcept]? = nil,
@@ -183,7 +176,7 @@ public struct AdverseEvent: DomainResource {
 		suspectEntity: [AdverseEventSuspectEntity]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(actuality: actuality, status: status, subject: subject)
+		self.actuality = actuality
 		self.category = category
 		self.code = code
 		self.contained = contained
@@ -209,7 +202,9 @@ public struct AdverseEvent: DomainResource {
 		self.recorder = recorder
 		self.resultingEffect = resultingEffect
 		self.seriousness = seriousness
+		self.status = status
 		self.study = study
+		self.subject = subject
 		self.supportingInfo = supportingInfo
 		self.suspectEntity = suspectEntity
 		self.text = text
@@ -256,6 +251,9 @@ public struct AdverseEvent: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -265,20 +263,7 @@ public struct AdverseEvent: DomainResource {
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.contributingFactor = try [CodeableReference](from: _container, forKeyIfPresent: .contributingFactor)
 		self.detected = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .detected, auxiliaryKey: ._detected)
-		var _t_effect: EffectX? = nil
-		if let effectDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectDateTime, auxiliaryKey: ._effectDateTime) {
-			if _t_effect != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectDateTime, in: _container, debugDescription: "More than one value provided for \"effect\"")
-			}
-			_t_effect = .dateTime(effectDateTime)
-		}
-		if let effectPeriod = try Period(from: _container, forKeyIfPresent: .effectPeriod) {
-			if _t_effect != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectPeriod, in: _container, debugDescription: "More than one value provided for \"effect\"")
-			}
-			_t_effect = .period(effectPeriod)
-		}
-		self.effect = _t_effect
+		self.effect = try Self._decodeEffect(from: _container)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.expectedInResearchStudy = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .expectedInResearchStudy, auxiliaryKey: ._expectedInResearchStudy)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
@@ -309,8 +294,10 @@ public struct AdverseEvent: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actuality.encode(on: &_container, forKey: .actuality, auxiliaryKey: ._actuality)
 		try category?.encode(on: &_container, forKey: .category)
@@ -319,12 +306,12 @@ public struct AdverseEvent: DomainResource {
 		try contributingFactor?.encode(on: &_container, forKey: .contributingFactor)
 		try detected?.encode(on: &_container, forKey: .detected, auxiliaryKey: ._detected)
 		if let _enum = effect {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .effectDateTime, auxiliaryKey: ._effectDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .effectPeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .effectDateTime, auxiliaryKey: ._effectDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .effectPeriod)
+		}
 		}
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try expectedInResearchStudy?.encode(on: &_container, forKey: .expectedInResearchStudy, auxiliaryKey: ._expectedInResearchStudy)
@@ -352,6 +339,24 @@ public struct AdverseEvent: DomainResource {
 		try suspectEntity?.encode(on: &_container, forKey: .suspectEntity)
 		try text?.encode(on: &_container, forKey: .text)
 	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeEffect(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> EffectX? {
+		var _t_effect: EffectX? = nil
+		if let effectDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectDateTime, auxiliaryKey: ._effectDateTime) {
+			_t_effect = .dateTime(effectDateTime)
+		}
+		if let effectPeriod = try Period(from: _container, forKeyIfPresent: .effectPeriod) {
+			if _t_effect != nil {
+				throw DecodingError.dataCorruptedError(forKey: .effectPeriod, in: _container, debugDescription: "More than one value provided for \"effect\"")
+			}
+			_t_effect = .period(effectPeriod)
+		}
+		return _t_effect
+	}
 }
 
 /**
@@ -376,12 +381,7 @@ public struct AdverseEventParticipant: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -389,7 +389,7 @@ public struct AdverseEventParticipant: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.function = function
 		self.id = id
@@ -408,6 +408,9 @@ public struct AdverseEventParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -421,6 +424,7 @@ public struct AdverseEventParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -462,12 +466,7 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 	/// One of `occurrence[x]`
 	public var occurrence: OccurrenceX?
 	
-	/// Designated initializer taking all required properties
-	public init(instance: CodeableReference) {
-		self.instance = instance
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		causality: AdverseEventSuspectEntityCausality? = nil,
 		`extension`: [Extension]? = nil,
@@ -476,10 +475,10 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		occurrence: OccurrenceX? = nil
 	) {
-		self.init(instance: instance)
 		self.causality = causality
 		self.`extension` = `extension`
 		self.id = id
+		self.instance = instance
 		self.modifierExtension = modifierExtension
 		self.occurrence = occurrence
 	}
@@ -498,6 +497,9 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -506,11 +508,36 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.instance = try CodeableReference(from: _container, forKey: .instance)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.occurrence = try Self._decodeOccurrence(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try causality?.encode(on: &_container, forKey: .causality)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try instance.encode(on: &_container, forKey: .instance)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = occurrence {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
 			_t_occurrence = .dateTime(occurrenceDateTime)
 		}
 		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
@@ -519,26 +546,7 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 			}
 			_t_occurrence = .period(occurrencePeriod)
 		}
-		self.occurrence = _t_occurrence
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try causality?.encode(on: &_container, forKey: .causality)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try instance.encode(on: &_container, forKey: .instance)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			}
-		}
+		return _t_occurrence
 	}
 }
 
@@ -565,11 +573,7 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assessmentMethod: CodeableConcept? = nil,
 		author: Reference? = nil,
@@ -578,7 +582,6 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.assessmentMethod = assessmentMethod
 		self.author = author
 		self.entityRelatedness = entityRelatedness
@@ -600,6 +603,9 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -614,6 +620,7 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assessmentMethod?.encode(on: &_container, forKey: .assessmentMethod)
 		try author?.encode(on: &_container, forKey: .author)

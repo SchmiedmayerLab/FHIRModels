@@ -119,13 +119,7 @@ public struct ProcedureRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, subject: Reference) {
-		self.code = code
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		asNeeded: AsNeededX? = nil,
 		bodySite: [CodeableConcept]? = nil,
@@ -150,9 +144,9 @@ public struct ProcedureRequest: DomainResource {
 		subject: Reference,
 		text: Narrative? = nil
 	) {
-		self.init(code: code, subject: subject)
 		self.asNeeded = asNeeded
 		self.bodySite = bodySite
+		self.code = code
 		self.contained = contained
 		self.encounter = encounter
 		self.`extension` = `extension`
@@ -170,6 +164,7 @@ public struct ProcedureRequest: DomainResource {
 		self.reason = reason
 		self.scheduled = scheduled
 		self.status = status
+		self.subject = subject
 		self.text = text
 	}
 	
@@ -207,23 +202,13 @@ public struct ProcedureRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_asNeeded: AsNeededX? = nil
-		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededBoolean, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .boolean(asNeededBoolean)
-		}
-		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
-		}
-		self.asNeeded = _t_asNeeded
+		self.asNeeded = try Self._decodeAsNeeded(from: _container)
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
 		self.code = try CodeableConcept(from: _container, forKey: .code)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
@@ -240,40 +225,8 @@ public struct ProcedureRequest: DomainResource {
 		self.orderer = try Reference(from: _container, forKeyIfPresent: .orderer)
 		self.performer = try Reference(from: _container, forKeyIfPresent: .performer)
 		self.priority = try FHIRPrimitive<ProcedureRequestPriority>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
-		var _t_reason: ReasonX? = nil
-		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .codeableConcept(reasonCodeableConcept)
-		}
-		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .reference(reasonReference)
-		}
-		self.reason = _t_reason
-		var _t_scheduled: ScheduledX? = nil
-		if let scheduledDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .scheduledDateTime, auxiliaryKey: ._scheduledDateTime) {
-			if _t_scheduled != nil {
-				throw DecodingError.dataCorruptedError(forKey: .scheduledDateTime, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
-			}
-			_t_scheduled = .dateTime(scheduledDateTime)
-		}
-		if let scheduledPeriod = try Period(from: _container, forKeyIfPresent: .scheduledPeriod) {
-			if _t_scheduled != nil {
-				throw DecodingError.dataCorruptedError(forKey: .scheduledPeriod, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
-			}
-			_t_scheduled = .period(scheduledPeriod)
-		}
-		if let scheduledTiming = try Timing(from: _container, forKeyIfPresent: .scheduledTiming) {
-			if _t_scheduled != nil {
-				throw DecodingError.dataCorruptedError(forKey: .scheduledTiming, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
-			}
-			_t_scheduled = .timing(scheduledTiming)
-		}
-		self.scheduled = _t_scheduled
+		self.reason = try Self._decodeReason(from: _container)
+		self.scheduled = try Self._decodeScheduled(from: _container)
 		self.status = try FHIRPrimitive<ProcedureRequestStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKey: .subject)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
@@ -282,16 +235,18 @@ public struct ProcedureRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = asNeeded {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
+		}
 		}
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
 		try code.encode(on: &_container, forKey: .code)
@@ -310,25 +265,81 @@ public struct ProcedureRequest: DomainResource {
 		try performer?.encode(on: &_container, forKey: .performer)
 		try priority?.encode(on: &_container, forKey: .priority, auxiliaryKey: ._priority)
 		if let _enum = reason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reasonReference)
+		}
 		}
 		if let _enum = scheduled {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .scheduledDateTime, auxiliaryKey: ._scheduledDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .scheduledPeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .scheduledTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .scheduledDateTime, auxiliaryKey: ._scheduledDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .scheduledPeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .scheduledTiming)
+		}
 		}
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAsNeeded(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AsNeededX? {
+		var _t_asNeeded: AsNeededX? = nil
+		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
+			_t_asNeeded = .boolean(asNeededBoolean)
+		}
+		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
+			if _t_asNeeded != nil {
+				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
+			}
+			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
+		}
+		return _t_asNeeded
+	}
+	
+	private static func _decodeReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReasonX? {
+		var _t_reason: ReasonX? = nil
+		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
+			_t_reason = .codeableConcept(reasonCodeableConcept)
+		}
+		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
+			if _t_reason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
+			}
+			_t_reason = .reference(reasonReference)
+		}
+		return _t_reason
+	}
+	
+	private static func _decodeScheduled(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ScheduledX? {
+		var _t_scheduled: ScheduledX? = nil
+		if let scheduledDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .scheduledDateTime, auxiliaryKey: ._scheduledDateTime) {
+			_t_scheduled = .dateTime(scheduledDateTime)
+		}
+		if let scheduledPeriod = try Period(from: _container, forKeyIfPresent: .scheduledPeriod) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledPeriod, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .period(scheduledPeriod)
+		}
+		if let scheduledTiming = try Timing(from: _container, forKeyIfPresent: .scheduledTiming) {
+			if _t_scheduled != nil {
+				throw DecodingError.dataCorruptedError(forKey: .scheduledTiming, in: _container, debugDescription: "More than one value provided for \"scheduled\"")
+			}
+			_t_scheduled = .timing(scheduledTiming)
+		}
+		return _t_scheduled
 	}
 }

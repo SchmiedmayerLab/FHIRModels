@@ -98,12 +98,7 @@ public struct Sequence: DomainResource {
 	/// Variant in sequence
 	public var variant: [SequenceVariant]?
 	
-	/// Designated initializer taking all required properties
-	public init(coordinateSystem: FHIRPrimitive<FHIRInteger>) {
-		self.coordinateSystem = coordinateSystem
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		coordinateSystem: FHIRPrimitive<FHIRInteger>,
@@ -129,8 +124,8 @@ public struct Sequence: DomainResource {
 		type: FHIRPrimitive<FHIRString>? = nil,
 		variant: [SequenceVariant]? = nil
 	) {
-		self.init(coordinateSystem: coordinateSystem)
 		self.contained = contained
+		self.coordinateSystem = coordinateSystem
 		self.device = device
 		self.`extension` = `extension`
 		self.id = id
@@ -185,6 +180,9 @@ public struct Sequence: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -216,8 +214,10 @@ public struct Sequence: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try coordinateSystem.encode(on: &_container, forKey: .coordinateSystem, auxiliaryKey: ._coordinateSystem)
@@ -304,12 +304,7 @@ public struct SequenceQuality: BackboneElement {
 	/// INDEL / SNP / Undefined variant.
 	public var type: FHIRPrimitive<QualityType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<QualityType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		end: FHIRPrimitive<FHIRInteger>? = nil,
 		`extension`: [Extension]? = nil,
@@ -329,7 +324,6 @@ public struct SequenceQuality: BackboneElement {
 		truthTP: FHIRPrimitive<FHIRDecimal>? = nil,
 		type: FHIRPrimitive<QualityType>
 	) {
-		self.init(type: type)
 		self.end = end
 		self.`extension` = `extension`
 		self.fScore = fScore
@@ -346,6 +340,7 @@ public struct SequenceQuality: BackboneElement {
 		self.start = start
 		self.truthFN = truthFN
 		self.truthTP = truthTP
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -372,6 +367,9 @@ public struct SequenceQuality: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -397,6 +395,7 @@ public struct SequenceQuality: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try end?.encode(on: &_container, forKey: .end, auxiliaryKey: ._end)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -458,13 +457,7 @@ public struct SequenceReferenceSeq: BackboneElement {
 	/// Start position of the window on the  reference sequence
 	public var windowStart: FHIRPrimitive<FHIRInteger>
 	
-	/// Designated initializer taking all required properties
-	public init(windowEnd: FHIRPrimitive<FHIRInteger>, windowStart: FHIRPrimitive<FHIRInteger>) {
-		self.windowEnd = windowEnd
-		self.windowStart = windowStart
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		chromosome: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -478,7 +471,6 @@ public struct SequenceReferenceSeq: BackboneElement {
 		windowEnd: FHIRPrimitive<FHIRInteger>,
 		windowStart: FHIRPrimitive<FHIRInteger>
 	) {
-		self.init(windowEnd: windowEnd, windowStart: windowStart)
 		self.chromosome = chromosome
 		self.`extension` = `extension`
 		self.genomeBuild = genomeBuild
@@ -488,6 +480,8 @@ public struct SequenceReferenceSeq: BackboneElement {
 		self.referenceSeqPointer = referenceSeqPointer
 		self.referenceSeqString = referenceSeqString
 		self.strand = strand
+		self.windowEnd = windowEnd
+		self.windowStart = windowStart
 	}
 	
 	// MARK: - Codable
@@ -508,6 +502,9 @@ public struct SequenceReferenceSeq: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -527,6 +524,7 @@ public struct SequenceReferenceSeq: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try chromosome?.encode(on: &_container, forKey: .chromosome)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -577,12 +575,7 @@ public struct SequenceRepository: BackboneElement {
 	/// Id of the variantset that used to call for variantset in repository
 	public var variantsetId: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<RepositoryType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		datasetId: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -594,13 +587,13 @@ public struct SequenceRepository: BackboneElement {
 		url: FHIRPrimitive<FHIRURI>? = nil,
 		variantsetId: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(type: type)
 		self.datasetId = datasetId
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.readsetId = readsetId
+		self.type = type
 		self.url = url
 		self.variantsetId = variantsetId
 	}
@@ -621,6 +614,9 @@ public struct SequenceRepository: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -638,6 +634,7 @@ public struct SequenceRepository: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try datasetId?.encode(on: &_container, forKey: .datasetId, auxiliaryKey: ._datasetId)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -688,11 +685,7 @@ public struct SequenceVariant: BackboneElement {
 	/// Pointer to observed variant information
 	public var variantPointer: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		cigar: FHIRPrimitive<FHIRString>? = nil,
 		end: FHIRPrimitive<FHIRInteger>? = nil,
@@ -704,7 +697,6 @@ public struct SequenceVariant: BackboneElement {
 		start: FHIRPrimitive<FHIRInteger>? = nil,
 		variantPointer: Reference? = nil
 	) {
-		self.init()
 		self.cigar = cigar
 		self.end = end
 		self.`extension` = `extension`
@@ -732,6 +724,9 @@ public struct SequenceVariant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -749,6 +744,7 @@ public struct SequenceVariant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try cigar?.encode(on: &_container, forKey: .cigar, auxiliaryKey: ._cigar)
 		try end?.encode(on: &_container, forKey: .end, auxiliaryKey: ._end)

@@ -113,15 +113,7 @@ public struct MedicationAdministration: DomainResource {
 	/// True if medication not administered
 	public var wasNotGiven: FHIRPrimitive<FHIRBool>?
 	
-	/// Designated initializer taking all required properties
-	public init(effectiveTime: EffectiveTimeX, medication: MedicationX, patient: Reference, status: FHIRPrimitive<MedicationAdministrationStatus>) {
-		self.effectiveTime = effectiveTime
-		self.medication = medication
-		self.patient = patient
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		device: [Reference]? = nil,
@@ -146,23 +138,26 @@ public struct MedicationAdministration: DomainResource {
 		text: Narrative? = nil,
 		wasNotGiven: FHIRPrimitive<FHIRBool>? = nil
 	) {
-		self.init(effectiveTime: effectiveTime, medication: medication, patient: patient, status: status)
 		self.contained = contained
 		self.device = device
 		self.dosage = dosage
+		self.effectiveTime = effectiveTime
 		self.encounter = encounter
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.language = language
+		self.medication = medication
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.note = note
+		self.patient = patient
 		self.practitioner = practitioner
 		self.prescription = prescription
 		self.reasonGiven = reasonGiven
 		self.reasonNotGiven = reasonNotGiven
+		self.status = status
 		self.text = text
 		self.wasNotGiven = wasNotGiven
 	}
@@ -199,54 +194,23 @@ public struct MedicationAdministration: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.effectiveTimeDateTime) || _container.contains(CodingKeys.effectiveTimePeriod) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.effectiveTimeDateTime, CodingKeys.effectiveTimePeriod], debugDescription: "Must have at least one value for \"effectiveTime\" but have none"))
-		}
-		guard _container.contains(CodingKeys.medicationCodeableConcept) || _container.contains(CodingKeys.medicationReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.medicationCodeableConcept, CodingKeys.medicationReference], debugDescription: "Must have at least one value for \"medication\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.device = try [Reference](from: _container, forKeyIfPresent: .device)
 		self.dosage = try MedicationAdministrationDosage(from: _container, forKeyIfPresent: .dosage)
-		var _t_effectiveTime: EffectiveTimeX? = nil
-		if let effectiveTimeDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectiveTimeDateTime, auxiliaryKey: ._effectiveTimeDateTime) {
-			if _t_effectiveTime != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectiveTimeDateTime, in: _container, debugDescription: "More than one value provided for \"effectiveTime\"")
-			}
-			_t_effectiveTime = .dateTime(effectiveTimeDateTime)
-		}
-		if let effectiveTimePeriod = try Period(from: _container, forKeyIfPresent: .effectiveTimePeriod) {
-			if _t_effectiveTime != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectiveTimePeriod, in: _container, debugDescription: "More than one value provided for \"effectiveTime\"")
-			}
-			_t_effectiveTime = .period(effectiveTimePeriod)
-		}
-		self.effectiveTime = _t_effectiveTime!
+		self.effectiveTime = try Self._decodeEffectiveTime(from: _container)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
 		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
-		var _t_medication: MedicationX? = nil
-		if let medicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .medicationCodeableConcept) {
-			if _t_medication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .medicationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"medication\"")
-			}
-			_t_medication = .codeableConcept(medicationCodeableConcept)
-		}
-		if let medicationReference = try Reference(from: _container, forKeyIfPresent: .medicationReference) {
-			if _t_medication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .medicationReference, in: _container, debugDescription: "More than one value provided for \"medication\"")
-			}
-			_t_medication = .reference(medicationReference)
-		}
-		self.medication = _t_medication!
+		self.medication = try Self._decodeMedication(from: _container)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .note, auxiliaryKey: ._note)
@@ -263,19 +227,21 @@ public struct MedicationAdministration: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try device?.encode(on: &_container, forKey: .device)
 		try dosage?.encode(on: &_container, forKey: .dosage)
 		
-			switch effectiveTime {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .effectiveTimeDateTime, auxiliaryKey: ._effectiveTimeDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .effectiveTimePeriod)
-			}
+		switch effectiveTime {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .effectiveTimeDateTime, auxiliaryKey: ._effectiveTimeDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .effectiveTimePeriod)
+		}
 		
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -284,12 +250,12 @@ public struct MedicationAdministration: DomainResource {
 		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
 		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		
-			switch medication {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .medicationCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .medicationReference)
-			}
+		switch medication {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .medicationCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .medicationReference)
+		}
 		
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
@@ -302,6 +268,50 @@ public struct MedicationAdministration: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try text?.encode(on: &_container, forKey: .text)
 		try wasNotGiven?.encode(on: &_container, forKey: .wasNotGiven, auxiliaryKey: ._wasNotGiven)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeEffectiveTime(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> EffectiveTimeX {
+		var _t_effectiveTime: EffectiveTimeX? = nil
+		if let effectiveTimeDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectiveTimeDateTime, auxiliaryKey: ._effectiveTimeDateTime) {
+			_t_effectiveTime = .dateTime(effectiveTimeDateTime)
+		}
+		if let effectiveTimePeriod = try Period(from: _container, forKeyIfPresent: .effectiveTimePeriod) {
+			if _t_effectiveTime != nil {
+				throw DecodingError.dataCorruptedError(forKey: .effectiveTimePeriod, in: _container, debugDescription: "More than one value provided for \"effectiveTime\"")
+			}
+			_t_effectiveTime = .period(effectiveTimePeriod)
+		}
+		guard let _t_effectiveTime else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.effectiveTimePeriod)
+			throw DecodingError.valueNotFound(EffectiveTimeX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"effectiveTime\" but have none"))
+		}
+		return _t_effectiveTime
+	}
+	
+	private static func _decodeMedication(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MedicationX {
+		var _t_medication: MedicationX? = nil
+		if let medicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .medicationCodeableConcept) {
+			_t_medication = .codeableConcept(medicationCodeableConcept)
+		}
+		if let medicationReference = try Reference(from: _container, forKeyIfPresent: .medicationReference) {
+			if _t_medication != nil {
+				throw DecodingError.dataCorruptedError(forKey: .medicationReference, in: _container, debugDescription: "More than one value provided for \"medication\"")
+			}
+			_t_medication = .reference(medicationReference)
+		}
+		guard let _t_medication else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.medicationReference)
+			throw DecodingError.valueNotFound(MedicationX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"medication\" but have none"))
+		}
+		return _t_medication
 	}
 }
 
@@ -353,11 +363,7 @@ public struct MedicationAdministrationDosage: BackboneElement {
 	/// Dosage Instructions
 	public var text: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -369,7 +375,6 @@ public struct MedicationAdministrationDosage: BackboneElement {
 		site: SiteX? = nil,
 		text: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.method = method
@@ -399,6 +404,9 @@ public struct MedicationAdministrationDosage: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -407,26 +415,65 @@ public struct MedicationAdministrationDosage: BackboneElement {
 		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+		self.rate = try Self._decodeRate(from: _container)
+		self.route = try CodeableConcept(from: _container, forKeyIfPresent: .route)
+		self.site = try Self._decodeSite(from: _container)
+		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try method?.encode(on: &_container, forKey: .method)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+		if let _enum = rate {
+		switch _enum {
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .rateRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .rateRatio)
+		}
+		}
+		try route?.encode(on: &_container, forKey: .route)
+		if let _enum = site {
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .siteCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .siteReference)
+		}
+		}
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeRate(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> RateX? {
 		var _t_rate: RateX? = nil
+		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
+			_t_rate = .range(rateRange)
+		}
 		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
 			if _t_rate != nil {
 				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
 			}
 			_t_rate = .ratio(rateRatio)
 		}
-		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
-			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateRange, in: _container, debugDescription: "More than one value provided for \"rate\"")
-			}
-			_t_rate = .range(rateRange)
-		}
-		self.rate = _t_rate
-		self.route = try CodeableConcept(from: _container, forKeyIfPresent: .route)
+		return _t_rate
+	}
+	
+	private static func _decodeSite(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SiteX? {
 		var _t_site: SiteX? = nil
 		if let siteCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .siteCodeableConcept) {
-			if _t_site != nil {
-				throw DecodingError.dataCorruptedError(forKey: .siteCodeableConcept, in: _container, debugDescription: "More than one value provided for \"site\"")
-			}
 			_t_site = .codeableConcept(siteCodeableConcept)
 		}
 		if let siteReference = try Reference(from: _container, forKeyIfPresent: .siteReference) {
@@ -435,36 +482,6 @@ public struct MedicationAdministrationDosage: BackboneElement {
 			}
 			_t_site = .reference(siteReference)
 		}
-		self.site = _t_site
-		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try method?.encode(on: &_container, forKey: .method)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try quantity?.encode(on: &_container, forKey: .quantity)
-		if let _enum = rate {
-			switch _enum {
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .rateRatio)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .rateRange)
-			}
-		}
-		try route?.encode(on: &_container, forKey: .route)
-		if let _enum = site {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .siteCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .siteReference)
-			}
-		}
-		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+		return _t_site
 	}
 }

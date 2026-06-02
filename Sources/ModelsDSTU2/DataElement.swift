@@ -96,13 +96,7 @@ public struct DataElement: DomainResource {
 	/// Logical id for this version of the data element
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(element: [ElementDefinition], status: FHIRPrimitive<ConformanceResourceStatus>) {
-		self.element = element
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [DataElementContact]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -127,11 +121,11 @@ public struct DataElement: DomainResource {
 		useContext: [CodeableConcept]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(element: element, status: status)
 		self.contact = contact
 		self.contained = contained
 		self.copyright = copyright
 		self.date = date
+		self.element = element
 		self.experimental = experimental
 		self.`extension` = `extension`
 		self.id = id
@@ -143,6 +137,7 @@ public struct DataElement: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.publisher = publisher
+		self.status = status
 		self.stringency = stringency
 		self.text = text
 		self.url = url
@@ -180,6 +175,9 @@ public struct DataElement: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -210,8 +208,10 @@ public struct DataElement: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -260,11 +260,7 @@ public struct DataElementContact: BackboneElement {
 	/// Contact details for individual or publisher
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -272,7 +268,6 @@ public struct DataElementContact: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -292,6 +287,9 @@ public struct DataElementContact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -305,6 +303,7 @@ public struct DataElementContact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -343,12 +342,7 @@ public struct DataElementMapping: BackboneElement {
 	/// Identifies what this mapping refers to
 	public var uri: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init(identity: FHIRPrimitive<FHIRString>) {
-		self.identity = identity
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comments: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -358,10 +352,10 @@ public struct DataElementMapping: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		uri: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init(identity: identity)
 		self.comments = comments
 		self.`extension` = `extension`
 		self.id = id
+		self.identity = identity
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.uri = uri
@@ -381,6 +375,9 @@ public struct DataElementMapping: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -396,6 +393,7 @@ public struct DataElementMapping: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try comments?.encode(on: &_container, forKey: .comments, auxiliaryKey: ._comments)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

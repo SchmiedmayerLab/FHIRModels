@@ -83,15 +83,7 @@ public struct AuditEvent: DomainResource {
 	/// Type/identifier of event
 	public var type: Coding
 	
-	/// Designated initializer taking all required properties
-	public init(agent: [AuditEventAgent], recorded: FHIRPrimitive<Instant>, source: AuditEventSource, type: Coding) {
-		self.agent = agent
-		self.recorded = recorded
-		self.source = source
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: FHIRPrimitive<AuditEventAction>? = nil,
 		agent: [AuditEventAgent],
@@ -112,8 +104,8 @@ public struct AuditEvent: DomainResource {
 		text: Narrative? = nil,
 		type: Coding
 	) {
-		self.init(agent: agent, recorded: recorded, source: source, type: type)
 		self.action = action
+		self.agent = agent
 		self.contained = contained
 		self.entity = entity
 		self.`extension` = `extension`
@@ -125,8 +117,11 @@ public struct AuditEvent: DomainResource {
 		self.outcome = outcome
 		self.outcomeDesc = outcomeDesc
 		self.purposeOfEvent = purposeOfEvent
+		self.recorded = recorded
+		self.source = source
 		self.subtype = subtype
 		self.text = text
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -155,6 +150,9 @@ public struct AuditEvent: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -181,8 +179,10 @@ public struct AuditEvent: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action, auxiliaryKey: ._action)
 		try agent.encode(on: &_container, forKey: .agent)
@@ -254,12 +254,7 @@ public struct AuditEventAgent: BackboneElement {
 	/// Unique identifier for the user
 	public var userId: Identifier?
 	
-	/// Designated initializer taking all required properties
-	public init(requestor: FHIRPrimitive<FHIRBool>) {
-		self.requestor = requestor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		altId: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -276,7 +271,6 @@ public struct AuditEventAgent: BackboneElement {
 		role: [CodeableConcept]? = nil,
 		userId: Identifier? = nil
 	) {
-		self.init(requestor: requestor)
 		self.altId = altId
 		self.`extension` = `extension`
 		self.id = id
@@ -288,6 +282,7 @@ public struct AuditEventAgent: BackboneElement {
 		self.policy = policy
 		self.purposeOfUse = purposeOfUse
 		self.reference = reference
+		self.requestor = requestor
 		self.role = role
 		self.userId = userId
 	}
@@ -313,6 +308,9 @@ public struct AuditEventAgent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -335,6 +333,7 @@ public struct AuditEventAgent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try altId?.encode(on: &_container, forKey: .altId, auxiliaryKey: ._altId)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -375,11 +374,7 @@ public struct AuditEventAgentNetwork: BackboneElement {
 	/// The type of network access point
 	public var type: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -387,7 +382,6 @@ public struct AuditEventAgentNetwork: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.address = address
 		self.`extension` = `extension`
 		self.id = id
@@ -407,6 +401,9 @@ public struct AuditEventAgentNetwork: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -420,6 +417,7 @@ public struct AuditEventAgentNetwork: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address, auxiliaryKey: ._address)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -475,11 +473,7 @@ public struct AuditEventEntity: BackboneElement {
 	/// Type of entity involved
 	public var type: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		detail: [AuditEventEntityDetail]? = nil,
@@ -495,7 +489,6 @@ public struct AuditEventEntity: BackboneElement {
 		securityLabel: [Coding]? = nil,
 		type: Coding? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.detail = detail
 		self.`extension` = `extension`
@@ -531,6 +524,9 @@ public struct AuditEventEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -552,6 +548,7 @@ public struct AuditEventEntity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try detail?.encode(on: &_container, forKey: .detail)
@@ -591,13 +588,7 @@ public struct AuditEventEntityDetail: BackboneElement {
 	/// Property value
 	public var value: FHIRPrimitive<Base64Binary>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<FHIRString>, value: FHIRPrimitive<Base64Binary>) {
-		self.type = type
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -605,10 +596,11 @@ public struct AuditEventEntityDetail: BackboneElement {
 		type: FHIRPrimitive<FHIRString>,
 		value: FHIRPrimitive<Base64Binary>
 	) {
-		self.init(type: type, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -623,6 +615,9 @@ public struct AuditEventEntityDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -636,6 +631,7 @@ public struct AuditEventEntityDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -670,12 +666,7 @@ public struct AuditEventSource: BackboneElement {
 	/// The type of source where event originated
 	public var type: [Coding]?
 	
-	/// Designated initializer taking all required properties
-	public init(identifier: Identifier) {
-		self.identifier = identifier
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -684,9 +675,9 @@ public struct AuditEventSource: BackboneElement {
 		site: FHIRPrimitive<FHIRString>? = nil,
 		type: [Coding]? = nil
 	) {
-		self.init(identifier: identifier)
 		self.`extension` = `extension`
 		self.id = id
+		self.identifier = identifier
 		self.modifierExtension = modifierExtension
 		self.site = site
 		self.type = type
@@ -705,6 +696,9 @@ public struct AuditEventSource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -719,6 +713,7 @@ public struct AuditEventSource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

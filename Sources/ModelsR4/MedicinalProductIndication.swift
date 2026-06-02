@@ -80,11 +80,7 @@ public struct MedicinalProductIndication: DomainResource {
 	/// Describe the undesirable effects of the medicinal product
 	public var undesirableEffect: [Reference]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comorbidity: [CodeableConcept]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -104,7 +100,6 @@ public struct MedicinalProductIndication: DomainResource {
 		text: Narrative? = nil,
 		undesirableEffect: [Reference]? = nil
 	) {
-		self.init()
 		self.comorbidity = comorbidity
 		self.contained = contained
 		self.diseaseStatus = diseaseStatus
@@ -149,6 +144,9 @@ public struct MedicinalProductIndication: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -174,8 +172,10 @@ public struct MedicinalProductIndication: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try comorbidity?.encode(on: &_container, forKey: .comorbidity)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -225,13 +225,7 @@ public struct MedicinalProductIndicationOtherTherapy: BackboneElement {
 	/// The type of relationship between the medicinal product indication or contraindication and another therapy
 	public var therapyRelationshipType: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(medication: MedicationX, therapyRelationshipType: CodeableConcept) {
-		self.medication = medication
-		self.therapyRelationshipType = therapyRelationshipType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -239,10 +233,11 @@ public struct MedicinalProductIndicationOtherTherapy: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		therapyRelationshipType: CodeableConcept
 	) {
-		self.init(medication: medication, therapyRelationshipType: therapyRelationshipType)
 		self.`extension` = `extension`
 		self.id = id
+		self.medication = medication
 		self.modifierExtension = modifierExtension
+		self.therapyRelationshipType = therapyRelationshipType
 	}
 	
 	// MARK: - Codable
@@ -258,21 +253,45 @@ public struct MedicinalProductIndicationOtherTherapy: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.medicationCodeableConcept) || _container.contains(CodingKeys.medicationReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.medicationCodeableConcept, CodingKeys.medicationReference], debugDescription: "Must have at least one value for \"medication\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.medication = try Self._decodeMedication(from: _container)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.therapyRelationshipType = try CodeableConcept(from: _container, forKey: .therapyRelationshipType)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		
+		switch medication {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .medicationCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .medicationReference)
+		}
+		
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try therapyRelationshipType.encode(on: &_container, forKey: .therapyRelationshipType)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeMedication(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MedicationX {
 		var _t_medication: MedicationX? = nil
 		if let medicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .medicationCodeableConcept) {
-			if _t_medication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .medicationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"medication\"")
-			}
 			_t_medication = .codeableConcept(medicationCodeableConcept)
 		}
 		if let medicationReference = try Reference(from: _container, forKeyIfPresent: .medicationReference) {
@@ -281,26 +300,11 @@ public struct MedicinalProductIndicationOtherTherapy: BackboneElement {
 			}
 			_t_medication = .reference(medicationReference)
 		}
-		self.medication = _t_medication!
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.therapyRelationshipType = try CodeableConcept(from: _container, forKey: .therapyRelationshipType)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		
-			switch medication {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .medicationCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .medicationReference)
-			}
-		
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try therapyRelationshipType.encode(on: &_container, forKey: .therapyRelationshipType)
+		guard let _t_medication else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.medicationReference)
+			throw DecodingError.valueNotFound(MedicationX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"medication\" but have none"))
+		}
+		return _t_medication
 	}
 }

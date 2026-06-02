@@ -99,11 +99,7 @@ public struct ProcessRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: FHIRPrimitive<ActionList>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -129,7 +125,6 @@ public struct ProcessRequest: DomainResource {
 		target: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.action = action
 		self.contained = contained
 		self.created = created
@@ -186,6 +181,9 @@ public struct ProcessRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -217,8 +215,10 @@ public struct ProcessRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action, auxiliaryKey: ._action)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -265,22 +265,17 @@ public struct ProcessRequestItem: BackboneElement {
 	/// Service instance
 	public var sequenceLinkId: FHIRPrimitive<FHIRInteger>
 	
-	/// Designated initializer taking all required properties
-	public init(sequenceLinkId: FHIRPrimitive<FHIRInteger>) {
-		self.sequenceLinkId = sequenceLinkId
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
 		sequenceLinkId: FHIRPrimitive<FHIRInteger>
 	) {
-		self.init(sequenceLinkId: sequenceLinkId)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.sequenceLinkId = sequenceLinkId
 	}
 	
 	// MARK: - Codable
@@ -294,6 +289,9 @@ public struct ProcessRequestItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -306,6 +304,7 @@ public struct ProcessRequestItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

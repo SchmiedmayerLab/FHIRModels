@@ -87,14 +87,7 @@ public struct MessageHeader: DomainResource {
 	/// Time that the message was sent
 	public var timestamp: FHIRPrimitive<Instant>
 	
-	/// Designated initializer taking all required properties
-	public init(event: Coding, source: MessageHeaderSource, timestamp: FHIRPrimitive<Instant>) {
-		self.event = event
-		self.source = source
-		self.timestamp = timestamp
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: Reference? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -116,12 +109,12 @@ public struct MessageHeader: DomainResource {
 		text: Narrative? = nil,
 		timestamp: FHIRPrimitive<Instant>
 	) {
-		self.init(event: event, source: source, timestamp: timestamp)
 		self.author = author
 		self.contained = contained
 		self.data = data
 		self.destination = destination
 		self.enterer = enterer
+		self.event = event
 		self.`extension` = `extension`
 		self.id = id
 		self.implicitRules = implicitRules
@@ -132,7 +125,9 @@ public struct MessageHeader: DomainResource {
 		self.receiver = receiver
 		self.response = response
 		self.responsible = responsible
+		self.source = source
 		self.text = text
+		self.timestamp = timestamp
 	}
 	
 	// MARK: - Codable
@@ -162,6 +157,9 @@ public struct MessageHeader: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -189,8 +187,10 @@ public struct MessageHeader: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -239,12 +239,7 @@ public struct MessageHeaderDestination: BackboneElement {
 	/// Particular delivery destination within the destination
 	public var target: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(endpoint: FHIRPrimitive<FHIRURI>) {
-		self.endpoint = endpoint
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		endpoint: FHIRPrimitive<FHIRURI>,
 		`extension`: [Extension]? = nil,
@@ -253,7 +248,7 @@ public struct MessageHeaderDestination: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		target: Reference? = nil
 	) {
-		self.init(endpoint: endpoint)
+		self.endpoint = endpoint
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -274,6 +269,9 @@ public struct MessageHeaderDestination: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -288,6 +286,7 @@ public struct MessageHeaderDestination: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try endpoint.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -325,13 +324,7 @@ public struct MessageHeaderResponse: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<ResponseType>, identifier: FHIRPrimitive<FHIRString>) {
-		self.code = code
-		self.identifier = identifier
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<ResponseType>,
 		details: Reference? = nil,
@@ -340,10 +333,11 @@ public struct MessageHeaderResponse: BackboneElement {
 		identifier: FHIRPrimitive<FHIRString>,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(code: code, identifier: identifier)
+		self.code = code
 		self.details = details
 		self.`extension` = `extension`
 		self.id = id
+		self.identifier = identifier
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -360,6 +354,9 @@ public struct MessageHeaderResponse: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -374,6 +371,7 @@ public struct MessageHeaderResponse: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try details?.encode(on: &_container, forKey: .details)
@@ -415,12 +413,7 @@ public struct MessageHeaderSource: BackboneElement {
 	/// Version of software running
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(endpoint: FHIRPrimitive<FHIRURI>) {
-		self.endpoint = endpoint
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: ContactPoint? = nil,
 		endpoint: FHIRPrimitive<FHIRURI>,
@@ -431,8 +424,8 @@ public struct MessageHeaderSource: BackboneElement {
 		software: FHIRPrimitive<FHIRString>? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(endpoint: endpoint)
 		self.contact = contact
+		self.endpoint = endpoint
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -456,6 +449,9 @@ public struct MessageHeaderSource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -472,6 +468,7 @@ public struct MessageHeaderSource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try endpoint.encode(on: &_container, forKey: .endpoint, auxiliaryKey: ._endpoint)

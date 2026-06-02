@@ -73,11 +73,7 @@ public struct MedicinalProductInteraction: DomainResource {
 	/// The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -95,7 +91,6 @@ public struct MedicinalProductInteraction: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.description_fhir = description_fhir
 		self.effect = effect
@@ -136,6 +131,9 @@ public struct MedicinalProductInteraction: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -159,8 +157,10 @@ public struct MedicinalProductInteraction: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -204,21 +204,16 @@ public struct MedicinalProductInteractionInteractant: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(item: ItemX) {
-		self.item = item
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		item: ItemX,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(item: item)
 		self.`extension` = `extension`
 		self.id = id
+		self.item = item
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -234,47 +229,56 @@ public struct MedicinalProductInteractionInteractant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.itemCodeableConcept) || _container.contains(CodingKeys.itemReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.itemCodeableConcept, CodingKeys.itemReference], debugDescription: "Must have at least one value for \"item\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		var _t_item: ItemX? = nil
-		if let itemReference = try Reference(from: _container, forKeyIfPresent: .itemReference) {
-			if _t_item != nil {
-				throw DecodingError.dataCorruptedError(forKey: .itemReference, in: _container, debugDescription: "More than one value provided for \"item\"")
-			}
-			_t_item = .reference(itemReference)
-		}
-		if let itemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .itemCodeableConcept) {
-			if _t_item != nil {
-				throw DecodingError.dataCorruptedError(forKey: .itemCodeableConcept, in: _container, debugDescription: "More than one value provided for \"item\"")
-			}
-			_t_item = .codeableConcept(itemCodeableConcept)
-		}
-		self.item = _t_item!
+		self.item = try Self._decodeItem(from: _container)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		
-			switch item {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .itemReference)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .itemCodeableConcept)
-			}
+		switch item {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .itemCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .itemReference)
+		}
 		
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeItem(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ItemX {
+		var _t_item: ItemX? = nil
+		if let itemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .itemCodeableConcept) {
+			_t_item = .codeableConcept(itemCodeableConcept)
+		}
+		if let itemReference = try Reference(from: _container, forKeyIfPresent: .itemReference) {
+			if _t_item != nil {
+				throw DecodingError.dataCorruptedError(forKey: .itemReference, in: _container, debugDescription: "More than one value provided for \"item\"")
+			}
+			_t_item = .reference(itemReference)
+		}
+		guard let _t_item else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.itemReference)
+			throw DecodingError.valueNotFound(ItemX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"item\" but have none"))
+		}
+		return _t_item
 	}
 }

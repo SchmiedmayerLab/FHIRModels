@@ -71,13 +71,7 @@ public struct MedicinalProductPharmaceutical: DomainResource {
 	/// Todo
 	public var unitOfPresentation: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(administrableDoseForm: CodeableConcept, routeOfAdministration: [MedicinalProductPharmaceuticalRouteOfAdministration]) {
-		self.administrableDoseForm = administrableDoseForm
-		self.routeOfAdministration = routeOfAdministration
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		administrableDoseForm: CodeableConcept,
 		characteristics: [MedicinalProductPharmaceuticalCharacteristics]? = nil,
@@ -95,7 +89,7 @@ public struct MedicinalProductPharmaceutical: DomainResource {
 		text: Narrative? = nil,
 		unitOfPresentation: CodeableConcept? = nil
 	) {
-		self.init(administrableDoseForm: administrableDoseForm, routeOfAdministration: routeOfAdministration)
+		self.administrableDoseForm = administrableDoseForm
 		self.characteristics = characteristics
 		self.contained = contained
 		self.device = device
@@ -107,6 +101,7 @@ public struct MedicinalProductPharmaceutical: DomainResource {
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.routeOfAdministration = routeOfAdministration
 		self.text = text
 		self.unitOfPresentation = unitOfPresentation
 	}
@@ -134,6 +129,9 @@ public struct MedicinalProductPharmaceutical: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -157,8 +155,10 @@ public struct MedicinalProductPharmaceutical: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try administrableDoseForm.encode(on: &_container, forKey: .administrableDoseForm)
 		try characteristics?.encode(on: &_container, forKey: .characteristics)
@@ -198,12 +198,7 @@ public struct MedicinalProductPharmaceuticalCharacteristics: BackboneElement {
 	/// The status of characteristic e.g. assigned or pending
 	public var status: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -211,7 +206,7 @@ public struct MedicinalProductPharmaceuticalCharacteristics: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		status: CodeableConcept? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -230,6 +225,9 @@ public struct MedicinalProductPharmaceuticalCharacteristics: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -243,6 +241,7 @@ public struct MedicinalProductPharmaceuticalCharacteristics: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -292,12 +291,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministration: BackboneEleme
 	/// A species for which this route applies
 	public var targetSpecies: [MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -310,7 +304,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministration: BackboneEleme
 		modifierExtension: [Extension]? = nil,
 		targetSpecies: [MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.firstDose = firstDose
 		self.id = id
@@ -339,6 +333,9 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministration: BackboneEleme
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -357,6 +354,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministration: BackboneEleme
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -391,12 +389,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies: 
 	/// A species specific time during which consumption of animal product is not appropriate
 	public var withdrawalPeriod: [MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -404,7 +397,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies: 
 		modifierExtension: [Extension]? = nil,
 		withdrawalPeriod: [MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod]? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -423,6 +416,9 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies: 
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -436,6 +432,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies: 
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -468,13 +465,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWi
 	/// A value for the time
 	public var value: Quantity
 	
-	/// Designated initializer taking all required properties
-	public init(tissue: CodeableConcept, value: Quantity) {
-		self.tissue = tissue
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -483,11 +474,12 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWi
 		tissue: CodeableConcept,
 		value: Quantity
 	) {
-		self.init(tissue: tissue, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.supportingInformation = supportingInformation
+		self.tissue = tissue
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -503,6 +495,9 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWi
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -517,6 +512,7 @@ public struct MedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWi
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

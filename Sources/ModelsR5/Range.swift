@@ -38,18 +38,13 @@ public struct Range: DataType {
 	/// Low limit
 	public var low: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		high: Quantity? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		low: Quantity? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.high = high
 		self.id = id
@@ -67,6 +62,9 @@ public struct Range: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -79,6 +77,7 @@ public struct Range: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try high?.encode(on: &_container, forKey: .high)

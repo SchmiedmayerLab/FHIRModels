@@ -117,13 +117,7 @@ public struct DiagnosticReport: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, status: FHIRPrimitive<DiagnosticReportStatus>) {
-		self.code = code
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		category: [CodeableConcept]? = nil,
@@ -152,9 +146,9 @@ public struct DiagnosticReport: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(code: code, status: status)
 		self.basedOn = basedOn
 		self.category = category
+		self.code = code
 		self.conclusion = conclusion
 		self.conclusionCode = conclusionCode
 		self.contained = contained
@@ -175,6 +169,7 @@ public struct DiagnosticReport: DomainResource {
 		self.result = result
 		self.resultsInterpreter = resultsInterpreter
 		self.specimen = specimen
+		self.status = status
 		self.subject = subject
 		self.text = text
 	}
@@ -214,6 +209,9 @@ public struct DiagnosticReport: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -223,20 +221,7 @@ public struct DiagnosticReport: DomainResource {
 		self.conclusion = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .conclusion, auxiliaryKey: ._conclusion)
 		self.conclusionCode = try [CodeableConcept](from: _container, forKeyIfPresent: .conclusionCode)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
-		var _t_effective: EffectiveX? = nil
-		if let effectiveDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectiveDateTime, auxiliaryKey: ._effectiveDateTime) {
-			if _t_effective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectiveDateTime, in: _container, debugDescription: "More than one value provided for \"effective\"")
-			}
-			_t_effective = .dateTime(effectiveDateTime)
-		}
-		if let effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod) {
-			if _t_effective != nil {
-				throw DecodingError.dataCorruptedError(forKey: .effectivePeriod, in: _container, debugDescription: "More than one value provided for \"effective\"")
-			}
-			_t_effective = .period(effectivePeriod)
-		}
-		self.effective = _t_effective
+		self.effective = try Self._decodeEffective(from: _container)
 		self.encounter = try Reference(from: _container, forKeyIfPresent: .encounter)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -261,8 +246,10 @@ public struct DiagnosticReport: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try category?.encode(on: &_container, forKey: .category)
@@ -271,12 +258,12 @@ public struct DiagnosticReport: DomainResource {
 		try conclusionCode?.encode(on: &_container, forKey: .conclusionCode)
 		try contained?.encode(on: &_container, forKey: .contained)
 		if let _enum = effective {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .effectiveDateTime, auxiliaryKey: ._effectiveDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .effectivePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .effectiveDateTime, auxiliaryKey: ._effectiveDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .effectivePeriod)
+		}
 		}
 		try encounter?.encode(on: &_container, forKey: .encounter)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -297,6 +284,24 @@ public struct DiagnosticReport: DomainResource {
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeEffective(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> EffectiveX? {
+		var _t_effective: EffectiveX? = nil
+		if let effectiveDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .effectiveDateTime, auxiliaryKey: ._effectiveDateTime) {
+			_t_effective = .dateTime(effectiveDateTime)
+		}
+		if let effectivePeriod = try Period(from: _container, forKeyIfPresent: .effectivePeriod) {
+			if _t_effective != nil {
+				throw DecodingError.dataCorruptedError(forKey: .effectivePeriod, in: _container, debugDescription: "More than one value provided for \"effective\"")
+			}
+			_t_effective = .period(effectivePeriod)
+		}
+		return _t_effective
 	}
 }
 
@@ -323,12 +328,7 @@ public struct DiagnosticReportMedia: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(link: Reference) {
-		self.link = link
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comment: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -336,10 +336,10 @@ public struct DiagnosticReportMedia: BackboneElement {
 		link: Reference,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(link: link)
 		self.comment = comment
 		self.`extension` = `extension`
 		self.id = id
+		self.link = link
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -355,6 +355,9 @@ public struct DiagnosticReportMedia: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -368,6 +371,7 @@ public struct DiagnosticReportMedia: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

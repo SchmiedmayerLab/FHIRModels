@@ -140,13 +140,7 @@ public struct MedicationDispense: DomainResource {
 	/// When product was packaged and reviewed
 	public var whenPrepared: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init(medication: MedicationX, status: FHIRPrimitive<MedicationDispenseStatusCodes>) {
-		self.medication = medication
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authorizingPrescription: [Reference]? = nil,
 		category: CodeableConcept? = nil,
@@ -181,7 +175,6 @@ public struct MedicationDispense: DomainResource {
 		whenHandedOver: FHIRPrimitive<DateTime>? = nil,
 		whenPrepared: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init(medication: medication, status: status)
 		self.authorizingPrescription = authorizingPrescription
 		self.category = category
 		self.contained = contained
@@ -197,6 +190,7 @@ public struct MedicationDispense: DomainResource {
 		self.implicitRules = implicitRules
 		self.language = language
 		self.location = location
+		self.medication = medication
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.note = note
@@ -204,6 +198,7 @@ public struct MedicationDispense: DomainResource {
 		self.performer = performer
 		self.quantity = quantity
 		self.receiver = receiver
+		self.status = status
 		self.statusReason = statusReason
 		self.subject = subject
 		self.substitution = substitution
@@ -256,12 +251,10 @@ public struct MedicationDispense: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.medicationCodeableConcept) || _container.contains(CodingKeys.medicationReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.medicationCodeableConcept, CodingKeys.medicationReference], debugDescription: "Must have at least one value for \"medication\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.authorizingPrescription = try [Reference](from: _container, forKeyIfPresent: .authorizingPrescription)
@@ -279,20 +272,7 @@ public struct MedicationDispense: DomainResource {
 		self.implicitRules = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .implicitRules, auxiliaryKey: ._implicitRules)
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.location = try Reference(from: _container, forKeyIfPresent: .location)
-		var _t_medication: MedicationX? = nil
-		if let medicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .medicationCodeableConcept) {
-			if _t_medication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .medicationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"medication\"")
-			}
-			_t_medication = .codeableConcept(medicationCodeableConcept)
-		}
-		if let medicationReference = try Reference(from: _container, forKeyIfPresent: .medicationReference) {
-			if _t_medication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .medicationReference, in: _container, debugDescription: "More than one value provided for \"medication\"")
-			}
-			_t_medication = .reference(medicationReference)
-		}
-		self.medication = _t_medication!
+		self.medication = try Self._decodeMedication(from: _container)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
@@ -301,20 +281,7 @@ public struct MedicationDispense: DomainResource {
 		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
 		self.receiver = try [Reference](from: _container, forKeyIfPresent: .receiver)
 		self.status = try FHIRPrimitive<MedicationDispenseStatusCodes>(from: _container, forKey: .status, auxiliaryKey: ._status)
-		var _t_statusReason: StatusReasonX? = nil
-		if let statusReasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .statusReasonCodeableConcept) {
-			if _t_statusReason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .statusReasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"statusReason\"")
-			}
-			_t_statusReason = .codeableConcept(statusReasonCodeableConcept)
-		}
-		if let statusReasonReference = try Reference(from: _container, forKeyIfPresent: .statusReasonReference) {
-			if _t_statusReason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .statusReasonReference, in: _container, debugDescription: "More than one value provided for \"statusReason\"")
-			}
-			_t_statusReason = .reference(statusReasonReference)
-		}
-		self.statusReason = _t_statusReason
+		self.statusReason = try Self._decodeStatusReason(from: _container)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
 		self.substitution = try MedicationDispenseSubstitution(from: _container, forKeyIfPresent: .substitution)
 		self.supportingInformation = try [Reference](from: _container, forKeyIfPresent: .supportingInformation)
@@ -327,8 +294,10 @@ public struct MedicationDispense: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try authorizingPrescription?.encode(on: &_container, forKey: .authorizingPrescription)
 		try category?.encode(on: &_container, forKey: .category)
@@ -346,12 +315,12 @@ public struct MedicationDispense: DomainResource {
 		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
 		try location?.encode(on: &_container, forKey: .location)
 		
-			switch medication {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .medicationCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .medicationReference)
-			}
+		switch medication {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .medicationCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .medicationReference)
+		}
 		
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
@@ -362,12 +331,12 @@ public struct MedicationDispense: DomainResource {
 		try receiver?.encode(on: &_container, forKey: .receiver)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		if let _enum = statusReason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .statusReasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .statusReasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .statusReasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .statusReasonReference)
+		}
 		}
 		try subject?.encode(on: &_container, forKey: .subject)
 		try substitution?.encode(on: &_container, forKey: .substitution)
@@ -376,6 +345,45 @@ public struct MedicationDispense: DomainResource {
 		try type?.encode(on: &_container, forKey: .type)
 		try whenHandedOver?.encode(on: &_container, forKey: .whenHandedOver, auxiliaryKey: ._whenHandedOver)
 		try whenPrepared?.encode(on: &_container, forKey: .whenPrepared, auxiliaryKey: ._whenPrepared)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeMedication(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MedicationX {
+		var _t_medication: MedicationX? = nil
+		if let medicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .medicationCodeableConcept) {
+			_t_medication = .codeableConcept(medicationCodeableConcept)
+		}
+		if let medicationReference = try Reference(from: _container, forKeyIfPresent: .medicationReference) {
+			if _t_medication != nil {
+				throw DecodingError.dataCorruptedError(forKey: .medicationReference, in: _container, debugDescription: "More than one value provided for \"medication\"")
+			}
+			_t_medication = .reference(medicationReference)
+		}
+		guard let _t_medication else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.medicationReference)
+			throw DecodingError.valueNotFound(MedicationX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"medication\" but have none"))
+		}
+		return _t_medication
+	}
+	
+	private static func _decodeStatusReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> StatusReasonX? {
+		var _t_statusReason: StatusReasonX? = nil
+		if let statusReasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .statusReasonCodeableConcept) {
+			_t_statusReason = .codeableConcept(statusReasonCodeableConcept)
+		}
+		if let statusReasonReference = try Reference(from: _container, forKeyIfPresent: .statusReasonReference) {
+			if _t_statusReason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .statusReasonReference, in: _container, debugDescription: "More than one value provided for \"statusReason\"")
+			}
+			_t_statusReason = .reference(statusReasonReference)
+		}
+		return _t_statusReason
 	}
 }
 
@@ -401,12 +409,7 @@ public struct MedicationDispensePerformer: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -414,7 +417,7 @@ public struct MedicationDispensePerformer: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.function = function
 		self.id = id
@@ -433,6 +436,9 @@ public struct MedicationDispensePerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -446,6 +452,7 @@ public struct MedicationDispensePerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -485,12 +492,7 @@ public struct MedicationDispenseSubstitution: BackboneElement {
 	/// Whether a substitution was or was not performed on the dispense
 	public var wasSubstituted: FHIRPrimitive<FHIRBool>
 	
-	/// Designated initializer taking all required properties
-	public init(wasSubstituted: FHIRPrimitive<FHIRBool>) {
-		self.wasSubstituted = wasSubstituted
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -500,13 +502,13 @@ public struct MedicationDispenseSubstitution: BackboneElement {
 		type: CodeableConcept? = nil,
 		wasSubstituted: FHIRPrimitive<FHIRBool>
 	) {
-		self.init(wasSubstituted: wasSubstituted)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.reason = reason
 		self.responsibleParty = responsibleParty
 		self.type = type
+		self.wasSubstituted = wasSubstituted
 	}
 	
 	// MARK: - Codable
@@ -523,6 +525,9 @@ public struct MedicationDispenseSubstitution: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -538,6 +543,7 @@ public struct MedicationDispenseSubstitution: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

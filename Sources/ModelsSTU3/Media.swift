@@ -112,13 +112,7 @@ public struct Media: DomainResource {
 	/// Width of the image in pixels (photo/video)
 	public var width: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(content: Attachment, type: FHIRPrimitive<DigitalMediaType>) {
-		self.content = content
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		bodySite: CodeableConcept? = nil,
@@ -147,10 +141,10 @@ public struct Media: DomainResource {
 		view: CodeableConcept? = nil,
 		width: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init(content: content, type: type)
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.contained = contained
+		self.content = content
 		self.context = context
 		self.device = device
 		self.duration = duration
@@ -170,6 +164,7 @@ public struct Media: DomainResource {
 		self.subject = subject
 		self.subtype = subtype
 		self.text = text
+		self.type = type
 		self.view = view
 		self.width = width
 	}
@@ -209,6 +204,9 @@ public struct Media: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -229,20 +227,7 @@ public struct Media: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.`operator` = try Reference(from: _container, forKeyIfPresent: .`operator`)
 		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
@@ -256,8 +241,10 @@ public struct Media: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -277,12 +264,12 @@ public struct Media: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		}
 		}
 		try `operator`?.encode(on: &_container, forKey: .`operator`)
 		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
@@ -292,5 +279,23 @@ public struct Media: DomainResource {
 		try type.encode(on: &_container, forKey: .type, auxiliaryKey: ._type)
 		try view?.encode(on: &_container, forKey: .view)
 		try width?.encode(on: &_container, forKey: .width, auxiliaryKey: ._width)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		return _t_occurrence
 	}
 }

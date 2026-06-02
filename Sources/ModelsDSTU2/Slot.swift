@@ -77,15 +77,7 @@ public struct Slot: DomainResource {
 	/// the availability resource
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(end: FHIRPrimitive<Instant>, freeBusyType: FHIRPrimitive<SlotStatus>, schedule: Reference, start: FHIRPrimitive<Instant>) {
-		self.end = end
-		self.freeBusyType = freeBusyType
-		self.schedule = schedule
-		self.start = start
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comment: FHIRPrimitive<FHIRString>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -104,10 +96,11 @@ public struct Slot: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(end: end, freeBusyType: freeBusyType, schedule: schedule, start: start)
 		self.comment = comment
 		self.contained = contained
+		self.end = end
 		self.`extension` = `extension`
+		self.freeBusyType = freeBusyType
 		self.id = id
 		self.identifier = identifier
 		self.implicitRules = implicitRules
@@ -115,6 +108,8 @@ public struct Slot: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.overbooked = overbooked
+		self.schedule = schedule
+		self.start = start
 		self.text = text
 		self.type = type
 	}
@@ -143,6 +138,9 @@ public struct Slot: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -167,8 +165,10 @@ public struct Slot: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try contained?.encode(on: &_container, forKey: .contained)

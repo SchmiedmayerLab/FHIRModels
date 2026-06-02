@@ -55,14 +55,7 @@ public struct Signature: Element {
 	/// Who signed
 	public var who: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(type: [Coding], when: FHIRPrimitive<Instant>, who: Reference) {
-		self.type = type
-		self.when = when
-		self.who = who
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		data: FHIRPrimitive<Base64Binary>? = nil,
 		`extension`: [Extension]? = nil,
@@ -74,13 +67,15 @@ public struct Signature: Element {
 		when: FHIRPrimitive<Instant>,
 		who: Reference
 	) {
-		self.init(type: type, when: when, who: who)
 		self.data = data
 		self.`extension` = `extension`
 		self.id = id
 		self.onBehalfOf = onBehalfOf
 		self.sigFormat = sigFormat
 		self.targetFormat = targetFormat
+		self.type = type
+		self.when = when
+		self.who = who
 	}
 	
 	// MARK: - Codable
@@ -99,6 +94,9 @@ public struct Signature: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -116,6 +114,7 @@ public struct Signature: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try data?.encode(on: &_container, forKey: .data, auxiliaryKey: ._data)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

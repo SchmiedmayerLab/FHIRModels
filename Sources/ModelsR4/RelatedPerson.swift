@@ -90,12 +90,7 @@ public struct RelatedPerson: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(patient: Reference) {
-		self.patient = patient
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		address: [Address]? = nil,
@@ -118,7 +113,6 @@ public struct RelatedPerson: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(patient: patient)
 		self.active = active
 		self.address = address
 		self.birthDate = birthDate
@@ -133,6 +127,7 @@ public struct RelatedPerson: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.name = name
+		self.patient = patient
 		self.period = period
 		self.photo = photo
 		self.relationship = relationship
@@ -168,6 +163,9 @@ public struct RelatedPerson: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -196,8 +194,10 @@ public struct RelatedPerson: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
@@ -242,12 +242,7 @@ public struct RelatedPersonCommunication: BackboneElement {
 	/// Language preference indicator
 	public var preferred: FHIRPrimitive<FHIRBool>?
 	
-	/// Designated initializer taking all required properties
-	public init(language: CodeableConcept) {
-		self.language = language
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -255,9 +250,9 @@ public struct RelatedPersonCommunication: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		preferred: FHIRPrimitive<FHIRBool>? = nil
 	) {
-		self.init(language: language)
 		self.`extension` = `extension`
 		self.id = id
+		self.language = language
 		self.modifierExtension = modifierExtension
 		self.preferred = preferred
 	}
@@ -274,6 +269,9 @@ public struct RelatedPersonCommunication: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -287,6 +285,7 @@ public struct RelatedPersonCommunication: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

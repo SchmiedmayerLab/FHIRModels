@@ -55,11 +55,7 @@ public struct ProductShelfLife: BackboneType {
 	/// controlled term and the controlled term identifier shall be specified
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -68,7 +64,6 @@ public struct ProductShelfLife: BackboneType {
 		specialPrecautionsForStorage: [CodeableConcept]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -91,17 +86,47 @@ public struct ProductShelfLife: BackboneType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.period = try Self._decodePeriod(from: _container)
+		self.specialPrecautionsForStorage = try [CodeableConcept](from: _container, forKeyIfPresent: .specialPrecautionsForStorage)
+		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = period {
+		switch _enum {
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .periodDuration)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .periodString, auxiliaryKey: ._periodString)
+		}
+		}
+		try specialPrecautionsForStorage?.encode(on: &_container, forKey: .specialPrecautionsForStorage)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodePeriod(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> PeriodX? {
 		var _t_period: PeriodX? = nil
 		if let periodDuration = try Duration(from: _container, forKeyIfPresent: .periodDuration) {
-			if _t_period != nil {
-				throw DecodingError.dataCorruptedError(forKey: .periodDuration, in: _container, debugDescription: "More than one value provided for \"period\"")
-			}
 			_t_period = .duration(periodDuration)
 		}
 		if let periodString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .periodString, auxiliaryKey: ._periodString) {
@@ -110,27 +135,6 @@ public struct ProductShelfLife: BackboneType {
 			}
 			_t_period = .string(periodString)
 		}
-		self.period = _t_period
-		self.specialPrecautionsForStorage = try [CodeableConcept](from: _container, forKeyIfPresent: .specialPrecautionsForStorage)
-		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = period {
-			switch _enum {
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .periodDuration)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .periodString, auxiliaryKey: ._periodString)
-			}
-		}
-		try specialPrecautionsForStorage?.encode(on: &_container, forKey: .specialPrecautionsForStorage)
-		try type?.encode(on: &_container, forKey: .type)
+		return _t_period
 	}
 }

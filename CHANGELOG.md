@@ -3,6 +3,12 @@ Changelog
 
 The changelog is in reverse chronological order.
 
+### 0.9.2
+
+- Make ValueX-decoding resistant to null values (now actually resolves https://github.com/apple/FHIRModels/issues/39, thanks for the report [Harsh Surati](https://github.com/lets-swapcode))
+- Implement a decoding depth counter through `FHIRDecodingDepthTracker` and provide a default implementation that throws when exceeding 64 levels. This is an arbitrary limit but is conceivably high enough to accommodate any FHIR payload. It can only be enforced if the user uses our provided `JSONDecoder.fhirModelsReadyDecoder`, see [how to instantiate FHIR resources](./HowTo/Instantiation.md). Because we use `OSAllocatedUnfairLock` this bumps the required OS versions for this repository
+- Other improvements, such as better reporting of the coding path when no ValueX is provided but one is required
+
 ### 0.9.1
 
 - Fix broken DSTU2 models (all `BackboneElement` types were reduced to typealiases), thanks to [Lukas Kollmer](https://github.com/lukaskollmer) for flagging

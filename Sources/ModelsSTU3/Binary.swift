@@ -49,13 +49,7 @@ public struct Binary: Resource {
 	/// Access Control Management
 	public var securityContext: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(content: FHIRPrimitive<Base64Binary>, contentType: FHIRPrimitive<FHIRString>) {
-		self.content = content
-		self.contentType = contentType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: FHIRPrimitive<Base64Binary>,
 		contentType: FHIRPrimitive<FHIRString>,
@@ -65,7 +59,8 @@ public struct Binary: Resource {
 		meta: Meta? = nil,
 		securityContext: Reference? = nil
 	) {
-		self.init(content: content, contentType: contentType)
+		self.content = content
+		self.contentType = contentType
 		self.id = id
 		self.implicitRules = implicitRules
 		self.language = language
@@ -88,6 +83,9 @@ public struct Binary: Resource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -103,8 +101,10 @@ public struct Binary: Resource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try content.encode(on: &_container, forKey: .content, auxiliaryKey: ._content)
 		try contentType.encode(on: &_container, forKey: .contentType, auxiliaryKey: ._contentType)

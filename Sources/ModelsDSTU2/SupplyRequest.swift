@@ -90,11 +90,7 @@ public struct SupplyRequest: DomainResource {
 	/// When the request should be fulfilled
 	public var when: SupplyRequestWhen?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -115,7 +111,6 @@ public struct SupplyRequest: DomainResource {
 		text: Narrative? = nil,
 		when: SupplyRequestWhen? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.date = date
 		self.`extension` = `extension`
@@ -163,6 +158,9 @@ public struct SupplyRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -178,20 +176,7 @@ public struct SupplyRequest: DomainResource {
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.orderedItem = try Reference(from: _container, forKeyIfPresent: .orderedItem)
 		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
-		var _t_reason: ReasonX? = nil
-		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .codeableConcept(reasonCodeableConcept)
-		}
-		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .reference(reasonReference)
-		}
-		self.reason = _t_reason
+		self.reason = try Self._decodeReason(from: _container)
 		self.source = try Reference(from: _container, forKeyIfPresent: .source)
 		self.status = try FHIRPrimitive<SupplyRequestStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
 		self.supplier = try [Reference](from: _container, forKeyIfPresent: .supplier)
@@ -202,8 +187,10 @@ public struct SupplyRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -218,18 +205,36 @@ public struct SupplyRequest: DomainResource {
 		try orderedItem?.encode(on: &_container, forKey: .orderedItem)
 		try patient?.encode(on: &_container, forKey: .patient)
 		if let _enum = reason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reasonReference)
+		}
 		}
 		try source?.encode(on: &_container, forKey: .source)
 		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try supplier?.encode(on: &_container, forKey: .supplier)
 		try text?.encode(on: &_container, forKey: .text)
 		try when?.encode(on: &_container, forKey: .when)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReasonX? {
+		var _t_reason: ReasonX? = nil
+		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
+			_t_reason = .codeableConcept(reasonCodeableConcept)
+		}
+		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
+			if _t_reason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
+			}
+			_t_reason = .reference(reasonReference)
+		}
+		return _t_reason
 	}
 }
 
@@ -253,11 +258,7 @@ public struct SupplyRequestWhen: BackboneElement {
 	/// Formal fulfillment schedule
 	public var schedule: Timing?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -265,7 +266,6 @@ public struct SupplyRequestWhen: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		schedule: Timing? = nil
 	) {
-		self.init()
 		self.code = code
 		self.`extension` = `extension`
 		self.id = id
@@ -285,6 +285,9 @@ public struct SupplyRequestWhen: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -298,6 +301,7 @@ public struct SupplyRequestWhen: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

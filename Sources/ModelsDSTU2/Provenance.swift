@@ -88,13 +88,7 @@ public struct Provenance: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(recorded: FHIRPrimitive<Instant>, target: [Reference]) {
-		self.recorded = recorded
-		self.target = target
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		activity: CodeableConcept? = nil,
 		agent: [ProvenanceAgent]? = nil,
@@ -115,7 +109,6 @@ public struct Provenance: DomainResource {
 		target: [Reference],
 		text: Narrative? = nil
 	) {
-		self.init(recorded: recorded, target: target)
 		self.activity = activity
 		self.agent = agent
 		self.contained = contained
@@ -130,7 +123,9 @@ public struct Provenance: DomainResource {
 		self.period = period
 		self.policy = policy
 		self.reason = reason
+		self.recorded = recorded
 		self.signature = signature
+		self.target = target
 		self.text = text
 	}
 	
@@ -160,6 +155,9 @@ public struct Provenance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -186,8 +184,10 @@ public struct Provenance: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try activity?.encode(on: &_container, forKey: .activity)
 		try agent?.encode(on: &_container, forKey: .agent)
@@ -240,12 +240,7 @@ public struct ProvenanceAgent: BackboneElement {
 	/// Authorization-system identifier for the agent
 	public var userId: Identifier?
 	
-	/// Designated initializer taking all required properties
-	public init(role: Coding) {
-		self.role = role
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -255,12 +250,12 @@ public struct ProvenanceAgent: BackboneElement {
 		role: Coding,
 		userId: Identifier? = nil
 	) {
-		self.init(role: role)
 		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.relatedAgent = relatedAgent
+		self.role = role
 		self.userId = userId
 	}
 	
@@ -278,6 +273,9 @@ public struct ProvenanceAgent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -293,6 +291,7 @@ public struct ProvenanceAgent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor?.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -328,13 +327,7 @@ public struct ProvenanceAgentRelatedAgent: BackboneElement {
 	/// Type of relationship between agents
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(target: FHIRPrimitive<FHIRURI>, type: CodeableConcept) {
-		self.target = target
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -342,10 +335,11 @@ public struct ProvenanceAgentRelatedAgent: BackboneElement {
 		target: FHIRPrimitive<FHIRURI>,
 		type: CodeableConcept
 	) {
-		self.init(target: target, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.target = target
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -360,6 +354,9 @@ public struct ProvenanceAgentRelatedAgent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -373,6 +370,7 @@ public struct ProvenanceAgentRelatedAgent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -412,14 +410,7 @@ public struct ProvenanceEntity: BackboneElement {
 	/// The type of resource in this entity
 	public var type: Coding
 	
-	/// Designated initializer taking all required properties
-	public init(reference: FHIRPrimitive<FHIRURI>, role: FHIRPrimitive<ProvenanceEntityRole>, type: Coding) {
-		self.reference = reference
-		self.role = role
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		agent: ProvenanceAgent? = nil,
 		display: FHIRPrimitive<FHIRString>? = nil,
@@ -430,12 +421,14 @@ public struct ProvenanceEntity: BackboneElement {
 		role: FHIRPrimitive<ProvenanceEntityRole>,
 		type: Coding
 	) {
-		self.init(reference: reference, role: role, type: type)
 		self.agent = agent
 		self.display = display
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.reference = reference
+		self.role = role
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -453,6 +446,9 @@ public struct ProvenanceEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -469,6 +465,7 @@ public struct ProvenanceEntity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try agent?.encode(on: &_container, forKey: .agent)
 		try display?.encode(on: &_container, forKey: .display, auxiliaryKey: ._display)

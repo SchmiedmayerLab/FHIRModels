@@ -44,12 +44,7 @@ public struct DosageDetails: BackboneType {
 	/// One step in a sequence of steps that comprise the dosage course
 	public var step: [DosageDetailsStep]?
 	
-	/// Designated initializer taking all required properties
-	public init(renderedInstruction: FHIRPrimitive<FHIRString>) {
-		self.renderedInstruction = renderedInstruction
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -58,10 +53,10 @@ public struct DosageDetails: BackboneType {
 		safety: DosageSafety? = nil,
 		step: [DosageDetailsStep]? = nil
 	) {
-		self.init(renderedInstruction: renderedInstruction)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.renderedInstruction = renderedInstruction
 		self.safety = safety
 		self.step = step
 	}
@@ -79,6 +74,9 @@ public struct DosageDetails: BackboneType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -93,6 +91,7 @@ public struct DosageDetails: BackboneType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -129,12 +128,7 @@ public struct DosageDetailsStep: Element {
 	/// When the step starts
 	public var start: RelativeTime?
 	
-	/// Designated initializer taking all required properties
-	public init(component: [Dosage]) {
-		self.component = component
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		component: [Dosage],
 		count: FHIRPrimitive<FHIRInteger>? = nil,
@@ -144,7 +138,7 @@ public struct DosageDetailsStep: Element {
 		safety: DosageSafety? = nil,
 		start: RelativeTime? = nil
 	) {
-		self.init(component: component)
+		self.component = component
 		self.count = count
 		self.end = end
 		self.`extension` = `extension`
@@ -167,6 +161,9 @@ public struct DosageDetailsStep: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -182,6 +179,7 @@ public struct DosageDetailsStep: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try component.encode(on: &_container, forKey: .component)
 		try count?.encode(on: &_container, forKey: .count, auxiliaryKey: ._count)

@@ -100,14 +100,7 @@ public struct Consent: DomainResource {
 	/// Consent Verified by patient or family
 	public var verification: [ConsentVerification]?
 	
-	/// Designated initializer taking all required properties
-	public init(category: [CodeableConcept], scope: CodeableConcept, status: FHIRPrimitive<ConsentState>) {
-		self.category = category
-		self.scope = scope
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: [CodeableConcept],
 		contained: [ResourceProxy]? = nil,
@@ -131,7 +124,7 @@ public struct Consent: DomainResource {
 		text: Narrative? = nil,
 		verification: [ConsentVerification]? = nil
 	) {
-		self.init(category: category, scope: scope, status: status)
+		self.category = category
 		self.contained = contained
 		self.dateTime = dateTime
 		self.`extension` = `extension`
@@ -147,7 +140,9 @@ public struct Consent: DomainResource {
 		self.policy = policy
 		self.policyRule = policyRule
 		self.provision = provision
+		self.scope = scope
 		self.source = source
+		self.status = status
 		self.text = text
 		self.verification = verification
 	}
@@ -182,6 +177,9 @@ public struct Consent: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -202,20 +200,7 @@ public struct Consent: DomainResource {
 		self.policyRule = try CodeableConcept(from: _container, forKeyIfPresent: .policyRule)
 		self.provision = try ConsentProvision(from: _container, forKeyIfPresent: .provision)
 		self.scope = try CodeableConcept(from: _container, forKey: .scope)
-		var _t_source: SourceX? = nil
-		if let sourceAttachment = try Attachment(from: _container, forKeyIfPresent: .sourceAttachment) {
-			if _t_source != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sourceAttachment, in: _container, debugDescription: "More than one value provided for \"source\"")
-			}
-			_t_source = .attachment(sourceAttachment)
-		}
-		if let sourceReference = try Reference(from: _container, forKeyIfPresent: .sourceReference) {
-			if _t_source != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sourceReference, in: _container, debugDescription: "More than one value provided for \"source\"")
-			}
-			_t_source = .reference(sourceReference)
-		}
-		self.source = _t_source
+		self.source = try Self._decodeSource(from: _container)
 		self.status = try FHIRPrimitive<ConsentState>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
 		self.verification = try [ConsentVerification](from: _container, forKeyIfPresent: .verification)
@@ -224,8 +209,10 @@ public struct Consent: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try category.encode(on: &_container, forKey: .category)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -245,16 +232,34 @@ public struct Consent: DomainResource {
 		try provision?.encode(on: &_container, forKey: .provision)
 		try scope.encode(on: &_container, forKey: .scope)
 		if let _enum = source {
-			switch _enum {
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .sourceAttachment)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .sourceReference)
-			}
+		switch _enum {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .sourceAttachment)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .sourceReference)
+		}
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try text?.encode(on: &_container, forKey: .text)
 		try verification?.encode(on: &_container, forKey: .verification)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSource(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SourceX? {
+		var _t_source: SourceX? = nil
+		if let sourceAttachment = try Attachment(from: _container, forKeyIfPresent: .sourceAttachment) {
+			_t_source = .attachment(sourceAttachment)
+		}
+		if let sourceReference = try Reference(from: _container, forKeyIfPresent: .sourceReference) {
+			if _t_source != nil {
+				throw DecodingError.dataCorruptedError(forKey: .sourceReference, in: _container, debugDescription: "More than one value provided for \"source\"")
+			}
+			_t_source = .reference(sourceReference)
+		}
+		return _t_source
 	}
 }
 
@@ -281,11 +286,7 @@ public struct ConsentPolicy: BackboneElement {
 	/// Specific policy covered by this consent
 	public var uri: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authority: FHIRPrimitive<FHIRURI>? = nil,
 		`extension`: [Extension]? = nil,
@@ -293,7 +294,6 @@ public struct ConsentPolicy: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		uri: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init()
 		self.authority = authority
 		self.`extension` = `extension`
 		self.id = id
@@ -313,6 +313,9 @@ public struct ConsentPolicy: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -326,6 +329,7 @@ public struct ConsentPolicy: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authority?.encode(on: &_container, forKey: .authority, auxiliaryKey: ._authority)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -385,11 +389,7 @@ public struct ConsentProvision: BackboneElement {
 	/// all nested rules.
 	public var type: FHIRPrimitive<ConsentProvisionType>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [CodeableConcept]? = nil,
 		actor: [ConsentProvisionActor]? = nil,
@@ -406,7 +406,6 @@ public struct ConsentProvision: BackboneElement {
 		securityLabel: [Coding]? = nil,
 		type: FHIRPrimitive<ConsentProvisionType>? = nil
 	) {
-		self.init()
 		self.action = action
 		self.actor = actor
 		self.`class` = `class`
@@ -444,6 +443,9 @@ public struct ConsentProvision: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -466,6 +468,7 @@ public struct ConsentProvision: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try actor?.encode(on: &_container, forKey: .actor)
@@ -507,13 +510,7 @@ public struct ConsentProvisionActor: BackboneElement {
 	/// How the actor is involved
 	public var role: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(reference: Reference, role: CodeableConcept) {
-		self.reference = reference
-		self.role = role
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -521,10 +518,11 @@ public struct ConsentProvisionActor: BackboneElement {
 		reference: Reference,
 		role: CodeableConcept
 	) {
-		self.init(reference: reference, role: role)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.reference = reference
+		self.role = role
 	}
 	
 	// MARK: - Codable
@@ -539,6 +537,9 @@ public struct ConsentProvisionActor: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -552,6 +553,7 @@ public struct ConsentProvisionActor: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -583,13 +585,7 @@ public struct ConsentProvisionData: BackboneElement {
 	/// The actual data reference
 	public var reference: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(meaning: FHIRPrimitive<ConsentDataMeaning>, reference: Reference) {
-		self.meaning = meaning
-		self.reference = reference
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -597,10 +593,11 @@ public struct ConsentProvisionData: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		reference: Reference
 	) {
-		self.init(meaning: meaning, reference: reference)
 		self.`extension` = `extension`
 		self.id = id
+		self.meaning = meaning
 		self.modifierExtension = modifierExtension
+		self.reference = reference
 	}
 	
 	// MARK: - Codable
@@ -615,6 +612,9 @@ public struct ConsentProvisionData: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -628,6 +628,7 @@ public struct ConsentProvisionData: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -663,12 +664,7 @@ public struct ConsentVerification: BackboneElement {
 	/// Person who verified
 	public var verifiedWith: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(verified: FHIRPrimitive<FHIRBool>) {
-		self.verified = verified
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -677,11 +673,11 @@ public struct ConsentVerification: BackboneElement {
 		verified: FHIRPrimitive<FHIRBool>,
 		verifiedWith: Reference? = nil
 	) {
-		self.init(verified: verified)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.verificationDate = verificationDate
+		self.verified = verified
 		self.verifiedWith = verifiedWith
 	}
 	
@@ -698,6 +694,9 @@ public struct ConsentVerification: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -712,6 +711,7 @@ public struct ConsentVerification: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

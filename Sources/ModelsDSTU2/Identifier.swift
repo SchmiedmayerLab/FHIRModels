@@ -87,6 +87,9 @@ public final class Identifier: ElementReadOnly, Sendable {
 	
 	/// Initializer for Decodable
 	public required init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -103,6 +106,7 @@ public final class Identifier: ElementReadOnly, Sendable {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assigner?.encode(on: &_container, forKey: .assigner)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

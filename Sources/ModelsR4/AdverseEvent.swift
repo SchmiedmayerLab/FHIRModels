@@ -117,13 +117,7 @@ public struct AdverseEvent: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(actuality: FHIRPrimitive<AdverseEventActuality>, subject: Reference) {
-		self.actuality = actuality
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actuality: FHIRPrimitive<AdverseEventActuality>,
 		category: [CodeableConcept]? = nil,
@@ -154,7 +148,7 @@ public struct AdverseEvent: DomainResource {
 		suspectEntity: [AdverseEventSuspectEntity]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(actuality: actuality, subject: subject)
+		self.actuality = actuality
 		self.category = category
 		self.contained = contained
 		self.contributor = contributor
@@ -178,6 +172,7 @@ public struct AdverseEvent: DomainResource {
 		self.seriousness = seriousness
 		self.severity = severity
 		self.study = study
+		self.subject = subject
 		self.subjectMedicalHistory = subjectMedicalHistory
 		self.suspectEntity = suspectEntity
 		self.text = text
@@ -219,6 +214,9 @@ public struct AdverseEvent: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -255,8 +253,10 @@ public struct AdverseEvent: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actuality.encode(on: &_container, forKey: .actuality, auxiliaryKey: ._actuality)
 		try category?.encode(on: &_container, forKey: .category)
@@ -311,12 +311,7 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(instance: Reference) {
-		self.instance = instance
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		causality: [AdverseEventSuspectEntityCausality]? = nil,
 		`extension`: [Extension]? = nil,
@@ -324,10 +319,10 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 		instance: Reference,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(instance: instance)
 		self.causality = causality
 		self.`extension` = `extension`
 		self.id = id
+		self.instance = instance
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -343,6 +338,9 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -356,6 +354,7 @@ public struct AdverseEventSuspectEntity: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try causality?.encode(on: &_container, forKey: .causality)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -391,11 +390,7 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 	/// AdverseEvent.suspectEntity.causalityProductRelatedness
 	public var productRelatedness: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assessment: CodeableConcept? = nil,
 		author: Reference? = nil,
@@ -405,7 +400,6 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		productRelatedness: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.assessment = assessment
 		self.author = author
 		self.`extension` = `extension`
@@ -429,6 +423,9 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -444,6 +441,7 @@ public struct AdverseEventSuspectEntityCausality: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assessment?.encode(on: &_container, forKey: .assessment)
 		try author?.encode(on: &_container, forKey: .author)

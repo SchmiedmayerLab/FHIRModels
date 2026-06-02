@@ -2,6 +2,8 @@
 
 Assuming you have data that you know represents a FHIR resource, you have two options of instantiating a model and an easy option to get typed resources from a `Bundle`. We'll assume you have JSON data for the examples below.
 
+For added security (protection from stack depth exhaustion), use our provided `FHIRDecodingDepthTracker` together with `JSONDecoder`. Easiest way is by using `JSONDecoder.fhirModelsReadyDecoder()`.
+
 ## 1. Use ResourceProxy
 
 The `ResourceProxy` type inspects the `resourceType` in the data and instantiates the appropriate class for you:
@@ -10,7 +12,7 @@ The `ResourceProxy` type inspects the `resourceType` in the data and instantiate
 import ModelsR4
 
 let data = <FHIR JSON data>
-let decoder = JSONDecoder()
+let decoder = JSONDecoder.fhirModelsReadyDecoder()
 do {
     let proxy = try decoder.decode(ResourceProxy.self, from: data)
     
@@ -44,7 +46,7 @@ If you think you know the correct resource type already:
 import ModelsR4
 
 let data = <FHIR JSON data>
-let decoder = JSONDecoder()
+let decoder = JSONDecoder.fhirModelsReadyDecoder()
 do {
     let resource = try decoder.decode(Patient.self, from: data)
 } catch {
@@ -60,7 +62,7 @@ To get certain resources from a `Bundle` you can do:
 import ModelsR4
 
 let data = <FHIR JSON data>
-let bundle = try JSONDecoder().decode(ModelsR4.Bundle.self, from: data)
+let bundle = try JSONDecoder.fhirModelsReadyDecoder().decode(ModelsR4.Bundle.self, from: data)
 let observations = bundle.entry?.compactMap {
     $0.resource?.get(if: ModelsR4.Observation.self)
 }

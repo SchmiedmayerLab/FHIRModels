@@ -38,18 +38,13 @@ public struct CodeableConcept: Element {
 	/// Plain text representation of the concept
 	public var text: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		coding: [Coding]? = nil,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		text: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.coding = coding
 		self.`extension` = `extension`
 		self.id = id
@@ -67,6 +62,9 @@ public struct CodeableConcept: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -79,6 +77,7 @@ public struct CodeableConcept: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try coding?.encode(on: &_container, forKey: .coding)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

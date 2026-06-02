@@ -54,14 +54,7 @@ public struct SampledData: Element {
 	/// Upper limit of detection
 	public var upperLimit: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init(dimensions: FHIRPrimitive<FHIRPositiveInteger>, origin: Quantity, period: FHIRPrimitive<FHIRDecimal>) {
-		self.dimensions = dimensions
-		self.origin = origin
-		self.period = period
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		data: FHIRPrimitive<FHIRString>? = nil,
 		dimensions: FHIRPrimitive<FHIRPositiveInteger>,
@@ -73,12 +66,14 @@ public struct SampledData: Element {
 		period: FHIRPrimitive<FHIRDecimal>,
 		upperLimit: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init(dimensions: dimensions, origin: origin, period: period)
 		self.data = data
+		self.dimensions = dimensions
 		self.`extension` = `extension`
 		self.factor = factor
 		self.id = id
 		self.lowerLimit = lowerLimit
+		self.origin = origin
+		self.period = period
 		self.upperLimit = upperLimit
 	}
 	
@@ -98,6 +93,9 @@ public struct SampledData: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -115,6 +113,7 @@ public struct SampledData: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try data?.encode(on: &_container, forKey: .data, auxiliaryKey: ._data)
 		try dimensions.encode(on: &_container, forKey: .dimensions, auxiliaryKey: ._dimensions)

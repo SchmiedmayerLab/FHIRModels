@@ -71,11 +71,7 @@ public struct Attachment: DataType {
 	/// Width of the image in pixels (photo/video)
 	public var width: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contentType: FHIRPrimitive<FHIRString>? = nil,
 		creation: FHIRPrimitive<DateTime>? = nil,
@@ -93,7 +89,6 @@ public struct Attachment: DataType {
 		url: FHIRPrimitive<FHIRURI>? = nil,
 		width: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init()
 		self.contentType = contentType
 		self.creation = creation
 		self.data = data
@@ -133,6 +128,9 @@ public struct Attachment: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -156,6 +154,7 @@ public struct Attachment: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contentType?.encode(on: &_container, forKey: .contentType, auxiliaryKey: ._contentType)
 		try creation?.encode(on: &_container, forKey: .creation, auxiliaryKey: ._creation)

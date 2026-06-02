@@ -72,13 +72,7 @@ public struct MedicinalProductManufactured: DomainResource {
 	/// The “real world” units in which the quantity of the manufactured item is described
 	public var unitOfPresentation: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(manufacturedDoseForm: CodeableConcept, quantity: Quantity) {
-		self.manufacturedDoseForm = manufacturedDoseForm
-		self.quantity = quantity
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		`extension`: [Extension]? = nil,
@@ -96,18 +90,19 @@ public struct MedicinalProductManufactured: DomainResource {
 		text: Narrative? = nil,
 		unitOfPresentation: CodeableConcept? = nil
 	) {
-		self.init(manufacturedDoseForm: manufacturedDoseForm, quantity: quantity)
 		self.contained = contained
 		self.`extension` = `extension`
 		self.id = id
 		self.implicitRules = implicitRules
 		self.ingredient = ingredient
 		self.language = language
+		self.manufacturedDoseForm = manufacturedDoseForm
 		self.manufacturer = manufacturer
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.otherCharacteristics = otherCharacteristics
 		self.physicalCharacteristics = physicalCharacteristics
+		self.quantity = quantity
 		self.text = text
 		self.unitOfPresentation = unitOfPresentation
 	}
@@ -135,6 +130,9 @@ public struct MedicinalProductManufactured: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -158,8 +156,10 @@ public struct MedicinalProductManufactured: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

@@ -93,11 +93,7 @@ public struct SupplyDelivery: DomainResource {
 	/// Category of dispense event
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -119,7 +115,6 @@ public struct SupplyDelivery: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.basedOn = basedOn
 		self.contained = contained
 		self.destination = destination
@@ -170,6 +165,9 @@ public struct SupplyDelivery: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -183,11 +181,62 @@ public struct SupplyDelivery: DomainResource {
 		self.language = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .language, auxiliaryKey: ._language)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.occurrence = try Self._decodeOccurrence(from: _container)
+		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
+		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
+		self.receiver = try [Reference](from: _container, forKeyIfPresent: .receiver)
+		self.status = try FHIRPrimitive<SupplyDeliveryStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
+		self.suppliedItem = try SupplyDeliverySuppliedItem(from: _container, forKeyIfPresent: .suppliedItem)
+		self.supplier = try Reference(from: _container, forKeyIfPresent: .supplier)
+		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
+		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode resourceType
+		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
+		// Encode all our properties (own and inherited)
+		try basedOn?.encode(on: &_container, forKey: .basedOn)
+		try contained?.encode(on: &_container, forKey: .contained)
+		try destination?.encode(on: &_container, forKey: .destination)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try identifier?.encode(on: &_container, forKey: .identifier)
+		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
+		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
+		try meta?.encode(on: &_container, forKey: .meta)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = occurrence {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceTiming)
+		}
+		}
+		try partOf?.encode(on: &_container, forKey: .partOf)
+		try patient?.encode(on: &_container, forKey: .patient)
+		try receiver?.encode(on: &_container, forKey: .receiver)
+		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
+		try suppliedItem?.encode(on: &_container, forKey: .suppliedItem)
+		try supplier?.encode(on: &_container, forKey: .supplier)
+		try text?.encode(on: &_container, forKey: .text)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
 		var _t_occurrence: OccurrenceX? = nil
 		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
 			_t_occurrence = .dateTime(occurrenceDateTime)
 		}
 		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
@@ -202,51 +251,7 @@ public struct SupplyDelivery: DomainResource {
 			}
 			_t_occurrence = .timing(occurrenceTiming)
 		}
-		self.occurrence = _t_occurrence
-		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
-		self.patient = try Reference(from: _container, forKeyIfPresent: .patient)
-		self.receiver = try [Reference](from: _container, forKeyIfPresent: .receiver)
-		self.status = try FHIRPrimitive<SupplyDeliveryStatus>(from: _container, forKeyIfPresent: .status, auxiliaryKey: ._status)
-		self.suppliedItem = try SupplyDeliverySuppliedItem(from: _container, forKeyIfPresent: .suppliedItem)
-		self.supplier = try Reference(from: _container, forKeyIfPresent: .supplier)
-		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
-		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode resourceType
-		try _container.encode(Self.resourceType, forKey: .resourceType)
-		// Encode all our properties (own and inherited)
-		try basedOn?.encode(on: &_container, forKey: .basedOn)
-		try contained?.encode(on: &_container, forKey: .contained)
-		try destination?.encode(on: &_container, forKey: .destination)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try identifier?.encode(on: &_container, forKey: .identifier)
-		try implicitRules?.encode(on: &_container, forKey: .implicitRules, auxiliaryKey: ._implicitRules)
-		try language?.encode(on: &_container, forKey: .language, auxiliaryKey: ._language)
-		try meta?.encode(on: &_container, forKey: .meta)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceTiming)
-			}
-		}
-		try partOf?.encode(on: &_container, forKey: .partOf)
-		try patient?.encode(on: &_container, forKey: .patient)
-		try receiver?.encode(on: &_container, forKey: .receiver)
-		try status?.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
-		try suppliedItem?.encode(on: &_container, forKey: .suppliedItem)
-		try supplier?.encode(on: &_container, forKey: .supplier)
-		try text?.encode(on: &_container, forKey: .text)
-		try type?.encode(on: &_container, forKey: .type)
+		return _t_occurrence
 	}
 }
 
@@ -279,11 +284,7 @@ public struct SupplyDeliverySuppliedItem: BackboneElement {
 	/// Amount dispensed
 	public var quantity: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -291,7 +292,6 @@ public struct SupplyDeliverySuppliedItem: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		quantity: Quantity? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.item = item
@@ -312,16 +312,45 @@ public struct SupplyDeliverySuppliedItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.item = try Self._decodeItem(from: _container)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		if let _enum = item {
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .itemCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .itemReference)
+		}
+		}
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try quantity?.encode(on: &_container, forKey: .quantity)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeItem(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ItemX? {
 		var _t_item: ItemX? = nil
 		if let itemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .itemCodeableConcept) {
-			if _t_item != nil {
-				throw DecodingError.dataCorruptedError(forKey: .itemCodeableConcept, in: _container, debugDescription: "More than one value provided for \"item\"")
-			}
 			_t_item = .codeableConcept(itemCodeableConcept)
 		}
 		if let itemReference = try Reference(from: _container, forKeyIfPresent: .itemReference) {
@@ -330,26 +359,6 @@ public struct SupplyDeliverySuppliedItem: BackboneElement {
 			}
 			_t_item = .reference(itemReference)
 		}
-		self.item = _t_item
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.quantity = try Quantity(from: _container, forKeyIfPresent: .quantity)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		if let _enum = item {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .itemCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .itemReference)
-			}
-		}
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try quantity?.encode(on: &_container, forKey: .quantity)
+		return _t_item
 	}
 }

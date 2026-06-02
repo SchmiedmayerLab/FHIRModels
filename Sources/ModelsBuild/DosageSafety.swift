@@ -39,11 +39,7 @@ public struct DosageSafety: BackboneType {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		doseLimit: [DosageSafetyDoseLimit]? = nil,
 		`extension`: [Extension]? = nil,
@@ -51,7 +47,6 @@ public struct DosageSafety: BackboneType {
 		ifExceeded: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.doseLimit = doseLimit
 		self.`extension` = `extension`
 		self.id = id
@@ -71,6 +66,9 @@ public struct DosageSafety: BackboneType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -84,6 +82,7 @@ public struct DosageSafety: BackboneType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try doseLimit?.encode(on: &_container, forKey: .doseLimit)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -124,13 +123,7 @@ public struct DosageSafetyDoseLimit: Element {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(scope: FHIRPrimitive<DoseLimitScopeCodes>, value: ValueX) {
-		self.scope = scope
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -139,11 +132,12 @@ public struct DosageSafetyDoseLimit: Element {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		value: ValueX
 	) {
-		self.init(scope: scope, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.period = period
+		self.scope = scope
 		self.text = text
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -161,12 +155,10 @@ public struct DosageSafetyDoseLimit: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueExpression) || _container.contains(CodingKeys.valueInteger) || _container.contains(CodingKeys.valueQuantity) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueExpression, CodingKeys.valueInteger, CodingKeys.valueQuantity], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
@@ -174,7 +166,40 @@ public struct DosageSafetyDoseLimit: Element {
 		self.period = try Duration(from: _container, forKeyIfPresent: .period)
 		self.scope = try FHIRPrimitive<DoseLimitScopeCodes>(from: _container, forKey: .scope, auxiliaryKey: ._scope)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .text, auxiliaryKey: ._text)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try period?.encode(on: &_container, forKey: .period)
+		try scope.encode(on: &_container, forKey: .scope, auxiliaryKey: ._scope)
+		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
+		
+		switch value {
+		case .expression(let _value):
+			try _value.encode(on: &_container, forKey: .valueExpression)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
 		var _t_value: ValueX? = nil
+		if let valueExpression = try Expression(from: _container, forKeyIfPresent: .valueExpression) {
+			_t_value = .expression(valueExpression)
+		}
 		if let valueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .valueInteger, auxiliaryKey: ._valueInteger) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueInteger, in: _container, debugDescription: "More than one value provided for \"value\"")
@@ -187,33 +212,11 @@ public struct DosageSafetyDoseLimit: Element {
 			}
 			_t_value = .quantity(valueQuantity)
 		}
-		if let valueExpression = try Expression(from: _container, forKeyIfPresent: .valueExpression) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueExpression, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .expression(valueExpression)
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueQuantity)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
-		self.value = _t_value!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try period?.encode(on: &_container, forKey: .period)
-		try scope.encode(on: &_container, forKey: .scope, auxiliaryKey: ._scope)
-		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
-		
-			switch value {
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .valueInteger, auxiliaryKey: ._valueInteger)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .expression(let _value):
-				try _value.encode(on: &_container, forKey: .valueExpression)
-			}
-		
+		return _t_value
 	}
 }

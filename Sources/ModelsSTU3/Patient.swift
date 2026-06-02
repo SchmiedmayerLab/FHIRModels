@@ -119,11 +119,7 @@ public struct Patient: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		address: [Address]? = nil,
@@ -151,7 +147,6 @@ public struct Patient: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.active = active
 		self.address = address
 		self.animal = animal
@@ -214,6 +209,9 @@ public struct Patient: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -224,20 +222,7 @@ public struct Patient: DomainResource {
 		self.communication = try [PatientCommunication](from: _container, forKeyIfPresent: .communication)
 		self.contact = try [PatientContact](from: _container, forKeyIfPresent: .contact)
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
-		var _t_deceased: DeceasedX? = nil
-		if let deceasedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedBoolean, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .boolean(deceasedBoolean)
-		}
-		if let deceasedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .deceasedDateTime, auxiliaryKey: ._deceasedDateTime) {
-			if _t_deceased != nil {
-				throw DecodingError.dataCorruptedError(forKey: .deceasedDateTime, in: _container, debugDescription: "More than one value provided for \"deceased\"")
-			}
-			_t_deceased = .dateTime(deceasedDateTime)
-		}
-		self.deceased = _t_deceased
+		self.deceased = try Self._decodeDeceased(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.gender = try FHIRPrimitive<AdministrativeGender>(from: _container, forKeyIfPresent: .gender, auxiliaryKey: ._gender)
 		self.generalPractitioner = try [Reference](from: _container, forKeyIfPresent: .generalPractitioner)
@@ -250,20 +235,7 @@ public struct Patient: DomainResource {
 		self.maritalStatus = try CodeableConcept(from: _container, forKeyIfPresent: .maritalStatus)
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		var _t_multipleBirth: MultipleBirthX? = nil
-		if let multipleBirthBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .multipleBirthBoolean, auxiliaryKey: ._multipleBirthBoolean) {
-			if _t_multipleBirth != nil {
-				throw DecodingError.dataCorruptedError(forKey: .multipleBirthBoolean, in: _container, debugDescription: "More than one value provided for \"multipleBirth\"")
-			}
-			_t_multipleBirth = .boolean(multipleBirthBoolean)
-		}
-		if let multipleBirthInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .multipleBirthInteger, auxiliaryKey: ._multipleBirthInteger) {
-			if _t_multipleBirth != nil {
-				throw DecodingError.dataCorruptedError(forKey: .multipleBirthInteger, in: _container, debugDescription: "More than one value provided for \"multipleBirth\"")
-			}
-			_t_multipleBirth = .integer(multipleBirthInteger)
-		}
-		self.multipleBirth = _t_multipleBirth
+		self.multipleBirth = try Self._decodeMultipleBirth(from: _container)
 		self.name = try [HumanName](from: _container, forKeyIfPresent: .name)
 		self.photo = try [Attachment](from: _container, forKeyIfPresent: .photo)
 		self.telecom = try [ContactPoint](from: _container, forKeyIfPresent: .telecom)
@@ -273,8 +245,10 @@ public struct Patient: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try address?.encode(on: &_container, forKey: .address)
@@ -284,12 +258,12 @@ public struct Patient: DomainResource {
 		try contact?.encode(on: &_container, forKey: .contact)
 		try contained?.encode(on: &_container, forKey: .contained)
 		if let _enum = deceased {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .deceasedDateTime, auxiliaryKey: ._deceasedDateTime)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .deceasedDateTime, auxiliaryKey: ._deceasedDateTime)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try gender?.encode(on: &_container, forKey: .gender, auxiliaryKey: ._gender)
@@ -304,17 +278,51 @@ public struct Patient: DomainResource {
 		try meta?.encode(on: &_container, forKey: .meta)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		if let _enum = multipleBirth {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .multipleBirthBoolean, auxiliaryKey: ._multipleBirthBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .multipleBirthInteger, auxiliaryKey: ._multipleBirthInteger)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .multipleBirthBoolean, auxiliaryKey: ._multipleBirthBoolean)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .multipleBirthInteger, auxiliaryKey: ._multipleBirthInteger)
+		}
 		}
 		try name?.encode(on: &_container, forKey: .name)
 		try photo?.encode(on: &_container, forKey: .photo)
 		try telecom?.encode(on: &_container, forKey: .telecom)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDeceased(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DeceasedX? {
+		var _t_deceased: DeceasedX? = nil
+		if let deceasedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .deceasedBoolean, auxiliaryKey: ._deceasedBoolean) {
+			_t_deceased = .boolean(deceasedBoolean)
+		}
+		if let deceasedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .deceasedDateTime, auxiliaryKey: ._deceasedDateTime) {
+			if _t_deceased != nil {
+				throw DecodingError.dataCorruptedError(forKey: .deceasedDateTime, in: _container, debugDescription: "More than one value provided for \"deceased\"")
+			}
+			_t_deceased = .dateTime(deceasedDateTime)
+		}
+		return _t_deceased
+	}
+	
+	private static func _decodeMultipleBirth(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MultipleBirthX? {
+		var _t_multipleBirth: MultipleBirthX? = nil
+		if let multipleBirthBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .multipleBirthBoolean, auxiliaryKey: ._multipleBirthBoolean) {
+			_t_multipleBirth = .boolean(multipleBirthBoolean)
+		}
+		if let multipleBirthInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .multipleBirthInteger, auxiliaryKey: ._multipleBirthInteger) {
+			if _t_multipleBirth != nil {
+				throw DecodingError.dataCorruptedError(forKey: .multipleBirthInteger, in: _container, debugDescription: "More than one value provided for \"multipleBirth\"")
+			}
+			_t_multipleBirth = .integer(multipleBirthInteger)
+		}
+		return _t_multipleBirth
 	}
 }
 
@@ -343,12 +351,7 @@ public struct PatientAnimal: BackboneElement {
 	/// E.g. Dog, Cow
 	public var species: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(species: CodeableConcept) {
-		self.species = species
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		breed: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -357,12 +360,12 @@ public struct PatientAnimal: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		species: CodeableConcept
 	) {
-		self.init(species: species)
 		self.breed = breed
 		self.`extension` = `extension`
 		self.genderStatus = genderStatus
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.species = species
 	}
 	
 	// MARK: - Codable
@@ -378,6 +381,9 @@ public struct PatientAnimal: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -392,6 +398,7 @@ public struct PatientAnimal: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try breed?.encode(on: &_container, forKey: .breed)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -424,12 +431,7 @@ public struct PatientCommunication: BackboneElement {
 	/// Language preference indicator
 	public var preferred: FHIRPrimitive<FHIRBool>?
 	
-	/// Designated initializer taking all required properties
-	public init(language: CodeableConcept) {
-		self.language = language
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -437,9 +439,9 @@ public struct PatientCommunication: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		preferred: FHIRPrimitive<FHIRBool>? = nil
 	) {
-		self.init(language: language)
 		self.`extension` = `extension`
 		self.id = id
+		self.language = language
 		self.modifierExtension = modifierExtension
 		self.preferred = preferred
 	}
@@ -456,6 +458,9 @@ public struct PatientCommunication: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -469,6 +474,7 @@ public struct PatientCommunication: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -514,11 +520,7 @@ public struct PatientContact: BackboneElement {
 	/// A contact detail for the person
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: Address? = nil,
 		`extension`: [Extension]? = nil,
@@ -531,7 +533,6 @@ public struct PatientContact: BackboneElement {
 		relationship: [CodeableConcept]? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.address = address
 		self.`extension` = `extension`
 		self.gender = gender
@@ -561,6 +562,9 @@ public struct PatientContact: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -579,6 +583,7 @@ public struct PatientContact: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -615,13 +620,7 @@ public struct PatientLink: BackboneElement {
 	/// The type of link between this patient resource and another patient resource.
 	public var type: FHIRPrimitive<LinkType>
 	
-	/// Designated initializer taking all required properties
-	public init(other: Reference, type: FHIRPrimitive<LinkType>) {
-		self.other = other
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -629,10 +628,11 @@ public struct PatientLink: BackboneElement {
 		other: Reference,
 		type: FHIRPrimitive<LinkType>
 	) {
-		self.init(other: other, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.other = other
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -647,6 +647,9 @@ public struct PatientLink: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -660,6 +663,7 @@ public struct PatientLink: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

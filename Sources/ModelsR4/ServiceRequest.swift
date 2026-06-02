@@ -174,14 +174,7 @@ public struct ServiceRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(intent: FHIRPrimitive<RequestIntent>, status: FHIRPrimitive<RequestStatus>, subject: Reference) {
-		self.intent = intent
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		asNeeded: AsNeededX? = nil,
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
@@ -225,7 +218,6 @@ public struct ServiceRequest: DomainResource {
 		supportingInfo: [Reference]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(intent: intent, status: status, subject: subject)
 		self.asNeeded = asNeeded
 		self.authoredOn = authoredOn
 		self.basedOn = basedOn
@@ -242,6 +234,7 @@ public struct ServiceRequest: DomainResource {
 		self.instantiatesCanonical = instantiatesCanonical
 		self.instantiatesUri = instantiatesUri
 		self.insurance = insurance
+		self.intent = intent
 		self.language = language
 		self.locationCode = locationCode
 		self.locationReference = locationReference
@@ -262,6 +255,8 @@ public struct ServiceRequest: DomainResource {
 		self.requester = requester
 		self.requisition = requisition
 		self.specimen = specimen
+		self.status = status
+		self.subject = subject
 		self.supportingInfo = supportingInfo
 		self.text = text
 	}
@@ -320,23 +315,13 @@ public struct ServiceRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_asNeeded: AsNeededX? = nil
-		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededBoolean, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .boolean(asNeededBoolean)
-		}
-		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
-		}
-		self.asNeeded = _t_asNeeded
+		self.asNeeded = try Self._decodeAsNeeded(from: _container)
 		self.authoredOn = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .authoredOn, auxiliaryKey: ._authoredOn)
 		self.basedOn = try [Reference](from: _container, forKeyIfPresent: .basedOn)
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
@@ -359,51 +344,13 @@ public struct ServiceRequest: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .timing(occurrenceTiming)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.orderDetail = try [CodeableConcept](from: _container, forKeyIfPresent: .orderDetail)
 		self.patientInstruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patientInstruction, auxiliaryKey: ._patientInstruction)
 		self.performer = try [Reference](from: _container, forKeyIfPresent: .performer)
 		self.performerType = try CodeableConcept(from: _container, forKeyIfPresent: .performerType)
 		self.priority = try FHIRPrimitive<RequestPriority>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
-		var _t_quantity: QuantityX? = nil
-		if let quantityQuantity = try Quantity(from: _container, forKeyIfPresent: .quantityQuantity) {
-			if _t_quantity != nil {
-				throw DecodingError.dataCorruptedError(forKey: .quantityQuantity, in: _container, debugDescription: "More than one value provided for \"quantity\"")
-			}
-			_t_quantity = .quantity(quantityQuantity)
-		}
-		if let quantityRatio = try Ratio(from: _container, forKeyIfPresent: .quantityRatio) {
-			if _t_quantity != nil {
-				throw DecodingError.dataCorruptedError(forKey: .quantityRatio, in: _container, debugDescription: "More than one value provided for \"quantity\"")
-			}
-			_t_quantity = .ratio(quantityRatio)
-		}
-		if let quantityRange = try Range(from: _container, forKeyIfPresent: .quantityRange) {
-			if _t_quantity != nil {
-				throw DecodingError.dataCorruptedError(forKey: .quantityRange, in: _container, debugDescription: "More than one value provided for \"quantity\"")
-			}
-			_t_quantity = .range(quantityRange)
-		}
-		self.quantity = _t_quantity
+		self.quantity = try Self._decodeQuantity(from: _container)
 		self.reasonCode = try [CodeableConcept](from: _container, forKeyIfPresent: .reasonCode)
 		self.reasonReference = try [Reference](from: _container, forKeyIfPresent: .reasonReference)
 		self.relevantHistory = try [Reference](from: _container, forKeyIfPresent: .relevantHistory)
@@ -420,16 +367,18 @@ public struct ServiceRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = asNeeded {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
+		}
 		}
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
@@ -454,14 +403,14 @@ public struct ServiceRequest: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceTiming)
+		}
 		}
 		try orderDetail?.encode(on: &_container, forKey: .orderDetail)
 		try patientInstruction?.encode(on: &_container, forKey: .patientInstruction, auxiliaryKey: ._patientInstruction)
@@ -469,14 +418,14 @@ public struct ServiceRequest: DomainResource {
 		try performerType?.encode(on: &_container, forKey: .performerType)
 		try priority?.encode(on: &_container, forKey: .priority, auxiliaryKey: ._priority)
 		if let _enum = quantity {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .quantityQuantity)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .quantityRatio)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .quantityRange)
-			}
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .quantityQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .quantityRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .quantityRatio)
+		}
 		}
 		try reasonCode?.encode(on: &_container, forKey: .reasonCode)
 		try reasonReference?.encode(on: &_container, forKey: .reasonReference)
@@ -489,5 +438,67 @@ public struct ServiceRequest: DomainResource {
 		try subject.encode(on: &_container, forKey: .subject)
 		try supportingInfo?.encode(on: &_container, forKey: .supportingInfo)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAsNeeded(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AsNeededX? {
+		var _t_asNeeded: AsNeededX? = nil
+		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
+			_t_asNeeded = .boolean(asNeededBoolean)
+		}
+		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
+			if _t_asNeeded != nil {
+				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
+			}
+			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
+		}
+		return _t_asNeeded
+	}
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		if let occurrenceTiming = try Timing(from: _container, forKeyIfPresent: .occurrenceTiming) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrenceTiming, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .timing(occurrenceTiming)
+		}
+		return _t_occurrence
+	}
+	
+	private static func _decodeQuantity(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> QuantityX? {
+		var _t_quantity: QuantityX? = nil
+		if let quantityQuantity = try Quantity(from: _container, forKeyIfPresent: .quantityQuantity) {
+			_t_quantity = .quantity(quantityQuantity)
+		}
+		if let quantityRange = try Range(from: _container, forKeyIfPresent: .quantityRange) {
+			if _t_quantity != nil {
+				throw DecodingError.dataCorruptedError(forKey: .quantityRange, in: _container, debugDescription: "More than one value provided for \"quantity\"")
+			}
+			_t_quantity = .range(quantityRange)
+		}
+		if let quantityRatio = try Ratio(from: _container, forKeyIfPresent: .quantityRatio) {
+			if _t_quantity != nil {
+				throw DecodingError.dataCorruptedError(forKey: .quantityRatio, in: _container, debugDescription: "More than one value provided for \"quantity\"")
+			}
+			_t_quantity = .ratio(quantityRatio)
+		}
+		return _t_quantity
 	}
 }

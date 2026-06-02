@@ -107,13 +107,7 @@ public struct RequestGroup: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(intent: FHIRPrimitive<RequestIntent>, status: FHIRPrimitive<RequestStatus>) {
-		self.intent = intent
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [RequestGroupAction]? = nil,
 		author: Reference? = nil,
@@ -139,7 +133,6 @@ public struct RequestGroup: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(intent: intent, status: status)
 		self.action = action
 		self.author = author
 		self.authoredOn = authoredOn
@@ -152,6 +145,7 @@ public struct RequestGroup: DomainResource {
 		self.id = id
 		self.identifier = identifier
 		self.implicitRules = implicitRules
+		self.intent = intent
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -159,6 +153,7 @@ public struct RequestGroup: DomainResource {
 		self.priority = priority
 		self.reason = reason
 		self.replaces = replaces
+		self.status = status
 		self.subject = subject
 		self.text = text
 	}
@@ -195,6 +190,9 @@ public struct RequestGroup: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -216,20 +214,7 @@ public struct RequestGroup: DomainResource {
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.priority = try FHIRPrimitive<RequestPriority>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
-		var _t_reason: ReasonX? = nil
-		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonCodeableConcept, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .codeableConcept(reasonCodeableConcept)
-		}
-		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
-			if _t_reason != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
-			}
-			_t_reason = .reference(reasonReference)
-		}
-		self.reason = _t_reason
+		self.reason = try Self._decodeReason(from: _container)
 		self.replaces = try [Reference](from: _container, forKeyIfPresent: .replaces)
 		self.status = try FHIRPrimitive<RequestStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
@@ -239,8 +224,10 @@ public struct RequestGroup: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try author?.encode(on: &_container, forKey: .author)
@@ -261,17 +248,35 @@ public struct RequestGroup: DomainResource {
 		try note?.encode(on: &_container, forKey: .note)
 		try priority?.encode(on: &_container, forKey: .priority, auxiliaryKey: ._priority)
 		if let _enum = reason {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reasonReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .reasonCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reasonReference)
+		}
 		}
 		try replaces?.encode(on: &_container, forKey: .replaces)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeReason(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReasonX? {
+		var _t_reason: ReasonX? = nil
+		if let reasonCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .reasonCodeableConcept) {
+			_t_reason = .codeableConcept(reasonCodeableConcept)
+		}
+		if let reasonReference = try Reference(from: _container, forKeyIfPresent: .reasonReference) {
+			if _t_reason != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reasonReference, in: _container, debugDescription: "More than one value provided for \"reason\"")
+			}
+			_t_reason = .reference(reasonReference)
+		}
+		return _t_reason
 	}
 }
 
@@ -355,11 +360,7 @@ public struct RequestGroupAction: BackboneElement {
 	/// create | update | remove | fire-event
 	public var type: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		action: [RequestGroupAction]? = nil,
 		cardinalityBehavior: FHIRPrimitive<ActionCardinalityBehavior>? = nil,
@@ -383,7 +384,6 @@ public struct RequestGroupAction: BackboneElement {
 		title: FHIRPrimitive<FHIRString>? = nil,
 		type: Coding? = nil
 	) {
-		self.init()
 		self.action = action
 		self.cardinalityBehavior = cardinalityBehavior
 		self.code = code
@@ -439,6 +439,9 @@ public struct RequestGroupAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -460,38 +463,7 @@ public struct RequestGroupAction: BackboneElement {
 		self.resource = try Reference(from: _container, forKeyIfPresent: .resource)
 		self.selectionBehavior = try FHIRPrimitive<ActionSelectionBehavior>(from: _container, forKeyIfPresent: .selectionBehavior, auxiliaryKey: ._selectionBehavior)
 		self.textEquivalent = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .textEquivalent, auxiliaryKey: ._textEquivalent)
-		var _t_timing: TimingX? = nil
-		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDateTime, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .dateTime(timingDateTime)
-		}
-		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .period(timingPeriod)
-		}
-		if let timingDuration = try Duration(from: _container, forKeyIfPresent: .timingDuration) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingDuration, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .duration(timingDuration)
-		}
-		if let timingRange = try Range(from: _container, forKeyIfPresent: .timingRange) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingRange, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .range(timingRange)
-		}
-		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
-			if _t_timing != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
-			}
-			_t_timing = .timing(timingTiming)
-		}
-		self.timing = _t_timing
+		self.timing = try Self._decodeTiming(from: _container)
 		self.title = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .title, auxiliaryKey: ._title)
 		self.type = try Coding(from: _container, forKeyIfPresent: .type)
 	}
@@ -499,6 +471,7 @@ public struct RequestGroupAction: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try action?.encode(on: &_container, forKey: .action)
 		try cardinalityBehavior?.encode(on: &_container, forKey: .cardinalityBehavior, auxiliaryKey: ._cardinalityBehavior)
@@ -519,21 +492,57 @@ public struct RequestGroupAction: BackboneElement {
 		try selectionBehavior?.encode(on: &_container, forKey: .selectionBehavior, auxiliaryKey: ._selectionBehavior)
 		try textEquivalent?.encode(on: &_container, forKey: .textEquivalent, auxiliaryKey: ._textEquivalent)
 		if let _enum = timing {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timingPeriod)
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .timingDuration)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .timingRange)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .timingTiming)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timingDateTime, auxiliaryKey: ._timingDateTime)
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .timingDuration)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timingPeriod)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .timingRange)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .timingTiming)
+		}
 		}
 		try title?.encode(on: &_container, forKey: .title, auxiliaryKey: ._title)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTiming(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimingX? {
+		var _t_timing: TimingX? = nil
+		if let timingDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timingDateTime, auxiliaryKey: ._timingDateTime) {
+			_t_timing = .dateTime(timingDateTime)
+		}
+		if let timingDuration = try Duration(from: _container, forKeyIfPresent: .timingDuration) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingDuration, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .duration(timingDuration)
+		}
+		if let timingPeriod = try Period(from: _container, forKeyIfPresent: .timingPeriod) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingPeriod, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .period(timingPeriod)
+		}
+		if let timingRange = try Range(from: _container, forKeyIfPresent: .timingRange) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingRange, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .range(timingRange)
+		}
+		if let timingTiming = try Timing(from: _container, forKeyIfPresent: .timingTiming) {
+			if _t_timing != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timingTiming, in: _container, debugDescription: "More than one value provided for \"timing\"")
+			}
+			_t_timing = .timing(timingTiming)
+		}
+		return _t_timing
 	}
 }
 
@@ -565,12 +574,7 @@ public struct RequestGroupActionCondition: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(kind: FHIRPrimitive<ActionConditionKind>) {
-		self.kind = kind
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		expression: FHIRPrimitive<FHIRString>? = nil,
@@ -580,11 +584,11 @@ public struct RequestGroupActionCondition: BackboneElement {
 		language: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(kind: kind)
 		self.description_fhir = description_fhir
 		self.expression = expression
 		self.`extension` = `extension`
 		self.id = id
+		self.kind = kind
 		self.language = language
 		self.modifierExtension = modifierExtension
 	}
@@ -603,6 +607,9 @@ public struct RequestGroupActionCondition: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -618,6 +625,7 @@ public struct RequestGroupActionCondition: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)
@@ -661,13 +669,7 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 	/// The relationship of this action to the related action.
 	public var relationship: FHIRPrimitive<ActionRelationshipType>
 	
-	/// Designated initializer taking all required properties
-	public init(actionId: FHIRPrimitive<FHIRString>, relationship: FHIRPrimitive<ActionRelationshipType>) {
-		self.actionId = actionId
-		self.relationship = relationship
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actionId: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
@@ -676,11 +678,12 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 		offset: OffsetX? = nil,
 		relationship: FHIRPrimitive<ActionRelationshipType>
 	) {
-		self.init(actionId: actionId, relationship: relationship)
+		self.actionId = actionId
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.offset = offset
+		self.relationship = relationship
 	}
 	
 	// MARK: - Codable
@@ -697,6 +700,9 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -704,11 +710,37 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.offset = try Self._decodeOffset(from: _container)
+		self.relationship = try FHIRPrimitive<ActionRelationshipType>(from: _container, forKey: .relationship, auxiliaryKey: ._relationship)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try actionId.encode(on: &_container, forKey: .actionId, auxiliaryKey: ._actionId)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = offset {
+		switch _enum {
+		case .duration(let _value):
+			try _value.encode(on: &_container, forKey: .offsetDuration)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .offsetRange)
+		}
+		}
+		try relationship.encode(on: &_container, forKey: .relationship, auxiliaryKey: ._relationship)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOffset(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OffsetX? {
 		var _t_offset: OffsetX? = nil
 		if let offsetDuration = try Duration(from: _container, forKeyIfPresent: .offsetDuration) {
-			if _t_offset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .offsetDuration, in: _container, debugDescription: "More than one value provided for \"offset\"")
-			}
 			_t_offset = .duration(offsetDuration)
 		}
 		if let offsetRange = try Range(from: _container, forKeyIfPresent: .offsetRange) {
@@ -717,26 +749,6 @@ public struct RequestGroupActionRelatedAction: BackboneElement {
 			}
 			_t_offset = .range(offsetRange)
 		}
-		self.offset = _t_offset
-		self.relationship = try FHIRPrimitive<ActionRelationshipType>(from: _container, forKey: .relationship, auxiliaryKey: ._relationship)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try actionId.encode(on: &_container, forKey: .actionId, auxiliaryKey: ._actionId)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = offset {
-			switch _enum {
-			case .duration(let _value):
-				try _value.encode(on: &_container, forKey: .offsetDuration)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .offsetRange)
-			}
-		}
-		try relationship.encode(on: &_container, forKey: .relationship, auxiliaryKey: ._relationship)
+		return _t_offset
 	}
 }

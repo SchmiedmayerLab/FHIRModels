@@ -85,15 +85,7 @@ public struct DeviceMetric: DomainResource {
 	/// Unit of Measure for the Metric
 	public var unit: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(category: CodeableConcept, device: Reference, status: FHIRPrimitive<DeviceMetricStatus>, type: CodeableConcept) {
-		self.category = category
-		self.device = device
-		self.status = status
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		availability: CodeableConcept? = nil,
 		calibration: [DeviceMetricCalibration]? = nil,
@@ -115,11 +107,12 @@ public struct DeviceMetric: DomainResource {
 		type: CodeableConcept,
 		unit: CodeableConcept? = nil
 	) {
-		self.init(category: category, device: device, status: status, type: type)
 		self.availability = availability
 		self.calibration = calibration
+		self.category = category
 		self.color = color
 		self.contained = contained
+		self.device = device
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -129,7 +122,9 @@ public struct DeviceMetric: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.operationalStatus = operationalStatus
+		self.status = status
 		self.text = text
+		self.type = type
 		self.unit = unit
 	}
 	
@@ -160,6 +155,9 @@ public struct DeviceMetric: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -187,8 +185,10 @@ public struct DeviceMetric: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try availability?.encode(on: &_container, forKey: .availability)
 		try calibration?.encode(on: &_container, forKey: .calibration)
@@ -235,11 +235,7 @@ public struct DeviceMetricCalibration: BackboneElement {
 	/// The method of calibration
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -248,7 +244,6 @@ public struct DeviceMetricCalibration: BackboneElement {
 		time: FHIRPrimitive<Instant>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -270,6 +265,9 @@ public struct DeviceMetricCalibration: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -284,6 +282,7 @@ public struct DeviceMetricCalibration: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

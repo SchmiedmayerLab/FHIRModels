@@ -242,7 +242,7 @@ class PrimitiveConstructionTests: XCTestCase {
 			return
 		}
 		
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let encoder = JSONEncoder()
 		if #available(macOS 10.15, *), #available(iOS 13.0, *), #available(watchOS 7.0, *), #available(tvOS 13.0, *) {
 			encoder.outputFormatting = [.sortedKeys, .prettyPrinted, .withoutEscapingSlashes]
@@ -281,7 +281,7 @@ class PrimitiveConstructionTests: XCTestCase {
 			return
 		}
 		
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let encoder = JSONEncoder()
         if #available(macOS 10.15, *), #available(iOS 13.0, *), #available(watchOS 7.0, *), #available(tvOS 13.0, *) {
 			encoder.outputFormatting = [.sortedKeys, .prettyPrinted, .withoutEscapingSlashes]
@@ -337,7 +337,7 @@ class PrimitiveConstructionTests: XCTestCase {
 		// Test JSON decoding
 		let valueQuantity = "{\"actual\": true, \"type\": \"person\", \"quantity\": 4294967296}"
 		let data = valueQuantity.data(using: .utf8)!
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		do {
 			let _ = try decoder.decode(Group.self, from: data)
 			XCTFail("Should fail parsing 33 bit integer but succeeded")

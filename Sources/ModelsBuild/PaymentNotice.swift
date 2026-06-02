@@ -92,15 +92,7 @@ public struct PaymentNotice: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(amount: Money, created: FHIRPrimitive<DateTime>, recipient: Reference, status: FHIRPrimitive<FinancialResourceStatusCodes>) {
-		self.amount = amount
-		self.created = created
-		self.recipient = recipient
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money,
 		contained: [ResourceProxy]? = nil,
@@ -124,8 +116,9 @@ public struct PaymentNotice: DomainResource {
 		statusReason: FHIRPrimitive<FHIRString>? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(amount: amount, created: created, recipient: recipient, status: status)
+		self.amount = amount
 		self.contained = contained
+		self.created = created
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -137,9 +130,11 @@ public struct PaymentNotice: DomainResource {
 		self.payment = payment
 		self.paymentDate = paymentDate
 		self.paymentStatus = paymentStatus
+		self.recipient = recipient
 		self.reporter = reporter
 		self.request = request
 		self.response = response
+		self.status = status
 		self.statusReason = statusReason
 		self.text = text
 	}
@@ -173,6 +168,9 @@ public struct PaymentNotice: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -202,8 +200,10 @@ public struct PaymentNotice: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount)
 		try contained?.encode(on: &_container, forKey: .contained)

@@ -80,11 +80,7 @@ public struct MolecularSequence: DomainResource {
 	/// Amino Acid Sequence/ DNA Sequence / RNA Sequence.
 	public var type: FHIRPrimitive<SequenceType>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		device: Reference? = nil,
@@ -105,7 +101,6 @@ public struct MolecularSequence: DomainResource {
 		text: Narrative? = nil,
 		type: FHIRPrimitive<SequenceType>? = nil
 	) {
-		self.init()
 		self.contained = contained
 		self.device = device
 		self.`extension` = `extension`
@@ -152,6 +147,9 @@ public struct MolecularSequence: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -178,8 +176,10 @@ public struct MolecularSequence: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try device?.encode(on: &_container, forKey: .device)
@@ -232,12 +232,7 @@ public struct MolecularSequenceRelative: BackboneElement {
 	/// A sequence used as starting sequence
 	public var startingSequence: MolecularSequenceRelativeStartingSequence?
 	
-	/// Designated initializer taking all required properties
-	public init(coordinateSystem: CodeableConcept) {
-		self.coordinateSystem = coordinateSystem
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		coordinateSystem: CodeableConcept,
 		edit: [MolecularSequenceRelativeEdit]? = nil,
@@ -248,7 +243,7 @@ public struct MolecularSequenceRelative: BackboneElement {
 		sequenceRange: Range? = nil,
 		startingSequence: MolecularSequenceRelativeStartingSequence? = nil
 	) {
-		self.init(coordinateSystem: coordinateSystem)
+		self.coordinateSystem = coordinateSystem
 		self.edit = edit
 		self.`extension` = `extension`
 		self.id = id
@@ -273,6 +268,9 @@ public struct MolecularSequenceRelative: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -289,6 +287,7 @@ public struct MolecularSequenceRelative: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try coordinateSystem.encode(on: &_container, forKey: .coordinateSystem)
 		try edit?.encode(on: &_container, forKey: .edit)
@@ -327,11 +326,7 @@ public struct MolecularSequenceRelativeEdit: BackboneElement {
 	/// Start position of the edit on the starting sequence
 	public var start: FHIRPrimitive<FHIRInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		end: FHIRPrimitive<FHIRInteger>? = nil,
 		`extension`: [Extension]? = nil,
@@ -341,7 +336,6 @@ public struct MolecularSequenceRelativeEdit: BackboneElement {
 		replacementSequence: FHIRPrimitive<FHIRString>? = nil,
 		start: FHIRPrimitive<FHIRInteger>? = nil
 	) {
-		self.init()
 		self.end = end
 		self.`extension` = `extension`
 		self.id = id
@@ -365,6 +359,9 @@ public struct MolecularSequenceRelativeEdit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -380,6 +377,7 @@ public struct MolecularSequenceRelativeEdit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try end?.encode(on: &_container, forKey: .end, auxiliaryKey: ._end)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -438,11 +436,7 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 	/// Start position of the window on the starting sequence
 	public var windowStart: FHIRPrimitive<FHIRInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		chromosome: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -455,7 +449,6 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 		windowEnd: FHIRPrimitive<FHIRInteger>? = nil,
 		windowStart: FHIRPrimitive<FHIRInteger>? = nil
 	) {
-		self.init()
 		self.chromosome = chromosome
 		self.`extension` = `extension`
 		self.genomeAssembly = genomeAssembly
@@ -487,6 +480,9 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -496,26 +492,7 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.orientation = try FHIRPrimitive<OrientationType>(from: _container, forKeyIfPresent: .orientation, auxiliaryKey: ._orientation)
-		var _t_sequence: SequenceX? = nil
-		if let sequenceCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .sequenceCodeableConcept) {
-			if _t_sequence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sequenceCodeableConcept, in: _container, debugDescription: "More than one value provided for \"sequence\"")
-			}
-			_t_sequence = .codeableConcept(sequenceCodeableConcept)
-		}
-		if let sequenceString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .sequenceString, auxiliaryKey: ._sequenceString) {
-			if _t_sequence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sequenceString, in: _container, debugDescription: "More than one value provided for \"sequence\"")
-			}
-			_t_sequence = .string(sequenceString)
-		}
-		if let sequenceReference = try Reference(from: _container, forKeyIfPresent: .sequenceReference) {
-			if _t_sequence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .sequenceReference, in: _container, debugDescription: "More than one value provided for \"sequence\"")
-			}
-			_t_sequence = .reference(sequenceReference)
-		}
-		self.sequence = _t_sequence
+		self.sequence = try Self._decodeSequence(from: _container)
 		self.strand = try FHIRPrimitive<StrandType>(from: _container, forKeyIfPresent: .strand, auxiliaryKey: ._strand)
 		self.windowEnd = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .windowEnd, auxiliaryKey: ._windowEnd)
 		self.windowStart = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .windowStart, auxiliaryKey: ._windowStart)
@@ -524,6 +501,7 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try chromosome?.encode(on: &_container, forKey: .chromosome)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -532,17 +510,41 @@ public struct MolecularSequenceRelativeStartingSequence: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try orientation?.encode(on: &_container, forKey: .orientation, auxiliaryKey: ._orientation)
 		if let _enum = sequence {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .sequenceCodeableConcept)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .sequenceString, auxiliaryKey: ._sequenceString)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .sequenceReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .sequenceCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .sequenceReference)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .sequenceString, auxiliaryKey: ._sequenceString)
+		}
 		}
 		try strand?.encode(on: &_container, forKey: .strand, auxiliaryKey: ._strand)
 		try windowEnd?.encode(on: &_container, forKey: .windowEnd, auxiliaryKey: ._windowEnd)
 		try windowStart?.encode(on: &_container, forKey: .windowStart, auxiliaryKey: ._windowStart)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeSequence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SequenceX? {
+		var _t_sequence: SequenceX? = nil
+		if let sequenceCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .sequenceCodeableConcept) {
+			_t_sequence = .codeableConcept(sequenceCodeableConcept)
+		}
+		if let sequenceReference = try Reference(from: _container, forKeyIfPresent: .sequenceReference) {
+			if _t_sequence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .sequenceReference, in: _container, debugDescription: "More than one value provided for \"sequence\"")
+			}
+			_t_sequence = .reference(sequenceReference)
+		}
+		if let sequenceString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .sequenceString, auxiliaryKey: ._sequenceString) {
+			if _t_sequence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .sequenceString, in: _container, debugDescription: "More than one value provided for \"sequence\"")
+			}
+			_t_sequence = .string(sequenceString)
+		}
+		return _t_sequence
 	}
 }

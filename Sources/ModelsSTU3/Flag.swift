@@ -76,14 +76,7 @@ public struct Flag: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, status: FHIRPrimitive<FlagStatus>, subject: Reference) {
-		self.code = code
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: Reference? = nil,
 		category: CodeableConcept? = nil,
@@ -102,9 +95,9 @@ public struct Flag: DomainResource {
 		subject: Reference,
 		text: Narrative? = nil
 	) {
-		self.init(code: code, status: status, subject: subject)
 		self.author = author
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.encounter = encounter
 		self.`extension` = `extension`
@@ -115,6 +108,8 @@ public struct Flag: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.period = period
+		self.status = status
+		self.subject = subject
 		self.text = text
 	}
 	
@@ -142,6 +137,9 @@ public struct Flag: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -166,8 +164,10 @@ public struct Flag: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try author?.encode(on: &_container, forKey: .author)
 		try category?.encode(on: &_container, forKey: .category)

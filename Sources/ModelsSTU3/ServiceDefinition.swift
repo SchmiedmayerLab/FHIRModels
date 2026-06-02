@@ -128,12 +128,7 @@ public struct ServiceDefinition: DomainResource {
 	/// Business version of the service definition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		contact: [ContactDetail]? = nil,
@@ -169,7 +164,6 @@ public struct ServiceDefinition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(status: status)
 		self.approvalDate = approvalDate
 		self.contact = contact
 		self.contained = contained
@@ -194,6 +188,7 @@ public struct ServiceDefinition: DomainResource {
 		self.publisher = publisher
 		self.purpose = purpose
 		self.relatedArtifact = relatedArtifact
+		self.status = status
 		self.text = text
 		self.title = title
 		self.topic = topic
@@ -245,6 +240,9 @@ public struct ServiceDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -286,8 +284,10 @@ public struct ServiceDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try contact?.encode(on: &_container, forKey: .contact)

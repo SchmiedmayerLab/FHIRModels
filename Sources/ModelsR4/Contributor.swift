@@ -41,13 +41,7 @@ public struct Contributor: Element {
 	/// The type of contributor.
 	public var type: FHIRPrimitive<ContributorType>
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>, type: FHIRPrimitive<ContributorType>) {
-		self.name = name
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contact: [ContactDetail]? = nil,
 		`extension`: [Extension]? = nil,
@@ -55,10 +49,11 @@ public struct Contributor: Element {
 		name: FHIRPrimitive<FHIRString>,
 		type: FHIRPrimitive<ContributorType>
 	) {
-		self.init(name: name, type: type)
 		self.contact = contact
 		self.`extension` = `extension`
 		self.id = id
+		self.name = name
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -73,6 +68,9 @@ public struct Contributor: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -86,6 +84,7 @@ public struct Contributor: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try contact?.encode(on: &_container, forKey: .contact)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

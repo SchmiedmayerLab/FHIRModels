@@ -354,12 +354,7 @@ public struct ElementDefinition: Element {
 	/// Data type and Profile for this element
 	public var type: [ElementDefinitionType]?
 	
-	/// Designated initializer taking all required properties
-	public init(path: FHIRPrimitive<FHIRString>) {
-		self.path = path
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
 		base: ElementDefinitionBase? = nil,
@@ -395,7 +390,6 @@ public struct ElementDefinition: Element {
 		slicing: ElementDefinitionSlicing? = nil,
 		type: [ElementDefinitionType]? = nil
 	) {
-		self.init(path: path)
 		self.alias = alias
 		self.base = base
 		self.binding = binding
@@ -422,6 +416,7 @@ public struct ElementDefinition: Element {
 		self.mustSupport = mustSupport
 		self.name = name
 		self.nameReference = nameReference
+		self.path = path
 		self.pattern = pattern
 		self.representation = representation
 		self.requirements = requirements
@@ -662,6 +657,9 @@ public struct ElementDefinition: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -672,102 +670,496 @@ public struct ElementDefinition: Element {
 		self.comments = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .comments, auxiliaryKey: ._comments)
 		self.condition = try [FHIRPrimitive<FHIRString>](from: _container, forKeyIfPresent: .condition, auxiliaryKey: ._condition)
 		self.constraint = try [ElementDefinitionConstraint](from: _container, forKeyIfPresent: .constraint)
+		self.defaultValue = try Self._decodeDefaultValue(from: _container)
+		self.definition = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
+		self.example = try Self._decodeExample(from: _container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.fixed = try Self._decodeFixed(from: _container)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.isModifier = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isModifier, auxiliaryKey: ._isModifier)
+		self.isSummary = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isSummary, auxiliaryKey: ._isSummary)
+		self.label = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .label, auxiliaryKey: ._label)
+		self.mapping = try [ElementDefinitionMapping](from: _container, forKeyIfPresent: .mapping)
+		self.max = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .max, auxiliaryKey: ._max)
+		self.maxLength = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .maxLength, auxiliaryKey: ._maxLength)
+		self.maxValue = try Self._decodeMaxValue(from: _container)
+		self.meaningWhenMissing = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .meaningWhenMissing, auxiliaryKey: ._meaningWhenMissing)
+		self.min = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .min, auxiliaryKey: ._min)
+		self.minValue = try Self._decodeMinValue(from: _container)
+		self.mustSupport = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .mustSupport, auxiliaryKey: ._mustSupport)
+		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
+		self.nameReference = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .nameReference, auxiliaryKey: ._nameReference)
+		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKey: .path, auxiliaryKey: ._path)
+		self.pattern = try Self._decodePattern(from: _container)
+		self.representation = try [FHIRPrimitive<PropertyRepresentation>](from: _container, forKeyIfPresent: .representation, auxiliaryKey: ._representation)
+		self.requirements = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .requirements, auxiliaryKey: ._requirements)
+		self.short = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .short, auxiliaryKey: ._short)
+		self.slicing = try ElementDefinitionSlicing(from: _container, forKeyIfPresent: .slicing)
+		self.type = try [ElementDefinitionType](from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
+		try base?.encode(on: &_container, forKey: .base)
+		try binding?.encode(on: &_container, forKey: .binding)
+		try code?.encode(on: &_container, forKey: .code)
+		try comments?.encode(on: &_container, forKey: .comments, auxiliaryKey: ._comments)
+		try condition?.encode(on: &_container, forKey: .condition, auxiliaryKey: ._condition)
+		try constraint?.encode(on: &_container, forKey: .constraint)
+		if let _enum = defaultValue {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueAddress)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueAttachment)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueBase64Binary, auxiliaryKey: ._defaultValueBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueBoolean, auxiliaryKey: ._defaultValueBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueCode, auxiliaryKey: ._defaultValueCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueCodeableConcept)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueCoding)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueContactPoint)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueDate, auxiliaryKey: ._defaultValueDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueDateTime, auxiliaryKey: ._defaultValueDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueDecimal, auxiliaryKey: ._defaultValueDecimal)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueId, auxiliaryKey: ._defaultValueId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueInstant, auxiliaryKey: ._defaultValueInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueInteger, auxiliaryKey: ._defaultValueInteger)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueMarkdown, auxiliaryKey: ._defaultValueMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueMeta)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueOid, auxiliaryKey: ._defaultValueOid)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValuePeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValuePositiveInt, auxiliaryKey: ._defaultValuePositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueRatio)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueReference)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueString, auxiliaryKey: ._defaultValueString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueTime, auxiliaryKey: ._defaultValueTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueTiming)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueUnsignedInt, auxiliaryKey: ._defaultValueUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .defaultValueUri, auxiliaryKey: ._defaultValueUri)
+		}
+		}
+		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
+		if let _enum = example {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .exampleAddress)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .exampleAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .exampleAttachment)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .exampleBase64Binary, auxiliaryKey: ._exampleBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .exampleBoolean, auxiliaryKey: ._exampleBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .exampleCode, auxiliaryKey: ._exampleCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .exampleCodeableConcept)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .exampleCoding)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .exampleContactPoint)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .exampleDate, auxiliaryKey: ._exampleDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .exampleDateTime, auxiliaryKey: ._exampleDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .exampleDecimal, auxiliaryKey: ._exampleDecimal)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .exampleHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .exampleId, auxiliaryKey: ._exampleId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .exampleIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .exampleInstant, auxiliaryKey: ._exampleInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .exampleInteger, auxiliaryKey: ._exampleInteger)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .exampleMarkdown, auxiliaryKey: ._exampleMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .exampleMeta)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .exampleOid, auxiliaryKey: ._exampleOid)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .examplePeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .examplePositiveInt, auxiliaryKey: ._examplePositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .exampleQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .exampleRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .exampleRatio)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .exampleReference)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .exampleSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .exampleSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .exampleString, auxiliaryKey: ._exampleString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .exampleTime, auxiliaryKey: ._exampleTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .exampleTiming)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .exampleUnsignedInt, auxiliaryKey: ._exampleUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .exampleUri, auxiliaryKey: ._exampleUri)
+		}
+		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		if let _enum = fixed {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .fixedAddress)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .fixedAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .fixedAttachment)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .fixedBase64Binary, auxiliaryKey: ._fixedBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .fixedBoolean, auxiliaryKey: ._fixedBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .fixedCode, auxiliaryKey: ._fixedCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .fixedCodeableConcept)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .fixedCoding)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .fixedContactPoint)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .fixedDate, auxiliaryKey: ._fixedDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .fixedDateTime, auxiliaryKey: ._fixedDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .fixedDecimal, auxiliaryKey: ._fixedDecimal)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .fixedHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .fixedId, auxiliaryKey: ._fixedId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .fixedIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .fixedInstant, auxiliaryKey: ._fixedInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .fixedInteger, auxiliaryKey: ._fixedInteger)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .fixedMarkdown, auxiliaryKey: ._fixedMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .fixedMeta)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .fixedOid, auxiliaryKey: ._fixedOid)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .fixedPeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .fixedPositiveInt, auxiliaryKey: ._fixedPositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .fixedQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .fixedRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .fixedRatio)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .fixedReference)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .fixedSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .fixedSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .fixedString, auxiliaryKey: ._fixedString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .fixedTime, auxiliaryKey: ._fixedTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .fixedTiming)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .fixedUnsignedInt, auxiliaryKey: ._fixedUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .fixedUri, auxiliaryKey: ._fixedUri)
+		}
+		}
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try isModifier?.encode(on: &_container, forKey: .isModifier, auxiliaryKey: ._isModifier)
+		try isSummary?.encode(on: &_container, forKey: .isSummary, auxiliaryKey: ._isSummary)
+		try label?.encode(on: &_container, forKey: .label, auxiliaryKey: ._label)
+		try mapping?.encode(on: &_container, forKey: .mapping)
+		try max?.encode(on: &_container, forKey: .max, auxiliaryKey: ._max)
+		try maxLength?.encode(on: &_container, forKey: .maxLength, auxiliaryKey: ._maxLength)
+		if let _enum = maxValue {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueAddress)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueAttachment)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueBase64Binary, auxiliaryKey: ._maxValueBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueBoolean, auxiliaryKey: ._maxValueBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueCode, auxiliaryKey: ._maxValueCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueCodeableConcept)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueCoding)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueContactPoint)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueDate, auxiliaryKey: ._maxValueDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueDateTime, auxiliaryKey: ._maxValueDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueDecimal, auxiliaryKey: ._maxValueDecimal)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueId, auxiliaryKey: ._maxValueId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueInstant, auxiliaryKey: ._maxValueInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueInteger, auxiliaryKey: ._maxValueInteger)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueMarkdown, auxiliaryKey: ._maxValueMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueMeta)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueOid, auxiliaryKey: ._maxValueOid)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .maxValuePeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .maxValuePositiveInt, auxiliaryKey: ._maxValuePositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueRatio)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueReference)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueString, auxiliaryKey: ._maxValueString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueTime, auxiliaryKey: ._maxValueTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueTiming)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueUnsignedInt, auxiliaryKey: ._maxValueUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .maxValueUri, auxiliaryKey: ._maxValueUri)
+		}
+		}
+		try meaningWhenMissing?.encode(on: &_container, forKey: .meaningWhenMissing, auxiliaryKey: ._meaningWhenMissing)
+		try min?.encode(on: &_container, forKey: .min, auxiliaryKey: ._min)
+		if let _enum = minValue {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .minValueAddress)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .minValueAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .minValueAttachment)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .minValueBase64Binary, auxiliaryKey: ._minValueBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .minValueBoolean, auxiliaryKey: ._minValueBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .minValueCode, auxiliaryKey: ._minValueCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .minValueCodeableConcept)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .minValueCoding)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .minValueContactPoint)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .minValueDate, auxiliaryKey: ._minValueDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .minValueDateTime, auxiliaryKey: ._minValueDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .minValueDecimal, auxiliaryKey: ._minValueDecimal)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .minValueHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .minValueId, auxiliaryKey: ._minValueId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .minValueIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .minValueInstant, auxiliaryKey: ._minValueInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .minValueInteger, auxiliaryKey: ._minValueInteger)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .minValueMarkdown, auxiliaryKey: ._minValueMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .minValueMeta)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .minValueOid, auxiliaryKey: ._minValueOid)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .minValuePeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .minValuePositiveInt, auxiliaryKey: ._minValuePositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .minValueQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .minValueRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .minValueRatio)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .minValueReference)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .minValueSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .minValueSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .minValueString, auxiliaryKey: ._minValueString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .minValueTime, auxiliaryKey: ._minValueTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .minValueTiming)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .minValueUnsignedInt, auxiliaryKey: ._minValueUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .minValueUri, auxiliaryKey: ._minValueUri)
+		}
+		}
+		try mustSupport?.encode(on: &_container, forKey: .mustSupport, auxiliaryKey: ._mustSupport)
+		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
+		try nameReference?.encode(on: &_container, forKey: .nameReference, auxiliaryKey: ._nameReference)
+		try path.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
+		if let _enum = pattern {
+		switch _enum {
+		case .address(let _value):
+			try _value.encode(on: &_container, forKey: .patternAddress)
+		case .annotation(let _value):
+			try _value.encode(on: &_container, forKey: .patternAnnotation)
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .patternAttachment)
+		case .base64Binary(let _value):
+			try _value.encode(on: &_container, forKey: .patternBase64Binary, auxiliaryKey: ._patternBase64Binary)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .patternBoolean, auxiliaryKey: ._patternBoolean)
+		case .code(let _value):
+			try _value.encode(on: &_container, forKey: .patternCode, auxiliaryKey: ._patternCode)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .patternCodeableConcept)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .patternCoding)
+		case .contactPoint(let _value):
+			try _value.encode(on: &_container, forKey: .patternContactPoint)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .patternDate, auxiliaryKey: ._patternDate)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .patternDateTime, auxiliaryKey: ._patternDateTime)
+		case .decimal(let _value):
+			try _value.encode(on: &_container, forKey: .patternDecimal, auxiliaryKey: ._patternDecimal)
+		case .humanName(let _value):
+			try _value.encode(on: &_container, forKey: .patternHumanName)
+		case .id(let _value):
+			try _value.encode(on: &_container, forKey: .patternId, auxiliaryKey: ._patternId)
+		case .identifier(let _value):
+			try _value.encode(on: &_container, forKey: .patternIdentifier)
+		case .instant(let _value):
+			try _value.encode(on: &_container, forKey: .patternInstant, auxiliaryKey: ._patternInstant)
+		case .integer(let _value):
+			try _value.encode(on: &_container, forKey: .patternInteger, auxiliaryKey: ._patternInteger)
+		case .markdown(let _value):
+			try _value.encode(on: &_container, forKey: .patternMarkdown, auxiliaryKey: ._patternMarkdown)
+		case .meta(let _value):
+			try _value.encode(on: &_container, forKey: .patternMeta)
+		case .oid(let _value):
+			try _value.encode(on: &_container, forKey: .patternOid, auxiliaryKey: ._patternOid)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .patternPeriod)
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .patternPositiveInt, auxiliaryKey: ._patternPositiveInt)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .patternQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .patternRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .patternRatio)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .patternReference)
+		case .sampledData(let _value):
+			try _value.encode(on: &_container, forKey: .patternSampledData)
+		case .signature(let _value):
+			try _value.encode(on: &_container, forKey: .patternSignature)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .patternString, auxiliaryKey: ._patternString)
+		case .time(let _value):
+			try _value.encode(on: &_container, forKey: .patternTime, auxiliaryKey: ._patternTime)
+		case .timing(let _value):
+			try _value.encode(on: &_container, forKey: .patternTiming)
+		case .unsignedInt(let _value):
+			try _value.encode(on: &_container, forKey: .patternUnsignedInt, auxiliaryKey: ._patternUnsignedInt)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .patternUri, auxiliaryKey: ._patternUri)
+		}
+		}
+		try representation?.encode(on: &_container, forKey: .representation, auxiliaryKey: ._representation)
+		try requirements?.encode(on: &_container, forKey: .requirements, auxiliaryKey: ._requirements)
+		try short?.encode(on: &_container, forKey: .short, auxiliaryKey: ._short)
+		try slicing?.encode(on: &_container, forKey: .slicing)
+		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDefaultValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DefaultValueX? {
 		var _t_defaultValue: DefaultValueX? = nil
-		if let defaultValueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .defaultValueBoolean, auxiliaryKey: ._defaultValueBoolean) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueBoolean, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .boolean(defaultValueBoolean)
-		}
-		if let defaultValueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .defaultValueInteger, auxiliaryKey: ._defaultValueInteger) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueInteger, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .integer(defaultValueInteger)
-		}
-		if let defaultValueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .defaultValueDecimal, auxiliaryKey: ._defaultValueDecimal) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueDecimal, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .decimal(defaultValueDecimal)
-		}
-		if let defaultValueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .defaultValueBase64Binary, auxiliaryKey: ._defaultValueBase64Binary) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueBase64Binary, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .base64Binary(defaultValueBase64Binary)
-		}
-		if let defaultValueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .defaultValueInstant, auxiliaryKey: ._defaultValueInstant) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueInstant, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .instant(defaultValueInstant)
-		}
-		if let defaultValueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueString, auxiliaryKey: ._defaultValueString) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueString, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .string(defaultValueString)
-		}
-		if let defaultValueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .defaultValueUri, auxiliaryKey: ._defaultValueUri) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueUri, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .uri(defaultValueUri)
-		}
-		if let defaultValueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .defaultValueDate, auxiliaryKey: ._defaultValueDate) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueDate, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .date(defaultValueDate)
-		}
-		if let defaultValueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .defaultValueDateTime, auxiliaryKey: ._defaultValueDateTime) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueDateTime, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .dateTime(defaultValueDateTime)
-		}
-		if let defaultValueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .defaultValueTime, auxiliaryKey: ._defaultValueTime) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueTime, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .time(defaultValueTime)
-		}
-		if let defaultValueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueCode, auxiliaryKey: ._defaultValueCode) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueCode, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .code(defaultValueCode)
-		}
-		if let defaultValueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .defaultValueOid, auxiliaryKey: ._defaultValueOid) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueOid, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .oid(defaultValueOid)
-		}
-		if let defaultValueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueId, auxiliaryKey: ._defaultValueId) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueId, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .id(defaultValueId)
-		}
-		if let defaultValueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .defaultValueUnsignedInt, auxiliaryKey: ._defaultValueUnsignedInt) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .unsignedInt(defaultValueUnsignedInt)
-		}
-		if let defaultValuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .defaultValuePositiveInt, auxiliaryKey: ._defaultValuePositiveInt) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValuePositiveInt, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .positiveInt(defaultValuePositiveInt)
-		}
-		if let defaultValueMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueMarkdown, auxiliaryKey: ._defaultValueMarkdown) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueMarkdown, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .markdown(defaultValueMarkdown)
+		if let defaultValueAddress = try Address(from: _container, forKeyIfPresent: .defaultValueAddress) {
+			_t_defaultValue = .address(defaultValueAddress)
 		}
 		if let defaultValueAnnotation = try Annotation(from: _container, forKeyIfPresent: .defaultValueAnnotation) {
 			if _t_defaultValue != nil {
@@ -781,11 +1173,23 @@ public struct ElementDefinition: Element {
 			}
 			_t_defaultValue = .attachment(defaultValueAttachment)
 		}
-		if let defaultValueIdentifier = try Identifier(from: _container, forKeyIfPresent: .defaultValueIdentifier) {
+		if let defaultValueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .defaultValueBase64Binary, auxiliaryKey: ._defaultValueBase64Binary) {
 			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueIdentifier, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueBase64Binary, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
 			}
-			_t_defaultValue = .identifier(defaultValueIdentifier)
+			_t_defaultValue = .base64Binary(defaultValueBase64Binary)
+		}
+		if let defaultValueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .defaultValueBoolean, auxiliaryKey: ._defaultValueBoolean) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueBoolean, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .boolean(defaultValueBoolean)
+		}
+		if let defaultValueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueCode, auxiliaryKey: ._defaultValueCode) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueCode, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .code(defaultValueCode)
 		}
 		if let defaultValueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .defaultValueCodeableConcept) {
 			if _t_defaultValue != nil {
@@ -799,6 +1203,90 @@ public struct ElementDefinition: Element {
 			}
 			_t_defaultValue = .coding(defaultValueCoding)
 		}
+		if let defaultValueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .defaultValueContactPoint) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueContactPoint, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .contactPoint(defaultValueContactPoint)
+		}
+		if let defaultValueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .defaultValueDate, auxiliaryKey: ._defaultValueDate) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueDate, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .date(defaultValueDate)
+		}
+		if let defaultValueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .defaultValueDateTime, auxiliaryKey: ._defaultValueDateTime) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueDateTime, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .dateTime(defaultValueDateTime)
+		}
+		if let defaultValueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .defaultValueDecimal, auxiliaryKey: ._defaultValueDecimal) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueDecimal, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .decimal(defaultValueDecimal)
+		}
+		if let defaultValueHumanName = try HumanName(from: _container, forKeyIfPresent: .defaultValueHumanName) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueHumanName, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .humanName(defaultValueHumanName)
+		}
+		if let defaultValueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueId, auxiliaryKey: ._defaultValueId) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueId, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .id(defaultValueId)
+		}
+		if let defaultValueIdentifier = try Identifier(from: _container, forKeyIfPresent: .defaultValueIdentifier) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueIdentifier, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .identifier(defaultValueIdentifier)
+		}
+		if let defaultValueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .defaultValueInstant, auxiliaryKey: ._defaultValueInstant) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueInstant, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .instant(defaultValueInstant)
+		}
+		if let defaultValueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .defaultValueInteger, auxiliaryKey: ._defaultValueInteger) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueInteger, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .integer(defaultValueInteger)
+		}
+		if let defaultValueMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueMarkdown, auxiliaryKey: ._defaultValueMarkdown) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueMarkdown, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .markdown(defaultValueMarkdown)
+		}
+		if let defaultValueMeta = try Meta(from: _container, forKeyIfPresent: .defaultValueMeta) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueMeta, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .meta(defaultValueMeta)
+		}
+		if let defaultValueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .defaultValueOid, auxiliaryKey: ._defaultValueOid) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueOid, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .oid(defaultValueOid)
+		}
+		if let defaultValuePeriod = try Period(from: _container, forKeyIfPresent: .defaultValuePeriod) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValuePeriod, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .period(defaultValuePeriod)
+		}
+		if let defaultValuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .defaultValuePositiveInt, auxiliaryKey: ._defaultValuePositiveInt) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValuePositiveInt, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .positiveInt(defaultValuePositiveInt)
+		}
 		if let defaultValueQuantity = try Quantity(from: _container, forKeyIfPresent: .defaultValueQuantity) {
 			if _t_defaultValue != nil {
 				throw DecodingError.dataCorruptedError(forKey: .defaultValueQuantity, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
@@ -811,17 +1299,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_defaultValue = .range(defaultValueRange)
 		}
-		if let defaultValuePeriod = try Period(from: _container, forKeyIfPresent: .defaultValuePeriod) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValuePeriod, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .period(defaultValuePeriod)
-		}
 		if let defaultValueRatio = try Ratio(from: _container, forKeyIfPresent: .defaultValueRatio) {
 			if _t_defaultValue != nil {
 				throw DecodingError.dataCorruptedError(forKey: .defaultValueRatio, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
 			}
 			_t_defaultValue = .ratio(defaultValueRatio)
+		}
+		if let defaultValueReference = try Reference(from: _container, forKeyIfPresent: .defaultValueReference) {
+			if _t_defaultValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueReference, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+			}
+			_t_defaultValue = .reference(defaultValueReference)
 		}
 		if let defaultValueSampledData = try SampledData(from: _container, forKeyIfPresent: .defaultValueSampledData) {
 			if _t_defaultValue != nil {
@@ -835,23 +1323,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_defaultValue = .signature(defaultValueSignature)
 		}
-		if let defaultValueHumanName = try HumanName(from: _container, forKeyIfPresent: .defaultValueHumanName) {
+		if let defaultValueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .defaultValueString, auxiliaryKey: ._defaultValueString) {
 			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueHumanName, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueString, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
 			}
-			_t_defaultValue = .humanName(defaultValueHumanName)
+			_t_defaultValue = .string(defaultValueString)
 		}
-		if let defaultValueAddress = try Address(from: _container, forKeyIfPresent: .defaultValueAddress) {
+		if let defaultValueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .defaultValueTime, auxiliaryKey: ._defaultValueTime) {
 			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueAddress, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueTime, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
 			}
-			_t_defaultValue = .address(defaultValueAddress)
-		}
-		if let defaultValueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .defaultValueContactPoint) {
-			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueContactPoint, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
-			}
-			_t_defaultValue = .contactPoint(defaultValueContactPoint)
+			_t_defaultValue = .time(defaultValueTime)
 		}
 		if let defaultValueTiming = try Timing(from: _container, forKeyIfPresent: .defaultValueTiming) {
 			if _t_defaultValue != nil {
@@ -859,116 +1341,27 @@ public struct ElementDefinition: Element {
 			}
 			_t_defaultValue = .timing(defaultValueTiming)
 		}
-		if let defaultValueReference = try Reference(from: _container, forKeyIfPresent: .defaultValueReference) {
+		if let defaultValueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .defaultValueUnsignedInt, auxiliaryKey: ._defaultValueUnsignedInt) {
 			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueReference, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
 			}
-			_t_defaultValue = .reference(defaultValueReference)
+			_t_defaultValue = .unsignedInt(defaultValueUnsignedInt)
 		}
-		if let defaultValueMeta = try Meta(from: _container, forKeyIfPresent: .defaultValueMeta) {
+		if let defaultValueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .defaultValueUri, auxiliaryKey: ._defaultValueUri) {
 			if _t_defaultValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .defaultValueMeta, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .defaultValueUri, in: _container, debugDescription: "More than one value provided for \"defaultValue\"")
 			}
-			_t_defaultValue = .meta(defaultValueMeta)
+			_t_defaultValue = .uri(defaultValueUri)
 		}
-		self.defaultValue = _t_defaultValue
-		self.definition = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .definition, auxiliaryKey: ._definition)
+		return _t_defaultValue
+	}
+	
+	private static func _decodeExample(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ExampleX? {
 		var _t_example: ExampleX? = nil
-		if let exampleBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .exampleBoolean, auxiliaryKey: ._exampleBoolean) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleBoolean, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .boolean(exampleBoolean)
-		}
-		if let exampleInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .exampleInteger, auxiliaryKey: ._exampleInteger) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleInteger, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .integer(exampleInteger)
-		}
-		if let exampleDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .exampleDecimal, auxiliaryKey: ._exampleDecimal) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleDecimal, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .decimal(exampleDecimal)
-		}
-		if let exampleBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .exampleBase64Binary, auxiliaryKey: ._exampleBase64Binary) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleBase64Binary, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .base64Binary(exampleBase64Binary)
-		}
-		if let exampleInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .exampleInstant, auxiliaryKey: ._exampleInstant) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleInstant, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .instant(exampleInstant)
-		}
-		if let exampleString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleString, auxiliaryKey: ._exampleString) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleString, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .string(exampleString)
-		}
-		if let exampleUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .exampleUri, auxiliaryKey: ._exampleUri) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleUri, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .uri(exampleUri)
-		}
-		if let exampleDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .exampleDate, auxiliaryKey: ._exampleDate) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleDate, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .date(exampleDate)
-		}
-		if let exampleDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .exampleDateTime, auxiliaryKey: ._exampleDateTime) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleDateTime, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .dateTime(exampleDateTime)
-		}
-		if let exampleTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .exampleTime, auxiliaryKey: ._exampleTime) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleTime, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .time(exampleTime)
-		}
-		if let exampleCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleCode, auxiliaryKey: ._exampleCode) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleCode, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .code(exampleCode)
-		}
-		if let exampleOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .exampleOid, auxiliaryKey: ._exampleOid) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleOid, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .oid(exampleOid)
-		}
-		if let exampleId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleId, auxiliaryKey: ._exampleId) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleId, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .id(exampleId)
-		}
-		if let exampleUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .exampleUnsignedInt, auxiliaryKey: ._exampleUnsignedInt) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleUnsignedInt, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .unsignedInt(exampleUnsignedInt)
-		}
-		if let examplePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .examplePositiveInt, auxiliaryKey: ._examplePositiveInt) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .examplePositiveInt, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .positiveInt(examplePositiveInt)
-		}
-		if let exampleMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleMarkdown, auxiliaryKey: ._exampleMarkdown) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleMarkdown, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .markdown(exampleMarkdown)
+		if let exampleAddress = try Address(from: _container, forKeyIfPresent: .exampleAddress) {
+			_t_example = .address(exampleAddress)
 		}
 		if let exampleAnnotation = try Annotation(from: _container, forKeyIfPresent: .exampleAnnotation) {
 			if _t_example != nil {
@@ -982,11 +1375,23 @@ public struct ElementDefinition: Element {
 			}
 			_t_example = .attachment(exampleAttachment)
 		}
-		if let exampleIdentifier = try Identifier(from: _container, forKeyIfPresent: .exampleIdentifier) {
+		if let exampleBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .exampleBase64Binary, auxiliaryKey: ._exampleBase64Binary) {
 			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleIdentifier, in: _container, debugDescription: "More than one value provided for \"example\"")
+				throw DecodingError.dataCorruptedError(forKey: .exampleBase64Binary, in: _container, debugDescription: "More than one value provided for \"example\"")
 			}
-			_t_example = .identifier(exampleIdentifier)
+			_t_example = .base64Binary(exampleBase64Binary)
+		}
+		if let exampleBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .exampleBoolean, auxiliaryKey: ._exampleBoolean) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleBoolean, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .boolean(exampleBoolean)
+		}
+		if let exampleCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleCode, auxiliaryKey: ._exampleCode) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleCode, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .code(exampleCode)
 		}
 		if let exampleCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .exampleCodeableConcept) {
 			if _t_example != nil {
@@ -1000,6 +1405,90 @@ public struct ElementDefinition: Element {
 			}
 			_t_example = .coding(exampleCoding)
 		}
+		if let exampleContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .exampleContactPoint) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleContactPoint, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .contactPoint(exampleContactPoint)
+		}
+		if let exampleDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .exampleDate, auxiliaryKey: ._exampleDate) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleDate, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .date(exampleDate)
+		}
+		if let exampleDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .exampleDateTime, auxiliaryKey: ._exampleDateTime) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleDateTime, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .dateTime(exampleDateTime)
+		}
+		if let exampleDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .exampleDecimal, auxiliaryKey: ._exampleDecimal) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleDecimal, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .decimal(exampleDecimal)
+		}
+		if let exampleHumanName = try HumanName(from: _container, forKeyIfPresent: .exampleHumanName) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleHumanName, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .humanName(exampleHumanName)
+		}
+		if let exampleId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleId, auxiliaryKey: ._exampleId) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleId, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .id(exampleId)
+		}
+		if let exampleIdentifier = try Identifier(from: _container, forKeyIfPresent: .exampleIdentifier) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleIdentifier, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .identifier(exampleIdentifier)
+		}
+		if let exampleInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .exampleInstant, auxiliaryKey: ._exampleInstant) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleInstant, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .instant(exampleInstant)
+		}
+		if let exampleInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .exampleInteger, auxiliaryKey: ._exampleInteger) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleInteger, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .integer(exampleInteger)
+		}
+		if let exampleMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleMarkdown, auxiliaryKey: ._exampleMarkdown) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleMarkdown, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .markdown(exampleMarkdown)
+		}
+		if let exampleMeta = try Meta(from: _container, forKeyIfPresent: .exampleMeta) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleMeta, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .meta(exampleMeta)
+		}
+		if let exampleOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .exampleOid, auxiliaryKey: ._exampleOid) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleOid, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .oid(exampleOid)
+		}
+		if let examplePeriod = try Period(from: _container, forKeyIfPresent: .examplePeriod) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .examplePeriod, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .period(examplePeriod)
+		}
+		if let examplePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .examplePositiveInt, auxiliaryKey: ._examplePositiveInt) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .examplePositiveInt, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .positiveInt(examplePositiveInt)
+		}
 		if let exampleQuantity = try Quantity(from: _container, forKeyIfPresent: .exampleQuantity) {
 			if _t_example != nil {
 				throw DecodingError.dataCorruptedError(forKey: .exampleQuantity, in: _container, debugDescription: "More than one value provided for \"example\"")
@@ -1012,17 +1501,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_example = .range(exampleRange)
 		}
-		if let examplePeriod = try Period(from: _container, forKeyIfPresent: .examplePeriod) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .examplePeriod, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .period(examplePeriod)
-		}
 		if let exampleRatio = try Ratio(from: _container, forKeyIfPresent: .exampleRatio) {
 			if _t_example != nil {
 				throw DecodingError.dataCorruptedError(forKey: .exampleRatio, in: _container, debugDescription: "More than one value provided for \"example\"")
 			}
 			_t_example = .ratio(exampleRatio)
+		}
+		if let exampleReference = try Reference(from: _container, forKeyIfPresent: .exampleReference) {
+			if _t_example != nil {
+				throw DecodingError.dataCorruptedError(forKey: .exampleReference, in: _container, debugDescription: "More than one value provided for \"example\"")
+			}
+			_t_example = .reference(exampleReference)
 		}
 		if let exampleSampledData = try SampledData(from: _container, forKeyIfPresent: .exampleSampledData) {
 			if _t_example != nil {
@@ -1036,23 +1525,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_example = .signature(exampleSignature)
 		}
-		if let exampleHumanName = try HumanName(from: _container, forKeyIfPresent: .exampleHumanName) {
+		if let exampleString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .exampleString, auxiliaryKey: ._exampleString) {
 			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleHumanName, in: _container, debugDescription: "More than one value provided for \"example\"")
+				throw DecodingError.dataCorruptedError(forKey: .exampleString, in: _container, debugDescription: "More than one value provided for \"example\"")
 			}
-			_t_example = .humanName(exampleHumanName)
+			_t_example = .string(exampleString)
 		}
-		if let exampleAddress = try Address(from: _container, forKeyIfPresent: .exampleAddress) {
+		if let exampleTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .exampleTime, auxiliaryKey: ._exampleTime) {
 			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleAddress, in: _container, debugDescription: "More than one value provided for \"example\"")
+				throw DecodingError.dataCorruptedError(forKey: .exampleTime, in: _container, debugDescription: "More than one value provided for \"example\"")
 			}
-			_t_example = .address(exampleAddress)
-		}
-		if let exampleContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .exampleContactPoint) {
-			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleContactPoint, in: _container, debugDescription: "More than one value provided for \"example\"")
-			}
-			_t_example = .contactPoint(exampleContactPoint)
+			_t_example = .time(exampleTime)
 		}
 		if let exampleTiming = try Timing(from: _container, forKeyIfPresent: .exampleTiming) {
 			if _t_example != nil {
@@ -1060,116 +1543,27 @@ public struct ElementDefinition: Element {
 			}
 			_t_example = .timing(exampleTiming)
 		}
-		if let exampleReference = try Reference(from: _container, forKeyIfPresent: .exampleReference) {
+		if let exampleUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .exampleUnsignedInt, auxiliaryKey: ._exampleUnsignedInt) {
 			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleReference, in: _container, debugDescription: "More than one value provided for \"example\"")
+				throw DecodingError.dataCorruptedError(forKey: .exampleUnsignedInt, in: _container, debugDescription: "More than one value provided for \"example\"")
 			}
-			_t_example = .reference(exampleReference)
+			_t_example = .unsignedInt(exampleUnsignedInt)
 		}
-		if let exampleMeta = try Meta(from: _container, forKeyIfPresent: .exampleMeta) {
+		if let exampleUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .exampleUri, auxiliaryKey: ._exampleUri) {
 			if _t_example != nil {
-				throw DecodingError.dataCorruptedError(forKey: .exampleMeta, in: _container, debugDescription: "More than one value provided for \"example\"")
+				throw DecodingError.dataCorruptedError(forKey: .exampleUri, in: _container, debugDescription: "More than one value provided for \"example\"")
 			}
-			_t_example = .meta(exampleMeta)
+			_t_example = .uri(exampleUri)
 		}
-		self.example = _t_example
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		return _t_example
+	}
+	
+	private static func _decodeFixed(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> FixedX? {
 		var _t_fixed: FixedX? = nil
-		if let fixedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .fixedBoolean, auxiliaryKey: ._fixedBoolean) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedBoolean, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .boolean(fixedBoolean)
-		}
-		if let fixedInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .fixedInteger, auxiliaryKey: ._fixedInteger) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedInteger, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .integer(fixedInteger)
-		}
-		if let fixedDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .fixedDecimal, auxiliaryKey: ._fixedDecimal) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedDecimal, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .decimal(fixedDecimal)
-		}
-		if let fixedBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .fixedBase64Binary, auxiliaryKey: ._fixedBase64Binary) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedBase64Binary, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .base64Binary(fixedBase64Binary)
-		}
-		if let fixedInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .fixedInstant, auxiliaryKey: ._fixedInstant) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedInstant, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .instant(fixedInstant)
-		}
-		if let fixedString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedString, auxiliaryKey: ._fixedString) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedString, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .string(fixedString)
-		}
-		if let fixedUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .fixedUri, auxiliaryKey: ._fixedUri) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedUri, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .uri(fixedUri)
-		}
-		if let fixedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .fixedDate, auxiliaryKey: ._fixedDate) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedDate, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .date(fixedDate)
-		}
-		if let fixedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .fixedDateTime, auxiliaryKey: ._fixedDateTime) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedDateTime, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .dateTime(fixedDateTime)
-		}
-		if let fixedTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .fixedTime, auxiliaryKey: ._fixedTime) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedTime, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .time(fixedTime)
-		}
-		if let fixedCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedCode, auxiliaryKey: ._fixedCode) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedCode, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .code(fixedCode)
-		}
-		if let fixedOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .fixedOid, auxiliaryKey: ._fixedOid) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedOid, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .oid(fixedOid)
-		}
-		if let fixedId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedId, auxiliaryKey: ._fixedId) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedId, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .id(fixedId)
-		}
-		if let fixedUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .fixedUnsignedInt, auxiliaryKey: ._fixedUnsignedInt) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedUnsignedInt, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .unsignedInt(fixedUnsignedInt)
-		}
-		if let fixedPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .fixedPositiveInt, auxiliaryKey: ._fixedPositiveInt) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedPositiveInt, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .positiveInt(fixedPositiveInt)
-		}
-		if let fixedMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedMarkdown, auxiliaryKey: ._fixedMarkdown) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedMarkdown, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .markdown(fixedMarkdown)
+		if let fixedAddress = try Address(from: _container, forKeyIfPresent: .fixedAddress) {
+			_t_fixed = .address(fixedAddress)
 		}
 		if let fixedAnnotation = try Annotation(from: _container, forKeyIfPresent: .fixedAnnotation) {
 			if _t_fixed != nil {
@@ -1183,11 +1577,23 @@ public struct ElementDefinition: Element {
 			}
 			_t_fixed = .attachment(fixedAttachment)
 		}
-		if let fixedIdentifier = try Identifier(from: _container, forKeyIfPresent: .fixedIdentifier) {
+		if let fixedBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .fixedBase64Binary, auxiliaryKey: ._fixedBase64Binary) {
 			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedIdentifier, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+				throw DecodingError.dataCorruptedError(forKey: .fixedBase64Binary, in: _container, debugDescription: "More than one value provided for \"fixed\"")
 			}
-			_t_fixed = .identifier(fixedIdentifier)
+			_t_fixed = .base64Binary(fixedBase64Binary)
+		}
+		if let fixedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .fixedBoolean, auxiliaryKey: ._fixedBoolean) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedBoolean, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .boolean(fixedBoolean)
+		}
+		if let fixedCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedCode, auxiliaryKey: ._fixedCode) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedCode, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .code(fixedCode)
 		}
 		if let fixedCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .fixedCodeableConcept) {
 			if _t_fixed != nil {
@@ -1201,6 +1607,90 @@ public struct ElementDefinition: Element {
 			}
 			_t_fixed = .coding(fixedCoding)
 		}
+		if let fixedContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .fixedContactPoint) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedContactPoint, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .contactPoint(fixedContactPoint)
+		}
+		if let fixedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .fixedDate, auxiliaryKey: ._fixedDate) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedDate, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .date(fixedDate)
+		}
+		if let fixedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .fixedDateTime, auxiliaryKey: ._fixedDateTime) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedDateTime, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .dateTime(fixedDateTime)
+		}
+		if let fixedDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .fixedDecimal, auxiliaryKey: ._fixedDecimal) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedDecimal, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .decimal(fixedDecimal)
+		}
+		if let fixedHumanName = try HumanName(from: _container, forKeyIfPresent: .fixedHumanName) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedHumanName, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .humanName(fixedHumanName)
+		}
+		if let fixedId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedId, auxiliaryKey: ._fixedId) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedId, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .id(fixedId)
+		}
+		if let fixedIdentifier = try Identifier(from: _container, forKeyIfPresent: .fixedIdentifier) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedIdentifier, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .identifier(fixedIdentifier)
+		}
+		if let fixedInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .fixedInstant, auxiliaryKey: ._fixedInstant) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedInstant, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .instant(fixedInstant)
+		}
+		if let fixedInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .fixedInteger, auxiliaryKey: ._fixedInteger) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedInteger, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .integer(fixedInteger)
+		}
+		if let fixedMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedMarkdown, auxiliaryKey: ._fixedMarkdown) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedMarkdown, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .markdown(fixedMarkdown)
+		}
+		if let fixedMeta = try Meta(from: _container, forKeyIfPresent: .fixedMeta) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedMeta, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .meta(fixedMeta)
+		}
+		if let fixedOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .fixedOid, auxiliaryKey: ._fixedOid) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedOid, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .oid(fixedOid)
+		}
+		if let fixedPeriod = try Period(from: _container, forKeyIfPresent: .fixedPeriod) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedPeriod, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .period(fixedPeriod)
+		}
+		if let fixedPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .fixedPositiveInt, auxiliaryKey: ._fixedPositiveInt) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedPositiveInt, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .positiveInt(fixedPositiveInt)
+		}
 		if let fixedQuantity = try Quantity(from: _container, forKeyIfPresent: .fixedQuantity) {
 			if _t_fixed != nil {
 				throw DecodingError.dataCorruptedError(forKey: .fixedQuantity, in: _container, debugDescription: "More than one value provided for \"fixed\"")
@@ -1213,17 +1703,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_fixed = .range(fixedRange)
 		}
-		if let fixedPeriod = try Period(from: _container, forKeyIfPresent: .fixedPeriod) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedPeriod, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .period(fixedPeriod)
-		}
 		if let fixedRatio = try Ratio(from: _container, forKeyIfPresent: .fixedRatio) {
 			if _t_fixed != nil {
 				throw DecodingError.dataCorruptedError(forKey: .fixedRatio, in: _container, debugDescription: "More than one value provided for \"fixed\"")
 			}
 			_t_fixed = .ratio(fixedRatio)
+		}
+		if let fixedReference = try Reference(from: _container, forKeyIfPresent: .fixedReference) {
+			if _t_fixed != nil {
+				throw DecodingError.dataCorruptedError(forKey: .fixedReference, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+			}
+			_t_fixed = .reference(fixedReference)
 		}
 		if let fixedSampledData = try SampledData(from: _container, forKeyIfPresent: .fixedSampledData) {
 			if _t_fixed != nil {
@@ -1237,23 +1727,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_fixed = .signature(fixedSignature)
 		}
-		if let fixedHumanName = try HumanName(from: _container, forKeyIfPresent: .fixedHumanName) {
+		if let fixedString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .fixedString, auxiliaryKey: ._fixedString) {
 			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedHumanName, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+				throw DecodingError.dataCorruptedError(forKey: .fixedString, in: _container, debugDescription: "More than one value provided for \"fixed\"")
 			}
-			_t_fixed = .humanName(fixedHumanName)
+			_t_fixed = .string(fixedString)
 		}
-		if let fixedAddress = try Address(from: _container, forKeyIfPresent: .fixedAddress) {
+		if let fixedTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .fixedTime, auxiliaryKey: ._fixedTime) {
 			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedAddress, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+				throw DecodingError.dataCorruptedError(forKey: .fixedTime, in: _container, debugDescription: "More than one value provided for \"fixed\"")
 			}
-			_t_fixed = .address(fixedAddress)
-		}
-		if let fixedContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .fixedContactPoint) {
-			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedContactPoint, in: _container, debugDescription: "More than one value provided for \"fixed\"")
-			}
-			_t_fixed = .contactPoint(fixedContactPoint)
+			_t_fixed = .time(fixedTime)
 		}
 		if let fixedTiming = try Timing(from: _container, forKeyIfPresent: .fixedTiming) {
 			if _t_fixed != nil {
@@ -1261,122 +1745,27 @@ public struct ElementDefinition: Element {
 			}
 			_t_fixed = .timing(fixedTiming)
 		}
-		if let fixedReference = try Reference(from: _container, forKeyIfPresent: .fixedReference) {
+		if let fixedUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .fixedUnsignedInt, auxiliaryKey: ._fixedUnsignedInt) {
 			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedReference, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+				throw DecodingError.dataCorruptedError(forKey: .fixedUnsignedInt, in: _container, debugDescription: "More than one value provided for \"fixed\"")
 			}
-			_t_fixed = .reference(fixedReference)
+			_t_fixed = .unsignedInt(fixedUnsignedInt)
 		}
-		if let fixedMeta = try Meta(from: _container, forKeyIfPresent: .fixedMeta) {
+		if let fixedUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .fixedUri, auxiliaryKey: ._fixedUri) {
 			if _t_fixed != nil {
-				throw DecodingError.dataCorruptedError(forKey: .fixedMeta, in: _container, debugDescription: "More than one value provided for \"fixed\"")
+				throw DecodingError.dataCorruptedError(forKey: .fixedUri, in: _container, debugDescription: "More than one value provided for \"fixed\"")
 			}
-			_t_fixed = .meta(fixedMeta)
+			_t_fixed = .uri(fixedUri)
 		}
-		self.fixed = _t_fixed
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.isModifier = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isModifier, auxiliaryKey: ._isModifier)
-		self.isSummary = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isSummary, auxiliaryKey: ._isSummary)
-		self.label = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .label, auxiliaryKey: ._label)
-		self.mapping = try [ElementDefinitionMapping](from: _container, forKeyIfPresent: .mapping)
-		self.max = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .max, auxiliaryKey: ._max)
-		self.maxLength = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .maxLength, auxiliaryKey: ._maxLength)
+		return _t_fixed
+	}
+	
+	private static func _decodeMaxValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MaxValueX? {
 		var _t_maxValue: MaxValueX? = nil
-		if let maxValueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .maxValueBoolean, auxiliaryKey: ._maxValueBoolean) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueBoolean, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .boolean(maxValueBoolean)
-		}
-		if let maxValueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .maxValueInteger, auxiliaryKey: ._maxValueInteger) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueInteger, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .integer(maxValueInteger)
-		}
-		if let maxValueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .maxValueDecimal, auxiliaryKey: ._maxValueDecimal) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueDecimal, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .decimal(maxValueDecimal)
-		}
-		if let maxValueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .maxValueBase64Binary, auxiliaryKey: ._maxValueBase64Binary) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueBase64Binary, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .base64Binary(maxValueBase64Binary)
-		}
-		if let maxValueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .maxValueInstant, auxiliaryKey: ._maxValueInstant) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueInstant, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .instant(maxValueInstant)
-		}
-		if let maxValueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueString, auxiliaryKey: ._maxValueString) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueString, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .string(maxValueString)
-		}
-		if let maxValueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .maxValueUri, auxiliaryKey: ._maxValueUri) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueUri, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .uri(maxValueUri)
-		}
-		if let maxValueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .maxValueDate, auxiliaryKey: ._maxValueDate) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueDate, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .date(maxValueDate)
-		}
-		if let maxValueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .maxValueDateTime, auxiliaryKey: ._maxValueDateTime) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueDateTime, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .dateTime(maxValueDateTime)
-		}
-		if let maxValueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .maxValueTime, auxiliaryKey: ._maxValueTime) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueTime, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .time(maxValueTime)
-		}
-		if let maxValueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueCode, auxiliaryKey: ._maxValueCode) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueCode, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .code(maxValueCode)
-		}
-		if let maxValueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .maxValueOid, auxiliaryKey: ._maxValueOid) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueOid, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .oid(maxValueOid)
-		}
-		if let maxValueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueId, auxiliaryKey: ._maxValueId) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueId, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .id(maxValueId)
-		}
-		if let maxValueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .maxValueUnsignedInt, auxiliaryKey: ._maxValueUnsignedInt) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .unsignedInt(maxValueUnsignedInt)
-		}
-		if let maxValuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .maxValuePositiveInt, auxiliaryKey: ._maxValuePositiveInt) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValuePositiveInt, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .positiveInt(maxValuePositiveInt)
-		}
-		if let maxValueMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueMarkdown, auxiliaryKey: ._maxValueMarkdown) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueMarkdown, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .markdown(maxValueMarkdown)
+		if let maxValueAddress = try Address(from: _container, forKeyIfPresent: .maxValueAddress) {
+			_t_maxValue = .address(maxValueAddress)
 		}
 		if let maxValueAnnotation = try Annotation(from: _container, forKeyIfPresent: .maxValueAnnotation) {
 			if _t_maxValue != nil {
@@ -1390,11 +1779,23 @@ public struct ElementDefinition: Element {
 			}
 			_t_maxValue = .attachment(maxValueAttachment)
 		}
-		if let maxValueIdentifier = try Identifier(from: _container, forKeyIfPresent: .maxValueIdentifier) {
+		if let maxValueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .maxValueBase64Binary, auxiliaryKey: ._maxValueBase64Binary) {
 			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueIdentifier, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .maxValueBase64Binary, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
 			}
-			_t_maxValue = .identifier(maxValueIdentifier)
+			_t_maxValue = .base64Binary(maxValueBase64Binary)
+		}
+		if let maxValueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .maxValueBoolean, auxiliaryKey: ._maxValueBoolean) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueBoolean, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .boolean(maxValueBoolean)
+		}
+		if let maxValueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueCode, auxiliaryKey: ._maxValueCode) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueCode, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .code(maxValueCode)
 		}
 		if let maxValueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .maxValueCodeableConcept) {
 			if _t_maxValue != nil {
@@ -1408,6 +1809,90 @@ public struct ElementDefinition: Element {
 			}
 			_t_maxValue = .coding(maxValueCoding)
 		}
+		if let maxValueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .maxValueContactPoint) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueContactPoint, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .contactPoint(maxValueContactPoint)
+		}
+		if let maxValueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .maxValueDate, auxiliaryKey: ._maxValueDate) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueDate, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .date(maxValueDate)
+		}
+		if let maxValueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .maxValueDateTime, auxiliaryKey: ._maxValueDateTime) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueDateTime, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .dateTime(maxValueDateTime)
+		}
+		if let maxValueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .maxValueDecimal, auxiliaryKey: ._maxValueDecimal) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueDecimal, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .decimal(maxValueDecimal)
+		}
+		if let maxValueHumanName = try HumanName(from: _container, forKeyIfPresent: .maxValueHumanName) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueHumanName, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .humanName(maxValueHumanName)
+		}
+		if let maxValueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueId, auxiliaryKey: ._maxValueId) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueId, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .id(maxValueId)
+		}
+		if let maxValueIdentifier = try Identifier(from: _container, forKeyIfPresent: .maxValueIdentifier) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueIdentifier, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .identifier(maxValueIdentifier)
+		}
+		if let maxValueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .maxValueInstant, auxiliaryKey: ._maxValueInstant) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueInstant, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .instant(maxValueInstant)
+		}
+		if let maxValueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .maxValueInteger, auxiliaryKey: ._maxValueInteger) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueInteger, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .integer(maxValueInteger)
+		}
+		if let maxValueMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueMarkdown, auxiliaryKey: ._maxValueMarkdown) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueMarkdown, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .markdown(maxValueMarkdown)
+		}
+		if let maxValueMeta = try Meta(from: _container, forKeyIfPresent: .maxValueMeta) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueMeta, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .meta(maxValueMeta)
+		}
+		if let maxValueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .maxValueOid, auxiliaryKey: ._maxValueOid) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueOid, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .oid(maxValueOid)
+		}
+		if let maxValuePeriod = try Period(from: _container, forKeyIfPresent: .maxValuePeriod) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValuePeriod, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .period(maxValuePeriod)
+		}
+		if let maxValuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .maxValuePositiveInt, auxiliaryKey: ._maxValuePositiveInt) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValuePositiveInt, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .positiveInt(maxValuePositiveInt)
+		}
 		if let maxValueQuantity = try Quantity(from: _container, forKeyIfPresent: .maxValueQuantity) {
 			if _t_maxValue != nil {
 				throw DecodingError.dataCorruptedError(forKey: .maxValueQuantity, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
@@ -1420,17 +1905,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_maxValue = .range(maxValueRange)
 		}
-		if let maxValuePeriod = try Period(from: _container, forKeyIfPresent: .maxValuePeriod) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValuePeriod, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .period(maxValuePeriod)
-		}
 		if let maxValueRatio = try Ratio(from: _container, forKeyIfPresent: .maxValueRatio) {
 			if _t_maxValue != nil {
 				throw DecodingError.dataCorruptedError(forKey: .maxValueRatio, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
 			}
 			_t_maxValue = .ratio(maxValueRatio)
+		}
+		if let maxValueReference = try Reference(from: _container, forKeyIfPresent: .maxValueReference) {
+			if _t_maxValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .maxValueReference, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+			}
+			_t_maxValue = .reference(maxValueReference)
 		}
 		if let maxValueSampledData = try SampledData(from: _container, forKeyIfPresent: .maxValueSampledData) {
 			if _t_maxValue != nil {
@@ -1444,23 +1929,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_maxValue = .signature(maxValueSignature)
 		}
-		if let maxValueHumanName = try HumanName(from: _container, forKeyIfPresent: .maxValueHumanName) {
+		if let maxValueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .maxValueString, auxiliaryKey: ._maxValueString) {
 			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueHumanName, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .maxValueString, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
 			}
-			_t_maxValue = .humanName(maxValueHumanName)
+			_t_maxValue = .string(maxValueString)
 		}
-		if let maxValueAddress = try Address(from: _container, forKeyIfPresent: .maxValueAddress) {
+		if let maxValueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .maxValueTime, auxiliaryKey: ._maxValueTime) {
 			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueAddress, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .maxValueTime, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
 			}
-			_t_maxValue = .address(maxValueAddress)
-		}
-		if let maxValueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .maxValueContactPoint) {
-			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueContactPoint, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
-			}
-			_t_maxValue = .contactPoint(maxValueContactPoint)
+			_t_maxValue = .time(maxValueTime)
 		}
 		if let maxValueTiming = try Timing(from: _container, forKeyIfPresent: .maxValueTiming) {
 			if _t_maxValue != nil {
@@ -1468,117 +1947,27 @@ public struct ElementDefinition: Element {
 			}
 			_t_maxValue = .timing(maxValueTiming)
 		}
-		if let maxValueReference = try Reference(from: _container, forKeyIfPresent: .maxValueReference) {
+		if let maxValueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .maxValueUnsignedInt, auxiliaryKey: ._maxValueUnsignedInt) {
 			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueReference, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .maxValueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
 			}
-			_t_maxValue = .reference(maxValueReference)
+			_t_maxValue = .unsignedInt(maxValueUnsignedInt)
 		}
-		if let maxValueMeta = try Meta(from: _container, forKeyIfPresent: .maxValueMeta) {
+		if let maxValueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .maxValueUri, auxiliaryKey: ._maxValueUri) {
 			if _t_maxValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .maxValueMeta, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .maxValueUri, in: _container, debugDescription: "More than one value provided for \"maxValue\"")
 			}
-			_t_maxValue = .meta(maxValueMeta)
+			_t_maxValue = .uri(maxValueUri)
 		}
-		self.maxValue = _t_maxValue
-		self.meaningWhenMissing = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .meaningWhenMissing, auxiliaryKey: ._meaningWhenMissing)
-		self.min = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .min, auxiliaryKey: ._min)
+		return _t_maxValue
+	}
+	
+	private static func _decodeMinValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MinValueX? {
 		var _t_minValue: MinValueX? = nil
-		if let minValueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .minValueBoolean, auxiliaryKey: ._minValueBoolean) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueBoolean, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .boolean(minValueBoolean)
-		}
-		if let minValueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .minValueInteger, auxiliaryKey: ._minValueInteger) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueInteger, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .integer(minValueInteger)
-		}
-		if let minValueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .minValueDecimal, auxiliaryKey: ._minValueDecimal) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueDecimal, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .decimal(minValueDecimal)
-		}
-		if let minValueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .minValueBase64Binary, auxiliaryKey: ._minValueBase64Binary) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueBase64Binary, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .base64Binary(minValueBase64Binary)
-		}
-		if let minValueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .minValueInstant, auxiliaryKey: ._minValueInstant) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueInstant, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .instant(minValueInstant)
-		}
-		if let minValueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueString, auxiliaryKey: ._minValueString) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueString, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .string(minValueString)
-		}
-		if let minValueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .minValueUri, auxiliaryKey: ._minValueUri) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueUri, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .uri(minValueUri)
-		}
-		if let minValueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .minValueDate, auxiliaryKey: ._minValueDate) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueDate, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .date(minValueDate)
-		}
-		if let minValueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .minValueDateTime, auxiliaryKey: ._minValueDateTime) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueDateTime, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .dateTime(minValueDateTime)
-		}
-		if let minValueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .minValueTime, auxiliaryKey: ._minValueTime) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueTime, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .time(minValueTime)
-		}
-		if let minValueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueCode, auxiliaryKey: ._minValueCode) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueCode, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .code(minValueCode)
-		}
-		if let minValueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .minValueOid, auxiliaryKey: ._minValueOid) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueOid, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .oid(minValueOid)
-		}
-		if let minValueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueId, auxiliaryKey: ._minValueId) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueId, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .id(minValueId)
-		}
-		if let minValueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .minValueUnsignedInt, auxiliaryKey: ._minValueUnsignedInt) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .unsignedInt(minValueUnsignedInt)
-		}
-		if let minValuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .minValuePositiveInt, auxiliaryKey: ._minValuePositiveInt) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValuePositiveInt, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .positiveInt(minValuePositiveInt)
-		}
-		if let minValueMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueMarkdown, auxiliaryKey: ._minValueMarkdown) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueMarkdown, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .markdown(minValueMarkdown)
+		if let minValueAddress = try Address(from: _container, forKeyIfPresent: .minValueAddress) {
+			_t_minValue = .address(minValueAddress)
 		}
 		if let minValueAnnotation = try Annotation(from: _container, forKeyIfPresent: .minValueAnnotation) {
 			if _t_minValue != nil {
@@ -1592,11 +1981,23 @@ public struct ElementDefinition: Element {
 			}
 			_t_minValue = .attachment(minValueAttachment)
 		}
-		if let minValueIdentifier = try Identifier(from: _container, forKeyIfPresent: .minValueIdentifier) {
+		if let minValueBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .minValueBase64Binary, auxiliaryKey: ._minValueBase64Binary) {
 			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueIdentifier, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .minValueBase64Binary, in: _container, debugDescription: "More than one value provided for \"minValue\"")
 			}
-			_t_minValue = .identifier(minValueIdentifier)
+			_t_minValue = .base64Binary(minValueBase64Binary)
+		}
+		if let minValueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .minValueBoolean, auxiliaryKey: ._minValueBoolean) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueBoolean, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .boolean(minValueBoolean)
+		}
+		if let minValueCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueCode, auxiliaryKey: ._minValueCode) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueCode, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .code(minValueCode)
 		}
 		if let minValueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .minValueCodeableConcept) {
 			if _t_minValue != nil {
@@ -1610,6 +2011,90 @@ public struct ElementDefinition: Element {
 			}
 			_t_minValue = .coding(minValueCoding)
 		}
+		if let minValueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .minValueContactPoint) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueContactPoint, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .contactPoint(minValueContactPoint)
+		}
+		if let minValueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .minValueDate, auxiliaryKey: ._minValueDate) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueDate, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .date(minValueDate)
+		}
+		if let minValueDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .minValueDateTime, auxiliaryKey: ._minValueDateTime) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueDateTime, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .dateTime(minValueDateTime)
+		}
+		if let minValueDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .minValueDecimal, auxiliaryKey: ._minValueDecimal) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueDecimal, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .decimal(minValueDecimal)
+		}
+		if let minValueHumanName = try HumanName(from: _container, forKeyIfPresent: .minValueHumanName) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueHumanName, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .humanName(minValueHumanName)
+		}
+		if let minValueId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueId, auxiliaryKey: ._minValueId) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueId, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .id(minValueId)
+		}
+		if let minValueIdentifier = try Identifier(from: _container, forKeyIfPresent: .minValueIdentifier) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueIdentifier, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .identifier(minValueIdentifier)
+		}
+		if let minValueInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .minValueInstant, auxiliaryKey: ._minValueInstant) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueInstant, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .instant(minValueInstant)
+		}
+		if let minValueInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .minValueInteger, auxiliaryKey: ._minValueInteger) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueInteger, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .integer(minValueInteger)
+		}
+		if let minValueMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueMarkdown, auxiliaryKey: ._minValueMarkdown) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueMarkdown, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .markdown(minValueMarkdown)
+		}
+		if let minValueMeta = try Meta(from: _container, forKeyIfPresent: .minValueMeta) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueMeta, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .meta(minValueMeta)
+		}
+		if let minValueOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .minValueOid, auxiliaryKey: ._minValueOid) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueOid, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .oid(minValueOid)
+		}
+		if let minValuePeriod = try Period(from: _container, forKeyIfPresent: .minValuePeriod) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValuePeriod, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .period(minValuePeriod)
+		}
+		if let minValuePositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .minValuePositiveInt, auxiliaryKey: ._minValuePositiveInt) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValuePositiveInt, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .positiveInt(minValuePositiveInt)
+		}
 		if let minValueQuantity = try Quantity(from: _container, forKeyIfPresent: .minValueQuantity) {
 			if _t_minValue != nil {
 				throw DecodingError.dataCorruptedError(forKey: .minValueQuantity, in: _container, debugDescription: "More than one value provided for \"minValue\"")
@@ -1622,17 +2107,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_minValue = .range(minValueRange)
 		}
-		if let minValuePeriod = try Period(from: _container, forKeyIfPresent: .minValuePeriod) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValuePeriod, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .period(minValuePeriod)
-		}
 		if let minValueRatio = try Ratio(from: _container, forKeyIfPresent: .minValueRatio) {
 			if _t_minValue != nil {
 				throw DecodingError.dataCorruptedError(forKey: .minValueRatio, in: _container, debugDescription: "More than one value provided for \"minValue\"")
 			}
 			_t_minValue = .ratio(minValueRatio)
+		}
+		if let minValueReference = try Reference(from: _container, forKeyIfPresent: .minValueReference) {
+			if _t_minValue != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minValueReference, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+			}
+			_t_minValue = .reference(minValueReference)
 		}
 		if let minValueSampledData = try SampledData(from: _container, forKeyIfPresent: .minValueSampledData) {
 			if _t_minValue != nil {
@@ -1646,23 +2131,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_minValue = .signature(minValueSignature)
 		}
-		if let minValueHumanName = try HumanName(from: _container, forKeyIfPresent: .minValueHumanName) {
+		if let minValueString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minValueString, auxiliaryKey: ._minValueString) {
 			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueHumanName, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .minValueString, in: _container, debugDescription: "More than one value provided for \"minValue\"")
 			}
-			_t_minValue = .humanName(minValueHumanName)
+			_t_minValue = .string(minValueString)
 		}
-		if let minValueAddress = try Address(from: _container, forKeyIfPresent: .minValueAddress) {
+		if let minValueTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .minValueTime, auxiliaryKey: ._minValueTime) {
 			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueAddress, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .minValueTime, in: _container, debugDescription: "More than one value provided for \"minValue\"")
 			}
-			_t_minValue = .address(minValueAddress)
-		}
-		if let minValueContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .minValueContactPoint) {
-			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueContactPoint, in: _container, debugDescription: "More than one value provided for \"minValue\"")
-			}
-			_t_minValue = .contactPoint(minValueContactPoint)
+			_t_minValue = .time(minValueTime)
 		}
 		if let minValueTiming = try Timing(from: _container, forKeyIfPresent: .minValueTiming) {
 			if _t_minValue != nil {
@@ -1670,119 +2149,27 @@ public struct ElementDefinition: Element {
 			}
 			_t_minValue = .timing(minValueTiming)
 		}
-		if let minValueReference = try Reference(from: _container, forKeyIfPresent: .minValueReference) {
+		if let minValueUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .minValueUnsignedInt, auxiliaryKey: ._minValueUnsignedInt) {
 			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueReference, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .minValueUnsignedInt, in: _container, debugDescription: "More than one value provided for \"minValue\"")
 			}
-			_t_minValue = .reference(minValueReference)
+			_t_minValue = .unsignedInt(minValueUnsignedInt)
 		}
-		if let minValueMeta = try Meta(from: _container, forKeyIfPresent: .minValueMeta) {
+		if let minValueUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .minValueUri, auxiliaryKey: ._minValueUri) {
 			if _t_minValue != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minValueMeta, in: _container, debugDescription: "More than one value provided for \"minValue\"")
+				throw DecodingError.dataCorruptedError(forKey: .minValueUri, in: _container, debugDescription: "More than one value provided for \"minValue\"")
 			}
-			_t_minValue = .meta(minValueMeta)
+			_t_minValue = .uri(minValueUri)
 		}
-		self.minValue = _t_minValue
-		self.mustSupport = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .mustSupport, auxiliaryKey: ._mustSupport)
-		self.name = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .name, auxiliaryKey: ._name)
-		self.nameReference = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .nameReference, auxiliaryKey: ._nameReference)
-		self.path = try FHIRPrimitive<FHIRString>(from: _container, forKey: .path, auxiliaryKey: ._path)
+		return _t_minValue
+	}
+	
+	private static func _decodePattern(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> PatternX? {
 		var _t_pattern: PatternX? = nil
-		if let patternBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .patternBoolean, auxiliaryKey: ._patternBoolean) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternBoolean, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .boolean(patternBoolean)
-		}
-		if let patternInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .patternInteger, auxiliaryKey: ._patternInteger) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternInteger, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .integer(patternInteger)
-		}
-		if let patternDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .patternDecimal, auxiliaryKey: ._patternDecimal) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternDecimal, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .decimal(patternDecimal)
-		}
-		if let patternBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .patternBase64Binary, auxiliaryKey: ._patternBase64Binary) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternBase64Binary, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .base64Binary(patternBase64Binary)
-		}
-		if let patternInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .patternInstant, auxiliaryKey: ._patternInstant) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternInstant, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .instant(patternInstant)
-		}
-		if let patternString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternString, auxiliaryKey: ._patternString) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternString, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .string(patternString)
-		}
-		if let patternUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .patternUri, auxiliaryKey: ._patternUri) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternUri, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .uri(patternUri)
-		}
-		if let patternDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .patternDate, auxiliaryKey: ._patternDate) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternDate, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .date(patternDate)
-		}
-		if let patternDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .patternDateTime, auxiliaryKey: ._patternDateTime) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternDateTime, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .dateTime(patternDateTime)
-		}
-		if let patternTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .patternTime, auxiliaryKey: ._patternTime) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternTime, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .time(patternTime)
-		}
-		if let patternCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternCode, auxiliaryKey: ._patternCode) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternCode, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .code(patternCode)
-		}
-		if let patternOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .patternOid, auxiliaryKey: ._patternOid) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternOid, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .oid(patternOid)
-		}
-		if let patternId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternId, auxiliaryKey: ._patternId) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternId, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .id(patternId)
-		}
-		if let patternUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .patternUnsignedInt, auxiliaryKey: ._patternUnsignedInt) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternUnsignedInt, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .unsignedInt(patternUnsignedInt)
-		}
-		if let patternPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .patternPositiveInt, auxiliaryKey: ._patternPositiveInt) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternPositiveInt, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .positiveInt(patternPositiveInt)
-		}
-		if let patternMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternMarkdown, auxiliaryKey: ._patternMarkdown) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternMarkdown, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .markdown(patternMarkdown)
+		if let patternAddress = try Address(from: _container, forKeyIfPresent: .patternAddress) {
+			_t_pattern = .address(patternAddress)
 		}
 		if let patternAnnotation = try Annotation(from: _container, forKeyIfPresent: .patternAnnotation) {
 			if _t_pattern != nil {
@@ -1796,11 +2183,23 @@ public struct ElementDefinition: Element {
 			}
 			_t_pattern = .attachment(patternAttachment)
 		}
-		if let patternIdentifier = try Identifier(from: _container, forKeyIfPresent: .patternIdentifier) {
+		if let patternBase64Binary = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .patternBase64Binary, auxiliaryKey: ._patternBase64Binary) {
 			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternIdentifier, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+				throw DecodingError.dataCorruptedError(forKey: .patternBase64Binary, in: _container, debugDescription: "More than one value provided for \"pattern\"")
 			}
-			_t_pattern = .identifier(patternIdentifier)
+			_t_pattern = .base64Binary(patternBase64Binary)
+		}
+		if let patternBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .patternBoolean, auxiliaryKey: ._patternBoolean) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternBoolean, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .boolean(patternBoolean)
+		}
+		if let patternCode = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternCode, auxiliaryKey: ._patternCode) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternCode, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .code(patternCode)
 		}
 		if let patternCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .patternCodeableConcept) {
 			if _t_pattern != nil {
@@ -1814,6 +2213,90 @@ public struct ElementDefinition: Element {
 			}
 			_t_pattern = .coding(patternCoding)
 		}
+		if let patternContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .patternContactPoint) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternContactPoint, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .contactPoint(patternContactPoint)
+		}
+		if let patternDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .patternDate, auxiliaryKey: ._patternDate) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternDate, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .date(patternDate)
+		}
+		if let patternDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .patternDateTime, auxiliaryKey: ._patternDateTime) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternDateTime, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .dateTime(patternDateTime)
+		}
+		if let patternDecimal = try FHIRPrimitive<FHIRDecimal>(from: _container, forKeyIfPresent: .patternDecimal, auxiliaryKey: ._patternDecimal) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternDecimal, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .decimal(patternDecimal)
+		}
+		if let patternHumanName = try HumanName(from: _container, forKeyIfPresent: .patternHumanName) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternHumanName, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .humanName(patternHumanName)
+		}
+		if let patternId = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternId, auxiliaryKey: ._patternId) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternId, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .id(patternId)
+		}
+		if let patternIdentifier = try Identifier(from: _container, forKeyIfPresent: .patternIdentifier) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternIdentifier, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .identifier(patternIdentifier)
+		}
+		if let patternInstant = try FHIRPrimitive<Instant>(from: _container, forKeyIfPresent: .patternInstant, auxiliaryKey: ._patternInstant) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternInstant, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .instant(patternInstant)
+		}
+		if let patternInteger = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .patternInteger, auxiliaryKey: ._patternInteger) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternInteger, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .integer(patternInteger)
+		}
+		if let patternMarkdown = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternMarkdown, auxiliaryKey: ._patternMarkdown) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternMarkdown, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .markdown(patternMarkdown)
+		}
+		if let patternMeta = try Meta(from: _container, forKeyIfPresent: .patternMeta) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternMeta, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .meta(patternMeta)
+		}
+		if let patternOid = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .patternOid, auxiliaryKey: ._patternOid) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternOid, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .oid(patternOid)
+		}
+		if let patternPeriod = try Period(from: _container, forKeyIfPresent: .patternPeriod) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternPeriod, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .period(patternPeriod)
+		}
+		if let patternPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .patternPositiveInt, auxiliaryKey: ._patternPositiveInt) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternPositiveInt, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .positiveInt(patternPositiveInt)
+		}
 		if let patternQuantity = try Quantity(from: _container, forKeyIfPresent: .patternQuantity) {
 			if _t_pattern != nil {
 				throw DecodingError.dataCorruptedError(forKey: .patternQuantity, in: _container, debugDescription: "More than one value provided for \"pattern\"")
@@ -1826,17 +2309,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_pattern = .range(patternRange)
 		}
-		if let patternPeriod = try Period(from: _container, forKeyIfPresent: .patternPeriod) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternPeriod, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .period(patternPeriod)
-		}
 		if let patternRatio = try Ratio(from: _container, forKeyIfPresent: .patternRatio) {
 			if _t_pattern != nil {
 				throw DecodingError.dataCorruptedError(forKey: .patternRatio, in: _container, debugDescription: "More than one value provided for \"pattern\"")
 			}
 			_t_pattern = .ratio(patternRatio)
+		}
+		if let patternReference = try Reference(from: _container, forKeyIfPresent: .patternReference) {
+			if _t_pattern != nil {
+				throw DecodingError.dataCorruptedError(forKey: .patternReference, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+			}
+			_t_pattern = .reference(patternReference)
 		}
 		if let patternSampledData = try SampledData(from: _container, forKeyIfPresent: .patternSampledData) {
 			if _t_pattern != nil {
@@ -1850,23 +2333,17 @@ public struct ElementDefinition: Element {
 			}
 			_t_pattern = .signature(patternSignature)
 		}
-		if let patternHumanName = try HumanName(from: _container, forKeyIfPresent: .patternHumanName) {
+		if let patternString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patternString, auxiliaryKey: ._patternString) {
 			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternHumanName, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+				throw DecodingError.dataCorruptedError(forKey: .patternString, in: _container, debugDescription: "More than one value provided for \"pattern\"")
 			}
-			_t_pattern = .humanName(patternHumanName)
+			_t_pattern = .string(patternString)
 		}
-		if let patternAddress = try Address(from: _container, forKeyIfPresent: .patternAddress) {
+		if let patternTime = try FHIRPrimitive<FHIRTime>(from: _container, forKeyIfPresent: .patternTime, auxiliaryKey: ._patternTime) {
 			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternAddress, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+				throw DecodingError.dataCorruptedError(forKey: .patternTime, in: _container, debugDescription: "More than one value provided for \"pattern\"")
 			}
-			_t_pattern = .address(patternAddress)
-		}
-		if let patternContactPoint = try ContactPoint(from: _container, forKeyIfPresent: .patternContactPoint) {
-			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternContactPoint, in: _container, debugDescription: "More than one value provided for \"pattern\"")
-			}
-			_t_pattern = .contactPoint(patternContactPoint)
+			_t_pattern = .time(patternTime)
 		}
 		if let patternTiming = try Timing(from: _container, forKeyIfPresent: .patternTiming) {
 			if _t_pattern != nil {
@@ -1874,477 +2351,19 @@ public struct ElementDefinition: Element {
 			}
 			_t_pattern = .timing(patternTiming)
 		}
-		if let patternReference = try Reference(from: _container, forKeyIfPresent: .patternReference) {
+		if let patternUnsignedInt = try FHIRPrimitive<FHIRUnsignedInteger>(from: _container, forKeyIfPresent: .patternUnsignedInt, auxiliaryKey: ._patternUnsignedInt) {
 			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternReference, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+				throw DecodingError.dataCorruptedError(forKey: .patternUnsignedInt, in: _container, debugDescription: "More than one value provided for \"pattern\"")
 			}
-			_t_pattern = .reference(patternReference)
+			_t_pattern = .unsignedInt(patternUnsignedInt)
 		}
-		if let patternMeta = try Meta(from: _container, forKeyIfPresent: .patternMeta) {
+		if let patternUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .patternUri, auxiliaryKey: ._patternUri) {
 			if _t_pattern != nil {
-				throw DecodingError.dataCorruptedError(forKey: .patternMeta, in: _container, debugDescription: "More than one value provided for \"pattern\"")
+				throw DecodingError.dataCorruptedError(forKey: .patternUri, in: _container, debugDescription: "More than one value provided for \"pattern\"")
 			}
-			_t_pattern = .meta(patternMeta)
+			_t_pattern = .uri(patternUri)
 		}
-		self.pattern = _t_pattern
-		self.representation = try [FHIRPrimitive<PropertyRepresentation>](from: _container, forKeyIfPresent: .representation, auxiliaryKey: ._representation)
-		self.requirements = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .requirements, auxiliaryKey: ._requirements)
-		self.short = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .short, auxiliaryKey: ._short)
-		self.slicing = try ElementDefinitionSlicing(from: _container, forKeyIfPresent: .slicing)
-		self.type = try [ElementDefinitionType](from: _container, forKeyIfPresent: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
-		try base?.encode(on: &_container, forKey: .base)
-		try binding?.encode(on: &_container, forKey: .binding)
-		try code?.encode(on: &_container, forKey: .code)
-		try comments?.encode(on: &_container, forKey: .comments, auxiliaryKey: ._comments)
-		try condition?.encode(on: &_container, forKey: .condition, auxiliaryKey: ._condition)
-		try constraint?.encode(on: &_container, forKey: .constraint)
-		if let _enum = defaultValue {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueBoolean, auxiliaryKey: ._defaultValueBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueInteger, auxiliaryKey: ._defaultValueInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueDecimal, auxiliaryKey: ._defaultValueDecimal)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueBase64Binary, auxiliaryKey: ._defaultValueBase64Binary)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueInstant, auxiliaryKey: ._defaultValueInstant)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueString, auxiliaryKey: ._defaultValueString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueUri, auxiliaryKey: ._defaultValueUri)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueDate, auxiliaryKey: ._defaultValueDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueDateTime, auxiliaryKey: ._defaultValueDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueTime, auxiliaryKey: ._defaultValueTime)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueCode, auxiliaryKey: ._defaultValueCode)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueOid, auxiliaryKey: ._defaultValueOid)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueId, auxiliaryKey: ._defaultValueId)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueUnsignedInt, auxiliaryKey: ._defaultValueUnsignedInt)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValuePositiveInt, auxiliaryKey: ._defaultValuePositiveInt)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueMarkdown, auxiliaryKey: ._defaultValueMarkdown)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueAttachment)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueIdentifier)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueCodeableConcept)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValuePeriod)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueRatio)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueSignature)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueHumanName)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueAddress)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueContactPoint)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueReference)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .defaultValueMeta)
-			}
-		}
-		try definition?.encode(on: &_container, forKey: .definition, auxiliaryKey: ._definition)
-		if let _enum = example {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .exampleBoolean, auxiliaryKey: ._exampleBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .exampleInteger, auxiliaryKey: ._exampleInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .exampleDecimal, auxiliaryKey: ._exampleDecimal)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .exampleBase64Binary, auxiliaryKey: ._exampleBase64Binary)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .exampleInstant, auxiliaryKey: ._exampleInstant)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .exampleString, auxiliaryKey: ._exampleString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .exampleUri, auxiliaryKey: ._exampleUri)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .exampleDate, auxiliaryKey: ._exampleDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .exampleDateTime, auxiliaryKey: ._exampleDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .exampleTime, auxiliaryKey: ._exampleTime)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .exampleCode, auxiliaryKey: ._exampleCode)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .exampleOid, auxiliaryKey: ._exampleOid)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .exampleId, auxiliaryKey: ._exampleId)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .exampleUnsignedInt, auxiliaryKey: ._exampleUnsignedInt)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .examplePositiveInt, auxiliaryKey: ._examplePositiveInt)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .exampleMarkdown, auxiliaryKey: ._exampleMarkdown)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .exampleAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .exampleAttachment)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .exampleIdentifier)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .exampleCodeableConcept)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .exampleCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .exampleQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .exampleRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .examplePeriod)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .exampleRatio)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .exampleSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .exampleSignature)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .exampleHumanName)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .exampleAddress)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .exampleContactPoint)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .exampleTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .exampleReference)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .exampleMeta)
-			}
-		}
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		if let _enum = fixed {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .fixedBoolean, auxiliaryKey: ._fixedBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .fixedInteger, auxiliaryKey: ._fixedInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .fixedDecimal, auxiliaryKey: ._fixedDecimal)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .fixedBase64Binary, auxiliaryKey: ._fixedBase64Binary)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .fixedInstant, auxiliaryKey: ._fixedInstant)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .fixedString, auxiliaryKey: ._fixedString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .fixedUri, auxiliaryKey: ._fixedUri)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .fixedDate, auxiliaryKey: ._fixedDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .fixedDateTime, auxiliaryKey: ._fixedDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .fixedTime, auxiliaryKey: ._fixedTime)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .fixedCode, auxiliaryKey: ._fixedCode)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .fixedOid, auxiliaryKey: ._fixedOid)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .fixedId, auxiliaryKey: ._fixedId)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .fixedUnsignedInt, auxiliaryKey: ._fixedUnsignedInt)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .fixedPositiveInt, auxiliaryKey: ._fixedPositiveInt)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .fixedMarkdown, auxiliaryKey: ._fixedMarkdown)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .fixedAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .fixedAttachment)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .fixedIdentifier)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .fixedCodeableConcept)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .fixedCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .fixedQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .fixedRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .fixedPeriod)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .fixedRatio)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .fixedSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .fixedSignature)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .fixedHumanName)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .fixedAddress)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .fixedContactPoint)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .fixedTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .fixedReference)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .fixedMeta)
-			}
-		}
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try isModifier?.encode(on: &_container, forKey: .isModifier, auxiliaryKey: ._isModifier)
-		try isSummary?.encode(on: &_container, forKey: .isSummary, auxiliaryKey: ._isSummary)
-		try label?.encode(on: &_container, forKey: .label, auxiliaryKey: ._label)
-		try mapping?.encode(on: &_container, forKey: .mapping)
-		try max?.encode(on: &_container, forKey: .max, auxiliaryKey: ._max)
-		try maxLength?.encode(on: &_container, forKey: .maxLength, auxiliaryKey: ._maxLength)
-		if let _enum = maxValue {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueBoolean, auxiliaryKey: ._maxValueBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueInteger, auxiliaryKey: ._maxValueInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueDecimal, auxiliaryKey: ._maxValueDecimal)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueBase64Binary, auxiliaryKey: ._maxValueBase64Binary)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueInstant, auxiliaryKey: ._maxValueInstant)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueString, auxiliaryKey: ._maxValueString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueUri, auxiliaryKey: ._maxValueUri)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueDate, auxiliaryKey: ._maxValueDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueDateTime, auxiliaryKey: ._maxValueDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueTime, auxiliaryKey: ._maxValueTime)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueCode, auxiliaryKey: ._maxValueCode)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueOid, auxiliaryKey: ._maxValueOid)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueId, auxiliaryKey: ._maxValueId)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueUnsignedInt, auxiliaryKey: ._maxValueUnsignedInt)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .maxValuePositiveInt, auxiliaryKey: ._maxValuePositiveInt)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueMarkdown, auxiliaryKey: ._maxValueMarkdown)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueAttachment)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueIdentifier)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueCodeableConcept)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .maxValuePeriod)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueRatio)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueSignature)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueHumanName)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueAddress)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueContactPoint)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueReference)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .maxValueMeta)
-			}
-		}
-		try meaningWhenMissing?.encode(on: &_container, forKey: .meaningWhenMissing, auxiliaryKey: ._meaningWhenMissing)
-		try min?.encode(on: &_container, forKey: .min, auxiliaryKey: ._min)
-		if let _enum = minValue {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .minValueBoolean, auxiliaryKey: ._minValueBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .minValueInteger, auxiliaryKey: ._minValueInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .minValueDecimal, auxiliaryKey: ._minValueDecimal)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .minValueBase64Binary, auxiliaryKey: ._minValueBase64Binary)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .minValueInstant, auxiliaryKey: ._minValueInstant)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .minValueString, auxiliaryKey: ._minValueString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .minValueUri, auxiliaryKey: ._minValueUri)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .minValueDate, auxiliaryKey: ._minValueDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .minValueDateTime, auxiliaryKey: ._minValueDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .minValueTime, auxiliaryKey: ._minValueTime)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .minValueCode, auxiliaryKey: ._minValueCode)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .minValueOid, auxiliaryKey: ._minValueOid)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .minValueId, auxiliaryKey: ._minValueId)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .minValueUnsignedInt, auxiliaryKey: ._minValueUnsignedInt)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .minValuePositiveInt, auxiliaryKey: ._minValuePositiveInt)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .minValueMarkdown, auxiliaryKey: ._minValueMarkdown)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .minValueAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .minValueAttachment)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .minValueIdentifier)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .minValueCodeableConcept)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .minValueCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .minValueQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .minValueRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .minValuePeriod)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .minValueRatio)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .minValueSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .minValueSignature)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .minValueHumanName)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .minValueAddress)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .minValueContactPoint)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .minValueTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .minValueReference)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .minValueMeta)
-			}
-		}
-		try mustSupport?.encode(on: &_container, forKey: .mustSupport, auxiliaryKey: ._mustSupport)
-		try name?.encode(on: &_container, forKey: .name, auxiliaryKey: ._name)
-		try nameReference?.encode(on: &_container, forKey: .nameReference, auxiliaryKey: ._nameReference)
-		try path.encode(on: &_container, forKey: .path, auxiliaryKey: ._path)
-		if let _enum = pattern {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .patternBoolean, auxiliaryKey: ._patternBoolean)
-			case .integer(let _value):
-				try _value.encode(on: &_container, forKey: .patternInteger, auxiliaryKey: ._patternInteger)
-			case .decimal(let _value):
-				try _value.encode(on: &_container, forKey: .patternDecimal, auxiliaryKey: ._patternDecimal)
-			case .base64Binary(let _value):
-				try _value.encode(on: &_container, forKey: .patternBase64Binary, auxiliaryKey: ._patternBase64Binary)
-			case .instant(let _value):
-				try _value.encode(on: &_container, forKey: .patternInstant, auxiliaryKey: ._patternInstant)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .patternString, auxiliaryKey: ._patternString)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .patternUri, auxiliaryKey: ._patternUri)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .patternDate, auxiliaryKey: ._patternDate)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .patternDateTime, auxiliaryKey: ._patternDateTime)
-			case .time(let _value):
-				try _value.encode(on: &_container, forKey: .patternTime, auxiliaryKey: ._patternTime)
-			case .code(let _value):
-				try _value.encode(on: &_container, forKey: .patternCode, auxiliaryKey: ._patternCode)
-			case .oid(let _value):
-				try _value.encode(on: &_container, forKey: .patternOid, auxiliaryKey: ._patternOid)
-			case .id(let _value):
-				try _value.encode(on: &_container, forKey: .patternId, auxiliaryKey: ._patternId)
-			case .unsignedInt(let _value):
-				try _value.encode(on: &_container, forKey: .patternUnsignedInt, auxiliaryKey: ._patternUnsignedInt)
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .patternPositiveInt, auxiliaryKey: ._patternPositiveInt)
-			case .markdown(let _value):
-				try _value.encode(on: &_container, forKey: .patternMarkdown, auxiliaryKey: ._patternMarkdown)
-			case .annotation(let _value):
-				try _value.encode(on: &_container, forKey: .patternAnnotation)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .patternAttachment)
-			case .identifier(let _value):
-				try _value.encode(on: &_container, forKey: .patternIdentifier)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .patternCodeableConcept)
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .patternCoding)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .patternQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .patternRange)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .patternPeriod)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .patternRatio)
-			case .sampledData(let _value):
-				try _value.encode(on: &_container, forKey: .patternSampledData)
-			case .signature(let _value):
-				try _value.encode(on: &_container, forKey: .patternSignature)
-			case .humanName(let _value):
-				try _value.encode(on: &_container, forKey: .patternHumanName)
-			case .address(let _value):
-				try _value.encode(on: &_container, forKey: .patternAddress)
-			case .contactPoint(let _value):
-				try _value.encode(on: &_container, forKey: .patternContactPoint)
-			case .timing(let _value):
-				try _value.encode(on: &_container, forKey: .patternTiming)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .patternReference)
-			case .meta(let _value):
-				try _value.encode(on: &_container, forKey: .patternMeta)
-			}
-		}
-		try representation?.encode(on: &_container, forKey: .representation, auxiliaryKey: ._representation)
-		try requirements?.encode(on: &_container, forKey: .requirements, auxiliaryKey: ._requirements)
-		try short?.encode(on: &_container, forKey: .short, auxiliaryKey: ._short)
-		try slicing?.encode(on: &_container, forKey: .slicing)
-		try type?.encode(on: &_container, forKey: .type)
+		return _t_pattern
 	}
 }
 
@@ -2372,14 +2391,7 @@ public struct ElementDefinitionBase: Element {
 	/// Path that identifies the base element
 	public var path: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(max: FHIRPrimitive<FHIRString>, min: FHIRPrimitive<FHIRInteger>, path: FHIRPrimitive<FHIRString>) {
-		self.max = max
-		self.min = min
-		self.path = path
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -2387,9 +2399,11 @@ public struct ElementDefinitionBase: Element {
 		min: FHIRPrimitive<FHIRInteger>,
 		path: FHIRPrimitive<FHIRString>
 	) {
-		self.init(max: max, min: min, path: path)
 		self.`extension` = `extension`
 		self.id = id
+		self.max = max
+		self.min = min
+		self.path = path
 	}
 	
 	// MARK: - Codable
@@ -2404,6 +2418,9 @@ public struct ElementDefinitionBase: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2417,6 +2434,7 @@ public struct ElementDefinitionBase: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -2457,12 +2475,7 @@ public struct ElementDefinitionBinding: Element {
 	/// One of `valueSet[x]`
 	public var valueSet: ValueSetX?
 	
-	/// Designated initializer taking all required properties
-	public init(strength: FHIRPrimitive<BindingStrength>) {
-		self.strength = strength
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -2470,10 +2483,10 @@ public struct ElementDefinitionBinding: Element {
 		strength: FHIRPrimitive<BindingStrength>,
 		valueSet: ValueSetX? = nil
 	) {
-		self.init(strength: strength)
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
+		self.strength = strength
 		self.valueSet = valueSet
 	}
 	
@@ -2490,6 +2503,9 @@ public struct ElementDefinitionBinding: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2497,38 +2513,44 @@ public struct ElementDefinitionBinding: Element {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.strength = try FHIRPrimitive<BindingStrength>(from: _container, forKey: .strength, auxiliaryKey: ._strength)
-		var _t_valueSet: ValueSetX? = nil
-		if let valueSetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueSetUri, auxiliaryKey: ._valueSetUri) {
-			if _t_valueSet != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueSetUri, in: _container, debugDescription: "More than one value provided for \"valueSet\"")
-			}
-			_t_valueSet = .uri(valueSetUri)
-		}
-		if let valueSetReference = try Reference(from: _container, forKeyIfPresent: .valueSetReference) {
-			if _t_valueSet != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueSetReference, in: _container, debugDescription: "More than one value provided for \"valueSet\"")
-			}
-			_t_valueSet = .reference(valueSetReference)
-		}
-		self.valueSet = _t_valueSet
+		self.valueSet = try Self._decodeValueSet(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try strength.encode(on: &_container, forKey: .strength, auxiliaryKey: ._strength)
 		if let _enum = valueSet {
-			switch _enum {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .valueSetUri, auxiliaryKey: ._valueSetUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .valueSetReference)
-			}
+		switch _enum {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .valueSetReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .valueSetUri, auxiliaryKey: ._valueSetUri)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValueSet(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueSetX? {
+		var _t_valueSet: ValueSetX? = nil
+		if let valueSetReference = try Reference(from: _container, forKeyIfPresent: .valueSetReference) {
+			_t_valueSet = .reference(valueSetReference)
+		}
+		if let valueSetUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .valueSetUri, auxiliaryKey: ._valueSetUri) {
+			if _t_valueSet != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueSetUri, in: _container, debugDescription: "More than one value provided for \"valueSet\"")
+			}
+			_t_valueSet = .uri(valueSetUri)
+		}
+		return _t_valueSet
 	}
 }
 
@@ -2562,15 +2584,7 @@ public struct ElementDefinitionConstraint: Element {
 	/// XPath expression of constraint
 	public var xpath: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(human: FHIRPrimitive<FHIRString>, key: FHIRPrimitive<FHIRString>, severity: FHIRPrimitive<ConstraintSeverity>, xpath: FHIRPrimitive<FHIRString>) {
-		self.human = human
-		self.key = key
-		self.severity = severity
-		self.xpath = xpath
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		human: FHIRPrimitive<FHIRString>,
@@ -2580,10 +2594,13 @@ public struct ElementDefinitionConstraint: Element {
 		severity: FHIRPrimitive<ConstraintSeverity>,
 		xpath: FHIRPrimitive<FHIRString>
 	) {
-		self.init(human: human, key: key, severity: severity, xpath: xpath)
 		self.`extension` = `extension`
+		self.human = human
 		self.id = id
+		self.key = key
 		self.requirements = requirements
+		self.severity = severity
+		self.xpath = xpath
 	}
 	
 	// MARK: - Codable
@@ -2600,6 +2617,9 @@ public struct ElementDefinitionConstraint: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2615,6 +2635,7 @@ public struct ElementDefinitionConstraint: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try human.encode(on: &_container, forKey: .human, auxiliaryKey: ._human)
@@ -2648,13 +2669,7 @@ public struct ElementDefinitionMapping: Element {
 	/// Details of the mapping
 	public var map: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(identity: FHIRPrimitive<FHIRString>, map: FHIRPrimitive<FHIRString>) {
-		self.identity = identity
-		self.map = map
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -2662,10 +2677,11 @@ public struct ElementDefinitionMapping: Element {
 		language: FHIRPrimitive<FHIRString>? = nil,
 		map: FHIRPrimitive<FHIRString>
 	) {
-		self.init(identity: identity, map: map)
 		self.`extension` = `extension`
 		self.id = id
+		self.identity = identity
 		self.language = language
+		self.map = map
 	}
 	
 	// MARK: - Codable
@@ -2680,6 +2696,9 @@ public struct ElementDefinitionMapping: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2693,6 +2712,7 @@ public struct ElementDefinitionMapping: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -2733,12 +2753,7 @@ public struct ElementDefinitionSlicing: Element {
 	/// Restricted to: ['closed', 'open', 'openAtEnd']
 	public var rules: FHIRPrimitive<SlicingRules>
 	
-	/// Designated initializer taking all required properties
-	public init(rules: FHIRPrimitive<SlicingRules>) {
-		self.rules = rules
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		discriminator: [FHIRPrimitive<FHIRString>]? = nil,
@@ -2747,12 +2762,12 @@ public struct ElementDefinitionSlicing: Element {
 		ordered: FHIRPrimitive<FHIRBool>? = nil,
 		rules: FHIRPrimitive<SlicingRules>
 	) {
-		self.init(rules: rules)
 		self.description_fhir = description_fhir
 		self.discriminator = discriminator
 		self.`extension` = `extension`
 		self.id = id
 		self.ordered = ordered
+		self.rules = rules
 	}
 	
 	// MARK: - Codable
@@ -2768,6 +2783,9 @@ public struct ElementDefinitionSlicing: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2782,6 +2800,7 @@ public struct ElementDefinitionSlicing: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try discriminator?.encode(on: &_container, forKey: .discriminator, auxiliaryKey: ._discriminator)
@@ -2816,12 +2835,7 @@ public struct ElementDefinitionType: Element {
 	/// Profile (StructureDefinition) to apply (or IG)
 	public var profile: [FHIRPrimitive<FHIRURI>]?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<FHIRString>) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		aggregation: [FHIRPrimitive<AggregationMode>]? = nil,
 		code: FHIRPrimitive<FHIRString>,
@@ -2829,8 +2843,8 @@ public struct ElementDefinitionType: Element {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		profile: [FHIRPrimitive<FHIRURI>]? = nil
 	) {
-		self.init(code: code)
 		self.aggregation = aggregation
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.profile = profile
@@ -2848,6 +2862,9 @@ public struct ElementDefinitionType: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -2861,6 +2878,7 @@ public struct ElementDefinitionType: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try aggregation?.encode(on: &_container, forKey: .aggregation, auxiliaryKey: ._aggregation)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)

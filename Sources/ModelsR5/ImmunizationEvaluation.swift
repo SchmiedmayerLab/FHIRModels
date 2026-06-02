@@ -93,16 +93,7 @@ public struct ImmunizationEvaluation: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(doseStatus: CodeableConcept, immunizationEvent: Reference, patient: Reference, status: FHIRPrimitive<MedicationAdministrationStatusCodes>, targetDisease: CodeableConcept) {
-		self.doseStatus = doseStatus
-		self.immunizationEvent = immunizationEvent
-		self.patient = patient
-		self.status = status
-		self.targetDisease = targetDisease
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authority: Reference? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -126,22 +117,26 @@ public struct ImmunizationEvaluation: DomainResource {
 		targetDisease: CodeableConcept,
 		text: Narrative? = nil
 	) {
-		self.init(doseStatus: doseStatus, immunizationEvent: immunizationEvent, patient: patient, status: status, targetDisease: targetDisease)
 		self.authority = authority
 		self.contained = contained
 		self.date = date
 		self.description_fhir = description_fhir
 		self.doseNumber = doseNumber
+		self.doseStatus = doseStatus
 		self.doseStatusReason = doseStatusReason
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
+		self.immunizationEvent = immunizationEvent
 		self.implicitRules = implicitRules
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.patient = patient
 		self.series = series
 		self.seriesDoses = seriesDoses
+		self.status = status
+		self.targetDisease = targetDisease
 		self.text = text
 	}
 	
@@ -174,6 +169,9 @@ public struct ImmunizationEvaluation: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -203,8 +201,10 @@ public struct ImmunizationEvaluation: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try authority?.encode(on: &_container, forKey: .authority)
 		try contained?.encode(on: &_container, forKey: .contained)

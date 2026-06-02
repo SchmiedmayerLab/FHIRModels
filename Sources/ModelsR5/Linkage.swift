@@ -61,12 +61,7 @@ public struct Linkage: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(item: [LinkageItem]) {
-		self.item = item
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		author: Reference? = nil,
@@ -80,13 +75,13 @@ public struct Linkage: DomainResource {
 		modifierExtension: [Extension]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(item: item)
 		self.active = active
 		self.author = author
 		self.contained = contained
 		self.`extension` = `extension`
 		self.id = id
 		self.implicitRules = implicitRules
+		self.item = item
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -112,6 +107,9 @@ public struct Linkage: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -131,8 +129,10 @@ public struct Linkage: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try author?.encode(on: &_container, forKey: .author)
@@ -172,13 +172,7 @@ public struct LinkageItem: BackboneElement {
 	/// representations.
 	public var type: FHIRPrimitive<LinkageType>
 	
-	/// Designated initializer taking all required properties
-	public init(resource: Reference, type: FHIRPrimitive<LinkageType>) {
-		self.resource = resource
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -186,10 +180,11 @@ public struct LinkageItem: BackboneElement {
 		resource: Reference,
 		type: FHIRPrimitive<LinkageType>
 	) {
-		self.init(resource: resource, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.resource = resource
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -204,6 +199,9 @@ public struct LinkageItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -217,6 +215,7 @@ public struct LinkageItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

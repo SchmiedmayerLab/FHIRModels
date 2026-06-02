@@ -92,11 +92,7 @@ public struct InsurancePlan: DomainResource {
 	/// Kind of product
 	public var type: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		administeredBy: Reference? = nil,
 		alias: [FHIRPrimitive<FHIRString>]? = nil,
@@ -121,7 +117,6 @@ public struct InsurancePlan: DomainResource {
 		text: Narrative? = nil,
 		type: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.administeredBy = administeredBy
 		self.alias = alias
 		self.contact = contact
@@ -176,6 +171,9 @@ public struct InsurancePlan: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -206,8 +204,10 @@ public struct InsurancePlan: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try administeredBy?.encode(on: &_container, forKey: .administeredBy)
 		try alias?.encode(on: &_container, forKey: .alias, auxiliaryKey: ._alias)
@@ -259,13 +259,7 @@ public struct InsurancePlanCoverage: BackboneElement {
 	/// Type of coverage
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(benefit: [InsurancePlanCoverageBenefit], type: CodeableConcept) {
-		self.benefit = benefit
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		benefit: [InsurancePlanCoverageBenefit],
 		`extension`: [Extension]? = nil,
@@ -274,11 +268,12 @@ public struct InsurancePlanCoverage: BackboneElement {
 		network: [Reference]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(benefit: benefit, type: type)
+		self.benefit = benefit
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.network = network
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -294,6 +289,9 @@ public struct InsurancePlanCoverage: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -308,6 +306,7 @@ public struct InsurancePlanCoverage: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try benefit.encode(on: &_container, forKey: .benefit)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -343,12 +342,7 @@ public struct InsurancePlanCoverageBenefit: BackboneElement {
 	/// Type of benefit
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -357,12 +351,12 @@ public struct InsurancePlanCoverageBenefit: BackboneElement {
 		requirement: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.limit = limit
 		self.modifierExtension = modifierExtension
 		self.requirement = requirement
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -378,6 +372,9 @@ public struct InsurancePlanCoverageBenefit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -392,6 +389,7 @@ public struct InsurancePlanCoverageBenefit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -424,11 +422,7 @@ public struct InsurancePlanCoverageBenefitLimit: BackboneElement {
 	/// Maximum value allowed
 	public var value: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -436,7 +430,6 @@ public struct InsurancePlanCoverageBenefitLimit: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		value: Quantity? = nil
 	) {
-		self.init()
 		self.code = code
 		self.`extension` = `extension`
 		self.id = id
@@ -456,6 +449,9 @@ public struct InsurancePlanCoverageBenefitLimit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -469,6 +465,7 @@ public struct InsurancePlanCoverageBenefitLimit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -512,11 +509,7 @@ public struct InsurancePlanPlan: BackboneElement {
 	/// Type of plan
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		coverageArea: [Reference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -528,7 +521,6 @@ public struct InsurancePlanPlan: BackboneElement {
 		specificCost: [InsurancePlanPlanSpecificCost]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.coverageArea = coverageArea
 		self.`extension` = `extension`
 		self.generalCost = generalCost
@@ -556,6 +548,9 @@ public struct InsurancePlanPlan: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -573,6 +568,7 @@ public struct InsurancePlanPlan: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try coverageArea?.encode(on: &_container, forKey: .coverageArea)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -614,11 +610,7 @@ public struct InsurancePlanPlanGeneralCost: BackboneElement {
 	/// Type of cost
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		comment: FHIRPrimitive<FHIRString>? = nil,
 		cost: Money? = nil,
@@ -628,7 +620,6 @@ public struct InsurancePlanPlanGeneralCost: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.comment = comment
 		self.cost = cost
 		self.`extension` = `extension`
@@ -652,6 +643,9 @@ public struct InsurancePlanPlanGeneralCost: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -667,6 +661,7 @@ public struct InsurancePlanPlanGeneralCost: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try comment?.encode(on: &_container, forKey: .comment, auxiliaryKey: ._comment)
 		try cost?.encode(on: &_container, forKey: .cost)
@@ -700,12 +695,7 @@ public struct InsurancePlanPlanSpecificCost: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(category: CodeableConcept) {
-		self.category = category
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		benefit: [InsurancePlanPlanSpecificCostBenefit]? = nil,
 		category: CodeableConcept,
@@ -713,8 +703,8 @@ public struct InsurancePlanPlanSpecificCost: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(category: category)
 		self.benefit = benefit
+		self.category = category
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -732,6 +722,9 @@ public struct InsurancePlanPlanSpecificCost: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -745,6 +738,7 @@ public struct InsurancePlanPlanSpecificCost: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try benefit?.encode(on: &_container, forKey: .benefit)
 		try category.encode(on: &_container, forKey: .category)
@@ -776,12 +770,7 @@ public struct InsurancePlanPlanSpecificCostBenefit: BackboneElement {
 	/// Type of specific benefit
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		cost: [InsurancePlanPlanSpecificCostBenefitCost]? = nil,
 		`extension`: [Extension]? = nil,
@@ -789,11 +778,11 @@ public struct InsurancePlanPlanSpecificCostBenefit: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.cost = cost
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -808,6 +797,9 @@ public struct InsurancePlanPlanSpecificCostBenefit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -821,6 +813,7 @@ public struct InsurancePlanPlanSpecificCostBenefit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try cost?.encode(on: &_container, forKey: .cost)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -858,12 +851,7 @@ public struct InsurancePlanPlanSpecificCostBenefitCost: BackboneElement {
 	/// The actual cost value
 	public var value: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		applicability: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -873,12 +861,12 @@ public struct InsurancePlanPlanSpecificCostBenefitCost: BackboneElement {
 		type: CodeableConcept,
 		value: Quantity? = nil
 	) {
-		self.init(type: type)
 		self.applicability = applicability
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.qualifiers = qualifiers
+		self.type = type
 		self.value = value
 	}
 	
@@ -896,6 +884,9 @@ public struct InsurancePlanPlanSpecificCostBenefitCost: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -911,6 +902,7 @@ public struct InsurancePlanPlanSpecificCostBenefitCost: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try applicability?.encode(on: &_container, forKey: .applicability)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

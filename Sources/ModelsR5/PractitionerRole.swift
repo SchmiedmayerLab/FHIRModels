@@ -95,11 +95,7 @@ public struct PractitionerRole: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		availability: [Availability]? = nil,
@@ -124,7 +120,6 @@ public struct PractitionerRole: DomainResource {
 		specialty: [CodeableConcept]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.active = active
 		self.availability = availability
 		self.characteristic = characteristic
@@ -179,6 +174,9 @@ public struct PractitionerRole: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -209,8 +207,10 @@ public struct PractitionerRole: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try availability?.encode(on: &_container, forKey: .availability)

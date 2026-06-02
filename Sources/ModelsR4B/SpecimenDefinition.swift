@@ -70,11 +70,7 @@ public struct SpecimenDefinition: DomainResource {
 	/// Specimen in container intended for testing by lab
 	public var typeTested: [SpecimenDefinitionTypeTested]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		collection: [CodeableConcept]? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -91,7 +87,6 @@ public struct SpecimenDefinition: DomainResource {
 		typeCollected: CodeableConcept? = nil,
 		typeTested: [SpecimenDefinitionTypeTested]? = nil
 	) {
-		self.init()
 		self.collection = collection
 		self.contained = contained
 		self.`extension` = `extension`
@@ -130,6 +125,9 @@ public struct SpecimenDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -152,8 +150,10 @@ public struct SpecimenDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try collection?.encode(on: &_container, forKey: .collection)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -212,12 +212,7 @@ public struct SpecimenDefinitionTypeTested: BackboneElement {
 	/// Type of intended specimen
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(preference: FHIRPrimitive<SpecimenContainedPreference>) {
-		self.preference = preference
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		container: SpecimenDefinitionTypeTestedContainer? = nil,
 		`extension`: [Extension]? = nil,
@@ -231,13 +226,13 @@ public struct SpecimenDefinitionTypeTested: BackboneElement {
 		retentionTime: Duration? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(preference: preference)
 		self.container = container
 		self.`extension` = `extension`
 		self.handling = handling
 		self.id = id
 		self.isDerived = isDerived
 		self.modifierExtension = modifierExtension
+		self.preference = preference
 		self.rejectionCriterion = rejectionCriterion
 		self.requirement = requirement
 		self.retentionTime = retentionTime
@@ -262,6 +257,9 @@ public struct SpecimenDefinitionTypeTested: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -281,6 +279,7 @@ public struct SpecimenDefinitionTypeTested: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try container?.encode(on: &_container, forKey: .container)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -341,11 +340,7 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 	/// Kind of container associated with the kind of specimen
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additive: [SpecimenDefinitionTypeTestedContainerAdditive]? = nil,
 		cap: CodeableConcept? = nil,
@@ -359,7 +354,6 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 		preparation: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.additive = additive
 		self.cap = cap
 		self.capacity = capacity
@@ -392,6 +386,9 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -402,20 +399,7 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.material = try CodeableConcept(from: _container, forKeyIfPresent: .material)
-		var _t_minimumVolume: MinimumVolumeX? = nil
-		if let minimumVolumeQuantity = try Quantity(from: _container, forKeyIfPresent: .minimumVolumeQuantity) {
-			if _t_minimumVolume != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minimumVolumeQuantity, in: _container, debugDescription: "More than one value provided for \"minimumVolume\"")
-			}
-			_t_minimumVolume = .quantity(minimumVolumeQuantity)
-		}
-		if let minimumVolumeString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minimumVolumeString, auxiliaryKey: ._minimumVolumeString) {
-			if _t_minimumVolume != nil {
-				throw DecodingError.dataCorruptedError(forKey: .minimumVolumeString, in: _container, debugDescription: "More than one value provided for \"minimumVolume\"")
-			}
-			_t_minimumVolume = .string(minimumVolumeString)
-		}
-		self.minimumVolume = _t_minimumVolume
+		self.minimumVolume = try Self._decodeMinimumVolume(from: _container)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.preparation = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .preparation, auxiliaryKey: ._preparation)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
@@ -424,6 +408,7 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try additive?.encode(on: &_container, forKey: .additive)
 		try cap?.encode(on: &_container, forKey: .cap)
@@ -433,16 +418,34 @@ public struct SpecimenDefinitionTypeTestedContainer: BackboneElement {
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try material?.encode(on: &_container, forKey: .material)
 		if let _enum = minimumVolume {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .minimumVolumeQuantity)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .minimumVolumeString, auxiliaryKey: ._minimumVolumeString)
-			}
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .minimumVolumeQuantity)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .minimumVolumeString, auxiliaryKey: ._minimumVolumeString)
+		}
 		}
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try preparation?.encode(on: &_container, forKey: .preparation, auxiliaryKey: ._preparation)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeMinimumVolume(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> MinimumVolumeX? {
+		var _t_minimumVolume: MinimumVolumeX? = nil
+		if let minimumVolumeQuantity = try Quantity(from: _container, forKeyIfPresent: .minimumVolumeQuantity) {
+			_t_minimumVolume = .quantity(minimumVolumeQuantity)
+		}
+		if let minimumVolumeString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .minimumVolumeString, auxiliaryKey: ._minimumVolumeString) {
+			if _t_minimumVolume != nil {
+				throw DecodingError.dataCorruptedError(forKey: .minimumVolumeString, in: _container, debugDescription: "More than one value provided for \"minimumVolume\"")
+			}
+			_t_minimumVolume = .string(minimumVolumeString)
+		}
+		return _t_minimumVolume
 	}
 }
 
@@ -473,19 +476,14 @@ public struct SpecimenDefinitionTypeTestedContainerAdditive: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(additive: AdditiveX) {
-		self.additive = additive
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additive: AdditiveX,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(additive: additive)
+		self.additive = additive
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -503,28 +501,13 @@ public struct SpecimenDefinitionTypeTestedContainerAdditive: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.additiveCodeableConcept) || _container.contains(CodingKeys.additiveReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.additiveCodeableConcept, CodingKeys.additiveReference], debugDescription: "Must have at least one value for \"additive\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_additive: AdditiveX? = nil
-		if let additiveCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .additiveCodeableConcept) {
-			if _t_additive != nil {
-				throw DecodingError.dataCorruptedError(forKey: .additiveCodeableConcept, in: _container, debugDescription: "More than one value provided for \"additive\"")
-			}
-			_t_additive = .codeableConcept(additiveCodeableConcept)
-		}
-		if let additiveReference = try Reference(from: _container, forKeyIfPresent: .additiveReference) {
-			if _t_additive != nil {
-				throw DecodingError.dataCorruptedError(forKey: .additiveReference, in: _container, debugDescription: "More than one value provided for \"additive\"")
-			}
-			_t_additive = .reference(additiveReference)
-		}
-		self.additive = _t_additive!
+		self.additive = try Self._decodeAdditive(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -533,18 +516,42 @@ public struct SpecimenDefinitionTypeTestedContainerAdditive: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch additive {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .additiveCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .additiveReference)
-			}
+		switch additive {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .additiveCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .additiveReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAdditive(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AdditiveX {
+		var _t_additive: AdditiveX? = nil
+		if let additiveCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .additiveCodeableConcept) {
+			_t_additive = .codeableConcept(additiveCodeableConcept)
+		}
+		if let additiveReference = try Reference(from: _container, forKeyIfPresent: .additiveReference) {
+			if _t_additive != nil {
+				throw DecodingError.dataCorruptedError(forKey: .additiveReference, in: _container, debugDescription: "More than one value provided for \"additive\"")
+			}
+			_t_additive = .reference(additiveReference)
+		}
+		guard let _t_additive else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.additiveReference)
+			throw DecodingError.valueNotFound(AdditiveX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"additive\" but have none"))
+		}
+		return _t_additive
 	}
 }
 
@@ -577,11 +584,7 @@ public struct SpecimenDefinitionTypeTestedHandling: BackboneElement {
 	/// Temperature range
 	public var temperatureRange: Range?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -591,7 +594,6 @@ public struct SpecimenDefinitionTypeTestedHandling: BackboneElement {
 		temperatureQualifier: CodeableConcept? = nil,
 		temperatureRange: Range? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.instruction = instruction
@@ -615,6 +617,9 @@ public struct SpecimenDefinitionTypeTestedHandling: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -630,6 +635,7 @@ public struct SpecimenDefinitionTypeTestedHandling: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

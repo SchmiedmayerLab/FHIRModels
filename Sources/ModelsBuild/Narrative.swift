@@ -39,22 +39,17 @@ public struct Narrative: DataType {
 	/// too), or whether a human authored it and it may contain additional data.
 	public var status: FHIRPrimitive<NarrativeStatus>
 	
-	/// Designated initializer taking all required properties
-	public init(div: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<NarrativeStatus>) {
-		self.div = div
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		div: FHIRPrimitive<FHIRString>,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		status: FHIRPrimitive<NarrativeStatus>
 	) {
-		self.init(div: div, status: status)
+		self.div = div
 		self.`extension` = `extension`
 		self.id = id
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -68,6 +63,9 @@ public struct Narrative: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -80,6 +78,7 @@ public struct Narrative: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try div.encode(on: &_container, forKey: .div, auxiliaryKey: ._div)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

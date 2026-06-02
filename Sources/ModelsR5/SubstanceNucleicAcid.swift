@@ -71,11 +71,7 @@ public struct SubstanceNucleicAcid: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		areaOfHybridisation: FHIRPrimitive<FHIRString>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -91,7 +87,6 @@ public struct SubstanceNucleicAcid: DomainResource {
 		subunit: [SubstanceNucleicAcidSubunit]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.areaOfHybridisation = areaOfHybridisation
 		self.contained = contained
 		self.`extension` = `extension`
@@ -128,6 +123,9 @@ public struct SubstanceNucleicAcid: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -149,8 +147,10 @@ public struct SubstanceNucleicAcid: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try areaOfHybridisation?.encode(on: &_container, forKey: .areaOfHybridisation, auxiliaryKey: ._areaOfHybridisation)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -214,11 +214,7 @@ public struct SubstanceNucleicAcidSubunit: BackboneElement {
 	/// the sequence. A separate representation would be redundant
 	public var threePrime: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		fivePrime: CodeableConcept? = nil,
@@ -232,7 +228,6 @@ public struct SubstanceNucleicAcidSubunit: BackboneElement {
 		sugar: [SubstanceNucleicAcidSubunitSugar]? = nil,
 		threePrime: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.fivePrime = fivePrime
 		self.id = id
@@ -264,6 +259,9 @@ public struct SubstanceNucleicAcidSubunit: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -283,6 +281,7 @@ public struct SubstanceNucleicAcidSubunit: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fivePrime?.encode(on: &_container, forKey: .fivePrime)
@@ -328,11 +327,7 @@ public struct SubstanceNucleicAcidSubunitLinkage: BackboneElement {
 	/// Residues shall be captured as described in 5.3.6.8.3
 	public var residueSite: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		connectivity: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -342,7 +337,6 @@ public struct SubstanceNucleicAcidSubunitLinkage: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		residueSite: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.connectivity = connectivity
 		self.`extension` = `extension`
 		self.id = id
@@ -366,6 +360,9 @@ public struct SubstanceNucleicAcidSubunitLinkage: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -381,6 +378,7 @@ public struct SubstanceNucleicAcidSubunitLinkage: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try connectivity?.encode(on: &_container, forKey: .connectivity, auxiliaryKey: ._connectivity)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -416,11 +414,7 @@ public struct SubstanceNucleicAcidSubunitSugar: BackboneElement {
 	/// 5‘-3‘direction consistent with the base sequences listed above
 	public var residueSite: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -429,7 +423,6 @@ public struct SubstanceNucleicAcidSubunitSugar: BackboneElement {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		residueSite: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -451,6 +444,9 @@ public struct SubstanceNucleicAcidSubunitSugar: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -465,6 +461,7 @@ public struct SubstanceNucleicAcidSubunitSugar: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

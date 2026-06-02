@@ -77,11 +77,7 @@ public struct Dosage: BackboneType {
 	/// When medication should be administered
 	public var timing: Timing?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additionalInstruction: [CodeableConcept]? = nil,
 		asNeeded: FHIRPrimitive<FHIRBool>? = nil,
@@ -101,7 +97,6 @@ public struct Dosage: BackboneType {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		timing: Timing? = nil
 	) {
-		self.init()
 		self.additionalInstruction = additionalInstruction
 		self.asNeeded = asNeeded
 		self.asNeededFor = asNeededFor
@@ -145,6 +140,9 @@ public struct Dosage: BackboneType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -170,6 +168,7 @@ public struct Dosage: BackboneType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try additionalInstruction?.encode(on: &_container, forKey: .additionalInstruction)
 		try asNeeded?.encode(on: &_container, forKey: .asNeeded, auxiliaryKey: ._asNeeded)
@@ -229,11 +228,7 @@ public struct DosageDoseAndRate: Element {
 	/// The kind of dose or rate specified
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		dose: DoseX? = nil,
 		`extension`: [Extension]? = nil,
@@ -241,7 +236,6 @@ public struct DosageDoseAndRate: Element {
 		rate: RateX? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.dose = dose
 		self.`extension` = `extension`
 		self.id = id
@@ -264,31 +258,71 @@ public struct DosageDoseAndRate: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
+		self.dose = try Self._decodeDose(from: _container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.rate = try Self._decodeRate(from: _container)
+		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		if let _enum = dose {
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .doseQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .doseRange)
+		}
+		}
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		if let _enum = rate {
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .rateQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .rateRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .rateRatio)
+		}
+		}
+		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDose(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DoseX? {
 		var _t_dose: DoseX? = nil
+		if let doseQuantity = try Quantity(from: _container, forKeyIfPresent: .doseQuantity) {
+			_t_dose = .quantity(doseQuantity)
+		}
 		if let doseRange = try Range(from: _container, forKeyIfPresent: .doseRange) {
 			if _t_dose != nil {
 				throw DecodingError.dataCorruptedError(forKey: .doseRange, in: _container, debugDescription: "More than one value provided for \"dose\"")
 			}
 			_t_dose = .range(doseRange)
 		}
-		if let doseQuantity = try Quantity(from: _container, forKeyIfPresent: .doseQuantity) {
-			if _t_dose != nil {
-				throw DecodingError.dataCorruptedError(forKey: .doseQuantity, in: _container, debugDescription: "More than one value provided for \"dose\"")
-			}
-			_t_dose = .quantity(doseQuantity)
-		}
-		self.dose = _t_dose
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		return _t_dose
+	}
+	
+	private static func _decodeRate(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> RateX? {
 		var _t_rate: RateX? = nil
-		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
-			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
-			}
-			_t_rate = .ratio(rateRatio)
+		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
+			_t_rate = .quantity(rateQuantity)
 		}
 		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
 			if _t_rate != nil {
@@ -296,40 +330,12 @@ public struct DosageDoseAndRate: Element {
 			}
 			_t_rate = .range(rateRange)
 		}
-		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
+		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
 			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateQuantity, in: _container, debugDescription: "More than one value provided for \"rate\"")
+				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
 			}
-			_t_rate = .quantity(rateQuantity)
+			_t_rate = .ratio(rateRatio)
 		}
-		self.rate = _t_rate
-		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		if let _enum = dose {
-			switch _enum {
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .doseRange)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .doseQuantity)
-			}
-		}
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		if let _enum = rate {
-			switch _enum {
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .rateRatio)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .rateRange)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .rateQuantity)
-			}
-		}
-		try type?.encode(on: &_container, forKey: .type)
+		return _t_rate
 	}
 }

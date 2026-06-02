@@ -74,12 +74,7 @@ public struct BodyStructure: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(includedStructure: [BodyStructureIncludedStructure]) {
-		self.includedStructure = includedStructure
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		active: FHIRPrimitive<FHIRBool>? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -97,7 +92,6 @@ public struct BodyStructure: DomainResource {
 		patient: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(includedStructure: includedStructure)
 		self.active = active
 		self.contained = contained
 		self.description_fhir = description_fhir
@@ -107,6 +101,7 @@ public struct BodyStructure: DomainResource {
 		self.identifier = identifier
 		self.image = image
 		self.implicitRules = implicitRules
+		self.includedStructure = includedStructure
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
@@ -137,6 +132,9 @@ public struct BodyStructure: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -160,8 +158,10 @@ public struct BodyStructure: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try active?.encode(on: &_container, forKey: .active, auxiliaryKey: ._active)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -218,12 +218,7 @@ public struct BodyStructureIncludedStructure: BackboneElement {
 	/// Code that represents the included structure
 	public var structure: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(structure: CodeableConcept) {
-		self.structure = structure
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		bodyLandmarkOrientation: [BodyStructureIncludedStructureBodyLandmarkOrientation]? = nil,
 		`extension`: [Extension]? = nil,
@@ -236,7 +231,6 @@ public struct BodyStructureIncludedStructure: BackboneElement {
 		spatialReference: [Reference]? = nil,
 		structure: CodeableConcept
 	) {
-		self.init(structure: structure)
 		self.bodyLandmarkOrientation = bodyLandmarkOrientation
 		self.`extension` = `extension`
 		self.id = id
@@ -246,6 +240,7 @@ public struct BodyStructureIncludedStructure: BackboneElement {
 		self.morphology = morphology
 		self.qualifier = qualifier
 		self.spatialReference = spatialReference
+		self.structure = structure
 	}
 	
 	// MARK: - Codable
@@ -265,6 +260,9 @@ public struct BodyStructureIncludedStructure: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -283,6 +281,7 @@ public struct BodyStructureIncludedStructure: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try bodyLandmarkOrientation?.encode(on: &_container, forKey: .bodyLandmarkOrientation)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -325,11 +324,7 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneEle
 	/// Relative landmark surface orientation
 	public var surfaceOrientation: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		clockFacePosition: [CodeableConcept]? = nil,
 		distanceFromLandmark: [BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromLandmark]? = nil,
@@ -339,7 +334,6 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneEle
 		modifierExtension: [Extension]? = nil,
 		surfaceOrientation: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.clockFacePosition = clockFacePosition
 		self.distanceFromLandmark = distanceFromLandmark
 		self.`extension` = `extension`
@@ -363,6 +357,9 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneEle
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -378,6 +375,7 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientation: BackboneEle
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try clockFacePosition?.encode(on: &_container, forKey: .clockFacePosition)
 		try distanceFromLandmark?.encode(on: &_container, forKey: .distanceFromLandmark)
@@ -411,11 +409,7 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromL
 	/// Measured distance from body landmark
 	public var value: [Quantity]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		device: [CodeableReference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -423,7 +417,6 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromL
 		modifierExtension: [Extension]? = nil,
 		value: [Quantity]? = nil
 	) {
-		self.init()
 		self.device = device
 		self.`extension` = `extension`
 		self.id = id
@@ -443,6 +436,9 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromL
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -456,6 +452,7 @@ public struct BodyStructureIncludedStructureBodyLandmarkOrientationDistanceFromL
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try device?.encode(on: &_container, forKey: .device)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

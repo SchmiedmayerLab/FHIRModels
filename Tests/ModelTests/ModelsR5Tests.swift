@@ -69,7 +69,7 @@ class ModelsR5Tests: XCTestCase {
 			throw TestError.failed("encoding string to UTF8 data")
 		}
 		
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let group = try decoder.decode(Group.self, from: data)
 		XCTAssertEqual(type(of: group).resourceType, .group)
 		XCTAssertEqual(group.id, "101")
@@ -201,7 +201,7 @@ class ModelsR5Tests: XCTestCase {
             throw TestError.failed("encoding string to UTF8 data")
         }
         
-        let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
         let allergy = try decoder.decode(AllergyIntolerance.self, from: data)
         XCTAssertEqual(allergy.id, "example")
         XCTAssertEqual(allergy.criticality, AllergyIntoleranceCriticality.high.asPrimitive())

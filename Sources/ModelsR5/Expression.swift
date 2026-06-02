@@ -48,11 +48,7 @@ public struct Expression: DataType {
 	/// Where the expression is found
 	public var reference: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		expression: FHIRPrimitive<FHIRString>? = nil,
@@ -62,7 +58,6 @@ public struct Expression: DataType {
 		name: FHIRPrimitive<FHIRString>? = nil,
 		reference: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.expression = expression
 		self.`extension` = `extension`
@@ -86,6 +81,9 @@ public struct Expression: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -101,6 +99,7 @@ public struct Expression: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try expression?.encode(on: &_container, forKey: .expression, auxiliaryKey: ._expression)

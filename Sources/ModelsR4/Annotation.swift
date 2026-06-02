@@ -48,12 +48,7 @@ public struct Annotation: Element {
 	/// When the annotation was made
 	public var time: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init(text: FHIRPrimitive<FHIRString>) {
-		self.text = text
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		author: AuthorX? = nil,
 		`extension`: [Extension]? = nil,
@@ -61,10 +56,10 @@ public struct Annotation: Element {
 		text: FHIRPrimitive<FHIRString>,
 		time: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init(text: text)
 		self.author = author
 		self.`extension` = `extension`
 		self.id = id
+		self.text = text
 		self.time = time
 	}
 	
@@ -81,23 +76,13 @@ public struct Annotation: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_author: AuthorX? = nil
-		if let authorReference = try Reference(from: _container, forKeyIfPresent: .authorReference) {
-			if _t_author != nil {
-				throw DecodingError.dataCorruptedError(forKey: .authorReference, in: _container, debugDescription: "More than one value provided for \"author\"")
-			}
-			_t_author = .reference(authorReference)
-		}
-		if let authorString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .authorString, auxiliaryKey: ._authorString) {
-			if _t_author != nil {
-				throw DecodingError.dataCorruptedError(forKey: .authorString, in: _container, debugDescription: "More than one value provided for \"author\"")
-			}
-			_t_author = .string(authorString)
-		}
-		self.author = _t_author
+		self.author = try Self._decodeAuthor(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.text = try FHIRPrimitive<FHIRString>(from: _container, forKey: .text, auxiliaryKey: ._text)
@@ -107,18 +92,37 @@ public struct Annotation: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = author {
-			switch _enum {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .authorReference)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .authorString, auxiliaryKey: ._authorString)
-			}
+		switch _enum {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .authorReference)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .authorString, auxiliaryKey: ._authorString)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try text.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try time?.encode(on: &_container, forKey: .time, auxiliaryKey: ._time)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAuthor(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AuthorX? {
+		var _t_author: AuthorX? = nil
+		if let authorReference = try Reference(from: _container, forKeyIfPresent: .authorReference) {
+			_t_author = .reference(authorReference)
+		}
+		if let authorString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .authorString, auxiliaryKey: ._authorString) {
+			if _t_author != nil {
+				throw DecodingError.dataCorruptedError(forKey: .authorString, in: _container, debugDescription: "More than one value provided for \"author\"")
+			}
+			_t_author = .string(authorString)
+		}
+		return _t_author
 	}
 }

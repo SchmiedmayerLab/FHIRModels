@@ -126,13 +126,7 @@ public struct CommunicationRequest: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(intent: FHIRPrimitive<FHIRString>, status: FHIRPrimitive<FHIRString>) {
-		self.intent = intent
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		about: [Reference]? = nil,
 		authoredOn: FHIRPrimitive<DateTime>? = nil,
@@ -165,7 +159,6 @@ public struct CommunicationRequest: DomainResource {
 		subject: Reference? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(intent: intent, status: status)
 		self.about = about
 		self.authoredOn = authoredOn
 		self.basedOn = basedOn
@@ -179,6 +172,7 @@ public struct CommunicationRequest: DomainResource {
 		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.informationProvider = informationProvider
+		self.intent = intent
 		self.language = language
 		self.medium = medium
 		self.meta = meta
@@ -191,6 +185,7 @@ public struct CommunicationRequest: DomainResource {
 		self.recipient = recipient
 		self.replaces = replaces
 		self.requester = requester
+		self.status = status
 		self.statusReason = statusReason
 		self.subject = subject
 		self.text = text
@@ -235,6 +230,9 @@ public struct CommunicationRequest: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -257,20 +255,7 @@ public struct CommunicationRequest: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.payload = try [CommunicationRequestPayload](from: _container, forKeyIfPresent: .payload)
 		self.priority = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .priority, auxiliaryKey: ._priority)
 		self.reason = try [CodeableReference](from: _container, forKeyIfPresent: .reason)
@@ -286,8 +271,10 @@ public struct CommunicationRequest: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try about?.encode(on: &_container, forKey: .about)
 		try authoredOn?.encode(on: &_container, forKey: .authoredOn, auxiliaryKey: ._authoredOn)
@@ -309,12 +296,12 @@ public struct CommunicationRequest: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try note?.encode(on: &_container, forKey: .note)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		}
 		}
 		try payload?.encode(on: &_container, forKey: .payload)
 		try priority?.encode(on: &_container, forKey: .priority, auxiliaryKey: ._priority)
@@ -326,6 +313,24 @@ public struct CommunicationRequest: DomainResource {
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
 		try subject?.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		return _t_occurrence
 	}
 }
 
@@ -356,19 +361,14 @@ public struct CommunicationRequestPayload: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(content: ContentX) {
-		self.content = content
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: ContentX,
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(content: content)
+		self.content = content
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -387,34 +387,13 @@ public struct CommunicationRequestPayload: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.contentAttachment) || _container.contains(CodingKeys.contentCodeableConcept) || _container.contains(CodingKeys.contentReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.contentAttachment, CodingKeys.contentCodeableConcept, CodingKeys.contentReference], debugDescription: "Must have at least one value for \"content\" but have none"))
-		}
-		
 		// Decode all our properties (own and inherited)
-		var _t_content: ContentX? = nil
-		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentAttachment, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .attachment(contentAttachment)
-		}
-		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .reference(contentReference)
-		}
-		if let contentCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .contentCodeableConcept) {
-			if _t_content != nil {
-				throw DecodingError.dataCorruptedError(forKey: .contentCodeableConcept, in: _container, debugDescription: "More than one value provided for \"content\"")
-			}
-			_t_content = .codeableConcept(contentCodeableConcept)
-		}
-		self.content = _t_content!
+		self.content = try Self._decodeContent(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
@@ -423,19 +402,49 @@ public struct CommunicationRequestPayload: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		
-			switch content {
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .contentAttachment)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .contentReference)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .contentCodeableConcept)
-			}
+		switch content {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .contentAttachment)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .contentCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .contentReference)
+		}
 		
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeContent(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ContentX {
+		var _t_content: ContentX? = nil
+		if let contentAttachment = try Attachment(from: _container, forKeyIfPresent: .contentAttachment) {
+			_t_content = .attachment(contentAttachment)
+		}
+		if let contentCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .contentCodeableConcept) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentCodeableConcept, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .codeableConcept(contentCodeableConcept)
+		}
+		if let contentReference = try Reference(from: _container, forKeyIfPresent: .contentReference) {
+			if _t_content != nil {
+				throw DecodingError.dataCorruptedError(forKey: .contentReference, in: _container, debugDescription: "More than one value provided for \"content\"")
+			}
+			_t_content = .reference(contentReference)
+		}
+		guard let _t_content else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.contentReference)
+			throw DecodingError.valueNotFound(ContentX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"content\" but have none"))
+		}
+		return _t_content
 	}
 }

@@ -125,13 +125,7 @@ public struct NutritionIntake: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<EventStatus>, subject: Reference) {
-		self.status = status
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		basedOn: [Reference]? = nil,
 		code: CodeableConcept? = nil,
@@ -159,7 +153,6 @@ public struct NutritionIntake: DomainResource {
 		subject: Reference,
 		text: Narrative? = nil
 	) {
-		self.init(status: status, subject: subject)
 		self.basedOn = basedOn
 		self.code = code
 		self.contained = contained
@@ -181,7 +174,9 @@ public struct NutritionIntake: DomainResource {
 		self.reason = reason
 		self.recorded = recorded
 		self.reported = reported
+		self.status = status
 		self.statusReason = statusReason
+		self.subject = subject
 		self.text = text
 	}
 	
@@ -220,6 +215,9 @@ public struct NutritionIntake: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -238,38 +236,12 @@ public struct NutritionIntake: DomainResource {
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.nutritionItem = try [NutritionIntakeNutritionItem](from: _container, forKeyIfPresent: .nutritionItem)
-		var _t_occurrence: OccurrenceX? = nil
-		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrenceDateTime, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .dateTime(occurrenceDateTime)
-		}
-		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
-			if _t_occurrence != nil {
-				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
-			}
-			_t_occurrence = .period(occurrencePeriod)
-		}
-		self.occurrence = _t_occurrence
+		self.occurrence = try Self._decodeOccurrence(from: _container)
 		self.partOf = try [Reference](from: _container, forKeyIfPresent: .partOf)
 		self.performer = try [NutritionIntakePerformer](from: _container, forKeyIfPresent: .performer)
 		self.reason = try [CodeableReference](from: _container, forKeyIfPresent: .reason)
 		self.recorded = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .recorded, auxiliaryKey: ._recorded)
-		var _t_reported: ReportedX? = nil
-		if let reportedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .reportedBoolean, auxiliaryKey: ._reportedBoolean) {
-			if _t_reported != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reportedBoolean, in: _container, debugDescription: "More than one value provided for \"reported\"")
-			}
-			_t_reported = .boolean(reportedBoolean)
-		}
-		if let reportedReference = try Reference(from: _container, forKeyIfPresent: .reportedReference) {
-			if _t_reported != nil {
-				throw DecodingError.dataCorruptedError(forKey: .reportedReference, in: _container, debugDescription: "More than one value provided for \"reported\"")
-			}
-			_t_reported = .reference(reportedReference)
-		}
-		self.reported = _t_reported
+		self.reported = try Self._decodeReported(from: _container)
 		self.status = try FHIRPrimitive<EventStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.statusReason = try [CodeableConcept](from: _container, forKeyIfPresent: .statusReason)
 		self.subject = try Reference(from: _container, forKey: .subject)
@@ -279,8 +251,10 @@ public struct NutritionIntake: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try basedOn?.encode(on: &_container, forKey: .basedOn)
 		try code?.encode(on: &_container, forKey: .code)
@@ -298,29 +272,63 @@ public struct NutritionIntake: DomainResource {
 		try note?.encode(on: &_container, forKey: .note)
 		try nutritionItem?.encode(on: &_container, forKey: .nutritionItem)
 		if let _enum = occurrence {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .occurrencePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .occurrencePeriod)
+		}
 		}
 		try partOf?.encode(on: &_container, forKey: .partOf)
 		try performer?.encode(on: &_container, forKey: .performer)
 		try reason?.encode(on: &_container, forKey: .reason)
 		try recorded?.encode(on: &_container, forKey: .recorded, auxiliaryKey: ._recorded)
 		if let _enum = reported {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .reportedBoolean, auxiliaryKey: ._reportedBoolean)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .reportedReference)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .reportedBoolean, auxiliaryKey: ._reportedBoolean)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .reportedReference)
+		}
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try statusReason?.encode(on: &_container, forKey: .statusReason)
 		try subject.encode(on: &_container, forKey: .subject)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOccurrence(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OccurrenceX? {
+		var _t_occurrence: OccurrenceX? = nil
+		if let occurrenceDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .occurrenceDateTime, auxiliaryKey: ._occurrenceDateTime) {
+			_t_occurrence = .dateTime(occurrenceDateTime)
+		}
+		if let occurrencePeriod = try Period(from: _container, forKeyIfPresent: .occurrencePeriod) {
+			if _t_occurrence != nil {
+				throw DecodingError.dataCorruptedError(forKey: .occurrencePeriod, in: _container, debugDescription: "More than one value provided for \"occurrence\"")
+			}
+			_t_occurrence = .period(occurrencePeriod)
+		}
+		return _t_occurrence
+	}
+	
+	private static func _decodeReported(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ReportedX? {
+		var _t_reported: ReportedX? = nil
+		if let reportedBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .reportedBoolean, auxiliaryKey: ._reportedBoolean) {
+			_t_reported = .boolean(reportedBoolean)
+		}
+		if let reportedReference = try Reference(from: _container, forKeyIfPresent: .reportedReference) {
+			if _t_reported != nil {
+				throw DecodingError.dataCorruptedError(forKey: .reportedReference, in: _container, debugDescription: "More than one value provided for \"reported\"")
+			}
+			_t_reported = .reference(reportedReference)
+		}
+		return _t_reported
 	}
 }
 
@@ -350,11 +358,7 @@ public struct NutritionIntakeNutritionItem: BackboneElement {
 	/// The type of food (i.e. solid or liquid) product
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		consumedItem: [NutritionIntakeNutritionItemConsumedItem]? = nil,
 		`extension`: [Extension]? = nil,
@@ -364,7 +368,6 @@ public struct NutritionIntakeNutritionItem: BackboneElement {
 		nutritionProduct: CodeableReference? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.consumedItem = consumedItem
 		self.`extension` = `extension`
 		self.id = id
@@ -388,6 +391,9 @@ public struct NutritionIntakeNutritionItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -403,6 +409,7 @@ public struct NutritionIntakeNutritionItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try consumedItem?.encode(on: &_container, forKey: .consumedItem)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -447,11 +454,7 @@ public struct NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 	/// Nutrients and/or energy contained in the intake
 	public var totalIntake: [NutritionIntakeNutritionItemConsumedItemTotalIntake]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Quantity? = nil,
 		`extension`: [Extension]? = nil,
@@ -461,7 +464,6 @@ public struct NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 		schedule: Timing? = nil,
 		totalIntake: [NutritionIntakeNutritionItemConsumedItemTotalIntake]? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.`extension` = `extension`
 		self.id = id
@@ -486,6 +488,9 @@ public struct NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -493,11 +498,39 @@ public struct NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.rate = try Self._decodeRate(from: _container)
+		self.schedule = try Timing(from: _container, forKeyIfPresent: .schedule)
+		self.totalIntake = try [NutritionIntakeNutritionItemConsumedItemTotalIntake](from: _container, forKeyIfPresent: .totalIntake)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try amount?.encode(on: &_container, forKey: .amount)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = rate {
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .rateQuantity)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .rateRatio)
+		}
+		}
+		try schedule?.encode(on: &_container, forKey: .schedule)
+		try totalIntake?.encode(on: &_container, forKey: .totalIntake)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeRate(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> RateX? {
 		var _t_rate: RateX? = nil
 		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
-			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateQuantity, in: _container, debugDescription: "More than one value provided for \"rate\"")
-			}
 			_t_rate = .quantity(rateQuantity)
 		}
 		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
@@ -506,29 +539,7 @@ public struct NutritionIntakeNutritionItemConsumedItem: BackboneElement {
 			}
 			_t_rate = .ratio(rateRatio)
 		}
-		self.rate = _t_rate
-		self.schedule = try Timing(from: _container, forKeyIfPresent: .schedule)
-		self.totalIntake = try [NutritionIntakeNutritionItemConsumedItemTotalIntake](from: _container, forKeyIfPresent: .totalIntake)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try amount?.encode(on: &_container, forKey: .amount)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = rate {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .rateQuantity)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .rateRatio)
-			}
-		}
-		try schedule?.encode(on: &_container, forKey: .schedule)
-		try totalIntake?.encode(on: &_container, forKey: .totalIntake)
+		return _t_rate
 	}
 }
 
@@ -555,13 +566,7 @@ public struct NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneEleme
 	/// Type of nutrient consumed in the intake
 	public var nutrient: CodeableReference
 	
-	/// Designated initializer taking all required properties
-	public init(amount: Quantity, nutrient: CodeableReference) {
-		self.amount = amount
-		self.nutrient = nutrient
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Quantity,
 		energy: Quantity? = nil,
@@ -570,11 +575,12 @@ public struct NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneEleme
 		modifierExtension: [Extension]? = nil,
 		nutrient: CodeableReference
 	) {
-		self.init(amount: amount, nutrient: nutrient)
+		self.amount = amount
 		self.energy = energy
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.nutrient = nutrient
 	}
 	
 	// MARK: - Codable
@@ -590,6 +596,9 @@ public struct NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneEleme
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -604,6 +613,7 @@ public struct NutritionIntakeNutritionItemConsumedItemTotalIntake: BackboneEleme
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount)
 		try energy?.encode(on: &_container, forKey: .energy)
@@ -637,11 +647,7 @@ public struct NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
 	/// The intended frequency of consumption that was not followed
 	public var schedule: Timing?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Quantity? = nil,
 		`extension`: [Extension]? = nil,
@@ -650,7 +656,6 @@ public struct NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
 		reason: CodeableConcept? = nil,
 		schedule: Timing? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.`extension` = `extension`
 		self.id = id
@@ -672,6 +677,9 @@ public struct NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -686,6 +694,7 @@ public struct NutritionIntakeNutritionItemNotConsumedItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -716,12 +725,7 @@ public struct NutritionIntakePerformer: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -729,7 +733,7 @@ public struct NutritionIntakePerformer: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.function = function
 		self.id = id
@@ -748,6 +752,9 @@ public struct NutritionIntakePerformer: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -761,6 +768,7 @@ public struct NutritionIntakePerformer: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

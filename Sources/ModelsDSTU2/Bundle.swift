@@ -57,12 +57,7 @@ public struct Bundle: Resource {
 	/// 'history', 'searchset', 'collection']
 	public var type: FHIRPrimitive<BundleType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<BundleType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		entry: [BundleEntry]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -74,7 +69,6 @@ public struct Bundle: Resource {
 		total: FHIRPrimitive<FHIRUnsignedInteger>? = nil,
 		type: FHIRPrimitive<BundleType>
 	) {
-		self.init(type: type)
 		self.entry = entry
 		self.id = id
 		self.implicitRules = implicitRules
@@ -83,6 +77,7 @@ public struct Bundle: Resource {
 		self.meta = meta
 		self.signature = signature
 		self.total = total
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -102,6 +97,9 @@ public struct Bundle: Resource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -119,8 +117,10 @@ public struct Bundle: Resource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try entry?.encode(on: &_container, forKey: .entry)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -169,11 +169,7 @@ public struct BundleEntry: BackboneElement {
 	/// Search related information
 	public var search: BundleEntrySearch?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		fullUrl: FHIRPrimitive<FHIRURI>? = nil,
@@ -185,7 +181,6 @@ public struct BundleEntry: BackboneElement {
 		response: BundleEntryResponse? = nil,
 		search: BundleEntrySearch? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.fullUrl = fullUrl
 		self.id = id
@@ -213,6 +208,9 @@ public struct BundleEntry: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -230,6 +228,7 @@ public struct BundleEntry: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try fullUrl?.encode(on: &_container, forKey: .fullUrl, auxiliaryKey: ._fullUrl)
@@ -278,13 +277,7 @@ public struct BundleEntryRequest: BackboneElement {
 	/// URL for HTTP equivalent of this entry
 	public var url: FHIRPrimitive<FHIRURI>
 	
-	/// Designated initializer taking all required properties
-	public init(method: FHIRPrimitive<HTTPVerb>, url: FHIRPrimitive<FHIRURI>) {
-		self.method = method
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -296,14 +289,15 @@ public struct BundleEntryRequest: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		url: FHIRPrimitive<FHIRURI>
 	) {
-		self.init(method: method, url: url)
 		self.`extension` = `extension`
 		self.id = id
 		self.ifMatch = ifMatch
 		self.ifModifiedSince = ifModifiedSince
 		self.ifNoneExist = ifNoneExist
 		self.ifNoneMatch = ifNoneMatch
+		self.method = method
 		self.modifierExtension = modifierExtension
+		self.url = url
 	}
 	
 	// MARK: - Codable
@@ -322,6 +316,9 @@ public struct BundleEntryRequest: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -339,6 +336,7 @@ public struct BundleEntryRequest: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -380,12 +378,7 @@ public struct BundleEntryResponse: BackboneElement {
 	/// Status return code for entry
 	public var status: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<FHIRString>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		etag: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -395,13 +388,13 @@ public struct BundleEntryResponse: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		status: FHIRPrimitive<FHIRString>
 	) {
-		self.init(status: status)
 		self.etag = etag
 		self.`extension` = `extension`
 		self.id = id
 		self.lastModified = lastModified
 		self.location = location
 		self.modifierExtension = modifierExtension
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -418,6 +411,9 @@ public struct BundleEntryResponse: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -433,6 +429,7 @@ public struct BundleEntryResponse: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try etag?.encode(on: &_container, forKey: .etag, auxiliaryKey: ._etag)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -467,11 +464,7 @@ public struct BundleEntrySearch: BackboneElement {
 	/// Search ranking (between 0 and 1)
 	public var score: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -479,7 +472,6 @@ public struct BundleEntrySearch: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		score: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.mode = mode
@@ -499,6 +491,9 @@ public struct BundleEntrySearch: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -512,6 +507,7 @@ public struct BundleEntrySearch: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -543,13 +539,7 @@ public struct BundleLink: BackboneElement {
 	/// Reference details for the link
 	public var url: FHIRPrimitive<FHIRURI>
 	
-	/// Designated initializer taking all required properties
-	public init(relation: FHIRPrimitive<FHIRString>, url: FHIRPrimitive<FHIRURI>) {
-		self.relation = relation
-		self.url = url
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -557,10 +547,11 @@ public struct BundleLink: BackboneElement {
 		relation: FHIRPrimitive<FHIRString>,
 		url: FHIRPrimitive<FHIRURI>
 	) {
-		self.init(relation: relation, url: url)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.relation = relation
+		self.url = url
 	}
 	
 	// MARK: - Codable
@@ -575,6 +566,9 @@ public struct BundleLink: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -588,6 +582,7 @@ public struct BundleLink: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

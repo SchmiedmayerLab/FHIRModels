@@ -96,11 +96,7 @@ public struct Dosage: Element {
 	/// When medication should be administered
 	public var timing: Timing?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additionalInstruction: [CodeableConcept]? = nil,
 		asNeeded: AsNeededX? = nil,
@@ -119,7 +115,6 @@ public struct Dosage: Element {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		timing: Timing? = nil
 	) {
-		self.init()
 		self.additionalInstruction = additionalInstruction
 		self.asNeeded = asNeeded
 		self.dose = dose
@@ -165,38 +160,15 @@ public struct Dosage: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.additionalInstruction = try [CodeableConcept](from: _container, forKeyIfPresent: .additionalInstruction)
-		var _t_asNeeded: AsNeededX? = nil
-		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededBoolean, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .boolean(asNeededBoolean)
-		}
-		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
-			if _t_asNeeded != nil {
-				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
-			}
-			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
-		}
-		self.asNeeded = _t_asNeeded
-		var _t_dose: DoseX? = nil
-		if let doseRange = try Range(from: _container, forKeyIfPresent: .doseRange) {
-			if _t_dose != nil {
-				throw DecodingError.dataCorruptedError(forKey: .doseRange, in: _container, debugDescription: "More than one value provided for \"dose\"")
-			}
-			_t_dose = .range(doseRange)
-		}
-		if let doseQuantity = try Quantity(from: _container, forKeyIfPresent: .doseQuantity) {
-			if _t_dose != nil {
-				throw DecodingError.dataCorruptedError(forKey: .doseQuantity, in: _container, debugDescription: "More than one value provided for \"dose\"")
-			}
-			_t_dose = .quantity(doseQuantity)
-		}
-		self.dose = _t_dose
+		self.asNeeded = try Self._decodeAsNeeded(from: _container)
+		self.dose = try Self._decodeDose(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.maxDosePerAdministration = try Quantity(from: _container, forKeyIfPresent: .maxDosePerAdministration)
@@ -204,26 +176,7 @@ public struct Dosage: Element {
 		self.maxDosePerPeriod = try Ratio(from: _container, forKeyIfPresent: .maxDosePerPeriod)
 		self.method = try CodeableConcept(from: _container, forKeyIfPresent: .method)
 		self.patientInstruction = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .patientInstruction, auxiliaryKey: ._patientInstruction)
-		var _t_rate: RateX? = nil
-		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
-			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
-			}
-			_t_rate = .ratio(rateRatio)
-		}
-		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
-			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateRange, in: _container, debugDescription: "More than one value provided for \"rate\"")
-			}
-			_t_rate = .range(rateRange)
-		}
-		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
-			if _t_rate != nil {
-				throw DecodingError.dataCorruptedError(forKey: .rateQuantity, in: _container, debugDescription: "More than one value provided for \"rate\"")
-			}
-			_t_rate = .quantity(rateQuantity)
-		}
-		self.rate = _t_rate
+		self.rate = try Self._decodeRate(from: _container)
 		self.route = try CodeableConcept(from: _container, forKeyIfPresent: .route)
 		self.sequence = try FHIRPrimitive<FHIRInteger>(from: _container, forKeyIfPresent: .sequence, auxiliaryKey: ._sequence)
 		self.site = try CodeableConcept(from: _container, forKeyIfPresent: .site)
@@ -234,23 +187,24 @@ public struct Dosage: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try additionalInstruction?.encode(on: &_container, forKey: .additionalInstruction)
 		if let _enum = asNeeded {
-			switch _enum {
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .asNeededCodeableConcept)
+		}
 		}
 		if let _enum = dose {
-			switch _enum {
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .doseRange)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .doseQuantity)
-			}
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .doseQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .doseRange)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -260,19 +214,75 @@ public struct Dosage: Element {
 		try method?.encode(on: &_container, forKey: .method)
 		try patientInstruction?.encode(on: &_container, forKey: .patientInstruction, auxiliaryKey: ._patientInstruction)
 		if let _enum = rate {
-			switch _enum {
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .rateRatio)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .rateRange)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .rateQuantity)
-			}
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .rateQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .rateRange)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .rateRatio)
+		}
 		}
 		try route?.encode(on: &_container, forKey: .route)
 		try sequence?.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
 		try site?.encode(on: &_container, forKey: .site)
 		try text?.encode(on: &_container, forKey: .text, auxiliaryKey: ._text)
 		try timing?.encode(on: &_container, forKey: .timing)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAsNeeded(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AsNeededX? {
+		var _t_asNeeded: AsNeededX? = nil
+		if let asNeededBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .asNeededBoolean, auxiliaryKey: ._asNeededBoolean) {
+			_t_asNeeded = .boolean(asNeededBoolean)
+		}
+		if let asNeededCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .asNeededCodeableConcept) {
+			if _t_asNeeded != nil {
+				throw DecodingError.dataCorruptedError(forKey: .asNeededCodeableConcept, in: _container, debugDescription: "More than one value provided for \"asNeeded\"")
+			}
+			_t_asNeeded = .codeableConcept(asNeededCodeableConcept)
+		}
+		return _t_asNeeded
+	}
+	
+	private static func _decodeDose(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DoseX? {
+		var _t_dose: DoseX? = nil
+		if let doseQuantity = try Quantity(from: _container, forKeyIfPresent: .doseQuantity) {
+			_t_dose = .quantity(doseQuantity)
+		}
+		if let doseRange = try Range(from: _container, forKeyIfPresent: .doseRange) {
+			if _t_dose != nil {
+				throw DecodingError.dataCorruptedError(forKey: .doseRange, in: _container, debugDescription: "More than one value provided for \"dose\"")
+			}
+			_t_dose = .range(doseRange)
+		}
+		return _t_dose
+	}
+	
+	private static func _decodeRate(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> RateX? {
+		var _t_rate: RateX? = nil
+		if let rateQuantity = try Quantity(from: _container, forKeyIfPresent: .rateQuantity) {
+			_t_rate = .quantity(rateQuantity)
+		}
+		if let rateRange = try Range(from: _container, forKeyIfPresent: .rateRange) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRange, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .range(rateRange)
+		}
+		if let rateRatio = try Ratio(from: _container, forKeyIfPresent: .rateRatio) {
+			if _t_rate != nil {
+				throw DecodingError.dataCorruptedError(forKey: .rateRatio, in: _container, debugDescription: "More than one value provided for \"rate\"")
+			}
+			_t_rate = .ratio(rateRatio)
+		}
+		return _t_rate
 	}
 }

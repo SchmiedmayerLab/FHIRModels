@@ -66,14 +66,7 @@ public struct Signature: Element {
 	/// One of `who[x]`
 	public var who: WhoX
 	
-	/// Designated initializer taking all required properties
-	public init(type: [Coding], when: FHIRPrimitive<Instant>, who: WhoX) {
-		self.type = type
-		self.when = when
-		self.who = who
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		blob: FHIRPrimitive<Base64Binary>? = nil,
 		contentType: FHIRPrimitive<FHIRString>? = nil,
@@ -84,12 +77,14 @@ public struct Signature: Element {
 		when: FHIRPrimitive<Instant>,
 		who: WhoX
 	) {
-		self.init(type: type, when: when, who: who)
 		self.blob = blob
 		self.contentType = contentType
 		self.`extension` = `extension`
 		self.id = id
 		self.onBehalfOf = onBehalfOf
+		self.type = type
+		self.when = when
+		self.who = who
 	}
 	
 	// MARK: - Codable
@@ -109,75 +104,87 @@ public struct Signature: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.whoReference) || _container.contains(CodingKeys.whoUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.whoReference, CodingKeys.whoUri], debugDescription: "Must have at least one value for \"who\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.blob = try FHIRPrimitive<Base64Binary>(from: _container, forKeyIfPresent: .blob, auxiliaryKey: ._blob)
 		self.contentType = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .contentType, auxiliaryKey: ._contentType)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		var _t_onBehalfOf: OnBehalfOfX? = nil
-		if let onBehalfOfUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri) {
-			if _t_onBehalfOf != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onBehalfOfUri, in: _container, debugDescription: "More than one value provided for \"onBehalfOf\"")
-			}
-			_t_onBehalfOf = .uri(onBehalfOfUri)
-		}
-		if let onBehalfOfReference = try Reference(from: _container, forKeyIfPresent: .onBehalfOfReference) {
-			if _t_onBehalfOf != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onBehalfOfReference, in: _container, debugDescription: "More than one value provided for \"onBehalfOf\"")
-			}
-			_t_onBehalfOf = .reference(onBehalfOfReference)
-		}
-		self.onBehalfOf = _t_onBehalfOf
+		self.onBehalfOf = try Self._decodeOnBehalfOf(from: _container)
 		self.type = try [Coding](from: _container, forKey: .type)
 		self.when = try FHIRPrimitive<Instant>(from: _container, forKey: .when, auxiliaryKey: ._when)
-		var _t_who: WhoX? = nil
-		if let whoUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .whoUri, auxiliaryKey: ._whoUri) {
-			if _t_who != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whoUri, in: _container, debugDescription: "More than one value provided for \"who\"")
-			}
-			_t_who = .uri(whoUri)
-		}
-		if let whoReference = try Reference(from: _container, forKeyIfPresent: .whoReference) {
-			if _t_who != nil {
-				throw DecodingError.dataCorruptedError(forKey: .whoReference, in: _container, debugDescription: "More than one value provided for \"who\"")
-			}
-			_t_who = .reference(whoReference)
-		}
-		self.who = _t_who!
+		self.who = try Self._decodeWho(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try blob?.encode(on: &_container, forKey: .blob, auxiliaryKey: ._blob)
 		try contentType?.encode(on: &_container, forKey: .contentType, auxiliaryKey: ._contentType)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		if let _enum = onBehalfOf {
-			switch _enum {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .onBehalfOfReference)
-			}
+		switch _enum {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .onBehalfOfReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri)
+		}
 		}
 		try type.encode(on: &_container, forKey: .type)
 		try when.encode(on: &_container, forKey: .when, auxiliaryKey: ._when)
 		
-			switch who {
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .whoUri, auxiliaryKey: ._whoUri)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .whoReference)
-			}
+		switch who {
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .whoReference)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .whoUri, auxiliaryKey: ._whoUri)
+		}
 		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeOnBehalfOf(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OnBehalfOfX? {
+		var _t_onBehalfOf: OnBehalfOfX? = nil
+		if let onBehalfOfReference = try Reference(from: _container, forKeyIfPresent: .onBehalfOfReference) {
+			_t_onBehalfOf = .reference(onBehalfOfReference)
+		}
+		if let onBehalfOfUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .onBehalfOfUri, auxiliaryKey: ._onBehalfOfUri) {
+			if _t_onBehalfOf != nil {
+				throw DecodingError.dataCorruptedError(forKey: .onBehalfOfUri, in: _container, debugDescription: "More than one value provided for \"onBehalfOf\"")
+			}
+			_t_onBehalfOf = .uri(onBehalfOfUri)
+		}
+		return _t_onBehalfOf
+	}
+	
+	private static func _decodeWho(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> WhoX {
+		var _t_who: WhoX? = nil
+		if let whoReference = try Reference(from: _container, forKeyIfPresent: .whoReference) {
+			_t_who = .reference(whoReference)
+		}
+		if let whoUri = try FHIRPrimitive<FHIRURI>(from: _container, forKeyIfPresent: .whoUri, auxiliaryKey: ._whoUri) {
+			if _t_who != nil {
+				throw DecodingError.dataCorruptedError(forKey: .whoUri, in: _container, debugDescription: "More than one value provided for \"who\"")
+			}
+			_t_who = .uri(whoUri)
+		}
+		guard let _t_who else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.whoUri)
+			throw DecodingError.valueNotFound(WhoX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"who\" but have none"))
+		}
+		return _t_who
 	}
 }

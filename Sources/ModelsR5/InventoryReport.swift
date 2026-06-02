@@ -82,14 +82,7 @@ public struct InventoryReport: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(countType: FHIRPrimitive<InventoryCountType>, reportedDateTime: FHIRPrimitive<DateTime>, status: FHIRPrimitive<InventoryReportStatus>) {
-		self.countType = countType
-		self.reportedDateTime = reportedDateTime
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		countType: FHIRPrimitive<InventoryCountType>,
@@ -110,8 +103,8 @@ public struct InventoryReport: DomainResource {
 		status: FHIRPrimitive<InventoryReportStatus>,
 		text: Narrative? = nil
 	) {
-		self.init(countType: countType, reportedDateTime: reportedDateTime, status: status)
 		self.contained = contained
+		self.countType = countType
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -123,8 +116,10 @@ public struct InventoryReport: DomainResource {
 		self.note = note
 		self.operationType = operationType
 		self.operationTypeReason = operationTypeReason
+		self.reportedDateTime = reportedDateTime
 		self.reporter = reporter
 		self.reportingPeriod = reportingPeriod
+		self.status = status
 		self.text = text
 	}
 	
@@ -154,6 +149,9 @@ public struct InventoryReport: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -180,8 +178,10 @@ public struct InventoryReport: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try countType.encode(on: &_container, forKey: .countType, auxiliaryKey: ._countType)
@@ -230,11 +230,7 @@ public struct InventoryReportInventoryListing: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		countingDateTime: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
@@ -244,7 +240,6 @@ public struct InventoryReportInventoryListing: BackboneElement {
 		location: Reference? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.countingDateTime = countingDateTime
 		self.`extension` = `extension`
 		self.id = id
@@ -268,6 +263,9 @@ public struct InventoryReportInventoryListing: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -283,6 +281,7 @@ public struct InventoryReportInventoryListing: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try countingDateTime?.encode(on: &_container, forKey: .countingDateTime, auxiliaryKey: ._countingDateTime)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -317,13 +316,7 @@ public struct InventoryReportInventoryListingItem: BackboneElement {
 	/// The quantity of the item or items being reported
 	public var quantity: Quantity
 	
-	/// Designated initializer taking all required properties
-	public init(item: CodeableReference, quantity: Quantity) {
-		self.item = item
-		self.quantity = quantity
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -332,11 +325,12 @@ public struct InventoryReportInventoryListingItem: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		quantity: Quantity
 	) {
-		self.init(item: item, quantity: quantity)
 		self.category = category
 		self.`extension` = `extension`
 		self.id = id
+		self.item = item
 		self.modifierExtension = modifierExtension
+		self.quantity = quantity
 	}
 	
 	// MARK: - Codable
@@ -352,6 +346,9 @@ public struct InventoryReportInventoryListingItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -366,6 +363,7 @@ public struct InventoryReportInventoryListingItem: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

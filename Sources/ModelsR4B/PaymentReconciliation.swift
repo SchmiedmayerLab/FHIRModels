@@ -97,15 +97,7 @@ public struct PaymentReconciliation: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(created: FHIRPrimitive<DateTime>, paymentAmount: Money, paymentDate: FHIRPrimitive<FHIRDate>, status: FHIRPrimitive<FinancialResourceStatusCodes>) {
-		self.created = created
-		self.paymentAmount = paymentAmount
-		self.paymentDate = paymentDate
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		created: FHIRPrimitive<DateTime>,
@@ -131,8 +123,8 @@ public struct PaymentReconciliation: DomainResource {
 		status: FHIRPrimitive<FinancialResourceStatusCodes>,
 		text: Narrative? = nil
 	) {
-		self.init(created: created, paymentAmount: paymentAmount, paymentDate: paymentDate, status: status)
 		self.contained = contained
+		self.created = created
 		self.detail = detail
 		self.disposition = disposition
 		self.`extension` = `extension`
@@ -144,12 +136,15 @@ public struct PaymentReconciliation: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.outcome = outcome
+		self.paymentAmount = paymentAmount
+		self.paymentDate = paymentDate
 		self.paymentIdentifier = paymentIdentifier
 		self.paymentIssuer = paymentIssuer
 		self.period = period
 		self.processNote = processNote
 		self.request = request
 		self.requestor = requestor
+		self.status = status
 		self.text = text
 	}
 	
@@ -184,6 +179,9 @@ public struct PaymentReconciliation: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -215,8 +213,10 @@ public struct PaymentReconciliation: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try created.encode(on: &_container, forKey: .created, auxiliaryKey: ._created)
@@ -290,12 +290,7 @@ public struct PaymentReconciliationDetail: BackboneElement {
 	/// Category of payment
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Money? = nil,
 		date: FHIRPrimitive<FHIRDate>? = nil,
@@ -311,7 +306,6 @@ public struct PaymentReconciliationDetail: BackboneElement {
 		submitter: Reference? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.amount = amount
 		self.date = date
 		self.`extension` = `extension`
@@ -324,6 +318,7 @@ public struct PaymentReconciliationDetail: BackboneElement {
 		self.response = response
 		self.responsible = responsible
 		self.submitter = submitter
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -346,6 +341,9 @@ public struct PaymentReconciliationDetail: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -367,6 +365,7 @@ public struct PaymentReconciliationDetail: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount?.encode(on: &_container, forKey: .amount)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -406,11 +405,7 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 	/// The business purpose of the note text.
 	public var type: FHIRPrimitive<NoteType>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -418,7 +413,6 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		type: FHIRPrimitive<NoteType>? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -438,6 +432,9 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -451,6 +448,7 @@ public struct PaymentReconciliationProcessNote: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

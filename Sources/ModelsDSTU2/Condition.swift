@@ -124,14 +124,7 @@ public struct Condition: DomainResource {
 	/// Restricted to: ['provisional', 'differential', 'confirmed', 'refuted', 'entered-in-error', 'unknown']
 	public var verificationStatus: FHIRPrimitive<ConditionVerificationStatus>
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, patient: Reference, verificationStatus: FHIRPrimitive<ConditionVerificationStatus>) {
-		self.code = code
-		self.patient = patient
-		self.verificationStatus = verificationStatus
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		abatement: AbatementX? = nil,
 		asserter: Reference? = nil,
@@ -158,12 +151,12 @@ public struct Condition: DomainResource {
 		text: Narrative? = nil,
 		verificationStatus: FHIRPrimitive<ConditionVerificationStatus>
 	) {
-		self.init(code: code, patient: patient, verificationStatus: verificationStatus)
 		self.abatement = abatement
 		self.asserter = asserter
 		self.bodySite = bodySite
 		self.category = category
 		self.clinicalStatus = clinicalStatus
+		self.code = code
 		self.contained = contained
 		self.dateRecorded = dateRecorded
 		self.encounter = encounter
@@ -177,9 +170,11 @@ public struct Condition: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.notes = notes
 		self.onset = onset
+		self.patient = patient
 		self.severity = severity
 		self.stage = stage
 		self.text = text
+		self.verificationStatus = verificationStatus
 	}
 	
 	// MARK: - Codable
@@ -223,47 +218,13 @@ public struct Condition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_abatement: AbatementX? = nil
-		if let abatementDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .abatementDateTime, auxiliaryKey: ._abatementDateTime) {
-			if _t_abatement != nil {
-				throw DecodingError.dataCorruptedError(forKey: .abatementDateTime, in: _container, debugDescription: "More than one value provided for \"abatement\"")
-			}
-			_t_abatement = .dateTime(abatementDateTime)
-		}
-		if let abatementQuantity = try Quantity(from: _container, forKeyIfPresent: .abatementQuantity) {
-			if _t_abatement != nil {
-				throw DecodingError.dataCorruptedError(forKey: .abatementQuantity, in: _container, debugDescription: "More than one value provided for \"abatement\"")
-			}
-			_t_abatement = .quantity(abatementQuantity)
-		}
-		if let abatementBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .abatementBoolean, auxiliaryKey: ._abatementBoolean) {
-			if _t_abatement != nil {
-				throw DecodingError.dataCorruptedError(forKey: .abatementBoolean, in: _container, debugDescription: "More than one value provided for \"abatement\"")
-			}
-			_t_abatement = .boolean(abatementBoolean)
-		}
-		if let abatementPeriod = try Period(from: _container, forKeyIfPresent: .abatementPeriod) {
-			if _t_abatement != nil {
-				throw DecodingError.dataCorruptedError(forKey: .abatementPeriod, in: _container, debugDescription: "More than one value provided for \"abatement\"")
-			}
-			_t_abatement = .period(abatementPeriod)
-		}
-		if let abatementRange = try Range(from: _container, forKeyIfPresent: .abatementRange) {
-			if _t_abatement != nil {
-				throw DecodingError.dataCorruptedError(forKey: .abatementRange, in: _container, debugDescription: "More than one value provided for \"abatement\"")
-			}
-			_t_abatement = .range(abatementRange)
-		}
-		if let abatementString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .abatementString, auxiliaryKey: ._abatementString) {
-			if _t_abatement != nil {
-				throw DecodingError.dataCorruptedError(forKey: .abatementString, in: _container, debugDescription: "More than one value provided for \"abatement\"")
-			}
-			_t_abatement = .string(abatementString)
-		}
-		self.abatement = _t_abatement
+		self.abatement = try Self._decodeAbatement(from: _container)
 		self.asserter = try Reference(from: _container, forKeyIfPresent: .asserter)
 		self.bodySite = try [CodeableConcept](from: _container, forKeyIfPresent: .bodySite)
 		self.category = try CodeableConcept(from: _container, forKeyIfPresent: .category)
@@ -281,38 +242,7 @@ public struct Condition: DomainResource {
 		self.meta = try Meta(from: _container, forKeyIfPresent: .meta)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.notes = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .notes, auxiliaryKey: ._notes)
-		var _t_onset: OnsetX? = nil
-		if let onsetDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .onsetDateTime, auxiliaryKey: ._onsetDateTime) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetDateTime, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .dateTime(onsetDateTime)
-		}
-		if let onsetQuantity = try Quantity(from: _container, forKeyIfPresent: .onsetQuantity) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetQuantity, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .quantity(onsetQuantity)
-		}
-		if let onsetPeriod = try Period(from: _container, forKeyIfPresent: .onsetPeriod) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetPeriod, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .period(onsetPeriod)
-		}
-		if let onsetRange = try Range(from: _container, forKeyIfPresent: .onsetRange) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetRange, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .range(onsetRange)
-		}
-		if let onsetString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .onsetString, auxiliaryKey: ._onsetString) {
-			if _t_onset != nil {
-				throw DecodingError.dataCorruptedError(forKey: .onsetString, in: _container, debugDescription: "More than one value provided for \"onset\"")
-			}
-			_t_onset = .string(onsetString)
-		}
-		self.onset = _t_onset
+		self.onset = try Self._decodeOnset(from: _container)
 		self.patient = try Reference(from: _container, forKey: .patient)
 		self.severity = try CodeableConcept(from: _container, forKeyIfPresent: .severity)
 		self.stage = try ConditionStage(from: _container, forKeyIfPresent: .stage)
@@ -323,24 +253,26 @@ public struct Condition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = abatement {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .abatementDateTime, auxiliaryKey: ._abatementDateTime)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .abatementQuantity)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .abatementBoolean, auxiliaryKey: ._abatementBoolean)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .abatementPeriod)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .abatementRange)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .abatementString, auxiliaryKey: ._abatementString)
-			}
+		switch _enum {
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .abatementBoolean, auxiliaryKey: ._abatementBoolean)
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .abatementDateTime, auxiliaryKey: ._abatementDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .abatementPeriod)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .abatementQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .abatementRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .abatementString, auxiliaryKey: ._abatementString)
+		}
 		}
 		try asserter?.encode(on: &_container, forKey: .asserter)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -360,24 +292,100 @@ public struct Condition: DomainResource {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try notes?.encode(on: &_container, forKey: .notes, auxiliaryKey: ._notes)
 		if let _enum = onset {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .onsetDateTime, auxiliaryKey: ._onsetDateTime)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .onsetQuantity)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .onsetPeriod)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .onsetRange)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .onsetString, auxiliaryKey: ._onsetString)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .onsetDateTime, auxiliaryKey: ._onsetDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .onsetPeriod)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .onsetQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .onsetRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .onsetString, auxiliaryKey: ._onsetString)
+		}
 		}
 		try patient.encode(on: &_container, forKey: .patient)
 		try severity?.encode(on: &_container, forKey: .severity)
 		try stage?.encode(on: &_container, forKey: .stage)
 		try text?.encode(on: &_container, forKey: .text)
 		try verificationStatus.encode(on: &_container, forKey: .verificationStatus, auxiliaryKey: ._verificationStatus)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAbatement(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AbatementX? {
+		var _t_abatement: AbatementX? = nil
+		if let abatementBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .abatementBoolean, auxiliaryKey: ._abatementBoolean) {
+			_t_abatement = .boolean(abatementBoolean)
+		}
+		if let abatementDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .abatementDateTime, auxiliaryKey: ._abatementDateTime) {
+			if _t_abatement != nil {
+				throw DecodingError.dataCorruptedError(forKey: .abatementDateTime, in: _container, debugDescription: "More than one value provided for \"abatement\"")
+			}
+			_t_abatement = .dateTime(abatementDateTime)
+		}
+		if let abatementPeriod = try Period(from: _container, forKeyIfPresent: .abatementPeriod) {
+			if _t_abatement != nil {
+				throw DecodingError.dataCorruptedError(forKey: .abatementPeriod, in: _container, debugDescription: "More than one value provided for \"abatement\"")
+			}
+			_t_abatement = .period(abatementPeriod)
+		}
+		if let abatementQuantity = try Quantity(from: _container, forKeyIfPresent: .abatementQuantity) {
+			if _t_abatement != nil {
+				throw DecodingError.dataCorruptedError(forKey: .abatementQuantity, in: _container, debugDescription: "More than one value provided for \"abatement\"")
+			}
+			_t_abatement = .quantity(abatementQuantity)
+		}
+		if let abatementRange = try Range(from: _container, forKeyIfPresent: .abatementRange) {
+			if _t_abatement != nil {
+				throw DecodingError.dataCorruptedError(forKey: .abatementRange, in: _container, debugDescription: "More than one value provided for \"abatement\"")
+			}
+			_t_abatement = .range(abatementRange)
+		}
+		if let abatementString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .abatementString, auxiliaryKey: ._abatementString) {
+			if _t_abatement != nil {
+				throw DecodingError.dataCorruptedError(forKey: .abatementString, in: _container, debugDescription: "More than one value provided for \"abatement\"")
+			}
+			_t_abatement = .string(abatementString)
+		}
+		return _t_abatement
+	}
+	
+	private static func _decodeOnset(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> OnsetX? {
+		var _t_onset: OnsetX? = nil
+		if let onsetDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .onsetDateTime, auxiliaryKey: ._onsetDateTime) {
+			_t_onset = .dateTime(onsetDateTime)
+		}
+		if let onsetPeriod = try Period(from: _container, forKeyIfPresent: .onsetPeriod) {
+			if _t_onset != nil {
+				throw DecodingError.dataCorruptedError(forKey: .onsetPeriod, in: _container, debugDescription: "More than one value provided for \"onset\"")
+			}
+			_t_onset = .period(onsetPeriod)
+		}
+		if let onsetQuantity = try Quantity(from: _container, forKeyIfPresent: .onsetQuantity) {
+			if _t_onset != nil {
+				throw DecodingError.dataCorruptedError(forKey: .onsetQuantity, in: _container, debugDescription: "More than one value provided for \"onset\"")
+			}
+			_t_onset = .quantity(onsetQuantity)
+		}
+		if let onsetRange = try Range(from: _container, forKeyIfPresent: .onsetRange) {
+			if _t_onset != nil {
+				throw DecodingError.dataCorruptedError(forKey: .onsetRange, in: _container, debugDescription: "More than one value provided for \"onset\"")
+			}
+			_t_onset = .range(onsetRange)
+		}
+		if let onsetString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .onsetString, auxiliaryKey: ._onsetString) {
+			if _t_onset != nil {
+				throw DecodingError.dataCorruptedError(forKey: .onsetString, in: _container, debugDescription: "More than one value provided for \"onset\"")
+			}
+			_t_onset = .string(onsetString)
+		}
+		return _t_onset
 	}
 }
 
@@ -403,11 +411,7 @@ public struct ConditionEvidence: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		detail: [Reference]? = nil,
@@ -415,7 +419,6 @@ public struct ConditionEvidence: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.code = code
 		self.detail = detail
 		self.`extension` = `extension`
@@ -435,6 +438,9 @@ public struct ConditionEvidence: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -448,6 +454,7 @@ public struct ConditionEvidence: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try detail?.encode(on: &_container, forKey: .detail)
@@ -479,11 +486,7 @@ public struct ConditionStage: BackboneElement {
 	/// Simple summary (disease specific)
 	public var summary: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		assessment: [Reference]? = nil,
 		`extension`: [Extension]? = nil,
@@ -491,7 +494,6 @@ public struct ConditionStage: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		summary: CodeableConcept? = nil
 	) {
-		self.init()
 		self.assessment = assessment
 		self.`extension` = `extension`
 		self.id = id
@@ -511,6 +513,9 @@ public struct ConditionStage: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -524,6 +529,7 @@ public struct ConditionStage: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try assessment?.encode(on: &_container, forKey: .assessment)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

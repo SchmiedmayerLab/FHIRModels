@@ -52,12 +52,7 @@ public struct MarketingStatus: BackboneType {
 	/// This attribute provides information on the status of the marketing of the item
 	public var status: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(status: CodeableConcept) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		country: CodeableConcept? = nil,
 		dateRange: Period? = nil,
@@ -68,7 +63,6 @@ public struct MarketingStatus: BackboneType {
 		restoreDate: FHIRPrimitive<DateTime>? = nil,
 		status: CodeableConcept
 	) {
-		self.init(status: status)
 		self.country = country
 		self.dateRange = dateRange
 		self.`extension` = `extension`
@@ -76,6 +70,7 @@ public struct MarketingStatus: BackboneType {
 		self.jurisdiction = jurisdiction
 		self.modifierExtension = modifierExtension
 		self.restoreDate = restoreDate
+		self.status = status
 	}
 	
 	// MARK: - Codable
@@ -93,6 +88,9 @@ public struct MarketingStatus: BackboneType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -109,6 +107,7 @@ public struct MarketingStatus: BackboneType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try country?.encode(on: &_container, forKey: .country)
 		try dateRange?.encode(on: &_container, forKey: .dateRange)

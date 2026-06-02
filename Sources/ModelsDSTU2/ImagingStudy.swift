@@ -103,15 +103,7 @@ public struct ImagingStudy: DomainResource {
 	/// Retrieve URI
 	public var url: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init(numberOfInstances: FHIRPrimitive<FHIRUnsignedInteger>, numberOfSeries: FHIRPrimitive<FHIRUnsignedInteger>, patient: Reference, uid: FHIRPrimitive<FHIRURI>) {
-		self.numberOfInstances = numberOfInstances
-		self.numberOfSeries = numberOfSeries
-		self.patient = patient
-		self.uid = uid
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		accession: Identifier? = nil,
 		availability: FHIRPrimitive<FHIRString>? = nil,
@@ -138,7 +130,6 @@ public struct ImagingStudy: DomainResource {
 		uid: FHIRPrimitive<FHIRURI>,
 		url: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init(numberOfInstances: numberOfInstances, numberOfSeries: numberOfSeries, patient: patient, uid: uid)
 		self.accession = accession
 		self.availability = availability
 		self.contained = contained
@@ -152,12 +143,16 @@ public struct ImagingStudy: DomainResource {
 		self.meta = meta
 		self.modalityList = modalityList
 		self.modifierExtension = modifierExtension
+		self.numberOfInstances = numberOfInstances
+		self.numberOfSeries = numberOfSeries
 		self.order = order
+		self.patient = patient
 		self.procedure = procedure
 		self.referrer = referrer
 		self.series = series
 		self.started = started
 		self.text = text
+		self.uid = uid
 		self.url = url
 	}
 	
@@ -193,6 +188,9 @@ public struct ImagingStudy: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -225,8 +223,10 @@ public struct ImagingStudy: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try accession?.encode(on: &_container, forKey: .accession)
 		try availability?.encode(on: &_container, forKey: .availability, auxiliaryKey: ._availability)
@@ -304,14 +304,7 @@ public struct ImagingStudySeries: BackboneElement {
 	/// Location of the referenced instance(s)
 	public var url: FHIRPrimitive<FHIRURI>?
 	
-	/// Designated initializer taking all required properties
-	public init(modality: Coding, numberOfInstances: FHIRPrimitive<FHIRUnsignedInteger>, uid: FHIRPrimitive<FHIRURI>) {
-		self.modality = modality
-		self.numberOfInstances = numberOfInstances
-		self.uid = uid
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		availability: FHIRPrimitive<FHIRString>? = nil,
 		bodySite: Coding? = nil,
@@ -328,7 +321,6 @@ public struct ImagingStudySeries: BackboneElement {
 		uid: FHIRPrimitive<FHIRURI>,
 		url: FHIRPrimitive<FHIRURI>? = nil
 	) {
-		self.init(modality: modality, numberOfInstances: numberOfInstances, uid: uid)
 		self.availability = availability
 		self.bodySite = bodySite
 		self.description_fhir = description_fhir
@@ -336,9 +328,12 @@ public struct ImagingStudySeries: BackboneElement {
 		self.id = id
 		self.instance = instance
 		self.laterality = laterality
+		self.modality = modality
 		self.modifierExtension = modifierExtension
 		self.number = number
+		self.numberOfInstances = numberOfInstances
 		self.started = started
+		self.uid = uid
 		self.url = url
 	}
 	
@@ -363,6 +358,9 @@ public struct ImagingStudySeries: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -385,6 +383,7 @@ public struct ImagingStudySeries: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try availability?.encode(on: &_container, forKey: .availability, auxiliaryKey: ._availability)
 		try bodySite?.encode(on: &_container, forKey: .bodySite)
@@ -437,13 +436,7 @@ public struct ImagingStudySeriesInstance: BackboneElement {
 	/// Formal identifier for this instance
 	public var uid: FHIRPrimitive<FHIRURI>
 	
-	/// Designated initializer taking all required properties
-	public init(sopClass: FHIRPrimitive<FHIRURI>, uid: FHIRPrimitive<FHIRURI>) {
-		self.sopClass = sopClass
-		self.uid = uid
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		content: [Attachment]? = nil,
 		`extension`: [Extension]? = nil,
@@ -455,14 +448,15 @@ public struct ImagingStudySeriesInstance: BackboneElement {
 		type: FHIRPrimitive<FHIRString>? = nil,
 		uid: FHIRPrimitive<FHIRURI>
 	) {
-		self.init(sopClass: sopClass, uid: uid)
 		self.content = content
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.number = number
+		self.sopClass = sopClass
 		self.title = title
 		self.type = type
+		self.uid = uid
 	}
 	
 	// MARK: - Codable
@@ -481,6 +475,9 @@ public struct ImagingStudySeriesInstance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -498,6 +495,7 @@ public struct ImagingStudySeriesInstance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try content?.encode(on: &_container, forKey: .content)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

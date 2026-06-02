@@ -110,12 +110,7 @@ public struct MedicinalProduct: DomainResource {
 	/// Regulatory type, e.g. Investigational or Authorized
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(name: [MedicinalProductName]) {
-		self.name = name
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additionalMonitoringIndicator: CodeableConcept? = nil,
 		attachedDocument: [Reference]? = nil,
@@ -146,7 +141,6 @@ public struct MedicinalProduct: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(name: name)
 		self.additionalMonitoringIndicator = additionalMonitoringIndicator
 		self.attachedDocument = attachedDocument
 		self.clinicalTrial = clinicalTrial
@@ -166,6 +160,7 @@ public struct MedicinalProduct: DomainResource {
 		self.masterFile = masterFile
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.packagedMedicinalProduct = packagedMedicinalProduct
 		self.paediatricUseIndicator = paediatricUseIndicator
 		self.pharmaceuticalProduct = pharmaceuticalProduct
@@ -212,6 +207,9 @@ public struct MedicinalProduct: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -248,8 +246,10 @@ public struct MedicinalProduct: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try additionalMonitoringIndicator?.encode(on: &_container, forKey: .additionalMonitoringIndicator)
 		try attachedDocument?.encode(on: &_container, forKey: .attachedDocument)
@@ -314,11 +314,7 @@ public struct MedicinalProductManufacturingBusinessOperation: BackboneElement {
 	/// A regulator which oversees the operation
 	public var regulator: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authorisationReferenceNumber: Identifier? = nil,
 		confidentialityIndicator: CodeableConcept? = nil,
@@ -330,7 +326,6 @@ public struct MedicinalProductManufacturingBusinessOperation: BackboneElement {
 		operationType: CodeableConcept? = nil,
 		regulator: Reference? = nil
 	) {
-		self.init()
 		self.authorisationReferenceNumber = authorisationReferenceNumber
 		self.confidentialityIndicator = confidentialityIndicator
 		self.effectiveDate = effectiveDate
@@ -358,6 +353,9 @@ public struct MedicinalProductManufacturingBusinessOperation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -375,6 +373,7 @@ public struct MedicinalProductManufacturingBusinessOperation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authorisationReferenceNumber?.encode(on: &_container, forKey: .authorisationReferenceNumber)
 		try confidentialityIndicator?.encode(on: &_container, forKey: .confidentialityIndicator)
@@ -411,12 +410,7 @@ public struct MedicinalProductName: BackboneElement {
 	/// The full product name
 	public var productName: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(productName: FHIRPrimitive<FHIRString>) {
-		self.productName = productName
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		countryLanguage: [MedicinalProductNameCountryLanguage]? = nil,
 		`extension`: [Extension]? = nil,
@@ -425,12 +419,12 @@ public struct MedicinalProductName: BackboneElement {
 		namePart: [MedicinalProductNameNamePart]? = nil,
 		productName: FHIRPrimitive<FHIRString>
 	) {
-		self.init(productName: productName)
 		self.countryLanguage = countryLanguage
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.namePart = namePart
+		self.productName = productName
 	}
 	
 	// MARK: - Codable
@@ -446,6 +440,9 @@ public struct MedicinalProductName: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -460,6 +457,7 @@ public struct MedicinalProductName: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try countryLanguage?.encode(on: &_container, forKey: .countryLanguage)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -493,13 +491,7 @@ public struct MedicinalProductNameCountryLanguage: BackboneElement {
 	/// Extensions that cannot be ignored even if unrecognized
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(country: CodeableConcept, language: CodeableConcept) {
-		self.country = country
-		self.language = language
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		country: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -508,10 +500,11 @@ public struct MedicinalProductNameCountryLanguage: BackboneElement {
 		language: CodeableConcept,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(country: country, language: language)
+		self.country = country
 		self.`extension` = `extension`
 		self.id = id
 		self.jurisdiction = jurisdiction
+		self.language = language
 		self.modifierExtension = modifierExtension
 	}
 	
@@ -528,6 +521,9 @@ public struct MedicinalProductNameCountryLanguage: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -542,6 +538,7 @@ public struct MedicinalProductNameCountryLanguage: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try country.encode(on: &_container, forKey: .country)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -572,13 +569,7 @@ public struct MedicinalProductNameNamePart: BackboneElement {
 	/// Idenifying type for this part of the name (e.g. strength part)
 	public var type: Coding
 	
-	/// Designated initializer taking all required properties
-	public init(part: FHIRPrimitive<FHIRString>, type: Coding) {
-		self.part = part
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -586,10 +577,11 @@ public struct MedicinalProductNameNamePart: BackboneElement {
 		part: FHIRPrimitive<FHIRString>,
 		type: Coding
 	) {
-		self.init(part: part, type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.part = part
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -604,6 +596,9 @@ public struct MedicinalProductNameNamePart: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -617,6 +612,7 @@ public struct MedicinalProductNameNamePart: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -668,11 +664,7 @@ public struct MedicinalProductSpecialDesignation: BackboneElement {
 	/// The type of special designation, e.g. orphan drug, minor use
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		date: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
@@ -685,7 +677,6 @@ public struct MedicinalProductSpecialDesignation: BackboneElement {
 		status: CodeableConcept? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.date = date
 		self.`extension` = `extension`
 		self.id = id
@@ -716,6 +707,9 @@ public struct MedicinalProductSpecialDesignation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -723,20 +717,7 @@ public struct MedicinalProductSpecialDesignation: BackboneElement {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try [Identifier](from: _container, forKeyIfPresent: .identifier)
-		var _t_indication: IndicationX? = nil
-		if let indicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .indicationCodeableConcept) {
-			if _t_indication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .indicationCodeableConcept, in: _container, debugDescription: "More than one value provided for \"indication\"")
-			}
-			_t_indication = .codeableConcept(indicationCodeableConcept)
-		}
-		if let indicationReference = try Reference(from: _container, forKeyIfPresent: .indicationReference) {
-			if _t_indication != nil {
-				throw DecodingError.dataCorruptedError(forKey: .indicationReference, in: _container, debugDescription: "More than one value provided for \"indication\"")
-			}
-			_t_indication = .reference(indicationReference)
-		}
-		self.indication = _t_indication
+		self.indication = try Self._decodeIndication(from: _container)
 		self.intendedUse = try CodeableConcept(from: _container, forKeyIfPresent: .intendedUse)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.species = try CodeableConcept(from: _container, forKeyIfPresent: .species)
@@ -747,23 +728,42 @@ public struct MedicinalProductSpecialDesignation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try identifier?.encode(on: &_container, forKey: .identifier)
 		if let _enum = indication {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .indicationCodeableConcept)
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .indicationReference)
-			}
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .indicationCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .indicationReference)
+		}
 		}
 		try intendedUse?.encode(on: &_container, forKey: .intendedUse)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try species?.encode(on: &_container, forKey: .species)
 		try status?.encode(on: &_container, forKey: .status)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeIndication(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> IndicationX? {
+		var _t_indication: IndicationX? = nil
+		if let indicationCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .indicationCodeableConcept) {
+			_t_indication = .codeableConcept(indicationCodeableConcept)
+		}
+		if let indicationReference = try Reference(from: _container, forKeyIfPresent: .indicationReference) {
+			if _t_indication != nil {
+				throw DecodingError.dataCorruptedError(forKey: .indicationReference, in: _container, debugDescription: "More than one value provided for \"indication\"")
+			}
+			_t_indication = .reference(indicationReference)
+		}
+		return _t_indication
 	}
 }

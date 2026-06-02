@@ -51,11 +51,7 @@ public struct ExtendedContactDetail: DataType {
 	/// Contact details (e.g.phone/fax/url)
 	public var telecom: [ContactPoint]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		address: Address? = nil,
 		`extension`: [Extension]? = nil,
@@ -66,7 +62,6 @@ public struct ExtendedContactDetail: DataType {
 		purpose: CodeableConcept? = nil,
 		telecom: [ContactPoint]? = nil
 	) {
-		self.init()
 		self.address = address
 		self.`extension` = `extension`
 		self.id = id
@@ -92,6 +87,9 @@ public struct ExtendedContactDetail: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -108,6 +106,7 @@ public struct ExtendedContactDetail: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try address?.encode(on: &_container, forKey: .address)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

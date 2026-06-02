@@ -41,11 +41,7 @@ public struct RatioRange: Element {
 	/// Low Numerator limit
 	public var lowNumerator: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		denominator: Quantity? = nil,
 		`extension`: [Extension]? = nil,
@@ -53,7 +49,6 @@ public struct RatioRange: Element {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		lowNumerator: Quantity? = nil
 	) {
-		self.init()
 		self.denominator = denominator
 		self.`extension` = `extension`
 		self.highNumerator = highNumerator
@@ -73,6 +68,9 @@ public struct RatioRange: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -86,6 +84,7 @@ public struct RatioRange: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try denominator?.encode(on: &_container, forKey: .denominator)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

@@ -123,11 +123,7 @@ public struct SubstanceDefinition: DomainResource {
 	/// A business level version identifier of the substance
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		characterization: [SubstanceDefinitionCharacterization]? = nil,
 		classification: [CodeableConcept]? = nil,
@@ -162,7 +158,6 @@ public struct SubstanceDefinition: DomainResource {
 		text: Narrative? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.characterization = characterization
 		self.classification = classification
 		self.code = code
@@ -237,6 +232,9 @@ public struct SubstanceDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -277,8 +275,10 @@ public struct SubstanceDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try characterization?.encode(on: &_container, forKey: .characterization)
 		try classification?.encode(on: &_container, forKey: .classification)
@@ -342,11 +342,7 @@ public struct SubstanceDefinitionCharacterization: BackboneElement {
 	/// The method used to find the characterization e.g. HPLC
 	public var technique: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -356,7 +352,6 @@ public struct SubstanceDefinitionCharacterization: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		technique: CodeableConcept? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.file = file
@@ -380,6 +375,9 @@ public struct SubstanceDefinitionCharacterization: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -395,6 +393,7 @@ public struct SubstanceDefinitionCharacterization: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -435,11 +434,7 @@ public struct SubstanceDefinitionFHIRString: BackboneElement {
 	/// The date at which the code status was changed
 	public var statusDate: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept? = nil,
 		`extension`: [Extension]? = nil,
@@ -450,7 +445,6 @@ public struct SubstanceDefinitionFHIRString: BackboneElement {
 		status: CodeableConcept? = nil,
 		statusDate: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init()
 		self.code = code
 		self.`extension` = `extension`
 		self.id = id
@@ -476,6 +470,9 @@ public struct SubstanceDefinitionFHIRString: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -492,6 +489,7 @@ public struct SubstanceDefinitionFHIRString: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code?.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -549,11 +547,7 @@ public struct SubstanceDefinitionMoiety: BackboneElement {
 	/// Stereochemistry type
 	public var stereochemistry: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: AmountX? = nil,
 		`extension`: [Extension]? = nil,
@@ -567,7 +561,6 @@ public struct SubstanceDefinitionMoiety: BackboneElement {
 		role: CodeableConcept? = nil,
 		stereochemistry: CodeableConcept? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.`extension` = `extension`
 		self.id = id
@@ -600,23 +593,13 @@ public struct SubstanceDefinitionMoiety: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_amount: AmountX? = nil
-		if let amountQuantity = try Quantity(from: _container, forKeyIfPresent: .amountQuantity) {
-			if _t_amount != nil {
-				throw DecodingError.dataCorruptedError(forKey: .amountQuantity, in: _container, debugDescription: "More than one value provided for \"amount\"")
-			}
-			_t_amount = .quantity(amountQuantity)
-		}
-		if let amountString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .amountString, auxiliaryKey: ._amountString) {
-			if _t_amount != nil {
-				throw DecodingError.dataCorruptedError(forKey: .amountString, in: _container, debugDescription: "More than one value provided for \"amount\"")
-			}
-			_t_amount = .string(amountString)
-		}
-		self.amount = _t_amount
+		self.amount = try Self._decodeAmount(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
@@ -632,14 +615,15 @@ public struct SubstanceDefinitionMoiety: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = amount {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .amountQuantity)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .amountString, auxiliaryKey: ._amountString)
-			}
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .amountQuantity)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .amountString, auxiliaryKey: ._amountString)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -651,6 +635,24 @@ public struct SubstanceDefinitionMoiety: BackboneElement {
 		try opticalActivity?.encode(on: &_container, forKey: .opticalActivity)
 		try role?.encode(on: &_container, forKey: .role)
 		try stereochemistry?.encode(on: &_container, forKey: .stereochemistry)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAmount(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AmountX? {
+		var _t_amount: AmountX? = nil
+		if let amountQuantity = try Quantity(from: _container, forKeyIfPresent: .amountQuantity) {
+			_t_amount = .quantity(amountQuantity)
+		}
+		if let amountString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .amountString, auxiliaryKey: ._amountString) {
+			if _t_amount != nil {
+				throw DecodingError.dataCorruptedError(forKey: .amountString, in: _container, debugDescription: "More than one value provided for \"amount\"")
+			}
+			_t_amount = .string(amountString)
+		}
+		return _t_amount
 	}
 }
 
@@ -680,12 +682,7 @@ public struct SubstanceDefinitionMolecularWeight: BackboneElement {
 	/// Type of molecular weight e.g. exact, average, weight average
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(amount: Quantity) {
-		self.amount = amount
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: Quantity,
 		`extension`: [Extension]? = nil,
@@ -694,7 +691,7 @@ public struct SubstanceDefinitionMolecularWeight: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(amount: amount)
+		self.amount = amount
 		self.`extension` = `extension`
 		self.id = id
 		self.method = method
@@ -715,6 +712,9 @@ public struct SubstanceDefinitionMolecularWeight: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -729,6 +729,7 @@ public struct SubstanceDefinitionMolecularWeight: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try amount.encode(on: &_container, forKey: .amount)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -786,12 +787,7 @@ public struct SubstanceDefinitionName: BackboneElement {
 	/// Name type e.g. 'systematic',  'scientific, 'brand'
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(name: FHIRPrimitive<FHIRString>) {
-		self.name = name
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		domain: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -808,13 +804,13 @@ public struct SubstanceDefinitionName: BackboneElement {
 		translation: [SubstanceDefinitionName]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(name: name)
 		self.domain = domain
 		self.`extension` = `extension`
 		self.id = id
 		self.jurisdiction = jurisdiction
 		self.language = language
 		self.modifierExtension = modifierExtension
+		self.name = name
 		self.official = official
 		self.preferred = preferred
 		self.source = source
@@ -845,6 +841,9 @@ public struct SubstanceDefinitionName: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -867,6 +866,7 @@ public struct SubstanceDefinitionName: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try domain?.encode(on: &_container, forKey: .domain)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -908,11 +908,7 @@ public struct SubstanceDefinitionNameOfficial: BackboneElement {
 	/// The status of the official name, for example 'draft', 'active'
 	public var status: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authority: CodeableConcept? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -921,7 +917,6 @@ public struct SubstanceDefinitionNameOfficial: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		status: CodeableConcept? = nil
 	) {
-		self.init()
 		self.authority = authority
 		self.date = date
 		self.`extension` = `extension`
@@ -943,6 +938,9 @@ public struct SubstanceDefinitionNameOfficial: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -957,6 +955,7 @@ public struct SubstanceDefinitionNameOfficial: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authority?.encode(on: &_container, forKey: .authority)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -997,12 +996,7 @@ public struct SubstanceDefinitionProperty: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX?
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1010,10 +1004,10 @@ public struct SubstanceDefinitionProperty: BackboneElement {
 		type: CodeableConcept,
 		value: ValueX? = nil
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.type = type
 		self.value = value
 	}
 	
@@ -1033,6 +1027,9 @@ public struct SubstanceDefinitionProperty: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1040,24 +1037,42 @@ public struct SubstanceDefinitionProperty: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKey: .type)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try type.encode(on: &_container, forKey: .type)
+		if let _enum = value {
+		switch _enum {
+		case .attachment(let _value):
+			try _value.encode(on: &_container, forKey: .valueAttachment)
+		case .boolean(let _value):
+			try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .valueCodeableConcept)
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .valueDate, auxiliaryKey: ._valueDate)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX? {
 		var _t_value: ValueX? = nil
-		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .codeableConcept(valueCodeableConcept)
-		}
-		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .quantity(valueQuantity)
-		}
-		if let valueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .valueDate, auxiliaryKey: ._valueDate) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueDate, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .date(valueDate)
+		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
+			_t_value = .attachment(valueAttachment)
 		}
 		if let valueBoolean = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .valueBoolean, auxiliaryKey: ._valueBoolean) {
 			if _t_value != nil {
@@ -1065,37 +1080,25 @@ public struct SubstanceDefinitionProperty: BackboneElement {
 			}
 			_t_value = .boolean(valueBoolean)
 		}
-		if let valueAttachment = try Attachment(from: _container, forKeyIfPresent: .valueAttachment) {
+		if let valueCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .valueCodeableConcept) {
 			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueAttachment, in: _container, debugDescription: "More than one value provided for \"value\"")
+				throw DecodingError.dataCorruptedError(forKey: .valueCodeableConcept, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
-			_t_value = .attachment(valueAttachment)
+			_t_value = .codeableConcept(valueCodeableConcept)
 		}
-		self.value = _t_value
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try type.encode(on: &_container, forKey: .type)
-		if let _enum = value {
-			switch _enum {
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .valueCodeableConcept)
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .valueDate, auxiliaryKey: ._valueDate)
-			case .boolean(let _value):
-				try _value.encode(on: &_container, forKey: .valueBoolean, auxiliaryKey: ._valueBoolean)
-			case .attachment(let _value):
-				try _value.encode(on: &_container, forKey: .valueAttachment)
+		if let valueDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .valueDate, auxiliaryKey: ._valueDate) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueDate, in: _container, debugDescription: "More than one value provided for \"value\"")
 			}
+			_t_value = .date(valueDate)
 		}
+		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .quantity(valueQuantity)
+		}
+		return _t_value
 	}
 }
 
@@ -1153,12 +1156,7 @@ public struct SubstanceDefinitionRelationship: BackboneElement {
 	/// For example "salt to parent", "active moiety"
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: AmountX? = nil,
 		comparator: CodeableConcept? = nil,
@@ -1171,7 +1169,6 @@ public struct SubstanceDefinitionRelationship: BackboneElement {
 		substanceDefinition: SubstanceDefinitionX? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.amount = amount
 		self.comparator = comparator
 		self.`extension` = `extension`
@@ -1181,6 +1178,7 @@ public struct SubstanceDefinitionRelationship: BackboneElement {
 		self.ratioHighLimitAmount = ratioHighLimitAmount
 		self.source = source
 		self.substanceDefinition = substanceDefinition
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -1203,14 +1201,64 @@ public struct SubstanceDefinitionRelationship: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
+		self.amount = try Self._decodeAmount(from: _container)
+		self.comparator = try CodeableConcept(from: _container, forKeyIfPresent: .comparator)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.isDefining = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isDefining, auxiliaryKey: ._isDefining)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.ratioHighLimitAmount = try Ratio(from: _container, forKeyIfPresent: .ratioHighLimitAmount)
+		self.source = try [Reference](from: _container, forKeyIfPresent: .source)
+		self.substanceDefinition = try Self._decodeSubstanceDefinition(from: _container)
+		self.type = try CodeableConcept(from: _container, forKey: .type)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		if let _enum = amount {
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .amountQuantity)
+		case .ratio(let _value):
+			try _value.encode(on: &_container, forKey: .amountRatio)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .amountString, auxiliaryKey: ._amountString)
+		}
+		}
+		try comparator?.encode(on: &_container, forKey: .comparator)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try isDefining?.encode(on: &_container, forKey: .isDefining, auxiliaryKey: ._isDefining)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try ratioHighLimitAmount?.encode(on: &_container, forKey: .ratioHighLimitAmount)
+		try source?.encode(on: &_container, forKey: .source)
+		if let _enum = substanceDefinition {
+		switch _enum {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .substanceDefinitionCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .substanceDefinitionReference)
+		}
+		}
+		try type.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAmount(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AmountX? {
 		var _t_amount: AmountX? = nil
 		if let amountQuantity = try Quantity(from: _container, forKeyIfPresent: .amountQuantity) {
-			if _t_amount != nil {
-				throw DecodingError.dataCorruptedError(forKey: .amountQuantity, in: _container, debugDescription: "More than one value provided for \"amount\"")
-			}
 			_t_amount = .quantity(amountQuantity)
 		}
 		if let amountRatio = try Ratio(from: _container, forKeyIfPresent: .amountRatio) {
@@ -1225,61 +1273,23 @@ public struct SubstanceDefinitionRelationship: BackboneElement {
 			}
 			_t_amount = .string(amountString)
 		}
-		self.amount = _t_amount
-		self.comparator = try CodeableConcept(from: _container, forKeyIfPresent: .comparator)
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.isDefining = try FHIRPrimitive<FHIRBool>(from: _container, forKeyIfPresent: .isDefining, auxiliaryKey: ._isDefining)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.ratioHighLimitAmount = try Ratio(from: _container, forKeyIfPresent: .ratioHighLimitAmount)
-		self.source = try [Reference](from: _container, forKeyIfPresent: .source)
+		return _t_amount
+	}
+	
+	private static func _decodeSubstanceDefinition(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SubstanceDefinitionX? {
 		var _t_substanceDefinition: SubstanceDefinitionX? = nil
+		if let substanceDefinitionCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .substanceDefinitionCodeableConcept) {
+			_t_substanceDefinition = .codeableConcept(substanceDefinitionCodeableConcept)
+		}
 		if let substanceDefinitionReference = try Reference(from: _container, forKeyIfPresent: .substanceDefinitionReference) {
 			if _t_substanceDefinition != nil {
 				throw DecodingError.dataCorruptedError(forKey: .substanceDefinitionReference, in: _container, debugDescription: "More than one value provided for \"substanceDefinition\"")
 			}
 			_t_substanceDefinition = .reference(substanceDefinitionReference)
 		}
-		if let substanceDefinitionCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .substanceDefinitionCodeableConcept) {
-			if _t_substanceDefinition != nil {
-				throw DecodingError.dataCorruptedError(forKey: .substanceDefinitionCodeableConcept, in: _container, debugDescription: "More than one value provided for \"substanceDefinition\"")
-			}
-			_t_substanceDefinition = .codeableConcept(substanceDefinitionCodeableConcept)
-		}
-		self.substanceDefinition = _t_substanceDefinition
-		self.type = try CodeableConcept(from: _container, forKey: .type)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		if let _enum = amount {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .amountQuantity)
-			case .ratio(let _value):
-				try _value.encode(on: &_container, forKey: .amountRatio)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .amountString, auxiliaryKey: ._amountString)
-			}
-		}
-		try comparator?.encode(on: &_container, forKey: .comparator)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try isDefining?.encode(on: &_container, forKey: .isDefining, auxiliaryKey: ._isDefining)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try ratioHighLimitAmount?.encode(on: &_container, forKey: .ratioHighLimitAmount)
-		try source?.encode(on: &_container, forKey: .source)
-		if let _enum = substanceDefinition {
-			switch _enum {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .substanceDefinitionReference)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .substanceDefinitionCodeableConcept)
-			}
-		}
-		try type.encode(on: &_container, forKey: .type)
+		return _t_substanceDefinition
 	}
 }
 
@@ -1314,11 +1324,7 @@ public struct SubstanceDefinitionSourceMaterial: BackboneElement {
 	/// Classification of the origin of the raw material. e.g. cat hair is an Animal source type
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		countryOfOrigin: [CodeableConcept]? = nil,
 		`extension`: [Extension]? = nil,
@@ -1329,7 +1335,6 @@ public struct SubstanceDefinitionSourceMaterial: BackboneElement {
 		species: CodeableConcept? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.countryOfOrigin = countryOfOrigin
 		self.`extension` = `extension`
 		self.genus = genus
@@ -1355,6 +1360,9 @@ public struct SubstanceDefinitionSourceMaterial: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1371,6 +1379,7 @@ public struct SubstanceDefinitionSourceMaterial: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try countryOfOrigin?.encode(on: &_container, forKey: .countryOfOrigin)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -1421,11 +1430,7 @@ public struct SubstanceDefinitionStructure: BackboneElement {
 	/// The method used to find the structure e.g. X-ray, NMR
 	public var technique: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -1439,7 +1444,6 @@ public struct SubstanceDefinitionStructure: BackboneElement {
 		stereochemistry: CodeableConcept? = nil,
 		technique: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -1471,6 +1475,9 @@ public struct SubstanceDefinitionStructure: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1490,6 +1497,7 @@ public struct SubstanceDefinitionStructure: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -1531,11 +1539,7 @@ public struct SubstanceDefinitionStructureRepresentation: BackboneElement {
 	/// The kind of structural representation (e.g. full, partial)
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		document: Reference? = nil,
 		`extension`: [Extension]? = nil,
@@ -1545,7 +1549,6 @@ public struct SubstanceDefinitionStructureRepresentation: BackboneElement {
 		representation: FHIRPrimitive<FHIRString>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.document = document
 		self.`extension` = `extension`
 		self.format = format
@@ -1569,6 +1572,9 @@ public struct SubstanceDefinitionStructureRepresentation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -1584,6 +1590,7 @@ public struct SubstanceDefinitionStructureRepresentation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try document?.encode(on: &_container, forKey: .document)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

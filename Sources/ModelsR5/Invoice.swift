@@ -114,12 +114,7 @@ public struct Invoice: DomainResource {
 	/// Type of Invoice
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<InvoiceStatus>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		account: Reference? = nil,
 		cancelledReason: FHIRPrimitive<FHIRString>? = nil,
@@ -148,7 +143,6 @@ public struct Invoice: DomainResource {
 		totalPriceComponent: [MonetaryComponent]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(status: status)
 		self.account = account
 		self.cancelledReason = cancelledReason
 		self.contained = contained
@@ -168,6 +162,7 @@ public struct Invoice: DomainResource {
 		self.paymentTerms = paymentTerms
 		self.period = period
 		self.recipient = recipient
+		self.status = status
 		self.subject = subject
 		self.text = text
 		self.totalGross = totalGross
@@ -211,6 +206,9 @@ public struct Invoice: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -231,20 +229,7 @@ public struct Invoice: DomainResource {
 		self.note = try [Annotation](from: _container, forKeyIfPresent: .note)
 		self.participant = try [InvoiceParticipant](from: _container, forKeyIfPresent: .participant)
 		self.paymentTerms = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .paymentTerms, auxiliaryKey: ._paymentTerms)
-		var _t_period: PeriodX? = nil
-		if let periodDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .periodDate, auxiliaryKey: ._periodDate) {
-			if _t_period != nil {
-				throw DecodingError.dataCorruptedError(forKey: .periodDate, in: _container, debugDescription: "More than one value provided for \"period\"")
-			}
-			_t_period = .date(periodDate)
-		}
-		if let periodPeriod = try Period(from: _container, forKeyIfPresent: .periodPeriod) {
-			if _t_period != nil {
-				throw DecodingError.dataCorruptedError(forKey: .periodPeriod, in: _container, debugDescription: "More than one value provided for \"period\"")
-			}
-			_t_period = .period(periodPeriod)
-		}
-		self.period = _t_period
+		self.period = try Self._decodePeriod(from: _container)
 		self.recipient = try Reference(from: _container, forKeyIfPresent: .recipient)
 		self.status = try FHIRPrimitive<InvoiceStatus>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.subject = try Reference(from: _container, forKeyIfPresent: .subject)
@@ -258,8 +243,10 @@ public struct Invoice: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try account?.encode(on: &_container, forKey: .account)
 		try cancelledReason?.encode(on: &_container, forKey: .cancelledReason, auxiliaryKey: ._cancelledReason)
@@ -279,12 +266,12 @@ public struct Invoice: DomainResource {
 		try participant?.encode(on: &_container, forKey: .participant)
 		try paymentTerms?.encode(on: &_container, forKey: .paymentTerms, auxiliaryKey: ._paymentTerms)
 		if let _enum = period {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .periodDate, auxiliaryKey: ._periodDate)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .periodPeriod)
-			}
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .periodDate, auxiliaryKey: ._periodDate)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .periodPeriod)
+		}
 		}
 		try recipient?.encode(on: &_container, forKey: .recipient)
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
@@ -294,6 +281,24 @@ public struct Invoice: DomainResource {
 		try totalNet?.encode(on: &_container, forKey: .totalNet)
 		try totalPriceComponent?.encode(on: &_container, forKey: .totalPriceComponent)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodePeriod(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> PeriodX? {
+		var _t_period: PeriodX? = nil
+		if let periodDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .periodDate, auxiliaryKey: ._periodDate) {
+			_t_period = .date(periodDate)
+		}
+		if let periodPeriod = try Period(from: _container, forKeyIfPresent: .periodPeriod) {
+			if _t_period != nil {
+				throw DecodingError.dataCorruptedError(forKey: .periodPeriod, in: _container, debugDescription: "More than one value provided for \"period\"")
+			}
+			_t_period = .period(periodPeriod)
+		}
+		return _t_period
 	}
 }
 
@@ -340,12 +345,7 @@ public struct InvoiceLineItem: BackboneElement {
 	/// One of `serviced[x]`
 	public var serviced: ServicedX?
 	
-	/// Designated initializer taking all required properties
-	public init(chargeItem: ChargeItemX) {
-		self.chargeItem = chargeItem
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		chargeItem: ChargeItemX,
 		`extension`: [Extension]? = nil,
@@ -355,7 +355,7 @@ public struct InvoiceLineItem: BackboneElement {
 		sequence: FHIRPrimitive<FHIRPositiveInteger>? = nil,
 		serviced: ServicedX? = nil
 	) {
-		self.init(chargeItem: chargeItem)
+		self.chargeItem = chargeItem
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -380,38 +380,77 @@ public struct InvoiceLineItem: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.chargeItemCodeableConcept) || _container.contains(CodingKeys.chargeItemReference) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.chargeItemCodeableConcept, CodingKeys.chargeItemReference], debugDescription: "Must have at least one value for \"chargeItem\" but have none"))
+		// Decode all our properties (own and inherited)
+		self.chargeItem = try Self._decodeChargeItem(from: _container)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.priceComponent = try [MonetaryComponent](from: _container, forKeyIfPresent: .priceComponent)
+		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .sequence, auxiliaryKey: ._sequence)
+		self.serviced = try Self._decodeServiced(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		
+		switch chargeItem {
+		case .codeableConcept(let _value):
+			try _value.encode(on: &_container, forKey: .chargeItemCodeableConcept)
+		case .reference(let _value):
+			try _value.encode(on: &_container, forKey: .chargeItemReference)
 		}
 		
-		// Decode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try priceComponent?.encode(on: &_container, forKey: .priceComponent)
+		try sequence?.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
+		if let _enum = serviced {
+		switch _enum {
+		case .date(let _value):
+			try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .servicedPeriod)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeChargeItem(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ChargeItemX {
 		var _t_chargeItem: ChargeItemX? = nil
+		if let chargeItemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .chargeItemCodeableConcept) {
+			_t_chargeItem = .codeableConcept(chargeItemCodeableConcept)
+		}
 		if let chargeItemReference = try Reference(from: _container, forKeyIfPresent: .chargeItemReference) {
 			if _t_chargeItem != nil {
 				throw DecodingError.dataCorruptedError(forKey: .chargeItemReference, in: _container, debugDescription: "More than one value provided for \"chargeItem\"")
 			}
 			_t_chargeItem = .reference(chargeItemReference)
 		}
-		if let chargeItemCodeableConcept = try CodeableConcept(from: _container, forKeyIfPresent: .chargeItemCodeableConcept) {
-			if _t_chargeItem != nil {
-				throw DecodingError.dataCorruptedError(forKey: .chargeItemCodeableConcept, in: _container, debugDescription: "More than one value provided for \"chargeItem\"")
-			}
-			_t_chargeItem = .codeableConcept(chargeItemCodeableConcept)
+		guard let _t_chargeItem else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.chargeItemReference)
+			throw DecodingError.valueNotFound(ChargeItemX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"chargeItem\" but have none"))
 		}
-		self.chargeItem = _t_chargeItem!
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.priceComponent = try [MonetaryComponent](from: _container, forKeyIfPresent: .priceComponent)
-		self.sequence = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .sequence, auxiliaryKey: ._sequence)
+		return _t_chargeItem
+	}
+	
+	private static func _decodeServiced(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ServicedX? {
 		var _t_serviced: ServicedX? = nil
 		if let servicedDate = try FHIRPrimitive<FHIRDate>(from: _container, forKeyIfPresent: .servicedDate, auxiliaryKey: ._servicedDate) {
-			if _t_serviced != nil {
-				throw DecodingError.dataCorruptedError(forKey: .servicedDate, in: _container, debugDescription: "More than one value provided for \"serviced\"")
-			}
 			_t_serviced = .date(servicedDate)
 		}
 		if let servicedPeriod = try Period(from: _container, forKeyIfPresent: .servicedPeriod) {
@@ -420,34 +459,7 @@ public struct InvoiceLineItem: BackboneElement {
 			}
 			_t_serviced = .period(servicedPeriod)
 		}
-		self.serviced = _t_serviced
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		
-			switch chargeItem {
-			case .reference(let _value):
-				try _value.encode(on: &_container, forKey: .chargeItemReference)
-			case .codeableConcept(let _value):
-				try _value.encode(on: &_container, forKey: .chargeItemCodeableConcept)
-			}
-		
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try priceComponent?.encode(on: &_container, forKey: .priceComponent)
-		try sequence?.encode(on: &_container, forKey: .sequence, auxiliaryKey: ._sequence)
-		if let _enum = serviced {
-			switch _enum {
-			case .date(let _value):
-				try _value.encode(on: &_container, forKey: .servicedDate, auxiliaryKey: ._servicedDate)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .servicedPeriod)
-			}
-		}
+		return _t_serviced
 	}
 }
 
@@ -473,12 +485,7 @@ public struct InvoiceParticipant: BackboneElement {
 	/// Type of involvement in creation of this Invoice
 	public var role: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(actor: Reference) {
-		self.actor = actor
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actor: Reference,
 		`extension`: [Extension]? = nil,
@@ -486,7 +493,7 @@ public struct InvoiceParticipant: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		role: CodeableConcept? = nil
 	) {
-		self.init(actor: actor)
+		self.actor = actor
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -505,6 +512,9 @@ public struct InvoiceParticipant: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -518,6 +528,7 @@ public struct InvoiceParticipant: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try actor.encode(on: &_container, forKey: .actor)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

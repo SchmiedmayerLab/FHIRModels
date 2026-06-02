@@ -94,13 +94,7 @@ public struct Questionnaire: DomainResource {
 	/// Logical identifier for this version of Questionnaire
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(group: QuestionnaireGroup, status: FHIRPrimitive<QuestionnaireStatus>) {
-		self.group = group
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		date: FHIRPrimitive<DateTime>? = nil,
@@ -119,10 +113,10 @@ public struct Questionnaire: DomainResource {
 		text: Narrative? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(group: group, status: status)
 		self.contained = contained
 		self.date = date
 		self.`extension` = `extension`
+		self.group = group
 		self.id = id
 		self.identifier = identifier
 		self.implicitRules = implicitRules
@@ -130,6 +124,7 @@ public struct Questionnaire: DomainResource {
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.publisher = publisher
+		self.status = status
 		self.subjectType = subjectType
 		self.telecom = telecom
 		self.text = text
@@ -160,6 +155,9 @@ public struct Questionnaire: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -184,8 +182,10 @@ public struct Questionnaire: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -246,11 +246,7 @@ public struct QuestionnaireGroup: BackboneElement {
 	/// Name to be displayed for group
 	public var title: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		concept: [Coding]? = nil,
 		`extension`: [Extension]? = nil,
@@ -264,7 +260,6 @@ public struct QuestionnaireGroup: BackboneElement {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		title: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init()
 		self.concept = concept
 		self.`extension` = `extension`
 		self.group = group
@@ -296,6 +291,9 @@ public struct QuestionnaireGroup: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -315,6 +313,7 @@ public struct QuestionnaireGroup: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try concept?.encode(on: &_container, forKey: .concept)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -376,11 +375,7 @@ public struct QuestionnaireGroupQuestion: BackboneElement {
 	/// 'choice', 'open-choice', 'attachment', 'reference', 'quantity']
 	public var type: FHIRPrimitive<AnswerFormat>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		concept: [Coding]? = nil,
 		`extension`: [Extension]? = nil,
@@ -395,7 +390,6 @@ public struct QuestionnaireGroupQuestion: BackboneElement {
 		text: FHIRPrimitive<FHIRString>? = nil,
 		type: FHIRPrimitive<AnswerFormat>? = nil
 	) {
-		self.init()
 		self.concept = concept
 		self.`extension` = `extension`
 		self.group = group
@@ -429,6 +423,9 @@ public struct QuestionnaireGroupQuestion: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -449,6 +446,7 @@ public struct QuestionnaireGroupQuestion: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try concept?.encode(on: &_container, forKey: .concept)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

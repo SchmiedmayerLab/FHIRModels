@@ -126,13 +126,7 @@ public struct DocumentReference: DomainResource {
 	/// An explicitly assigned identifer of a variation of the content in the DocumentReference
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(content: [DocumentReferenceContent], status: FHIRPrimitive<DocumentReferenceStatus>) {
-		self.content = content
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attester: [DocumentReferenceAttester]? = nil,
 		author: [Reference]? = nil,
@@ -166,13 +160,13 @@ public struct DocumentReference: DomainResource {
 		type: CodeableConcept? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(content: content, status: status)
 		self.attester = attester
 		self.author = author
 		self.basedOn = basedOn
 		self.bodySite = bodySite
 		self.category = category
 		self.contained = contained
+		self.content = content
 		self.context = context
 		self.custodian = custodian
 		self.date = date
@@ -192,6 +186,7 @@ public struct DocumentReference: DomainResource {
 		self.practiceSetting = practiceSetting
 		self.relatesTo = relatesTo
 		self.securityLabel = securityLabel
+		self.status = status
 		self.subject = subject
 		self.text = text
 		self.type = type
@@ -237,6 +232,9 @@ public struct DocumentReference: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -276,8 +274,10 @@ public struct DocumentReference: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try attester?.encode(on: &_container, forKey: .attester)
 		try author?.encode(on: &_container, forKey: .author)
@@ -338,12 +338,7 @@ public struct DocumentReferenceAttester: BackboneElement {
 	/// When the document was attested
 	public var time: FHIRPrimitive<DateTime>?
 	
-	/// Designated initializer taking all required properties
-	public init(mode: CodeableConcept) {
-		self.mode = mode
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -352,9 +347,9 @@ public struct DocumentReferenceAttester: BackboneElement {
 		party: Reference? = nil,
 		time: FHIRPrimitive<DateTime>? = nil
 	) {
-		self.init(mode: mode)
 		self.`extension` = `extension`
 		self.id = id
+		self.mode = mode
 		self.modifierExtension = modifierExtension
 		self.party = party
 		self.time = time
@@ -373,6 +368,9 @@ public struct DocumentReferenceAttester: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -387,6 +385,7 @@ public struct DocumentReferenceAttester: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -420,12 +419,7 @@ public struct DocumentReferenceContent: BackboneElement {
 	/// Content profile rules for the document
 	public var profile: [DocumentReferenceContentProfile]?
 	
-	/// Designated initializer taking all required properties
-	public init(attachment: Attachment) {
-		self.attachment = attachment
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attachment: Attachment,
 		`extension`: [Extension]? = nil,
@@ -433,7 +427,7 @@ public struct DocumentReferenceContent: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		profile: [DocumentReferenceContentProfile]? = nil
 	) {
-		self.init(attachment: attachment)
+		self.attachment = attachment
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -452,6 +446,9 @@ public struct DocumentReferenceContent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -465,6 +462,7 @@ public struct DocumentReferenceContent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try attachment.encode(on: &_container, forKey: .attachment)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -502,22 +500,17 @@ public struct DocumentReferenceContentProfile: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(value: ValueX) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil,
 		value: ValueX
 	) {
-		self.init(value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -533,18 +526,47 @@ public struct DocumentReferenceContentProfile: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueCanonical) || _container.contains(CodingKeys.valueCoding) || _container.contains(CodingKeys.valueUri) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueCanonical, CodingKeys.valueCoding, CodingKeys.valueUri], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.value = try Self._decodeValue(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		
+		switch value {
+		case .canonical(let _value):
+			try _value.encode(on: &_container, forKey: .valueCanonical, auxiliaryKey: ._valueCanonical)
+		case .coding(let _value):
+			try _value.encode(on: &_container, forKey: .valueCoding)
+		case .uri(let _value):
+			try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
+		}
+		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
 		var _t_value: ValueX? = nil
+		if let valueCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .valueCanonical, auxiliaryKey: ._valueCanonical) {
+			_t_value = .canonical(valueCanonical)
+		}
 		if let valueCoding = try Coding(from: _container, forKeyIfPresent: .valueCoding) {
 			if _t_value != nil {
 				throw DecodingError.dataCorruptedError(forKey: .valueCoding, in: _container, debugDescription: "More than one value provided for \"value\"")
@@ -557,32 +579,12 @@ public struct DocumentReferenceContentProfile: BackboneElement {
 			}
 			_t_value = .uri(valueUri)
 		}
-		if let valueCanonical = try FHIRPrimitive<Canonical>(from: _container, forKeyIfPresent: .valueCanonical, auxiliaryKey: ._valueCanonical) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueCanonical, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .canonical(valueCanonical)
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueUri)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
 		}
-		self.value = _t_value!
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		
-			switch value {
-			case .coding(let _value):
-				try _value.encode(on: &_container, forKey: .valueCoding)
-			case .uri(let _value):
-				try _value.encode(on: &_container, forKey: .valueUri, auxiliaryKey: ._valueUri)
-			case .canonical(let _value):
-				try _value.encode(on: &_container, forKey: .valueCanonical, auxiliaryKey: ._valueCanonical)
-			}
-		
+		return _t_value
 	}
 }
 
@@ -608,13 +610,7 @@ public struct DocumentReferenceRelatesTo: BackboneElement {
 	/// Target of the relationship
 	public var target: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept, target: Reference) {
-		self.code = code
-		self.target = target
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: CodeableConcept,
 		`extension`: [Extension]? = nil,
@@ -622,10 +618,11 @@ public struct DocumentReferenceRelatesTo: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		target: Reference
 	) {
-		self.init(code: code, target: target)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.target = target
 	}
 	
 	// MARK: - Codable
@@ -640,6 +637,9 @@ public struct DocumentReferenceRelatesTo: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -653,6 +653,7 @@ public struct DocumentReferenceRelatesTo: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

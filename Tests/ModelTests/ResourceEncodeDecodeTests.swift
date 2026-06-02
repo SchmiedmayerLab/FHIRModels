@@ -29,7 +29,7 @@ struct ResourceEncodeDecodeTests {
 	
     @Test
 	func decodeEncodeValidResource() throws {
-		let decoder = JSONDecoder()
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		let encoder = JSONEncoder()
 		
 		let data = try medicationData()
@@ -50,7 +50,7 @@ struct ResourceEncodeDecodeTests {
 	
     @Test
 	func decodeInvalidJSONFails() {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		
 		let medicationJSON = """
 		{
@@ -72,7 +72,7 @@ struct ResourceEncodeDecodeTests {
 	
     @Test
 	func decodeMissingNonoptionalValueFails() {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		do {
 			let data = try medicationData(manipulator: { (dict) -> [String : Any] in
 				var copy = dict
@@ -90,7 +90,7 @@ struct ResourceEncodeDecodeTests {
 	
     @Test
 	func decodeMissingNonoptionalMultivalueFails() {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		do {
 			let data = try medicationData(manipulator: { (dict) -> [String : Any] in
 				var copy = dict
@@ -100,7 +100,7 @@ struct ResourceEncodeDecodeTests {
 			_ = try decoder.decode(MedicationRequest.self, from: data)
 			#expect(Bool(false), "Should have trown a decode exception but I'm still here")
 		} catch DecodingError.valueNotFound(_, let context) {
-			#expect(context.codingPath.first?.stringValue == "medicationCodeableConcept")
+            #expect(context.codingPath.map({ $0.stringValue }).joined(separator: ".") == "medicationReference")
 			#expect(context.debugDescription == "Must have at least one value for \"medication\" but have none")
 		} catch {
 			#expect(Bool(false), "Should have thrown DecodingError.valueNotFound but threw \(error)")
@@ -109,12 +109,25 @@ struct ResourceEncodeDecodeTests {
     
     @Test
     func invalidPolymorphousValueProperlyFailsResource() throws {
-        
+        let decoder = JSONDecoder.fhirModelsReadyDecoder()
+        do {
+            let data = try medicationData(manipulator: { (dict) -> [String: Any] in
+                var copy = dict
+                copy["medicationCodeableConcept"] = NSNull()
+                return copy
+            })
+            _ = try decoder.decode(MedicationRequest.self, from: data)
+            #expect(Bool(false), "Should have thrown a decode exception but I'm still here")
+        } catch DecodingError.valueNotFound(_, let context) {
+            #expect(context.debugDescription == "Must have at least one value for \"medication\" but have none")
+        } catch {
+            #expect(Bool(false), "Should have thrown DecodingError.valueNotFound but threw \(error)")
+        }
     }
 	
 	// TODO: this has not yet been implemented
 	func disabled_testDecodeWithExtraValueFails() {
-		let decoder = JSONDecoder()
+		let decoder = JSONDecoder.fhirModelsReadyDecoder()
 		do {
 			let data = try medicationData(manipulator: { (dict) -> [String : Any] in
 				var copy = dict

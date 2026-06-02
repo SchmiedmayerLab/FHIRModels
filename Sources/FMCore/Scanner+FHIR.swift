@@ -24,7 +24,7 @@ public extension Scanner {
 		#if os(Linux) || os(Windows)
 		return scanCharacters(from: characterSet)
 		#else
-        
+		
 		if #available(macOS 10.15, *), #available(iOS 13, *), #available(watchOS 6, *), #available(tvOS 13, *) {
 			return scanCharacters(from: characterSet)
 		}

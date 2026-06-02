@@ -68,12 +68,7 @@ public struct Substance: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(code: CodeableConcept) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		category: [CodeableConcept]? = nil,
 		code: CodeableConcept,
@@ -90,8 +85,8 @@ public struct Substance: DomainResource {
 		modifierExtension: [Extension]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(code: code)
 		self.category = category
+		self.code = code
 		self.contained = contained
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
@@ -128,6 +123,9 @@ public struct Substance: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -150,8 +148,10 @@ public struct Substance: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try category?.encode(on: &_container, forKey: .category)
 		try code.encode(on: &_container, forKey: .code)
@@ -192,12 +192,7 @@ public struct SubstanceIngredient: BackboneElement {
 	/// A component of the substance
 	public var substance: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(substance: Reference) {
-		self.substance = substance
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -205,11 +200,11 @@ public struct SubstanceIngredient: BackboneElement {
 		quantity: Ratio? = nil,
 		substance: Reference
 	) {
-		self.init(substance: substance)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.quantity = quantity
+		self.substance = substance
 	}
 	
 	// MARK: - Codable
@@ -224,6 +219,9 @@ public struct SubstanceIngredient: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -237,6 +235,7 @@ public struct SubstanceIngredient: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -271,11 +270,7 @@ public struct SubstanceInstance: BackboneElement {
 	/// Amount of substance in the package
 	public var quantity: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		expiry: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
@@ -284,7 +279,6 @@ public struct SubstanceInstance: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		quantity: Quantity? = nil
 	) {
-		self.init()
 		self.expiry = expiry
 		self.`extension` = `extension`
 		self.id = id
@@ -306,6 +300,9 @@ public struct SubstanceInstance: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -320,6 +317,7 @@ public struct SubstanceInstance: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try expiry?.encode(on: &_container, forKey: .expiry, auxiliaryKey: ._expiry)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

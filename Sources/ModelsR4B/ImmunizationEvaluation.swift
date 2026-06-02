@@ -107,16 +107,7 @@ public struct ImmunizationEvaluation: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(doseStatus: CodeableConcept, immunizationEvent: Reference, patient: Reference, status: FHIRPrimitive<MedicationAdministrationStatusCodes>, targetDisease: CodeableConcept) {
-		self.doseStatus = doseStatus
-		self.immunizationEvent = immunizationEvent
-		self.patient = patient
-		self.status = status
-		self.targetDisease = targetDisease
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authority: Reference? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -140,22 +131,26 @@ public struct ImmunizationEvaluation: DomainResource {
 		targetDisease: CodeableConcept,
 		text: Narrative? = nil
 	) {
-		self.init(doseStatus: doseStatus, immunizationEvent: immunizationEvent, patient: patient, status: status, targetDisease: targetDisease)
 		self.authority = authority
 		self.contained = contained
 		self.date = date
 		self.description_fhir = description_fhir
 		self.doseNumber = doseNumber
+		self.doseStatus = doseStatus
 		self.doseStatusReason = doseStatusReason
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
+		self.immunizationEvent = immunizationEvent
 		self.implicitRules = implicitRules
 		self.language = language
 		self.meta = meta
 		self.modifierExtension = modifierExtension
+		self.patient = patient
 		self.series = series
 		self.seriesDoses = seriesDoses
+		self.status = status
+		self.targetDisease = targetDisease
 		self.text = text
 	}
 	
@@ -190,6 +185,9 @@ public struct ImmunizationEvaluation: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -197,20 +195,7 @@ public struct ImmunizationEvaluation: DomainResource {
 		self.contained = try [ResourceProxy](from: _container, forKeyIfPresent: .contained)
 		self.date = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .date, auxiliaryKey: ._date)
 		self.description_fhir = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .description_fhir, auxiliaryKey: ._description_fhir)
-		var _t_doseNumber: DoseNumberX? = nil
-		if let doseNumberPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .doseNumberPositiveInt, auxiliaryKey: ._doseNumberPositiveInt) {
-			if _t_doseNumber != nil {
-				throw DecodingError.dataCorruptedError(forKey: .doseNumberPositiveInt, in: _container, debugDescription: "More than one value provided for \"doseNumber\"")
-			}
-			_t_doseNumber = .positiveInt(doseNumberPositiveInt)
-		}
-		if let doseNumberString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .doseNumberString, auxiliaryKey: ._doseNumberString) {
-			if _t_doseNumber != nil {
-				throw DecodingError.dataCorruptedError(forKey: .doseNumberString, in: _container, debugDescription: "More than one value provided for \"doseNumber\"")
-			}
-			_t_doseNumber = .string(doseNumberString)
-		}
-		self.doseNumber = _t_doseNumber
+		self.doseNumber = try Self._decodeDoseNumber(from: _container)
 		self.doseStatus = try CodeableConcept(from: _container, forKey: .doseStatus)
 		self.doseStatusReason = try [CodeableConcept](from: _container, forKeyIfPresent: .doseStatusReason)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
@@ -223,20 +208,7 @@ public struct ImmunizationEvaluation: DomainResource {
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.patient = try Reference(from: _container, forKey: .patient)
 		self.series = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .series, auxiliaryKey: ._series)
-		var _t_seriesDoses: SeriesDosesX? = nil
-		if let seriesDosesPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .seriesDosesPositiveInt, auxiliaryKey: ._seriesDosesPositiveInt) {
-			if _t_seriesDoses != nil {
-				throw DecodingError.dataCorruptedError(forKey: .seriesDosesPositiveInt, in: _container, debugDescription: "More than one value provided for \"seriesDoses\"")
-			}
-			_t_seriesDoses = .positiveInt(seriesDosesPositiveInt)
-		}
-		if let seriesDosesString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .seriesDosesString, auxiliaryKey: ._seriesDosesString) {
-			if _t_seriesDoses != nil {
-				throw DecodingError.dataCorruptedError(forKey: .seriesDosesString, in: _container, debugDescription: "More than one value provided for \"seriesDoses\"")
-			}
-			_t_seriesDoses = .string(seriesDosesString)
-		}
-		self.seriesDoses = _t_seriesDoses
+		self.seriesDoses = try Self._decodeSeriesDoses(from: _container)
 		self.status = try FHIRPrimitive<MedicationAdministrationStatusCodes>(from: _container, forKey: .status, auxiliaryKey: ._status)
 		self.targetDisease = try CodeableConcept(from: _container, forKey: .targetDisease)
 		self.text = try Narrative(from: _container, forKeyIfPresent: .text)
@@ -245,20 +217,22 @@ public struct ImmunizationEvaluation: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try authority?.encode(on: &_container, forKey: .authority)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		if let _enum = doseNumber {
-			switch _enum {
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .doseNumberPositiveInt, auxiliaryKey: ._doseNumberPositiveInt)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .doseNumberString, auxiliaryKey: ._doseNumberString)
-			}
+		switch _enum {
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .doseNumberPositiveInt, auxiliaryKey: ._doseNumberPositiveInt)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .doseNumberString, auxiliaryKey: ._doseNumberString)
+		}
 		}
 		try doseStatus.encode(on: &_container, forKey: .doseStatus)
 		try doseStatusReason?.encode(on: &_container, forKey: .doseStatusReason)
@@ -273,15 +247,49 @@ public struct ImmunizationEvaluation: DomainResource {
 		try patient.encode(on: &_container, forKey: .patient)
 		try series?.encode(on: &_container, forKey: .series, auxiliaryKey: ._series)
 		if let _enum = seriesDoses {
-			switch _enum {
-			case .positiveInt(let _value):
-				try _value.encode(on: &_container, forKey: .seriesDosesPositiveInt, auxiliaryKey: ._seriesDosesPositiveInt)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .seriesDosesString, auxiliaryKey: ._seriesDosesString)
-			}
+		switch _enum {
+		case .positiveInt(let _value):
+			try _value.encode(on: &_container, forKey: .seriesDosesPositiveInt, auxiliaryKey: ._seriesDosesPositiveInt)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .seriesDosesString, auxiliaryKey: ._seriesDosesString)
+		}
 		}
 		try status.encode(on: &_container, forKey: .status, auxiliaryKey: ._status)
 		try targetDisease.encode(on: &_container, forKey: .targetDisease)
 		try text?.encode(on: &_container, forKey: .text)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDoseNumber(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DoseNumberX? {
+		var _t_doseNumber: DoseNumberX? = nil
+		if let doseNumberPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .doseNumberPositiveInt, auxiliaryKey: ._doseNumberPositiveInt) {
+			_t_doseNumber = .positiveInt(doseNumberPositiveInt)
+		}
+		if let doseNumberString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .doseNumberString, auxiliaryKey: ._doseNumberString) {
+			if _t_doseNumber != nil {
+				throw DecodingError.dataCorruptedError(forKey: .doseNumberString, in: _container, debugDescription: "More than one value provided for \"doseNumber\"")
+			}
+			_t_doseNumber = .string(doseNumberString)
+		}
+		return _t_doseNumber
+	}
+	
+	private static func _decodeSeriesDoses(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> SeriesDosesX? {
+		var _t_seriesDoses: SeriesDosesX? = nil
+		if let seriesDosesPositiveInt = try FHIRPrimitive<FHIRPositiveInteger>(from: _container, forKeyIfPresent: .seriesDosesPositiveInt, auxiliaryKey: ._seriesDosesPositiveInt) {
+			_t_seriesDoses = .positiveInt(seriesDosesPositiveInt)
+		}
+		if let seriesDosesString = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .seriesDosesString, auxiliaryKey: ._seriesDosesString) {
+			if _t_seriesDoses != nil {
+				throw DecodingError.dataCorruptedError(forKey: .seriesDosesString, in: _container, debugDescription: "More than one value provided for \"seriesDoses\"")
+			}
+			_t_seriesDoses = .string(seriesDosesString)
+		}
+		return _t_seriesDoses
 	}
 }

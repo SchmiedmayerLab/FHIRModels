@@ -102,11 +102,7 @@ public struct RegulatedAuthorization: DomainResource {
 	/// date of authorization and/or expiration date
 	public var validityPeriod: Period?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attachedDocument: [Reference]? = nil,
 		basis: [CodeableConcept]? = nil,
@@ -132,7 +128,6 @@ public struct RegulatedAuthorization: DomainResource {
 		type: CodeableConcept? = nil,
 		validityPeriod: Period? = nil
 	) {
-		self.init()
 		self.attachedDocument = attachedDocument
 		self.basis = basis
 		self.`case` = `case`
@@ -189,6 +184,9 @@ public struct RegulatedAuthorization: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -220,8 +218,10 @@ public struct RegulatedAuthorization: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try attachedDocument?.encode(on: &_container, forKey: .attachedDocument)
 		try basis?.encode(on: &_container, forKey: .basis)
@@ -291,11 +291,7 @@ public struct RegulatedAuthorizationCase: BackboneElement {
 	/// The defining type of case
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		application: [RegulatedAuthorizationCase]? = nil,
 		date: DateX? = nil,
@@ -306,7 +302,6 @@ public struct RegulatedAuthorizationCase: BackboneElement {
 		status: CodeableConcept? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.application = application
 		self.date = date
 		self.`extension` = `extension`
@@ -333,24 +328,14 @@ public struct RegulatedAuthorizationCase: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.application = try [RegulatedAuthorizationCase](from: _container, forKeyIfPresent: .application)
-		var _t_date: DateX? = nil
-		if let datePeriod = try Period(from: _container, forKeyIfPresent: .datePeriod) {
-			if _t_date != nil {
-				throw DecodingError.dataCorruptedError(forKey: .datePeriod, in: _container, debugDescription: "More than one value provided for \"date\"")
-			}
-			_t_date = .period(datePeriod)
-		}
-		if let dateDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .dateDateTime, auxiliaryKey: ._dateDateTime) {
-			if _t_date != nil {
-				throw DecodingError.dataCorruptedError(forKey: .dateDateTime, in: _container, debugDescription: "More than one value provided for \"date\"")
-			}
-			_t_date = .dateTime(dateDateTime)
-		}
-		self.date = _t_date
+		self.date = try Self._decodeDate(from: _container)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.identifier = try Identifier(from: _container, forKeyIfPresent: .identifier)
@@ -362,15 +347,16 @@ public struct RegulatedAuthorizationCase: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try application?.encode(on: &_container, forKey: .application)
 		if let _enum = date {
-			switch _enum {
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .datePeriod)
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .dateDateTime, auxiliaryKey: ._dateDateTime)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .dateDateTime, auxiliaryKey: ._dateDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .datePeriod)
+		}
 		}
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -378,5 +364,23 @@ public struct RegulatedAuthorizationCase: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try status?.encode(on: &_container, forKey: .status)
 		try type?.encode(on: &_container, forKey: .type)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeDate(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> DateX? {
+		var _t_date: DateX? = nil
+		if let dateDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .dateDateTime, auxiliaryKey: ._dateDateTime) {
+			_t_date = .dateTime(dateDateTime)
+		}
+		if let datePeriod = try Period(from: _container, forKeyIfPresent: .datePeriod) {
+			if _t_date != nil {
+				throw DecodingError.dataCorruptedError(forKey: .datePeriod, in: _container, debugDescription: "More than one value provided for \"date\"")
+			}
+			_t_date = .period(datePeriod)
+		}
+		return _t_date
 	}
 }

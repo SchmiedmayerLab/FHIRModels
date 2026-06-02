@@ -104,14 +104,7 @@ public struct Coverage: DomainResource {
 	/// Coverage category such as medical or accident
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(beneficiary: Reference, payor: [Reference], status: FHIRPrimitive<FinancialResourceStatusCodes>) {
-		self.beneficiary = beneficiary
-		self.payor = payor
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		beneficiary: Reference,
 		`class`: [CoverageClass]? = nil,
@@ -139,7 +132,7 @@ public struct Coverage: DomainResource {
 		text: Narrative? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init(beneficiary: beneficiary, payor: payor, status: status)
+		self.beneficiary = beneficiary
 		self.`class` = `class`
 		self.contained = contained
 		self.contract = contract
@@ -154,9 +147,11 @@ public struct Coverage: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.network = network
 		self.order = order
+		self.payor = payor
 		self.period = period
 		self.policyHolder = policyHolder
 		self.relationship = relationship
+		self.status = status
 		self.subrogation = subrogation
 		self.subscriber = subscriber
 		self.subscriberId = subscriberId
@@ -197,6 +192,9 @@ public struct Coverage: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -230,8 +228,10 @@ public struct Coverage: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try beneficiary.encode(on: &_container, forKey: .beneficiary)
 		try `class`?.encode(on: &_container, forKey: .`class`)
@@ -286,13 +286,7 @@ public struct CoverageClass: BackboneElement {
 	/// Value associated with the type
 	public var value: FHIRPrimitive<FHIRString>
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept, value: FHIRPrimitive<FHIRString>) {
-		self.type = type
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -301,11 +295,12 @@ public struct CoverageClass: BackboneElement {
 		type: CodeableConcept,
 		value: FHIRPrimitive<FHIRString>
 	) {
-		self.init(type: type, value: value)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.name = name
+		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -321,6 +316,9 @@ public struct CoverageClass: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -335,6 +333,7 @@ public struct CoverageClass: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -378,12 +377,7 @@ public struct CoverageCostToBeneficiary: BackboneElement {
 	/// One of `value[x]`
 	public var value: ValueX
 	
-	/// Designated initializer taking all required properties
-	public init(value: ValueX) {
-		self.value = value
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		exception: [CoverageCostToBeneficiaryException]? = nil,
 		`extension`: [Extension]? = nil,
@@ -392,12 +386,12 @@ public struct CoverageCostToBeneficiary: BackboneElement {
 		type: CodeableConcept? = nil,
 		value: ValueX
 	) {
-		self.init(value: value)
 		self.exception = exception
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.type = type
+		self.value = value
 	}
 	
 	// MARK: - Codable
@@ -414,12 +408,10 @@ public struct CoverageCostToBeneficiary: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
-		let _container = try decoder.container(keyedBy: CodingKeys.self)
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
 		
-		// Validate that we have at least one of the mandatory properties for expanded properties
-		guard _container.contains(CodingKeys.valueMoney) || _container.contains(CodingKeys.valueQuantity) else {
-			throw DecodingError.valueNotFound(Any.self, DecodingError.Context(codingPath: [CodingKeys.valueMoney, CodingKeys.valueQuantity], debugDescription: "Must have at least one value for \"value\" but have none"))
-		}
+		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
 		self.exception = try [CoverageCostToBeneficiaryException](from: _container, forKeyIfPresent: .exception)
@@ -427,25 +419,13 @@ public struct CoverageCostToBeneficiary: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.type = try CodeableConcept(from: _container, forKeyIfPresent: .type)
-		var _t_value: ValueX? = nil
-		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .quantity(valueQuantity)
-		}
-		if let valueMoney = try Money(from: _container, forKeyIfPresent: .valueMoney) {
-			if _t_value != nil {
-				throw DecodingError.dataCorruptedError(forKey: .valueMoney, in: _container, debugDescription: "More than one value provided for \"value\"")
-			}
-			_t_value = .money(valueMoney)
-		}
-		self.value = _t_value!
+		self.value = try Self._decodeValue(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try exception?.encode(on: &_container, forKey: .exception)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -453,13 +433,36 @@ public struct CoverageCostToBeneficiary: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try type?.encode(on: &_container, forKey: .type)
 		
-			switch value {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .valueQuantity)
-			case .money(let _value):
-				try _value.encode(on: &_container, forKey: .valueMoney)
-			}
+		switch value {
+		case .money(let _value):
+			try _value.encode(on: &_container, forKey: .valueMoney)
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .valueQuantity)
+		}
 		
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeValue(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> ValueX {
+		var _t_value: ValueX? = nil
+		if let valueMoney = try Money(from: _container, forKeyIfPresent: .valueMoney) {
+			_t_value = .money(valueMoney)
+		}
+		if let valueQuantity = try Quantity(from: _container, forKeyIfPresent: .valueQuantity) {
+			if _t_value != nil {
+				throw DecodingError.dataCorruptedError(forKey: .valueQuantity, in: _container, debugDescription: "More than one value provided for \"value\"")
+			}
+			_t_value = .quantity(valueQuantity)
+		}
+		guard let _t_value else {
+			var _codingPath = _container.codingPath
+            _codingPath.append(CodingKeys.valueQuantity)
+			throw DecodingError.valueNotFound(ValueX.self, DecodingError.Context(codingPath: _codingPath, debugDescription: "Must have at least one value for \"value\" but have none"))
+		}
+		return _t_value
 	}
 }
 
@@ -485,12 +488,7 @@ public struct CoverageCostToBeneficiaryException: BackboneElement {
 	/// Exception category
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -498,11 +496,11 @@ public struct CoverageCostToBeneficiaryException: BackboneElement {
 		period: Period? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.period = period
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -517,6 +515,9 @@ public struct CoverageCostToBeneficiaryException: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -530,6 +531,7 @@ public struct CoverageCostToBeneficiaryException: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

@@ -79,14 +79,7 @@ public struct ResearchSubject: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<PublicationStatus>, study: Reference, subject: Reference) {
-		self.status = status
-		self.study = study
-		self.subject = subject
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		actualComparisonGroup: FHIRPrimitive<FHIRString>? = nil,
 		assignedComparisonGroup: FHIRPrimitive<FHIRString>? = nil,
@@ -106,7 +99,6 @@ public struct ResearchSubject: DomainResource {
 		subject: Reference,
 		text: Narrative? = nil
 	) {
-		self.init(status: status, study: study, subject: subject)
 		self.actualComparisonGroup = actualComparisonGroup
 		self.assignedComparisonGroup = assignedComparisonGroup
 		self.consent = consent
@@ -120,6 +112,9 @@ public struct ResearchSubject: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.period = period
 		self.progress = progress
+		self.status = status
+		self.study = study
+		self.subject = subject
 		self.text = text
 	}
 	
@@ -148,6 +143,9 @@ public struct ResearchSubject: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -173,8 +171,10 @@ public struct ResearchSubject: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try actualComparisonGroup?.encode(on: &_container, forKey: .actualComparisonGroup, auxiliaryKey: ._actualComparisonGroup)
 		try assignedComparisonGroup?.encode(on: &_container, forKey: .assignedComparisonGroup, auxiliaryKey: ._assignedComparisonGroup)
@@ -231,11 +231,7 @@ public struct ResearchSubjectProgress: BackboneElement {
 	/// state | milestone
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		endDate: FHIRPrimitive<DateTime>? = nil,
 		`extension`: [Extension]? = nil,
@@ -247,7 +243,6 @@ public struct ResearchSubjectProgress: BackboneElement {
 		subjectState: CodeableConcept? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.endDate = endDate
 		self.`extension` = `extension`
 		self.id = id
@@ -275,6 +270,9 @@ public struct ResearchSubjectProgress: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -292,6 +290,7 @@ public struct ResearchSubjectProgress: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try endDate?.encode(on: &_container, forKey: .endDate, auxiliaryKey: ._endDate)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

@@ -137,13 +137,7 @@ public struct Evidence: DomainResource {
 	/// Business version of the evidence
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(exposureBackground: Reference, status: FHIRPrimitive<PublicationStatus>) {
-		self.exposureBackground = exposureBackground
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -182,7 +176,6 @@ public struct Evidence: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(exposureBackground: exposureBackground, status: status)
 		self.approvalDate = approvalDate
 		self.author = author
 		self.contact = contact
@@ -193,6 +186,7 @@ public struct Evidence: DomainResource {
 		self.editor = editor
 		self.effectivePeriod = effectivePeriod
 		self.endorser = endorser
+		self.exposureBackground = exposureBackground
 		self.exposureVariant = exposureVariant
 		self.`extension` = `extension`
 		self.id = id
@@ -210,6 +204,7 @@ public struct Evidence: DomainResource {
 		self.relatedArtifact = relatedArtifact
 		self.reviewer = reviewer
 		self.shortTitle = shortTitle
+		self.status = status
 		self.subtitle = subtitle
 		self.text = text
 		self.title = title
@@ -263,6 +258,9 @@ public struct Evidence: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -307,8 +305,10 @@ public struct Evidence: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)

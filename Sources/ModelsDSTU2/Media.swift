@@ -88,13 +88,7 @@ public struct Media: DomainResource {
 	/// Width of the image in pixels (photo/video)
 	public var width: FHIRPrimitive<FHIRPositiveInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init(content: Attachment, type: FHIRPrimitive<DigitalMediaType>) {
-		self.content = content
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		content: Attachment,
@@ -117,8 +111,8 @@ public struct Media: DomainResource {
 		view: CodeableConcept? = nil,
 		width: FHIRPrimitive<FHIRPositiveInteger>? = nil
 	) {
-		self.init(content: content, type: type)
 		self.contained = contained
+		self.content = content
 		self.deviceName = deviceName
 		self.duration = duration
 		self.`extension` = `extension`
@@ -134,6 +128,7 @@ public struct Media: DomainResource {
 		self.subject = subject
 		self.subtype = subtype
 		self.text = text
+		self.type = type
 		self.view = view
 		self.width = width
 	}
@@ -166,6 +161,9 @@ public struct Media: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -194,8 +192,10 @@ public struct Media: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try content.encode(on: &_container, forKey: .content)

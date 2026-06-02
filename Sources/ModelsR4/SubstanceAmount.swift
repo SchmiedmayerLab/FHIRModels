@@ -62,11 +62,7 @@ public struct SubstanceAmount: BackboneElement {
 	/// Reference range of possible or expected values
 	public var referenceRange: SubstanceAmountReferenceRange?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		amount: AmountX? = nil,
 		amountText: FHIRPrimitive<FHIRString>? = nil,
@@ -76,7 +72,6 @@ public struct SubstanceAmount: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		referenceRange: SubstanceAmountReferenceRange? = nil
 	) {
-		self.init()
 		self.amount = amount
 		self.amountText = amountText
 		self.amountType = amountType
@@ -102,14 +97,51 @@ public struct SubstanceAmount: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
+		self.amount = try Self._decodeAmount(from: _container)
+		self.amountText = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .amountText, auxiliaryKey: ._amountText)
+		self.amountType = try CodeableConcept(from: _container, forKeyIfPresent: .amountType)
+		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
+		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
+		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.referenceRange = try SubstanceAmountReferenceRange(from: _container, forKeyIfPresent: .referenceRange)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		if let _enum = amount {
+		switch _enum {
+		case .quantity(let _value):
+			try _value.encode(on: &_container, forKey: .amountQuantity)
+		case .range(let _value):
+			try _value.encode(on: &_container, forKey: .amountRange)
+		case .string(let _value):
+			try _value.encode(on: &_container, forKey: .amountString, auxiliaryKey: ._amountString)
+		}
+		}
+		try amountText?.encode(on: &_container, forKey: .amountText, auxiliaryKey: ._amountText)
+		try amountType?.encode(on: &_container, forKey: .amountType)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		try referenceRange?.encode(on: &_container, forKey: .referenceRange)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeAmount(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> AmountX? {
 		var _t_amount: AmountX? = nil
 		if let amountQuantity = try Quantity(from: _container, forKeyIfPresent: .amountQuantity) {
-			if _t_amount != nil {
-				throw DecodingError.dataCorruptedError(forKey: .amountQuantity, in: _container, debugDescription: "More than one value provided for \"amount\"")
-			}
 			_t_amount = .quantity(amountQuantity)
 		}
 		if let amountRange = try Range(from: _container, forKeyIfPresent: .amountRange) {
@@ -124,35 +156,7 @@ public struct SubstanceAmount: BackboneElement {
 			}
 			_t_amount = .string(amountString)
 		}
-		self.amount = _t_amount
-		self.amountText = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .amountText, auxiliaryKey: ._amountText)
-		self.amountType = try CodeableConcept(from: _container, forKeyIfPresent: .amountType)
-		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
-		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
-		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
-		self.referenceRange = try SubstanceAmountReferenceRange(from: _container, forKeyIfPresent: .referenceRange)
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		if let _enum = amount {
-			switch _enum {
-			case .quantity(let _value):
-				try _value.encode(on: &_container, forKey: .amountQuantity)
-			case .range(let _value):
-				try _value.encode(on: &_container, forKey: .amountRange)
-			case .string(let _value):
-				try _value.encode(on: &_container, forKey: .amountString, auxiliaryKey: ._amountString)
-			}
-		}
-		try amountText?.encode(on: &_container, forKey: .amountText, auxiliaryKey: ._amountText)
-		try amountType?.encode(on: &_container, forKey: .amountType)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		try referenceRange?.encode(on: &_container, forKey: .referenceRange)
+		return _t_amount
 	}
 }
 
@@ -173,18 +177,13 @@ public struct SubstanceAmountReferenceRange: Element {
 	/// Lower limit possible or expected
 	public var lowLimit: Quantity?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		highLimit: Quantity? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
 		lowLimit: Quantity? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.highLimit = highLimit
 		self.id = id
@@ -202,6 +201,9 @@ public struct SubstanceAmountReferenceRange: Element {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -214,6 +216,7 @@ public struct SubstanceAmountReferenceRange: Element {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try highLimit?.encode(on: &_container, forKey: .highLimit)

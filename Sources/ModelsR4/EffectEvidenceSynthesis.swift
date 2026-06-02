@@ -152,16 +152,7 @@ public struct EffectEvidenceSynthesis: DomainResource {
 	/// Business version of the effect evidence synthesis
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(exposure: Reference, exposureAlternative: Reference, outcome: Reference, population: Reference, status: FHIRPrimitive<PublicationStatus>) {
-		self.exposure = exposure
-		self.exposureAlternative = exposureAlternative
-		self.outcome = outcome
-		self.population = population
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		approvalDate: FHIRPrimitive<FHIRDate>? = nil,
 		author: [ContactDetail]? = nil,
@@ -205,7 +196,6 @@ public struct EffectEvidenceSynthesis: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(exposure: exposure, exposureAlternative: exposureAlternative, outcome: outcome, population: population, status: status)
 		self.approvalDate = approvalDate
 		self.author = author
 		self.certainty = certainty
@@ -218,6 +208,8 @@ public struct EffectEvidenceSynthesis: DomainResource {
 		self.effectEstimate = effectEstimate
 		self.effectivePeriod = effectivePeriod
 		self.endorser = endorser
+		self.exposure = exposure
+		self.exposureAlternative = exposureAlternative
 		self.`extension` = `extension`
 		self.id = id
 		self.identifier = identifier
@@ -229,11 +221,14 @@ public struct EffectEvidenceSynthesis: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.name = name
 		self.note = note
+		self.outcome = outcome
+		self.population = population
 		self.publisher = publisher
 		self.relatedArtifact = relatedArtifact
 		self.resultsByExposure = resultsByExposure
 		self.reviewer = reviewer
 		self.sampleSize = sampleSize
+		self.status = status
 		self.studyType = studyType
 		self.synthesisType = synthesisType
 		self.text = text
@@ -293,6 +288,9 @@ public struct EffectEvidenceSynthesis: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -342,8 +340,10 @@ public struct EffectEvidenceSynthesis: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try approvalDate?.encode(on: &_container, forKey: .approvalDate, auxiliaryKey: ._approvalDate)
 		try author?.encode(on: &_container, forKey: .author)
@@ -414,11 +414,7 @@ public struct EffectEvidenceSynthesisCertainty: BackboneElement {
 	/// Certainty rating
 	public var rating: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		certaintySubcomponent: [EffectEvidenceSynthesisCertaintyCertaintySubcomponent]? = nil,
 		`extension`: [Extension]? = nil,
@@ -427,7 +423,6 @@ public struct EffectEvidenceSynthesisCertainty: BackboneElement {
 		note: [Annotation]? = nil,
 		rating: [CodeableConcept]? = nil
 	) {
-		self.init()
 		self.certaintySubcomponent = certaintySubcomponent
 		self.`extension` = `extension`
 		self.id = id
@@ -449,6 +444,9 @@ public struct EffectEvidenceSynthesisCertainty: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -463,6 +461,7 @@ public struct EffectEvidenceSynthesisCertainty: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try certaintySubcomponent?.encode(on: &_container, forKey: .certaintySubcomponent)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -498,11 +497,7 @@ public struct EffectEvidenceSynthesisCertaintyCertaintySubcomponent: BackboneEle
 	/// Type of subcomponent of certainty rating
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -511,7 +506,6 @@ public struct EffectEvidenceSynthesisCertaintyCertaintySubcomponent: BackboneEle
 		rating: [CodeableConcept]? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -533,6 +527,9 @@ public struct EffectEvidenceSynthesisCertaintyCertaintySubcomponent: BackboneEle
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -547,6 +544,7 @@ public struct EffectEvidenceSynthesisCertaintyCertaintySubcomponent: BackboneEle
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -591,11 +589,7 @@ public struct EffectEvidenceSynthesisEffectEstimate: BackboneElement {
 	/// Variant exposure states
 	public var variantState: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -607,7 +601,6 @@ public struct EffectEvidenceSynthesisEffectEstimate: BackboneElement {
 		value: FHIRPrimitive<FHIRDecimal>? = nil,
 		variantState: CodeableConcept? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -635,6 +628,9 @@ public struct EffectEvidenceSynthesisEffectEstimate: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -652,6 +648,7 @@ public struct EffectEvidenceSynthesisEffectEstimate: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -693,11 +690,7 @@ public struct EffectEvidenceSynthesisEffectEstimatePrecisionEstimate: BackboneEl
 	/// Type of precision estimate
 	public var type: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		from: FHIRPrimitive<FHIRDecimal>? = nil,
@@ -707,7 +700,6 @@ public struct EffectEvidenceSynthesisEffectEstimatePrecisionEstimate: BackboneEl
 		to: FHIRPrimitive<FHIRDecimal>? = nil,
 		type: CodeableConcept? = nil
 	) {
-		self.init()
 		self.`extension` = `extension`
 		self.from = from
 		self.id = id
@@ -731,6 +723,9 @@ public struct EffectEvidenceSynthesisEffectEstimatePrecisionEstimate: BackboneEl
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -746,6 +741,7 @@ public struct EffectEvidenceSynthesisEffectEstimatePrecisionEstimate: BackboneEl
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try from?.encode(on: &_container, forKey: .from, auxiliaryKey: ._from)
@@ -785,12 +781,7 @@ public struct EffectEvidenceSynthesisResultsByExposure: BackboneElement {
 	/// Variant exposure states
 	public var variantState: CodeableConcept?
 	
-	/// Designated initializer taking all required properties
-	public init(riskEvidenceSynthesis: Reference) {
-		self.riskEvidenceSynthesis = riskEvidenceSynthesis
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		exposureState: FHIRPrimitive<ExposureState>? = nil,
@@ -800,12 +791,12 @@ public struct EffectEvidenceSynthesisResultsByExposure: BackboneElement {
 		riskEvidenceSynthesis: Reference,
 		variantState: CodeableConcept? = nil
 	) {
-		self.init(riskEvidenceSynthesis: riskEvidenceSynthesis)
 		self.description_fhir = description_fhir
 		self.exposureState = exposureState
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.riskEvidenceSynthesis = riskEvidenceSynthesis
 		self.variantState = variantState
 	}
 	
@@ -823,6 +814,9 @@ public struct EffectEvidenceSynthesisResultsByExposure: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -838,6 +832,7 @@ public struct EffectEvidenceSynthesisResultsByExposure: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try exposureState?.encode(on: &_container, forKey: .exposureState, auxiliaryKey: ._exposureState)
@@ -874,11 +869,7 @@ public struct EffectEvidenceSynthesisSampleSize: BackboneElement {
 	/// How many studies?
 	public var numberOfStudies: FHIRPrimitive<FHIRInteger>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -887,7 +878,6 @@ public struct EffectEvidenceSynthesisSampleSize: BackboneElement {
 		numberOfParticipants: FHIRPrimitive<FHIRInteger>? = nil,
 		numberOfStudies: FHIRPrimitive<FHIRInteger>? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -909,6 +899,9 @@ public struct EffectEvidenceSynthesisSampleSize: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -923,6 +916,7 @@ public struct EffectEvidenceSynthesisSampleSize: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

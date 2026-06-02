@@ -73,13 +73,7 @@ public struct SubscriptionStatus: DomainResource {
 	/// The type of event being conveyed with this notification.
 	public var type: FHIRPrimitive<SubscriptionNotificationType>
 	
-	/// Designated initializer taking all required properties
-	public init(subscription: Reference, type: FHIRPrimitive<SubscriptionNotificationType>) {
-		self.subscription = subscription
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		contained: [ResourceProxy]? = nil,
 		error: [CodeableConcept]? = nil,
@@ -97,7 +91,6 @@ public struct SubscriptionStatus: DomainResource {
 		topic: FHIRPrimitive<Canonical>? = nil,
 		type: FHIRPrimitive<SubscriptionNotificationType>
 	) {
-		self.init(subscription: subscription, type: type)
 		self.contained = contained
 		self.error = error
 		self.eventsSinceSubscriptionStart = eventsSinceSubscriptionStart
@@ -109,8 +102,10 @@ public struct SubscriptionStatus: DomainResource {
 		self.modifierExtension = modifierExtension
 		self.notificationEvent = notificationEvent
 		self.status = status
+		self.subscription = subscription
 		self.text = text
 		self.topic = topic
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -136,6 +131,9 @@ public struct SubscriptionStatus: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -159,8 +157,10 @@ public struct SubscriptionStatus: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try contained?.encode(on: &_container, forKey: .contained)
 		try error?.encode(on: &_container, forKey: .error)
@@ -217,12 +217,7 @@ public struct SubscriptionStatusNotificationEvent: BackboneElement {
 	/// Event that triggered this notification
 	public var triggerEvent: [CodeableConcept]?
 	
-	/// Designated initializer taking all required properties
-	public init(eventNumber: FHIRInteger64) {
-		self.eventNumber = eventNumber
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additionalContext: [Reference]? = nil,
 		authorizationHint: [SubscriptionStatusNotificationEventAuthorizationHint]? = nil,
@@ -235,9 +230,9 @@ public struct SubscriptionStatusNotificationEvent: BackboneElement {
 		timestamp: FHIRPrimitive<Instant>? = nil,
 		triggerEvent: [CodeableConcept]? = nil
 	) {
-		self.init(eventNumber: eventNumber)
 		self.additionalContext = additionalContext
 		self.authorizationHint = authorizationHint
+		self.eventNumber = eventNumber
 		self.`extension` = `extension`
 		self.focus = focus
 		self.id = id
@@ -264,6 +259,9 @@ public struct SubscriptionStatusNotificationEvent: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -282,6 +280,7 @@ public struct SubscriptionStatusNotificationEvent: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try additionalContext?.encode(on: &_container, forKey: .additionalContext)
 		try authorizationHint?.encode(on: &_container, forKey: .authorizationHint)
@@ -318,12 +317,7 @@ public struct SubscriptionStatusNotificationEventAuthorizationHint: BackboneElem
 	/// Authorization value, as defined by the 'authorizationType'
 	public var value: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(authorizationType: Coding) {
-		self.authorizationType = authorizationType
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		authorizationType: Coding,
 		`extension`: [Extension]? = nil,
@@ -331,7 +325,7 @@ public struct SubscriptionStatusNotificationEventAuthorizationHint: BackboneElem
 		modifierExtension: [Extension]? = nil,
 		value: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(authorizationType: authorizationType)
+		self.authorizationType = authorizationType
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
@@ -350,6 +344,9 @@ public struct SubscriptionStatusNotificationEventAuthorizationHint: BackboneElem
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -363,6 +360,7 @@ public struct SubscriptionStatusNotificationEventAuthorizationHint: BackboneElem
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try authorizationType.encode(on: &_container, forKey: .authorizationType)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
@@ -395,12 +393,7 @@ public struct SubscriptionStatusNotificationEventRelatedQuery: BackboneElement {
 	/// Coded information describing the type of data this query provides
 	public var queryType: Coding?
 	
-	/// Designated initializer taking all required properties
-	public init(query: FHIRPrimitive<FHIRString>) {
-		self.query = query
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -408,10 +401,10 @@ public struct SubscriptionStatusNotificationEventRelatedQuery: BackboneElement {
 		query: FHIRPrimitive<FHIRString>,
 		queryType: Coding? = nil
 	) {
-		self.init(query: query)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
+		self.query = query
 		self.queryType = queryType
 	}
 	
@@ -427,6 +420,9 @@ public struct SubscriptionStatusNotificationEventRelatedQuery: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -440,6 +436,7 @@ public struct SubscriptionStatusNotificationEventRelatedQuery: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)

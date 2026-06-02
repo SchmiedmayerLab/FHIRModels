@@ -62,12 +62,7 @@ public struct RelatedArtifact: DataType {
 	/// The type of relationship to the related artifact.
 	public var type: FHIRPrimitive<RelatedArtifactType>
 	
-	/// Designated initializer taking all required properties
-	public init(type: FHIRPrimitive<RelatedArtifactType>) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		citation: FHIRPrimitive<FHIRString>? = nil,
 		classifier: [CodeableConcept]? = nil,
@@ -82,7 +77,6 @@ public struct RelatedArtifact: DataType {
 		resourceReference: Reference? = nil,
 		type: FHIRPrimitive<RelatedArtifactType>
 	) {
-		self.init(type: type)
 		self.citation = citation
 		self.classifier = classifier
 		self.display = display
@@ -94,6 +88,7 @@ public struct RelatedArtifact: DataType {
 		self.publicationStatus = publicationStatus
 		self.resource = resource
 		self.resourceReference = resourceReference
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -115,6 +110,9 @@ public struct RelatedArtifact: DataType {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -135,6 +133,7 @@ public struct RelatedArtifact: DataType {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try citation?.encode(on: &_container, forKey: .citation, auxiliaryKey: ._citation)
 		try classifier?.encode(on: &_container, forKey: .classifier)

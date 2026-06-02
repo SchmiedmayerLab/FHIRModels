@@ -86,11 +86,7 @@ public struct BiologicallyDerivedProduct: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		collection: BiologicallyDerivedProductCollection? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -112,7 +108,6 @@ public struct BiologicallyDerivedProduct: DomainResource {
 		storage: [BiologicallyDerivedProductStorage]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init()
 		self.collection = collection
 		self.contained = contained
 		self.`extension` = `extension`
@@ -161,6 +156,9 @@ public struct BiologicallyDerivedProduct: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -188,8 +186,10 @@ public struct BiologicallyDerivedProduct: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try collection?.encode(on: &_container, forKey: .collection)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -243,11 +243,7 @@ public struct BiologicallyDerivedProductCollection: BackboneElement {
 	/// Who is product from
 	public var source: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		collected: CollectedX? = nil,
 		collector: Reference? = nil,
@@ -256,7 +252,6 @@ public struct BiologicallyDerivedProductCollection: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		source: Reference? = nil
 	) {
-		self.init()
 		self.collected = collected
 		self.collector = collector
 		self.`extension` = `extension`
@@ -279,23 +274,13 @@ public struct BiologicallyDerivedProductCollection: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
-		var _t_collected: CollectedX? = nil
-		if let collectedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .collectedDateTime, auxiliaryKey: ._collectedDateTime) {
-			if _t_collected != nil {
-				throw DecodingError.dataCorruptedError(forKey: .collectedDateTime, in: _container, debugDescription: "More than one value provided for \"collected\"")
-			}
-			_t_collected = .dateTime(collectedDateTime)
-		}
-		if let collectedPeriod = try Period(from: _container, forKeyIfPresent: .collectedPeriod) {
-			if _t_collected != nil {
-				throw DecodingError.dataCorruptedError(forKey: .collectedPeriod, in: _container, debugDescription: "More than one value provided for \"collected\"")
-			}
-			_t_collected = .period(collectedPeriod)
-		}
-		self.collected = _t_collected
+		self.collected = try Self._decodeCollected(from: _container)
 		self.collector = try Reference(from: _container, forKeyIfPresent: .collector)
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
@@ -306,20 +291,39 @@ public struct BiologicallyDerivedProductCollection: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		if let _enum = collected {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .collectedDateTime, auxiliaryKey: ._collectedDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .collectedPeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .collectedDateTime, auxiliaryKey: ._collectedDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .collectedPeriod)
+		}
 		}
 		try collector?.encode(on: &_container, forKey: .collector)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try source?.encode(on: &_container, forKey: .source)
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeCollected(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> CollectedX? {
+		var _t_collected: CollectedX? = nil
+		if let collectedDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .collectedDateTime, auxiliaryKey: ._collectedDateTime) {
+			_t_collected = .dateTime(collectedDateTime)
+		}
+		if let collectedPeriod = try Period(from: _container, forKeyIfPresent: .collectedPeriod) {
+			if _t_collected != nil {
+				throw DecodingError.dataCorruptedError(forKey: .collectedPeriod, in: _container, debugDescription: "More than one value provided for \"collected\"")
+			}
+			_t_collected = .period(collectedPeriod)
+		}
+		return _t_collected
 	}
 }
 
@@ -353,11 +357,7 @@ public struct BiologicallyDerivedProductManipulation: BackboneElement {
 	/// One of `time[x]`
 	public var time: TimeX?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		`extension`: [Extension]? = nil,
@@ -365,7 +365,6 @@ public struct BiologicallyDerivedProductManipulation: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		time: TimeX? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
 		self.id = id
@@ -386,6 +385,9 @@ public struct BiologicallyDerivedProductManipulation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -393,11 +395,35 @@ public struct BiologicallyDerivedProductManipulation: BackboneElement {
 		self.`extension` = try [Extension](from: _container, forKeyIfPresent: .`extension`)
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
+		self.time = try Self._decodeTime(from: _container)
+	}
+	
+	/// Encodable
+	public func encode(to encoder: Encoder) throws {
+		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
+		// Encode all our properties (own and inherited)
+		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
+		try `extension`?.encode(on: &_container, forKey: .`extension`)
+		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
+		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
+		if let _enum = time {
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timeDateTime, auxiliaryKey: ._timeDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timePeriod)
+		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTime(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimeX? {
 		var _t_time: TimeX? = nil
 		if let timeDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timeDateTime, auxiliaryKey: ._timeDateTime) {
-			if _t_time != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timeDateTime, in: _container, debugDescription: "More than one value provided for \"time\"")
-			}
 			_t_time = .dateTime(timeDateTime)
 		}
 		if let timePeriod = try Period(from: _container, forKeyIfPresent: .timePeriod) {
@@ -406,25 +432,7 @@ public struct BiologicallyDerivedProductManipulation: BackboneElement {
 			}
 			_t_time = .period(timePeriod)
 		}
-		self.time = _t_time
-	}
-	
-	/// Encodable
-	public func encode(to encoder: Encoder) throws {
-		var _container = encoder.container(keyedBy: CodingKeys.self)
-		// Encode all our properties (own and inherited)
-		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
-		try `extension`?.encode(on: &_container, forKey: .`extension`)
-		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
-		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
-		if let _enum = time {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timeDateTime, auxiliaryKey: ._timeDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timePeriod)
-			}
-		}
+		return _t_time
 	}
 }
 
@@ -464,11 +472,7 @@ public struct BiologicallyDerivedProductProcessing: BackboneElement {
 	/// One of `time[x]`
 	public var time: TimeX?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		additive: Reference? = nil,
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
@@ -478,7 +482,6 @@ public struct BiologicallyDerivedProductProcessing: BackboneElement {
 		procedure: CodeableConcept? = nil,
 		time: TimeX? = nil
 	) {
-		self.init()
 		self.additive = additive
 		self.description_fhir = description_fhir
 		self.`extension` = `extension`
@@ -503,6 +506,9 @@ public struct BiologicallyDerivedProductProcessing: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -512,25 +518,13 @@ public struct BiologicallyDerivedProductProcessing: BackboneElement {
 		self.id = try FHIRPrimitive<FHIRString>(from: _container, forKeyIfPresent: .id, auxiliaryKey: ._id)
 		self.modifierExtension = try [Extension](from: _container, forKeyIfPresent: .modifierExtension)
 		self.procedure = try CodeableConcept(from: _container, forKeyIfPresent: .procedure)
-		var _t_time: TimeX? = nil
-		if let timeDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timeDateTime, auxiliaryKey: ._timeDateTime) {
-			if _t_time != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timeDateTime, in: _container, debugDescription: "More than one value provided for \"time\"")
-			}
-			_t_time = .dateTime(timeDateTime)
-		}
-		if let timePeriod = try Period(from: _container, forKeyIfPresent: .timePeriod) {
-			if _t_time != nil {
-				throw DecodingError.dataCorruptedError(forKey: .timePeriod, in: _container, debugDescription: "More than one value provided for \"time\"")
-			}
-			_t_time = .period(timePeriod)
-		}
-		self.time = _t_time
+		self.time = try Self._decodeTime(from: _container)
 	}
 	
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try additive?.encode(on: &_container, forKey: .additive)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
@@ -539,13 +533,31 @@ public struct BiologicallyDerivedProductProcessing: BackboneElement {
 		try modifierExtension?.encode(on: &_container, forKey: .modifierExtension)
 		try procedure?.encode(on: &_container, forKey: .procedure)
 		if let _enum = time {
-			switch _enum {
-			case .dateTime(let _value):
-				try _value.encode(on: &_container, forKey: .timeDateTime, auxiliaryKey: ._timeDateTime)
-			case .period(let _value):
-				try _value.encode(on: &_container, forKey: .timePeriod)
-			}
+		switch _enum {
+		case .dateTime(let _value):
+			try _value.encode(on: &_container, forKey: .timeDateTime, auxiliaryKey: ._timeDateTime)
+		case .period(let _value):
+			try _value.encode(on: &_container, forKey: .timePeriod)
 		}
+		}
+	}
+	
+	// MARK: ValueX Decoders
+	
+	private static func _decodeTime(
+		from _container: KeyedDecodingContainer<CodingKeys>
+	) throws -> TimeX? {
+		var _t_time: TimeX? = nil
+		if let timeDateTime = try FHIRPrimitive<DateTime>(from: _container, forKeyIfPresent: .timeDateTime, auxiliaryKey: ._timeDateTime) {
+			_t_time = .dateTime(timeDateTime)
+		}
+		if let timePeriod = try Period(from: _container, forKeyIfPresent: .timePeriod) {
+			if _t_time != nil {
+				throw DecodingError.dataCorruptedError(forKey: .timePeriod, in: _container, debugDescription: "More than one value provided for \"time\"")
+			}
+			_t_time = .period(timePeriod)
+		}
+		return _t_time
 	}
 }
 
@@ -575,11 +587,7 @@ public struct BiologicallyDerivedProductStorage: BackboneElement {
 	/// Storage temperature
 	public var temperature: FHIRPrimitive<FHIRDecimal>?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>? = nil,
 		duration: Period? = nil,
@@ -589,7 +597,6 @@ public struct BiologicallyDerivedProductStorage: BackboneElement {
 		scale: FHIRPrimitive<BiologicallyDerivedProductStorageScale>? = nil,
 		temperature: FHIRPrimitive<FHIRDecimal>? = nil
 	) {
-		self.init()
 		self.description_fhir = description_fhir
 		self.duration = duration
 		self.`extension` = `extension`
@@ -613,6 +620,9 @@ public struct BiologicallyDerivedProductStorage: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -628,6 +638,7 @@ public struct BiologicallyDerivedProductStorage: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir?.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try duration?.encode(on: &_container, forKey: .duration)

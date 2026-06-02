@@ -122,14 +122,7 @@ public struct MessageDefinition: DomainResource {
 	/// Business version of the message definition
 	public var version: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(date: FHIRPrimitive<DateTime>, event: Coding, status: FHIRPrimitive<PublicationStatus>) {
-		self.date = date
-		self.event = event
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		allowedResponse: [MessageDefinitionAllowedResponse]? = nil,
 		base: Reference? = nil,
@@ -163,14 +156,15 @@ public struct MessageDefinition: DomainResource {
 		useContext: [UsageContext]? = nil,
 		version: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(date: date, event: event, status: status)
 		self.allowedResponse = allowedResponse
 		self.base = base
 		self.category = category
 		self.contact = contact
 		self.contained = contained
 		self.copyright = copyright
+		self.date = date
 		self.description_fhir = description_fhir
+		self.event = event
 		self.experimental = experimental
 		self.`extension` = `extension`
 		self.focus = focus
@@ -187,6 +181,7 @@ public struct MessageDefinition: DomainResource {
 		self.purpose = purpose
 		self.replaces = replaces
 		self.responseRequired = responseRequired
+		self.status = status
 		self.text = text
 		self.title = title
 		self.url = url
@@ -233,6 +228,9 @@ public struct MessageDefinition: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -272,8 +270,10 @@ public struct MessageDefinition: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try allowedResponse?.encode(on: &_container, forKey: .allowedResponse)
 		try base?.encode(on: &_container, forKey: .base)
@@ -331,12 +331,7 @@ public struct MessageDefinitionAllowedResponse: BackboneElement {
 	/// When should this response be used
 	public var situation: FHIRPrimitive<FHIRString>?
 	
-	/// Designated initializer taking all required properties
-	public init(message: Reference) {
-		self.message = message
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -344,9 +339,9 @@ public struct MessageDefinitionAllowedResponse: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		situation: FHIRPrimitive<FHIRString>? = nil
 	) {
-		self.init(message: message)
 		self.`extension` = `extension`
 		self.id = id
+		self.message = message
 		self.modifierExtension = modifierExtension
 		self.situation = situation
 	}
@@ -363,6 +358,9 @@ public struct MessageDefinitionAllowedResponse: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -376,6 +374,7 @@ public struct MessageDefinitionAllowedResponse: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
@@ -414,12 +413,7 @@ public struct MessageDefinitionFocus: BackboneElement {
 	/// Profile that must be adhered to by focus
 	public var profile: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init(code: FHIRPrimitive<ResourceType>) {
-		self.code = code
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		code: FHIRPrimitive<ResourceType>,
 		`extension`: [Extension]? = nil,
@@ -429,7 +423,7 @@ public struct MessageDefinitionFocus: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		profile: Reference? = nil
 	) {
-		self.init(code: code)
+		self.code = code
 		self.`extension` = `extension`
 		self.id = id
 		self.max = max
@@ -452,6 +446,9 @@ public struct MessageDefinitionFocus: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -467,6 +464,7 @@ public struct MessageDefinitionFocus: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try code.encode(on: &_container, forKey: .code, auxiliaryKey: ._code)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

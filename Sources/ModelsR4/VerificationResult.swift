@@ -94,12 +94,7 @@ public struct VerificationResult: DomainResource {
 	/// Information about the entity validating information
 	public var validator: [VerificationResultValidator]?
 	
-	/// Designated initializer taking all required properties
-	public init(status: FHIRPrimitive<Status>) {
-		self.status = status
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attestation: VerificationResultAttestation? = nil,
 		contained: [ResourceProxy]? = nil,
@@ -124,7 +119,6 @@ public struct VerificationResult: DomainResource {
 		validationType: CodeableConcept? = nil,
 		validator: [VerificationResultValidator]? = nil
 	) {
-		self.init(status: status)
 		self.attestation = attestation
 		self.contained = contained
 		self.`extension` = `extension`
@@ -139,6 +133,7 @@ public struct VerificationResult: DomainResource {
 		self.need = need
 		self.nextScheduled = nextScheduled
 		self.primarySource = primarySource
+		self.status = status
 		self.statusDate = statusDate
 		self.target = target
 		self.targetLocation = targetLocation
@@ -178,6 +173,9 @@ public struct VerificationResult: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -208,8 +206,10 @@ public struct VerificationResult: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try attestation?.encode(on: &_container, forKey: .attestation)
 		try contained?.encode(on: &_container, forKey: .contained)
@@ -275,11 +275,7 @@ public struct VerificationResultAttestation: BackboneElement {
 	/// The individual or organization attesting to information
 	public var who: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		communicationMethod: CodeableConcept? = nil,
 		date: FHIRPrimitive<FHIRDate>? = nil,
@@ -293,7 +289,6 @@ public struct VerificationResultAttestation: BackboneElement {
 		sourceSignature: Signature? = nil,
 		who: Reference? = nil
 	) {
-		self.init()
 		self.communicationMethod = communicationMethod
 		self.date = date
 		self.`extension` = `extension`
@@ -325,6 +320,9 @@ public struct VerificationResultAttestation: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -344,6 +342,7 @@ public struct VerificationResultAttestation: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try communicationMethod?.encode(on: &_container, forKey: .communicationMethod)
 		try date?.encode(on: &_container, forKey: .date, auxiliaryKey: ._date)
@@ -395,11 +394,7 @@ public struct VerificationResultPrimarySource: BackboneElement {
 	/// Reference to the primary source
 	public var who: Reference?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		canPushUpdates: CodeableConcept? = nil,
 		communicationMethod: [CodeableConcept]? = nil,
@@ -412,7 +407,6 @@ public struct VerificationResultPrimarySource: BackboneElement {
 		validationStatus: CodeableConcept? = nil,
 		who: Reference? = nil
 	) {
-		self.init()
 		self.canPushUpdates = canPushUpdates
 		self.communicationMethod = communicationMethod
 		self.`extension` = `extension`
@@ -442,6 +436,9 @@ public struct VerificationResultPrimarySource: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -460,6 +457,7 @@ public struct VerificationResultPrimarySource: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try canPushUpdates?.encode(on: &_container, forKey: .canPushUpdates)
 		try communicationMethod?.encode(on: &_container, forKey: .communicationMethod)
@@ -497,12 +495,7 @@ public struct VerificationResultValidator: BackboneElement {
 	/// Reference to the organization validating information
 	public var organization: Reference
 	
-	/// Designated initializer taking all required properties
-	public init(organization: Reference) {
-		self.organization = organization
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		attestationSignature: Signature? = nil,
 		`extension`: [Extension]? = nil,
@@ -511,12 +504,12 @@ public struct VerificationResultValidator: BackboneElement {
 		modifierExtension: [Extension]? = nil,
 		organization: Reference
 	) {
-		self.init(organization: organization)
 		self.attestationSignature = attestationSignature
 		self.`extension` = `extension`
 		self.id = id
 		self.identityCertificate = identityCertificate
 		self.modifierExtension = modifierExtension
+		self.organization = organization
 	}
 	
 	// MARK: - Codable
@@ -532,6 +525,9 @@ public struct VerificationResultValidator: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -546,6 +542,7 @@ public struct VerificationResultValidator: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try attestationSignature?.encode(on: &_container, forKey: .attestationSignature)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)

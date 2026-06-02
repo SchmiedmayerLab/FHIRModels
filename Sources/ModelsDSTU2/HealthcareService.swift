@@ -116,12 +116,7 @@ public struct HealthcareService: DomainResource {
 	/// Text summary of the resource, for human interpretation
 	public var text: Narrative?
 	
-	/// Designated initializer taking all required properties
-	public init(location: Reference) {
-		self.location = location
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		appointmentRequired: FHIRPrimitive<FHIRBool>? = nil,
 		availabilityExceptions: FHIRPrimitive<FHIRString>? = nil,
@@ -154,7 +149,6 @@ public struct HealthcareService: DomainResource {
 		telecom: [ContactPoint]? = nil,
 		text: Narrative? = nil
 	) {
-		self.init(location: location)
 		self.appointmentRequired = appointmentRequired
 		self.availabilityExceptions = availabilityExceptions
 		self.availableTime = availableTime
@@ -170,6 +164,7 @@ public struct HealthcareService: DomainResource {
 		self.identifier = identifier
 		self.implicitRules = implicitRules
 		self.language = language
+		self.location = location
 		self.meta = meta
 		self.modifierExtension = modifierExtension
 		self.notAvailable = notAvailable
@@ -224,6 +219,9 @@ public struct HealthcareService: DomainResource {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -262,8 +260,10 @@ public struct HealthcareService: DomainResource {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode resourceType
 		try _container.encode(Self.resourceType, forKey: .resourceType)
+		
 		// Encode all our properties (own and inherited)
 		try appointmentRequired?.encode(on: &_container, forKey: .appointmentRequired, auxiliaryKey: ._appointmentRequired)
 		try availabilityExceptions?.encode(on: &_container, forKey: .availabilityExceptions, auxiliaryKey: ._availabilityExceptions)
@@ -327,11 +327,7 @@ public struct HealthcareServiceAvailableTime: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init() {
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		allDay: FHIRPrimitive<FHIRBool>? = nil,
 		availableEndTime: FHIRPrimitive<FHIRTime>? = nil,
@@ -341,7 +337,6 @@ public struct HealthcareServiceAvailableTime: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init()
 		self.allDay = allDay
 		self.availableEndTime = availableEndTime
 		self.availableStartTime = availableStartTime
@@ -365,6 +360,9 @@ public struct HealthcareServiceAvailableTime: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -380,6 +378,7 @@ public struct HealthcareServiceAvailableTime: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try allDay?.encode(on: &_container, forKey: .allDay, auxiliaryKey: ._allDay)
 		try availableEndTime?.encode(on: &_container, forKey: .availableEndTime, auxiliaryKey: ._availableEndTime)
@@ -413,12 +412,7 @@ public struct HealthcareServiceNotAvailable: BackboneElement {
 	/// Extensions that cannot be ignored
 	public var modifierExtension: [Extension]?
 	
-	/// Designated initializer taking all required properties
-	public init(description_fhir: FHIRPrimitive<FHIRString>) {
-		self.description_fhir = description_fhir
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		description_fhir: FHIRPrimitive<FHIRString>,
 		during: Period? = nil,
@@ -426,7 +420,7 @@ public struct HealthcareServiceNotAvailable: BackboneElement {
 		id: FHIRPrimitive<FHIRString>? = nil,
 		modifierExtension: [Extension]? = nil
 	) {
-		self.init(description_fhir: description_fhir)
+		self.description_fhir = description_fhir
 		self.during = during
 		self.`extension` = `extension`
 		self.id = id
@@ -445,6 +439,9 @@ public struct HealthcareServiceNotAvailable: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -458,6 +455,7 @@ public struct HealthcareServiceNotAvailable: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try description_fhir.encode(on: &_container, forKey: .description_fhir, auxiliaryKey: ._description_fhir)
 		try during?.encode(on: &_container, forKey: .during)
@@ -489,12 +487,7 @@ public struct HealthcareServiceServiceType: BackboneElement {
 	/// Type of service delivered or performed
 	public var type: CodeableConcept
 	
-	/// Designated initializer taking all required properties
-	public init(type: CodeableConcept) {
-		self.type = type
-	}
-	
-	/// Convenience initializer
+	/// Designated initializer
 	public init(
 		`extension`: [Extension]? = nil,
 		id: FHIRPrimitive<FHIRString>? = nil,
@@ -502,11 +495,11 @@ public struct HealthcareServiceServiceType: BackboneElement {
 		specialty: [CodeableConcept]? = nil,
 		type: CodeableConcept
 	) {
-		self.init(type: type)
 		self.`extension` = `extension`
 		self.id = id
 		self.modifierExtension = modifierExtension
 		self.specialty = specialty
+		self.type = type
 	}
 	
 	// MARK: - Codable
@@ -521,6 +514,9 @@ public struct HealthcareServiceServiceType: BackboneElement {
 
 	/// Initializer for Decodable
 	public init(from decoder: Decoder) throws {
+		let _depthTracker = try FHIRDecodingDepthTracker.enter(on: decoder)
+		defer { _depthTracker?.exit() }
+		
 		let _container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		// Decode all our properties (own and inherited)
@@ -534,6 +530,7 @@ public struct HealthcareServiceServiceType: BackboneElement {
 	/// Encodable
 	public func encode(to encoder: Encoder) throws {
 		var _container = encoder.container(keyedBy: CodingKeys.self)
+		
 		// Encode all our properties (own and inherited)
 		try `extension`?.encode(on: &_container, forKey: .`extension`)
 		try id?.encode(on: &_container, forKey: .id, auxiliaryKey: ._id)
