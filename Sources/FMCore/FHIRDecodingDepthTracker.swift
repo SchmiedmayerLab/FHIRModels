@@ -17,7 +17,9 @@
 //  limitations under the License.
 
 import Foundation
+#if canImport(os)
 import os
+#endif
 
 /**
  A type that can and should be used to track decoding depth to prevent stack exhaustion from recursive structures.
@@ -84,3 +86,23 @@ extension JSONDecoder {
 		return decoder
 	}
 }
+
+#if !canImport(os)
+fileprivate final class OSAllocatedUnfairLock<State>: @unchecked Sendable {
+	
+	private var _state: State
+	
+	private let _lock = NSLock()
+
+	init(initialState: State) {
+		_state = initialState
+	}
+	
+	@discardableResult
+	func withLock<R>(_ body: (inout State) throws -> R) rethrows -> R {
+		_lock.lock()
+		defer { _lock.unlock() }
+		return try body(&_state)
+	}
+}
+#endif // !canImport(os)

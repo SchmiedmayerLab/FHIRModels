@@ -35,15 +35,13 @@ public struct Base64Binary: FHIRPrimitiveType {
 		self.dataString = dataString
 	}
 	
-	public init?(with data: Data) {
-		guard let string = String(data: data, encoding: .utf8) else {
-			return nil
-		}
-		self.dataString = string
+	public init(with data: Data) {
+		self.dataString = data.base64EncodedString()
 	}
 	
-	public func data(using encoding: String.Encoding = .utf8) -> Data? {
-		return dataString.data(using: encoding)
+	/// Will return `nil` if `dataString` isn't valid Base64.
+	public func data() -> Data? {
+		return Data(base64Encoded: dataString)
 	}
 }
 

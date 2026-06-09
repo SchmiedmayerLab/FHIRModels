@@ -3,6 +3,11 @@ Changelog
 
 The changelog is in reverse chronological order.
 
+### 0.9.3
+
+- Make it compile on Linux again (resolves https://github.com/apple/FHIRModels/issues/43, thanks for the report [Shinren Pan](https://github.com/shinrenpan))
+- Fix `Base64Binary`, which didn't properly decode arbitrary `Data`
+
 ### 0.9.2
 
 - Make ValueX-decoding resistant to null values (now actually resolves https://github.com/apple/FHIRModels/issues/39, thanks for the report [Harsh Surati](https://github.com/lets-swapcode))
@@ -27,6 +32,8 @@ The changelog is in reverse chronological order.
     - This finally addresses https://github.com/apple/FHIRModels/issues/26
     - Bump Swift tools version to 6.2
 - Update _build_ models to 6.0.0-ballot4 (http://build.fhir.org/)
+
+---
 
 ## 0.8.0
 

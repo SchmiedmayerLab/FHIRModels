@@ -77,6 +77,6 @@ public enum FHIRUnsignedIntegerError: Error {
 extension Int {
 	
 	public func asFHIRUnsignedIntegerPrimitive() -> FHIRPrimitive<FHIRUnsignedInteger> {
-		return FHIRPrimitive(FHIRUnsignedInteger(FHIRUnsignedInteger.IntegerLiteralType(self)))
+		return FHIRPrimitive(FHIRUnsignedInteger(FHIRUnsignedInteger.IntegerLiteralType(clamping: self)))
 	}
 }

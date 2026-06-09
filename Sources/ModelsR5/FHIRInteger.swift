@@ -56,6 +56,6 @@ extension FHIRInteger: Codable {
 extension Int {
 	
 	public func asFHIRIntegerPrimitive() -> FHIRPrimitive<FHIRInteger> {
-		return FHIRPrimitive(FHIRInteger(FHIRInteger.IntegerLiteralType(self)))
+		return FHIRPrimitive(FHIRInteger(FHIRInteger.IntegerLiteralType(clamping: self)))
 	}
 }

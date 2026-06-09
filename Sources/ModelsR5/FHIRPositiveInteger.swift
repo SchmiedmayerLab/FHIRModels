@@ -77,6 +77,6 @@ public enum FHIRPositiveIntegerError: Error {
 extension Int {
 	
 	public func asFHIRPositiveIntegerPrimitive() -> FHIRPrimitive<FHIRPositiveInteger> {
-		return FHIRPrimitive(FHIRPositiveInteger(FHIRPositiveInteger.IntegerLiteralType(self)))
+		return FHIRPrimitive(FHIRPositiveInteger(FHIRPositiveInteger.IntegerLiteralType(clamping: self)))
 	}
 }

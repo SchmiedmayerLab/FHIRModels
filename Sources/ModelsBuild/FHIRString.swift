@@ -23,7 +23,7 @@ import FMCore
 	
  A sequence of Unicode characters
  
- Note that strings SHALL NOT exceed 1MB (1024*1024 characters) in size. Strings SHOULD not contain Unicode character
+ Note that strings SHALL NOT exceed 1MB (1024 × 1024 characters) in size. Strings SHOULD not contain Unicode character
  points below 32, except for u0009 (horizontal tab), u0010 (carriage return) and u0013 (line feed). Leading and Trailing
  whitespace is allowed, but SHOULD be removed when using the XML format. Note: This means that a string that consists
  only of whitespace could be trimmed to nothing, which would be treated as an invalid element value. Therefore strings
