@@ -43,10 +43,12 @@ public final class FHIRDecodingDepthTracker: @unchecked Sendable {
 	
 	public let maxDepth: Int
 	
-	private var depth: OSAllocatedUnfairLock<Int> = .init(initialState: 0)
+	private var depth: any _OSAllocatedUnfairLockProtocol<Int>
 	
+    @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
 	public init(maxDepth: Int = 64) {
 		self.maxDepth = maxDepth
+        depth = OSAllocatedUnfairLock<Int>(initialState: 0)
 	}
 	
 	public static func enter(on decoder: Decoder) throws -> FHIRDecodingDepthTracker? {
@@ -79,16 +81,28 @@ public final class FHIRDecodingDepthTracker: @unchecked Sendable {
 // MARK: -
 
 extension JSONDecoder {
-	
 	public static func fhirModelsReadyDecoder() -> JSONDecoder {
 		let decoder = JSONDecoder()
-		decoder.userInfo[FHIRDecodingDepthTracker.userInfoKey] = FHIRDecodingDepthTracker()
+        if #available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *) {
+            decoder.userInfo[FHIRDecodingDepthTracker.userInfoKey] = FHIRDecodingDepthTracker()
+        }
 		return decoder
 	}
 }
 
+
+private protocol _OSAllocatedUnfairLockProtocol<State>: Sendable {
+    associatedtype State: Sendable
+    
+    init(initialState: State)
+    
+    @discardableResult
+    func withLock<R: Sendable>(_ body: @Sendable (inout State) throws -> R) rethrows -> R
+}
+
+
 #if !canImport(os)
-fileprivate final class OSAllocatedUnfairLock<State>: @unchecked Sendable {
+private final class OSAllocatedUnfairLock<State>: _OSAllocatedUnfairLockProtocol, @unchecked Sendable {
 	
 	private var _state: State
 	
@@ -99,10 +113,13 @@ fileprivate final class OSAllocatedUnfairLock<State>: @unchecked Sendable {
 	}
 	
 	@discardableResult
-	func withLock<R>(_ body: (inout State) throws -> R) rethrows -> R {
+    func withLock<R: Sendable>(_ body: @Sendable (inout State) throws -> R) rethrows -> R {
 		_lock.lock()
 		defer { _lock.unlock() }
 		return try body(&_state)
 	}
 }
-#endif // !canImport(os)
+#else
+@available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
+extension OSAllocatedUnfairLock: _OSAllocatedUnfairLockProtocol {}
+#endif
